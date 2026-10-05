@@ -1,0 +1,406 @@
+import '@fontsource-variable/archivo/wdth.css';
+import '@fontsource/instrument-serif/400.css';
+import '@fontsource/instrument-serif/400-italic.css';
+import '@fontsource/ibm-plex-mono/400.css';
+import '@fontsource/ibm-plex-mono/600.css';
+import 'lenis/dist/lenis.css';
+import './styles.css';
+
+import gsap from 'gsap';
+import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import Lenis from 'lenis';
+
+gsap.registerPlugin(ScrollTrigger);
+
+const $ = <T extends Element = HTMLElement>(sel: string, root: ParentNode = document) => root.querySelector<T>(sel);
+const $$ = <T extends Element = HTMLElement>(sel: string, root: ParentNode = document) => Array.from(root.querySelectorAll<T>(sel));
+
+const reduced = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const desktop = () => window.matchMedia('(min-width: 1101px)').matches;
+
+/* ───────────── Number formatting ───────────── */
+function formatNum(el: HTMLElement, v: number) {
+  const d = Number(el.dataset.decimals ?? 0);
+  const body = v.toLocaleString('en-US', { minimumFractionDigits: d, maximumFractionDigits: d });
+  el.textContent = `${el.dataset.prefix ?? ''}${body}${el.dataset.suffix ?? ''}`;
+}
+
+function countTween(el: HTMLElement, duration = 1.6) {
+  const target = Number(el.dataset.count);
+  const state = { v: 0 };
+  formatNum(el, 0);
+  return gsap.to(state, {
+    v: target,
+    duration,
+    ease: 'expo.out',
+    onUpdate: () => formatNum(el, state.v),
+    onComplete: () => formatNum(el, target),
+  });
+}
+
+/* ───────────── Smooth scroll ───────────── */
+let lenis: Lenis | null = null;
+if (!reduced) {
+  lenis = new Lenis({ lerp: 0.11, anchors: { offset: -72 } });
+  lenis.on('scroll', ScrollTrigger.update);
+  gsap.ticker.add((t) => lenis!.raf(t * 1000));
+  gsap.ticker.lagSmoothing(0);
+}
+
+/* ───────────── Nav ───────────── */
+function initNav() {
+  const nav = $('[data-nav]')!;
+  let last = 0;
+  const onScroll = () => {
+    const y = window.scrollY;
+    nav.classList.toggle('is-scrolled', y > 12);
+    if (y > 480 && y > last + 1) nav.classList.add('is-hidden');
+    else if (y < last - 1 || y <= 480) nav.classList.remove('is-hidden');
+    document.documentElement.classList.toggle('nav-hidden', nav.classList.contains('is-hidden'));
+    last = y;
+  };
+  window.addEventListener('scroll', onScroll, { passive: true });
+  onScroll();
+
+  const links = $$<HTMLAnchorElement>('.nav__links a');
+  links.forEach((a) => {
+    const target = $(a.getAttribute('href')!);
+    if (!target) return;
+    ScrollTrigger.create({
+      trigger: target,
+      start: 'top 40%',
+      end: 'bottom 40%',
+      onToggle: (self) => a.classList.toggle('is-active', self.isActive),
+    });
+  });
+}
+
+/* ───────────── Hero ───────────── */
+function tracePath() {
+  const svg = $<SVGSVGElement>('[data-trace]');
+  const start = $('[data-trace-start]');
+  const end = $('[data-trace-end]');
+  const ledger = $('.ledger');
+  if (!svg || !start || !end || !ledger) return null;
+  const path = svg.querySelector('path')!;
+  if (!desktop()) {
+    path.setAttribute('d', '');
+    return null;
+  }
+  const host = svg.getBoundingClientRect();
+  const s = start.getBoundingClientRect();
+  const l = ledger.getBoundingClientRect();
+  const e = end.getBoundingClientRect();
+  const sx = s.right - host.left - 1;
+  const sy = s.top + s.height / 2 - host.top;
+  const ex = l.left - host.left + 1;
+  const ey = e.top + e.height * 0.5 - host.top;
+  // The full stop runs out along the baseline, then bends into the ledger's result row.
+  const bend = Math.max(40, (ex - sx) * 0.45);
+  path.setAttribute('d', `M${sx},${sy} L${ex - bend - 60},${sy} C${ex - bend + 20},${sy} ${ex - 70},${ey} ${ex},${ey}`);
+  return path;
+}
+
+function initHero() {
+  const lines = $$('.hero__title .line > span');
+  const rows = $$('[data-ledger-row]');
+  const nums = $$('.ledger [data-count]');
+  const rule = $('.ledger__rule');
+  const path = tracePath();
+  document.documentElement.classList.add('is-ready');
+
+  if (reduced) return;
+
+  const tl = gsap.timeline({ defaults: { ease: 'expo.out' } });
+  tl.from('.hero__meta > span', { y: 14, opacity: 0, duration: 0.8, stagger: 0.05 }, 0);
+  lines.forEach((el, i) => {
+    const fromLeft = el.parentElement!.dataset.from !== 'right';
+    tl.from(el, { yPercent: 108, x: fromLeft ? '-6vw' : '6vw', duration: 1.25 }, 0.08 + i * 0.09);
+  });
+  tl.from('.hero__copy > *', { y: 24, opacity: 0, duration: 1, stagger: 0.07 }, 0.55);
+  tl.from('.ledger', { y: 40, opacity: 0, duration: 1.1 }, 0.6);
+  tl.from('.ledger__head', { opacity: 0, duration: 0.6 }, 0.85);
+  rows.forEach((row, i) => {
+    const at = 0.95 + i * 0.32;
+    tl.from(row, { y: 18, opacity: 0, duration: 0.8 }, at);
+    tl.add(countTween(nums[i], i === 2 ? 1.1 : 1.4), at);
+    if (i === 1 && rule) tl.from(rule, { scaleX: 0, duration: 0.9, ease: 'power3.inOut' }, at + 0.25);
+  });
+  tl.from('.ledger__foot', { opacity: 0, duration: 0.8 }, 2.1);
+  if (path) {
+    const len = path.getTotalLength();
+    gsap.set(path, { strokeDasharray: len, strokeDashoffset: len });
+    tl.to(path, { strokeDashoffset: 0, duration: 1.3, ease: 'power2.inOut' }, 1.15);
+  }
+
+  let resizeT = 0;
+  window.addEventListener('resize', () => {
+    clearTimeout(resizeT);
+    resizeT = window.setTimeout(() => {
+      const p = tracePath();
+      if (p) gsap.set(p, { strokeDasharray: 'none', strokeDashoffset: 0 });
+    }, 120);
+  });
+}
+
+/* ───────────── Tapes (scroll-velocity marquee) ───────────── */
+function initTapes() {
+  $$('[data-tape]').forEach((tape) => {
+    const track = $('.tape__track', tape)!;
+    const dir = Number(tape.dataset.tape);
+    const original = track.innerHTML;
+    track.innerHTML = original + original + original + original;
+    if (reduced) return;
+    let x = 0;
+    let boost = 0;
+    lenis?.on('scroll', (l: Lenis) => { boost = gsap.utils.clamp(-8, 8, l.velocity * 0.4); });
+    gsap.ticker.add((_t, dt) => {
+      const unit = track.scrollWidth / 4;
+      const speed = (0.9 + Math.abs(boost)) * dir * (boost < 0 ? -1 : 1);
+      x -= speed * (dt / 16.67);
+      if (x <= -unit) x += unit;
+      if (x > 0) x -= unit;
+      track.style.transform = `translate3d(${x}px,0,0)`;
+      boost *= 0.94;
+    });
+  });
+}
+
+/* ───────────── Leaks ───────────── */
+function initLeaks() {
+  $$('[data-leak]').forEach((leak) => {
+    if (reduced) {
+      leak.style.setProperty('--strike', '100%');
+      leak.style.setProperty('--fix', '1');
+      leak.classList.add('is-struck');
+      return;
+    }
+    const state = { p: 0 };
+    gsap.to(state, {
+      p: 1,
+      ease: 'none',
+      scrollTrigger: { trigger: leak, start: 'top 82%', end: 'top 52%', scrub: 0.6 },
+      onUpdate: () => {
+        leak.style.setProperty('--strike', `${state.p * 100}%`);
+        leak.style.setProperty('--fix', `${gsap.utils.clamp(0, 1, (state.p - 0.7) / 0.3)}`);
+        leak.classList.toggle('is-struck', state.p > 0.98);
+      },
+    });
+  });
+}
+
+/* ───────────── System ───────────── */
+type Viz = (root: HTMLElement) => gsap.core.Timeline;
+
+const vizBuilders: Record<string, Viz> = {
+  plan(root) {
+    const tl = gsap.timeline({ paused: true, defaults: { ease: 'expo.out' } });
+    tl.from($$('.plan__name', root), { x: -12, opacity: 0, duration: 0.7, stagger: 0.07 }, 0)
+      .from($$('.plan__bar', root), { scaleX: 0, duration: 1.1, stagger: 0.12 }, 0.15)
+      .from($$('.plan__chips span', root), { y: 10, opacity: 0, duration: 0.6, stagger: 0.06 }, 0.7);
+    return tl;
+  },
+  track(root) {
+    const tl = gsap.timeline({ paused: true, defaults: { ease: 'expo.out' } });
+    const pipes = $$('.track__pipe i', root);
+    tl.from($$('.track__node', root), { y: 16, opacity: 0, duration: 0.7, stagger: 0.12 }, 0)
+      .from($$('.track__events li', root), { y: 10, opacity: 0, duration: 0.5, stagger: 0.06 }, 0.5)
+      .from($$('.track__events em', root), { scale: 0, duration: 0.45, stagger: 0.12, ease: 'back.out(3)' }, 0.8);
+    // Packets keep flowing once the pipeline is "live".
+    tl.add(() => {
+      pipes.forEach((dot, i) => {
+        const vertical = !window.matchMedia('(min-width: 761px)').matches;
+        gsap.fromTo(dot,
+          vertical ? { top: '0%', left: '50%', opacity: 1 } : { left: '0%', top: '50%', opacity: 1 },
+          { ...(vertical ? { top: '100%' } : { left: '100%' }), opacity: 0.2, duration: 1.1, ease: 'power2.in', repeat: -1, delay: i * 0.25, repeatDelay: 0.4 });
+      });
+    }, 0.6);
+    return tl;
+  },
+  create(root) {
+    const cells = $$('.cell', root);
+    const tl = gsap.timeline({ paused: true, defaults: { ease: 'expo.out' } });
+    tl.from($$('.create__inputs span', root), { y: 10, opacity: 0, duration: 0.6, stagger: 0.08 }, 0)
+      .from(cells, { scale: 0.85, opacity: 0, duration: 0.6, stagger: { each: 0.05, grid: [3, 3], from: 'start' } }, 0.2);
+    // A deterministic test cycle: brief → live → read.
+    const order = [0, 4, 8, 1, 5, 6, 2, 3, 7];
+    const loop = gsap.timeline({ repeat: -1, repeatDelay: 1.2, paused: true });
+    order.forEach((ci, k) => {
+      loop.call(() => { cells[ci].className = 'cell is-brief'; }, [], k * 0.22);
+      loop.call(() => { cells[ci].className = 'cell is-live'; }, [], k * 0.22 + 0.9);
+      if (k % 3 !== 2) loop.call(() => { cells[ci].className = 'cell is-read'; }, [], k * 0.22 + 2.2);
+    });
+    loop.call(() => cells.forEach((c) => (c.className = 'cell')), [], 5.2);
+    tl.add(() => { loop.play(0); }, 0.9);
+    return tl;
+  },
+  launch(root) {
+    const bars = $$('.launch__bar i', root);
+    const tl = gsap.timeline({ paused: true, defaults: { ease: 'expo.out' } });
+    bars.forEach((b, i) => {
+      const [a] = (b.dataset.w ?? '0.5').split(',').map(Number);
+      tl.to(b, { scaleX: a, duration: 1.2 }, 0.1 + i * 0.08);
+    });
+    tl.from($('.launch__note', root), { opacity: 0, duration: 0.6 }, 0.8);
+    tl.add(() => {
+      const loop = gsap.timeline({ repeat: -1, yoyo: true, repeatDelay: 1.6 });
+      bars.forEach((b) => {
+        const [, z] = (b.dataset.w ?? '0.5,0.5').split(',').map(Number);
+        loop.to(b, { scaleX: z, duration: 1.4, ease: 'power3.inOut' }, 0);
+      });
+    }, 1.8);
+    return tl;
+  },
+  analyze(root) {
+    const svg = $('.analyze__chart', root)!;
+    const tl = gsap.timeline({ paused: true, defaults: { ease: 'expo.out' } });
+    tl.fromTo(svg, { clipPath: 'inset(0 100% 0 0)' }, { clipPath: 'inset(0 0% 0 0)', duration: 1.8, ease: 'power2.inOut' }, 0)
+      .from($('.analyze__gap', root), { opacity: 0, duration: 0.8 }, 1.2)
+      .from($$('.analyze__legend span', root), { y: 8, opacity: 0, duration: 0.6, stagger: 0.1 }, 0.4)
+      .from($('.analyze__callout', root), { y: 12, opacity: 0, duration: 0.9 }, 1.5);
+    return tl;
+  },
+  found(root) {
+    const rows = $$('.found__serp li', root);
+    const tl = gsap.timeline({ paused: true, defaults: { ease: 'expo.out' } });
+    tl.from($('.found__q', root), { y: 14, opacity: 0, duration: 0.7 }, 0)
+      .from($$('.found__line:not(.found__line--brand)', root), { scaleX: 0, duration: 0.9, stagger: 0.12 }, 0.35)
+      .from($('.found__chip', root), { scale: 0.6, opacity: 0, duration: 0.7, ease: 'back.out(2.2)' }, 0.75)
+      .from(rows, { opacity: 0, duration: 0.4, stagger: 0.06 }, 0.3);
+    tl.add(() => {
+      const h = rows[0].offsetHeight + 8;
+      gsap.fromTo(rows[0], { y: h * 2 }, { y: 0, duration: 1.1, ease: 'expo.inOut' });
+      gsap.fromTo(rows.slice(1), { y: -h }, { y: 0, duration: 1.1, ease: 'expo.inOut' });
+    }, 0.9);
+    return tl;
+  },
+};
+
+function initSystem() {
+  const levers = $$('[data-lever]');
+  const items = $$('[data-rail-item]');
+  const digits = $('[data-rail-digits]')!;
+  const fill = $('[data-rail-fill]')!;
+
+  const setActive = (i: number) => {
+    digits.style.transform = `translateY(${-i * 0.86}em)`;
+    items.forEach((el, k) => {
+      el.classList.toggle('is-active', k === i);
+      el.classList.toggle('is-done', k < i);
+    });
+  };
+  digits.style.transition = 'transform .8s cubic-bezier(0.16, 1, 0.3, 1)';
+  setActive(0);
+
+  levers.forEach((lever, i) => {
+    ScrollTrigger.create({
+      trigger: lever,
+      start: 'top 55%',
+      end: 'bottom 55%',
+      onToggle: (self) => self.isActive && setActive(i),
+      onLeaveBack: () => i === 0 && setActive(0),
+    });
+
+    const viz = $('[data-viz]', lever)!;
+    const builder = vizBuilders[viz.dataset.viz!];
+    if (reduced || !builder) return;
+    const tl = builder(viz);
+    ScrollTrigger.create({ trigger: viz, start: 'top 78%', once: true, onEnter: () => tl.play() });
+
+    gsap.from($$('.lever__head > *, .lever__body > *', lever), {
+      y: 26, opacity: 0, duration: 1, ease: 'expo.out', stagger: 0.06,
+      scrollTrigger: { trigger: lever, start: 'top 80%', once: true },
+    });
+  });
+
+  if (reduced) {
+    $$('.launch__bar i').forEach((b) => { b.style.transform = `scaleX(${(b.dataset.w ?? '0.5').split(',')[0]})`; });
+    return;
+  }
+
+  gsap.to(fill, {
+    scaleX: 1, ease: 'none',
+    scrollTrigger: { trigger: '.system__levers', start: 'top 55%', end: 'bottom 55%', scrub: true },
+  });
+}
+
+/* ───────────── Results ───────────── */
+function initResults() {
+  if (reduced) return;
+  $$('[data-case]').forEach((card) => {
+    const nums = $$('[data-count]', card);
+    ScrollTrigger.create({
+      trigger: card,
+      start: 'top 80%',
+      once: true,
+      onEnter: () => {
+        gsap.from(card, { y: 40, opacity: 0, duration: 1.1, ease: 'expo.out' });
+        nums.forEach((n, i) => countTween(n, i === 0 ? 2 : 1.5).delay(0.15 + i * 0.08));
+      },
+    });
+  });
+}
+
+/* ───────────── Principles stack ───────────── */
+function initPrinciples() {
+  const cards = $$('[data-pcard]');
+  cards.forEach((c, i) => c.style.setProperty('--i', String(i)));
+  if (reduced) return;
+  cards.forEach((card, i) => {
+    const next = cards[i + 1];
+    if (!next) return;
+    gsap.to(card, {
+      scale: 0.93 + i * 0.01,
+      filter: 'brightness(0.86)',
+      ease: 'none',
+      scrollTrigger: { trigger: next, start: 'top bottom', end: 'top 30%', scrub: true },
+    });
+  });
+}
+
+/* ───────────── Offer, phases, about ───────────── */
+function initReveals() {
+  if (reduced) return;
+  gsap.from('.offer__row .y', {
+    opacity: 0, scale: 0.6, duration: 0.5, ease: 'back.out(2.5)', stagger: 0.03,
+    scrollTrigger: { trigger: '.offer__table', start: 'top 75%', once: true },
+  });
+  gsap.from('.phases li', {
+    y: 24, opacity: 0, duration: 0.9, ease: 'expo.out', stagger: 0.1,
+    scrollTrigger: { trigger: '.phases', start: 'top 85%', once: true },
+  });
+  gsap.from('.xp__row', {
+    y: 18, opacity: 0, duration: 0.8, ease: 'expo.out', stagger: 0.06,
+    scrollTrigger: { trigger: '.xp', start: 'top 85%', once: true },
+  });
+  $$('.section-head, .system__intro, .about__intro, .faq__grid > div:first-child').forEach((el) => {
+    gsap.from(el.children, {
+      y: 30, opacity: 0, duration: 1.1, ease: 'expo.out', stagger: 0.08,
+      scrollTrigger: { trigger: el, start: 'top 82%', once: true },
+    });
+  });
+
+  // Closing headline: lines arrive from opposite sides, like the hero.
+  const ctaLines = $$('.cta__title .line > span');
+  gsap.timeline({ scrollTrigger: { trigger: '.cta', start: 'top 70%', once: true } })
+    .from(ctaLines, {
+      yPercent: 108, x: (i: number) => (i % 2 ? '8vw' : '-8vw'), duration: 1.25, ease: 'expo.out', stagger: 0.1,
+    })
+    .from('.cta__row > *', { y: 24, opacity: 0, duration: 1, ease: 'expo.out', stagger: 0.08 }, 0.5);
+}
+
+/* ───────────── Boot ───────────── */
+initNav();
+// The hero waits for fonts so the trace line is measured against final glyph positions.
+let heroStarted = false;
+const startHero = () => { if (!heroStarted) { heroStarted = true; initHero(); } };
+document.fonts?.ready.then(startHero);
+setTimeout(startHero, 900);
+initTapes();
+initLeaks();
+initSystem();
+initResults();
+initPrinciples();
+initReveals();
+
+document.fonts?.ready.then(() => ScrollTrigger.refresh());
