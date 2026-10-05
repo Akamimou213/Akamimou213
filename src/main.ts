@@ -343,21 +343,61 @@ function initResults() {
   });
 }
 
-function initFilters() {
-  const buttons = $$<HTMLButtonElement>('[data-filter]');
-  const cards = $$('.cases [data-cat]');
-  buttons.forEach((btn) => btn.addEventListener('click', () => {
-    const f = btn.dataset.filter!;
-    buttons.forEach((b) => {
-      const on = b === btn;
-      b.classList.toggle('is-on', on);
-      b.setAttribute('aria-pressed', String(on));
+function playPanel(panel: HTMLElement) {
+  if (reduced) return;
+  const tl = gsap.timeline({ defaults: { ease: 'expo.out' } });
+  tl.fromTo(panel, { y: 18, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7 }, 0);
+  const big = $('.case__big[data-count]', panel);
+  if (big) tl.add(countTween(big, 1.6), 0.05);
+  const rows = $$('.receipt tbody tr, .receipt tfoot tr', panel);
+  tl.fromTo(rows, { opacity: 0, x: -12 }, { opacity: 1, x: 0, duration: 0.6, stagger: 0.06 }, 0.25);
+  tl.fromTo($$('.redact', panel), { scaleX: 0 }, { scaleX: 1, duration: 0.5, stagger: 0.06, ease: 'power3.out' }, 0.3);
+  const segs = $$('.seg i', panel);
+  if (segs.length) tl.fromTo(segs, { scaleX: 0 }, { scaleX: 1, duration: 1.1, stagger: 0.1 }, 0.5);
+  tl.fromTo($$('.case__stats > div, .mini', panel), { y: 14, opacity: 0 }, { y: 0, opacity: 1, duration: 0.6, stagger: 0.06 }, 0.2);
+}
+
+function labelReceipts() {
+  // Copy column headers onto cells so mobile can show rows as labelled cards.
+  $$<HTMLTableElement>('.receipt table').forEach((t) => {
+    const heads = $$('thead th', t).map((th) => th.textContent?.trim() ?? '');
+    $$<HTMLTableRowElement>('tbody tr, tfoot tr', t).forEach((tr) => {
+      Array.from(tr.cells).forEach((td, i) => { if (heads[i]) td.dataset.l = heads[i]; });
     });
-    const shown = cards.filter((c) => f === 'all' || c.dataset.cat === f);
-    cards.forEach((c) => { c.hidden = !shown.includes(c); });
-    if (!reduced) gsap.fromTo(shown, { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, ease: 'expo.out', stagger: 0.05, overwrite: true });
+  });
+}
+
+function initTabs() {
+  const tabs = $$<HTMLButtonElement>('[role="tab"]');
+  const panels = $$('[data-panel]');
+  if (!tabs.length) return;
+  const select = (tab: HTMLButtonElement, focus = false) => {
+    tabs.forEach((t) => {
+      const on = t === tab;
+      t.classList.toggle('is-on', on);
+      t.setAttribute('aria-selected', String(on));
+      t.tabIndex = on ? 0 : -1;
+    });
+    panels.forEach((p) => { p.hidden = p.dataset.panel !== tab.dataset.tab; });
+    const panel = panels.find((p) => !p.hidden)!;
+    if (focus) tab.focus();
+    playPanel(panel);
     ScrollTrigger.refresh();
-  }));
+  };
+  tabs.forEach((tab, i) => {
+    tab.addEventListener('click', () => { if (!tab.classList.contains('is-on')) select(tab); });
+    tab.addEventListener('keydown', (e) => {
+      const d = e.key === 'ArrowRight' ? 1 : e.key === 'ArrowLeft' ? -1 : 0;
+      if (!d) return;
+      e.preventDefault();
+      select(tabs[(i + d + tabs.length) % tabs.length], true);
+    });
+  });
+  // First panel plays when the results section scrolls into view.
+  ScrollTrigger.create({
+    trigger: '.tabs', start: 'top 80%', once: true,
+    onEnter: () => playPanel(panels.find((p) => !p.hidden)!),
+  });
 }
 
 /* ───────────── Principles stack ───────────── */
@@ -419,7 +459,8 @@ initTapes();
 initLeaks();
 initSystem();
 initResults();
-initFilters();
+labelReceipts();
+initTabs();
 initPrinciples();
 initReveals();
 

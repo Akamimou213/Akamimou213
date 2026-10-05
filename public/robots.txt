@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://mohamedbarkat-ys-6fa99392.vercel.app/sitemap.xml
