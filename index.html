@@ -96,27 +96,33 @@
             <span class="line" data-from="left"><span>trace<i class="dot dot--sq" data-trace-start aria-hidden="true"></i></span></span>
           </h1>
 
-          <figure class="ledger" aria-label="Super app, North Africa, 2025: $211K acquisition spend divided by 116,464 first deliveries equals $1.81 per first delivery.">
+          <figure class="ledger" data-ledger aria-label="Results ledger: spend divided by conversions equals cost per conversion.">
             <figcaption class="ledger__head mono">
-              <span>Super app · North Africa</span><span>2025</span>
+              <span data-ledger-title>Super app · North Africa · 2025</span>
+              <span class="ledger__tabs" role="group" aria-label="Choose a result">
+                <button type="button" class="is-on" data-ledger-tab="0" aria-pressed="true" aria-label="Super app result">01</button>
+                <button type="button" data-ledger-tab="1" aria-pressed="false" aria-label="D2C result">02</button>
+                <button type="button" data-ledger-tab="2" aria-pressed="false" aria-label="Local business result">03</button>
+              </span>
             </figcaption>
+            <span class="ledger__progress" aria-hidden="true"><i data-ledger-progress></i></span>
             <div class="ledger__row" data-ledger-row>
               <span class="ledger__op mono" aria-hidden="true">&nbsp;</span>
               <span class="ledger__num" data-count="211" data-prefix="$" data-suffix="K">$211K</span>
-              <span class="ledger__label">acquisition spend</span>
+              <span class="ledger__label" data-l>acquisition spend</span>
             </div>
             <div class="ledger__row" data-ledger-row>
               <span class="ledger__op mono" aria-hidden="true">÷</span>
               <span class="ledger__num" data-count="116464">116,464</span>
-              <span class="ledger__label">first deliveries</span>
+              <span class="ledger__label" data-l>first deliveries</span>
             </div>
             <div class="ledger__rule" aria-hidden="true"></div>
             <div class="ledger__row ledger__row--result" data-ledger-row>
               <span class="ledger__op mono" aria-hidden="true">=</span>
               <span class="ledger__num" data-count="1.81" data-decimals="2" data-prefix="$" data-trace-end>$1.81</span>
-              <span class="ledger__label">per first delivery</span>
+              <span class="ledger__label" data-l>per first delivery</span>
             </div>
-            <p class="ledger__foot mono">Optimized to first orders, the event that pays.</p>
+            <p class="ledger__foot mono" data-ledger-foot>Optimized to first orders, the event that pays.</p>
           </figure>
         </div>
 

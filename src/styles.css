@@ -166,14 +166,20 @@ em { font-family: var(--f-serif); font-style: italic; font-weight: 400; letter-s
   position: absolute; right: 0; top: calc(var(--h1) * 0.86 + 8px);
   box-shadow: 0 30px 60px -30px rgba(12,13,16,.45);
 }
-.ledger__head { display: flex; justify-content: space-between; color: var(--muted-dark); padding-bottom: 14px; border-bottom: 1px dashed var(--line-dark); }
+.ledger__head { min-height: calc(2.8em + 14px); display: flex; justify-content: space-between; align-items: center; gap: 12px; color: var(--muted-dark); padding-bottom: 14px; }
+.ledger__tabs { display: inline-flex; gap: 4px; flex: none; }
+.ledger__tabs button { font: 600 11px/1 var(--f-mono); letter-spacing: .04em; color: var(--muted-dark); background: transparent; border: 1px solid var(--line-dark); border-radius: 999px; padding: 5px 8px; cursor: pointer; transition: background .25s, color .25s, border-color .25s; }
+.ledger__tabs button:hover { color: var(--on-dark); border-color: var(--muted-dark); }
+.ledger__tabs button.is-on { background: var(--on-dark); color: var(--ink); border-color: var(--on-dark); }
+.ledger__progress { display: block; height: 1px; background: var(--line-dark); position: relative; overflow: hidden; }
+.ledger__progress i { position: absolute; inset: 0; background: var(--signal-on-dark); transform-origin: left; transform: scaleX(0); }
 .ledger__row { display: grid; grid-template-columns: 28px auto 1fr; align-items: baseline; gap: 14px; padding: 12px 0 6px; }
 .ledger__op { color: var(--muted-dark); font-size: 20px; }
 .ledger__num { font-family: var(--f-display); font-stretch: 70%; font-weight: 800; font-size: clamp(44px, 4.2vw, 66px); line-height: 0.95; font-variant-numeric: tabular-nums; letter-spacing: -0.01em; }
 .ledger__label { color: var(--muted-dark); font-size: 15px; }
 .ledger__rule { height: 2px; background: var(--on-dark); margin: 10px 0 2px; transform-origin: left; }
 .ledger__row--result .ledger__num { color: var(--signal-on-dark); }
-.ledger__foot { color: var(--muted-dark); padding-top: 14px; margin-top: 10px; border-top: 1px dashed var(--line-dark); }
+.ledger__foot { min-height: calc(2.8em + 15px); color: var(--muted-dark); padding-top: 14px; margin-top: 10px; border-top: 1px dashed var(--line-dark); }
 
 .trace { position: absolute; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 1; overflow: visible; }
 .trace path { fill: none; stroke: var(--signal); stroke-width: 2; stroke-linecap: round; }

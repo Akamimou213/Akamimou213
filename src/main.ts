@@ -127,6 +127,7 @@ function initHero() {
     if (i === 1 && rule) tl.from(rule, { scaleX: 0, duration: 0.9, ease: 'power3.inOut' }, at + 0.25);
   });
   tl.from('.ledger__foot', { opacity: 0, duration: 0.8 }, 2.1);
+  tl.add(() => ledgerCycle?.(0, false), 2.6);
   if (path) {
     const len = path.getTotalLength();
     gsap.set(path, { strokeDasharray: len, strokeDashoffset: len });
@@ -141,6 +142,92 @@ function initHero() {
       if (p) gsap.set(p, { strokeDasharray: 'none', strokeDashoffset: 0 });
     }, 120);
   });
+}
+
+/* ───────────── Rotating hero ledger ───────────── */
+type Num = { v: number; prefix?: string; suffix?: string; decimals?: number };
+type Slide = { title: string; a: Num; aLabel: string; b: Num; bLabel: string; r: Num; rLabel: string; foot: string };
+
+const SLIDES: Slide[] = [
+  { title: 'Super app · North Africa · 2025',
+    a: { v: 211, prefix: '$', suffix: 'K' }, aLabel: 'acquisition spend',
+    b: { v: 116464 }, bLabel: 'first deliveries',
+    r: { v: 1.81, prefix: '$', decimals: 2 }, rLabel: 'per first delivery',
+    foot: 'Optimized to first orders, the event that pays.' },
+  { title: 'D2C · wellness equipment · Meta',
+    a: { v: 114150, prefix: '$' }, aLabel: 'purchase value',
+    b: { v: 11462, prefix: '$' }, bLabel: 'ad spend',
+    r: { v: 9.96, suffix: '×', decimals: 2 }, rLabel: 'ROAS (platform)',
+    foot: 'Four Advantage+ campaigns, February 2026.' },
+  { title: 'Local · house painting · Google Ads',
+    a: { v: 207, prefix: 'CA$', suffix: 'K' }, aLabel: 'ad spend',
+    b: { v: 4460 }, bLabel: 'conversions',
+    r: { v: 46.44, prefix: 'CA$', decimals: 2 }, rLabel: 'per conversion',
+    foot: 'Search and Performance Max, free-estimate offers.' },
+];
+
+function setNum(el: HTMLElement, n: Num) {
+  el.dataset.count = String(n.v);
+  el.dataset.prefix = n.prefix ?? '';
+  el.dataset.suffix = n.suffix ?? '';
+  el.dataset.decimals = String(n.decimals ?? 0);
+}
+
+let ledgerCycle: ((i: number, animate: boolean) => void) | null = null;
+
+function initLedgerRotation() {
+  const found = $('[data-ledger]');
+  if (!found) return;
+  const ledger: HTMLElement = found;
+  const nums = $$('.ledger__num', ledger);
+  const labels = $$('[data-l]', ledger);
+  const title = $('[data-ledger-title]', ledger)!;
+  const foot = $('[data-ledger-foot]', ledger)!;
+  const tabs = $$<HTMLButtonElement>('[data-ledger-tab]', ledger);
+  const progress = $('[data-ledger-progress]', ledger)!;
+  const HOLD = 6.5;
+  let current = 0;
+  let paused = false;
+  const timer = gsap.to(progress, { scaleX: 1, duration: HOLD, ease: 'none', paused: true, onComplete: () => show((current + 1) % SLIDES.length, true) });
+
+  const fill = (i: number) => {
+    const s = SLIDES[i];
+    title.textContent = s.title;
+    [s.a, s.b, s.r].forEach((n, k) => { setNum(nums[k], n); formatNum(nums[k], n.v); });
+    [s.aLabel, s.bLabel, s.rLabel].forEach((t, k) => { labels[k].textContent = t; });
+    foot.textContent = s.foot;
+    tabs.forEach((t, k) => { t.classList.toggle('is-on', k === i); t.setAttribute('aria-pressed', String(k === i)); });
+  };
+
+  function show(i: number, animate: boolean) {
+    current = i;
+    if (!animate || reduced) { fill(i); return restart(); }
+    const rows = $$('[data-ledger-row], .ledger__foot, [data-ledger-title]', ledger);
+    gsap.timeline()
+      .to(rows, { y: -10, opacity: 0, duration: 0.3, ease: 'power3.in', stagger: 0.03 })
+      .add(() => fill(i))
+      .to(rows, { y: 0, opacity: 1, duration: 0.7, ease: 'expo.out', stagger: 0.06 })
+      .add(() => { nums.forEach((n, k) => countTween(n, k === 2 ? 1.1 : 1.3)); }, '<');
+    restart();
+  }
+
+  function restart() {
+    timer.pause(0);
+    gsap.set(progress, { scaleX: 0 });
+    if (!reduced && !paused) timer.restart();
+  }
+
+  tabs.forEach((t, k) => t.addEventListener('click', () => show(k, true)));
+  ledger.addEventListener('mouseenter', () => { paused = true; timer.pause(); });
+  ledger.addEventListener('mouseleave', () => { paused = false; timer.resume(); });
+  ledger.addEventListener('focusin', () => { paused = true; timer.pause(); });
+  ledger.addEventListener('focusout', () => { paused = false; timer.resume(); });
+  // Stop rotating once the hero is off screen; resume when it comes back.
+  ScrollTrigger.create({ trigger: ledger, start: 'top bottom', end: 'bottom top',
+    onLeave: () => timer.pause(), onLeaveBack: () => timer.pause(),
+    onEnter: () => !paused && timer.resume(), onEnterBack: () => !paused && timer.resume() });
+
+  ledgerCycle = show;
 }
 
 /* ───────────── Tapes (scroll-velocity marquee) ───────────── */
@@ -452,7 +539,7 @@ function initReveals() {
 initNav();
 // The hero waits for fonts so the trace line is measured against final glyph positions.
 let heroStarted = false;
-const startHero = () => { if (!heroStarted) { heroStarted = true; initHero(); } };
+const startHero = () => { if (!heroStarted) { heroStarted = true; initLedgerRotation(); initHero(); if (reduced) ledgerCycle?.(0, false); } };
 document.fonts?.ready.then(startHero);
 setTimeout(startHero, 900);
 initTapes();
