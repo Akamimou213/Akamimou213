@@ -335,10 +335,29 @@ function initResults() {
       once: true,
       onEnter: () => {
         gsap.from(card, { y: 40, opacity: 0, duration: 1.1, ease: 'expo.out' });
+        const steps = $$('.funnel li', card);
+        if (steps.length) gsap.fromTo(steps, { '--grow': 0 }, { '--grow': 1, duration: 1.2, ease: 'expo.out', stagger: 0.08, delay: 0.3 });
         nums.forEach((n, i) => countTween(n, i === 0 ? 2 : 1.5).delay(0.15 + i * 0.08));
       },
     });
   });
+}
+
+function initFilters() {
+  const buttons = $$<HTMLButtonElement>('[data-filter]');
+  const cards = $$('.cases [data-cat]');
+  buttons.forEach((btn) => btn.addEventListener('click', () => {
+    const f = btn.dataset.filter!;
+    buttons.forEach((b) => {
+      const on = b === btn;
+      b.classList.toggle('is-on', on);
+      b.setAttribute('aria-pressed', String(on));
+    });
+    const shown = cards.filter((c) => f === 'all' || c.dataset.cat === f);
+    cards.forEach((c) => { c.hidden = !shown.includes(c); });
+    if (!reduced) gsap.fromTo(shown, { y: 24, opacity: 0 }, { y: 0, opacity: 1, duration: 0.7, ease: 'expo.out', stagger: 0.05, overwrite: true });
+    ScrollTrigger.refresh();
+  }));
 }
 
 /* ───────────── Principles stack ───────────── */
@@ -400,6 +419,7 @@ initTapes();
 initLeaks();
 initSystem();
 initResults();
+initFilters();
 initPrinciples();
 initReveals();
 

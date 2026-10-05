@@ -399,88 +399,238 @@
             <p class="kicker mono">Results</p>
             <h2 id="results-title" class="display display--md">Results,<br />with receipts.</h2>
           </div>
-          <p class="results__intro">Every number here says how it was measured. <em>Platform-attributed</em> means the ad platform reported it, which is why I label it instead of blending it with backend data.</p>
+          <p class="results__intro">Twelve industries across North Africa, the Gulf, Europe, North America and Australia. Client names are removed for confidentiality, and every number says where it was measured. <em>Platform-attributed</em> means the ad platform reported it, so it's labelled rather than blended with backend data.</p>
         </div>
 
         <article class="case case--feature" data-case>
           <header class="case__head">
             <p class="mono case__who">Food delivery <span>· Consumer super app · North Africa</span></p>
-            <p class="chip mono">2025 · Full year</p>
+            <p class="chip mono">Meta · Google · TikTok · Adjust</p>
           </header>
           <div class="case__grid">
             <div class="case__hero">
               <p class="case__big" data-count="116464">116,464</p>
-              <p class="case__biglabel">first deliveries</p>
+              <p class="case__biglabel">first deliveries in 2025, at $1.81 each</p>
             </div>
             <dl class="case__stats">
-              <div><dt class="mono">Cost per first delivery</dt><dd data-count="1.81" data-decimals="2" data-prefix="$">$1.81</dd></div>
-              <div><dt class="mono">Acquisition spend</dt><dd data-count="211" data-prefix="$" data-suffix="K">$211K</dd></div>
+              <div><dt class="mono">Acquisition spend, 2025</dt><dd data-count="211" data-prefix="$" data-suffix="K">$211K</dd></div>
               <div><dt class="mono">Monthly media managed</dt><dd data-count="50" data-prefix="$" data-suffix="K">$50K</dd></div>
+              <div><dt class="mono">In-app checkouts, one campaign</dt><dd data-count="45948">45,948</dd></div>
             </dl>
           </div>
           <div class="case__body">
-            <p>Senior Performance Marketer for ride-hailing, food delivery and lead generation across four markets on Meta, Google and TikTok.</p>
+            <div class="case__snap">
+              <p class="mono case__snaphead">30-day read in Adjust <span>27 Aug – 26 Sep 2026</span></p>
+              <dl class="snap">
+                <div><dt class="mono">Installs</dt><dd>35,016</dd></div>
+                <div><dt class="mono">Purchases initiated</dt><dd>23,332 <small>+15.8%</small></dd></div>
+                <div><dt class="mono">Spend</dt><dd>$11,145 <small>+3.1%</small></dd></div>
+              </dl>
+              <p class="case__note">Purchases grew five times faster than spend against the previous 30 days. Measured in the MMP, not the ad platforms.</p>
+            </div>
             <ul class="ticks ticks--light">
-              <li>Owned audience research, creative briefs, launches, budget allocation and optimization</li>
-              <li>Tested ad angles and audiences against install and in-app conversion costs</li>
+              <li>Owned research, creative briefs, launches, budget allocation and optimization across four markets</li>
+              <li>Optimized toward first orders and checkouts rather than installs</li>
               <li>Maintained attribution with Adjust, SDK in-app events, server-side tracking and Meta CAPI</li>
-              <li>Ran ASO and SEO alongside paid, with weekly and monthly spend recommendations</li>
+              <li>The in-app checkout campaign ran at $0.08 per checkout on Meta</li>
             </ul>
           </div>
         </article>
 
+        <div class="filters" role="group" aria-label="Filter results by business type">
+          <button class="filter is-on" type="button" data-filter="all" aria-pressed="true">All <span>12</span></button>
+          <button class="filter" type="button" data-filter="app" aria-pressed="false">Mobile apps <span>3</span></button>
+          <button class="filter" type="button" data-filter="ecom" aria-pressed="false">E-commerce <span>5</span></button>
+          <button class="filter" type="button" data-filter="lead" aria-pressed="false">Lead gen &amp; local <span>4</span></button>
+        </div>
+
         <div class="cases">
-          <article class="case" data-case>
+          <!-- E-COMMERCE -->
+          <article class="case" data-case data-cat="ecom">
             <header class="case__head">
-              <p class="mono case__who">Health app <span>· Subscription · iOS</span></p>
-              <p class="chip chip--warn mono">Meta-attributed</p>
+              <p class="mono case__who">Wellness equipment <span>· High-ticket D2C</span></p>
+              <p class="chip chip--warn mono">Meta · platform-attributed</p>
             </header>
-            <p class="case__big case__big--sm" data-count="1205">1,205</p>
-            <p class="case__biglabel">iOS installs</p>
+            <p class="case__big case__big--sm" data-count="9.96" data-decimals="2" data-suffix="×">9.96×</p>
+            <p class="case__biglabel">ROAS on Advantage+ prospecting</p>
             <dl class="case__pair">
-              <div><dt class="mono">CPI</dt><dd data-count="3.62" data-decimals="2" data-prefix="$">$3.62</dd></div>
-              <div><dt class="mono">Campaigns</dt><dd>3</dd></div>
+              <div><dt class="mono">Purchase value</dt><dd>$114,150</dd></div>
+              <div><dt class="mono">Spend</dt><dd>$11,462</dd></div>
+              <div><dt class="mono">Avg. order</dt><dd>$3,261</dd></div>
             </dl>
-            <p class="case__note">Acquisition across Meta, TikTok, Apple Search Ads and Reddit, read against activation, trial starts and subscriptions in PostHog and RevenueCat.</p>
+            <p class="case__note">Cold plunge and hyperbaric chambers. Best single campaign: 517 purchases at 11.99× ROAS.</p>
           </article>
 
-          <article class="case" data-case>
+          <article class="case" data-case data-cat="ecom">
             <header class="case__head">
-              <p class="mono case__who">D2C brand <span>· E-commerce</span></p>
-              <p class="chip chip--warn mono">Platform-attributed · Meta</p>
-            </header>
-            <p class="case__big case__big--sm" data-count="11.99" data-decimals="2" data-suffix="×">11.99×</p>
-            <p class="case__biglabel">ROAS</p>
-            <dl class="case__pair">
-              <div><dt class="mono">Purchases</dt><dd data-count="517">517</dd></div>
-              <div><dt class="mono">Channel</dt><dd>Meta</dd></div>
-            </dl>
-            <p class="case__note">Creative strategy from customer and competitor research to hooks, copy, UGC briefs and statics.</p>
-          </article>
-
-          <article class="case" data-case>
-            <header class="case__head">
-              <p class="mono case__who">D2C accessories <span>· E-commerce</span></p>
-              <p class="chip chip--warn mono">Platform-attributed · Meta</p>
+              <p class="mono case__who">Watch accessories <span>· D2C · Australia</span></p>
+              <p class="chip chip--warn mono">Meta · default attribution</p>
             </header>
             <p class="case__big case__big--sm" data-count="1260">1,260</p>
-            <p class="case__biglabel">purchases</p>
+            <p class="case__biglabel">purchases from one prospecting campaign</p>
             <dl class="case__pair">
-              <div><dt class="mono">Cost per purchase</dt><dd data-count="18.27" data-decimals="2" data-prefix="$">$18.27</dd></div>
-              <div><dt class="mono">Channel</dt><dd>Meta</dd></div>
+              <div><dt class="mono">ROAS</dt><dd>3.74×</dd></div>
+              <div><dt class="mono">Purchase value</dt><dd>$86,152</dd></div>
+              <div><dt class="mono">Cost / purchase</dt><dd>$18.27</dd></div>
             </dl>
-            <p class="case__note">Prospecting, remarketing and catalog campaigns, with attribution windows and new vs returning checked before budget moves.</p>
+            <p class="case__note">Default window includes view-through. On 28-day click only, the same campaign shows 476 purchases. I report both.</p>
           </article>
 
-          <article class="case case--quiet" data-case>
+          <article class="case" data-case data-cat="ecom">
             <header class="case__head">
-              <p class="mono case__who">Lead generation <span>· SaaS, services, real estate</span></p>
-              <p class="chip mono">Judged on lead quality</p>
+              <p class="mono case__who">Consumer electronics <span>· E-commerce</span></p>
+              <p class="chip chip--warn mono">Meta · platform-attributed</p>
             </header>
-            <p class="case__quote">Booked demos and qualified leads, not form fills.</p>
-            <p class="case__note">B2B SaaS and services: Meta, Google and LinkedIn for clinic automation, property management and healthcare billing, with GA4, GTM and HubSpot. Real estate (UAE): Meta lead gen for developers and agencies, followed through CRM qualification.</p>
+            <p class="case__big case__big--sm" data-count="28881">28,881</p>
+            <p class="case__biglabel">website purchases in four months</p>
+            <dl class="case__pair">
+              <div><dt class="mono">Cost / purchase</dt><dd>€1.41</dd></div>
+              <div><dt class="mono">Spend</dt><dd>€40,713</dd></div>
+              <div><dt class="mono">Period</dt><dd>Nov 23 – Mar 24</dd></div>
+            </dl>
+            <p class="case__note">Broad and lookalike prospecting, with ABO tests run product by product.</p>
+          </article>
+
+          <article class="case" data-case data-cat="ecom">
+            <header class="case__head">
+              <p class="mono case__who">D2C brand <span>· E-commerce · Europe</span></p>
+              <p class="chip chip--warn mono">Meta · 7-day click, 1-day view</p>
+            </header>
+            <p class="case__big case__big--sm" data-count="6732">6,732</p>
+            <p class="case__biglabel">website purchases</p>
+            <dl class="case__pair">
+              <div><dt class="mono">Cost / purchase</dt><dd>€3.32</dd></div>
+              <div><dt class="mono">Spend</dt><dd>€22,345</dd></div>
+              <div><dt class="mono">Campaigns</dt><dd>11</dd></div>
+            </dl>
+            <p class="case__note">Broad tests of new creative, Advantage+ shopping and ABO acquisition, with attribution shown on every row.</p>
+          </article>
+
+          <article class="case" data-case data-cat="ecom">
+            <header class="case__head">
+              <p class="mono case__who">Beauty &amp; cosmetics <span>· Shopify store · Algeria</span></p>
+              <p class="chip mono">Shopify · all channels</p>
+            </header>
+            <p class="case__big case__big--sm" data-count="19049">19,049</p>
+            <p class="case__biglabel">orders in 12 months</p>
+            <dl class="case__pair">
+              <div><dt class="mono">Orders vs prior year</dt><dd>+32%</dd></div>
+              <div><dt class="mono">Sales vs prior year</dt><dd>+49%</dd></div>
+              <div><dt class="mono">Sessions vs prior year</dt><dd>+53%</dd></div>
+            </dl>
+            <p class="case__note">Store-level figures, so they include organic and repeat orders, not just paid.</p>
+          </article>
+
+          <!-- APPS -->
+          <article class="case" data-case data-cat="app">
+            <header class="case__head">
+              <p class="mono case__who">Ride-hailing <span>· Driver supply · Algeria</span></p>
+              <p class="chip chip--warn mono">Meta · platform-attributed</p>
+            </header>
+            <p class="case__big case__big--sm" data-count="108422">108,422</p>
+            <p class="case__biglabel">driver sign-ups across four cities</p>
+            <dl class="case__pair">
+              <div><dt class="mono">Cost / sign-up</dt><dd>$0.98</dd></div>
+              <div><dt class="mono">Spend</dt><dd>$106,317</dd></div>
+              <div><dt class="mono">Campaigns</dt><dd>12</dd></div>
+            </dl>
+            <p class="case__note">Optimized to confirmed OTP and completed registration, not clicks. City-level campaigns for Algiers, Oran, Sétif and Constantine.</p>
+          </article>
+
+          <article class="case" data-case data-cat="app">
+            <header class="case__head">
+              <p class="mono case__who">Health subscription app <span>· iOS · US</span></p>
+              <p class="chip chip--warn mono">Meta 1-day click · PostHog</p>
+            </header>
+            <p class="case__big case__big--sm" data-count="3.81" data-decimals="2" data-prefix="$">$3.81</p>
+            <p class="case__biglabel">CPI across 1,295 iOS installs</p>
+            <ol class="funnel" aria-label="Onboarding funnel from first open to trial start">
+              <li style="--p:1"><span class="mono">First open</span><b>2,612</b></li>
+              <li style="--p:.515"><span class="mono">Onboarding done</span><b>1,345</b></li>
+              <li style="--p:.448"><span class="mono">Account created</span><b>1,169</b></li>
+              <li style="--p:.417"><span class="mono">Paywall viewed</span><b>1,089</b></li>
+              <li style="--p:.048" class="is-end"><span class="mono">Trial started</span><b>126</b></li>
+            </ol>
+            <p class="case__note">Paid acquisition read past the install: 11.6% of paywall viewers start a trial, so the next test is the paywall, not the ad.</p>
+          </article>
+
+          <article class="case" data-case data-cat="app">
+            <header class="case__head">
+              <p class="mono case__who">Courier recruitment <span>· Delivery app · North Africa</span></p>
+              <p class="chip chip--warn mono">Meta · platform-attributed</p>
+            </header>
+            <p class="case__big case__big--sm" data-count="10362">10,362</p>
+            <p class="case__biglabel">courier sign-ups from one campaign</p>
+            <dl class="case__pair">
+              <div><dt class="mono">Cost / sign-up</dt><dd>$0.13</dd></div>
+              <div><dt class="mono">Delivery leads, 2nd market</dt><dd>17,333</dd></div>
+              <div><dt class="mono">Cost / lead</dt><dd>$0.45</dd></div>
+            </dl>
+            <p class="case__note">Supply-side campaigns optimized to the registration event itself, run alongside customer acquisition.</p>
+          </article>
+
+          <!-- LEAD GEN -->
+          <article class="case" data-case data-cat="lead">
+            <header class="case__head">
+              <p class="mono case__who">House painting <span>· Home services · Canada</span></p>
+              <p class="chip mono">Google Ads conversions</p>
+            </header>
+            <p class="case__big case__big--sm" data-count="4460">4,460</p>
+            <p class="case__biglabel">conversions from Search and Performance Max</p>
+            <dl class="case__pair">
+              <div><dt class="mono">Cost / conversion</dt><dd>CA$46.44</dd></div>
+              <div><dt class="mono">Spend</dt><dd>CA$207K</dd></div>
+              <div><dt class="mono">Offer tested</dt><dd>Free estimate</dd></div>
+            </dl>
+            <p class="case__note">Seasonal offers like early-bird free estimates, with mobile taking 84% of spend.</p>
+          </article>
+
+          <article class="case" data-case data-cat="lead">
+            <header class="case__head">
+              <p class="mono case__who">Luxury real estate <span>· Off-plan · Dubai</span></p>
+              <p class="chip chip--warn mono">Meta · 7-day click</p>
+            </header>
+            <p class="case__big case__big--sm" data-count="226">226</p>
+            <p class="case__biglabel">form leads from three campaigns</p>
+            <dl class="case__pair">
+              <div><dt class="mono">Cost / lead</dt><dd>AED 68</dd></div>
+              <div><dt class="mono">Languages</dt><dd>EN · AR · FR</dd></div>
+              <div><dt class="mono">Follow-up</dt><dd>CRM + sales team</dd></div>
+            </dl>
+            <p class="case__note">Copy tailored to each project and buyer, with leads followed through CRM qualification, not just counted.</p>
+          </article>
+
+          <article class="case" data-case data-cat="lead">
+            <header class="case__head">
+              <p class="mono case__who">Car detailing <span>· Local service · Ireland</span></p>
+              <p class="chip chip--warn mono">Meta · platform-attributed</p>
+            </header>
+            <p class="case__big case__big--sm" data-count="331">331</p>
+            <p class="case__biglabel">online bookings</p>
+            <dl class="case__pair">
+              <div><dt class="mono">Cost / booking</dt><dd>€15.91</dd></div>
+              <div><dt class="mono">Plus leads</dt><dd>42 at €22.63</dd></div>
+              <div><dt class="mono">CPM</dt><dd>€5.06</dd></div>
+            </dl>
+            <p class="case__note">Cold prospecting feeding warm retargeting, with campaign budgets as low as €10 a day.</p>
+          </article>
+
+          <article class="case" data-case data-cat="lead">
+            <header class="case__head">
+              <p class="mono case__who">B2B SaaS <span>· AI agents for clinics · North America</span></p>
+              <p class="chip mono">HubSpot pipeline</p>
+            </header>
+            <p class="case__big case__big--sm" data-count="46">46</p>
+            <p class="case__biglabel">deals closed-won and paid</p>
+            <dl class="case__pair">
+              <div><dt class="mono">Deals decided</dt><dd>97</dd></div>
+              <div><dt class="mono">Win rate</dt><dd>47%</dd></div>
+              <div><dt class="mono">Channels</dt><dd>Meta · Google · LinkedIn</dd></div>
+            </dl>
+            <p class="case__note">Judged on booked demos and paid deals in the CRM, not on form fills.</p>
           </article>
         </div>
+        <p class="results__foot mono">Source screenshots from each ad account are available on a call.</p>
       </div>
     </section>
 
