@@ -1,0 +1,53 @@
+{
+  "bpm": 120,
+  "duration": 20,
+  "beats": {
+    "hook": [0, 3],
+    "product": [3, 6],
+    "feature1": [6, 8.5],
+    "feature2": [8.5, 11],
+    "feature3": [11, 13.5],
+    "metric": [13.5, 16.5],
+    "cta": [16.5, 20]
+  },
+  "events": {
+    "hookWords": [0.0, 0.5, 1.0, 1.5, 2.0],
+    "ring": [0.0, 0.5],
+    "voicemailBeep": 2.5,
+    "riser": [2.3, 3.0],
+    "impacts": [3.0, 13.5, 14.5, 16.5],
+    "assemble": [3.5, 3.75, 4.0, 4.25, 5.0, 5.25],
+    "waveBars": [4.25, 4.875],
+    "headlineWords": 5.5,
+    "whooshes": [6.0, 8.5, 11.0, 12.5, 16.25],
+    "clicks": [6.5, 18.0],
+    "hovers": [9.5, 12.0],
+    "apptArrives": 8.77,
+    "countUp": [11.0, 11.4],
+    "metricCount": [13.5, 14.5],
+    "metricLines": [15.0, 15.5],
+    "ctaPops": [17.0, 18.5]
+  },
+  "strings": {
+    "en": {
+      "hookLines": { "V": [["Patients"], ["call."], ["Nobody"], ["picks", "up."]], "S": [["Patients", "call."], ["Nobody", "picks", "up."]], "L": [["Patients", "call."], ["Nobody", "picks", "up."]] },
+      "headline": ["Never", "miss", "another", "patient", "request."],
+      "verbs": ["Answers.", "Books.", "Measures."],
+      "metricLabel": "What clinics see after going live.",
+      "metric": "100%",
+      "metricLines": ["of calls answered.", "Day or night. No exceptions."],
+      "tagline": "Voice AI built with health clinics.",
+      "url": "walaw.io"
+    },
+    "fr": {
+      "hookLines": { "V": [["Ça"], ["sonne."], ["Personne"], ["ne", "répond."]], "S": [["Ça", "sonne."], ["Personne", "ne", "répond."]], "L": [["Ça", "sonne."], ["Personne", "ne", "répond."]] },
+      "headline": ["Ne", "manquez", "plus", "jamais", "un", "appel."],
+      "verbs": ["Répond.", "Planifie.", "Mesure."],
+      "metricLabel": "Notre ROI",
+      "metric": "100%",
+      "metricLines": ["des appels répondus.", "Jour et nuit. Sans exception."],
+      "tagline": "Conçu pour les cliniques d'ici.",
+      "url": "walaw.io"
+    }
+  }
+}

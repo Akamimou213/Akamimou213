@@ -1,0 +1,8 @@
+en-hero-wave: 60 frames @30fps, 60 distinct, box 6430x50
+en-feat1 visible after 34ms
+en-feat1: 90 frames @30fps, 37 distinct, box 740x386
+en-feat2 visible after 34ms
+en-feat2: 135 frames @30fps, 53 distinct, box 740x382
+en-feat4 visible after 34ms
+en-feat4: 90 frames @30fps, 11 distinct, box 740x382
+en-player-speaking: 90 frames (audio-driven parts advance in real time)

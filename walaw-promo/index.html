@@ -1,0 +1,406 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>html,body{margin:0;background:#000;overflow:hidden}canvas{display:block}</style>
+</head><body><canvas id="c"></canvas>
+<script>
+// Walaw 20s promo. One timeline (timeline.json, injected as window.TIMELINE), three layouts (?fmt=V|S|L), two languages (?lang=en|fr).
+// Every product pixel comes from ../assets/work (real captures of walaw.io). Type is set in the site's own Inter.
+const Q = new URLSearchParams(location.search), FMT = Q.get('fmt') || 'V', LANG = Q.get('lang') || 'en';
+const [W, H] = { V: [1080, 1920], S: [1080, 1080], L: [1920, 1080] }[FMT];
+const CX = W / 2, CY = H / 2, FPS = 30;
+const cv = document.getElementById('c'); cv.width = W; cv.height = H;
+const TL = window.TIMELINE, T = TL.strings[LANG], EV = TL.events;
+const BG = '#FFFCF8', INK = '#191C17', MUTED = '#61645F', ORANGE = '#FF962E', MAG = '#C75082', BLUE = '#2B50D8';
+const FONT = '"Inter Site", sans-serif';
+const A = '../assets/work/', LOGO_INK = '../assets/brand/logo-light-CNbYTKYZ.svg', LOGO_WHITE = '../assets/brand/logo-dark-C60WY4uZ.svg';
+
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const lerp = (a, b, t) => a + (b - a) * t;
+const P = (t, a, b) => clamp((t - a) / (b - a));
+const E = {
+  outExpo: x => x >= 1 ? 1 : 1 - Math.pow(2, -10 * x),
+  inExpo: x => x <= 0 ? 0 : Math.pow(2, 10 * x - 10),
+  inOutExpo: x => x <= 0 ? 0 : x >= 1 ? 1 : x < .5 ? Math.pow(2, 20 * x - 10) / 2 : (2 - Math.pow(2, -20 * x + 10)) / 2,
+  inOutCubic: x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2,
+  outCubic: x => 1 - Math.pow(1 - x, 3),
+  outBack: (x, s = 1.70158) => { const c = s + 1; return 1 + c * Math.pow(x - 1, 3) + s * Math.pow(x - 1, 2); },
+};
+const pad = i => String(i).padStart(3, '0');
+function grad(g, x0, x1) { const gr = g.createLinearGradient(x0, 0, x1, 0); gr.addColorStop(0, ORANGE); gr.addColorStop(.5, MAG); gr.addColorStop(1, BLUE); return gr; }
+function bg(g, c) { g.fillStyle = c; g.fillRect(-300, -300, W + 600, H + 600); }
+function circle(g, x, y, r) { if (r <= 0) return; g.beginPath(); g.arc(x, y, r, 0, Math.PI * 2); g.fill(); }
+
+// ---------------------------------------------------------------- images (lazy, decoded before each frame)
+const IMG = new Map(); let FRAME = 0;
+function img(src) { let e = IMG.get(src); if (!e) { const im = new Image(); im.src = src; e = { im, p: im.decode().catch(() => { }), last: FRAME }; IMG.set(src, e); } e.last = FRAME; return e.im; }
+const speakIdx = t => clamp(Math.floor((t - EV.clicks[0]) * FPS), 0, 89);
+const apptIdx = t => clamp(Math.floor((t - 8.5) * FPS), 0, 89);
+const anaIdx = t => clamp(Math.floor((t - 11.0) * FPS), 0, 29);
+const SRC = {
+  ready: `${A}${LANG}-player-ready.jpg`, cta: `${A}${LANG}-cta.png`,
+  speak: t => `${A}${LANG}-player-speaking/${pad(speakIdx(t))}.jpg`,
+  appt: t => `${A}${LANG}-feat1/${pad(apptIdx(t))}.jpg`,
+  ana: t => `${A}${LANG}-feat4/${pad(anaIdx(t))}.jpg`,
+  bars: t => `${A}hero-bars/${pad(Math.floor(Math.max(0, t - 16.9) * FPS) % 89)}.png`,
+};
+function need(t) {
+  const l = [LOGO_INK, LOGO_WHITE, SRC.ready, SRC.cta];
+  if (t >= 6 && t < 9) l.push(SRC.speak(t));
+  if (t >= 8.4 && t < 11.5) l.push(SRC.appt(t));
+  if (t >= 10.9 && t < 13.6) l.push(SRC.ana(t));
+  if (t >= 16.9) l.push(SRC.bars(t));
+  return l;
+}
+
+// ---------------------------------------------------------------- layout per format
+const LY = {
+  V: { hookX: 90, hookMaxW: 900, hookCY: 900, hookSize: 240, logoW: 560, logoY: 480, headSize: 92, headY: 700, headMaxW: 900, cardW: 1000, cardY: 960, verbSize: 170, verbY: 600, featW: 1040, featCY: 1120, metSize: 340, metY: 1010, metLabelY: 640, metLineY: 1190, metLineSize: 60, ctaLogoW: 640, ctaLogoY: 700, tagSize: 52, tagY: 870, btnH: 112, btnY: 1060, urlY: 1360, urlSize: 50, cardZoom: 1.7, revZoom: 2.9 },
+  S: { hookX: 70, hookMaxW: 940, hookCY: 540, hookSize: 150, logoW: 330, logoY: 110, headSize: 60, headY: 250, headMaxW: 960, cardW: 880, cardY: 480, verbSize: 104, verbY: 165, featW: 900, featCY: 630, metSize: 260, metY: 600, metLabelY: 300, metLineY: 740, metLineSize: 44, ctaLogoW: 500, ctaLogoY: 270, tagSize: 42, tagY: 420, btnH: 112, btnY: 540, urlY: 820, urlSize: 42, cardZoom: 1.6, revZoom: 2.1 },
+  L: { hookX: 150, hookMaxW: 1620, hookCY: 540, hookSize: 190, logoW: 330, logoY: 110, headSize: 72, headY: 260, headMaxW: 1700, cardW: 1100, cardY: 400, verbSize: 104, verbY: 150, featW: 1000, featCY: 620, metSize: 280, metY: 590, metLabelY: 300, metLineY: 740, metLineSize: 46, ctaLogoW: 560, ctaLogoY: 270, tagSize: 46, tagY: 420, btnH: 116, btnY: 540, urlY: 830, urlSize: 42, cardZoom: 1.6, revZoom: 2.1 },
+}[FMT];
+
+function setFont(g, size, weight = 600) { g.font = `${weight} ${size}px ${FONT}`; }
+function textW(g, s, size, weight = 600, ls = -.025) { setFont(g, size, weight); return g.measureText(s).width + ls * size * (s.length - 1); }
+function drawText(g, s, x, y, size, fill, weight = 600, ls = -.025) {
+  setFont(g, size, weight); g.letterSpacing = `${ls * size}px`; g.fillStyle = fill; g.fillText(s, x, y); g.letterSpacing = '0px';
+}
+function wrap(g, words, size, maxW, weight = 600) {
+  const lines = [[]];
+  for (const w of words) { const cur = lines[lines.length - 1]; const test = [...cur, w].join(' '); if (cur.length && textW(g, test, size, weight) > maxW) lines.push([w]); else cur.push(w); }
+  return lines;
+}
+
+// ---------------------------------------------------------------- cursor (the pointer is ours; everything it touches is real)
+function cursor(g, x, y, press = 0, alpha = 1) {
+  if (alpha <= 0) return;
+  g.save(); g.globalAlpha = alpha; g.translate(x, y); const s = (FMT === 'V' ? 1.6 : 1.35) * (1 - .14 * press); g.scale(s, s);
+  g.shadowColor = 'rgba(0,0,0,.28)'; g.shadowBlur = 10; g.shadowOffsetY = 3;
+  g.beginPath(); g.moveTo(0, 0); g.lineTo(0, 30); g.lineTo(7.5, 23); g.lineTo(12.5, 34.5); g.lineTo(17.5, 32.3); g.lineTo(12.6, 21.2); g.lineTo(22.5, 21.2); g.closePath();
+  g.fillStyle = INK; g.fill(); g.shadowColor = 'transparent'; g.lineWidth = 2.2; g.strokeStyle = '#fff'; g.stroke();
+  g.restore();
+}
+function ripple(g, x, y, t, t0, rmax = 90) {
+  if (t < t0 || t > t0 + .6) return;
+  const p = (t - t0) / .6;
+  g.save(); g.globalAlpha = (1 - p) * .9; g.lineWidth = 6 * (1 - p) + 1; g.strokeStyle = grad(g, x - rmax, x + rmax);
+  g.beginPath(); g.arc(x, y, 12 + rmax * E.outExpo(p), 0, Math.PI * 2); g.stroke(); g.restore();
+}
+
+// ---------------------------------------------------------------- real-card drawing helpers
+// The player capture is 1600x588 (CSS 772x284, radius 32). Feature cards are 1600x~830 (CSS 742x386).
+function drawCard(g, im, x, y, w, cssW, alpha = 1) {
+  if (!im.complete || !im.naturalWidth) return 0;
+  const h = w * im.naturalHeight / im.naturalWidth, r = 32 * w / cssW;
+  g.save(); g.globalAlpha = alpha; g.beginPath(); g.roundRect(x, y, w, h, r); g.clip(); g.drawImage(im, x, y, w, h); g.restore();
+  return h;
+}
+// Player pieces, in capture pixels (measured from the real image).
+const PIECES = [
+  { k: 'title', r: [58, 72, 260, 58], t: EV.assemble[1], from: [-60, 0] },
+  { k: 'status', r: [58, 138, 150, 52], t: EV.assemble[2], from: [-60, 0] },
+  { k: 'wave', r: [58, 258, 1300, 156], t: EV.waveBars[0] },
+  { k: 'button', r: [1384, 257, 158, 158], t: EV.assemble[4], pop: true },
+  { k: 'timer', r: [58, 468, 170, 46], t: EV.assemble[5], from: [0, 30] },
+];
+function drawPlayerAssembling(g, t, x, y, w) {
+  const im = img(SRC.ready); if (!im.naturalWidth) return;
+  const s = w / im.naturalWidth, h = im.naturalHeight * s, r = 32 * w / 772;
+  // 1. the card's own border ring (real pixels: the capture minus its inset)
+  const p0 = E.outExpo(P(t, EV.assemble[0], EV.assemble[0] + .3));
+  if (p0 > 0) {
+    g.save(); g.globalAlpha = p0; g.translate(x + w / 2, y + h / 2); g.scale(lerp(.9, 1, p0), lerp(.9, 1, p0)); g.translate(-(x + w / 2), -(y + h / 2));
+    g.beginPath(); g.roundRect(x, y, w, h, r); g.roundRect(x + 13 * s, y + 13 * s, w - 26 * s, h - 26 * s, r * .7); g.clip('evenodd');
+    g.drawImage(im, x, y, w, h); g.restore();
+    g.save(); g.globalAlpha = p0; g.fillStyle = BG; g.beginPath(); g.roundRect(x + 13 * s, y + 13 * s, w - 26 * s, h - 26 * s, r * .7); g.fill(); g.restore();
+  }
+  for (const pc of PIECES) {
+    const [sx, sy, sw, sh] = pc.r;
+    if (pc.k === 'wave') {
+      const p = P(t, EV.waveBars[0], EV.waveBars[1]); if (p <= 0) continue;
+      const bars = 52, shown = Math.ceil(E.outCubic(p) * bars) / bars;
+      g.drawImage(im, sx, sy, sw * shown, sh, x + sx * s, y + sy * s, sw * shown * s, sh * s);
+      continue;
+    }
+    const p = pc.pop ? E.outBack(P(t, pc.t, pc.t + .35), 2.6) : E.outExpo(P(t, pc.t, pc.t + .3));
+    if (p <= 0) continue;
+    g.save(); g.globalAlpha = clamp(p);
+    const dx = pc.from ? pc.from[0] * (1 - p) : 0, dy = pc.from ? pc.from[1] * (1 - p) : 0;
+    const cx = x + (sx + sw / 2) * s, cy = y + (sy + sh / 2) * s, sc = pc.pop ? p : 1;
+    g.translate(cx + dx, cy + dy); g.scale(sc, sc);
+    g.drawImage(im, sx, sy, sw, sh, -sw * s / 2, -sh * s / 2, sw * s, sh * s);
+    g.restore();
+  }
+}
+
+// ---------------------------------------------------------------- beats
+function hook(g, t) {
+  bg(g, INK);
+  const lines = T.hookLines[FMT];
+  let size = LY.hookSize;
+  const widest = () => Math.max(...lines.map(l => textW(g, l.join(' '), size)));
+  while (widest() > LY.hookMaxW) size -= 4;
+  const lh = size * 1.02, y0 = LY.hookCY - (lines.length * lh) / 2 + size * .78;
+  const shrink = E.inExpo(P(t, 2.6, 3.0));
+  g.save(); g.translate(CX, LY.hookCY); g.scale(1 - .25 * shrink, 1 - .25 * shrink); g.translate(-CX, -LY.hookCY);
+  let k = 0, ringPos = null;
+  lines.forEach((line, li) => {
+    let x = FMT === 'V' ? LY.hookX : CX - textW(g, line.join(' '), size) / 2;
+    const y = y0 + li * lh;
+    for (const w of line) {
+      const tw = EV.hookWords[k], ww = textW(g, w, size), p = E.outExpo(P(t, tw, tw + .3));
+      if (p > 0) {
+        const sc = lerp(1.5, 1, p), cx = x + ww / 2, cy = y - size * .35;
+        const dim = k >= 2 ? 0 : 0, fadeOthers = (k !== 2) ? P(t, EV.voicemailBeep - .05, EV.voicemailBeep + .2) * .75 : 0;
+        g.save(); g.globalAlpha = p * (1 - fadeOthers); g.translate(cx, cy); g.scale(sc, sc); g.translate(-cx, -cy);
+        drawText(g, w, x, y, size, k === 1 ? grad(g, x, x + ww) : '#fff');
+        g.restore();
+        if (k === 1) ringPos = [cx, cy];
+      }
+      x += ww + size * .26; k++;
+    }
+  });
+  g.restore();
+  // ring-ring: the phone rings behind "call."
+  if (ringPos) for (const r0 of EV.ring) {
+    const lt = t - r0; if (lt < 0 || lt > 1.2) continue;
+    for (const d of [0, .12]) {
+      const q = clamp((lt - d) / 1.1); if (q <= 0) continue;
+      g.save(); g.globalAlpha = (1 - q) * .8; g.lineWidth = 8 * (1 - q) + 1; g.strokeStyle = grad(g, ringPos[0] - 300, ringPos[0] + 300);
+      g.beginPath(); g.arc(ringPos[0], ringPos[1], 40 + q * (FMT === 'V' ? 520 : 420), 0, Math.PI * 2); g.stroke(); g.restore();
+    }
+  }
+  // the flatline: nobody picked up
+  const fl = E.outCubic(P(t, 2.0, 2.45)) * (1 - shrink);
+  if (fl > 0) {
+    const y = FMT === 'V' ? LY.hookCY + 470 : LY.hookCY + size * 1.25;
+    g.save(); g.strokeStyle = MUTED; g.lineWidth = 6; g.lineCap = 'round'; g.setLineDash([2, 18]); g.globalAlpha = .9;
+    g.beginPath(); g.moveTo(CX - (W * .42) * fl, y); g.lineTo(CX + (W * .42) * fl, y); g.stroke(); g.restore();
+  }
+  // reveal into the product: a background-coloured circle with a gradient edge
+  const rv = E.inExpo(P(t, 2.72, 3.0));
+  if (rv > 0) {
+    const R = Math.hypot(W, H) * .6 * rv;
+    g.fillStyle = BG; circle(g, CX, CY, R);
+    g.save(); g.lineWidth = 26; g.strokeStyle = grad(g, CX - R, CX + R); g.beginPath(); g.arc(CX, CY, R, 0, Math.PI * 2); g.stroke(); g.restore();
+  }
+}
+
+function headline(g, t, alpha, dy) {
+  const lines = wrap(g, T.headline, LY.headSize, LY.headMaxW);
+  let k = 0;
+  lines.forEach((line, li) => {
+    const lw = textW(g, line.join(' '), LY.headSize);
+    let x = CX - lw / 2;
+    const y = LY.headY + li * LY.headSize * 1.1 + dy;
+    for (const w of line) {
+      const tw = EV.headlineWords + k * .0625, p = E.outExpo(P(t, tw, tw + .35)), ww = textW(g, w, LY.headSize);
+      if (p > 0) {
+        g.save(); g.globalAlpha = p * alpha; g.beginPath(); g.rect(x - 10, y - LY.headSize * 1.05, ww + 20, LY.headSize * 1.3); g.clip();
+        drawText(g, w, x, y + (1 - p) * LY.headSize, LY.headSize, k === T.headline.length - 1 ? grad(g, x, x + ww) : INK);
+        g.restore();
+      }
+      x += ww + LY.headSize * .26; k++;
+    }
+  });
+}
+function logo(g, src, cx, cy, w, p, alpha = 1) {
+  const im = img(src); if (!im.naturalWidth || p <= 0) return;
+  const h = w * 195 / 845;
+  g.save(); g.globalAlpha = clamp(p) * alpha; g.translate(cx, cy); g.scale(p, p); g.drawImage(im, -w / 2, -h / 2, w, h); g.restore();
+}
+
+// Shared geometry for the player card during product -> feature 1.
+function playerRect(t) {
+  const k = E.inOutCubic(P(t, 6.0, 6.45));
+  const w = lerp(LY.cardW, LY.featW, k), h = w * 588 / 1600;
+  const y = lerp(LY.cardY, LY.featCY - h / 2, k);
+  return { x: CX - w / 2, y, w, h, k };
+}
+function verb(g, t, i, t0, t1) {
+  const s = T.verbs[i], size = LY.verbSize;
+  const pin = E.outExpo(P(t, t0, t0 + .35)), pout = E.inExpo(P(t, t1 - .25, t1));
+  if (pin <= 0 || pout >= 1) return;
+  const w = textW(g, s, size), x = CX - w / 2, y = LY.verbY + (1 - pin) * size * .9 - pout * size * .9;
+  g.save(); g.beginPath(); g.rect(0, LY.verbY - size * 1.05, W, size * 1.32); g.clip();
+  g.globalAlpha = 1; drawText(g, s, x, y, size, grad(g, x, x + w)); g.restore();
+}
+
+function product(g, t) {
+  bg(g, BG);
+  const out = E.inOutCubic(P(t, 6.0, 6.25));
+  logo(g, LOGO_INK, CX, LY.logoY - out * 120, LY.logoW, E.outBack(P(t, 3.0, 3.45), 1.8), 1 - out);
+  headline(g, t, 1 - out, -out * 120);
+  const r = playerRect(t);
+  if (t < EV.clicks[0]) drawPlayerAssembling(g, t, r.x, r.y, r.w);
+}
+
+// Camera for a scrolled feature card at time tt (pure: same answer whatever order frames render in).
+function camFor(tt, idx, focus, zoom, zIn, zOut, dive, ratio) {
+  const fw = LY.featW, h = fw * ratio, clipTop = LY.verbY + LY.verbSize * .32;
+  const scroll = (E.inOutCubic(P(tt, 8.5, 8.88)) + E.inOutCubic(P(tt, 11.0, 11.38))) * H;
+  const x0 = CX - fw / 2, y0 = LY.featCY - h / 2 + H * (1 + idx) - scroll;
+  const zp = E.inOutCubic(P(tt, zIn, zIn + .5)) * (1 - E.inOutCubic(P(tt, zOut, zOut + .4)));
+  const z = (1 + (zoom - 1) * zp) * (1 + dive);
+  const fx = x0 + focus[0] / 742 * fw, fy = y0 + focus[1] / 386 * h;
+  const tx = lerp(fx, CX, zp), ty = lerp(fy, (clipTop + H) / 2 - (FMT === 'V' ? 180 : 0), zp);
+  return { x0, y0, h, fx, fy, tx, ty, z, map: (px, py) => [tx + (x0 + px / 742 * fw - fx) * z, ty + (y0 + py / 386 * h - fy) * z] };
+}
+function features(g, t) {
+  bg(g, BG);
+  if (t < 6.3) product(g, t);
+  const sc1 = E.inOutCubic(P(t, 8.5, 8.88)), sc2 = E.inOutCubic(P(t, 11.0, 11.38));
+  const scroll = (sc1 + sc2) * H;
+  const r = playerRect(t);
+  const punch = t >= EV.clicks[0] ? .035 * Math.exp(-(t - EV.clicks[0]) * 9) : 0;
+  if (t >= 6.45 && t < 9.2) {
+    const im = img(t < EV.clicks[0] ? SRC.ready : SRC.speak(t));
+    g.save(); g.translate(0, -sc1 * H);
+    g.translate(CX, r.y + r.h / 2); g.scale(1 + punch, 1 + punch); g.translate(-CX, -(r.y + r.h / 2));
+    drawCard(g, im, r.x, r.y, r.w, 772); g.restore();
+  } else if (t >= 6 && t < 6.45) drawPlayerAssembling(g, t, r.x, r.y, r.w);
+  // Feature cards 2 and 3: real captures. The camera magnifies inside a viewport under the verb, never over it.
+  const fw = LY.featW, clipTop = LY.verbY + LY.verbSize * .32;
+  const featureCard = (src, idx, focus, zoom, zIn, zOut, dive = 0) => {
+    const im = img(src), c = camFor(t, idx, focus, zoom, zIn, zOut, dive, (im.naturalHeight || 830) / (im.naturalWidth || 1600));
+    if (c.y0 > H + 50 || c.y0 + c.h < -50) return null;
+    g.save(); g.beginPath(); g.rect(-50, clipTop, W + 100, H); g.clip();
+    g.translate(c.tx, c.ty); g.scale(c.z, c.z); g.translate(-c.fx, -c.fy); drawCard(g, im, c.x0, c.y0, fw, 742); g.restore();
+    return c.map;
+  };
+  const m2 = (t >= 8.4 && t < 11.5) ? featureCard(SRC.appt(t), 0, [215, 228], LY.cardZoom, 9.3, 10.7) : null;
+  const m3 = t >= 10.9 ? featureCard(SRC.ana(t), 1, [560, 292], LY.revZoom, 12.15, 99, 7 * E.inExpo(P(t, 13.1, 13.5))) : null;
+  verb(g, t, 0, 6.2, 8.6); verb(g, t, 1, 8.5, 11.1); verb(g, t, 2, 11.0, 13.25);
+  // cursor: clicks Play (real), then points at what the real UI is doing
+  const btn = { x: r.x + 1462 / 1600 * r.w, y: r.y + 335 / 588 * r.h - sc1 * H };
+  let cx, cy, press = 0, ca = 1;
+  if (t < 8.5) {
+    const m = E.outCubic(P(t, 6.0, 6.42));
+    cx = lerp(W + 60, btn.x - 6, m); cy = lerp(H * .9, btn.y - 4, m);
+    if (t >= EV.clicks[0]) { cx += (t - EV.clicks[0]) * 40; cy += (t - EV.clicks[0]) * 60; }
+    press = t >= EV.clicks[0] - .04 && t < EV.clicks[0] + .1 ? 1 : 0;
+  } else if (t < 11) {
+    const [ex, ey] = m2 ? m2(250, 238) : [CX, LY.featCY];
+    const hv = E.inOutCubic(P(t, 8.9, 9.45));
+    const sx0 = r.x + 1462 / 1600 * r.w + (8.5 - EV.clicks[0]) * 40, sy0 = r.y + 335 / 588 * r.h + (8.5 - EV.clicks[0]) * 60;
+    cx = lerp(sx0, ex, hv); cy = lerp(sy0, ey, hv);          // the page scrolls under a still pointer
+  } else {
+    const [vx, vy] = m3 ? m3(585, 300) : [CX, LY.featCY];
+    const hv = E.inOutCubic(P(t, 11.45, 12.0));
+    const [hx, hy] = camFor(10.95, 0, [215, 228], LY.cardZoom, 9.3, 10.7, 0, 832 / 1600).map(250, 238);   // where the pointer rested
+    cx = lerp(hx, vx, hv); cy = lerp(hy, vy, hv);
+    ca = 1 - P(t, 12.95, 13.15);
+  }
+  ripple(g, btn.x, btn.y, t, EV.clicks[0]);
+  cursor(g, cx, cy, press, ca);
+}
+
+function metric(g, t) {
+  bg(g, INK);
+  const lt = t - 13.5;
+  // label (site copy)
+  const la = E.outExpo(P(t, 13.6, 13.95));
+  g.save(); g.globalAlpha = la * .7; setFont(g, LY.metLineSize * .62, 500); g.textAlign = 'center'; g.fillStyle = '#fff'; g.fillText(T.metricLabel, CX, LY.metLabelY + (1 - la) * 20); g.restore();
+  // the number: counts up, lands on the beat
+  const c = E.outExpo(P(t, EV.metricCount[0], EV.metricCount[1]) * 1.0);
+  const n = Math.round(100 * clamp(c / .999)), s = `${n}%`;
+  const land = t >= EV.metricCount[1] ? Math.exp(-(t - EV.metricCount[1]) * 7) * Math.cos((t - EV.metricCount[1]) * 18) : 0;
+  const size = LY.metSize, w = textW(g, '100%', size, 500, -.04);
+  g.save(); g.translate(CX, LY.metY - size * .35); g.scale(1 + .08 * land, 1 + .08 * land); g.translate(-CX, -(LY.metY - size * .35));
+  g.textAlign = 'left';
+  const x = CX - w / 2;
+  drawText(g, s, x + (w - textW(g, s, size, 500, -.04)) / 2, LY.metY, size, grad(g, x, x + w), 500, -.04);
+  g.restore();
+  // glow ring on landing
+  if (t >= EV.metricCount[1] && t < EV.metricCount[1] + .7) {
+    const q = (t - EV.metricCount[1]) / .7;
+    g.save(); g.globalAlpha = (1 - q) * .6; g.lineWidth = 10 * (1 - q); g.strokeStyle = grad(g, CX - w, CX + w);
+    g.beginPath(); g.ellipse(CX, LY.metY - size * .35, w * .6 + q * 300, size * .55 + q * 200, 0, 0, Math.PI * 2); g.stroke(); g.restore();
+  }
+  T.metricLines.forEach((line, i) => {
+    const t0 = EV.metricLines[i], p = E.outExpo(P(t, t0, t0 + .35));
+    if (p <= 0) return;
+    g.save(); g.beginPath(); g.rect(0, LY.metLineY + i * LY.metLineSize * 1.3 - LY.metLineSize * 1.1, W, LY.metLineSize * 1.4); g.clip();
+    g.globalAlpha = i ? .65 : 1; setFont(g, LY.metLineSize, i ? 400 : 500); g.textAlign = 'center'; g.fillStyle = '#fff';
+    g.fillText(line, CX, LY.metLineY + i * LY.metLineSize * 1.3 + (1 - p) * LY.metLineSize); g.restore();
+  });
+  // exit: gradient bar wipe into the lockup
+  const wp = E.inOutCubic(P(t, 16.1, 16.5));
+  if (wp > 0) {
+    g.save(); g.fillStyle = grad(g, 0, W); g.fillRect(0, H - H * wp - 40, W, 40); g.fillStyle = BG; g.fillRect(0, H - H * wp, W, H * wp + 2); g.restore();
+  }
+}
+
+function cta(g, t) {
+  bg(g, BG);
+  logo(g, LOGO_INK, CX, LY.ctaLogoY, LY.ctaLogoW, E.outBack(P(t, 16.5, 16.95), 1.7));
+  const ta = E.outExpo(P(t, 16.75, 17.1));
+  g.save(); g.beginPath(); g.rect(0, LY.tagY - LY.tagSize * 1.1, W, LY.tagSize * 1.5); g.clip();
+  setFont(g, LY.tagSize, 500); g.textAlign = 'center'; g.fillStyle = MUTED; g.globalAlpha = ta; g.fillText(T.tagline, CX, LY.tagY + (1 - ta) * LY.tagSize); g.restore();
+  const im = img(SRC.cta);
+  const bh = LY.btnH, bw = bh * (im.naturalWidth || 648) / (im.naturalHeight || 144);
+  const bx = CX, by = LY.btnY + bh / 2;
+  // hero bars: gap in the capture is 520px wide (DPR 2); scale so the real button sits in it like on the site
+  const bars = img(SRC.bars(t));
+  if (bars.naturalWidth && t >= EV.ctaPops[0]) {
+    const k = (bw / .8) / 520, sw = 2880 * k, shh = 490 * k;
+    const open = E.outExpo(P(t, EV.ctaPops[0], EV.ctaPops[0] + .6));
+    g.save(); g.beginPath();
+    const half = (260 * k) + (sw / 2 - 260 * k) * open;
+    g.rect(CX - half, by - shh, half * 2, shh * 2); g.clip();
+    g.drawImage(bars, CX - sw / 2, by - 236 * k, sw, shh); g.restore();
+  }
+  const pop = E.outBack(P(t, EV.ctaPops[0], EV.ctaPops[0] + .35), 2.2);
+  const press = t >= EV.clicks[1] - .04 && t < EV.clicks[1] + .12 ? 1 : 0;
+  if (pop > 0 && im.naturalWidth) {
+    g.save(); g.translate(bx, by); const s = pop * (1 - .04 * press); g.scale(s, s);
+    g.beginPath(); g.roundRect(-bw / 2, -bh / 2, bw, bh, bh / 2); g.clip(); g.drawImage(im, -bw / 2, -bh / 2, bw, bh); g.restore();
+  }
+  ripple(g, bx, by, t, EV.clicks[1], bw * .55);
+  const m = E.outCubic(P(t, 17.35, 17.92));
+  const cx = lerp(W * .86, bx + bw * .18, m), cy = lerp(H * .95, by + bh * .1, m);
+  cursor(g, cx + (t > 18.2 ? (t - 18.2) * 30 : 0), cy + (t > 18.2 ? (t - 18.2) * 50 : 0), press, E.outCubic(P(t, 17.3, 17.5)));
+  const ua = E.outExpo(P(t, EV.ctaPops[1], EV.ctaPops[1] + .35));
+  if (ua > 0) {
+    g.save(); g.globalAlpha = ua; setFont(g, LY.urlSize, 600); g.textAlign = 'center'; g.fillStyle = INK; g.fillText(T.url, CX, LY.urlY + (1 - ua) * 20);
+    const uw = g.measureText(T.url).width, ul = E.inOutCubic(P(t, 18.65, 19.1));
+    g.fillStyle = grad(g, CX - uw / 2, CX + uw / 2); g.fillRect(CX - uw / 2, LY.urlY + 16, uw * ul, 5); g.restore();
+  }
+}
+
+// ---------------------------------------------------------------- compositor
+function scene(g, t) {
+  g.save();
+  let sh = 0;
+  for (const ti of EV.impacts) if (t >= ti) sh += 10 * Math.exp(-(t - ti) * 13);
+  g.translate(sh * Math.sin(t * 91), sh * Math.cos(t * 77));
+  if (t < 3) hook(g, t);
+  else if (t < 6) product(g, t);
+  else if (t < 13.5) features(g, t);
+  else if (t < 16.5) metric(g, t);
+  else cta(g, t);
+  g.restore();
+}
+const ctx = cv.getContext('2d');
+const scratch = document.createElement('canvas'); scratch.width = W; scratch.height = H; const sg = scratch.getContext('2d');
+const SUB = 3, SHUTTER = .5 / FPS, HARD = [13.5, 16.5];
+const FAST = [[2.72, 3.0], [6.0, 6.45], [8.5, 8.9], [11.0, 11.4], [13.1, 13.5], [16.1, 16.5]];
+window.renderFrame = async i => {
+  FRAME = i; const t = i / FPS;
+  const n = FAST.some(([a, b]) => t >= a - .04 && t < b) ? 16 : SUB;
+  const times = Array.from({ length: n }, (_, k) => { let ts = Math.min(t + k * SHUTTER / n, 19.999); for (const c of HARD) if (t < c && ts >= c) ts = c - 1e-4; return ts; });
+  const srcs = [...new Set(times.flatMap(need))];
+  srcs.forEach(img); await Promise.all(srcs.map(s => IMG.get(s).p));
+  for (const [k, e] of IMG) if (FRAME - e.last > 12 && !srcs.includes(k)) IMG.delete(k);
+  times.forEach((ts, k) => {
+    sg.setTransform(1, 0, 0, 1, 0, 0); sg.globalAlpha = 1; sg.globalCompositeOperation = 'source-over';
+    scene(sg, ts);
+    ctx.globalAlpha = 1 / (k + 1); ctx.drawImage(scratch, 0, 0);
+  });
+  ctx.globalAlpha = 1;
+};
+(async () => {
+  const f = new FontFace('Inter Site', `url(data:font/woff2;base64,${window.INTER_B64})`, { weight: '100 900', style: 'normal' });
+  await f.load(); document.fonts.add(f);
+  await window.renderFrame(0); window.ready = true;
+})();
+</script></body></html>

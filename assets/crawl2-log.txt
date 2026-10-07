@@ -1,0 +1,15 @@
+en: #features y=1277 h=3800
+  en-features-00.png  scrollY=1177  active=[Human Voice]
+  en-features-06.png  scrollY=1897  active=[Appointment Scheduling]
+  en-features-11.png  scrollY=2497  active=[Front Desk Ticketing]
+  en-features-16.png  scrollY=3097  active=[Clinic Knowledge Base]
+  en-features-21.png  scrollY=3697  active=[Analytics and Visibility]
+  en-features-28.png  scrollY=4537  active=[]
+#demo: {"y":7030.875,"h":642.28125}
+#security: {"y":5569.6875,"h":616.796875}
+#demo buttons: 2
+product ai-receptionist: h1="Never miss another patient call." big imgs=["https://www.walaw.io/assets/logo-light-CNbYTKYZ.svg 845x195 alt=\"Walaw\"","https://www.walaw.io/assets/logo-dark-C60WY4uZ.svg 845x195 alt=\"Walaw\"","https://www.walaw.io/__l5e/assets-v1/53d65c38-2f04-455c-8817-d3abc725cb9b/apq.webp 561x171 alt=\"APQ - Association des Podiatres du Québec\"","https://www.walaw.io/assets/telegraph-DzeOdh-I.png 1200x235 alt=\"Telegraph Ventures logo\"","https://www.walaw.io/assets/mistral-vp-DzfwuYgE.png 516x124 alt=\"Mistral Venture Partners logo\""]
+product booking-booster: h1="Turn AI conversations into Bookings." big imgs=["https://www.walaw.io/assets/logo-light-CNbYTKYZ.svg 845x195 alt=\"Walaw\"","https://www.walaw.io/assets/logo-dark-C60WY4uZ.svg 845x195 alt=\"Walaw\"","https://www.walaw.io/__l5e/assets-v1/53d65c38-2f04-455c-8817-d3abc725cb9b/apq.webp 561x171 alt=\"APQ - Association des Podiatres du Québec\"","https://www.walaw.io/assets/telegraph-DzeOdh-I.png 1200x235 alt=\"Telegraph Ventures logo\"","https://www.walaw.io/assets/mistral-vp-DzfwuYgE.png 516x124 alt=\"Mistral Venture Partners logo\""]
+product voicemailia: h1="Turn every voicemail into a
+clear next step." big imgs=["https://www.walaw.io/assets/logo-light-CNbYTKYZ.svg 845x195 alt=\"Walaw\"","https://www.walaw.io/assets/logo-dark-C60WY4uZ.svg 845x195 alt=\"Walaw\"","https://www.walaw.io/__l5e/assets-v1/53d65c38-2f04-455c-8817-d3abc725cb9b/apq.webp 561x171 alt=\"APQ - Association des Podiatres du Québec\"","https://www.walaw.io/assets/telegraph-DzeOdh-I.png 1200x235 alt=\"Telegraph Ventures logo\"","https://www.walaw.io/assets/mistral-vp-DzfwuYgE.png 516x124 alt=\"Mistral Venture Partners logo\""]
+product clavia: h1="Turn your website into an AI receptionist" big imgs=["https://www.walaw.io/assets/logo-light-CNbYTKYZ.svg 845x195 alt=\"Walaw\"","https://www.walaw.io/assets/logo-dark-C60WY4uZ.svg 845x195 alt=\"Walaw\"","https://www.walaw.io/__l5e/assets-v1/53d65c38-2f04-455c-8817-d3abc725cb9b/apq.webp 561x171 alt=\"APQ - Association des Podiatres du Québec\"","https://www.walaw.io/assets/telegraph-DzeOdh-I.png 1200x235 alt=\"Telegraph Ventures logo\"","https://www.walaw.io/assets/mistral-vp-DzfwuYgE.png 516x124 alt=\"Mistral Venture Partners logo\""]

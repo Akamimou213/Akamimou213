@@ -1,0 +1,2597 @@
+{
+  "title": "Walaw - Voice AI built with health clinics",
+  "lang": "en",
+  "metaDesc": "Walaw answers every patient call - after hours, during overflow, in any language. Live in two weeks. Built with clinics, not just for them.",
+  "body": {
+    "color": "lab(9.63674 -2.16509 2.94107)",
+    "bg": "rgb(255, 252, 248)",
+    "bgImage": "none",
+    "font": "Inter, system-ui, sans-serif",
+    "size": "17px",
+    "weight": "400"
+  },
+  "heads": [
+    {
+      "tag": "H1",
+      "text": "Never miss another patient\nrequest.",
+      "rect": {
+        "x": 208,
+        "y": 247,
+        "w": 1024,
+        "h": 132
+      },
+      "style": {
+        "color": "lab(9.63674 -2.16509 2.94107)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "bgImage": "none",
+        "font": "Inter, system-ui, sans-serif",
+        "size": "60px",
+        "weight": "600"
+      }
+    },
+    {
+      "tag": "H2",
+      "text": "What clinics see after going live.",
+      "rect": {
+        "x": 336,
+        "y": 1074,
+        "w": 768,
+        "h": 48
+      },
+      "style": {
+        "color": "rgb(255, 255, 255)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "bgImage": "none",
+        "font": "Inter, system-ui, sans-serif",
+        "size": "48px",
+        "weight": "500"
+      }
+    },
+    {
+      "tag": "H2",
+      "text": "What Walaw does",
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "style": {
+        "color": "lab(9.63674 -2.16509 2.94107)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "bgImage": "none",
+        "font": "Inter, system-ui, sans-serif",
+        "size": "48px",
+        "weight": "500"
+      }
+    },
+    {
+      "tag": "H3",
+      "text": "Human Voice",
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "style": {
+        "color": "rgba(0, 0, 0, 0)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "bgImage": "linear-gradient(90deg, rgb(255, 150, 46) 0%, rgb(199, 80, 130) 50%, rgb(43, 80, 216) 100%)",
+        "font": "Inter, system-ui, sans-serif",
+        "size": "30px",
+        "weight": "500"
+      }
+    },
+    {
+      "tag": "H3",
+      "text": "Appointment Scheduling",
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "style": {
+        "color": "rgba(0, 0, 0, 0)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "bgImage": "linear-gradient(90deg, rgb(255, 150, 46) 0%, rgb(199, 80, 130) 50%, rgb(43, 80, 216) 100%)",
+        "font": "Inter, system-ui, sans-serif",
+        "size": "30px",
+        "weight": "500"
+      }
+    },
+    {
+      "tag": "H3",
+      "text": "Front Desk Ticketing",
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "style": {
+        "color": "rgba(0, 0, 0, 0)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "bgImage": "linear-gradient(90deg, rgb(255, 150, 46) 0%, rgb(199, 80, 130) 50%, rgb(43, 80, 216) 100%)",
+        "font": "Inter, system-ui, sans-serif",
+        "size": "30px",
+        "weight": "500"
+      }
+    },
+    {
+      "tag": "H3",
+      "text": "Clinic Knowledge Base",
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "style": {
+        "color": "rgba(0, 0, 0, 0)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "bgImage": "linear-gradient(90deg, rgb(255, 150, 46) 0%, rgb(199, 80, 130) 50%, rgb(43, 80, 216) 100%)",
+        "font": "Inter, system-ui, sans-serif",
+        "size": "30px",
+        "weight": "500"
+      }
+    },
+    {
+      "tag": "H3",
+      "text": "Analytics and Visibility",
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "style": {
+        "color": "rgba(0, 0, 0, 0)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "bgImage": "linear-gradient(90deg, rgb(255, 150, 46) 0%, rgb(199, 80, 130) 50%, rgb(43, 80, 216) 100%)",
+        "font": "Inter, system-ui, sans-serif",
+        "size": "30px",
+        "weight": "500"
+      }
+    },
+    {
+      "tag": "H2",
+      "text": "What Walaw does",
+      "rect": {
+        "x": 144,
+        "y": 1663,
+        "w": 308,
+        "h": 96
+      },
+      "style": {
+        "color": "lab(9.63674 -2.16509 2.94107)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "bgImage": "none",
+        "font": "Inter, system-ui, sans-serif",
+        "size": "48px",
+        "weight": "500"
+      }
+    },
+    {
+      "tag": "H3",
+      "text": "Human Voice",
+      "rect": {
+        "x": 541,
+        "y": 1576,
+        "w": 656,
+        "h": 36
+      },
+      "style": {
+        "color": "rgba(0, 0, 0, 0)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "bgImage": "linear-gradient(90deg, rgb(255, 150, 46) 0%, rgb(199, 80, 130) 50%, rgb(43, 80, 216) 100%)",
+        "font": "Inter, system-ui, sans-serif",
+        "size": "30px",
+        "weight": "500"
+      }
+    },
+    {
+      "tag": "H2",
+      "text": "Live in days,\nnot months.",
+      "rect": {
+        "x": 112,
+        "y": 5112,
+        "w": 280,
+        "h": 101
+      },
+      "style": {
+        "color": "lab(9.63674 -2.16509 2.94107)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "bgImage": "none",
+        "font": "Inter, system-ui, sans-serif",
+        "size": "48px",
+        "weight": "500"
+      }
+    },
+    {
+      "tag": "H2",
+      "text": "Built for healthcare.\nBuilt for Canada.",
+      "rect": {
+        "x": 507,
+        "y": 5714,
+        "w": 425,
+        "h": 96
+      },
+      "style": {
+        "color": "rgb(255, 255, 255)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "bgImage": "none",
+        "font": "Inter, system-ui, sans-serif",
+        "size": "48px",
+        "weight": "500"
+      }
+    },
+    {
+      "tag": "H2",
+      "text": "Real clinics. Real results.",
+      "rect": {
+        "x": 112,
+        "y": 6372,
+        "w": 768,
+        "h": 48
+      },
+      "style": {
+        "color": "lab(9.63674 -2.16509 2.94107)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "bgImage": "none",
+        "font": "Inter, system-ui, sans-serif",
+        "size": "48px",
+        "weight": "500"
+      }
+    },
+    {
+      "tag": "H2",
+      "text": "This is what your patients experience.",
+      "rect": {
+        "x": 384,
+        "y": 7072,
+        "w": 672,
+        "h": 96
+      },
+      "style": {
+        "color": "lab(9.63674 -2.16509 2.94107)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "bgImage": "none",
+        "font": "Inter, system-ui, sans-serif",
+        "size": "48px",
+        "weight": "500"
+      }
+    },
+    {
+      "tag": "H3",
+      "text": "Walaw Agent",
+      "rect": {
+        "x": 369,
+        "y": 7310,
+        "w": 702,
+        "h": 28
+      },
+      "style": {
+        "color": "lab(9.63674 -2.16509 2.94107)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "bgImage": "none",
+        "font": "Inter, system-ui, sans-serif",
+        "size": "18px",
+        "weight": "600"
+      }
+    },
+    {
+      "tag": "H2",
+      "text": "Why clinics leave their call centre and voicemails, and don't look back.",
+      "rect": {
+        "x": 112,
+        "y": 7859,
+        "w": 1216,
+        "h": 96
+      },
+      "style": {
+        "color": "lab(9.63674 -2.16509 2.94107)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "bgImage": "none",
+        "font": "Inter, system-ui, sans-serif",
+        "size": "48px",
+        "weight": "500"
+      }
+    },
+    {
+      "tag": "H2",
+      "text": "What clinic owners, managers and employees say about Walaw",
+      "rect": {
+        "x": 112,
+        "y": 8929,
+        "w": 1216,
+        "h": 96
+      },
+      "style": {
+        "color": "lab(9.63674 -2.16509 2.94107)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "bgImage": "none",
+        "font": "Inter, system-ui, sans-serif",
+        "size": "48px",
+        "weight": "500"
+      }
+    },
+    {
+      "tag": "H2",
+      "text": "Walaw Named One of Canada's Top 100 AI & Tech Startups.",
+      "rect": {
+        "x": 336,
+        "y": 9605,
+        "w": 768,
+        "h": 80
+      },
+      "style": {
+        "color": "rgb(255, 255, 255)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "bgImage": "none",
+        "font": "Inter, system-ui, sans-serif",
+        "size": "36px",
+        "weight": "500"
+      }
+    },
+    {
+      "tag": "H2",
+      "text": "The questions every clinic asks before going live.",
+      "rect": {
+        "x": 112,
+        "y": 10074,
+        "w": 1034,
+        "h": 96
+      },
+      "style": {
+        "color": "lab(9.63674 -2.16509 2.94107)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "bgImage": "none",
+        "font": "Inter, system-ui, sans-serif",
+        "size": "48px",
+        "weight": "500"
+      }
+    }
+  ],
+  "buttons": [
+    {
+      "text": "Read more.",
+      "href": "/resources/blog/patient7-walaw-partnership",
+      "rect": {
+        "x": 955,
+        "y": 24,
+        "w": 65,
+        "h": 15
+      },
+      "style": {
+        "color": "rgb(255, 255, 255)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "bgImage": "none",
+        "font": "Inter, system-ui, sans-serif",
+        "size": "12px",
+        "weight": "500"
+      }
+    },
+    {
+      "text": "Products",
+      "href": null,
+      "rect": {
+        "x": 483,
+        "y": 73,
+        "w": 114,
+        "h": 39
+      },
+      "style": {
+        "color": "oklab(0.22 -0.00642946 0.00766504 / 0.6)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "bgImage": "none",
+        "font": "Inter, system-ui, sans-serif",
+        "size": "16px",
+        "weight": "500"
+      }
+    },
+    {
+      "text": "Customers",
+      "href": "/company/clients",
+      "rect": {
+        "x": 601,
+        "y": 73,
+        "w": 109,
+        "h": 39
+      },
+      "style": {
+        "color": "oklab(0.22 -0.00642946 0.00766504 / 0.6)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "bgImage": "none",
+        "font": "Inter, system-ui, sans-serif",
+        "size": "16px",
+        "weight": "500"
+      }
+    },
+    {
+      "text": "Blog",
+      "href": "/resources/blog",
+      "rect": {
+        "x": 715,
+        "y": 73,
+        "w": 60,
+        "h": 39
+      },
+      "style": {
+        "color": "oklab(0.22 -0.00642946 0.00766504 / 0.6)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "bgImage": "none",
+        "font": "Inter, system-ui, sans-serif",
+        "size": "16px",
+        "weight": "500"
+      }
+    },
+    {
+      "text": "Merch",
+      "href": "/merch",
+      "rect": {
+        "x": 779,
+        "y": 73,
+        "w": 75,
+        "h": 39
+      },
+      "style": {
+        "color": "oklab(0.22 -0.00642946 0.00766504 / 0.6)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "bgImage": "none",
+        "font": "Inter, system-ui, sans-serif",
+        "size": "16px",
+        "weight": "500"
+      }
+    },
+    {
+      "text": "Company",
+      "href": "/company/about",
+      "rect": {
+        "x": 858,
+        "y": 73,
+        "w": 99,
+        "h": 39
+      },
+      "style": {
+        "color": "oklab(0.22 -0.00642946 0.00766504 / 0.6)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "bgImage": "none",
+        "font": "Inter, system-ui, sans-serif",
+        "size": "16px",
+        "weight": "500"
+      }
+    },
+    {
+      "text": "FR",
+      "href": null,
+      "rect": {
+        "x": 1072,
+        "y": 74,
+        "w": 61,
+        "h": 36
+      },
+      "style": {
+        "color": "oklab(0.22 -0.00642946 0.00766504 / 0.7)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "bgImage": "none",
+        "font": "Inter, system-ui, sans-serif",
+        "size": "16px",
+        "weight": "500"
+      }
+    },
+    {
+      "text": "Login",
+      "href": "https://app.walaw.io/",
+      "rect": {
+        "x": 1141,
+        "y": 73,
+        "w": 68,
+        "h": 39
+      },
+      "style": {
+        "color": "oklab(0.22 -0.00642946 0.00766504 / 0.7)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "bgImage": "none",
+        "font": "Inter, system-ui, sans-serif",
+        "size": "16px",
+        "weight": "500"
+      }
+    },
+    {
+      "text": "Schedule a demo",
+      "href": "/demo",
+      "rect": {
+        "x": 1218,
+        "y": 69,
+        "w": 182,
+        "h": 47
+      },
+      "style": {
+        "color": "rgb(255, 255, 255)",
+        "bg": "lab(9.63674 -2.16509 2.94107)",
+        "bgImage": "none",
+        "font": "Inter, system-ui, sans-serif",
+        "size": "16px",
+        "weight": "500"
+      }
+    },
+    {
+      "text": "#1 Rated Voice AI for Clinics",
+      "href": "https://www.g2.com/products/walaw/reviews",
+      "rect": {
+        "x": 587,
+        "y": 201,
+        "w": 266,
+        "h": 26
+      },
+      "style": {
+        "color": "lab(9.63674 -2.16509 2.94107)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "bgImage": "none",
+        "font": "Inter, system-ui, sans-serif",
+        "size": "12px",
+        "weight": "500"
+      }
+    },
+    {
+      "text": "Schedule a demo",
+      "href": "/demo",
+      "rect": {
+        "x": 613,
+        "y": 533,
+        "w": 214,
+        "h": 47
+      },
+      "style": {
+        "color": "rgb(255, 255, 255)",
+        "bg": "lab(9.63674 -2.16509 2.94107)",
+        "bgImage": "none",
+        "font": "Inter, system-ui, sans-serif",
+        "size": "16px",
+        "weight": "500"
+      }
+    },
+    {
+      "text": "View all",
+      "href": "/company/clients#stories",
+      "rect": {
+        "x": 1163,
+        "y": 6440,
+        "w": 165,
+        "h": 46
+      },
+      "style": {
+        "color": "rgb(255, 255, 255)",
+        "bg": "lab(9.63674 -2.16509 2.94107)",
+        "bgImage": "none",
+        "font": "Inter, system-ui, sans-serif",
+        "size": "16px",
+        "weight": "500"
+      }
+    },
+    {
+      "text": "How a 9-location network cut its outsourced call centre, handled four times the ",
+      "href": "/resources/customer-stories/nxtg-physio-call-centre",
+      "rect": {
+        "x": 112,
+        "y": 6534,
+        "w": 389,
+        "h": 352
+      },
+      "style": {
+        "color": "lab(9.63674 -2.16509 2.94107)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "bgImage": "none",
+        "font": "Inter, system-ui, sans-serif",
+        "size": "17px",
+        "weight": "400"
+      }
+    },
+    {
+      "text": "How a busy downtown clinic moved from a full voicemail box to 100% answered call",
+      "href": "/resources/customer-stories/asp-downtown-modernized-reception",
+      "rect": {
+        "x": 525,
+        "y": 6534,
+        "w": 389,
+        "h": 352
+      },
+      "style": {
+        "color": "lab(9.63674 -2.16509 2.94107)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "bgImage": "none",
+        "font": "Inter, system-ui, sans-serif",
+        "size": "17px",
+        "weight": "400"
+      }
+    },
+    {
+      "text": "How an 8-clinic network deployed across every location in under 30 days, weekend",
+      "href": "/resources/customer-stories/abc-clinique-sante",
+      "rect": {
+        "x": 939,
+        "y": 6534,
+        "w": 389,
+        "h": 352
+      },
+      "style": {
+        "color": "lab(9.63674 -2.16509 2.94107)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "bgImage": "none",
+        "font": "Inter, system-ui, sans-serif",
+        "size": "17px",
+        "weight": "400"
+      }
+    },
+    {
+      "text": "View all",
+      "href": "/company/clients#stories",
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "style": {
+        "color": "rgb(255, 255, 255)",
+        "bg": "lab(9.63674 -2.16509 2.94107)",
+        "bgImage": "none",
+        "font": "Inter, system-ui, sans-serif",
+        "size": "16px",
+        "weight": "500"
+      }
+    },
+    {
+      "text": "Schedule a live demo",
+      "href": "/demo",
+      "rect": {
+        "x": 598,
+        "y": 7627,
+        "w": 245,
+        "h": 46
+      },
+      "style": {
+        "color": "rgb(255, 255, 255)",
+        "bg": "lab(9.63674 -2.16509 2.94107)",
+        "bgImage": "none",
+        "font": "Inter, system-ui, sans-serif",
+        "size": "16px",
+        "weight": "500"
+      }
+    },
+    {
+      "text": "Learn more",
+      "href": "/resources/blog/walaw-named-top-100-ai-tech-startups-canada",
+      "rect": {
+        "x": 651,
+        "y": 9790,
+        "w": 137,
+        "h": 50
+      },
+      "style": {
+        "color": "rgb(0, 0, 0)",
+        "bg": "rgb(255, 255, 255)",
+        "bgImage": "none",
+        "font": "Inter, system-ui, sans-serif",
+        "size": "16px",
+        "weight": "500"
+      }
+    },
+    {
+      "text": "Contact",
+      "href": "/demo",
+      "rect": {
+        "x": 1186,
+        "y": 10069,
+        "w": 142,
+        "h": 46
+      },
+      "style": {
+        "color": "rgb(255, 255, 255)",
+        "bg": "lab(9.63674 -2.16509 2.94107)",
+        "bgImage": "none",
+        "font": "Inter, system-ui, sans-serif",
+        "size": "16px",
+        "weight": "500"
+      }
+    },
+    {
+      "text": "Will my patients actually trust it?",
+      "href": null,
+      "rect": {
+        "x": 113,
+        "y": 10252,
+        "w": 1214,
+        "h": 65
+      },
+      "style": {
+        "color": "lab(9.63674 -2.16509 2.94107)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "bgImage": "none",
+        "font": "Inter, system-ui, sans-serif",
+        "size": "16px",
+        "weight": "400"
+      }
+    },
+    {
+      "text": "How long does setup take?",
+      "href": null,
+      "rect": {
+        "x": 113,
+        "y": 10335,
+        "w": 1214,
+        "h": 65
+      },
+      "style": {
+        "color": "lab(9.63674 -2.16509 2.94107)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "bgImage": "none",
+        "font": "Inter, system-ui, sans-serif",
+        "size": "16px",
+        "weight": "400"
+      }
+    },
+    {
+      "text": "Will it replace my front desk?",
+      "href": null,
+      "rect": {
+        "x": 113,
+        "y": 10418,
+        "w": 1214,
+        "h": 65
+      },
+      "style": {
+        "color": "lab(9.63674 -2.16509 2.94107)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "bgImage": "none",
+        "font": "Inter, system-ui, sans-serif",
+        "size": "16px",
+        "weight": "400"
+      }
+    },
+    {
+      "text": "What happens when something is outside its scope?",
+      "href": null,
+      "rect": {
+        "x": 113,
+        "y": 10500,
+        "w": 1214,
+        "h": 65
+      },
+      "style": {
+        "color": "lab(9.63674 -2.16509 2.94107)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "bgImage": "none",
+        "font": "Inter, system-ui, sans-serif",
+        "size": "16px",
+        "weight": "400"
+      }
+    },
+    {
+      "text": "Does it work with my current systems?",
+      "href": null,
+      "rect": {
+        "x": 113,
+        "y": 10583,
+        "w": 1214,
+        "h": 65
+      },
+      "style": {
+        "color": "lab(9.63674 -2.16509 2.94107)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "bgImage": "none",
+        "font": "Inter, system-ui, sans-serif",
+        "size": "16px",
+        "weight": "400"
+      }
+    },
+    {
+      "text": "What about patient privacy?",
+      "href": null,
+      "rect": {
+        "x": 113,
+        "y": 10666,
+        "w": 1214,
+        "h": 65
+      },
+      "style": {
+        "color": "lab(9.63674 -2.16509 2.94107)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "bgImage": "none",
+        "font": "Inter, system-ui, sans-serif",
+        "size": "16px",
+        "weight": "400"
+      }
+    },
+    {
+      "text": "Can we update our agent ourselves?",
+      "href": null,
+      "rect": {
+        "x": 113,
+        "y": 10749,
+        "w": 1214,
+        "h": 65
+      },
+      "style": {
+        "color": "lab(9.63674 -2.16509 2.94107)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "bgImage": "none",
+        "font": "Inter, system-ui, sans-serif",
+        "size": "16px",
+        "weight": "400"
+      }
+    },
+    {
+      "text": "What does it cost?",
+      "href": null,
+      "rect": {
+        "x": 113,
+        "y": 10832,
+        "w": 1214,
+        "h": 65
+      },
+      "style": {
+        "color": "lab(9.63674 -2.16509 2.94107)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "bgImage": "none",
+        "font": "Inter, system-ui, sans-serif",
+        "size": "16px",
+        "weight": "400"
+      }
+    },
+    {
+      "text": "Contact",
+      "href": "/demo",
+      "rect": {
+        "x": 0,
+        "y": 0,
+        "w": 0,
+        "h": 0
+      },
+      "style": {
+        "color": "rgb(255, 255, 255)",
+        "bg": "lab(9.63674 -2.16509 2.94107)",
+        "bgImage": "none",
+        "font": "Inter, system-ui, sans-serif",
+        "size": "16px",
+        "weight": "500"
+      }
+    },
+    {
+      "text": "Voicemail.ia",
+      "href": "/products/voicemailia",
+      "rect": {
+        "x": 112,
+        "y": 11217,
+        "w": 90,
+        "h": 20
+      },
+      "style": {
+        "color": "oklab(0.999994 0.0000455677 0.0000200868 / 0.8)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "bgImage": "none",
+        "font": "Inter, system-ui, sans-serif",
+        "size": "16px",
+        "weight": "400"
+      }
+    },
+    {
+      "text": "Clav.ia",
+      "href": "/products/clavia",
+      "rect": {
+        "x": 112,
+        "y": 11255,
+        "w": 50,
+        "h": 20
+      },
+      "style": {
+        "color": "oklab(0.999994 0.0000455677 0.0000200868 / 0.8)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "bgImage": "none",
+        "font": "Inter, system-ui, sans-serif",
+        "size": "16px",
+        "weight": "400"
+      }
+    },
+    {
+      "text": "AI Receptionist",
+      "href": "/products/ai-receptionist",
+      "rect": {
+        "x": 112,
+        "y": 11292,
+        "w": 113,
+        "h": 20
+      },
+      "style": {
+        "color": "oklab(0.999994 0.0000455677 0.0000200868 / 0.8)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "bgImage": "none",
+        "font": "Inter, system-ui, sans-serif",
+        "size": "16px",
+        "weight": "400"
+      }
+    },
+    {
+      "text": "Booking Booster (beta)",
+      "href": "/products/booking-booster",
+      "rect": {
+        "x": 112,
+        "y": 11329,
+        "w": 174,
+        "h": 20
+      },
+      "style": {
+        "color": "oklab(0.999994 0.0000455677 0.0000200868 / 0.8)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "bgImage": "none",
+        "font": "Inter, system-ui, sans-serif",
+        "size": "16px",
+        "weight": "400"
+      }
+    },
+    {
+      "text": "Features",
+      "href": "/#features",
+      "rect": {
+        "x": 112,
+        "y": 11366,
+        "w": 66,
+        "h": 20
+      },
+      "style": {
+        "color": "oklab(0.999994 0.0000455677 0.0000200868 / 0.8)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "bgImage": "none",
+        "font": "Inter, system-ui, sans-serif",
+        "size": "16px",
+        "weight": "400"
+      }
+    },
+    {
+      "text": "Demo",
+      "href": "/#demo",
+      "rect": {
+        "x": 112,
+        "y": 11403,
+        "w": 44,
+        "h": 20
+      },
+      "style": {
+        "color": "oklab(0.999994 0.0000455677 0.0000200868 / 0.8)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "bgImage": "none",
+        "font": "Inter, system-ui, sans-serif",
+        "size": "16px",
+        "weight": "400"
+      }
+    },
+    {
+      "text": "Customer Stories",
+      "href": "/company/clients#stories",
+      "rect": {
+        "x": 385,
+        "y": 11217,
+        "w": 131,
+        "h": 20
+      },
+      "style": {
+        "color": "oklab(0.999994 0.0000455677 0.0000200868 / 0.8)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "bgImage": "none",
+        "font": "Inter, system-ui, sans-serif",
+        "size": "16px",
+        "weight": "400"
+      }
+    },
+    {
+      "text": "Testimonials",
+      "href": "/#testimonials",
+      "rect": {
+        "x": 385,
+        "y": 11255,
+        "w": 94,
+        "h": 20
+      },
+      "style": {
+        "color": "oklab(0.999994 0.0000455677 0.0000200868 / 0.8)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "bgImage": "none",
+        "font": "Inter, system-ui, sans-serif",
+        "size": "16px",
+        "weight": "400"
+      }
+    },
+    {
+      "text": "Blog",
+      "href": "/resources/blog",
+      "rect": {
+        "x": 385,
+        "y": 11292,
+        "w": 34,
+        "h": 20
+      },
+      "style": {
+        "color": "oklab(0.999994 0.0000455677 0.0000200868 / 0.8)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "bgImage": "none",
+        "font": "Inter, system-ui, sans-serif",
+        "size": "16px",
+        "weight": "400"
+      }
+    },
+    {
+      "text": "Security",
+      "href": "/#security",
+      "rect": {
+        "x": 385,
+        "y": 11329,
+        "w": 63,
+        "h": 20
+      },
+      "style": {
+        "color": "oklab(0.999994 0.0000455677 0.0000200868 / 0.8)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "bgImage": "none",
+        "font": "Inter, system-ui, sans-serif",
+        "size": "16px",
+        "weight": "400"
+      }
+    },
+    {
+      "text": "FAQ",
+      "href": "/#faq",
+      "rect": {
+        "x": 385,
+        "y": 11366,
+        "w": 31,
+        "h": 20
+      },
+      "style": {
+        "color": "oklab(0.999994 0.0000455677 0.0000200868 / 0.8)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "bgImage": "none",
+        "font": "Inter, system-ui, sans-serif",
+        "size": "16px",
+        "weight": "400"
+      }
+    },
+    {
+      "text": "About",
+      "href": "/company/about",
+      "rect": {
+        "x": 658,
+        "y": 11217,
+        "w": 45,
+        "h": 20
+      },
+      "style": {
+        "color": "oklab(0.999994 0.0000455677 0.0000200868 / 0.8)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "bgImage": "none",
+        "font": "Inter, system-ui, sans-serif",
+        "size": "16px",
+        "weight": "400"
+      }
+    },
+    {
+      "text": "Team",
+      "href": "/company/about#team",
+      "rect": {
+        "x": 658,
+        "y": 11255,
+        "w": 42,
+        "h": 20
+      },
+      "style": {
+        "color": "oklab(0.999994 0.0000455677 0.0000200868 / 0.8)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "bgImage": "none",
+        "font": "Inter, system-ui, sans-serif",
+        "size": "16px",
+        "weight": "400"
+      }
+    },
+    {
+      "text": "Investors",
+      "href": "/company/about#investors",
+      "rect": {
+        "x": 658,
+        "y": 11292,
+        "w": 69,
+        "h": 20
+      },
+      "style": {
+        "color": "oklab(0.999994 0.0000455677 0.0000200868 / 0.8)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "bgImage": "none",
+        "font": "Inter, system-ui, sans-serif",
+        "size": "16px",
+        "weight": "400"
+      }
+    },
+    {
+      "text": "Merch",
+      "href": "/merch",
+      "rect": {
+        "x": 658,
+        "y": 11329,
+        "w": 48,
+        "h": 20
+      },
+      "style": {
+        "color": "oklab(0.999994 0.0000455677 0.0000200868 / 0.8)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "bgImage": "none",
+        "font": "Inter, system-ui, sans-serif",
+        "size": "16px",
+        "weight": "400"
+      }
+    },
+    {
+      "text": "Subscribe",
+      "href": null,
+      "rect": {
+        "x": 932,
+        "y": 11300,
+        "w": 396,
+        "h": 47
+      },
+      "style": {
+        "color": "rgb(255, 255, 255)",
+        "bg": "rgb(0, 0, 0)",
+        "bgImage": "none",
+        "font": "Inter, system-ui, sans-serif",
+        "size": "16px",
+        "weight": "500"
+      }
+    },
+    {
+      "text": "Terms of Use",
+      "href": "/legal/terms",
+      "rect": {
+        "x": 112,
+        "y": 11505,
+        "w": 101,
+        "h": 24
+      },
+      "style": {
+        "color": "oklab(0.999994 0.0000455677 0.0000200868 / 0.7)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "bgImage": "none",
+        "font": "Inter, system-ui, sans-serif",
+        "size": "16px",
+        "weight": "400"
+      }
+    },
+    {
+      "text": "Privacy Policy",
+      "href": "/legal/privacy",
+      "rect": {
+        "x": 229,
+        "y": 11505,
+        "w": 106,
+        "h": 24
+      },
+      "style": {
+        "color": "oklab(0.999994 0.0000455677 0.0000200868 / 0.7)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "bgImage": "none",
+        "font": "Inter, system-ui, sans-serif",
+        "size": "16px",
+        "weight": "400"
+      }
+    },
+    {
+      "text": "Data Processing Agreement",
+      "href": "/legal/data-processing-agreement",
+      "rect": {
+        "x": 351,
+        "y": 11505,
+        "w": 211,
+        "h": 24
+      },
+      "style": {
+        "color": "oklab(0.999994 0.0000455677 0.0000200868 / 0.7)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "bgImage": "none",
+        "font": "Inter, system-ui, sans-serif",
+        "size": "16px",
+        "weight": "400"
+      }
+    },
+    {
+      "text": "Cookies",
+      "href": null,
+      "rect": {
+        "x": 578,
+        "y": 11505,
+        "w": 61,
+        "h": 24
+      },
+      "style": {
+        "color": "oklab(0.999994 0.0000455677 0.0000200868 / 0.7)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "bgImage": "none",
+        "font": "Inter, system-ui, sans-serif",
+        "size": "16px",
+        "weight": "400"
+      }
+    },
+    {
+      "text": "FR",
+      "href": null,
+      "rect": {
+        "x": 1265,
+        "y": 11498,
+        "w": 63,
+        "h": 38
+      },
+      "style": {
+        "color": "oklab(0.999994 0.0000455677 0.0000200868 / 0.8)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "bgImage": "none",
+        "font": "Inter, system-ui, sans-serif",
+        "size": "16px",
+        "weight": "500"
+      }
+    },
+    {
+      "text": "privacy policy",
+      "href": "/legal/privacy",
+      "rect": {
+        "x": 783,
+        "y": 848,
+        "w": 105,
+        "h": 20
+      },
+      "style": {
+        "color": "lab(41.4811 26.6062 -74.3247)",
+        "bg": "rgba(0, 0, 0, 0)",
+        "bgImage": "none",
+        "font": "Inter, system-ui, sans-serif",
+        "size": "16px",
+        "weight": "400"
+      }
+    },
+    {
+      "text": "Accept",
+      "href": null,
+      "rect": {
+        "x": 1119,
+        "y": 810,
+        "w": 88,
+        "h": 43
+      },
+      "style": {
+        "color": "rgb(255, 255, 255)",
+        "bg": "lab(9.63674 -2.16509 2.94107)",
+        "bgImage": "none",
+        "font": "Inter, system-ui, sans-serif",
+        "size": "16px",
+        "weight": "500"
+      }
+    },
+    {
+      "text": "No thanks",
+      "href": null,
+      "rect": {
+        "x": 1216,
+        "y": 810,
+        "w": 111,
+        "h": 43
+      },
+      "style": {
+        "color": "lab(9.63674 -2.16509 2.94107)",
+        "bg": "rgb(255, 252, 248)",
+        "bgImage": "none",
+        "font": "Inter, system-ui, sans-serif",
+        "size": "16px",
+        "weight": "500"
+      }
+    }
+  ],
+  "imgs": [
+    {
+      "src": "https://www.walaw.io/assets/logo-light-CNbYTKYZ.svg",
+      "alt": "Walaw",
+      "nat": [
+        845,
+        195
+      ],
+      "rect": {
+        "x": 40,
+        "y": 78,
+        "w": 121,
+        "h": 28
+      }
+    },
+    {
+      "src": "https://www.walaw.io/assets/abc-BlBdZUm8.png",
+      "alt": "ABC Clinique Santé",
+      "nat": [
+        248,
+        110
+      ],
+      "rect": {
+        "x": -124,
+        "y": 706,
+        "w": 59,
+        "h": 26
+      }
+    },
+    {
+      "src": "https://www.walaw.io/assets/asp-transparent-B-ZET4N1.png",
+      "alt": "ASP",
+      "nat": [
+        1806,
+        576
+      ],
+      "rect": {
+        "x": 6,
+        "y": 705,
+        "w": 110,
+        "h": 35
+      }
+    },
+    {
+      "src": "https://www.walaw.io/__l5e/assets-v1/66a96a0f-db30-440b-ab1e-7bc63ac30531/physio-boisbriand.png",
+      "alt": "Physiothérapie Boisbriand",
+      "nat": [
+        1027,
+        341
+      ],
+      "rect": {
+        "x": 178,
+        "y": 704,
+        "w": 110,
+        "h": 37
+      }
+    },
+    {
+      "src": "https://www.walaw.io/assets/clinik-orig-JrZY9V12.png",
+      "alt": "Clinik",
+      "nat": [
+        864,
+        576
+      ],
+      "rect": {
+        "x": 364,
+        "y": 699,
+        "w": 60,
+        "h": 40
+      }
+    },
+    {
+      "src": "https://www.walaw.io/assets/cloudmed-BSxecepv.png",
+      "alt": "Cloudmed",
+      "nat": [
+        500,
+        150
+      ],
+      "rect": {
+        "x": 500,
+        "y": 705,
+        "w": 88,
+        "h": 26
+      }
+    },
+    {
+      "src": "https://www.walaw.io/assets/ekinox-transparent-oty0I-qJ.png",
+      "alt": "Ekinox Physiothérapie",
+      "nat": [
+        1920,
+        488
+      ],
+      "rect": {
+        "x": 650,
+        "y": 707,
+        "w": 88,
+        "h": 22
+      }
+    },
+    {
+      "src": "https://www.walaw.io/assets/endura-CBMEE644.webp",
+      "alt": "Endura",
+      "nat": [
+        500,
+        500
+      ],
+      "rect": {
+        "x": 824,
+        "y": 699,
+        "w": 40,
+        "h": 40
+      }
+    },
+    {
+      "src": "data:image/png;base64,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",
+      "alt": "Espace Ergo",
+      "nat": [
+        314,
+        100
+      ],
+      "rect": {
+        "x": 950,
+        "y": 705,
+        "w": 88,
+        "h": 28
+      }
+    },
+    {
+      "src": "https://www.walaw.io/assets/hexa-BbzJmvbm.svg",
+      "alt": "Hexa",
+      "nat": [
+        186,
+        93
+      ],
+      "rect": {
+        "x": 1104,
+        "y": 699,
+        "w": 80,
+        "h": 40
+      }
+    },
+    {
+      "src": "https://www.walaw.io/assets/kinatex-transparent-B85fFxPf.png",
+      "alt": "Kinatex",
+      "nat": [
+        438,
+        115
+      ],
+      "rect": {
+        "x": 1250,
+        "y": 707,
+        "w": 88,
+        "h": 23
+      }
+    },
+    {
+      "src": "data:image/png;base64,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",
+      "alt": "La Boite Thérapeutique",
+      "nat": [
+        210,
+        240
+      ],
+      "rect": {
+        "x": 1426,
+        "y": 699,
+        "w": 35,
+        "h": 40
+      }
+    },
+    {
+      "src": "https://www.walaw.io/assets/mouvement-D76tuJPY.png",
+      "alt": "Mouvement Physio",
+      "nat": [
+        600,
+        300
+      ],
+      "rect": {
+        "x": 1554,
+        "y": 699,
+        "w": 80,
+        "h": 40
+      }
+    },
+    {
+      "src": "https://www.walaw.io/__l5e/assets-v1/c5f9966c-e058-4329-a56d-9fbe9d914308/neuractiv.png",
+      "alt": "Neuractiv",
+      "nat": [
+        848,
+        181
+      ],
+      "rect": {
+        "x": 1700,
+        "y": 710,
+        "w": 120,
+        "h": 26
+      }
+    },
+    {
+      "src": "https://www.walaw.io/assets/nxtgen-Y8DqNhOq.svg",
+      "alt": "NxtGen",
+      "nat": [
+        798,
+        314
+      ],
+      "rect": {
+        "x": 1882,
+        "y": 701,
+        "w": 88,
+        "h": 35
+      }
+    },
+    {
+      "src": "https://www.walaw.io/assets/physiovibe-B9Amcj9D.png",
+      "alt": "Physio Vibe",
+      "nat": [
+        500,
+        144
+      ],
+      "rect": {
+        "x": 2032,
+        "y": 706,
+        "w": 88,
+        "h": 25
+      }
+    },
+    {
+      "src": "https://www.walaw.io/__l5e/assets-v1/282847c9-f938-4c1b-b8ef-ba0b5cc874f7/studiophysio.png",
+      "alt": "Studio Physio",
+      "nat": [
+        1024,
+        1024
+      ],
+      "rect": {
+        "x": 2206,
+        "y": 699,
+        "w": 40,
+        "h": 40
+      }
+    },
+    {
+      "src": "https://www.walaw.io/__l5e/assets-v1/735b8757-0273-4477-9ace-1064befcfbcd/ams.png",
+      "alt": "AMS Physiotherapy",
+      "nat": [
+        500,
+        325
+      ],
+      "rect": {
+        "x": 2345,
+        "y": 699,
+        "w": 62,
+        "h": 40
+      }
+    },
+    {
+      "src": "https://www.walaw.io/__l5e/assets-v1/3b2f9e32-6f7e-43a5-ba68-3c4f13eb35b7/capitalwellness.png",
+      "alt": "Capital Wellness",
+      "nat": [
+        565,
+        191
+      ],
+      "rect": {
+        "x": 2482,
+        "y": 704,
+        "w": 88,
+        "h": 30
+      }
+    },
+    {
+      "src": "https://www.walaw.io/__l5e/assets-v1/896bd86a-e36a-43a6-add8-a57fdb101d3e/medispine.png",
+      "alt": "Medispine",
+      "nat": [
+        384,
+        156
+      ],
+      "rect": {
+        "x": 2632,
+        "y": 701,
+        "w": 88,
+        "h": 36
+      }
+    },
+    {
+      "src": "https://www.walaw.io/__l5e/assets-v1/9afec9dd-4046-4957-b681-cf3795d54ab3/mvt.png",
+      "alt": "MVT",
+      "nat": [
+        512,
+        512
+      ],
+      "rect": {
+        "x": 2806,
+        "y": 699,
+        "w": 40,
+        "h": 40
+      }
+    },
+    {
+      "src": "https://www.walaw.io/__l5e/assets-v1/409e06e2-6de9-49b6-a45e-e02008e1edb5/physioergo.png",
+      "alt": "Physio Ergo",
+      "nat": [
+        300,
+        111
+      ],
+      "rect": {
+        "x": 2932,
+        "y": 702,
+        "w": 88,
+        "h": 33
+      }
+    },
+    {
+      "src": "https://www.walaw.io/assets/abc-BlBdZUm8.png",
+      "alt": "ABC Clinique Santé",
+      "nat": [
+        248,
+        110
+      ],
+      "rect": {
+        "x": 3090,
+        "y": 706,
+        "w": 59,
+        "h": 26
+      }
+    },
+    {
+      "src": "https://www.walaw.io/assets/asp-transparent-B-ZET4N1.png",
+      "alt": "ASP",
+      "nat": [
+        1806,
+        576
+      ],
+      "rect": {
+        "x": 3220,
+        "y": 705,
+        "w": 110,
+        "h": 35
+      }
+    },
+    {
+      "src": "https://www.walaw.io/__l5e/assets-v1/66a96a0f-db30-440b-ab1e-7bc63ac30531/physio-boisbriand.png",
+      "alt": "Physiothérapie Boisbriand",
+      "nat": [
+        1027,
+        341
+      ],
+      "rect": {
+        "x": 3392,
+        "y": 704,
+        "w": 110,
+        "h": 37
+      }
+    },
+    {
+      "src": "https://www.walaw.io/assets/clinik-orig-JrZY9V12.png",
+      "alt": "Clinik",
+      "nat": [
+        864,
+        576
+      ],
+      "rect": {
+        "x": 3578,
+        "y": 699,
+        "w": 60,
+        "h": 40
+      }
+    },
+    {
+      "src": "https://www.walaw.io/assets/cloudmed-BSxecepv.png",
+      "alt": "Cloudmed",
+      "nat": [
+        500,
+        150
+      ],
+      "rect": {
+        "x": 3714,
+        "y": 705,
+        "w": 88,
+        "h": 26
+      }
+    },
+    {
+      "src": "https://www.walaw.io/assets/ekinox-transparent-oty0I-qJ.png",
+      "alt": "Ekinox Physiothérapie",
+      "nat": [
+        1920,
+        488
+      ],
+      "rect": {
+        "x": 3864,
+        "y": 707,
+        "w": 88,
+        "h": 22
+      }
+    },
+    {
+      "src": "https://www.walaw.io/assets/endura-CBMEE644.webp",
+      "alt": "Endura",
+      "nat": [
+        500,
+        500
+      ],
+      "rect": {
+        "x": 4038,
+        "y": 699,
+        "w": 40,
+        "h": 40
+      }
+    },
+    {
+      "src": "data:image/png;base64,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",
+      "alt": "Espace Ergo",
+      "nat": [
+        314,
+        100
+      ],
+      "rect": {
+        "x": 4164,
+        "y": 705,
+        "w": 88,
+        "h": 28
+      }
+    },
+    {
+      "src": "https://www.walaw.io/assets/hexa-BbzJmvbm.svg",
+      "alt": "Hexa",
+      "nat": [
+        186,
+        93
+      ],
+      "rect": {
+        "x": 4318,
+        "y": 699,
+        "w": 80,
+        "h": 40
+      }
+    },
+    {
+      "src": "https://www.walaw.io/assets/kinatex-transparent-B85fFxPf.png",
+      "alt": "Kinatex",
+      "nat": [
+        438,
+        115
+      ],
+      "rect": {
+        "x": 4464,
+        "y": 707,
+        "w": 88,
+        "h": 23
+      }
+    },
+    {
+      "src": "data:image/png;base64,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",
+      "alt": "La Boite Thérapeutique",
+      "nat": [
+        210,
+        240
+      ],
+      "rect": {
+        "x": 4640,
+        "y": 699,
+        "w": 35,
+        "h": 40
+      }
+    },
+    {
+      "src": "https://www.walaw.io/assets/mouvement-D76tuJPY.png",
+      "alt": "Mouvement Physio",
+      "nat": [
+        600,
+        300
+      ],
+      "rect": {
+        "x": 4768,
+        "y": 699,
+        "w": 80,
+        "h": 40
+      }
+    },
+    {
+      "src": "https://www.walaw.io/__l5e/assets-v1/c5f9966c-e058-4329-a56d-9fbe9d914308/neuractiv.png",
+      "alt": "Neuractiv",
+      "nat": [
+        848,
+        181
+      ],
+      "rect": {
+        "x": 4914,
+        "y": 710,
+        "w": 120,
+        "h": 26
+      }
+    },
+    {
+      "src": "https://www.walaw.io/assets/nxtgen-Y8DqNhOq.svg",
+      "alt": "NxtGen",
+      "nat": [
+        798,
+        314
+      ],
+      "rect": {
+        "x": 5096,
+        "y": 701,
+        "w": 88,
+        "h": 35
+      }
+    },
+    {
+      "src": "https://www.walaw.io/assets/physiovibe-B9Amcj9D.png",
+      "alt": "Physio Vibe",
+      "nat": [
+        500,
+        144
+      ],
+      "rect": {
+        "x": 5246,
+        "y": 706,
+        "w": 88,
+        "h": 25
+      }
+    },
+    {
+      "src": "https://www.walaw.io/__l5e/assets-v1/282847c9-f938-4c1b-b8ef-ba0b5cc874f7/studiophysio.png",
+      "alt": "Studio Physio",
+      "nat": [
+        1024,
+        1024
+      ],
+      "rect": {
+        "x": 5420,
+        "y": 699,
+        "w": 40,
+        "h": 40
+      }
+    },
+    {
+      "src": "https://www.walaw.io/__l5e/assets-v1/735b8757-0273-4477-9ace-1064befcfbcd/ams.png",
+      "alt": "AMS Physiotherapy",
+      "nat": [
+        500,
+        325
+      ],
+      "rect": {
+        "x": 5559,
+        "y": 699,
+        "w": 62,
+        "h": 40
+      }
+    },
+    {
+      "src": "https://www.walaw.io/__l5e/assets-v1/3b2f9e32-6f7e-43a5-ba68-3c4f13eb35b7/capitalwellness.png",
+      "alt": "Capital Wellness",
+      "nat": [
+        565,
+        191
+      ],
+      "rect": {
+        "x": 5696,
+        "y": 704,
+        "w": 88,
+        "h": 30
+      }
+    },
+    {
+      "src": "https://www.walaw.io/__l5e/assets-v1/896bd86a-e36a-43a6-add8-a57fdb101d3e/medispine.png",
+      "alt": "Medispine",
+      "nat": [
+        384,
+        156
+      ],
+      "rect": {
+        "x": 5846,
+        "y": 701,
+        "w": 88,
+        "h": 36
+      }
+    },
+    {
+      "src": "https://www.walaw.io/__l5e/assets-v1/9afec9dd-4046-4957-b681-cf3795d54ab3/mvt.png",
+      "alt": "MVT",
+      "nat": [
+        512,
+        512
+      ],
+      "rect": {
+        "x": 6020,
+        "y": 699,
+        "w": 40,
+        "h": 40
+      }
+    },
+    {
+      "src": "https://www.walaw.io/__l5e/assets-v1/409e06e2-6de9-49b6-a45e-e02008e1edb5/physioergo.png",
+      "alt": "Physio Ergo",
+      "nat": [
+        300,
+        111
+      ],
+      "rect": {
+        "x": 6146,
+        "y": 702,
+        "w": 88,
+        "h": 33
+      }
+    },
+    {
+      "src": "https://www.walaw.io/assets/nxtgen-Y8DqNhOq.svg",
+      "alt": "NxtG Physio",
+      "nat": [
+        798,
+        314
+      ],
+      "rect": {
+        "x": 141,
+        "y": 6809,
+        "w": 122,
+        "h": 48
+      }
+    },
+    {
+      "src": "https://www.walaw.io/assets/asp-transparent-B-ZET4N1.png",
+      "alt": "Action Sport Physio Downtown",
+      "nat": [
+        1806,
+        576
+      ],
+      "rect": {
+        "x": 554,
+        "y": 6809,
+        "w": 151,
+        "h": 48
+      }
+    },
+    {
+      "src": "https://www.walaw.io/assets/abc-BlBdZUm8.png",
+      "alt": "ABC Clinique Santé",
+      "nat": [
+        248,
+        110
+      ],
+      "rect": {
+        "x": 968,
+        "y": 6809,
+        "w": 108,
+        "h": 48
+      }
+    },
+    {
+      "src": "https://www.walaw.io/assets/logo-dark-C60WY4uZ.svg",
+      "alt": "Walaw",
+      "nat": [
+        845,
+        195
+      ],
+      "rect": {
+        "x": 486,
+        "y": 8026,
+        "w": 87,
+        "h": 20
+      }
+    },
+    {
+      "src": "https://www.walaw.io/assets/nxtgen-Y8DqNhOq.svg",
+      "alt": "Nxt Generation Physio",
+      "nat": [
+        798,
+        314
+      ],
+      "rect": {
+        "x": -20,
+        "y": 9102,
+        "w": 112,
+        "h": 40
+      }
+    },
+    {
+      "src": "https://www.walaw.io/assets/clinik-orig-JrZY9V12.png",
+      "alt": "Clinik Collectif Santé",
+      "nat": [
+        864,
+        576
+      ],
+      "rect": {
+        "x": 422,
+        "y": 9102,
+        "w": 112,
+        "h": 40
+      }
+    },
+    {
+      "src": "https://www.walaw.io/assets/nxtgen-Y8DqNhOq.svg",
+      "alt": "Nxt Generation Physio",
+      "nat": [
+        798,
+        314
+      ],
+      "rect": {
+        "x": 864,
+        "y": 9102,
+        "w": 112,
+        "h": 40
+      }
+    },
+    {
+      "src": "https://www.walaw.io/assets/physiovibe-B9Amcj9D.png",
+      "alt": "Physio Vibe",
+      "nat": [
+        500,
+        144
+      ],
+      "rect": {
+        "x": 1306,
+        "y": 9102,
+        "w": 112,
+        "h": 40
+      }
+    },
+    {
+      "src": "https://www.walaw.io/assets/nxtgen-Y8DqNhOq.svg",
+      "alt": "Nxt Generation Physio",
+      "nat": [
+        798,
+        314
+      ],
+      "rect": {
+        "x": 1748,
+        "y": 9102,
+        "w": 112,
+        "h": 40
+      }
+    },
+    {
+      "src": "https://www.walaw.io/assets/clinik-orig-JrZY9V12.png",
+      "alt": "Clinik Collectif Santé",
+      "nat": [
+        864,
+        576
+      ],
+      "rect": {
+        "x": 2190,
+        "y": 9102,
+        "w": 112,
+        "h": 40
+      }
+    },
+    {
+      "src": "https://www.walaw.io/assets/nxtgen-Y8DqNhOq.svg",
+      "alt": "Nxt Generation Physio",
+      "nat": [
+        798,
+        314
+      ],
+      "rect": {
+        "x": 2632,
+        "y": 9102,
+        "w": 112,
+        "h": 40
+      }
+    },
+    {
+      "src": "https://www.walaw.io/assets/physiovibe-B9Amcj9D.png",
+      "alt": "Physio Vibe",
+      "nat": [
+        500,
+        144
+      ],
+      "rect": {
+        "x": 3074,
+        "y": 9102,
+        "w": 112,
+        "h": 40
+      }
+    },
+    {
+      "src": "https://www.walaw.io/assets/logo-dark-C60WY4uZ.svg",
+      "alt": "Walaw",
+      "nat": [
+        845,
+        195
+      ],
+      "rect": {
+        "x": 112,
+        "y": 11009,
+        "w": 104,
+        "h": 24
+      }
+    },
+    {
+      "src": "https://www.walaw.io/__l5e/assets-v1/538ccb46-7dfd-41bb-bc41-fc57dde342ba/aqp.svg",
+      "alt": "AQP - Association québécoise des physiothérapeutes",
+      "nat": [
+        300,
+        116
+      ],
+      "rect": {
+        "x": 442,
+        "y": 11045,
+        "w": 104,
+        "h": 40
+      }
+    },
+    {
+      "src": "https://www.walaw.io/__l5e/assets-v1/9d3a4535-adbc-4c57-a480-35507eab173c/aqepp.svg",
+      "alt": "AQEPP",
+      "nat": [
+        300,
+        106
+      ],
+      "rect": {
+        "x": 561,
+        "y": 11047,
+        "w": 102,
+        "h": 36
+      }
+    },
+    {
+      "src": "https://www.walaw.io/__l5e/assets-v1/53d65c38-2f04-455c-8817-d3abc725cb9b/apq.webp",
+      "alt": "APQ - Association des Podiatres du Québec",
+      "nat": [
+        561,
+        171
+      ],
+      "rect": {
+        "x": 679,
+        "y": 11045,
+        "w": 131,
+        "h": 40
+      }
+    },
+    {
+      "src": "https://www.walaw.io/assets/telegraph-DzeOdh-I.png",
+      "alt": "Telegraph Ventures logo",
+      "nat": [
+        1200,
+        235
+      ],
+      "rect": {
+        "x": 891,
+        "y": 11045,
+        "w": 123,
+        "h": 24
+      }
+    },
+    {
+      "src": "https://www.walaw.io/assets/investissement-quebec-BFj-8I1o.png",
+      "alt": "Investissement Québec logo",
+      "nat": [
+        221,
+        48
+      ],
+      "rect": {
+        "x": 1029,
+        "y": 11045,
+        "w": 111,
+        "h": 24
+      }
+    },
+    {
+      "src": "https://www.walaw.io/assets/mistral-vp-DzfwuYgE.png",
+      "alt": "Mistral Venture Partners logo",
+      "nat": [
+        516,
+        124
+      ],
+      "rect": {
+        "x": 1156,
+        "y": 11045,
+        "w": 100,
+        "h": 24
+      }
+    }
+  ],
+  "svgs": [
+    {
+      "rect": {
+        "x": 600,
+        "y": 208,
+        "w": 72,
+        "h": 12
+      },
+      "html": "<svg width=\"72\" height=\"12\" viewBox=\"0 0 84 14\" aria-hidden=\"true\" class=\"overflow-visible\"><defs><linearGradient id=\"g2-stars-row\" x1=\"0\" y1=\"0\" x2=\"84\" y2=\"0\" gradientUnits=\"userSpaceOnUse\"><stop offset=\"0%\" stop-color=\"#FF962E\"></stop><stop offset=\"50%\" stop-color=\"#C75082\"></stop><stop offset=\"100%\" stop-color=\"#2B50D8\"></stop></linearGradient><clipPath id=\"g2-stars-clip\"><rect x=\"0\" y=\"0\" wid"
+    }
+  ],
+  "vars": {
+    ":root --radius": "0rem",
+    ":root --background": "#fffcf8",
+    ":root --foreground": "#191c17",
+    ":root --ink": "#191c17",
+    ":root --brand-orange": "#ff9044",
+    ":root --brand-blue": "#3757df",
+    ":root --card": "#fff",
+    ":root --card-foreground": "#191c17",
+    ":root --popover": "#fff",
+    ":root --popover-foreground": "#191c17",
+    ":root --primary": "#191c17",
+    ":root --primary-foreground": "#fff",
+    ":root --secondary": "#f4f6f2",
+    ":root --secondary-foreground": "#191c17",
+    ":root --muted": "#f4f6f2",
+    ":root --muted-foreground": "#61645f",
+    ":root --accent": "#f4f6f2",
+    ":root --accent-foreground": "#191c17",
+    ":root --destructive": "#e62c2c",
+    ":root --destructive-foreground": "#f8f8f8",
+    ":root --border": "#e3e5e2",
+    ":root --input": "#eaece8",
+    ":root --ring": "#3757df"
+  },
+  "faces": [
+    "cross-origin sheet: https://fonts.googleapis.com/css2?family=Inter:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&display=swap"
+  ],
+  "fontsLoaded": [
+    "Inter 400 italic unloaded",
+    "Inter 400 italic unloaded",
+    "Inter 400 italic unloaded",
+    "Inter 400 italic unloaded",
+    "Inter 400 italic unloaded",
+    "Inter 400 italic unloaded",
+    "Inter 400 italic unloaded",
+    "Inter 500 italic unloaded",
+    "Inter 500 italic unloaded",
+    "Inter 500 italic unloaded",
+    "Inter 500 italic unloaded",
+    "Inter 500 italic unloaded",
+    "Inter 500 italic unloaded",
+    "Inter 500 italic unloaded",
+    "Inter 400 normal unloaded",
+    "Inter 400 normal unloaded",
+    "Inter 400 normal unloaded",
+    "Inter 400 normal unloaded",
+    "Inter 400 normal unloaded",
+    "Inter 400 normal unloaded",
+    "Inter 400 normal loaded",
+    "Inter 500 normal unloaded",
+    "Inter 500 normal unloaded",
+    "Inter 500 normal unloaded",
+    "Inter 500 normal unloaded",
+    "Inter 500 normal unloaded",
+    "Inter 500 normal unloaded",
+    "Inter 500 normal loaded",
+    "Inter 600 normal unloaded",
+    "Inter 600 normal unloaded",
+    "Inter 600 normal unloaded",
+    "Inter 600 normal unloaded",
+    "Inter 600 normal unloaded",
+    "Inter 600 normal unloaded",
+    "Inter 600 normal loaded",
+    "Inter 700 normal unloaded",
+    "Inter 700 normal unloaded",
+    "Inter 700 normal unloaded",
+    "Inter 700 normal unloaded",
+    "Inter 700 normal unloaded",
+    "Inter 700 normal unloaded",
+    "Inter 700 normal loaded"
+  ],
+  "colors": [
+    [
+      "lab(90.7804 -1.10021 1.44969)",
+      1061
+    ],
+    [
+      "lab(9.63674 -2.16509 2.94107)",
+      844
+    ],
+    [
+      "rgb(255, 255, 255)",
+      94
+    ],
+    [
+      "rgb(255, 252, 248)",
+      53
+    ],
+    [
+      "oklab(0.999994 0.0000455677 0.0000200868 / 0.7)",
+      46
+    ],
+    [
+      "oklab(0.22 -0.00642946 0.00766504 / 0.7)",
+      41
+    ],
+    [
+      "oklab(0.999994 0.0000455678 0.0000200868 / 0.4)",
+      36
+    ],
+    [
+      "oklab(0.999994 0.0000455677 0.0000200868 / 0.8)",
+      26
+    ],
+    [
+      "oklab(0.22 -0.00642946 0.00766504 / 0.6)",
+      24
+    ],
+    [
+      "lab(42.1193 -2.18748 2.91374)",
+      17
+    ],
+    [
+      "oklab(0.22 -0.00642946 0.00766504 / 0.15)",
+      12
+    ],
+    [
+      "oklab(0.999994 0.0000455678 0.0000200868 / 0.1)",
+      12
+    ],
+    [
+      "oklab(0.999994 0.0000455678 0.0000200868 / 0.04)",
+      10
+    ],
+    [
+      "oklab(0.999994 0.0000455677 0.0000200868 / 0.6)",
+      9
+    ],
+    [
+      "rgb(255, 150, 46)",
+      9
+    ],
+    [
+      "rgb(43, 80, 216)",
+      9
+    ],
+    [
+      "oklab(0.22 -0.00642946 0.00766504 / 0.85)",
+      8
+    ],
+    [
+      "oklab(0.22 -0.00642946 0.00766504 / 0.3)",
+      8
+    ],
+    [
+      "oklab(0.22 -0.00642946 0.00766504 / 0.2)",
+      7
+    ],
+    [
+      "oklab(0.22 -0.00642946 0.00766504 / 0.5)",
+      5
+    ],
+    [
+      "rgb(91, 63, 217)",
+      5
+    ],
+    [
+      "rgb(124, 58, 237)",
+      5
+    ],
+    [
+      "oklab(0.999994 0.0000455678 0.0000200868 / 0.5)",
+      5
+    ],
+    [
+      "rgb(13, 13, 16)",
+      4
+    ],
+    [
+      "lab(54.1736 13.3369 -74.6839)",
+      4
+    ]
+  ],
+  "sections": [
+    {
+      "tag": "HEADER",
+      "id": "",
+      "cls": "sticky top-0 z-50 w-full transition-all duration-300 ease-out border-b border-transparent bg-transparent",
+      "rect": {
+        "x": 0,
+        "y": 49,
+        "w": 1440,
+        "h": 88
+      },
+      "text": "Products\nCustomers\nBlog\nMerch\nCompany\nFR\nLogin\nSchedule a demo"
+    },
+    {
+      "tag": "NAV",
+      "id": "",
+      "cls": "pointer-events-none absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 items-center gap-1 xl:flex",
+      "rect": {
+        "x": 483,
+        "y": 73,
+        "w": 474,
+        "h": 39
+      },
+      "text": "Products\nCustomers\nBlog\nMerch\nCompany"
+    },
+    {
+      "tag": "SECTION",
+      "id": "",
+      "cls": "full-bleed flex min-h-0 md:min-h-[calc(100vh-6rem)] flex-col items-center justify-start overflow-hidden pt-8 md:pt-6 my-",
+      "rect": {
+        "x": 0,
+        "y": 137,
+        "w": 1440,
+        "h": 804
+      },
+      "text": "#1 Rated Voice AI for Clinics\nNever miss another patient\nrequest.\nYour front desk can't answer every call. Walaw does. It plugs into your existing setup, books patients 24/7, and recovers the revenue that used to disappear into voicemail.\nSchedule a demo\nTrusted by leading health and wellness clinics and networks."
+    },
+    {
+      "tag": "SECTION",
+      "id": "",
+      "cls": "mt-14 md:mt-10",
+      "rect": {
+        "x": 112,
+        "y": 981,
+        "w": 1216,
+        "h": 364
+      },
+      "text": "Results\nWhat clinics see after going live.\n100%\nof calls answered. Day or night. No exceptions.\n2×\nthe output. Same team. Same headcount.\n15%\nmore revenue. Recovered from new patients who used to hang up."
+    },
+    {
+      "tag": "DIV",
+      "id": "features",
+      "cls": "scroll-mt-24 lg:scroll-mt-0",
+      "rect": {
+        "x": 112,
+        "y": 1277,
+        "w": 1216,
+        "h": 3800
+      },
+      "text": "Features\nWhat Walaw does\nEverything your front desk handles.\nNow running automatically.\nHuman Voice\nA real voice picks up every call, day or night. Warm, unhurried, and trained on your clinic. The experience your patients expect, even at 6pm on a Friday.\n00:00"
+    },
+    {
+      "tag": "SECTION",
+      "id": "features",
+      "cls": "scroll-mt-32 mt-[130px] lg:-mt-[68px]",
+      "rect": {
+        "x": 112,
+        "y": 1277,
+        "w": 1216,
+        "h": 3800
+      },
+      "text": "Features\nWhat Walaw does\nEverything your front desk handles.\nNow running automatically.\nHuman Voice\nA real voice picks up every call, day or night. Warm, unhurried, and trained on your clinic. The experience your patients expect, even at 6pm on a Friday.\n00:00"
+    },
+    {
+      "tag": "DIV",
+      "id": "how-it-works",
+      "cls": "scroll-mt-24",
+      "rect": {
+        "x": 112,
+        "y": 5071,
+        "w": 1216,
+        "h": 354
+      },
+      "text": "How it works\nLive in days,\nnot months.\nEvery clinic gets a dedicated Walaw team member from kickoff to go-live and beyond.\nWe handle the entire setup A to Z.\n1\nWe build it\nWe configure your agent around how your clinic actually runs: call flows, booking rules, response handling, and the operational nuances no generic tool accounts for. You give us the context. We do the work.\n2\nWe connect everything\nWe plug into your existing phone system, PMS, and EMR. No new hardware. No IT project. No disruption. Your tools stay exactly where they are - Walaw connects to them, not the other way around.\n3\nYou go live and stay in control\nFrom day one, your patients are taken care of. And whenever something changes, you update your agent yourself, in real time. No tickets. No waiting on us. No back and forth."
+    },
+    {
+      "tag": "SECTION",
+      "id": "",
+      "cls": "mt-[130px] lg:-mt-[6px]",
+      "rect": {
+        "x": 112,
+        "y": 5071,
+        "w": 1216,
+        "h": 354
+      },
+      "text": "How it works\nLive in days,\nnot months.\nEvery clinic gets a dedicated Walaw team member from kickoff to go-live and beyond.\nWe handle the entire setup A to Z.\n1\nWe build it\nWe configure your agent around how your clinic actually runs: call flows, booking rules, response handling, and the operational nuances no generic tool accounts for. You give us the context. We do the work.\n2\nWe connect everything\nWe plug into your existing phone system, PMS, and EMR. No new hardware. No IT project. No disruption. Your tools stay exactly where they are - Walaw connects to them, not the other way around.\n3\nYou go live and stay in control\nFrom day one, your patients are taken care of. And whenever something changes, you update your agent yourself, in real time. No tickets. No waiting on us. No back and forth."
+    },
+    {
+      "tag": "DIV",
+      "id": "security",
+      "cls": "scroll-mt-24",
+      "rect": {
+        "x": 112,
+        "y": 5570,
+        "w": 1216,
+        "h": 617
+      },
+      "text": "Built for healthcare.\nBuilt for Canada.\nTwo of our founders are lawyers. Patient data was the first thing we built around.\nCanadian Data Sovereignty\nHosted exclusively on Canadian infrastructure, ensuring patient data remains in Canada and under Canadian privacy standards.\nEnterprise-Grade Security & Compliance\nEvery call, transcript, and record is encrypted in transit and at rest. Built with privacy, security, and compliance as foundational principles from day one.\nComplete Data Ownership\nYour recordings and conversations remain yours. Control retention, redaction, and deletion policies, with data never used to train AI models."
+    },
+    {
+      "tag": "SECTION",
+      "id": "",
+      "cls": "mt-[130px] lg:mt-[145px]",
+      "rect": {
+        "x": 112,
+        "y": 5570,
+        "w": 1216,
+        "h": 617
+      },
+      "text": "Built for healthcare.\nBuilt for Canada.\nTwo of our founders are lawyers. Patient data was the first thing we built around.\nCanadian Data Sovereignty\nHosted exclusively on Canadian infrastructure, ensuring patient data remains in Canada and under Canadian privacy standards.\nEnterprise-Grade Security & Compliance\nEvery call, transcript, and record is encrypted in transit and at rest. Built with privacy, security, and compliance as foundational principles from day one.\nComplete Data Ownership\nYour recordings and conversations remain yours. Control retention, redaction, and deletion policies, with data never used to train AI models."
+    },
+    {
+      "tag": "DIV",
+      "id": "stories",
+      "cls": "scroll-mt-24",
+      "rect": {
+        "x": 112,
+        "y": 6331,
+        "w": 1216,
+        "h": 554
+      },
+      "text": "Customer stories\nReal clinics. Real results.\nRead how Walaw made an impact on clinics and helped them recover lost calls, save time, and grow revenue.\nView all\nHow a 9-location network cut its outsourced call centre, handled four times the volume, and gave its staff their days back.\nHow a busy downtown clinic moved from a full voicemail box to 100% answered calls — even during the holidays.\nHow an 8-clinic network deployed across every location in under 30 days, weekends and after-hours included, without disrupting a single day of operations."
+    },
+    {
+      "tag": "SECTION",
+      "id": "",
+      "cls": "mt-[130px] lg:mt-[145px]",
+      "rect": {
+        "x": 112,
+        "y": 6331,
+        "w": 1216,
+        "h": 554
+      },
+      "text": "Customer stories\nReal clinics. Real results.\nRead how Walaw made an impact on clinics and helped them recover lost calls, save time, and grow revenue.\nView all\nHow a 9-location network cut its outsourced call centre, handled four times the volume, and gave its staff their days back.\nHow a busy downtown clinic moved from a full voicemail box to 100% answered calls — even during the holidays.\nHow an 8-clinic network deployed across every location in under 30 days, weekends and after-hours included, without disrupting a single day of operations."
+    },
+    {
+      "tag": "DIV",
+      "id": "demo",
+      "cls": "scroll-mt-24",
+      "rect": {
+        "x": 112,
+        "y": 7031,
+        "w": 1216,
+        "h": 642
+      },
+      "text": "Hear it for yourself\nThis is what your patients experience.\nNot a phone menu. Not a robot. A warm, trained voice that knows your clinic, your hours, your providers, and your booking rules.\nWalaw Agent\nReady\n00:00\nStill want to hear more?\nSchedule a live demo"
+    },
+    {
+      "tag": "SECTION",
+      "id": "",
+      "cls": "mt-[130px] lg:mt-[145px]",
+      "rect": {
+        "x": 112,
+        "y": 7031,
+        "w": 1216,
+        "h": 642
+      },
+      "text": "Hear it for yourself\nThis is what your patients experience.\nNot a phone menu. Not a robot. A warm, trained voice that knows your clinic, your hours, your providers, and your booking rules.\nWalaw Agent\nReady\n00:00\nStill want to hear more?\nSchedule a live demo"
+    },
+    {
+      "tag": "SECTION",
+      "id": "",
+      "cls": "mt-[130px] lg:mt-[145px]",
+      "rect": {
+        "x": 112,
+        "y": 7818,
+        "w": 1216,
+        "h": 925
+      },
+      "text": "How we compare\nWhy clinics leave their call centre and voicemails, and don't look back.\n\tTraditional Call Centres\tVoicemail & Phone Menus\tGeneric AI Tools\nBuilt for Canadian healthcare\nN/A\nAvailable 24/7\nLimited hours\nBooks into your PMS\nManual only\nTrained on your specific clinic\nGeneric scripts\nGeneric\nCharged by the call\nDepends\nBy the minute\nUpdate it yourself in real time without prompting\nData stored in Canada\nOften offshore\nN/A\nUsually US\nLive in days, not months\nWeeks of training\nInstant but useless\nMonths\nDedicated success manager\nShared rep\nNone\nTicket queue\nMonthly contracts\n6-month minimum\nN/A\n12-month lock-in"
+    },
+    {
+      "tag": "DIV",
+      "id": "testimonials",
+      "cls": "scroll-mt-24",
+      "rect": {
+        "x": 112,
+        "y": 8888,
+        "w": 1216,
+        "h": 512
+      },
+      "text": "Testimonials\nWhat clinic owners, managers and employees say about Walaw\n“4x more calls answered, especially after hours, and a 10% boost in revenue. Walaw has completely transformed how we manage patient communications.”\nRémi Vaillancourt\nChief Operating Officer (COO)\n“We no longer miss a single call. Every patient is taken care of instantly. The time savings for our team have been significant.”\nMaxime Talbot\nOsteopath and Clinic Owner\n“Every incoming call captured. Costs down. Productivity up. All without missing a single client.”\nLaura Lévêque\nCustomer Care Lead\n“Patients get answers 24 hours a day. Onboarding was simple, the team responds fast, and the service is 100% personalized. It has become indispensable.”\nLens-Harly Louis\nPhysiotherapist and Founder\n“4x more calls answered, especially after hours, and a 10% boost in revenue. Walaw has completely transformed how we manage patient communications.”\nRémi Vaillancourt\nChief Operating Officer (COO)\n“We no longer miss a single call. Every patient is taken care of instantly. The time savings for our team have been significant.”\nMaxime Talbot\nOsteopath and Clinic Owner\n“Every incoming call captured. Costs down. Productivity up. All without missing a single client.”\nLaura Lévêque\nCustomer Care Lead\n“Patients get answers 24 hours a day. Onboarding was simple, the team responds fast, and the service is 100% personalized. It has become indispensable.”\nLens-Harly Louis\nPhysiotherapist and Founder"
+    },
+    {
+      "tag": "SECTION",
+      "id": "",
+      "cls": "mt-[130px] lg:mt-[145px]",
+      "rect": {
+        "x": 112,
+        "y": 8888,
+        "w": 1216,
+        "h": 512
+      },
+      "text": "Testimonials\nWhat clinic owners, managers and employees say about Walaw\n“4x more calls answered, especially after hours, and a 10% boost in revenue. Walaw has completely transformed how we manage patient communications.”\nRémi Vaillancourt\nChief Operating Officer (COO)\n“We no longer miss a single call. Every patient is taken care of instantly. The time savings for our team have been significant.”\nMaxime Talbot\nOsteopath and Clinic Owner\n“Every incoming call captured. Costs down. Productivity up. All without missing a single client.”\nLaura Lévêque\nCustomer Care Lead\n“Patients get answers 24 hours a day. Onboarding was simple, the team responds fast, and the service is 100% personalized. It has become indispensable.”\nLens-Harly Louis\nPhysiotherapist and Founder\n“4x more calls answered, especially after hours, and a 10% boost in revenue. Walaw has completely transformed how we manage patient communications.”\nRémi Vaillancourt\nChief Operating Officer (COO)\n“We no longer miss a single call. Every patient is taken care of instantly. The time savings for our team have been significant.”\nMaxime Talbot\nOsteopath and Clinic Owner\n“Every incoming call captured. Costs down. Productivity up. All without missing a single client.”\nLaura Lévêque\nCustomer Care Lead\n“Patients get answers 24 hours a day. Onboarding was simple, the team responds fast, and the service is 100% personalized. It has become indispensable.”\nLens-Harly Louis\nPhysiotherapist and Founder"
+    },
+    {
+      "tag": "SECTION",
+      "id": "",
+      "cls": "mt-[130px] lg:mt-[145px]",
+      "rect": {
+        "x": 112,
+        "y": 9545,
+        "w": 1216,
+        "h": 344
+      },
+      "text": "Walaw Named One of Canada's Top 100 AI & Tech Startups.\nSelected among the country's most promising startups, Walaw continues its mission: building the next generation of patient experience software.\nLearn more"
+    },
+    {
+      "tag": "SECTION",
+      "id": "faq",
+      "cls": "mt-[130px] lg:mt-[145px] scroll-mt-24",
+      "rect": {
+        "x": 112,
+        "y": 10033,
+        "w": 1216,
+        "h": 864
+      },
+      "text": "FAQ\nThe questions every clinic asks before going live.\nHonest answers. No fluff.\nContact\nWill my patients actually trust it?\nHow long does setup take?\nWill it replace my front desk?\nWhat happens when something is outside its scope?\nDoes it work with my current systems?\nWhat about patient privacy?\nCan we update our agent ourselves?\nWhat does it cost?"
+    },
+    {
+      "tag": "FOOTER",
+      "id": "",
+      "cls": "mt-12 bg-black text-white w-full",
+      "rect": {
+        "x": 0,
+        "y": 10945,
+        "w": 1440,
+        "h": 655
+      },
+      "text": "The AI Native Platform for Canadian health and wellness practices.\nOFFICIAL PARTNER OF\nBACKED BY\nPRODUCTS\nVoicemail.ia\nClav.ia\nAI Receptionist\nBooking Booster (beta)\nFeatures\nDemo\nRESOURCES\nCustomer Stories\nTestimonials\nBlog\nSecurity\nFAQ\nCOMPANY\nAbout\nTeam\nInvestors\nMerch\nNEWSLETTER\nMonthly healthcare ops insights, no spam.\nSubscribe\nFOLLOW US\nTerms of Use\nPrivacy Policy\nData Processing Agreement\nCookies\n© 2026 Walaw\nFR"
+    }
+  ],
+  "pageHeight": 11600,
+  "fullText": "New partnership: Walaw partners with Patient7 to keep clinics available around the clock. Read more.\nProducts\nCustomers\nBlog\nMerch\nCompany\nFR\nLogin\nSchedule a demo\n#1 Rated Voice AI for Clinics\nNever miss another patient\nrequest.\n\nYour front desk can't answer every call. Walaw does. It plugs into your existing setup, books patients 24/7, and recovers the revenue that used to disappear into voicemail.\n\nSchedule a demo\n\nTrusted by leading health and wellness clinics and networks.\n\nResults\n\nWhat clinics see after going live.\n\n100%\n\nof calls answered. Day or night. No exceptions.\n\n2×\n\nthe output. Same team. Same headcount.\n\n15%\n\nmore revenue. Recovered from new patients who used to hang up.\n\nFeatures\n\nWhat Walaw does\n\nEverything your front desk handles.\nNow running automatically.\n\nHuman Voice\n\nA real voice picks up every call, day or night. Warm, unhurried, and trained on your clinic. The experience your patients expect, even at 6pm on a Friday.\n\n00:00\n\nHow it works\n\nLive in days,\nnot months.\n\nEvery clinic gets a dedicated Walaw team member from kickoff to go-live and beyond.\n\nWe handle the entire setup A to Z.\n\n1\n\nWe build it\n\nWe configure your agent around how your clinic actually runs: call flows, booking rules, response handling, and the operational nuances no generic tool accounts for. You give us the context. We do the work.\n\n2\n\nWe connect everything\n\nWe plug into your existing phone system, PMS, and EMR. No new hardware. No IT project. No disruption. Your tools stay exactly where they are - Walaw connects to them, not the other way around.\n\n3\n\nYou go live and stay in control\n\nFrom day one, your patients are taken care of. And whenever something changes, you update your agent yourself, in real time. No tickets. No waiting on us. No back and forth.\n\nBuilt for healthcare.\nBuilt for Canada.\n\nTwo of our founders are lawyers. Patient data was the first thing we built around.\n\nCanadian Data Sovereignty\n\nHosted exclusively on Canadian infrastructure, ensuring patient data remains in Canada and under Canadian privacy standards.\n\nEnterprise-Grade Security & Compliance\n\nEvery call, transcript, and record is encrypted in transit and at rest. Built with privacy, security, and compliance as foundational principles from day one.\n\nComplete Data Ownership\n\nYour recordings and conversations remain yours. Control retention, redaction, and deletion policies, with data never used to train AI models.\n\nCustomer stories\n\nReal clinics. Real results.\n\nRead how Walaw made an impact on clinics and helped them recover lost calls, save time, and grow revenue.\n\nView all\n\nHow a 9-location network cut its outsourced call centre, handled four times the volume, and gave its staff their days back.\n\nHow a busy downtown clinic moved from a full voicemail box to 100% answered calls — even during the holidays.\n\nHow an 8-clinic network deployed across every location in under 30 days, weekends and after-hours included, without disrupting a single day of operations.\n\nHear it for yourself\n\nThis is what your patients experience.\n\nNot a phone menu. Not a robot. A warm, trained voice that knows your clinic, your hours, your providers, and your booking rules.\n\nWalaw Agent\n\nReady\n\n00:00\n\nStill want to hear more?\n\nSchedule a live demo\n\nHow we compare\n\nWhy clinics leave their call centre and voicemails, and don't look back.\n\t\n\tTraditional Call Centres\tVoicemail & Phone Menus\tGeneric AI Tools\nBuilt for Canadian healthcare\t\n\t\n\t\nN/A\n\t\n\nAvailable 24/7\t\n\t\nLimited hours\n\t\n\t\n\nBooks into your PMS\t\n\t\nManual only\n\t\n\t\n\nTrained on your specific clinic\t\n\t\nGeneric scripts\n\t\n\t\nGeneric\n\nCharged by the call\t\n\t\nDepends\n\t\n\t\nBy the minute\n\nUpdate it yourself in real time without prompting\t\n\t\n\t\n\t\n\nData stored in Canada\t\n\t\nOften offshore\n\t\nN/A\n\t\nUsually US\n\nLive in days, not months\t\n\t\nWeeks of training\n\t\nInstant but useless\n\t\nMonths\n\nDedicated success manager\t\n\t\nShared rep\n\t\nNone\n\t\nTicket queue\n\nMonthly contracts\t\n\t\n6-month minimum\n\t\nN/A\n\t\n12-month lock-in\n\nTestimonials\n\nWhat clinic owners, managers and employees say about Walaw\n“4x more calls answered, especially after hours, and a 10% boost in revenue. Walaw has completely transformed how we manage patient communications.”\n\nRémi Vaillancourt\n\nChief Operating Officer (COO)\n\n“We no longer miss a single call. Every patient is taken care of instantly. The time savings for our team have been significant.”\n\nMaxime Talbot\n\nOsteopath and Clinic Owner\n\n“Every incoming call captured. Costs down. Productivity up. All without missing a single client.”\n\nLaura Lévêque\n\nCustomer Care Lead\n\n“Patients get answers 24 hours a day. Onboarding was simple, the team responds fast, and the service is 100% personalized. It has become indispensable.”\n\nLens-Harly Louis\n\nPhysiotherapist and Founder\n\n“4x more calls answered, especially after hours, and a 10% boost in revenue. Walaw has completely transformed how we manage patient communications.”\n\nRémi Vaillancourt\n\nChief Operating Officer (COO)\n\n“We no longer miss a single call. Every patient is taken care of instantly. The time savings for our team have been significant.”\n\nMaxime Talbot\n\nOsteopath and Clinic Owner\n\n“Every incoming call captured. Costs down. Productivity up. All without missing a single client.”\n\nLaura Lévêque\n\nCustomer Care Lead\n\n“Patients get answers 24 hours a day. Onboarding was simple, the team responds fast, and the service is 100% personalized. It has become indispensable.”\n\nLens-Harly Louis\n\nPhysiotherapist and Founder\n\nWalaw Named One of Canada's Top 100 AI & Tech Startups.\n\nSelected among the country's most promising startups, Walaw continues its mission: building the next generation of patient experience software.\n\nLearn more\n\nFAQ\n\nThe questions every clinic asks before going live.\n\nHonest answers. No fluff.\n\nContact\nWill my patients actually trust it?\nHow long does setup take?\nWill it replace my front desk?\nWhat happens when something is outside its scope?\nDoes it work with my current systems?\nWhat about patient privacy?\nCan we update our agent ourselves?\nWhat does it cost?\n\nThe AI Native Platform for Canadian health and wellness practices.\n\nOFFICIAL PARTNER OF\n\nBACKED BY\n\nPRODUCTS\n\nVoicemail.ia\nClav.ia\nAI Receptionist\nBooking Booster (beta)\nFeatures\nDemo\n\nRESOURCES\n\nCustomer Stories\nTestimonials\nBlog\nSecurity\nFAQ\n\nCOMPANY\n\nAbout\nTeam\nInvestors\nMerch\n\nNEWSLETTER\n\nMonthly healthcare ops insights, no spam.\n\nSubscribe\n\nFOLLOW US\n\nTerms of Use\nPrivacy Policy\nData Processing Agreement\nCookies\n© 2026 Walaw\nFR\n\nWe use cookies\n\nNecessary cookies keep the site running and remember this choice. Optional analytics cookies help us understand how the website is used, in aggregate. Nothing optional loads until you accept. For more details, view our privacy policy\n\nAccept\nNo thanks",
+  "fontResponses": [
+    "https://fonts.gstatic.com/s/inter/v20/UcC73FwrK3iLTeHuS_nVMrMxCp50SjIa1ZL7.woff2"
+  ]
+}

@@ -1,0 +1,61 @@
+en CTA text: Schedule a demo
+en hero bar strip children=42
+en-hero-wave: 7 frames, 7 distinct
+en feature 0 "Human Voice" card 738x384 at 500,258
+en-feat0: 9 frames, 1 distinct
+  hover item 0 changes the card
+  hover item 1 changes the card
+  hover item 2 changes the card
+  #features buttons: 7
+en feature 1 "Appointment Scheduling" card 738x380 at 500,260
+en-feat1: 9 frames, 4 distinct
+  hover item 0 changes the card
+  hover item 1 changes the card
+  hover item 2 changes the card
+en feature 2 "Front Desk Ticketing" card 738x380 at 500,260
+en-feat2: 9 frames, 4 distinct
+  hover item 0 changes the card
+  hover item 1 changes the card
+  hover item 2 changes the card
+en feature 3 "Clinic Knowledge Base" card 738x380 at 500,260
+en-feat3: 9 frames, 1 distinct
+  hover item 0 changes the card
+  hover item 1 changes the card
+en feature 4 "Analytics and Visibility" card 738x380 at 500,260
+en-feat4: 9 frames, 5 distinct
+  hover item 0 changes the card
+  hover item 1 changes the card
+  hover item 2 changes the card
+en-player-speaking: 31 frames, 31 distinct
+en-results: 4 frames, 1 distinct
+FR h1: Ne manquez plus jamais
+unappel.
+fr CTA text: Planifier une démo
+fr hero bar strip children=42
+fr-hero-wave: 7 frames, 7 distinct
+fr feature 0 "Voix humaine" card 738x408 at 500,246
+fr-feat0: 9 frames, 1 distinct
+  hover item 0 changes the card
+  hover item 1 changes the card
+  hover item 2 changes the card
+  #features buttons: 7
+fr feature 1 "Prise de rendez-vous" card 738x380 at 500,260
+fr-feat1: 9 frames, 3 distinct
+  hover item 0 changes the card
+  hover item 1 changes the card
+  hover item 2 changes the card
+fr feature 2 "Gestion des suivis d'appels" card 738x404 at 500,248
+fr-feat2: 9 frames, 4 distinct
+  hover item 0 changes the card
+  hover item 1 changes the card
+  hover item 2 changes the card
+fr feature 3 "Base de connaissances de votre clinique" card 738x380 at 500,260
+fr-feat3: 9 frames, 1 distinct
+  hover item 0 changes the card
+  hover item 1 changes the card
+fr feature 4 "Statistiques et données" card 738x380 at 500,260
+fr-feat4: 9 frames, 5 distinct
+  hover item 0 changes the card
+  hover item 1 changes the card
+  hover item 2 changes the card
+fr-player-speaking: 31 frames, 30 distinct

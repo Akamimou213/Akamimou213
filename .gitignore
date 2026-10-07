@@ -3,3 +3,11 @@ dist
 dist-single
 .DS_Store
 *.log
+
+# walaw promo: regenerable captures and renders (see walaw-promo/capture/README.md)
+assets/seq/
+assets/ui/
+assets/work/
+assets/screens/
+walaw-promo/out/*.wav
+walaw-promo/out/*.mp4
