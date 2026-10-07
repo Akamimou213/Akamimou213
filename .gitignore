@@ -16,3 +16,7 @@ walaw-promo/a/out/*.wav
 walaw-promo/a/out/*.mp4
 walaw-promo/a/out/seg/
 assets/seq/
+walaw-promo/morph/out/seg/
+walaw-promo/morph/out/*.mp4
+walaw-promo/morph/out/*.wav
+walaw-promo/morph/out/*.png.d/

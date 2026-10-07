@@ -1,0 +1,357 @@
+<!doctype html>
+<html lang="fr"><head><meta charset="utf-8">
+<style>html,body{margin:0;background:#FFFCF8;overflow:hidden}canvas{display:block}</style>
+</head><body><canvas id="c"></canvas>
+<script>
+// Walaw — morph film. One canvas, one shape, one pure draw(t). No timers, no transitions, no state between frames:
+// every value is a closed-form spring of t, and a value that changes target several times sums one spring per change.
+const Q = new URLSearchParams(location.search);
+const [W, H] = (Q.get('size') || '1440x1440').split('x').map(Number);
+const cv = document.getElementById('c'); cv.width = W; cv.height = H;
+let g = cv.getContext('2d');
+const layer = document.createElement('canvas'); layer.width = W; layer.height = H; const lg = layer.getContext('2d');
+const TL = window.TL, C = TL.copy, EV = TL.events, KEYS = TL.keys, DUR = TL.duration;
+const BG = '#FFFCF8', INK = '#191C17', WHITE = '#FFFFFF', MUTED = '#61645F', LINE = '#E3E5E2', SOFT = '#F4F6F2', ORANGE = '#FF9044';
+const FONT = '"Inter Site", sans-serif';
+
+// ---------------------------------------------------------------- motion primitives (pure functions of time)
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const lerp = (a, b, t) => a + (b - a) * t;
+function spring(t, k = 170, d = 20) {                 // unit step response, mass 1; d=20 at k=170 -> ~2% overshoot
+  if (t <= 0) return 0;
+  const w0 = Math.sqrt(k), z = d / (2 * w0);
+  if (z >= 1) return 1 - Math.exp(-w0 * t) * (1 + w0 * t);
+  const wd = w0 * Math.sqrt(1 - z * z);
+  return 1 - Math.exp(-z * w0 * t) * (Math.cos(wd * t) + (z * w0 / wd) * Math.sin(wd * t));
+}
+function track(t, keys, k = 170, d = 20) {            // one spring per change of target
+  let v = keys[0][1];
+  for (let i = 1; i < keys.length; i++) v += (keys[i][1] - keys[i - 1][1]) * spring(t - keys[i][0], k, d);
+  return v;
+}
+function indicator(t, stops) {                        // stretching tab: leading edge stiffer than trailing edge
+  const lead = track(t, stops, 320, 30), trail = track(t, stops, 140, 22);
+  return [Math.min(lead, trail), Math.max(lead, trail)];
+}
+const swapAlpha = (t, tIn, tOut) => Math.min(clamp((t - tIn - .08) / .12), clamp((tOut - .1 - t) / .1));
+const loopT = (t, d) => ((t % d) + d) % d;
+const mix = (a, b, t) => { const p = h => [1, 3, 5].map(i => parseInt(h.slice(i, i + 2), 16)); const A = p(a), B = p(b); return `rgb(${A.map((v, i) => Math.round(lerp(v, B[i], clamp(t)))).join(',')})`; };
+
+// ---------------------------------------------------------------- the one shape
+const kf = prop => KEYS.map(k => [k.t, k[prop]]);
+const segOf = t => { let i = 0; for (let j = 0; j < KEYS.length; j++) if (t >= KEYS[j].t) i = j; return i; };
+const tOut = i => (KEYS[i + 1] ? KEYS[i + 1].t : DUR + KEYS[0].t);
+function shapeAt(t) { return { w: track(t, kf('w')), h: track(t, kf('h')), r: track(t, kf('r')), ink: clamp(track(t, kf('ink'))) }; }
+// camera: zoom so every state fills the frame (fit = fraction of the limiting dimension)
+const PORTRAIT = W / H < .9;                         // portrait formats: push in so each state still fills the frame
+const ZOOM_KEYS = KEYS.map(k => [k.t, k.fit * Math.min(W / k.w, H / k.h) * (PORTRAIT ? (k.w > 600 ? 1.12 : 1.3) : 1)]);
+const zoomAt = t => track(t, ZOOM_KEYS, 90, 19);
+
+// ---------------------------------------------------------------- assets (preloaded once; draw(t) only reads them)
+const IM = {};
+function load(name, src) { return new Promise(r => { const im = new Image(); im.onload = () => { IM[name] = im; r(); }; im.onerror = () => r(); im.src = src; }); }
+const MAP = window.MAPDATA;
+
+// ---------------------------------------------------------------- drawing helpers
+function font(size, weight = 500) { g.font = `${weight} ${size}px ${FONT}`; }
+function text(s, x, y, size, weight, color, align = 'left', ls = -.015) {
+  font(size, weight); g.letterSpacing = `${ls * size}px`; g.textAlign = align; g.textBaseline = 'middle'; g.fillStyle = color; g.fillText(s, x, y); g.letterSpacing = '0px';
+}
+function textW(s, size, weight = 500, ls = -.015) { font(size, weight); g.letterSpacing = `${ls * size}px`; const w = g.measureText(s).width; g.letterSpacing = '0px'; return w; }
+function rrect(x, y, w, h, r) { g.beginPath(); g.roundRect(x, y, w, h, Math.max(0, Math.min(r, w / 2, h / 2))); }
+function wrap(s, size, weight, maxW) {
+  const words = s.split(' '), lines = [''];
+  for (const w of words) { const t = lines[lines.length - 1] ? lines[lines.length - 1] + ' ' + w : w; if (textW(t, size, weight) > maxW && lines[lines.length - 1]) lines.push(w); else lines[lines.length - 1] = t; }
+  return lines;
+}
+function withContent(t, tIn, tOut_, fn) {             // content in after the morph starts, out before the next one, short blur
+  const a = swapAlpha(t, tIn, tOut_);
+  if (a <= 0) return;
+  const b = (1 - a) * 6;
+  if (b <= .2) { g.save(); fn(a); g.restore(); return; }
+  // blur the whole state once, not every draw call: render it to a layer, then composite blurred
+  const m = g.getTransform(), main = g;
+  lg.setTransform(1, 0, 0, 1, 0, 0); lg.clearRect(0, 0, W, H); lg.setTransform(m); lg.globalAlpha = 1; lg.filter = 'none';
+  g = lg; g.save(); g.translate(0, (1 - a) * 6); fn(a); g.restore(); g = main;
+  g.save(); g.setTransform(1, 0, 0, 1, 0, 0); g.globalAlpha *= a; g.filter = `blur(${(b * m.a).toFixed(1)}px)`; g.drawImage(layer, 0, 0); g.restore();
+}
+function dot(x, y, r, color) { g.fillStyle = color; g.beginPath(); g.arc(x, y, Math.max(0, r), 0, Math.PI * 2); g.fill(); }
+function glyphPhone(x, y, s, color) {
+  g.save(); g.translate(x, y); g.scale(s / 24, s / 24); g.strokeStyle = color; g.lineWidth = 2.2; g.lineJoin = 'round';
+  g.stroke(new Path2D('M5 4h4l2 5-2.5 1.5a11 11 0 0 0 5 5L15 13l5 2v4a2 2 0 0 1-2 2A16 16 0 0 1 3 6a2 2 0 0 1 2-2')); g.restore();
+}
+function glyphSearch(x, y, s, color) { g.save(); g.strokeStyle = color; g.lineWidth = 2.2; g.beginPath(); g.arc(x - s * .1, y - s * .1, s * .32, 0, Math.PI * 2); g.moveTo(x + s * .14, y + s * .14); g.lineTo(x + s * .4, y + s * .4); g.stroke(); g.restore(); }
+function glyphEnter(x, y, s, color) { g.save(); g.strokeStyle = color; g.lineWidth = 2; g.lineJoin = 'round'; g.beginPath(); g.moveTo(x + s * .3, y - s * .3); g.lineTo(x + s * .3, y + s * .05); g.lineTo(x - s * .3, y + s * .05); g.moveTo(x - s * .12, y - s * .15); g.lineTo(x - s * .3, y + s * .05); g.lineTo(x - s * .12, y + s * .25); g.stroke(); g.restore(); }
+function glyphCheck(x, y, s, color, p = 1) {
+  g.save(); g.strokeStyle = color; g.lineWidth = s * .16; g.lineCap = 'round'; g.lineJoin = 'round'; g.beginPath();
+  const pts = [[-.35, 0], [-.1, .25], [.38, -.25]]; const L1 = Math.hypot(.25, .25), L2 = Math.hypot(.48, .5), tot = L1 + L2; let d = p * tot;
+  g.moveTo(x + pts[0][0] * s, y + pts[0][1] * s);
+  for (let i = 1; i < 3 && d > 0; i++) { const seg = i === 1 ? L1 : L2, f = Math.min(1, d / seg); g.lineTo(x + lerp(pts[i - 1][0], pts[i][0], f) * s, y + lerp(pts[i - 1][1], pts[i][1], f) * s); d -= seg; }
+  g.stroke(); g.restore();
+}
+function waveGlyph(x, y, s, t) {                      // Walaw's waveform, three bars, brand gradient
+  const cols = ['#FF962E', '#C75082', '#2B50D8'];
+  for (let i = 0; i < 3; i++) { const h = s * (.45 + .35 * Math.abs(Math.sin(t * 6 + i * 1.3))); g.fillStyle = cols[i]; rrect(x + (i - 1) * s * .32 - s * .1, y - h / 2, s * .2, h, s * .1); g.fill(); }
+}
+// rolling text: old string slides up and out, new one rises in, per-character springs
+function rolling(t, keys, x, y, size, weight, color, align = 'center') {
+  let cur = 0; for (let i = 0; i < keys.length; i++) if (t >= keys[i][0]) cur = i;
+  for (const [idx, sgn] of [[cur, 1], [cur + 1 < keys.length ? cur + 1 : -1, 0]]) {
+    if (idx < 0) continue;
+    const s = keys[idx][1], t0 = keys[idx][0], tNext = keys[idx + 1] ? keys[idx + 1][0] : 1e9;
+    font(size, weight); g.letterSpacing = `${-.03 * size}px`;
+    const tw = g.measureText(s).width; let xx = align === 'center' ? x - tw / 2 : x;
+    g.textAlign = 'left'; g.textBaseline = 'middle';
+    [...s].forEach((ch, i) => {
+      const inn = idx === 0 ? 1 : spring(t - t0 - i * .03, 260, 24), out = spring(t - tNext - i * .03, 260, 24);
+      const dy = (1 - inn) * size * .9 - out * size * .9, a = clamp(inn) * (1 - clamp(out));
+      if (a > .01) { g.save(); g.globalAlpha *= a; g.beginPath(); g.rect(xx - 4, y - size * .7, size, size * 1.4); g.clip(); g.fillStyle = color; g.fillText(ch, xx, y + dy); g.restore(); }
+      xx += g.measureText(ch).width + (-.03 * size);
+    });
+    g.letterSpacing = '0px';
+  }
+}
+
+// ---------------------------------------------------------------- content per state (shape-local coords, origin at centre)
+const CONTENT = {
+  logo: (t, s) => { const im = IM.logoW; if (im) { const w = 196, h = w * im.naturalHeight / im.naturalWidth; g.drawImage(im, -w / 2, -h / 2, w, h); } },
+  button: (t, s) => { glyphPhone(-s.w / 2 + 58, 0, 24, WHITE); text(C.button, -s.w / 2 + 88, 1, 24, 600, WHITE); },
+  field: (t, s) => {
+    text(C.fieldLabel, -s.w / 2 + 52, -s.h / 2 + 34, 16, 500, MUTED);
+    const n = Math.floor(C.question.length * clamp((t - EV.typing1[0]) / (EV.typing1[1] - EV.typing1[0])));
+    const lines = wrap(C.question.slice(0, n), 25, 500, s.w - 140);
+    lines.forEach((l, i) => text(l, -s.w / 2 + 32, -8 + i * 34, 25, 500, INK));
+    const last = lines[lines.length - 1] || '', cx = -s.w / 2 + 32 + textW(last, 25, 500) + 3, cy = -8 + (lines.length - 1) * 34;
+    if (Math.floor(t * 4) % 2 === 0 || (t > EV.typing1[0] && t < EV.typing1[1])) { g.fillStyle = INK; g.fillRect(cx, cy - 14, 2.5, 28); }
+    const ready = clamp((t - EV.typing1[1]) / .15);
+    g.fillStyle = mix(SOFT, INK, ready); rrect(s.w / 2 - 70, s.h / 2 - 66, 46, 46, 14); g.fill();
+    glyphEnter(s.w / 2 - 47, s.h / 2 - 43, 22, mix(MUTED, WHITE, ready));
+  },
+  answer: (t, s) => {
+    const x0 = -s.w / 2 + 36, y0 = -s.h / 2 + 46;
+    waveGlyph(x0 + 16, y0, 28, t);
+    text(C.agent, x0 + 48, y0 - 2, 22, 600, INK);
+    text(C.agentStatus, x0 + 48 + textW(C.agent, 22, 600) + 14, y0 - 1, 18, 500, MUTED);
+    g.fillStyle = LINE; g.fillRect(-s.w / 2 + 24, y0 + 34, s.w - 48, 1.5);
+    const shown = clamp((t - 3.72) / .5);
+    const words = C.answer.split(' '), nw = Math.ceil(words.length * shown);
+    wrap(words.slice(0, nw).join(' '), 26, 500, s.w - 72).forEach((l, i) => text(l, x0, y0 + 84 + i * 38, 26, 500, INK));
+    const by = s.h / 2 - 58;
+    text(C.other, x0, by, 19, 500, MUTED);
+    const press = t >= EV.clicks[2] - .03 && t < EV.clicks[2] + .1 ? 1 : 0, bw = textW(C.book, 20, 600) + 56;
+    g.save(); g.translate(s.w / 2 - 36 - bw / 2, by); g.scale(1 - .04 * press, 1 - .04 * press);
+    g.fillStyle = INK; rrect(-bw / 2, -26, bw, 52, 26); g.fill(); text(C.book, 0, 1, 20, 600, WHITE, 'center'); g.restore();
+  },
+  loader: (t, s) => {
+    const ck = clamp((t - EV.check) / .25);
+    if (ck < 1) { g.save(); g.globalAlpha *= 1 - ck; g.strokeStyle = 'rgba(255,255,255,.25)'; g.lineWidth = 6; g.beginPath(); g.arc(0, 0, 30, 0, Math.PI * 2); g.stroke();
+      const a0 = t * 7; g.strokeStyle = WHITE; g.lineCap = 'round'; g.beginPath(); g.arc(0, 0, 30, a0, a0 + 1.6); g.stroke(); g.restore(); }
+    if (ck > 0) glyphCheck(0, 2, 58, WHITE, ck);
+  },
+  pin: (t, s) => {
+    for (const p0 of [EV.pinPulse[0], EV.pinPulse[1]]) { const q = clamp((t - p0) / 1.0); if (q > 0 && q < 1) { g.save(); g.globalAlpha *= (1 - q) * .5; g.strokeStyle = ORANGE; g.lineWidth = 3; g.beginPath(); g.arc(0, 0, 22 + q * 70, 0, Math.PI * 2); g.stroke(); g.restore(); } }
+  },
+  stories: (t, s) => {
+    ['abc', 'nxtgen', 'asp'].forEach((k, i) => { const a = clamp((t - 10.15 - i * .1) / .15); g.save(); g.globalAlpha *= a; dot(-s.w / 2 + 52 + i * 34, 0, 21, WHITE); g.strokeStyle = INK; g.lineWidth = 3; g.stroke(); logoIn(k, -s.w / 2 + 52 + i * 34, 0, 30, 18); g.restore(); });
+    text(C.storiesPill, -s.w / 2 + 160, -11, 21, 600, WHITE); text('ABC · NxtG · Action Sport Physio', -s.w / 2 + 160, 15, 15, 500, 'rgba(255,255,255,.6)');
+  },
+  storylist: (t, s) => {
+    text(C.storiesPill, -s.w / 2 + 36, -s.h / 2 + 44, 22, 600, WHITE);
+    text('walaw.io', s.w / 2 - 60, -s.h / 2 + 44, 16, 500, 'rgba(255,255,255,.5)', 'right');
+    C.stories.forEach(([k, name, stat], i) => {
+      const a = clamp((t - 11.12 - i * .12) / .15), y = -s.h / 2 + 118 + i * 86, hov = i === 0 ? clamp((t - 11.55) / .1) * (1 - clamp((t - 11.85) / .1)) : 0;
+      g.save(); g.globalAlpha *= a; g.translate(0, (1 - a) * 10);
+      if (hov > 0) { g.fillStyle = `rgba(255,255,255,${.07 * hov})`; rrect(-s.w / 2 + 16, y - 36, s.w - 32, 72, 18); g.fill(); }
+      dot(-s.w / 2 + 64, y, 26, WHITE); logoIn(k, -s.w / 2 + 64, y, 40, 24);
+      text(name, -s.w / 2 + 108, y - 13, 21, 600, WHITE); text(stat, -s.w / 2 + 108, y + 15, 17, 500, 'rgba(255,255,255,.62)');
+      g.restore();
+    });
+  },
+  tabs: (t, s) => {
+    const tw = (s.w - 64) / 3, x0 = -s.w / 2 + 32, ty = -s.h / 2 + 58;
+    g.fillStyle = SOFT; rrect(x0, ty - 26, s.w - 64, 52, 26); g.fill();
+    const stops = EV.tab.map((tt, i) => [tt, x0 + 4 + i * tw]);
+    const [l, r] = indicator(t, stops);
+    g.fillStyle = INK; rrect(l, ty - 22, r - l + tw - 8, 44, 22); g.fill();
+    C.tabs.forEach((lab, i) => { const c = clamp(track(t, stops.map(([tt], j) => [tt, j === i ? 1 : 0]), 260, 26)); text(lab, x0 + i * tw + tw / 2, ty + 1, 18, 600, mix(MUTED, WHITE, c), 'center'); });
+    rolling(t, EV.tab.map((tt, i) => [tt, C.values[i]]), 0, 28, 104, 600, INK);
+    text(C.week, 0, s.h / 2 - 46, 18, 500, MUTED, 'center');
+  },
+  board: (t, s) => {
+    const cw = (s.w - 80) / 3, x0 = -s.w / 2 + 28, y0 = -s.h / 2 + 30, ch = s.h - 60;
+    C.cols.forEach((name, i) => {
+      const x = x0 + i * (cw + 12);
+      g.fillStyle = SOFT; rrect(x, y0, cw, ch, 20); g.fill();
+      dot(x + 26, y0 + 34, 6, ['#9AA0A6', '#F5A524', '#3757DF'][i]);
+      text(name, x + 42, y0 + 34, 18, 600, INK);
+      const counts = C.counts[i], keys = counts.map((c, j) => [j === 0 ? 0 : EV.count, c]);
+      g.save(); rolling(t, keys, x + 50 + textW(name, 18, 600), y0 + 35, 16, 500, MUTED, 'left'); g.restore();
+    });
+  },
+  search: (t, s) => {
+    glyphSearch(-s.w / 2 + 44, 0, 26, MUTED);
+    const n = Math.floor(C.query.length * clamp((t - EV.typing2[0]) / (EV.typing2[1] - EV.typing2[0])));
+    const q = C.query.slice(0, n);
+    if (n === 0) text(C.searchHint, -s.w / 2 + 74, 1, 22, 500, '#A3A6A0'); else text(q, -s.w / 2 + 74, 1, 22, 500, INK);
+    if (Math.floor(t * 4) % 2 === 0 || n > 0) { g.fillStyle = INK; g.fillRect(-s.w / 2 + 76 + (n ? textW(q, 22, 500) : 0), -14, 2.5, 28); }
+  },
+  results: (t, s) => {
+    const x0 = -s.w / 2 + 32, y0 = -s.h / 2 + 42;
+    glyphSearch(x0 + 12, y0, 22, MUTED); text(C.query, x0 + 40, y0 + 1, 21, 500, INK); text(C.resultsCount, s.w / 2 - 34, y0 + 1, 16, 500, MUTED, 'right');
+    g.fillStyle = LINE; g.fillRect(-s.w / 2 + 20, y0 + 32, s.w - 40, 1.5);
+    C.results.forEach(([kind, when, tel, st], i) => {
+      const a = clamp((t - 17.25 - i * .12) / .15), y = y0 + 92 + i * 92, hov = i === 0 ? clamp((t - 17.85) / .12) : 0;
+      g.save(); g.globalAlpha *= a; g.translate(0, (1 - a) * 10);
+      if (hov > 0) { g.fillStyle = `rgba(25,28,23,${.04 * hov})`; rrect(-s.w / 2 + 14, y - 38, s.w - 28, 76, 18); g.fill(); }
+      g.fillStyle = SOFT; rrect(x0, y - 22, 44, 44, 12); g.fill(); glyphPhone(x0 + 22, y, 20, INK);
+      text(kind, x0 + 62, y - 12, 20, 600, INK); text(`${when} · ${tel}`, x0 + 62, y + 14, 16, 500, MUTED);
+      const bw = textW(st, 15, 600) + 34; g.fillStyle = 'rgba(55,87,223,.1)'; rrect(s.w / 2 - 34 - bw, y - 16, bw, 32, 16); g.fill(); text(st, s.w / 2 - 34 - bw / 2, y + 1, 15, 600, '#3757DF', 'center');
+      g.restore();
+    });
+  },
+};
+CONTENT.loader2 = CONTENT.loader; CONTENT.logo2 = CONTENT.logo; CONTENT.mapout = () => { };
+function logoIn(k, x, y, w, h) { const im = IM[k]; if (!im) return; const s = Math.min(w / im.naturalWidth, h / im.naturalHeight); g.drawImage(im, x - im.naturalWidth * s / 2, y - im.naturalHeight * s / 2, im.naturalWidth * s, im.naturalHeight * s); }
+
+// ---------------------------------------------------------------- Québec map inside the circle
+const MTL = [-395.0, 181.4];                          // Montréal in Québec Lambert km (from build_dots.py projection)
+const MAPV = (() => { const [x0, x1, y0, y1] = MAP.bbox; const s0 = 760 / (y1 - y0); return { cx: (x0 + x1) / 2, cy: (y0 + y1) / 2, s: s0 }; })();
+function mapView(t) {                                   // full province, then a slow push toward the south shore
+  const p = [[7.0, 0], [7.6, 1]];
+  const k = track(t, p, 30, 11);
+  const s1 = MAPV.s * 1.25;                              // push in: Montréal sits a little below centre, clear of the pill
+  return { cx: lerp(MAPV.cx, MTL[0] + 150 / s1, k), cy: lerp(MAPV.cy, MTL[1] + 230 / s1, k), s: lerp(MAPV.s, s1, k) };
+}
+function drawMap(t, s, a) {
+  const v = mapView(t), R = s.w / 2;
+  g.save(); g.beginPath(); g.arc(0, 0, R - 2, 0, Math.PI * 2); g.clip();
+  const sh = g.createRadialGradient(-R * .3, -R * .35, R * .1, 0, 0, R); sh.addColorStop(0, '#FFFFFF'); sh.addColorStop(1, '#EEEAE2'); g.fillStyle = sh; g.fillRect(-R, -R, 2 * R, 2 * R);
+  const P = (x, y) => [(x - v.cx) * v.s, -(y - v.cy) * v.s];
+  const appear = clamp((t - 7.12) / .4);                // land dots fade up as the circle opens
+  const front = Math.max(0, (t - EV.clinicPops[0] + .5)) * 1500;   // km: Québec fills with ink from Montréal outward
+  const rad = 3.3, pts = MAP.coarse, cls = MAP.coarseCls, LV = 16, bins = Array.from({ length: LV + 1 }, () => new Path2D());
+  for (let i = 0; i < pts.length; i++) {
+    const px = (pts[i][0] - v.cx) * v.s, py = -(pts[i][1] - v.cy) * v.s; if (px * px + py * py > R * R) continue;
+    const q = cls[i] ? 1 + Math.round(clamp((front - Math.hypot(pts[i][0] - MTL[0], pts[i][1] - MTL[1])) / 160) * (LV - 1)) : 0;
+    bins[q].rect(px - rad / 2, py - rad / 2, rad, rad);
+  }
+  bins.forEach((p, q) => { const al = q === 0 ? .1 : lerp(.17, .78, (q - 1) / (LV - 1)); g.fillStyle = `rgba(25,28,23,${al * appear * a})`; g.fill(p); });
+  if (front > 0 && front < 2600) {                      // the fill front, in the accent colour
+    const [mx, my] = P(MTL[0], MTL[1]);
+    g.save(); g.globalAlpha = .28 * a * (1 - front / 2600); g.strokeStyle = ORANGE; g.lineWidth = 3; g.beginPath(); g.arc(mx, my, front * v.s, 0, Math.PI * 2); g.stroke(); g.restore();
+  }
+  g.restore();
+  g.save(); g.strokeStyle = 'rgba(25,28,23,.06)'; g.lineWidth = 2; g.beginPath(); g.arc(0, 0, R - 1, 0, Math.PI * 2); g.stroke(); g.restore();
+  const pa = clamp((t - 7.6) / .2) * a, pw = textW(C.mapPill, 19, 600) + 70;
+  if (pa > 0) { g.save(); g.globalAlpha *= pa; g.translate(0, R - 70 + (1 - pa) * 10); g.fillStyle = INK; rrect(-pw / 2, -24, pw, 48, 24); g.fill(); dot(-pw / 2 + 26, 0, 6, ORANGE); text(C.mapPill, -pw / 2 + 44, 1, 19, 600, WHITE); g.restore(); }
+}
+CONTENT.map = (t, s) => drawMap(t, s, 1);
+
+// ---------------------------------------------------------------- the accent element: one orange dot that travels between states
+function mapPoint(t) { const v = mapView(t); return [(MTL[0] - v.cx) * v.s, -(MTL[1] - v.cy) * v.s]; }
+function accentKeys() {
+  const mt = mapPoint(8.3);
+  return {
+    x: [[0, -60], [1.0, -175], [2.0, -294], [3.5, -282], [5.0, 0], [6.0, 0], [7.2, mt[0]], [9.55, 0], [10.0, 218], [11.0, 290], [12.0, -72], [14.0, 0], [15.3, 0], [16.0, 290], [17.1, 236], [18.25, -60]],
+    y: [[0, 0], [1.0, 0], [2.0, -46], [3.5, -149], [5.0, 0], [6.0, 0], [7.2, mt[1]], [9.55, 0], [10.0, 0], [11.0, -142], [12.0, 120], [14.0, 0], [15.3, 0], [16.0, 0], [17.1, -138], [18.25, 0]],
+    r: [[0, 0], [1.0, 8], [2.0, 6], [3.5, 6], [5.0, 0], [5.9, 0], [6.0, 17], [7.2, 6.5], [9.55, 17], [10.0, 7], [11.0, 6], [12.0, 6], [14.0, 0], [15.25, 0], [15.3, 0], [16.0, 7], [17.1, 6], [18.25, 0]],
+  };
+}
+let AK = null;
+
+// ---------------------------------------------------------------- cursor (world coords, drawn at constant screen size)
+function cursorKeys() {
+  return {
+    x: [[0, 520], [0.6, 520], [1.35, 30], [2.0, 60], [2.9, 268], [3.6, 330], [4.25, 180], [4.9, 330], [6.6, 600], [8.6, 240], [10.4, 600], [11.3, -120], [12.0, 360], [12.45, -2], [13.2, 202], [13.9, 380], [14.25, 6], [14.75, 210], [15.25, 268], [15.8, 420], [16.05, -150], [17.4, -60], [17.9, -120], [18.3, 380], [18.8, 900]],
+    y: [[0, 360], [0.6, 360], [1.35, 6], [2.0, 30], [2.9, 37], [3.6, 120], [4.25, 140], [4.9, 300], [6.6, 600], [8.6, 120], [10.4, 300], [11.3, -46], [12.0, 260], [12.45, -104], [13.2, -104], [13.9, 260], [14.25, 46], [14.75, 30], [15.25, 46], [15.8, 260], [16.05, 6], [17.4, -40], [17.9, -40], [18.3, 300], [18.8, 900]],
+  };
+}
+let CK = null;
+function drawCursor(t, z) {
+  const x = track(t, CK.x, 140, 22), y = track(t, CK.y, 140, 22);
+  const press = Math.max(...EV.clicks.map(c => (t >= c - .05 && t < c + .1) ? 1 : 0), (t >= EV.dragDown && t < EV.dragUp) ? .6 : 0);
+  for (const c of EV.clicks.concat([EV.dragUp])) { const q = clamp((t - c) / .45); if (q > 0 && q < 1) { g.save(); g.globalAlpha = (1 - q) * .35; g.strokeStyle = INK; g.lineWidth = 2; g.beginPath(); g.arc(CX + x * z, CY + y * z, 10 + q * 34, 0, Math.PI * 2); g.stroke(); g.restore(); } }
+  g.save(); g.translate(CX + x * z, CY + y * z); const sc = Math.min(W, H) / 1440 * 1.55 * (1 - .14 * press); g.scale(sc, sc);
+  g.shadowColor = 'rgba(0,0,0,.22)'; g.shadowBlur = 8; g.shadowOffsetY = 2;
+  g.beginPath(); g.moveTo(0, 0); g.lineTo(0, 30); g.lineTo(7.5, 23); g.lineTo(12.5, 34.5); g.lineTo(17.5, 32.3); g.lineTo(12.6, 21.2); g.lineTo(22.5, 21.2); g.closePath();
+  g.fillStyle = INK; g.fill(); g.shadowColor = 'transparent'; g.lineWidth = 2.2; g.strokeStyle = WHITE; g.stroke(); g.restore();
+  return [x, y];
+}
+
+// ---------------------------------------------------------------- the drag (one): ticket from "En cours" to "Terminé"
+function drawTicket(t, s) {
+  const a = swapAlpha(t, 14.0, 16.0); if (a <= 0) return;
+  const cw = (s.w - 80) / 3, x0 = -s.w / 2 + 28, y0 = -s.h / 2 + 30, tw = cw - 24, th = 108;
+  const from = [x0 + (cw + 12) + 12, y0 + 64], to = [x0 + 2 * (cw + 12) + 12, y0 + 64];
+  const cx = track(t, CK.x, 140, 22), cy = track(t, CK.y, 140, 22);
+  const grab = [from[0] + tw * .45, from[1] + th * .4];
+  let x = from[0], y = from[1], lift = 0;
+  if (t >= EV.dragDown) {
+    const follow = clamp((t - EV.dragDown) / .08);
+    x = lerp(from[0], cx - (grab[0] - from[0]), follow); y = lerp(from[1], cy - (grab[1] - from[1]), follow);
+    lift = spring(t - EV.dragDown, 300, 24) - spring(t - EV.dragUp, 300, 24);
+    if (t >= EV.dragUp) { const p = spring(t - EV.dragUp, 220, 22); const rx = cx - (grab[0] - from[0]), ry = cy - (grab[1] - from[1]); x = lerp(rx, to[0], p); y = lerp(ry, to[1], p); }
+  }
+  g.save(); g.globalAlpha *= a; g.translate(x + tw / 2, y + th / 2); g.rotate(lift * -.04); g.scale(1 + .04 * lift, 1 + .04 * lift);
+  g.shadowColor = `rgba(25,28,23,${.08 + .18 * lift})`; g.shadowBlur = 8 + 24 * lift; g.shadowOffsetY = 3 + 10 * lift;
+  g.fillStyle = WHITE; rrect(-tw / 2, -th / 2, tw, th, 16); g.fill(); g.shadowColor = 'transparent';
+  g.strokeStyle = LINE; g.lineWidth = 1.5; g.stroke();
+  const [kind, when, tel] = C.ticket;
+  glyphPhone(-tw / 2 + 26, -th / 2 + 28, 16, INK); text(kind, -tw / 2 + 44, -th / 2 + 29, 17, 600, INK);
+  text(when, -tw / 2 + 20, -th / 2 + 60, 14, 500, MUTED); text(tel, -tw / 2 + 20, -th / 2 + 84, 14, 500, MUTED);
+  const done = clamp((t - EV.count) / .2);
+  if (done > 0) { g.save(); g.globalAlpha *= done; const bw = textW(C.done, 13, 600) + 40; g.fillStyle = 'rgba(255,144,68,.14)'; rrect(tw / 2 - 16 - bw, -th / 2 + 14, bw, 28, 14); g.fill(); glyphCheck(tw / 2 - 16 - bw + 16, -th / 2 + 28, 14, ORANGE, done); text(C.done, tw / 2 - 16 - bw + 28, -th / 2 + 29, 13, 600, '#D2691E'); g.restore(); }
+  g.restore();
+}
+
+// ---------------------------------------------------------------- draw(t): the only entry point
+const CX = W / 2, CY = H / 2;
+function draw(T) {
+  const t = loopT(T, DUR);
+  g.setTransform(1, 0, 0, 1, 0, 0); g.globalAlpha = 1; g.filter = 'none';
+  g.fillStyle = BG; g.fillRect(0, 0, W, H);
+  const vg = g.createRadialGradient(CX, CY * .9, 0, CX, CY, Math.hypot(W, H) * .6); vg.addColorStop(0, 'rgba(255,255,255,.7)'); vg.addColorStop(1, 'rgba(232,228,218,.55)'); g.fillStyle = vg; g.fillRect(0, 0, W, H);
+  const s = shapeAt(t), z = zoomAt(t);
+  g.save(); g.translate(CX, CY); g.scale(z, z);
+  // soft contact shadow, the shape, its border when light
+  g.save(); g.shadowColor = `rgba(25,28,23,${.10 + .05 * s.ink})`; g.shadowBlur = 40; g.shadowOffsetY = 18;
+  g.fillStyle = mix(WHITE, INK, s.ink); rrect(-s.w / 2, -s.h / 2, s.w, s.h, s.r); g.fill(); g.restore();
+  if (s.ink < .5) { g.strokeStyle = `rgba(25,28,23,${.08 * (1 - s.ink * 2)})`; g.lineWidth = 1.5 / z; rrect(-s.w / 2, -s.h / 2, s.w, s.h, s.r); g.stroke(); }
+  // content of the current state, and the tail of the previous one (they never overlap: swapAlpha windows)
+  const i = segOf(t);
+  for (const j of [i - 1, i]) {
+    if (j < 0) continue;
+    const k = KEYS[j], fn = CONTENT[k.id]; if (!fn) continue;
+    g.save(); rrect(-s.w / 2, -s.h / 2, s.w, s.h, s.r); g.clip();
+    withContent(t, k.t, tOut(j), () => fn(t, s)); g.restore();
+  }
+  if (t >= 14.0 && t < 16.0) { g.save(); rrect(-s.w / 2, -s.h / 2, s.w, s.h, s.r); g.clip(); drawTicket(t, s); g.restore(); }
+  // labels that live outside the shape (pin caption, url under the logo)
+  const pinA = swapAlpha(t, 6.0, 7.0);
+  if (pinA > 0) { g.save(); g.globalAlpha = pinA; g.filter = pinA < 1 ? `blur(${((1 - pinA) * 5).toFixed(1)}px)` : 'none'; text(C.pinTitle, 0, s.h / 2 + 46, 24, 600, INK, 'center'); text(C.pinSub, 0, s.h / 2 + 80, 17, 500, MUTED, 'center'); g.restore(); }
+  const urlA = Math.min(clamp((t - EV.url[0]) / .2), clamp((EV.url[1] - t) / .25));
+  if (urlA > 0) { g.save(); g.globalAlpha = urlA; text(C.url, 0, s.h / 2 + 44, 22, 500, MUTED, 'center', .04); g.restore(); }
+  // the accent element
+  const ax = track(t, AK.x, 150, 20), ay = track(t, AK.y, 150, 20), ar = Math.max(0, track(t, AK.r, 220, 20));
+  const spin = clamp((t - 5.05) / .1) * (1 - clamp((t - EV.check) / .1));
+  const [sx, sy] = spin > 0 ? [Math.cos(t * 7 + 1.6) * 30 * spin + ax * (1 - spin), Math.sin(t * 7 + 1.6) * 30 * spin + ay * (1 - spin)] : [ax, ay];
+  if (ar > .3) dot(sx, sy, Math.max(ar, spin * 5), ORANGE);
+  g.restore();
+  drawCursor(t, z);
+}
+window.draw = draw;
+
+// ---------------------------------------------------------------- frame composer: average N subframes of draw(t)
+const acc = document.createElement('canvas'); acc.width = W; acc.height = H; const ag = acc.getContext('2d');
+window.renderFrame = (i, fps = 60, sub = 6, shutter = .75) => {
+  for (let k = 0; k < sub; k++) { draw(i / fps + k * shutter / fps / sub); ag.globalAlpha = 1 / (k + 1); ag.drawImage(cv, 0, 0); }
+  g.setTransform(1, 0, 0, 1, 0, 0); g.globalAlpha = 1; g.filter = 'none'; g.drawImage(acc, 0, 0);
+};
+(async () => {
+  const f = new FontFace('Inter Site', `url(data:font/woff2;base64,${window.INTER_N})`, { weight: '100 900' }); await f.load(); document.fonts.add(f);
+  const B = '../../assets/brand/';
+  await Promise.all([load('logoW', B + 'logo-dark-C60WY4uZ.svg'), load('abc', B + 'customers/abc-BlBdZUm8.png'), load('nxtgen', B + 'customers/nxtgen-Y8DqNhOq.svg'), load('asp', B + 'customers/asp-transparent-B-ZET4N1.png')]);
+  AK = accentKeys(); CK = cursorKeys();
+  draw(0); window.ready = true;
+})();
+</script></body></html>

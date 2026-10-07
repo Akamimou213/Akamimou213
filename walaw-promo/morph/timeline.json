@@ -1,0 +1,73 @@
+{
+  "title": "Walaw — morph film (FR)",
+  "bpm": 120,
+  "duration": 20,
+  "keys": [
+    { "t": 0.0, "id": "logo", "w": 300, "h": 84, "r": 42, "ink": 1, "fit": 0.30 },
+    { "t": 1.0, "id": "button", "w": 440, "h": 84, "r": 42, "ink": 1, "fit": 0.40 },
+    { "t": 2.0, "id": "field", "w": 640, "h": 160, "r": 34, "ink": 0, "fit": 0.62 },
+    { "t": 3.5, "id": "answer", "w": 640, "h": 390, "r": 32, "ink": 0, "fit": 0.60 },
+    { "t": 5.0, "id": "loader", "w": 150, "h": 150, "r": 42, "ink": 1, "fit": 0.17 },
+    { "t": 5.3, "id": "loader2", "w": 120, "h": 120, "r": 60, "ink": 1, "fit": 0.15 },
+    { "t": 6.0, "id": "pin", "w": 124, "h": 124, "r": 62, "ink": 0, "fit": 0.14 },
+    { "t": 7.0, "id": "map", "w": 900, "h": 900, "r": 450, "ink": 0, "fit": 0.78 },
+    { "t": 9.55, "id": "mapout", "w": 150, "h": 150, "r": 75, "ink": 0, "fit": 0.15 },
+    { "t": 10.0, "id": "stories", "w": 500, "h": 84, "r": 42, "ink": 1, "fit": 0.42 },
+    { "t": 11.0, "id": "storylist", "w": 660, "h": 372, "r": 32, "ink": 1, "fit": 0.60 },
+    { "t": 12.0, "id": "tabs", "w": 620, "h": 330, "r": 32, "ink": 0, "fit": 0.54 },
+    { "t": 14.0, "id": "board", "w": 800, "h": 390, "r": 32, "ink": 0, "fit": 0.70 },
+    { "t": 16.0, "id": "search", "w": 640, "h": 84, "r": 42, "ink": 0, "fit": 0.52 },
+    { "t": 17.1, "id": "results", "w": 640, "h": 360, "r": 32, "ink": 0, "fit": 0.56 },
+    { "t": 18.25, "id": "logo2", "w": 300, "h": 84, "r": 42, "ink": 1, "fit": 0.30 }
+  ],
+  "events": {
+    "clicks": [1.75, 3.25, 4.5, 12.75, 13.5, 16.25],
+    "dragDown": 14.5, "dragUp": 15.25,
+    "typing1": [2.15, 3.0], "typing2": [16.4, 17.0],
+    "check": 5.75, "pinPulse": [6.0, 6.5],
+    "mapZoom": [7.75, 8.6], "clinicPops": [8.25, 9.1],
+    "tab": [12.0, 12.75, 13.5],
+    "count": 15.35,
+    "url": [18.75, 19.55]
+  },
+  "copy": {
+    "button": "Appeler la clinique",
+    "fieldLabel": "Patient · vendredi, 18 h",
+    "question": "Quelles sont les heures de la clinique jeudi et quels professionnels sont disponibles ?",
+    "agent": "Walaw Agent",
+    "agentStatus": "Répond…",
+    "answer": "Jeudi nous sommes ouverts de 8 h à 19 h. Dr Tremblay et Marie Côté reçoivent tous les deux des patients.",
+    "other": "Autre question",
+    "book": "Réserver",
+    "pinTitle": "Rendez-vous réservé",
+    "pinSub": "23 juin 2026 à 9 h 00 · Centre-ville",
+    "mapPill": "Des centaines de cliniques",
+    "storiesPill": "Études de cas",
+    "stories": [
+      ["abc", "ABC Clinique Santé", "8 cliniques en ligne en moins de 30 jours"],
+      ["nxtgen", "NxtG Physio", "9 cliniques · quatre fois plus d'appels"],
+      ["asp", "Action Sport Physio", "100 % d'appels répondus, même pendant les Fêtes"]
+    ],
+    "tabs": ["Appels récup.", "RDV réservés", "Revenus"],
+    "values": ["162", "93", "11.2 k$"],
+    "week": "Cette semaine",
+    "cols": ["Nouveau", "En cours", "Terminé"],
+    "counts": [["(28)"], ["(27)", "(26)"], ["(4,188)", "(4,189)"]],
+    "ticket": ["Message", "Jun 5, 11:42", "+1 514 555 0142"],
+    "done": "Terminé",
+    "searchHint": "Rechercher un appel",
+    "query": "+1 514",
+    "results": [["Message", "Jun 5, 11:42", "+1 514 555 0142", "Terminé"], ["Confirmation", "Jun 5, 11:42", "+1 514 555 0142", "Terminé"]],
+    "resultsCount": "2 appels",
+    "url": "walaw.io"
+  },
+  "sources": {
+    "question/answer": "walaw.io FR, feature card 'Base de connaissances de votre clinique'",
+    "fieldLabel": "walaw.io FR, 'Voix humaine': « même à 18 h un vendredi »",
+    "pin": "walaw.io FR, 'Prise de rendez-vous' card: « Patient a réservé un RDV le 23 juin 2026 à 9 h 00 », « Centre-ville »",
+    "mapPill": "walaw.io/company/clients FR: « Rejoignez des centaines de cliniques »",
+    "stories": "walaw.io FR customer stories (ABC 8 cliniques < 30 jours; réseau de 9 cliniques, quatre fois plus d'appels; centre-ville 100 % d'appels répondus, même pendant les Fêtes)",
+    "tabs": "walaw.io FR, 'Statistiques et données' card: CETTE SEMAINE · Appels récup. 162 · RDV réservés 93 · Revenus 11.2 k$",
+    "board": "walaw.io FR, 'Gestion des suivis d'appels' card: Nouveau (28) · En cours (27) · Terminé (4,188→4,189), ticket Message Jun 5, 11:42 +1 514 555 0142; 'Confirmation' ticket from the same card"
+  }
+}

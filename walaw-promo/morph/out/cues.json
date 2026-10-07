@@ -1,0 +1,427 @@
+[
+{
+"t": 0.0,
+"type": "thump",
+"gain": 0.9
+},
+{
+"t": 0.1,
+"type": "pop",
+"gain": 0.6
+},
+{
+"t": 1.1,
+"type": "pop",
+"gain": 0.6
+},
+{
+"t": 1.75,
+"type": "click",
+"gain": 1.0
+},
+{
+"t": 2.0,
+"type": "thump",
+"gain": 0.9
+},
+{
+"t": 2.1,
+"type": "pop",
+"gain": 0.6
+},
+{
+"t": 2.15,
+"type": "click",
+"gain": 0.35
+},
+{
+"t": 2.179,
+"type": "click",
+"gain": 0.35
+},
+{
+"t": 2.209,
+"type": "click",
+"gain": 0.35
+},
+{
+"t": 2.238,
+"type": "click",
+"gain": 0.35
+},
+{
+"t": 2.267,
+"type": "click",
+"gain": 0.35
+},
+{
+"t": 2.297,
+"type": "click",
+"gain": 0.35
+},
+{
+"t": 2.326,
+"type": "click",
+"gain": 0.35
+},
+{
+"t": 2.355,
+"type": "click",
+"gain": 0.35
+},
+{
+"t": 2.384,
+"type": "click",
+"gain": 0.35
+},
+{
+"t": 2.414,
+"type": "click",
+"gain": 0.35
+},
+{
+"t": 2.443,
+"type": "click",
+"gain": 0.35
+},
+{
+"t": 2.472,
+"type": "click",
+"gain": 0.35
+},
+{
+"t": 2.502,
+"type": "click",
+"gain": 0.35
+},
+{
+"t": 2.531,
+"type": "click",
+"gain": 0.35
+},
+{
+"t": 2.56,
+"type": "click",
+"gain": 0.35
+},
+{
+"t": 2.59,
+"type": "click",
+"gain": 0.35
+},
+{
+"t": 2.619,
+"type": "click",
+"gain": 0.35
+},
+{
+"t": 2.648,
+"type": "click",
+"gain": 0.35
+},
+{
+"t": 2.678,
+"type": "click",
+"gain": 0.35
+},
+{
+"t": 2.707,
+"type": "click",
+"gain": 0.35
+},
+{
+"t": 2.736,
+"type": "click",
+"gain": 0.35
+},
+{
+"t": 2.766,
+"type": "click",
+"gain": 0.35
+},
+{
+"t": 2.795,
+"type": "click",
+"gain": 0.35
+},
+{
+"t": 2.824,
+"type": "click",
+"gain": 0.35
+},
+{
+"t": 2.853,
+"type": "click",
+"gain": 0.35
+},
+{
+"t": 2.883,
+"type": "click",
+"gain": 0.35
+},
+{
+"t": 2.912,
+"type": "click",
+"gain": 0.35
+},
+{
+"t": 2.941,
+"type": "click",
+"gain": 0.35
+},
+{
+"t": 2.971,
+"type": "click",
+"gain": 0.35
+},
+{
+"t": 3.25,
+"type": "click",
+"gain": 1.0
+},
+{
+"t": 3.6,
+"type": "pop",
+"gain": 0.6
+},
+{
+"t": 4.5,
+"type": "click",
+"gain": 1.0
+},
+{
+"t": 4.95,
+"type": "whoosh",
+"gain": 1.0
+},
+{
+"t": 5.0,
+"type": "thump",
+"gain": 0.9
+},
+{
+"t": 5.1,
+"type": "pop",
+"gain": 0.6
+},
+{
+"t": 5.4,
+"type": "pop",
+"gain": 0.6
+},
+{
+"t": 5.75,
+"type": "pop",
+"gain": 1.0
+},
+{
+"t": 6.0,
+"type": "thump",
+"gain": 0.9
+},
+{
+"t": 6.0,
+"type": "pop",
+"gain": 0.8
+},
+{
+"t": 6.1,
+"type": "pop",
+"gain": 0.6
+},
+{
+"t": 6.5,
+"type": "pop",
+"gain": 0.8
+},
+{
+"t": 6.95,
+"type": "whoosh",
+"gain": 1.0
+},
+{
+"t": 7.1,
+"type": "pop",
+"gain": 0.6
+},
+{
+"t": 8.25,
+"type": "pop",
+"gain": 0.25
+},
+{
+"t": 8.4,
+"type": "pop",
+"gain": 0.25
+},
+{
+"t": 8.55,
+"type": "pop",
+"gain": 0.25
+},
+{
+"t": 8.7,
+"type": "pop",
+"gain": 0.25
+},
+{
+"t": 8.85,
+"type": "pop",
+"gain": 0.25
+},
+{
+"t": 9.0,
+"type": "pop",
+"gain": 0.25
+},
+{
+"t": 9.5,
+"type": "whoosh",
+"gain": 1.0
+},
+{
+"t": 9.65,
+"type": "pop",
+"gain": 0.6
+},
+{
+"t": 9.95,
+"type": "whoosh",
+"gain": 1.0
+},
+{
+"t": 10.0,
+"type": "thump",
+"gain": 0.9
+},
+{
+"t": 10.1,
+"type": "pop",
+"gain": 0.6
+},
+{
+"t": 11.1,
+"type": "pop",
+"gain": 0.6
+},
+{
+"t": 12.0,
+"type": "thump",
+"gain": 0.9
+},
+{
+"t": 12.1,
+"type": "pop",
+"gain": 0.6
+},
+{
+"t": 12.75,
+"type": "click",
+"gain": 1.0
+},
+{
+"t": 12.8,
+"type": "pop",
+"gain": 0.6
+},
+{
+"t": 13.5,
+"type": "click",
+"gain": 1.0
+},
+{
+"t": 13.55,
+"type": "pop",
+"gain": 0.6
+},
+{
+"t": 14.1,
+"type": "pop",
+"gain": 0.6
+},
+{
+"t": 14.5,
+"type": "click",
+"gain": 0.8
+},
+{
+"t": 15.25,
+"type": "pop",
+"gain": 1.0
+},
+{
+"t": 15.35,
+"type": "pop",
+"gain": 0.7
+},
+{
+"t": 15.95,
+"type": "whoosh",
+"gain": 1.0
+},
+{
+"t": 16.1,
+"type": "pop",
+"gain": 0.6
+},
+{
+"t": 16.25,
+"type": "click",
+"gain": 1.0
+},
+{
+"t": 16.4,
+"type": "click",
+"gain": 0.35
+},
+{
+"t": 16.5,
+"type": "click",
+"gain": 0.35
+},
+{
+"t": 16.6,
+"type": "click",
+"gain": 0.35
+},
+{
+"t": 16.7,
+"type": "click",
+"gain": 0.35
+},
+{
+"t": 16.8,
+"type": "click",
+"gain": 0.35
+},
+{
+"t": 16.9,
+"type": "click",
+"gain": 0.35
+},
+{
+"t": 17.2,
+"type": "pop",
+"gain": 0.6
+},
+{
+"t": 18.2,
+"type": "whoosh",
+"gain": 1.0
+},
+{
+"t": 18.25,
+"type": "thump",
+"gain": 0.9
+},
+{
+"t": 18.35,
+"type": "pop",
+"gain": 0.6
+},
+{
+"t": 18.75,
+"type": "pop",
+"gain": 0.6
+}
+]
