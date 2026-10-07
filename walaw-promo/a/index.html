@@ -1,0 +1,299 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>html,body{margin:0;background:#000;overflow:hidden}canvas{display:block}</style>
+</head><body><canvas id="c"></canvas>
+<script>
+// Variant A: the Pocketsflow reference's structure and transitions, rebuilt with Walaw's real assets.
+// Character = Walaw's real hero waveform (recorded canvas, 60 fps). Accent words = Inter Italic (the site loads it).
+// Every UI pixel is a capture of walaw.io. Timeline + copy: timeline.json (window.TL).
+const Q = new URLSearchParams(location.search), LANG = Q.get('lang') || 'en';
+const W = 1920, H = 1080, CX = W / 2, CY = H / 2, FPS = 60;
+const cv = document.getElementById('c'); cv.width = W; cv.height = H;
+const TL = window.TL, T = TL.strings[LANG];
+const BG = '#FFFCF8', INK = '#191C17', MUTED = '#61645F', BLUE = '#3757DF', ORANGE = '#FF9044';
+const FONT = '"Inter Site", sans-serif';
+const A = '../../assets/work/', LOGO = '../../assets/brand/logo-light-CNbYTKYZ.svg';
+
+const clamp = (x, a = 0, b = 1) => Math.min(b, Math.max(a, x));
+const lerp = (a, b, t) => a + (b - a) * t;
+const P = (t, a, b) => clamp((t - a) / (b - a));
+const E = {
+  outExpo: x => x >= 1 ? 1 : 1 - Math.pow(2, -10 * x),
+  inExpo: x => x <= 0 ? 0 : Math.pow(2, 10 * x - 10),
+  inOutCubic: x => x < .5 ? 4 * x * x * x : 1 - Math.pow(-2 * x + 2, 3) / 2,
+  outCubic: x => 1 - Math.pow(1 - x, 3),
+  inCubic: x => x * x * x,
+  outBack: (x, s = 1.70158) => { const c = s + 1; return 1 + c * Math.pow(x - 1, 3) + s * Math.pow(x - 1, 2); },
+};
+const pad = i => String(i).padStart(3, '0');
+function grad(g, x0, x1) { const gr = g.createLinearGradient(x0, 0, x1, 0); gr.addColorStop(0, '#FF962E'); gr.addColorStop(.5, '#C75082'); gr.addColorStop(1, '#2B50D8'); return gr; }
+function bg(g, c) { g.fillStyle = c; g.fillRect(-300, -300, W + 600, H + 600); }
+function circle(g, x, y, r) { if (r <= 0) return; g.beginPath(); g.arc(x, y, r, 0, Math.PI * 2); g.fill(); }
+function font(g, size, italic = false, weight = 600) { g.font = `${italic ? 'italic ' : ''}${weight} ${size}px ${FONT}`; }
+function tw(g, s, size, italic = false, weight = 600) { font(g, size, italic, weight); g.letterSpacing = `${-.03 * size}px`; const w = g.measureText(s).width; g.letterSpacing = '0px'; return w; }
+
+// ---------------------------------------------------------------- images
+const IMG = new Map(); let FRAME = 0;
+function img(src) { let e = IMG.get(src); if (!e) { const im = new Image(); im.src = src; e = { im, p: im.decode().catch(() => { }), last: FRAME }; IMG.set(src, e); } e.last = FRAME; return e.im; }
+const EVT = TL.events, CLICK = EVT.click;
+const SRC = {
+  bars: t => `${A}bars60/${pad(Math.floor(t * 60) % 900)}.png`,
+  card: k => `${A}cards/${LANG}-${k}.jpg`,
+  ready: `${A}${LANG}-player-ready.jpg`, cta: `${A}${LANG}-cta.png`,
+  speak: t => { let i = Math.floor((t - CLICK) * 30); if (i > 89) i = 30 + Math.abs(((i - 30) % 118) - 59); return `${A}${LANG}-player-speaking/${pad(clamp(i, 0, 89))}.jpg`; },
+  appt: t => `${A}${LANG}-feat1/${pad(clamp(Math.floor((t - 7.15) * 30), 0, 22))}.jpg`,   // frames 4-24 = the new booking
+  tix: t => `${A}${LANG}-feat2/${pad(clamp(Math.floor((t - 7.2) * 30), 0, 134))}.jpg`,
+  ana: t => `${A}${LANG}-feat4/${pad(clamp(Math.floor((t - 8.0) * 30), 0, 29))}.jpg`,
+};
+function need(t) {
+  const l = [SRC.bars(t), LOGO, SRC.cta, SRC.ready];
+  if (t >= 2.2 && t < 4.6) for (let k = 0; k < 5; k++) l.push(SRC.card(k));
+  if (t >= CLICK) l.push(SRC.speak(t));
+  if (t >= 6.9 && t < 11.1) l.push(SRC.appt(t), SRC.tix(t), SRC.ana(t));
+  return l;
+}
+
+// ---------------------------------------------------------------- the character: Walaw's real waveform
+// Strip is 1920x327 (gap in the middle holds the site's CTA). Left group x 0-787, right group 1133-1920, bar axis y=157.
+const GROUPS = { left: [0, 787], right: [1133, 1920], full: [0, 1920] };
+const tint = document.createElement('canvas'); tint.width = 1920; tint.height = 327; const tg = tint.getContext('2d');
+function character(g, t, { part = 'right', x, y, scale = 1, amp = 1, white = false, alpha = 1, clipGap = null }) {
+  const im = img(SRC.bars(t)); if (!im.naturalWidth || alpha <= 0) return;
+  const [sx0, sx1] = GROUPS[part], sw = sx1 - sx0;
+  let src = im;
+  if (white) { tg.clearRect(0, 0, 1920, 327); tg.globalCompositeOperation = 'source-over'; tg.drawImage(im, 0, 0); tg.globalCompositeOperation = 'source-in'; tg.fillStyle = '#fff'; tg.fillRect(0, 0, 1920, 327); src = tint; }
+  g.save(); g.globalAlpha = alpha; g.translate(x, y); g.scale(scale, scale * Math.max(.04, amp));
+  if (clipGap != null) { g.beginPath(); g.rect(-sw / 2, -400, sw / 2 - 173 - clipGap, 800); g.rect(173 + clipGap, -400, sw / 2 - 173 - clipGap + 2, 800); g.clip(); }
+  g.drawImage(src, sx0, 0, sw, 327, -sw / 2, -157, sw, 327);
+  g.restore();
+}
+
+// ---------------------------------------------------------------- type: words rise out of a line mask, accent words in Inter Italic
+function layout(g, lines, size, x, y0, lh) {
+  const out = []; let k = 0;
+  lines.forEach((line, li) => {
+    let xx = x;
+    for (const [w, it] of line) { const ww = tw(g, w, size, !!it); out.push({ w, it: !!it, x: xx, y: y0 + li * lh, ww, k: k++ }); xx += ww + size * .24; }
+  });
+  return out;
+}
+function words(g, t, pos, times, size, color, accent, o = {}) {
+  const { exit = 1e9, dur = .32 } = o;
+  for (const p of pos) {
+    const t0 = times[p.k] ?? (times[times.length - 1] + (p.k - times.length + 1) * .25), pin = E.outExpo(P(t, t0, t0 + dur)), pout = E.inExpo(P(t, exit, exit + .25));
+    if (pin <= 0 || pout >= 1) continue;
+    g.save(); g.beginPath(); g.rect(p.x - 20, p.y - size * 1.02, p.ww + 40, size * 1.32); g.clip();
+    font(g, size, p.it); g.letterSpacing = `${-.03 * size}px`;
+    g.fillStyle = p.it ? (accent === 'grad' ? grad(g, p.x, p.x + p.ww) : accent) : color;
+    g.fillText(p.w, p.x, p.y + (1 - pin) * size * 1.05 - pout * size * 1.05);
+    g.restore();
+    if (p.it && o.underline !== false) {           // hand-drawn swash under the accent word, as in the reference
+      const u = E.inOutCubic(P(t, t0 + .2, t0 + .55)) * (1 - pout);
+      if (u > 0) {
+        g.save(); g.lineWidth = size * .045; g.lineCap = 'round'; g.strokeStyle = accent === 'grad' ? grad(g, p.x, p.x + p.ww) : accent;
+        g.beginPath(); const y = p.y + size * .2;
+        for (let i = 0; i <= 40 * u; i++) { const s = i / 40, xx = p.x + p.ww * s, yy = y + Math.sin(s * Math.PI) * size * .05 - s * size * .03; i ? g.lineTo(xx, yy) : g.moveTo(xx, yy); }
+        g.stroke(); g.restore();
+      }
+    }
+  }
+}
+
+// ---------------------------------------------------------------- cursor (ours) + click ripple
+function cursor(g, x, y, press = 0, alpha = 1) {
+  if (alpha <= 0) return;
+  g.save(); g.globalAlpha = alpha; g.translate(x, y); const s = 1.45 * (1 - .14 * press); g.scale(s, s);
+  g.shadowColor = 'rgba(0,0,0,.28)'; g.shadowBlur = 10; g.shadowOffsetY = 3;
+  g.beginPath(); g.moveTo(0, 0); g.lineTo(0, 30); g.lineTo(7.5, 23); g.lineTo(12.5, 34.5); g.lineTo(17.5, 32.3); g.lineTo(12.6, 21.2); g.lineTo(22.5, 21.2); g.closePath();
+  g.fillStyle = INK; g.fill(); g.shadowColor = 'transparent'; g.lineWidth = 2.2; g.strokeStyle = '#fff'; g.stroke(); g.restore();
+}
+function ripple(g, x, y, t, t0, rmax = 90) {
+  if (t < t0 || t > t0 + .6) return;
+  const p = (t - t0) / .6;
+  g.save(); g.globalAlpha = (1 - p) * .9; g.lineWidth = 6 * (1 - p) + 1; g.strokeStyle = grad(g, x - rmax, x + rmax);
+  g.beginPath(); g.arc(x, y, 12 + rmax * E.outExpo(p), 0, Math.PI * 2); g.stroke(); g.restore();
+}
+function drawCard(g, im, x, y, w, cssW, alpha = 1) {
+  if (!im.naturalWidth) return 0;
+  const h = w * im.naturalHeight / im.naturalWidth, r = 32 * w / cssW;
+  g.save(); g.globalAlpha = alpha; g.beginPath(); g.roundRect(x, y, w, h, r); g.clip(); g.drawImage(im, x, y, w, h); g.restore();
+  return h;
+}
+
+// ---------------------------------------------------------------- 1. hook
+const HOOK_SIZE = 132;
+function hook(g, t) {
+  bg(g, BG);
+  const pos = layout(g, T.hook, HOOK_SIZE, 150, 360, 150), times = T.hookTimes;
+  // character listens at the right edge: near-flat, twitching on each word, rising as the line lands
+  let tw_ = 0; for (const t0 of times) if (t >= t0) tw_ += .45 * Math.exp(-(t - t0) * 9);
+  const amp = .16 + tw_ + .7 * E.inOutCubic(P(t, 1.5, 1.85));
+  character(g, t, { part: 'right', x: W - 330, y: 560, scale: 1.25, amp });
+  words(g, t, pos, times, HOOK_SIZE, INK, BLUE);
+  // the period of the last word becomes the blue circle that floods the frame
+  const last = pos[pos.length - 1];
+  const dotX = last.x + tw(g, last.w.slice(0, -1), HOOK_SIZE) + tw(g, '.', HOOK_SIZE) * .45, dotY = last.y - HOOK_SIZE * .055;
+  const grow = E.inExpo(P(t, EVT.iris1[0], EVT.iris1[1]));
+  if (t >= EVT.dotPop) { g.fillStyle = BLUE; circle(g, dotX, dotY, lerp(HOOK_SIZE * .075, Math.hypot(W, H) * 1.05, grow) * (t < EVT.iris1[0] ? E.outBack(P(t, EVT.dotPop, EVT.iris1[0]), 3) : 1)); }
+}
+
+// ---------------------------------------------------------------- 2. "Walaw does." on blue, the real feature cards fly in
+const CARD_POS = [[960, 700, -6], [1150, 640, -3], [1340, 610, 0], [1530, 640, 3], [1720, 700, 6]];
+function does(g, t) {
+  bg(g, BLUE);
+  const rise = E.outBack(P(t, 2.0, 2.35), 1.3);
+  character(g, t, { part: 'left', x: 393 * 1.1 - 60, y: H - 150 + (1 - rise) * 400, scale: 1.1, amp: .55 + .45 * Math.sin(t * 3) ** 2, white: true });
+  const pos = layout(g, T.does, 156, 150, 380, 170);
+  words(g, t, pos, EVT.doesWords, 156, '#fff', ORANGE);
+  CARD_POS.forEach(([x, y, rot], i) => {
+    const t0 = EVT.cards[i], p = E.outBack(P(t, t0, t0 + .45), 1.25);
+    if (p <= 0) return;
+    const im = img(SRC.card(i)), w = 540, h = w * (im.naturalHeight || 520) / (im.naturalWidth || 1000);
+    g.save(); g.translate(lerp(W + 400, x, p), y + Math.sin(t * 2.2 + i) * 5); g.rotate((rot + (1 - p) * 25) * Math.PI / 180);
+    g.shadowColor = 'rgba(10,20,60,.35)'; g.shadowBlur = 30; g.shadowOffsetY = 14;
+    g.fillStyle = BG; g.beginPath(); g.roundRect(-w / 2, -h / 2, w, h, 32 * w / 742); g.fill(); g.shadowColor = 'transparent';
+    drawCard(g, im, -w / 2, -h / 2, w, 742); g.restore();
+  });
+}
+
+// ---------------------------------------------------------------- 3. "It books patients 24/7." + the real player, click Play, whip into "Speaking..."
+const PL = { x: 930, w: 880 };
+function books(g, t) {
+  bg(g, BG);
+  const ph = PL.w * 588 / 1600, py = CY - ph / 2 + 40;
+  const pos = layout(g, T.books, 128, 150, 360, 146);
+  words(g, t, pos, [EVT.booksStart], 128, INK, 'grad');
+  character(g, t, { part: 'left', x: 300, y: H - 105, scale: .62, amp: t < CLICK ? .2 : .55 + .45 * E.outCubic(P(t, CLICK, CLICK + .3)) });
+  // whip: camera dives into the real "Speaking..." label
+  const z = 1 + 16 * E.inExpo(P(t, EVT.whip[0], EVT.whip[1]));
+  const lx = PL.x + 133 / 1600 * PL.w, ly = py + 164 / 588 * ph;
+  g.save(); g.translate(lx, ly); g.scale(z, z); g.translate(-lx, -ly);
+  const im = img(t < CLICK ? SRC.ready : SRC.speak(t));
+  drawCard(g, im, PL.x, py, PL.w, 772, 1 - P(z, 3, 6));
+  // crisp type takes over from the pixels as we dive (same label, same font, same colour)
+  const ta = P(z, 2, 4);
+  if (ta > 0 && t >= CLICK) { g.globalAlpha = ta; font(g, 15.5 * PL.w / 772, false, 400); g.fillStyle = MUTED; g.fillText(T.speaking, PL.x + 73 / 1600 * PL.w, ly + 6 * PL.w / 772); }
+  g.restore();
+  // cursor clicks Play (real control)
+  const bx = PL.x + 1462 / 1600 * PL.w, by = py + 335 / 588 * ph;
+  const m = E.outCubic(P(t, 5.45, 5.9)), press = t >= CLICK - .04 && t < CLICK + .1 ? 1 : 0;
+  ripple(g, bx, by, t, CLICK);
+  cursor(g, lerp(W + 40, bx - 6, m) + (t > CLICK + .1 ? (t - CLICK - .1) * 120 : 0), lerp(H * .95, by - 4, m) + (t > CLICK + .1 ? (t - CLICK - .1) * 80 : 0), press, 1 - P(t, 6.45, 6.6));
+}
+
+// ---------------------------------------------------------------- 4. the grid: four real panels doing their real thing
+const GRID = { cw: 820, gx: 40, x0: 120, y0: 64 };
+function gridRects() {
+  const { cw, gx, x0, y0 } = GRID, x1 = x0 + cw + gx;
+  const hA = cw * 832 / 1600, hT = cw * 826 / 1600, hP = cw * 588 / 1600, row2 = y0 + Math.max(hA, hT) + 36;
+  return { appt: [x0, y0, cw, hA], tix: [x1, y0, cw, hT], player: [x0, row2 + (hT - hP) / 2, cw, hP], ana: [x1, row2, cw, hT] };
+}
+function grid(g, t) {
+  bg(g, BG);
+  const R = gridRects();
+  const ax = R.appt[0] + R.appt[2] / 2, ay = R.appt[1] + R.appt[3] / 2;
+  const z = 1 + .05 * E.inOutCubic(P(t, 7.0, 10.0));
+  g.save(); g.translate(ax, ay); g.scale(z, z); g.translate(-ax, -ay);
+  [['appt', SRC.appt(t), 742], ['tix', SRC.tix(t), 742], ['player', SRC.speak(t), 772], ['ana', SRC.ana(t), 742]].forEach(([k, src, css], i) => {
+    const p = lerp(.35, 1, E.outExpo(P(t, 7.0 + i * .035, 7.24 + i * .035))), [x, y, w] = R[k];   // cut lands on a full frame
+    drawCard(g, img(src), x, y + (1 - p) * 120, w, css, clamp(p * 1.3));
+  });
+  g.restore();
+  // pointer rests on the new booking
+  const ex = R.appt[0] + 250 / 742 * R.appt[2], ey = R.appt[1] + 232 / 386 * R.appt[3];
+  const m = E.inOutCubic(P(t, 9.0, EVT.hover));
+  cursor(g, lerp(W * .7, ex, m), lerp(H * .98, ey, m), 0, E.outCubic(P(t, 8.9, 9.1)));
+  if (t >= EVT.band) stamp(g, t, R);
+}
+
+// ---------------------------------------------------------------- 5. "Booked." band slams across, then becomes a stamp on the booking
+function stamp(g, t, R) {
+  const inn = E.outExpo(P(t, EVT.band, EVT.band + .18)), col = E.inOutCubic(P(t, 10.5, EVT.stampLand + .03));
+  const ex = R.appt[0] + 420 / 742 * R.appt[2], ey = R.appt[1] + 245 / 386 * R.appt[3];
+  const cx = lerp(CX, ex, col), cy = lerp(CY, ey, col), s = lerp(1, .3, col), rot = lerp(-7, -10, col) * Math.PI / 180;
+  g.save(); g.translate(cx, cy); g.rotate(rot); g.scale(s, s);
+  const bh = 300 * (1 - col);
+  if (bh > 1) { g.fillStyle = grad(g, -W, W); g.beginPath(); g.rect(-W * 1.2, -bh / 2, W * 2.4 * inn, bh); g.fill(); }
+  font(g, 250, true); g.letterSpacing = '-7px'; g.textAlign = 'center'; g.textBaseline = 'middle';
+  g.fillStyle = col > .5 ? grad(g, -330, 330) : '#fff'; g.globalAlpha = inn; g.fillText(T.booked, 0, 8);
+  g.restore();
+  const ringP = E.outCubic(P(t, 10.6, 10.9));
+  if (ringP > 0) {
+    g.save(); g.translate(ex, ey); g.rotate(-10 * Math.PI / 180); g.strokeStyle = grad(g, -150, 150); g.lineWidth = 4;
+    g.beginPath(); g.ellipse(0, 0, 150, 66, 0, -Math.PI / 2, -Math.PI / 2 + Math.PI * 2 * ringP); g.stroke(); g.restore();
+  }
+}
+
+// ---------------------------------------------------------------- 6. manifesto on ink, the character talks
+function manifesto(g, t) {
+  bg(g, INK);
+  character(g, t, { part: 'right', x: W - 330, y: 560, scale: 1.25, amp: 1 });
+  const pos = layout(g, T.manifesto, 168, 150, 450, 190);
+  words(g, t, pos, EVT.manifestoWords, 168, '#fff', 'grad');
+}
+
+// ---------------------------------------------------------------- 7. iris out of the last accent word into the lockup: logo, tagline, the site's own waveform+button
+function lockup(g, t) {
+  // last frame of the manifesto underneath, iris opening from the accent word
+  if (t < EVT.iris2[1]) manifesto(g, t);
+  const pos = layout(g, T.manifesto, 168, 150, 450, 190), last = pos[pos.length - 1];
+  const ix = last.x + last.ww / 2, iy = last.y - 60, ir = Math.hypot(W, H) * 1.1 * E.outExpo(P(t, EVT.iris2[0], EVT.iris2[1]));
+  g.save(); g.beginPath(); g.arc(ix, iy, Math.max(0, ir), 0, Math.PI * 2); g.clip();
+  bg(g, BG);
+  const lp = E.outExpo(P(t, EVT.logo, EVT.logo + .4)), lw = 560, lh = lw * 195 / 845;
+  const logo = img(LOGO);
+  if (logo.naturalWidth && lp > 0) { g.save(); g.beginPath(); g.rect(CX - lw / 2 - 10, 0, (lw + 20) * lp, H); g.clip(); g.translate(CX, 330); g.scale(lerp(1.08, 1, lp), lerp(1.08, 1, lp)); g.drawImage(logo, -lw / 2, -lh / 2, lw, lh); g.restore(); }
+  const tl = layout(g, T.tagline, 50, 0, 470, 60);
+  const tot = tl[tl.length - 1].x + tl[tl.length - 1].ww;
+  tl.forEach(p => p.x += CX - tot / 2);
+  words(g, t, tl, [13.85, 14.0], 50, MUTED, 'grad', { underline: false });
+  // the site's hero: real waveform with the real button in its gap
+  const btn = img(SRC.cta), bh = 86, bw = bh * (btn.naturalWidth || 648) / (btn.naturalHeight || 144), by = 700;
+  const k = (bw / .8) / 346, open = E.outExpo(P(t, EVT.ctaPop, EVT.ctaPop + .5));
+  character(g, t, { part: 'full', x: CX, y: by, scale: k, amp: 1, clipGap: (1 - open) * 790 });
+  const pop = E.outBack(P(t, EVT.ctaPop, EVT.ctaPop + .35), 2.2), press = t >= EVT.ctaClick - .04 && t < EVT.ctaClick + .1 ? 1 : 0;
+  if (pop > 0 && btn.naturalWidth) { g.save(); g.translate(CX, by); const s = pop * (1 - .04 * press); g.scale(s, s); g.beginPath(); g.roundRect(-bw / 2, -bh / 2, bw, bh, bh / 2); g.clip(); g.drawImage(btn, -bw / 2, -bh / 2, bw, bh); g.restore(); }
+  ripple(g, CX, by, t, EVT.ctaClick, bw * .55);
+  const m = E.outCubic(P(t, 14.05, 14.42));
+  cursor(g, lerp(W * .78, CX + bw * .2, m), lerp(H * .95, by + 10, m), press, E.outCubic(P(t, 14.0, 14.15)));
+  const ua = E.outExpo(P(t, EVT.url, EVT.url + .3));
+  if (ua > 0) { g.save(); g.globalAlpha = ua; font(g, 36, false, 600); g.textAlign = 'center'; g.fillStyle = INK; g.fillText(T.url, CX, 930 + (1 - ua) * 16); g.restore(); }
+  g.restore();
+}
+
+// ---------------------------------------------------------------- compositor
+function scene(g, t) {
+  g.save();
+  if (t < 2.0) hook(g, t);
+  else if (t < 4.5) {
+    does(g, t);
+    // a warm panel pushes in from the right carrying the next scene (the reference's layout morph)
+    const px = W * (1 - E.inOutCubic(P(t, 4.22, 4.5)));
+    if (px < W) { g.save(); g.beginPath(); g.rect(px, 0, W - px, H); g.clip(); g.translate(px * .35, 0); books(g, 4.5); g.restore(); }
+  }
+  else if (t < 7.0) books(g, t);
+  else if (t < 11.0) grid(g, t);
+  else if (t < 13.5) manifesto(g, t);
+  else lockup(g, t);
+  g.restore();
+}
+const ctx = cv.getContext('2d');
+const scratch = document.createElement('canvas'); scratch.width = W; scratch.height = H; const sg = scratch.getContext('2d');
+const FAST = [[1.75, 2.02, 10, .5], [4.22, 4.52, 10, .5], [6.5, 7.0, 24, 1], [10.0, 10.2, 10, .5], [10.5, 10.8, 8, .5], [13.5, 13.85, 10, .5]];
+const HARD = TL.hardCuts;
+window.renderFrame = async i => {
+  FRAME = i; const t = i / FPS;
+  const f = FAST.find(([a, b]) => t >= a - .02 && t < b);
+  const n = f ? f[2] : 2, shutter = (f ? f[3] : .5) / FPS;
+  const times = Array.from({ length: n }, (_, k) => { let ts = Math.min(t + k * shutter / n, 14.999); for (const c of HARD) if (t < c && ts >= c) ts = c - 1e-4; return ts; });
+  const srcs = [...new Set(times.flatMap(need))];
+  srcs.forEach(img); await Promise.all(srcs.map(s => IMG.get(s).p));
+  for (const [k, e] of IMG) if (FRAME - e.last > 30 && !srcs.includes(k)) IMG.delete(k);
+  times.forEach((ts, k) => { sg.setTransform(1, 0, 0, 1, 0, 0); sg.globalAlpha = 1; scene(sg, ts); ctx.globalAlpha = 1 / (k + 1); ctx.drawImage(scratch, 0, 0); });
+  ctx.globalAlpha = 1;
+};
+(async () => {
+  for (const [style, b64] of [['normal', window.INTER_N], ['italic', window.INTER_I]]) { const f = new FontFace('Inter Site', `url(data:font/woff2;base64,${b64})`, { weight: '100 900', style }); await f.load(); document.fonts.add(f); }
+  await window.renderFrame(0); window.ready = true;
+})();
+</script></body></html>

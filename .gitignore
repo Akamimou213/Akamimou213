@@ -12,3 +12,7 @@ assets/screens/
 walaw-promo/out/*.wav
 walaw-promo/out/*.mp4
 walaw-promo/out/seg/
+walaw-promo/a/out/*.wav
+walaw-promo/a/out/*.mp4
+walaw-promo/a/out/seg/
+assets/seq/

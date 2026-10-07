@@ -1,0 +1,319 @@
+{
+ "variant": "A — faithful remake of the Pocketsflow reference, Walaw content",
+ "fps": 60,
+ "duration": 15,
+ "scenes": {
+  "hook": [
+   0,
+   2.0
+  ],
+  "does": [
+   2.0,
+   4.5
+  ],
+  "books": [
+   4.5,
+   7.0
+  ],
+  "grid": [
+   7.0,
+   10.0
+  ],
+  "stamp": [
+   10.0,
+   11.0
+  ],
+  "manifesto": [
+   11.0,
+   13.5
+  ],
+  "lockup": [
+   13.5,
+   15.0
+  ]
+ },
+ "hardCuts": [
+  7.0,
+  11.0
+ ],
+ "strings": {
+  "en": {
+   "hook": [
+    [
+     [
+      "Your"
+     ],
+     [
+      "front"
+     ],
+     [
+      "desk"
+     ]
+    ],
+    [
+     [
+      "can't"
+     ],
+     [
+      "answer"
+     ]
+    ],
+    [
+     [
+      "every",
+      "i"
+     ],
+     [
+      "call."
+     ]
+    ]
+   ],
+   "hookTimes": [
+    0.125,
+    0.375,
+    0.5,
+    0.75,
+    1.0,
+    1.25,
+    1.5
+   ],
+   "does": [
+    [
+     [
+      "Walaw"
+     ],
+     [
+      "does.",
+      "i"
+     ]
+    ]
+   ],
+   "books": [
+    [
+     [
+      "It"
+     ],
+     [
+      "books"
+     ]
+    ],
+    [
+     [
+      "patients"
+     ]
+    ],
+    [
+     [
+      "24/7.",
+      "i"
+     ]
+    ]
+   ],
+   "booked": "Booked.",
+   "manifesto": [
+    [
+     [
+      "You"
+     ],
+     [
+      "treat.",
+      "i"
+     ]
+    ],
+    [
+     [
+      "We"
+     ],
+     [
+      "answer.",
+      "i"
+     ]
+    ]
+   ],
+   "tagline": [
+    [
+     [
+      "Voice AI built with health"
+     ],
+     [
+      "clinics.",
+      "i"
+     ]
+    ]
+   ],
+   "speaking": "Speaking...",
+   "url": "walaw.io"
+  },
+  "fr": {
+   "hook": [
+    [
+     [
+      "Votre"
+     ],
+     [
+      "réception"
+     ],
+     [
+      "ne"
+     ],
+     [
+      "peut"
+     ]
+    ],
+    [
+     [
+      "pas"
+     ],
+     [
+      "répondre"
+     ],
+     [
+      "à"
+     ]
+    ],
+    [
+     [
+      "chaque",
+      "i"
+     ],
+     [
+      "appel."
+     ]
+    ]
+   ],
+   "hookTimes": [
+    0.125,
+    0.297,
+    0.469,
+    0.641,
+    0.812,
+    0.984,
+    1.156,
+    1.328,
+    1.5
+   ],
+   "does": [
+    [
+     [
+      "Walaw,"
+     ],
+     [
+      "oui.",
+      "i"
+     ]
+    ]
+   ],
+   "books": [
+    [
+     [
+      "Il"
+     ],
+     [
+      "prend"
+     ],
+     [
+      "des"
+     ]
+    ],
+    [
+     [
+      "rendez-vous"
+     ]
+    ],
+    [
+     [
+      "24/7.",
+      "i"
+     ]
+    ]
+   ],
+   "booked": "Réservé.",
+   "manifesto": [
+    [
+     [
+      "Vous"
+     ],
+     [
+      "soignez.",
+      "i"
+     ]
+    ],
+    [
+     [
+      "On"
+     ],
+     [
+      "répond.",
+      "i"
+     ]
+    ]
+   ],
+   "tagline": [
+    [
+     [
+      "Conçu pour les cliniques"
+     ],
+     [
+      "d'ici.",
+      "i"
+     ]
+    ]
+   ],
+   "speaking": "Parle...",
+   "url": "walaw.io"
+  }
+ },
+ "bpm": 120,
+ "events": {
+  "click": 6.0,
+  "dotPop": 1.6,
+  "iris1": [
+   1.75,
+   2.0
+  ],
+  "drop": 2.0,
+  "doesWords": [
+   2.25,
+   2.5
+  ],
+  "cards": [
+   2.75,
+   3.0,
+   3.25,
+   3.5,
+   3.75
+  ],
+  "push": [
+   4.25,
+   4.5
+  ],
+  "booksStart": 4.75,
+  "whip": [
+   6.5,
+   7.0
+  ],
+  "gridIn": 7.0,
+  "apptArrives": 7.28,
+  "countUp": [
+   8.0,
+   8.4
+  ],
+  "hover": 9.6,
+  "band": 10.0,
+  "stampLand": 10.75,
+  "manifestoWords": [
+   11.25,
+   11.5,
+   12.25,
+   12.5
+  ],
+  "iris2": [
+   13.5,
+   13.85
+  ],
+  "logo": 13.62,
+  "ctaPop": 14.0,
+  "ctaClick": 14.5,
+  "url": 14.5
+ }
+}
