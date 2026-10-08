@@ -1,0 +1,38 @@
+{
+  "name": "saas-demo",
+  "version": "1.0.0",
+  "description": "SaaSDemo: unofficial 15 s concept demo for TOMSO (Remotion, 1920x1080, 30 fps)",
+  "private": true,
+  "license": "UNLICENSED",
+  "type": "module",
+  "scripts": {
+    "dev": "remotion studio",
+    "fonts": "node scripts/copy-fonts.mjs",
+    "sfx": "node scripts/make-sfx.mjs",
+    "typecheck": "tsc",
+    "lint": "eslint src",
+    "check": "npm run typecheck && npm run lint",
+    "render:lowres": "remotion render SaaSDemo out/preview-lowres.mp4 --scale=0.5",
+    "render:preview": "remotion render SaaSDemo out/preview.mp4",
+    "render:silent": "remotion render SaaSDemo out/preview-silent.mp4 --muted",
+    "render:fr": "remotion render SaaSDemoFR out/preview-fr.mp4",
+    "review": "bash scripts/review.sh out/preview.mp4 review"
+  },
+  "dependencies": {
+    "@remotion/cli": "4.0.534",
+    "@remotion/fonts": "4.0.534",
+    "@remotion/media": "4.0.534",
+    "react": "19.2.3",
+    "react-dom": "19.2.3",
+    "remotion": "4.0.534"
+  },
+  "devDependencies": {
+    "@fontsource-variable/archivo": "5.3.0",
+    "@fontsource/instrument-serif": "5.3.0",
+    "@remotion/eslint-config-flat": "4.0.534",
+    "@types/react": "19.2.7",
+    "@types/web": "0.0.166",
+    "eslint": "9.39.5",
+    "typescript": "5.9.3"
+  }
+}

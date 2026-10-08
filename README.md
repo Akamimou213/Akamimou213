@@ -21,6 +21,7 @@ On Vercel: framework preset **Vite**, build command `npm run build`, output dire
 | Design tokens (colours, type, spacing) | top of `src/styles.css` |
 | Motion (hero intro, system rail, results tabs, counters, stacking cards) | `src/main.ts` |
 | Portrait, social preview image, robots.txt, sitemap.xml, llms.txt | `public/` |
+| Video films (Remotion, self-contained packages, not part of the site build) | `films/` (see `films/saas-demo/README.md`) |
 
 ## Content rules
 
