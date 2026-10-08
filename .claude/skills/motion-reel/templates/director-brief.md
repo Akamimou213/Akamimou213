@@ -7,7 +7,9 @@ Treat this as a multi-session production. Don't rush to a final render. Hire a c
 [LOGLINE + the joke / the turn. What the viewer should feel at the end. Every decision is checked against this.]
 
 ## References and inputs
-- Product: [URL]. Capture real assets with `scripts/capture.cjs` into `./assets`; list them before animating.
+- Subject + source: [URL | app + screen recordings | brand files | the person's work]. Collect real assets into `./assets`
+  (sites: `scripts/capture.cjs`); list them before animating.
+- Goal + audience: [what the viewer should do or feel; for ads, the KPI the test is judged on, plus the variants to test].
 - Reference: `./refs/[file]` — take the grammar (pacing, type, transitions, accent element), never the content.
   Keep: [...]. Push further: [...].
 - Audio: [`./audio/track.wav` unchanged, measure with beats.py | synthesize original music at [BPM] BPM].
@@ -32,7 +34,7 @@ No supplied character → use a real brand element (e.g. the product's waveform)
 
 ## Text on screen
 When words go huge (kinetic), when they sit like subtitles; leave room for them in every composition.
-Language(s): [..]. All product copy verbatim from the site; mark any line we wrote.
+Language(s): [..] (check the market's language rules for ads). All product copy verbatim from the source; mark any line we wrote.
 
 ## Workflow, with gates
 1. `docs/style_guide.md` + `docs/shotlist.md` (every shot: time on the grid, camera, text, SFX). Show the shot list,
@@ -46,4 +48,4 @@ Render 3–5 stills, score 1–10 on hook, readability at 360 px, motion, compos
 accuracy. Log scores + the 3 biggest problems with timestamps in `docs/review_log.md`. Fix. Repeat until all 8+.
 
 ## Deliverables
-`out/final-[lang]-[fmt].mp4` · `out/loop_check.mp4` · `out/poster.png` · `out/contact.png` · `README.md`
+`out/[name]-[lang][-variant]-[fmt].mp4` · `out/loop_check.mp4` (loops) · `out/poster.png` · `out/contact.png` · `README.md` (sources, credits)

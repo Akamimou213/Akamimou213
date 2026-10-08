@@ -36,7 +36,7 @@ def sync(path, tl_path):
     y = np.frombuffer(wav, np.float32)
     on = librosa.onset.onset_detect(y=y, sr=22050, units='time', backtrack=False)
     ev = TL.get('events', {})
-    marks = sorted(set([k['t'] for k in TL.get('keys', [])] + TL.get('hardCuts', []) + ev.get('clicks', [])))
+    marks = sorted(set([k['t'] for k in TL.get('keys', []) + TL.get('scenes', [])] + TL.get('hardCuts', []) + ev.get('clicks', [])))
     marks = [m for m in marks if 0 < m < TL['duration']]
     if not len(on) or not marks: print('nothing to compare'); return
     d = [(m, 1000 * (on[np.abs(on - m).argmin()] - m)) for m in marks]
@@ -44,6 +44,7 @@ def sync(path, tl_path):
     bad = [(m, e) for m, e in d if abs(e) > frame_ms]
     print(f'{len(marks)} marks, median |offset| {np.median([abs(e) for _, e in d]):.0f} ms, max {max(abs(e) for _, e in d):.0f} ms (target <= {frame_ms:.0f} ms)')
     for m, e in bad[:10]: print(f'  off grid: {m:.2f}s nearest onset {e:+.0f} ms')
+    if bad: print('  (review, not auto-fail: settle pops land ~100 ms after a morph by design)')
 
 
 if __name__ == '__main__':

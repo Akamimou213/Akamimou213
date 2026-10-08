@@ -1,12 +1,21 @@
 """Build cues.json for sfx.mjs from timeline.json, so every visual event has a sound on the same frame.
-Usage: python3 -I cues.py timeline.json cues.json [lang]
-Reads events.clicks / pops / thumps / whooshes (times), events.typing ([[t0, t1, copyKey], ...]) and keys
-(state morphs: pop on settle, thump on ink change, whoosh before big size changes)."""
+Usage: python3 -I cues.py timeline.json cues.json [lang] [variant]
+Reads events.clicks / pops / thumps / whooshes (times), events.typing ([[t0, t1, copyKey], ...]), keys (morph films:
+pop on settle, thump on ink change, whoosh before big size changes) and scenes (scene films: thump on a hard cut,
+whoosh into a soft transition, pop as content lands)."""
 import json
 import sys
 
+def merge(a, b):
+    if not isinstance(b, dict): return b
+    o = dict(a or {})
+    for k, v in b.items(): o[k] = merge(o.get(k), v)
+    return o
+
+
 tl = json.load(open(sys.argv[1]))
 lang = sys.argv[3] if len(sys.argv) > 3 else (tl.get('langs') or ['en'])[0]
+if len(sys.argv) > 4: tl = merge(tl, tl['variants'][sys.argv[4]])
 E, K, C = tl.get('events', {}), tl.get('keys', []), tl.get('copy', {}).get(lang, {})
 cues = []
 add = lambda t, k, g=1.0: cues.append({'t': round(t, 3), 'type': k, 'gain': g})
@@ -25,6 +34,11 @@ for k in K:
         if big: add(k['t'] - .05, 'whoosh', 1.0)
     add(k['t'] + .1, 'pop', .6)
     prev = k
+hard = set(tl.get('hardCuts', []))
+for sc in tl.get('scenes', [])[1:]:
+    if sc['t'] in hard: add(sc['t'], 'thump', 1.0)
+    else: add(sc['t'] - .05, 'whoosh', .9)
+    add(sc['t'] + .12, 'pop', .6)
 cues = [c for c in cues if c['t'] >= 0]
 cues.sort(key=lambda c: c['t'])
 json.dump(cues, open(sys.argv[2], 'w'), indent=0)

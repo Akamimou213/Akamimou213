@@ -3,7 +3,8 @@
 <style>html,body{margin:0;overflow:hidden;background:#000}canvas{display:block}</style>
 </head><body><canvas id="c"></canvas>
 <script>
-// Starter engine: one canvas, one shape, one pure draw(t). Copy next to your timeline.json and grow CONTENT.
+// Starter engine (morph): one canvas, one shape, one pure draw(t). Copy next to your timeline.json and grow CONTENT.
+// For cut-based films (kinetic type, real captures, proof number, end card) start from engine-scenes.html instead.
 // Injected by scripts/render.cjs before load: window.TL (timeline.json), window.Motion (lib/motion.js),
 // window.FONTS ([{family, b64, style, weight}]). URL: ?size=WxH&lang=fr
 // Rules: no timers, no CSS transitions, no Math.random, no state carried between frames.
@@ -47,8 +48,8 @@ function withContent(t, tIn, tOut_, fn) {
 }
 // Real UI capture as a card at the site's radius. Never redraw a product screen.
 function drawCard(im, x, y, w, r = 16) { if (!im) return; const h = w * im.naturalHeight / im.naturalWidth; g.save(); rrect(x, y, w, h, r); g.clip(); g.drawImage(im, x, y, w, h); g.restore(); return h; }
-const IM = {};
-const load = (name, src) => new Promise(r => { const im = new Image(); im.onload = () => { IM[name] = im; r(); }; im.onerror = () => r(); im.src = src; });
+const IM = {}; window.MISSING = [];                                // render.cjs refuses a video while anything is missing
+const load = (name, src) => new Promise(r => { const im = new Image(); im.onload = () => { IM[name] = im; r(); }; im.onerror = () => { window.MISSING.push(`image ${name}: ${src}`); r(); }; im.src = src; });
 
 // ---------------------------------------------------------------- content per state id (shape-local coords, origin = centre)
 // s = current shape size, ink = 0 light / 1 dark. Every string comes from C (timeline copy), never hard-coded.
@@ -92,7 +93,7 @@ window.renderFrame = (i, opts = {}) => {
 };
 (async () => {
   for (const f of window.FONTS || []) { const ff = new FontFace(f.family, `url(data:font/woff2;base64,${f.b64})`, { weight: f.weight || '100 900', style: f.style || 'normal' }); await ff.load(); document.fonts.add(ff); }
-  // await load('logo', '../assets/brand/logo.svg');               // real assets only, preloaded once
+  await Promise.all(Object.entries(TL.images || {}).map(([k, src]) => load(k, src)));   // real assets only, preloaded once
   draw(0); window.ready = true;
 })();
 </script></body></html>

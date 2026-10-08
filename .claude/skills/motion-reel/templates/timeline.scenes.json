@@ -1,0 +1,40 @@
+{
+  "_doc": "Scenes film timeline (engine-scenes.html): hook -> real UI -> proof -> end card. Times in seconds on the beat grid (beat = 60/bpm). Bracketed strings and a null stat are placeholders: render.cjs refuses to make a video until they are replaced with verbatim copy / a verified number, each with a source. *Asterisks* mark accent words. variants.<X> is deep-merged over this file by --variant X (hook tests, CTA tests, markets).",
+  "name": "example-scenes",
+  "bpm": 120,
+  "duration": 8.0,
+  "fps": 60,
+  "loop": false,
+  "langs": ["en", "fr"],
+  "formats": { "V": "1080x1920", "S": "1080x1080", "P": "1080x1350", "L": "1920x1080" },
+  "fonts": [
+    { "family": "Brand Sans", "file": "assets/fonts/brand.woff2", "style": "normal", "weight": "100 900" }
+  ],
+  "palette": { "bg": "#F6F4EF", "ink": "#111111", "white": "#FFFFFF", "muted": "#6B6B6B", "accent": "#3B5BFF" },
+  "images": { "screen1": "assets/screens/screen1.png", "logo": "assets/brand/logo.svg" },
+  "hardCuts": [2.0],
+  "fast": [[3.75, 4.3, 12, 0.9], [5.75, 6.3, 12, 0.9]],
+  "scenes": [
+    { "id": "hook", "t": 0.0, "kind": "type", "copy": "hook", "bg": "ink", "color": "white", "accent": "accent" },
+    { "id": "feature", "t": 2.0, "kind": "card", "image": "screen1", "crop": [0, 0, 1, 1], "cropV": [0.1, 0.1, 0.6, 0.6], "copy": "feature1", "bg": "bg", "color": "ink", "accent": "accent" },
+    { "id": "proof", "t": 4.0, "kind": "stat", "to": null, "suffix": "%", "copy": "statLabel", "source": "statSource", "bg": "white", "color": "ink", "accent": "accent" },
+    { "id": "end", "t": 6.0, "kind": "endcard", "image": "logo", "copy": "cta", "bg": "ink", "color": "white", "accent": "accent" }
+  ],
+  "cursor": [[[2.5, 0.9, 1.05], [3.0, 0.62, 0.62]], [[6.4, 0.85, 1.05], [6.9, 0.56, 0.64]]],
+  "events": {
+    "clicks": [3.25, 7.0],
+    "typing": [],
+    "pops": [],
+    "whooshes": [],
+    "thumps": []
+  },
+  "copy": {
+    "en": { "hook": "[Problem in five *words*]", "feature1": "[Feature line *verbatim*]", "statLabel": "[metric label verbatim]", "statSource": "[Source: where the number comes from]", "cta": "[CTA verbatim]" },
+    "fr": { "hook": "[Le problème en cinq *mots*]", "feature1": "[Fonction *verbatim*]", "statLabel": "[libellé de la métrique]", "statSource": "[Source du chiffre]", "cta": "[CTA verbatim FR]" }
+  },
+  "sources": { "feature1": "https://example.com/features (captured YYYY-MM-DD)", "statLabel": "[report / dashboard / case study URL]" },
+  "variants": {
+    "B": { "copy": { "en": { "hook": "[Alternative hook, *same promise*]" }, "fr": { "hook": "[Accroche B, *même promesse*]" } } },
+    "C": { "copy": { "en": { "hook": "[Hook C: lead with the *outcome*]" }, "fr": { "hook": "[Accroche C : le *résultat*]" } } }
+  }
+}
