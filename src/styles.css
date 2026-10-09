@@ -364,7 +364,7 @@ section { position: relative; }
 .chip--warn::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--signal-on-dark); }
 .case { background: var(--ink-2); border: 1px solid var(--line-dark); border-radius: 6px; padding: clamp(22px, 2.6vw, 36px); display: grid; align-content: start; gap: 6px; }
 .case__head { display: flex; justify-content: space-between; align-items: start; gap: 12px; flex-wrap: wrap; margin-bottom: clamp(20px, 3vw, 40px); }
-.case__who { color: var(--on-dark); font-weight: 600; }
+.case__who { color: var(--on-dark); font-weight: 600; text-wrap: wrap; }
 .case__who span { color: var(--muted-dark); font-weight: 400; }
 .case__big { font-family: var(--f-display); font-stretch: 62%; font-weight: 850; font-size: clamp(110px, 17vw, 270px); line-height: 0.82; letter-spacing: -0.01em; font-variant-numeric: tabular-nums; color: var(--on-dark); }
 .case__big--sm { font-size: clamp(68px, 6.4vw, 108px); color: var(--on-dark); }

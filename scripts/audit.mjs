@@ -73,6 +73,11 @@ async function runLighthouse(url, formFactor) {
   } finally { await chrome.kill(); }
 }
 
+const revealAll = (page) => page.evaluate(async () => {
+  for (let y = 0; y < document.documentElement.scrollHeight; y += innerHeight * 0.6) { window.scrollTo(0, y); await new Promise((r) => setTimeout(r, 120)); }
+  window.scrollTo(0, 0); await new Promise((r) => setTimeout(r, 1500));
+});
+
 // ─── Page checks (Playwright) ───
 async function pageChecks(browser, url) {
   const axeSource = await readFile(require.resolve('axe-core/axe.min.js'), 'utf8');
@@ -131,7 +136,7 @@ async function pageChecks(browser, url) {
       check('tap-targets-44px@390', small.length === 0, small.length ? small.slice(0, 6).join(' | ') : 'ok');
 
       // Full-page screenshot for the reviewer
-      await page.evaluate(() => window.scrollTo(0, 0));
+      await revealAll(page);
       await page.screenshot({ path: join(SHOTS, 'full-390.png'), fullPage: true });
     }
 
@@ -144,6 +149,7 @@ async function pageChecks(browser, url) {
         return r.violations.map((v) => `${v.id} (${v.impact}): ${v.nodes.slice(0, 3).map((n) => n.target.join(' ')).join(', ')}`);
       });
       check('axe-zero-violations@1440', axe.length === 0, axe.length ? axe.join(' | ') : 'ok');
+      await revealAll(page);
       await page.screenshot({ path: join(SHOTS, 'full-1440.png'), fullPage: true });
     }
 

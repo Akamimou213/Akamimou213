@@ -19,7 +19,8 @@ On Vercel: framework preset **Vite**, build command `npm run build`, output dire
 |---|---|
 | Copy, results, sections | `index.html` |
 | Design tokens (colours, type, spacing) | top of `src/styles.css` |
-| Motion (hero intro, system rail, results tabs, counters, stacking cards) | `src/main.ts` |
+| Styles and fonts entry; loads the motion code after first paint | `src/main.ts` |
+| Motion (hero intro, system rail, results tabs, counters, stacking cards, mobile booking dock) | `src/app.ts` |
 | Portrait, social preview image, robots.txt, sitemap.xml, llms.txt | `public/` |
 
 ## Content rules
