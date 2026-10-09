@@ -117,7 +117,6 @@ function initHero() {
     const fromLeft = el.parentElement!.dataset.from !== 'right';
     tl.from(el, { yPercent: 108, x: fromLeft ? '-6vw' : '6vw', duration: 1.25 }, 0.08 + i * 0.09);
   });
-  tl.from('.hero__copy > *', { y: 24, opacity: 0, duration: 1, stagger: 0.07 }, 0.55);
   tl.from('.ledger', { y: 40, opacity: 0, duration: 1.1 }, 0.6);
   tl.from('.ledger__head', { opacity: 0, duration: 0.6 }, 0.85);
   rows.forEach((row, i) => {
@@ -504,13 +503,9 @@ function initPrinciples() {
   });
 }
 
-/* ───────────── Offer, phases, about ───────────── */
+/* ───────────── Phases, about ───────────── */
 function initReveals() {
   if (reduced) return;
-  gsap.from('.offer__row .y', {
-    opacity: 0, scale: 0.6, duration: 0.5, ease: 'back.out(2.5)', stagger: 0.03,
-    scrollTrigger: { trigger: '.offer__table', start: 'top 75%', once: true },
-  });
   gsap.from('.phases li', {
     y: 24, opacity: 0, duration: 0.9, ease: 'expo.out', stagger: 0.1,
     scrollTrigger: { trigger: '.phases', start: 'top 85%', once: true },
@@ -535,8 +530,25 @@ function initReveals() {
     .from('.cta__row > *', { y: 24, opacity: 0, duration: 1, ease: 'expo.out', stagger: 0.08 }, 0.5);
 }
 
+/* ───────────── Mobile booking dock ───────────── */
+// Shows once the hero CTA scrolls away, hides again at the closing CTA.
+function initDock() {
+  const dock = $('[data-dock]');
+  const watched = $$('.hero__ctas, #contact');
+  if (!dock || !watched.length) return;
+  const onScreen = new Set<Element>();
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach((e) => (e.isIntersecting ? onScreen.add(e.target) : onScreen.delete(e.target)));
+    const show = onScreen.size === 0;
+    dock.classList.toggle('is-on', show);
+    dock.toggleAttribute('inert', !show);
+  });
+  watched.forEach((el) => io.observe(el));
+}
+
 /* ───────────── Boot ───────────── */
 initNav();
+initDock();
 // The hero waits for fonts so the trace line is measured against final glyph positions.
 let heroStarted = false;
 const startHero = () => { if (!heroStarted) { heroStarted = true; initLedgerRotation(); initHero(); if (reduced) ledgerCycle?.(0, false); } };

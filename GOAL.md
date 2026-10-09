@@ -48,3 +48,4 @@ Content rules from `README.md` always apply. Every number comes from real campai
 | Date | Score | What changed |
 |---|---|---|
 | 2026-10-09 | 17/36 | Baseline, before any fixes |
+| 2026-10-09 | 36/36 | Hero copy + free-call CTA above the fold, mobile booking dock, copy paints before JS (mobile LCP 3.7 s → 2.4 s), FAQ schema synced, mailto, tap targets, contrast, dead GSAP code removed |
