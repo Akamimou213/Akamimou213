@@ -31,10 +31,11 @@ for t in $STRIPS; do
 done
 ffmpeg -v error -y -ss "${POSTER_T:-0}" -i "$v" -frames:v 1 "$base.poster.png" && echo "poster -> $base.poster.png"
 if [ "$LOOP" = "true" ]; then
-  echo "== loop seam: SSIM(first frame, frame after last) should be >= 0.99"
-  ffmpeg -v error -y -i "$v" -vf "select=eq(n\,0)" -frames:v 1 /tmp/_first.png
-  ffmpeg -v error -y -sseof -0.1 -i "$v" -update 1 /tmp/_last.png
-  ffmpeg -hide_banner -i /tmp/_first.png -i /tmp/_last.png -lavfi ssim -f null - 2>&1 | grep -o "All:[0-9.]*"
+  echo "== loop seam: SSIM(first frame, last frame) should be >= 0.99 (the last frame is one step before the first)"
+  tmp=$(mktemp -d)
+  ffmpeg -v error -y -i "$v" -vf "select=eq(n\,0)" -frames:v 1 "$tmp/first.png"
+  ffmpeg -v error -y -sseof -0.1 -i "$v" -update 1 "$tmp/last.png"
+  ffmpeg -hide_banner -i "$tmp/first.png" -i "$tmp/last.png" -lavfi ssim -f null - 2>&1 | grep -o "All:[0-9.]*"; rm -rf "$tmp"
   ffmpeg -v error -y -stream_loop 2 -i "$v" -c copy "$base.loop_check.mp4" && echo "watch the seam: $base.loop_check.mp4"
 fi
 echo "== corners (should be empty: no labels, HUDs, frames)"

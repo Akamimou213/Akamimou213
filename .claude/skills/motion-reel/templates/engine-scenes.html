@@ -112,7 +112,10 @@ const KIND = {
   },
   stat: (t, s, lt) => {                                              // one verified number, counted up, with its source
     const v = lerp(s.from || 0, s.to, E.outExpo(clamp((lt - .1) / 1.1)));
-    const n = typeof s.to === 'number' ? `${s.prefix || ''}${v.toFixed(s.decimals || 0)}${s.suffix || ''}` : '[number]', sz = (FMT === 'landscape' ? 300 : 340) * U;
+    const fmt = x => `${s.prefix || ''}${x.toFixed(s.decimals || 0)}${s.suffix || ''}`;
+    const n = typeof s.to === 'number' ? fmt(v) : '[number]', ends = typeof s.to === 'number' ? [fmt(s.from || 0), fmt(s.to)] : [n];
+    let sz = (FMT === 'landscape' ? 300 : 340) * U; font(sz, 800); const fw = Math.max(...ends.map(e => g.measureText(e).width)); g.letterSpacing = '0px';
+    if (fw > BOX.w) sz *= BOX.w / fw;                                 // fit the final value once, so the size never jumps while counting
     const pop = spring(lt, 260, 22);
     g.save(); g.translate(CX, CY - 40 * U); g.scale(.9 + .1 * pop, .9 + .1 * pop); text(n, 0, 0, sz, 800, col(s.accent)); g.restore();
     kinetic(t, s.t + .25, C[s.copy], CX, CY + sz * .55, BOX.w * .9, 160 * U, 64 * U, col(s.color), col(s.accent));

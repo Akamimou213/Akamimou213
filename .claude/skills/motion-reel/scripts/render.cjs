@@ -28,13 +28,15 @@ const FPS = TL.fps || 60, lang = opt.lang || (TL.langs || ['en'])[0], sub = opt.
   page.on('pageerror', e => { console.error('PAGE ERROR', e); process.exit(1); });
   page.on('console', m => m.type() === 'error' && console.error('console:', m.text()));
   // file:// blocks font CORS, so fonts travel as base64; the motion library is injected, not fetched
-  const fonts = (TL.fonts || []).map(f => ({ ...f, b64: fs.readFileSync(path.resolve(dir, f.file)).toString('base64') }));
+  // a missing font is a hole like a missing image: drafts fall back to sans-serif, video refuses below
+  const fontHoles = [], fonts = (TL.fonts || []).filter(f => fs.existsSync(path.resolve(dir, f.file)) || (fontHoles.push(`font ${f.family}: ${f.file}`), false))
+    .map(f => ({ ...f, b64: fs.readFileSync(path.resolve(dir, f.file)).toString('base64') }));
   const motion = fs.readFileSync(path.join(__dirname, '../lib/motion.js'), 'utf8');
   await page.addInitScript({ content: `${motion};window.TL=${tlText};window.FONTS=${JSON.stringify(fonts)};` });
   await page.goto(`file://${path.join(dir, 'index.html')}?size=${size}&lang=${lang}`);
   await page.waitForFunction('window.ready === true', null, { timeout: 120000 });
-  const holes = [...Object.entries(TL.copy?.[lang] || {}).filter(([, v]) => typeof v === 'string' && /\[[^\]]+\]/.test(v)).map(([k]) => `placeholder copy: ${lang}.${k}`),
-    ...await page.evaluate(() => window.MISSING || [])];
+  const bracketed = (o, at) => Object.entries(o || {}).flatMap(([k, v]) => typeof v === 'string' ? (/\[[^\]]+\]/.test(v) ? [`${at}.${k}`] : []) : v && typeof v === 'object' ? bracketed(v, `${at}.${k}`) : []);
+  const holes = [...bracketed(TL.copy?.[lang], lang).map(k => `placeholder copy: ${k}`), ...fontHoles, ...await page.evaluate(() => window.MISSING || [])];
   if (holes.length) {
     console.error(`${holes.length} unfinished item(s):\n  ${holes.join('\n  ')}`);
     if (mode === 'video' && !opt['allow-placeholders']) { console.error('refusing to render video with placeholders (stills/sheet are fine)'); process.exit(3); }

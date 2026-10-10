@@ -20,7 +20,7 @@ python3 -c 'import numpy, scipy, soundfile, librosa' 2>/dev/null || {
   python3 -m venv .venv && . .venv/bin/activate && pip install -q numpy scipy soundfile librosa
   echo "activate the venv in each new shell: . $dir/.venv/bin/activate"; }
 echo "export PLAYWRIGHT_PATH=$(pwd)/node_modules/playwright"
-[ -x /opt/pw-browsers/chromium ] && echo "export CHROMIUM_PATH=/opt/pw-browsers/chromium"
+if [ -x /opt/pw-browsers/chromium ]; then echo "export CHROMIUM_PATH=/opt/pw-browsers/chromium"; fi
 # Optional third-party skills (review the repos before installing):
 #   npx skills add remotion-dev/skills          # Remotion (company licence needed above 3 people)
 #   npx skills add heygen-com/hyperframes        # HTML -> video with GSAP

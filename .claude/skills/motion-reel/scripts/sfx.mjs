@@ -1,6 +1,7 @@
 // node sfx.mjs cues.json out/sfx.wav     cues: [{"t":0.5,"type":"click","gain":1}, ...]   voices: click pop thump whoosh (48 kHz mono)
 import { readFileSync, writeFileSync } from 'node:fs';
 const SR = 48000, cues = JSON.parse(readFileSync(process.argv[2], 'utf8'));
+if (!cues.length) { console.error('no cues: add events to timeline.json or skip the SFX stem'); process.exit(2); }
 const buf = new Float32Array(Math.ceil((Math.max(...cues.map(c => c.t)) + 2) * SR));
 
 let s = 42; const noise = () => (s = (s * 1664525 + 1013904223) >>> 0) / 2147483648 - 1;
