@@ -1,0 +1,6 @@
+# Audio + captions stack for .claude/skills/motion-reel (music.py, beats.py, master.py, qa.py, words.py)
+numpy==2.5.3
+scipy==1.18.1
+soundfile==0.14.0
+librosa==1.0.0
+faster-whisper==1.2.1   # local word timings; the model downloads from Hugging Face on first use

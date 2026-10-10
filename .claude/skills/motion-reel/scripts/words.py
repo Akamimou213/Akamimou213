@@ -1,6 +1,7 @@
 """Word timings for captions and VO-locked cues: [{"w": "Book", "t0": 1.02, "t1": 1.31}, ...] on stdout.
   python3 -I words.py vo.wav --lang en [--model small] > out/words.en.json     local faster-whisper (no API, no upload)
   python3 -I words.py captions.srt > out/words.en.json                          a supplied SRT (word times are estimated)
+  --shape scribe writes {"words": [{"text", "start", "end"}]} instead, the transcript shape talking-head editing tools take
 faster-whisper is optional (pip install faster-whisper); its first run downloads the model from Hugging Face.
 An SRT only times whole cues, so words are spread by length inside each cue (about +-0.2 s): put important visual
 changes on the first or last word of a cue, or transcribe the audio for word-exact timing."""
@@ -11,6 +12,7 @@ import sys
 
 ap = argparse.ArgumentParser()
 ap.add_argument('src'); ap.add_argument('--lang'); ap.add_argument('--model', default='small')
+ap.add_argument('--shape', choices=['words', 'scribe'], default='words')
 args = ap.parse_args()
 
 
@@ -36,11 +38,14 @@ def whisper_words(path):
         from faster_whisper import WhisperModel
     except ImportError:
         sys.exit('faster-whisper is not installed: pip install faster-whisper (or pass an SRT)')
+    import librosa                                                 # decode here: faster-whisper's own PyAV path breaks across av releases
+    audio, _ = librosa.load(path, sr=16000, mono=True)
     model = WhisperModel(args.model, device='auto', compute_type='int8')
-    segs, _ = model.transcribe(path, language=args.lang, word_timestamps=True, vad_filter=True)
+    segs, _ = model.transcribe(audio, language=args.lang, word_timestamps=True, vad_filter=True)
     return [{'w': w.word.strip(), 't0': round(w.start, 3), 't1': round(w.end, 3)} for s in segs for w in (s.words or []) if w.word.strip()]
 
 
 words = srt_words(args.src) if args.src.lower().endswith('.srt') else whisper_words(args.src)
-json.dump(words, sys.stdout, ensure_ascii=False, indent=0)
+out = {'words': [{'text': w['w'], 'start': w['t0'], 'end': w['t1']} for w in words]} if args.shape == 'scribe' else words
+json.dump(out, sys.stdout, ensure_ascii=False, indent=0)
 print(f'{len(words)} words', file=sys.stderr)
