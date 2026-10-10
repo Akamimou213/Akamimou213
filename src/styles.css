@@ -637,6 +637,22 @@ section { position: relative; }
   .faq details p { padding-right: 0; }
 }
 
+/* ───────────── Reel ───────────── */
+.reel { padding: clamp(48px, 7vw, 112px) 0 0; }
+.reel__head { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding-bottom: 14px; color: var(--muted); }
+.reel__head h2 { font-weight: 500; }
+.reel__sound { flex-shrink: 0; white-space: nowrap; height: 36px; padding: 0 14px; border: 1px solid var(--line); border-radius: 999px; background: transparent; color: var(--ink); cursor: pointer; transition: background .25s, color .25s, border-color .25s; }
+.reel__sound:hover { border-color: var(--ink); }
+.reel__sound[aria-pressed="true"] { background: var(--signal); border-color: var(--signal); color: var(--on-signal); }
+.reel__frame { margin: 0; border-radius: clamp(14px, 1.6vw, 24px); overflow: hidden; background: var(--ink); }
+.reel__video { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; background: var(--ink); }
+.js .reel__video { cursor: pointer; }
+@media (max-width: 700px) {
+  .reel__frame { width: min(100%, calc(min(78svh, 680px) * 9 / 16)); margin-inline: auto; }
+  .reel__video.is-portrait { aspect-ratio: 9 / 16; }
+}
+.sr-only { position: absolute; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
 @media (prefers-reduced-motion: reduce) {
   *, *::before, *::after { animation: none !important; transition-duration: 0.01ms !important; }
 }

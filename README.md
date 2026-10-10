@@ -21,6 +21,7 @@ On Vercel: framework preset **Vite**, build command `npm run build`, output dire
 | Design tokens (colours, type, spacing) | top of `src/styles.css` |
 | Motion (hero intro, system rail, results tabs, counters, stacking cards) | `src/main.ts` |
 | Portrait, social preview image, robots.txt, sitemap.xml, llms.txt | `public/` |
+| Intro reel (16:9 + 9:16, MP4 + WebM, posters) | `public/reel/`; source film in `films/portfolio-reel/` (rebuild steps in its README) |
 
 ## Content rules
 

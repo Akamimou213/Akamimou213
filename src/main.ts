@@ -535,6 +535,33 @@ function initReveals() {
     .from('.cta__row > *', { y: 24, opacity: 0, duration: 1, ease: 'expo.out', stagger: 0.08 }, 0.5);
 }
 
+/* ───────────── Reel ───────────── */
+// Phones get the 9:16 cut (the 16:9 type is too small there). It plays muted while in view and pauses when out of it;
+// with reduced motion it doesn't autoplay and keeps the native controls.
+function initReel() {
+  const v = $<HTMLVideoElement>('[data-reel]');
+  if (!v) return;
+  const btn = $<HTMLButtonElement>('[data-reel-sound]');
+  if (window.matchMedia('(max-width: 700px)').matches) {
+    v.querySelectorAll('source').forEach((src) => { src.src = src.src.replace('16x9', '9x16'); });
+    v.poster = '/reel/poster-9x16.webp';
+    v.width = 1080; v.height = 1920;
+    v.classList.add('is-portrait');
+    v.load();
+  }
+  if (reduced) { btn?.remove(); return; }
+  v.controls = false;
+  v.preload = 'auto';
+  new IntersectionObserver(([e]) => { if (e.isIntersecting) v.play().catch(() => {}); else v.pause(); }, { threshold: 0.35 }).observe(v);
+  v.addEventListener('click', () => { if (v.paused) v.play().catch(() => {}); else v.pause(); });
+  btn?.addEventListener('click', () => {
+    v.muted = !v.muted;
+    btn.setAttribute('aria-pressed', String(!v.muted));
+    btn.textContent = v.muted ? 'Turn sound on' : 'Mute';
+    if (!v.muted) v.play().catch(() => {});
+  });
+}
+
 /* ───────────── Boot ───────────── */
 initNav();
 // The hero waits for fonts so the trace line is measured against final glyph positions.
@@ -550,5 +577,6 @@ labelReceipts();
 initTabs();
 initPrinciples();
 initReveals();
+initReel();
 
 document.fonts?.ready.then(() => ScrollTrigger.refresh());
