@@ -1,0 +1,99 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>html,body{margin:0;overflow:hidden;background:#000}canvas{display:block}</style>
+</head><body><canvas id="c"></canvas>
+<script>
+// Starter engine (morph): one canvas, one shape, one pure draw(t). Copy next to your timeline.json and grow CONTENT.
+// For cut-based films (kinetic type, real captures, proof number, end card) start from engine-scenes.html instead.
+// Injected by scripts/render.cjs before load: window.TL (timeline.json), window.Motion (lib/motion.js),
+// window.FONTS ([{family, b64, style, weight}]). URL: ?size=WxH&lang=fr
+// Rules: no timers, no CSS transitions, no Math.random, no state carried between frames.
+const { clamp, lerp, spring, track, swapAlpha, loopT, segOf, mixHex, subframeTimes } = window.Motion;
+const Q = new URLSearchParams(location.search);
+const [W, H] = (Q.get('size') || '1080x1920').split('x').map(Number);
+const LANG = Q.get('lang') || (window.TL.langs || ['en'])[0];
+const cv = document.getElementById('c'); cv.width = W; cv.height = H;
+let g = cv.getContext('2d');
+const layer = document.createElement('canvas'); layer.width = W; layer.height = H; const lg = layer.getContext('2d');
+const TL = window.TL, KEYS = TL.keys, DUR = TL.duration, EV = TL.events || {}, C = TL.copy[LANG];
+const P = TL.palette, FONT = `"${(TL.fonts && TL.fonts[0] && TL.fonts[0].family) || 'sans-serif'}", sans-serif`;
+
+// ---------------------------------------------------------------- layout is a function of the format
+const AR = W / H, FMT = AR < .9 ? 'portrait' : AR > 1.2 ? 'landscape' : 'square';
+const PUSH = FMT === 'portrait' ? 1.15 : 1;                       // portrait: push in so each state still fills the frame
+
+// ---------------------------------------------------------------- the one shape + camera (pure functions of t)
+const kf = prop => KEYS.map(k => [k.t, k[prop]]);
+const tOut = i => (KEYS[i + 1] ? KEYS[i + 1].t : DUR + KEYS[0].t);
+const shapeAt = t => ({ w: track(t, kf('w')), h: track(t, kf('h')), r: track(t, kf('r')), ink: clamp(track(t, kf('ink'))) });
+const ZOOM = KEYS.map(k => [k.t, k.fit * Math.min(W / k.w, H / k.h) * PUSH]);
+const zoomAt = t => track(t, ZOOM, 90, 19);                       // lazy camera spring: lags the shape slightly
+
+// ---------------------------------------------------------------- drawing helpers
+function font(size, weight = 500, italic = false) { g.font = `${italic ? 'italic ' : ''}${weight} ${size}px ${FONT}`; }
+function text(s, x, y, size, weight, color, align = 'left', ls = -.015) {
+  font(size, weight); g.letterSpacing = `${ls * size}px`; g.textAlign = align; g.textBaseline = 'middle'; g.fillStyle = color; g.fillText(s, x, y); g.letterSpacing = '0px';
+}
+function rrect(x, y, w, h, r) { g.beginPath(); g.roundRect(x, y, w, h, Math.max(0, Math.min(r, w / 2, h / 2))); }
+// Content in after its container starts morphing, out before the next morph; the blur is drawn on a layer once,
+// never as ctx.filter on every draw call (that was ~100x slower on a 12k-dot map).
+function withContent(t, tIn, tOut_, fn) {
+  const a = swapAlpha(t, tIn, tOut_); if (a <= 0) return;
+  const b = (1 - a) * 6;
+  if (b <= .2) { g.save(); fn(a); g.restore(); return; }
+  const m = g.getTransform(), main = g;
+  lg.setTransform(1, 0, 0, 1, 0, 0); lg.clearRect(0, 0, W, H); lg.setTransform(m); lg.globalAlpha = 1; lg.filter = 'none';
+  g = lg; g.save(); g.translate(0, (1 - a) * 6); fn(a); g.restore(); g = main;
+  g.save(); g.setTransform(1, 0, 0, 1, 0, 0); g.globalAlpha *= a; g.filter = `blur(${(b * m.a).toFixed(1)}px)`; g.drawImage(layer, 0, 0); g.restore();
+}
+// Real UI capture as a card at the site's radius. Never redraw a product screen.
+function drawCard(im, x, y, w, r = 16) { if (!im) return; const h = w * im.naturalHeight / im.naturalWidth; g.save(); rrect(x, y, w, h, r); g.clip(); g.drawImage(im, x, y, w, h); g.restore(); return h; }
+const IM = {}; window.MISSING = [];                                // render.cjs refuses a video while anything is missing
+const load = (name, src) => new Promise(r => { const im = new Image(); im.onload = () => { IM[name] = im; r(); }; im.onerror = () => { window.MISSING.push(`image ${name}: ${src}`); r(); }; im.src = src; });
+
+// ---------------------------------------------------------------- content per state id (shape-local coords, origin = centre)
+// s = current shape size, ink = 0 light / 1 dark. Every string comes from C (timeline copy), never hard-coded.
+const CONTENT = {
+  logo: (t, s) => { if (IM.logo) { const w = s.w * .6; g.drawImage(IM.logo, -w / 2, -w / 2, w, w); } else text('●', 0, 0, s.w * .3, 700, P.white, 'center'); },
+  button: (t, s) => text(C.button, 0, 2, 30, 600, P.white, 'center'),
+  field: (t, s) => {                                               // typing: characters revealed on the typing event range
+    const [a, b] = (EV.typing || [[0, 0]])[0], n = Math.round(C.field.length * clamp((t - a) / (b - a)));
+    text(C.field.slice(0, n), -s.w / 2 + 40, 2, 30, 500, P.ink);
+    if (Math.floor(t * 4) % 2 === 0 || t < b) { font(30, 500); g.fillStyle = P.accent; g.fillRect(-s.w / 2 + 44 + g.measureText(C.field.slice(0, n)).width, -18, 3, 36); }
+  },
+  card: (t, s) => text(C.card, 0, 0, 30, 600, P.ink, 'center'),
+};
+
+// ---------------------------------------------------------------- draw(t): the only entry point
+const CX = W / 2, CY = H / 2;
+function draw(T) {
+  const t = TL.loop ? loopT(T, DUR) : Math.min(T, DUR);
+  g.setTransform(1, 0, 0, 1, 0, 0); g.globalAlpha = 1; g.filter = 'none';
+  g.fillStyle = P.bg; g.fillRect(0, 0, W, H);
+  const s = shapeAt(t), z = zoomAt(t);
+  g.save(); g.translate(CX, CY); g.scale(z, z);
+  g.save(); g.shadowColor = `rgba(0,0,0,${.10 + .05 * s.ink})`; g.shadowBlur = 40; g.shadowOffsetY = 18;
+  g.fillStyle = mixHex(P.white, P.ink, s.ink); rrect(-s.w / 2, -s.h / 2, s.w, s.h, s.r); g.fill(); g.restore();
+  const i = segOf(t, KEYS);
+  for (const j of [i - 1, i]) {                                    // tail of the previous state + current state; never overlap
+    if (j < 0) continue;
+    const k = KEYS[j], fn = CONTENT[k.id]; if (!fn) continue;
+    g.save(); rrect(-s.w / 2, -s.h / 2, s.w, s.h, s.r); g.clip(); withContent(t, k.t, tOut(j), () => fn(t, s)); g.restore();
+  }
+  g.restore();
+}
+window.draw = window.seek = draw;
+
+// ---------------------------------------------------------------- frame composer: average N subframes (motion blur)
+const acc = document.createElement('canvas'); acc.width = W; acc.height = H; const ag = acc.getContext('2d');
+window.renderFrame = (i, opts = {}) => {
+  const times = subframeTimes(i, { fps: TL.fps || 60, sub: 6, shutter: .75, fast: TL.fast || [], hardCuts: TL.hardCuts || [], dur: TL.loop ? Infinity : DUR, ...opts });
+  times.forEach((ts, k) => { draw(ts); ag.globalAlpha = 1 / (k + 1); ag.drawImage(cv, 0, 0); });
+  g.setTransform(1, 0, 0, 1, 0, 0); g.globalAlpha = 1; g.filter = 'none'; g.drawImage(acc, 0, 0);
+};
+(async () => {
+  for (const f of window.FONTS || []) { const ff = new FontFace(f.family, `url(data:font/woff2;base64,${f.b64})`, { weight: f.weight || '100 900', style: f.style || 'normal' }); await ff.load(); document.fonts.add(ff); }
+  await Promise.all(Object.entries(TL.images || {}).map(([k, src]) => load(k, src)));   // real assets only, preloaded once
+  draw(0); window.ready = true;
+})();
+</script></body></html>

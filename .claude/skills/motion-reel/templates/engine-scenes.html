@@ -1,0 +1,177 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>html,body{margin:0;overflow:hidden;background:#000}canvas{display:block}</style>
+</head><body><canvas id="c"></canvas>
+<script>
+// Starter engine (scenes): kinetic type, real captures, a proof number and an end card, joined by hard cuts or
+// in-frame transitions. Same contract as engine-morph.html: render.cjs injects window.TL / Motion / FONTS;
+// URL ?size=WxH&lang=xx; pure draw(t); renderFrame(i). Scene kinds live in KIND: add your own.
+// Rules: no timers, no CSS transitions, no Math.random, no state carried between frames. Don't nest withLayer.
+const { clamp, lerp, inv, E, spring, track, loopT, segOf, subframeTimes, stagger } = window.Motion;
+const Q = new URLSearchParams(location.search);
+const [W, H] = (Q.get('size') || '1080x1920').split('x').map(Number);
+const LANG = Q.get('lang') || (window.TL.langs || ['en'])[0];
+const cv = document.getElementById('c'); cv.width = W; cv.height = H;
+let g = cv.getContext('2d');
+const layer = document.createElement('canvas'); layer.width = W; layer.height = H; const lg = layer.getContext('2d');
+const TL = window.TL, SC = TL.scenes, DUR = TL.duration, EV = TL.events || {}, C = TL.copy[LANG], P = TL.palette;
+const FAM = (TL.fonts && TL.fonts[0] && TL.fonts[0].family) || 'sans-serif';
+const HARD = TL.hardCuts || [];
+
+// ---------------------------------------------------------------- layout is a function of the format
+// Safe area for vertical feeds is a conservative house default (platform UI covers top and bottom): verify per platform.
+const AR = W / H, FMT = AR < .9 ? 'portrait' : AR > 1.2 ? 'landscape' : 'square';
+const U = Math.min(W, H) / 1080;                                   // 1 unit = 1 px on a 1080 short side
+const SAFE = FMT === 'portrait' ? { x: W * .08, top: H * .12, bottom: H * .18 } : { x: W * .07, top: H * .09, bottom: H * .09 };
+const BOX = { x: SAFE.x, y: SAFE.top, w: W - 2 * SAFE.x, h: H - SAFE.top - SAFE.bottom };
+const CX = BOX.x + BOX.w / 2, CY = BOX.y + BOX.h / 2;
+const col = k => P[k] || k;                                          // palette key or literal colour
+const dark = hex => { const n = parseInt(String(hex).slice(1, 7), 16); return ((n >> 16) * .299 + (n >> 8 & 255) * .587 + (n & 255) * .114) / 255 < .45; };
+
+// ---------------------------------------------------------------- type
+function font(size, weight = 800, italic = false) {
+  g.font = `${italic ? 'italic ' : ''}${weight} ${size}px "${FAM}", sans-serif`; g.letterSpacing = `${(-.025 * size).toFixed(2)}px`;
+}
+function text(s, x, y, size, weight, color, align = 'center') { font(size, weight); g.textAlign = align; g.textBaseline = 'middle'; g.fillStyle = color; g.fillText(s, x, y); g.letterSpacing = '0px'; }
+// "*accent words*" in copy render italic in the accent colour
+function parse(s) { let on = false; return s.split(/\s+/).filter(Boolean).map(w => { if (w.startsWith('*')) on = true; const r = { w: w.replace(/\*/g, ''), i: on }; if (w.endsWith('*')) on = false; return r; }); }
+function layoutWords(ws, size, maxW) {
+  const lines = [[]], sp = size * .26; let x = 0;
+  for (const w of ws) {
+    font(size, w.i ? 700 : 800, w.i); const ww = g.measureText(w.w).width;
+    if (x > 0 && x + ww > maxW) { lines.push([]); x = 0; }
+    lines[lines.length - 1].push({ ...w, x, ww }); x += ww + sp;
+  }
+  return lines.map(l => ({ items: l, width: l.length ? l[l.length - 1].x + l[l.length - 1].ww : 0 }));
+}
+function fitType(s, maxW, maxH, start, maxLines = 4) {               // biggest size that fits; never below the 22 px floor
+  const ws = parse(s); let size = start;
+  for (; size > 22 * U; size *= .94) { const L = layoutWords(ws, size, maxW); if (L.length <= maxLines && L.length * size * 1.04 <= maxH) return { L, size }; }
+  return { L: layoutWords(ws, size, maxW), size };
+}
+// words rise into a per-line mask, staggered
+function kinetic(t, t0, s, cx, cy, maxW, maxH, start, color, accent, align = 'center') {
+  const { L, size } = fitType(s, maxW, maxH, start), lh = size * 1.04, top = cy - L.length * lh / 2; let j = 0;
+  L.forEach((line, li) => {
+    const x0 = align === 'center' ? cx - line.width / 2 : cx, y = top + li * lh + lh / 2;
+    g.save(); g.beginPath(); g.rect(0, y - lh * .62, W, lh * 1.24); g.clip();
+    for (const it of line.items) {
+      const p = stagger(t, t0, j++, .06, 260, 22);
+      font(size, it.i ? 700 : 800, it.i); g.textAlign = 'left'; g.textBaseline = 'middle'; g.fillStyle = it.i ? accent : color;
+      g.fillText(it.w, x0 + it.x, y + (1 - p) * lh * .9);
+    }
+    g.letterSpacing = '0px'; g.restore();
+  });
+  return L.length * lh;
+}
+
+// ---------------------------------------------------------------- assets: real captures only, preloaded once
+const IM = {}; window.MISSING = [];                                // render.cjs refuses a video while anything is missing
+const load = (name, src) => new Promise(r => { const im = new Image(); im.onload = () => { IM[name] = im; r(); }; im.onerror = () => { window.MISSING.push(`image ${name}: ${src}`); r(); }; im.src = src; });
+function rrect(x, y, w, h, r) { g.beginPath(); g.roundRect(x, y, w, h, Math.max(0, Math.min(r, w / 2, h / 2))); }
+// A real capture as a card at the site's radius, or plain (logos). crop = [x, y, w, h] in 0..1 of the source: show the part
+// that matters big instead of a whole page small (portrait formats usually need a tighter crop). Returns the drawn height.
+function drawCard(name, x, y, w, maxH, { r = 24 * U, crop = [0, 0, 1, 1], plain = false } = {}) {
+  const im = IM[name];
+  if (!im) { g.save(); g.setLineDash([12, 8]); g.strokeStyle = '#E5484D'; g.lineWidth = 3; rrect(x, y, w, maxH, r); g.stroke(); text(`MISSING ${name}`, x + w / 2, y + maxH / 2, 28 * U, 700, '#E5484D'); g.restore(); return maxH; }
+  const [sx, sy, sw, sh] = [crop[0] * im.naturalWidth, crop[1] * im.naturalHeight, crop[2] * im.naturalWidth, crop[3] * im.naturalHeight];
+  let cw = w, ch = cw * sh / sw; if (ch > maxH) { ch = maxH; cw = ch * sw / sh; }
+  const cx = x + (w - cw) / 2;
+  if (plain) { g.drawImage(im, sx, sy, sw, sh, cx, y, cw, ch); return ch; }
+  g.save(); g.shadowColor = 'rgba(0,0,0,.18)'; g.shadowBlur = 50 * U; g.shadowOffsetY = 24 * U; g.fillStyle = '#fff'; rrect(cx, y, cw, ch, r); g.fill(); g.restore();
+  g.save(); rrect(cx, y, cw, ch, r); g.clip(); g.drawImage(im, sx, sy, sw, sh, cx, y, cw, ch); g.restore();
+  return ch;
+}
+// draw fn() to the layer, composite it with alpha + blur once (ctx.filter per draw call is ~100x slower)
+function withLayer(a, blur, fn) {
+  if (a <= 0) return;
+  if (blur < .3 && a >= .999) { g.save(); fn(); g.restore(); return; }
+  const main = g; lg.setTransform(1, 0, 0, 1, 0, 0); lg.clearRect(0, 0, W, H); lg.globalAlpha = 1; lg.filter = 'none';
+  g = lg; g.save(); fn(); g.restore(); g = main;
+  g.save(); g.setTransform(1, 0, 0, 1, 0, 0); g.globalAlpha = a; g.filter = blur >= .3 ? `blur(${blur.toFixed(1)}px)` : 'none'; g.drawImage(layer, 0, 0); g.restore();
+}
+
+// ---------------------------------------------------------------- scene kinds: fn(t, s, lt, end) with lt = t - s.t
+const KIND = {
+  type: (t, s) => kinetic(t, s.t + .05, C[s.copy], CX, CY, BOX.w, BOX.h * .8, (FMT === 'landscape' ? 150 : 170) * U, col(s.color), col(s.accent)),
+  card: (t, s, lt, end) => {                                         // caption + real capture; side by side in landscape
+    const push = lerp(1, 1.05, E.inOutCubic(inv(s.t, end, t))), rise = 1 - spring(lt - .1, 170, 20);
+    const crop = (FMT === 'portrait' && s.cropV) || s.crop || [0, 0, 1, 1];
+    if (FMT === 'landscape') {
+      kinetic(t, s.t, C[s.copy], BOX.x, CY, BOX.w * .38, BOX.h * .7, 96 * U, col(s.color), col(s.accent), 'left');
+      g.save(); g.translate(BOX.x + BOX.w * .72, CY); g.scale(push, push); g.translate(0, rise * 80 * U);
+      const w = BOX.w * .56, h = BOX.h * .84, ch = Math.min(h, w * (crop[3] / crop[2]) * ((IM[s.image]?.naturalHeight || 1) / (IM[s.image]?.naturalWidth || 1)));
+      drawCard(s.image, -w / 2, -ch / 2, w, h, { crop }); g.restore();
+    } else {
+      const capH = kinetic(t, s.t, C[s.copy], CX, BOX.y + BOX.h * .12, BOX.w, BOX.h * .24, 100 * U, col(s.color), col(s.accent));
+      const top = BOX.y + BOX.h * .12 + capH / 2 + 50 * U, avail = BOX.y + BOX.h - top;
+      const im = IM[s.image], ratio = im ? (crop[3] * im.naturalHeight) / (crop[2] * im.naturalWidth) : 1, ch = Math.min(avail, BOX.w * ratio);
+      g.save(); g.translate(CX, top + (avail - ch) / 2); g.scale(push, push); g.translate(0, rise * 120 * U);
+      drawCard(s.image, -BOX.w / 2, 0, BOX.w, avail, { crop }); g.restore();
+    }
+  },
+  stat: (t, s, lt) => {                                              // one verified number, counted up, with its source
+    const v = lerp(s.from || 0, s.to, E.outExpo(clamp((lt - .1) / 1.1)));
+    const n = typeof s.to === 'number' ? `${s.prefix || ''}${v.toFixed(s.decimals || 0)}${s.suffix || ''}` : '[number]', sz = (FMT === 'landscape' ? 300 : 340) * U;
+    const pop = spring(lt, 260, 22);
+    g.save(); g.translate(CX, CY - 40 * U); g.scale(.9 + .1 * pop, .9 + .1 * pop); text(n, 0, 0, sz, 800, col(s.accent)); g.restore();
+    kinetic(t, s.t + .25, C[s.copy], CX, CY + sz * .55, BOX.w * .9, 160 * U, 64 * U, col(s.color), col(s.accent));
+    if (s.source) { g.save(); g.globalAlpha = clamp((lt - .6) / .3); text(C[s.source], CX, BOX.y + BOX.h - 20 * U, 26 * U, 500, col('muted')); g.restore(); }
+  },
+  endcard: (t, s, lt) => {                                           // logo + CTA; the CTA presses on the click event
+    const sc = spring(lt, 200, 18);
+    g.save(); g.translate(CX, CY - 90 * U); g.scale(sc, sc); drawCard(s.image, -210 * U, -70 * U, 420 * U, 140 * U, { plain: true }); g.restore();
+    const clicks = (EV.clicks || []).filter(c => c >= s.t), press = track(t, [[0, 0], ...clicks.flatMap(c => [[c, -.06], [c + .12, 0]])], 420, 26);
+    const a = spring(lt - .25, 200, 22), label = C[s.copy]; font(46 * U, 700); const bw = g.measureText(label).width + 110 * U; g.letterSpacing = '0px';
+    g.save(); g.translate(CX, CY + 130 * U + (1 - a) * 40 * U); g.scale(1 + press, 1 + press); g.globalAlpha = clamp(a);
+    g.fillStyle = col(s.accent); rrect(-bw / 2, -50 * U, bw, 100 * U, 50 * U); g.fill(); text(label, 0, 2 * U, 46 * U, 700, '#fff'); g.restore();
+  },
+};
+
+// ---------------------------------------------------------------- cursor: pure function of t, presses on clicks
+// TL.cursor = passes: [[[t, x, y], ...], ...] with x, y in 0..1 of the safe box. Each pass fades in 0.3 s before its
+// first key and out 0.6 s after its last, so the cursor only exists where it does something real.
+function drawCursor(t) {
+  for (const K of TL.cursor || []) {
+    const a = Math.min(clamp((t - K[0][0] + .3) / .3), 1 - clamp((t - K[K.length - 1][0] - .6) / .25)); if (a <= 0) continue;
+    const x = BOX.x + BOX.w * track(t, K.map(k => [k[0], k[1]]), 120, 20), y = BOX.y + BOX.h * track(t, K.map(k => [k[0], k[2]]), 120, 20);
+    const press = (EV.clicks || []).reduce((p, c) => p + (spring(t - c, 500, 30) - spring(t - c - .1, 500, 30)), 0);
+    g.save(); g.globalAlpha = a; g.translate(x, y); g.scale(U * 1.6 * (1 - .15 * press), U * 1.6 * (1 - .15 * press));
+    const inv_ = dark(col(SC[segOf(t, SC)].bg));                     // white arrow on dark scenes
+    g.fillStyle = inv_ ? '#fff' : '#111'; g.strokeStyle = inv_ ? '#111' : '#fff'; g.lineWidth = 1.6; g.lineJoin = 'round';
+    const p = new Path2D('M0 0 L0 22 L6 16.5 L10.5 26 L14 24.5 L9.6 15.4 L17 15.4 Z'); g.fill(p); g.stroke(p); g.restore();
+  }
+}
+
+// ---------------------------------------------------------------- draw(t): the only entry point
+function draw(T) {
+  const t = TL.loop ? loopT(T, DUR) : Math.min(T, DUR - 1e-4);
+  g.setTransform(1, 0, 0, 1, 0, 0); g.globalAlpha = 1; g.filter = 'none';
+  const i = segOf(t, SC), s = SC[i], end = SC[i + 1] ? SC[i + 1].t : DUR, lt = t - s.t;
+  const hardIn = HARD.some(c => Math.abs(c - s.t) < 1e-6) || i === 0, hardOut = HARD.some(c => Math.abs(c - end) < 1e-6) || !SC[i + 1];
+  // background: hard cut = switch; otherwise the new colour irises open from the centre (a shape move, never a fade)
+  const prev = SC[i - 1] ? col(SC[i - 1].bg) : col(s.bg);
+  g.fillStyle = hardIn ? col(s.bg) : prev; g.fillRect(0, 0, W, H);
+  if (!hardIn && prev !== col(s.bg)) { g.fillStyle = col(s.bg); g.beginPath(); g.arc(W / 2, H / 2, spring(lt, 120, 19) * Math.hypot(W, H) * .55, 0, Math.PI * 2); g.fill(); }
+  else if (!hardIn) { g.fillStyle = col(s.bg); g.fillRect(0, 0, W, H); }
+  // content leaves in the last 0.25 s before a soft boundary (scale up, fade, blur), so scenes never overlap
+  const out = hardOut ? 0 : clamp((t - (end - .25)) / .25);
+  withLayer(1 - out, out * 10 * U, () => { g.translate(CX, CY); g.scale(1 + out * .06, 1 + out * .06); g.translate(-CX, -CY); KIND[s.kind](t, s, lt, end); });
+  drawCursor(t);
+}
+window.draw = window.seek = draw;
+
+// ---------------------------------------------------------------- frame composer: average N subframes (motion blur)
+const acc = document.createElement('canvas'); acc.width = W; acc.height = H; const ag = acc.getContext('2d');
+window.renderFrame = (i, opts = {}) => {
+  const times = subframeTimes(i, { fps: TL.fps || 60, sub: 6, shutter: .75, fast: TL.fast || [], hardCuts: HARD, dur: TL.loop ? Infinity : DUR, ...opts });
+  times.forEach((ts, k) => { draw(ts); ag.globalAlpha = 1 / (k + 1); ag.drawImage(cv, 0, 0); });
+  g.setTransform(1, 0, 0, 1, 0, 0); g.globalAlpha = 1; g.filter = 'none'; g.drawImage(acc, 0, 0);
+};
+(async () => {
+  for (const f of window.FONTS || []) { const ff = new FontFace(f.family, `url(data:font/woff2;base64,${f.b64})`, { weight: f.weight || '100 900', style: f.style || 'normal' }); await ff.load(); document.fonts.add(ff); }
+  await Promise.all(Object.entries(TL.images || {}).map(([k, src]) => load(k, src)));
+  for (const s of SC) if (s.kind === 'stat' && typeof s.to !== 'number') window.MISSING.push(`stat ${s.id}: no verified number`);
+  draw(0); window.ready = true;
+})();
+</script></body></html>

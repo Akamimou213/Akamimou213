@@ -1,0 +1,43 @@
+{
+  "_doc": "Morph film timeline (one shape that changes size, radius and ink; content swaps inside it). Single source of truth: times in seconds on the beat grid (beat = 60/bpm). Engine, cues.py, render.cjs and qa read this file. Every bracketed string is a placeholder the engine refuses to render to video: replace it with verbatim copy and add its source.",
+  "name": "example-morph",
+  "bpm": 120,
+  "duration": 8.0,
+  "fps": 60,
+  "loop": true,
+  "langs": ["en", "fr"],
+  "formats": { "V": "1080x1920", "S": "1080x1080", "P": "1080x1350", "L": "1920x1080" },
+  "fonts": [
+    { "family": "Brand Sans", "file": "assets/fonts/brand.woff2", "style": "normal", "weight": "100 900" }
+  ],
+  "palette": { "bg": "#F6F4EF", "ink": "#111111", "white": "#FFFFFF", "muted": "#6B6B6B", "accent": "#3B5BFF" },
+  "hardCuts": [],
+  "fast": [[1.9, 2.3, 12, 0.9], [3.9, 4.3, 12, 0.9]],
+  "keys": [
+    { "id": "logo", "t": 0.0, "w": 260, "h": 260, "r": 130, "ink": 1, "fit": 0.42 },
+    { "id": "button", "t": 1.0, "w": 420, "h": 96, "r": 48, "ink": 1, "fit": 0.62 },
+    { "id": "field", "t": 2.0, "w": 640, "h": 140, "r": 28, "ink": 0, "fit": 0.72 },
+    { "id": "card", "t": 4.0, "w": 640, "h": 640, "r": 36, "ink": 0, "fit": 0.7 },
+    { "id": "logo", "t": 6.5, "w": 260, "h": 260, "r": 130, "ink": 1, "fit": 0.42 }
+  ],
+  "events": {
+    "clicks": [1.5],
+    "typing": [[2.2, 3.4, "field"]],
+    "pops": [4.5, 5.0],
+    "whooshes": [],
+    "thumps": []
+  },
+  "copy": {
+    "en": { "button": "[CTA verbatim]", "field": "[input label verbatim]", "card": "[feature line verbatim]" },
+    "fr": { "button": "[CTA verbatim FR]", "field": "[libellé verbatim FR]", "card": "[ligne verbatim FR]" }
+  },
+  "sources": { "button": "https://example.com/ (hero CTA, captured YYYY-MM-DD)", "card": "https://example.com/features (section 2)" },
+  "variants": {
+    "B": {
+      "copy": {
+        "en": { "button": "[alternative CTA verbatim]" },
+        "fr": { "button": "[CTA B verbatim FR]" }
+      }
+    }
+  }
+}
