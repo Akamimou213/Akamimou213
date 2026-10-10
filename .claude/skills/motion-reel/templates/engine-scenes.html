@@ -112,7 +112,8 @@ const KIND = {
   },
   stat: (t, s, lt) => {                                              // one verified number, counted up, with its source
     const v = lerp(s.from || 0, s.to, E.outExpo(clamp((lt - .1) / 1.1)));
-    const fmt = x => `${s.prefix || ''}${x.toFixed(s.decimals || 0)}${s.suffix || ''}`;
+    const nf = new Intl.NumberFormat(LANG, { minimumFractionDigits: s.decimals || 0, maximumFractionDigits: s.decimals || 0 });   // 1,250,000 / 1 250 000
+    const fmt = x => `${s.prefix || ''}${nf.format(x)}${s.suffix || ''}`;
     const n = typeof s.to === 'number' ? fmt(v) : '[number]', ends = typeof s.to === 'number' ? [fmt(s.from || 0), fmt(s.to)] : [n];
     let sz = (FMT === 'landscape' ? 300 : 340) * U; font(sz, 800); const fw = Math.max(...ends.map(e => g.measureText(e).width)); g.letterSpacing = '0px';
     if (fw > BOX.w) sz *= BOX.w / fw;                                 // fit the final value once, so the size never jumps while counting
