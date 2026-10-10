@@ -1,8 +1,8 @@
 # Director's brief — Portfolio reel (Mohamed Barkat)
 
-**Logline.** One cobalt dot introduces a performance marketer: it greets, becomes his face, punctuates "plan. scale.
-*trace.*", rolls through the channels he runs, lands on a real result and counts it, then hands you the call to book.
-The viewer should feel: precise, honest with numbers, and easy to hire.
+**Logline (v2).** One cobalt dot introduces a performance marketer: it greets, becomes his face, states his position,
+then walks through the six levers he owns (plan, track, create, launch, analyze, get found) and hands you the call to book.
+The viewer should feel: one person who owns the whole acquisition system, and is easy to hire.
 
 - **Subject + source:** Mohamed Barkat, senior performance marketer. All copy and numbers from his site
   (https://mohamedbarkat.vercel.app/ = `index.html` in this repo, identical text on 2026-10-10). Portrait from `public/`.

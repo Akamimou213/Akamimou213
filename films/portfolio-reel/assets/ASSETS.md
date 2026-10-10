@@ -11,18 +11,15 @@
 ## Copy used (verbatim from the site unless marked)
 | Use | Text | Where on the site |
 |---|---|---|
-| Name, roles | Mohamed Barkat · Senior performance marketer · Creative strategist | hero eyebrow; Experience ("Performance Marketer & Creative Strategist") |
-| Tagline | PAID GROWTH YOU CAN — plan. scale. *trace.* | **ours**, built from the hero "Paid growth you can *trace*" and "Scale what pays" / "Plan" |
-| Channels | Meta, Google, TikTok, Snapchat, LinkedIn, Reddit + "Ads" | channel strip ("Meta Ads", "Google Ads"…) |
-| Channel sub | PAID SOCIAL · PAID SEARCH · SEO | service names |
-| Results header | *results.* / Across North Africa, the Gulf, Europe, North America and Australia. | Results section |
-| Industries list | the 11 result-card industries | Results section |
-| Proof | 116,464 · first deliveries in 2025, at $1.81 each | Super app card ("116,464 first deliveries in 2025, at $1.81 each on $211K") |
-| Proof sub | Ride-hailing & delivery · Algeria, Morocco, Tunisia, Senegal / Super app · North Africa · 2025 | Super app card; hero ledger caption |
+| Name, position | Mohamed Barkat · Senior performance marketer · D2C · Apps · Local · B2B | hero eyebrow |
+| System | The system · Six levers. One owner. | System section |
+| Levers | Plan, Track, Create, Launch, Analyze, Get found | System rail |
+| Lever visuals | CAC ceiling, Channel mix, Budget split, Test order · view_item, add_to_cart, purchase, GTM · CAPI · server-side · Hook A/B/C, Pain, Proof, Offer, Live · Meta, Google, TikTok, Rebalancing on cost per conversion · Platform-reported, Measured in backend / CRM, The gap is where the decision is. · yourbrand.com, competitor.com, directory.com | each lever's "Illustration" panel |
+| Get found caption | SEARCH · MAPS · AI ANSWERS | **ours**, from "Rank in search, maps and AI answers." |
 | End card | mohamedbarkat.vercel.app · Book a 30-min call ↗ · LinkedIn ↗ | URL you gave; CTA buttons |
-| Greetings | Hello · مرحبا · Bonjour · Xin chào | **ours**: his languages (Arabic, English, French) + where he's based (Ho Chi Minh City) |
+| Greetings | Hello · مرحبا · Bonjour · Xin chào | **ours** |
 
 ## Not used, and why
 - Client names and logos: the site anonymises them; channel names appear as text only (no Meta/Google logos).
-- Other result numbers: one proof number reads; more would crowd 18 s.
-- The dot field and the filling dot band in the proof scene are **illustrative** motion, not a chart of data.
+- Results, industries and client numbers: left out on purpose in v2 (the film is about who he is and what he does).
+- Lever visuals are **illustrative** motion, like the site's illustration panels.
