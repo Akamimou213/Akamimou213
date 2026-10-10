@@ -136,7 +136,7 @@ function defaultSafe(w, h) {
     const floor = 22 * Math.min(w, h) / 1080, issues = new Map();
     const note = (kind, s, t, detail) => { const k = `${kind}|${s}`; if (!issues.has(k)) issues.set(k, { kind, s, ts: [], detail }); issues.get(k).ts.push(t); };
     for (const t of ts.filter(t => t >= 0 && t < dur)) {
-      const T = await page.evaluate(i => { window.__PROBE = true; window.__TEXTS = []; window.renderFrame(i, { sub: 1 }); window.__PROBE = false; return window.__measure(); }, Math.round(t * FPS));
+      const T = await page.evaluate(i => { window.__PROBE = true; window.__TEXTS = []; window.renderFrame(i, { sub: 1, fast: [] }); window.__PROBE = false; return window.__measure(); }, Math.round(t * FPS));
       const vis = T.filter(x => x.a > .5);
       for (const x of vis) {
         if (x.x0 < -1 || x.y0 < -1 || x.x1 > w + 1 || x.y1 > h + 1) note('CLIPPED', x.s, t, 'runs off the frame');

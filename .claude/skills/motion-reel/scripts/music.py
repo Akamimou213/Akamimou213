@@ -1,7 +1,10 @@
 """Starter score synthesized in numpy, locked to timeline.json (bpm, duration, loop). Change the progression,
 voices and arrangement per film; keep the grid. No generic synth pads: plucks, keys, drums, sub bass.
 Usage: python3 -I music.py timeline.json out/music.wav [--key D] [--seed 20]
-Loop films: the score is rendered twice and the second pass kept, so reverb tails wrap into bar 1."""
+Loop films: the score is rendered twice and the second pass kept, so reverb tails wrap into bar 1.
+Arrangement (optional) in timeline.json: "music": {"sections": [[t, "intro|build|full|break|outro"], ...],
+"rests": [[t0, t1], ...]}. Sections set which parts play from t on; rests silence new notes (stillness before a payoff).
+Without it every bar plays everything."""
 import argparse
 import json
 
@@ -35,6 +38,15 @@ hz = lambda midi: 440 * 2 ** ((midi - 69) / 12)
 root = 60 + SEMI[args.key]                                   # tonic around C4
 # I maj7, vi m7, IV maj7, V7 as semitone offsets from the tonic; bass two octaves down
 PROG = [(0, [0, 4, 7, 11]), (9, [0, 3, 7, 10]), (5, [0, 4, 7, 11]), (7, [0, 4, 7, 10])]
+LEVELS = {'intro': dict(keys=.6, pluck=1, kick=0, rim=0, hat=0, bass=0), 'build': dict(keys=1, pluck=1, kick=.7, rim=0, hat=1, bass=1),
+          'full': dict(keys=1, pluck=1, kick=1, rim=1, hat=1, bass=1), 'break': dict(keys=1, pluck=1, kick=0, rim=0, hat=.6, bass=.6),
+          'outro': dict(keys=1, pluck=.7, kick=0, rim=0, hat=0, bass=.5)}
+ARR = TL.get('music', {}); SECTIONS = sorted(ARR.get('sections', [[0, 'full']])); RESTS = ARR.get('rests', [])
+def lvl(part, t):                                            # gain of a part for a note starting at film time t
+    t %= DUR
+    if any(a <= t < b for a, b in RESTS): return 0
+    sec = [name for t0, name in SECTIONS if t0 <= t + 1e-6]
+    return LEVELS[sec[-1] if sec else SECTIONS[0][1]][part]
 
 
 def kick():
@@ -58,15 +70,19 @@ for p in range(PASSES):
         t0 = p * DUR + bar * BAR
         deg, ch = PROG[bar % 4] if bar < BARS - 1 or LOOP else PROG[0]   # one-shot films resolve home
         notes = [root + deg + c - (12 if deg > 4 else 0) for c in ch]
-        put(keys([hz(n) for n in notes], BAR * .95), t0, .22, 0)
+        if lvl('keys', t0): put(keys([hz(n) for n in notes], BAR * .95), t0, .22 * lvl('keys', t0), 0)
         for b in range(4):
             tb = t0 + b * B
-            put(kick(), tb, .55 if b % 2 == 0 else .4, 0)
-            if b % 2 == 1: put(rim(), tb, .35, .1)
-            for e in range(2): put(hat(), tb + e * B / 2, .07 if e == 0 else .1, .3)
-            put(bass(hz(root + deg - 24 - (12 if deg > 4 else 0)), B * .9), tb + B / 2, .38, 0)
+            k = lvl('kick', tb)
+            if k and (k >= 1 or b % 2 == 0): put(kick(), tb, (.55 if b % 2 == 0 else .4) * min(k, 1), 0)
+            if b % 2 == 1 and lvl('rim', tb): put(rim(), tb, .35 * lvl('rim', tb), .1)
+            for e in range(2):
+                th = tb + e * B / 2
+                if lvl('hat', th): put(hat(), th, (.07 if e == 0 else .1) * lvl('hat', th), .3)
+            if lvl('bass', tb + B / 2): put(bass(hz(root + deg - 24 - (12 if deg > 4 else 0)), B * .9), tb + B / 2, .38 * lvl('bass', tb + B / 2), 0)
             for s16 in range(2):
-                n = notes[(b * 2 + s16 + bar) % 4] + 12; put(pluck(hz(n), B * .9), tb + s16 * B / 2, .07, -.4 if s16 else .4)
+                tp = tb + s16 * B / 2
+                if lvl('pluck', tp): n = notes[(b * 2 + s16 + bar) % 4] + 12; put(pluck(hz(n), B * .9), tp, .07 * lvl('pluck', tp), -.4 if s16 else .4)
 # generated stereo room IR (no external impulse responses needed)
 irL = int(1.4 * SR); x = np.arange(irL) / SR
 ir = np.stack([flt(np.random.default_rng(c).standard_normal(irL), 'lowpass', 6500) * np.exp(-x * 4) for c in range(2)], 1)

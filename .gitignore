@@ -3,3 +3,8 @@ dist
 dist-single
 .DS_Store
 *.log
+
+# motion films: renders, audio and third-party reference footage stay out of git
+films/*/out/
+films/*/refs/
+films/*/docs/ref/

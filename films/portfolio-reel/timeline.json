@@ -1,0 +1,71 @@
+{
+  "_doc": "Portfolio reel for Mohamed Barkat. One continuous shot on a 120 BPM grid (beat 0.5 s). All times in seconds; all copy in copy.en (verbatim from the site unless assets/ASSETS.md marks it as ours). acts = scene start times read by index.html; events drive SFX (cues.py) and the cursor click.",
+  "name": "portfolio-reel",
+  "bpm": 120,
+  "duration": 18.0,
+  "fps": 60,
+  "loop": false,
+  "langs": ["en"],
+  "formats": { "L": "1920x1080", "V": "1080x1920" },
+  "fonts": [
+    { "family": "Archivo", "file": "assets/fonts/archivo.woff2", "weight": "100 900", "style": "normal" },
+    { "family": "Instrument Serif", "file": "assets/fonts/instrument-serif-italic.woff2", "weight": "400", "style": "italic" },
+    { "family": "Plex Mono", "file": "assets/fonts/plex-mono-500.woff2", "weight": "500", "style": "normal" },
+    { "family": "Plex Arabic", "file": "assets/fonts/plex-arabic-600.woff2", "weight": "600", "style": "normal" }
+  ],
+  "images": { "portrait": "assets/img/portrait.webp" },
+  "palette": {
+    "ink": "#0C0D10", "onDark": "#ECEEF2", "mutedDark": "#A0A3A8", "dimDark": "#6E7177",
+    "paper": "#F2F3EF", "paper2": "#E6E8E2", "paper3": "#D3D6CE", "inkText": "#0C0D10", "muted": "#585B60", "faint": "#878A83", "dotFaint": "#A9ACA5",
+    "signal": "#2B44FF", "signalOnDark": "#8C99FF"
+  },
+  "acts": {
+    "greet": 0.0, "avatar": 1.5, "im": 1.75, "fullName": 2.25, "role1": 2.5, "role2": 3.25, "shrink": 3.75,
+    "tagline": 4.0, "word1": 4.5, "word2": 5.0, "word3": 5.5, "taglineOut": 6.25,
+    "channels": 6.5, "roll": 7.0, "rollStep": 0.25, "channelsOut": 8.85,
+    "wipe": 9.0, "listLand": 10.25, "field": 10.75, "gather": 11.4,
+    "count": 12.0, "countLand": 13.0, "proofOut": 14.5, "iris": 15.0,
+    "url": 15.5, "buttons": 16.0, "cursorIn": 16.3, "click": 17.0
+  },
+  "greetings": [[0.25, "Hello"], [0.5, "مرحبا", "arabic"], [0.75, "Bonjour"], [1.0, "Xin chào"]],
+  "copy": {
+    "en": {
+      "im": "I'm",
+      "first": "Mohamed",
+      "last": "Barkat",
+      "role1": "Senior performance marketer",
+      "role2": "Creative strategist",
+      "eyebrow": "PAID GROWTH YOU CAN",
+      "words": ["plan", "scale", "trace"],
+      "channelsHeader": "CHANNELS I RUN",
+      "channels": ["Meta", "Google", "TikTok", "Snapchat", "LinkedIn", "Reddit"],
+      "channelsSuffix": "Ads",
+      "channelsSub": "PAID SOCIAL · PAID SEARCH · SEO",
+      "resultsHeader": "results.",
+      "resultsSub": "Across North Africa, the Gulf, Europe, North America and Australia.",
+      "industries": ["Car wash", "Car detailing", "House painting", "Luxury real estate", "B2B SaaS", "Health subscription app", "Beauty & cosmetics", "Consumer electronics", "Watch accessories", "Wellness equipment", "Super app"],
+      "industrySub": "RIDE-HAILING & DELIVERY · ALGERIA, MOROCCO, TUNISIA, SENEGAL",
+      "proofNumber": "116,464",
+      "proofLabel": "first deliveries in 2025, at $1.81 each",
+      "proofSource": "SUPER APP · NORTH AFRICA · FULL YEAR 2025",
+      "url": "mohamedbarkat.vercel.app",
+      "cta1": "Book a 30-min call ↗",
+      "cta2": "LinkedIn ↗"
+    }
+  },
+  "music": {
+    "sections": [[0, "intro"], [1.5, "build"], [4.0, "full"], [9.0, "break"], [12.0, "build"], [13.0, "full"], [14.5, "break"], [15.0, "outro"]],
+    "rests": [[12.5, 13.0], [14.75, 15.0]]
+  },
+  "hardCuts": [],
+  "fast": [[3.7, 4.1, 12, 0.8], [4.45, 4.75, 14, 0.9], [4.95, 5.25, 14, 0.9], [5.45, 5.75, 14, 0.9], [8.95, 9.35, 14, 0.9], [9.1, 10.3, 10, 0.8], [11.35, 11.9, 12, 0.8], [14.45, 15.1, 14, 0.9], [16.25, 16.95, 10, 0.8]],
+  "holds": [],
+  "events": {
+    "pops": [0.25, 0.5, 0.75, 1.0, 1.5, 2.25, 4.6, 5.1, 5.6, 10.25, 16.0],
+    "clicks": [17.0],
+    "thumps": [13.0],
+    "whooshes": [3.75, 9.0, 11.4, 14.5],
+    "typing": [[4.1, 4.5, "eyebrow"], [6.65, 6.9, "channelsHeader"]],
+    "ticks": [2.5, 3.25, 7.0, 7.25, 7.5, 7.75, 8.0, 8.25, 9.1, 9.22, 9.37, 9.56, 9.82, 10.0, 12.0, 12.125, 12.25, 12.375, 12.5, 12.625, 12.75, 12.875]
+  }
+}

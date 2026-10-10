@@ -1,0 +1,381 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>html,body{margin:0;overflow:hidden;background:#000}canvas{display:block}</style>
+</head><body><canvas id="c"></canvas>
+<script>
+// Portfolio reel (Mohamed Barkat): one continuous shot, one cobalt dot as the recurring character.
+// Contract (motion-reel): render.cjs injects window.TL / Motion / FONTS; URL ?size=WxH; pure draw(t); renderFrame(i).
+// Rules: no timers, no Math.random, no state between frames. Every time and string comes from timeline.json.
+const { clamp, lerp, E, spring, track, mixOklab, hash, subframeTimes } = window.Motion;
+const inCubic = x => x * x * x;
+const Q = new URLSearchParams(location.search);
+const [W, H] = (Q.get('size') || '1920x1080').split('x').map(Number);
+const cv = document.getElementById('c'); cv.width = W; cv.height = H;
+let g = cv.getContext('2d');
+const layer = document.createElement('canvas'); layer.width = W; layer.height = H; const lg = layer.getContext('2d');
+const TL = window.TL, A = TL.acts, DUR = TL.duration, P = TL.palette, C = TL.copy[Q.get('lang') || 'en'];
+
+// ---------------------------------------------------------------- layout: a function of the format
+const FMT = W / H < .9 ? 'portrait' : 'landscape';
+const U = Math.min(W, H) / 1080 * (FMT === 'portrait' ? 1.2 : 1);   // a phone shows 9:16 full screen: type can grow
+const SF = FMT === 'portrait' ? { l: .08, r: .12, t: .12, b: .18 } : { l: .07, r: .07, t: .09, b: .09 };
+window.SAFEBOX = { x0: W * SF.l, y0: H * SF.t, x1: W * (1 - SF.r), y1: H * (1 - SF.b) };
+const BOX = { x: W * SF.l, y: H * SF.t, w: W * (1 - SF.l - SF.r), h: H * (1 - SF.t - SF.b) };
+const CX = BOX.x + BOX.w / 2, CY = BOX.y + BOX.h / 2;
+
+// ---------------------------------------------------------------- type
+const FAM = { sans: 'Archivo', serif: 'Instrument Serif', mono: 'Plex Mono', arabic: 'Plex Arabic' };
+function font(fam, size, w = 700, it = false, ls = null) {
+  g.font = `${it ? 'italic ' : ''}${w} ${size}px "${FAM[fam]}", sans-serif`;
+  g.letterSpacing = `${(ls ?? (fam === 'mono' ? .14 : fam === 'sans' && size > 60 * U ? -.03 : -.01)) * size}px`;
+}
+function tw(s, fam, size, w, it, ls) { font(fam, size, w, it, ls); const m = g.measureText(s), r = Math.max(m.width, m.actualBoundingBoxRight || 0); g.letterSpacing = '0px'; return r; }
+function txt(s, x, y, fam, size, color, { w = 700, it = false, align = 'left', base = 'middle', ls = null } = {}) {
+  font(fam, size, w, it, ls); g.textAlign = align; g.textBaseline = base; g.fillStyle = color; g.fillText(s, x, y); g.letterSpacing = '0px';
+}
+// largest size <= start at which every string fits maxW
+const fit = (strs, fam, start, maxW, w = 700, it = false) => { let s = start; while (s > 22 * U && Math.max(...strs.map(x => tw(x, fam, s, w, it))) > maxW) s *= .96; return s; };
+
+// ---------------------------------------------------------------- drawing helpers
+function rrect(x, y, w, h, r) { g.beginPath(); g.roundRect(x, y, w, h, Math.max(0, Math.min(r, w / 2, h / 2))); }
+function dot(x, y, r, color, a = 1) { if (r <= .05 || a <= 0) return; g.save(); g.globalAlpha *= a; g.fillStyle = color; g.beginPath(); g.arc(x, y, r, 0, Math.PI * 2); g.fill(); g.restore(); }
+function clipRect(x, y, w, h, fn) { g.save(); g.beginPath(); g.rect(x, y, w, h); g.clip(); fn(); g.restore(); }
+// draw fn() on the layer, then composite with alpha + one blur (ctx.filter per call is ~100x slower). Don't nest.
+function withLayer(a, blur, fn) {
+  if (a <= 0) return;
+  if (blur < .3 && a >= .999) { g.save(); fn(); g.restore(); return; }
+  const main = g; lg.setTransform(1, 0, 0, 1, 0, 0); lg.clearRect(0, 0, W, H); lg.globalAlpha = 1; lg.filter = 'none';
+  g = lg; g.save(); fn(); g.restore(); g = main;
+  g.save(); g.setTransform(1, 0, 0, 1, 0, 0); g.globalAlpha = a; g.filter = blur >= .3 ? `blur(${blur.toFixed(1)}px)` : 'none'; g.drawImage(layer, 0, 0); g.restore();
+}
+function vignette(dark) {
+  const v = g.createRadialGradient(W / 2, H / 2, Math.min(W, H) * .35, W / 2, H / 2, Math.hypot(W, H) * .62);
+  v.addColorStop(0, 'rgba(0,0,0,0)'); v.addColorStop(1, dark ? 'rgba(0,0,0,.5)' : 'rgba(12,13,16,.07)');
+  g.fillStyle = v; g.fillRect(0, 0, W, H);
+}
+// a word that rolls into a masked line: enters from below, the previous one leaves upward
+function roll(items, t, x, y, size, drawItem, lh = 1.25) {
+  let i = -1; for (let k = 0; k < items.length; k++) if (t >= items[k][0]) i = k;
+  clipRect(0, y - size * lh / 2, W, size * lh, () => {
+    if (i >= 1) { const p = spring(t - items[i][0], 320, 28); if (p < .999) drawItem(items[i - 1], x, y - p * size * lh, 1 - p); }
+    if (i >= 0) { const p = spring(t - items[i][0], 320, 28); drawItem(items[i], x, y + (1 - p) * size * lh, clamp((t - items[i][0]) / .06)); }
+  });
+  return i;
+}
+const IM = {}; window.MISSING = [];
+const load = (k, src) => new Promise(r => { const im = new Image(); im.onload = () => { IM[k] = im; r(); }; im.onerror = () => { window.MISSING.push(`image ${k}: ${src}`); r(); }; im.src = src; });
+
+// ================================================================ ACT 1 · greet → portrait → name (0 – 4.0)
+const GREET = TL.greetings;                                         // [[t, word, script?], ...]
+function act1(t) {
+  const kf = Math.min(1, BOX.w * .94 / (104 * U + 22 * U * 80 / 58 + tw(C.first + ' ' + C.last, 'sans', 80 * U, 700)));   // the full name fits the safe box
+  const base = 58 * U * kf, size = track(t, [[0, base], [A.fullName, 80 * U * kf]], 220, 24);
+  const r = track(t, [[0, 8 * U], [A.avatar, 40 * U * kf], [A.fullName, 52 * U * kf], [A.shrink, 8 * U]], 200, 21) * spring(t - .02, 260, 17);
+  const gap = 22 * U * size / base;
+  // the word slot: greetings, then the name; its width springs so the group recentres smoothly
+  const gw = s => s[2] === 'arabic' ? tw(s[1], 'arabic', base * 1.05, 600) : tw(s[1], 'sans', base, 600);
+  const wKeys = [[0, 0], ...GREET.map(s => [s[0], gw(s)]), [A.avatar, tw(C.first, 'sans', base, 700)]];
+  const rev = spring(t - A.fullName - .05, 240, 24);
+  const wFirst = tw(C.first, 'sans', size, 700), wLast = tw(' ' + C.last, 'sans', size, 700);
+  let wordW = t < A.fullName ? track(t, wKeys, 300, 28) : wFirst + rev * wLast;
+  const out = spring(t - A.shrink, 260, 26); wordW *= 1 - out;
+  const imV = clamp(spring(t - A.im, 260, 24) - spring(t - A.fullName, 260, 24));
+  const imW = (tw(C.im, 'sans', base, 600) + 14 * U) * imV;
+  const showWord = t >= GREET[0][0];
+  const total = imW + 2 * r + (showWord ? gap * (1 - out) + wordW : 0);
+  const left = CX - total / 2, dx = left + imW + r, wx = dx + r + gap;
+
+  if (imV > .01) txt(C.im, left + imW - 14 * U - tw(C.im, 'sans', base, 600), CY, 'sans', base, P.onDark, { w: 600 });
+  // dot → portrait (the portrait shows once the dot is big enough to read as a face)
+  dot(dx, CY, r, P.signalOnDark);
+  const pa = clamp((r - 16 * U) / (14 * U));
+  if (IM.portrait && pa > 0) {
+    g.save(); g.globalAlpha = pa; g.beginPath(); g.arc(dx, CY, r, 0, Math.PI * 2); g.clip();
+    g.drawImage(IM.portrait, 95, 105, 430, 430, dx - r, CY - r, 2 * r, 2 * r); g.restore();
+  }
+  if (!showWord) return;
+  // greeting roll + name, blurred out at the shrink
+  const items = [...GREET, [A.avatar, C.first, 'name']];
+  withLayer(1 - clamp((t - A.shrink) / .22), 14 * U * clamp((t - A.shrink) / .22), () => {
+    roll(items, t, wx, CY, base, (it, x, y, a) => {
+      g.save(); g.globalAlpha *= a;
+      if (it[2] === 'arabic') txt(it[1], x, y, 'arabic', base * 1.05, P.onDark, { w: 600 });
+      else if (it[2] === 'name') {
+        txt(C.first, x, y, 'sans', size, P.onDark, { w: 700 });
+        if (rev > .001) clipRect(x + wFirst, y - size, wLast * rev, size * 2, () => txt(' ' + C.last, x + wFirst, y, 'sans', size, P.onDark, { w: 700 }));
+      } else txt(it[1], x, y, 'sans', base, P.onDark, { w: 600 });
+      g.restore();
+    });
+    // role line under the name
+    if (t >= A.role1) roll([[A.role1, C.role1], [A.role2, C.role2]], t, wx, CY + size * .7, 32 * U, (it, x, y, a) => {
+      g.save(); g.globalAlpha *= a; txt(it[1], x, y, 'sans', 32 * U, P.mutedDark, { w: 500 }); g.restore();
+    }, 1.5);
+  });
+}
+
+// ================================================================ ACT 2 · PAID GROWTH YOU CAN — plan. scale. trace. (4.0 – 6.5)
+function act2(t) {
+  const words = C.words, Ws = fit(words, 'sans', 138 * U, BOX.w * .8, 800);
+  const fams = [['sans', Ws, 800, false, P.onDark], ['sans', Ws, 800, false, P.onDark], ['serif', Ws * 1.16, 400, true, P.signalOnDark]];
+  const widths = words.map((w, k) => tw(w, fams[k][0], fams[k][1], fams[k][2], fams[k][3]));
+  const blockW = Math.max(...widths) + Ws * .2, BL = CX - blockW / 2;
+  const ebSize = 26 * U, ebY = CY - Ws * 1.62, rows = [0, 1, 2].map(k => CY - Ws * .55 + k * Ws * 1.0);
+  const ebW = tw(C.eyebrow, 'mono', ebSize, 500);
+  const rP = Ws * .072, per = k => [BL + widths[k] + Ws * .03 + rP, rows[k] - rP * 1.05];
+  const T = [A.word1, A.word2, A.word3], dirs = [-1, 1, -1];
+  const exitP = clamp((t - A.taglineOut) / .2);
+
+  // the dot: centre → eyebrow start → along the eyebrow (typing it) → full stop of each word → back to centre
+  const tA = A.tagline, tE0 = tA + .12, tE1 = A.word1 - .05;
+  let x, y;
+  if (t < tE0) { const p = spring(t - tA, 300, 26); x = lerp(CX, BL - 16 * U, p); y = lerp(CY, ebY, p); }
+  else if (t < tE1) { x = BL - 16 * U + (ebW + 32 * U) * E.inOutCubic((t - tE0) / (tE1 - tE0)); y = ebY; }
+  else {
+    const kx = [[tE1, BL + ebW + 16 * U], [A.word1 + .06, per(0)[0]], [A.word2 + .06, per(1)[0]], [A.word3 + .06, per(2)[0]], [A.taglineOut + .05, CX]];
+    const ky = [[tE1, ebY], [A.word1 + .06, per(0)[1]], [A.word2 + .06, per(1)[1]], [A.word3 + .06, per(2)[1]], [A.taglineOut + .05, CY]];
+    x = track(t, kx, 260, 25); y = track(t, ky, 260, 25);
+  }
+  const rd = track(t, [[tA, 7 * U], [A.word1 + .06, rP], [A.taglineOut + .05, 7 * U]], 260, 25);
+
+  withLayer(1 - exitP, 16 * U * exitP, () => {
+    const n = Math.round(C.eyebrow.length * clamp((t - tE0) / (tE1 - tE0)));
+    if (n > 0) txt(C.eyebrow.slice(0, n), BL, ebY, 'mono', ebSize, P.mutedDark, { w: 500 });
+    words.forEach((w, k) => {
+      if (t < T[k]) return;
+      const p = spring(t - T[k], 210, 23), off = dirs[k] * (1 - p) * Ws * 2.4, a = clamp((t - T[k]) / .05);
+      const [fam, sz, wt, it, col] = fams[k];
+      for (let s = 5; s >= 1; s--) {                               // speed streak: trailing copies while it travels
+        const sa = .16 * (1 - s / 6) * (1 - p) * a; if (sa < .004) continue;
+        g.save(); g.globalAlpha = sa; txt(w, BL + off + dirs[k] * s * Ws * .22 * (1 - p), rows[k], fam, sz, col, { w: wt, it, base: 'alphabetic' }); g.restore();
+      }
+      g.save(); g.globalAlpha = a; txt(w, BL + off, rows[k], fam, sz, col, { w: wt, it, base: 'alphabetic' }); g.restore();
+      const leaves = k < 2 ? T[k + 1] + .06 : A.taglineOut + .05;      // the dot leaves a full stop behind as it moves on
+      if (t >= leaves) dot(per(k)[0], per(k)[1], rP, k < 2 ? P.onDark : P.signalOnDark);
+    });
+  });
+  dot(x, y, rd, P.signalOnDark);
+}
+
+// ================================================================ ACT 3 · channels I run (6.5 – 9.0)
+function act3(t, push) {
+  const names = C.channels, suf = C.channelsSuffix;
+  const sp = s => tw(' ', 'sans', s, 700);
+  const Ts = fit(names.map(n => n + ' ' + suf), 'sans', 168 * U, BOX.w * .9, 750);
+  const maxPre = Math.max(...names.map(n => tw(n, 'sans', Ts, 750))), sufW = tw(suf, 'sans', Ts, 750);
+  const anchor = CX - (maxPre + sp(Ts) + sufW) / 2 + maxPre;
+  const hy = CY - Ts * 1.05, hs = 26 * U, hw = tw(C.channelsHeader, 'mono', hs, 500);
+  const bx = CX - (hw + 22 * U) / 2;                                // header group: bullet dot + text, centred
+  g.save(); g.translate(0, -push);
+  // dot: centre → header bullet
+  const p = spring(t - A.channels - .05, 260, 25);
+  dot(lerp(CX, bx + 6 * U, p), lerp(CY, hy, p), 7 * U, P.signalOnDark);
+  const n = Math.round(C.channelsHeader.length * clamp((t - A.channels - .15) / .25));
+  if (n > 0) txt(C.channelsHeader.slice(0, n), bx + 22 * U, hy, 'mono', hs, P.mutedDark, { w: 500 });
+  const items = names.map((nm, k) => [A.roll + k * A.rollStep, nm]);
+  roll(items, t, anchor, CY, Ts, (it, x, y, a) => { g.save(); g.globalAlpha *= a; txt(it[1], x, y, 'sans', Ts, P.dimDark, { w: 750, align: 'right' }); g.restore(); });
+  roll([[A.roll, suf]], t, anchor + sp(Ts), CY, Ts, (it, x, y, a) => { g.save(); g.globalAlpha *= a; txt(it[1], x, y, 'sans', Ts, P.onDark, { w: 750 }); g.restore(); });
+  const sa = spring(t - A.roll - .25, 220, 24);
+  if (sa > .01) { g.save(); g.globalAlpha = clamp(sa); txt(C.channelsSub, CX, CY + Ts * .9 + (1 - sa) * 16 * U, 'mono', 26 * U, P.mutedDark, { w: 500, align: 'center' }); g.restore(); }
+  g.restore();
+}
+
+// ================================================================ ACT 4 · results list → field → band → proof (9.0 – 14.5)
+const IND = C.industries, LAST = IND.length - 1;
+const STEP_T = [9.1, 9.16, 9.22, 9.29, 9.37, 9.46, 9.56, 9.68, 9.82, 10.0];   // decelerating slot-machine steps
+function listPos(t) { return track(t, [[0, 0], ...STEP_T.map((tt, k) => [tt, k + 1])], 320, 30); }
+const BAND = { rows: 7, cols: 52 };
+function bandGeom() {
+  const cell = Math.min(18 * U, BOX.w * .92 / BAND.cols), bw = cell * BAND.cols, bh = cell * BAND.rows;
+  return { cell, x0: CX - bw / 2 + cell / 2, y0: CY + 70 * U + cell / 2, bh };
+}
+function fieldGrid() { const sp = 36 * U, nc = Math.ceil(W / sp) + 1, nr = Math.ceil(H / sp) + 1; return { sp, nc, nr, ox: (W - (nc - 1) * sp) / 2, oy: (H - (nr - 1) * sp) / 2 }; }
+
+function act4(t, panelTop) {
+  g.save(); g.translate(0, panelTop);
+  const rowH = 74 * U, ls = 48 * U, s = listPos(t), lc = CY + 10 * U;
+  const hx = BOX.x + 30 * U, hy = BOX.y + 72 * U;
+  const outP = clamp((t - A.gather) / .22);                         // header, list and pill leave as the field gathers
+  withLayer(1 - outP, 14 * U * outP, () => {
+    txt(C.resultsHeader, hx, hy + 20 * U, 'serif', 104 * U, P.inkText, { w: 400, it: true, base: 'alphabetic' });
+    const subW = Math.min(BOX.w - 60 * U, 760 * U), ws = C.resultsSub.split(' '), lines = [''];
+    for (const w of ws) { const tryL = (lines[lines.length - 1] + ' ' + w).trim(); if (tw(tryL, 'mono', 24 * U, 500, false, .04) > subW && lines[lines.length - 1]) lines.push(w); else lines[lines.length - 1] = tryL; }
+    lines.forEach((l, k) => txt(l, hx, hy + 62 * U + k * 34 * U, 'mono', 24 * U, P.muted, { w: 500, ls: .04 }));
+    // pill behind the focused row; its width follows the focused label
+    const wKeys = [[0, tw(IND[0], 'sans', ls, 700)], ...STEP_T.map((tt, k) => [tt, tw(IND[k + 1], 'sans', ls, 700)])];
+    const pw = track(t, wKeys, 320, 30) + 44 * U;
+    g.fillStyle = P.paper2; rrect(CX - pw / 2, lc - rowH * .42, pw, rowH * .84, rowH * .2); g.fill();
+    const fade = 1 - clamp((t - A.listLand - .05) / .2);
+    IND.forEach((name, i) => {
+      const d = Math.abs(i - s); if (d > 4.2) return;
+      const focus = d < .5, y = lc + (i - s) * rowH, sc = 1 - Math.min(d, 3) * .07;
+      const a = focus ? 1 : clamp(1 - (d - .5) / 3.7) * fade; if (a <= .01) return;
+      g.save(); g.globalAlpha = a; g.translate(CX, y); g.scale(sc, sc);
+      txt(name, 0, 0, 'sans', ls, focus ? P.inkText : P.faint, { w: focus ? 700 : 600, align: 'center' }); g.restore();
+    });
+    const sa = spring(t - A.listLand - .15, 220, 24);
+    if (sa > .01) {                                                // one line if it fits, else split after the first " · "
+      const one = tw(C.industrySub, 'mono', 24 * U, 500, false, .08) <= BOX.w * .96, i0 = C.industrySub.indexOf(' · ');
+      const parts = one || i0 < 0 ? [C.industrySub] : [C.industrySub.slice(0, i0), C.industrySub.slice(i0 + 3)];
+      g.save(); g.globalAlpha = clamp(sa);
+      parts.forEach((l, k) => txt(l, CX, lc + rowH * .95 + k * 36 * U + (1 - sa) * 14 * U, 'mono', 24 * U, P.muted, { w: 500, align: 'center', ls: .08 }));
+      g.restore();
+    }
+  });
+
+  // the dot lands on the result (left of the pill), then leads the gather into the band
+  const pw0 = tw(IND[LAST], 'sans', ls, 700) + 44 * U, B = bandGeom();
+  const dIn = spring(t - A.listLand, 300, 20);
+  const gp = spring(t - A.gather, 200, 24);
+  const ddx = lerp(CX - pw0 / 2 - 22 * U, B.x0, gp), ddy = lerp(lc, B.y0 + 3 * B.cell, gp);
+  if (t >= A.listLand && t < A.count + .3) dot(ddx, ddy, 7 * U * dIn * (1 - gp) + B.cell * .38 * gp, P.signal);
+
+  // field: a ripple of dots out from the pill (illustrative), then sampled dots gather into the band
+  if (t >= A.field) {
+    const F = fieldGrid(), maxD = Math.hypot(W, H) / 2, ex = { x0: CX - 420 * U, x1: CX + 420 * U, y0: lc - rowH, y1: lc + rowH * 1.4 };
+    const cols = { [P.dotFaint]: new Path2D(), [P.signal]: new Path2D(), [P.paper3]: new Path2D() };
+    const mapC = (r, c) => [Math.round(r / (BAND.rows - 1) * (F.nr - 1)), Math.round(c / (BAND.cols - 1) * (F.nc - 1))];
+    const taken = new Set();
+    for (let r = 0; r < BAND.rows; r++) for (let c = 0; c < BAND.cols; c++) { const [fr, fc] = mapC(r, c); taken.add(fr * F.nc + fc); }
+    const pc = E.outExpo(clamp((t - A.count) / (A.countLand - A.count)));
+    const filled = Math.round(pc * BAND.rows * BAND.cols);
+    // band cells (each comes from one field dot)
+    for (let c = 0; c < BAND.cols; c++) for (let r = 0; r < BAND.rows; r++) {
+      const [fr, fc] = mapC(r, c), fx = F.ox + fc * F.sp, fy = F.oy + fr * F.sp - panelTop;
+      const appear = A.field + Math.hypot(fx - CX, fy + panelTop - lc - panelTop) / maxD * .45;
+      const r0 = 2.6 * U * spring(t - appear, 300, 22);
+      const q = spring(t - A.gather - .1 - c * .006, 170, 21);
+      const bx = B.x0 + c * B.cell, by = B.y0 + r * B.cell;
+      const x = lerp(fx, bx, q), y = lerp(fy, by, q), rr = lerp(r0, B.cell * .36, q);
+      const idx = c * BAND.rows + r, colr = t >= A.count && idx < filled ? P.signal : q > .5 ? P.paper3 : (hash(idx, 7) < .12 ? P.signal : P.dotFaint);
+      if (rr > .1) { cols[colr].moveTo(x + rr, y); cols[colr].arc(x, y, rr, 0, Math.PI * 2); }
+    }
+    // the rest of the field ripples in, then shrinks away as the band forms
+    const shrink = 1 - clamp((t - A.gather) / .25);
+    if (shrink > 0) for (let fr = 0; fr < F.nr; fr++) for (let fc = 0; fc < F.nc; fc++) {
+      if (taken.has(fr * F.nc + fc)) continue;
+      const fx = F.ox + fc * F.sp, fy = F.oy + fr * F.sp - panelTop;
+      if (fx > ex.x0 && fx < ex.x1 && fy > ex.y0 && fy < ex.y1) continue;
+      const appear = A.field + Math.hypot(fx - CX, fy - lc) / maxD * .45;
+      const rr = 2.6 * U * spring(t - appear, 300, 22) * shrink; if (rr < .1) continue;
+      const colr = hash(fr * 977 + fc, 3) < .12 ? P.signal : P.dotFaint;
+      cols[colr].moveTo(fx + rr, fy); cols[colr].arc(fx, fy, rr, 0, Math.PI * 2);
+    }
+    for (const k in cols) { g.fillStyle = k; g.fill(cols[k]); }
+  }
+
+  // proof: odometer + label + source
+  if (t >= A.count - .05) {
+    const pc = E.outExpo(clamp((t - A.count) / (A.countLand - A.count))), target = parseInt(C.proofNumber.replace(/\D/g, ''), 10), v = target * pc;
+    const Cs = fit([C.proofNumber], 'sans', 150 * U, BOX.w * .8, 800), cy = B.y0 - B.cell / 2 - Cs * 1.2;
+    font('sans', Cs, 800); const dw = Math.max(...'0123456789'.split('').map(d => g.measureText(d).width)), cw = g.measureText(',').width; g.letterSpacing = '0px';
+    const chars = C.proofNumber.split(''), totalW = chars.reduce((s, ch) => s + (ch === ',' ? cw : dw), 0);
+    const ap = clamp((t - A.count + .05) / .12);
+    let x = CX - totalW / 2, digitsLeft = chars.filter(ch => /\d/.test(ch)).length;
+    for (const ch of chars) {
+      if (ch === ',') { g.save(); g.globalAlpha = ap * (v >= 1000 ? 1 : .25); txt(',', x, cy, 'sans', Cs, P.inkText, { w: 800 }); g.restore(); x += cw; continue; }
+      digitsLeft--; const place = 10 ** digitsLeft, q = Math.floor(v / place), base = q % 10, rem = v - q * place;
+      const fr = place === 1 ? v - Math.floor(v) : clamp(rem - (place - 1));   // real odometer: roll during the carry only
+      const lead = q === 0 && place > 1, lh = Cs * 1.1;
+      clipRect(x - 2, cy - lh / 2, dw + 4, lh, () => {
+        g.save(); g.globalAlpha = ap * (lead ? .22 : 1);
+        txt(String(base % 10), x + dw / 2, cy - fr * lh, 'sans', Cs, P.inkText, { w: 800, align: 'center' });
+        if (fr > .001) txt(String((base + 1) % 10), x + dw / 2, cy + (1 - fr) * lh, 'sans', Cs, P.inkText, { w: 800, align: 'center' });
+        g.restore();
+      });
+      x += dw;
+    }
+    const la = spring(t - A.count - .15, 220, 24);
+    if (la > .01) { g.save(); g.globalAlpha = clamp(la); txt(C.proofLabel, CX, cy + Cs * .68 + (1 - la) * 14 * U, 'sans', 38 * U, P.muted, { w: 500, align: 'center' }); g.restore(); }
+    const sa2 = spring(t - A.count - .45, 220, 24);
+    if (sa2 > .01) { g.save(); g.globalAlpha = clamp(sa2); txt(C.proofSource, CX, B.y0 + B.bh + 36 * U, 'mono', 24 * U, P.muted, { w: 500, align: 'center', ls: .08 }); g.restore(); }
+  }
+  g.restore();
+}
+
+// ================================================================ ACT 5 · end card (15.0 – 18.0)
+function endGeom() {
+  const us = fit([C.url], 'sans', 92 * U, BOX.w * .9, 700), uy = CY - 50 * U;
+  const bs = 32 * U, bh = 80 * U, pad = 40 * U, gap = 20 * U;
+  const w1 = tw(C.cta1, 'sans', bs, 600) + pad * 2, w2 = tw(C.cta2, 'sans', bs, 600) + pad * 2;
+  const by = CY + 80 * U, bx = CX - (w1 + gap + w2) / 2;
+  return { us, uy, bs, bh, w1, w2, by, b1: bx, b2: bx + w1 + gap };
+}
+function act5(t) {
+  const G = endGeom();
+  // URL opens from the dot outward
+  const op = E.outCubic(clamp((t - A.url) / .45)), uw = tw(C.url, 'sans', G.us, 700);
+  if (op > 0) withLayer(1, 8 * U * (1 - op), () => clipRect(CX - uw / 2 * op - 4, G.uy - G.us, uw * op + 8, G.us * 2, () => txt(C.url, CX, G.uy, 'sans', G.us, P.onDark, { w: 700, align: 'center' })));
+  // the dot: pops after the iris, waits in the URL's centre, drops to the first button and becomes it
+  const pop = spring(t - A.iris - .2, 300, 18), dropP = spring(t - A.url - .3, 240, 24), m = spring(t - A.buttons, 220, 22);
+  const press = spring(t - A.click, 600, 30) - spring(t - A.click - .1, 400, 28);
+  const c1x = G.b1 + G.w1 / 2, c1y = G.by + G.bh / 2;
+  const dxx = lerp(CX, c1x, dropP), dyy = lerp(G.uy, c1y, dropP);
+  if (m < .02) dot(dxx, dyy, 7 * U * pop * (1 - .3 * op * (1 - dropP)), P.signalOnDark);
+  else {
+    const w = lerp(14 * U, G.w1, m), h = lerp(14 * U, G.bh, m), sc = 1 - .05 * press;
+    g.save(); g.translate(c1x, c1y); g.scale(sc, sc);
+    g.fillStyle = mixOklab(P.signalOnDark, P.signal, clamp(m)); rrect(-w / 2, -h / 2, w, h, h / 2); g.fill();
+    const ta = clamp((t - A.buttons - .12) / .15); if (ta > 0) { g.globalAlpha = ta; txt(C.cta1, 0, 1 * U, 'sans', G.bs, P.paper, { w: 600, align: 'center' }); }
+    g.restore();
+  }
+  // second button: outline, after the first
+  const b2 = spring(t - A.buttons - .12, 240, 22);
+  if (b2 > .01) {
+    g.save(); g.globalAlpha = clamp(b2); g.translate(G.b2 + G.w2 / 2, G.by + G.bh / 2 + (1 - b2) * 16 * U);
+    g.strokeStyle = 'rgba(236,238,242,.35)'; g.lineWidth = 2 * U; rrect(-G.w2 / 2, -G.bh / 2, G.w2, G.bh, G.bh / 2); g.stroke();
+    txt(C.cta2, 0, 1 * U, 'sans', G.bs, P.onDark, { w: 600, align: 'center' }); g.restore();
+  }
+  // cursor: enters from the lower right, clicks the call button on the beat
+  const ca = clamp((t - A.cursorIn) / .2); if (ca <= 0) return;
+  const sx = CX + 430 * U, sy = CY + 330 * U, ex = c1x + G.w1 * .18, ey = c1y + G.bh * .12;
+  const kx = track(t, [[0, sx], [A.cursorIn + .05, ex]], 110, 20), ky = track(t, [[0, sy], [A.cursorIn + .05, ey]], 110, 20);
+  g.save(); g.globalAlpha = ca; g.translate(kx, ky); const cs = 1.7 * U * (1 - .15 * press); g.scale(cs, cs);
+  g.fillStyle = '#fff'; g.strokeStyle = '#111'; g.lineWidth = 1.6; g.lineJoin = 'round';
+  const ar = new Path2D('M0 0 L0 22 L6 16.5 L10.5 26 L14 24.5 L9.6 15.4 L17 15.4 Z'); g.fill(ar); g.stroke(ar); g.restore();
+}
+
+// ================================================================ draw(t): the only entry point
+function draw(T) {
+  const t = Math.min(T, DUR - 1e-4);
+  g.setTransform(1, 0, 0, 1, 0, 0); g.globalAlpha = 1; g.filter = 'none';
+  const wipeP = E.inOutCubic(clamp((t - A.wipe) / .32)), panelTop = H * (1 - wipeP);
+  if (t < A.wipe + .4) {                                            // dark acts (pushed up as the paper arrives)
+    g.fillStyle = P.ink; g.fillRect(0, 0, W, H); vignette(true);
+    if (t < A.tagline + .02) act1(t);
+    else if (t < A.channels) act2(t);
+    else act3(t, H * .12 * wipeP);
+  }
+  if (t >= A.wipe && t < A.iris + .6) {                             // the paper panel and everything on it
+    g.save(); g.beginPath(); g.rect(0, panelTop, W, H - panelTop); g.clip();
+    g.fillStyle = P.paper; g.fillRect(0, 0, W, H); vignette(false);
+    const tp = clamp((t - A.proofOut) / .42), tpe = inCubic(tp);
+    if (tp <= 0) act4(t, panelTop);
+    else withLayer(1 - tp * tp, 18 * U * tpe, () => {              // the proof tilts away into the dot
+      g.translate(CX, CY); g.rotate(-.42 * tpe); g.scale(1 - .88 * tpe, 1 - .88 * tpe); g.translate(-CX, -CY); act4(t, 0);
+    });
+    // the ink dot that the proof collapses into, then grows into the iris
+    if (t >= A.proofOut) {
+      const R = 8 * U * spring(t - A.proofOut - .1, 300, 20) + spring(t - A.iris + .15, 70, 14) * Math.hypot(W, H) * .6;
+      const fe = Math.max(2, R * .09), gr = g.createRadialGradient(CX, CY, Math.max(0, R - fe), CX, CY, R + fe);
+      gr.addColorStop(0, P.ink); gr.addColorStop(1, 'rgba(12,13,16,0)'); g.fillStyle = gr; g.beginPath(); g.arc(CX, CY, R + fe, 0, Math.PI * 2); g.fill();
+    }
+    g.restore();
+  }
+  if (t >= A.iris + .6) { g.fillStyle = P.ink; g.fillRect(0, 0, W, H); vignette(true); }
+  if (t >= A.iris) act5(t);
+}
+window.draw = window.seek = draw;
+
+// ---------------------------------------------------------------- frame composer: average N subframes (motion blur)
+const acc = document.createElement('canvas'); acc.width = W; acc.height = H; const ag = acc.getContext('2d');
+window.renderFrame = (i, opts = {}) => {
+  const times = subframeTimes(i, { fps: TL.fps || 60, sub: 6, shutter: .75, fast: TL.fast || [], hardCuts: TL.hardCuts || [], dur: DUR, ...opts });
+  times.forEach((ts, k) => { draw(ts); ag.globalAlpha = 1 / (k + 1); ag.drawImage(cv, 0, 0); });
+  g.setTransform(1, 0, 0, 1, 0, 0); g.globalAlpha = 1; g.filter = 'none'; g.drawImage(acc, 0, 0);
+};
+(async () => {
+  for (const f of window.FONTS || []) { const ff = new FontFace(f.family, `url(data:font/woff2;base64,${f.b64})`, { weight: f.weight || '400', style: f.style || 'normal' }); await ff.load(); document.fonts.add(ff); }
+  await Promise.all(Object.entries(TL.images || {}).map(([k, src]) => load(k, src)));
+  draw(0); window.ready = true;
+})();
+</script></body></html>
