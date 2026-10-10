@@ -1,0 +1,19 @@
+{
+  "env": {
+    "HYPERFRAMES_NO_TELEMETRY": "1",
+    "DO_NOT_TRACK": "1",
+    "DISABLE_TELEMETRY": "1"
+  },
+  "hooks": {
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "type": "command",
+            "command": "bash \"$CLAUDE_PROJECT_DIR/motion-studio/session-start.sh\""
+          }
+        ]
+      }
+    ]
+  }
+}

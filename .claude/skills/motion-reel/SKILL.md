@@ -38,6 +38,13 @@ Morph (`templates/engine-morph.html`) = one shape that never cuts and changes si
 inside it; seamless loops. Scenes (`templates/engine-scenes.html`) = kinetic type, real captures as cards, a counted proof
 number and an end card, joined by hard cuts or iris transitions. Both share the same contract, so you can mix them.
 
+**Companion skills** (installed in `.claude/skills/`, listed in `VENDORED.md`; this skill's house rules win over theirs):
+HTML/GSAP or Lottie pieces → `hyperframes` (+ `gsap-*`), with the CLI pinned in `motion-studio/`; narrated launch films in
+HTML → `product-launch-motion`; illustrated explainers with no product UI → `animate`; editing real talking-head/UGC footage →
+`cut-silences`, `cut-mistakes`, `short-form-edit`, `talking-head-recut`, `embedded-captions`; B-roll over a creator's video →
+`motion-broll`; craft references for any engine → `motion-doctrine`, `cut-the-curve`, `seam-craft`, `beat-sync-editing`,
+`shot-composition`, `color-motion`, `logo-animation`. Product films, UA ads and multi-format variants stay here.
+
 ## 2. Inputs (ask only if missing and material; otherwise use the default and say so)
 
 | Input | Default |
@@ -183,7 +190,7 @@ during swaps.
 
 ```bash
 S=.claude/skills/motion-reel; P=films/<name>                      # P = the film's project folder
-bash $S/scripts/setup.sh                                           # prints PLAYWRIGHT_PATH / CHROMIUM_PATH to export
+bash $S/scripts/setup.sh motion-studio                             # pinned toolchain (cloud sessions: the SessionStart hook runs it)
 node $S/scripts/capture.cjs site https://example.com $P/assets      # web subjects; other subjects: see §1
 bash $S/scripts/refscan.sh refs/ref.mp4 $P/docs/ref
 cp $S/templates/engine-scenes.html $P/index.html; cp $S/templates/timeline.scenes.json $P/timeline.json   # or engine-morph

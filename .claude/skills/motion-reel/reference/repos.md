@@ -43,6 +43,19 @@ the case named; **skip** = nothing we lack, or conflicts with the house rules.
 `~/.claude/skills/`), symlinks unless `--copy`, and sends anonymous telemetry unless `DISABLE_TELEMETRY=1`/`DO_NOT_TRACK=1`.
 The skills.sh audit badges disagree with each other; read the SKILL.md files yourself.
 
+## Installed companions
+
+`motion-studio/install-companion-skills.sh` installed 40 companion skills at pinned commits (HyperFrames skills at v0.8.79 to
+match the pinned CLI); `.claude/skills/VENDORED.md` lists each with its source, commit, licence and patch. Patches: HyperFrames
+skills get a project-policy header (no self-update, no feedback/telemetry, house rules win) and lose the post-render feedback
+section; the student-kit editing skills use local `words.py --shape scribe` instead of the ElevenLabs transcriber.
+Installed: HyperFrames (15 skills + motion-doctrine, cut-the-curve, seam-craft), product-launch-motion, animate, motion-broll,
+object-separation, short-form-edit, video-storytelling, cut-silences, cut-mistakes, 8 GSAP skills, 6 iart-ai design skills.
+Left out on purpose: Remotion-based skills (licence above 3 people), faceless-explainer (invented visuals), music-to-video
+(stock/generated music), captions-overlay (ignores ad UI zones), PR/changelog/Figma/slideshow/Remotion-migration workflows.
+`video-storytelling` cites QA scripts its repo doesn't ship: use its rules, run our `qa.py` instead.
+To update: bump a commit in the script, re-run it, review the diff, commit.
+
 ## Before installing any of them
 
 - Install per project, pinned to a version or commit; never `@latest` in a client project.
