@@ -34,3 +34,17 @@
 | Map frames took 70 s each | blur a layer once; batch dots into `Path2D` bins |
 | A 54 MB master exceeded a 30 MB send limit | two-pass ~3.5 Mbps share copy |
 | Research on per-item locations ran long | time-box; show only what's verified |
+| Fresh template crashed the first contact sheet: listed font file not there yet | a missing font is an unfinished item like a missing image; drafts fall back |
+| A seven-digit stat ran off both edges in 9:16 | fit the final value to the safe box once; group digits by locale |
+| Corner QA flagged every iris transition | only corners busy for ≥ 1 s count (labels persist, transitions pass) |
+| Video encoded untagged: players guessed BT.601, brand colours drifted | encode and tag BT.709 limited range; `qa.sh` checks tags |
+| Caption words crowded: measured with negative tracking, drawn without | measure with the exact font state you draw with |
+| Brand-blue caption highlight read at 2:1 on its black outline | lift the accent toward white in OKLab until 4.5:1; judge outlined text against its outline |
+| VO carve produced NaN and broke the limiter (+1 dBTP) | clamp the smoothed square before `sqrt` |
+| Downbeat landed on beat 3: kicks on 1 and 3 were equal | add chord-change (chroma) novelty; warn, don't shift, on off-beat low end |
+
+## Ideas adopted from other skills (2026-10-10)
+Vetted 16 motion-skill repos and 5 engines (`repos.md`); the numbers we adopted are in `craft.md`: reading holds, duration
+bands, vector law, captions and VO rules, voice carve, hook gate, frame-0 thumbnail rule, BT.709, OKLab, text/contrast probe,
+dead-stretch and flash detectors.
+

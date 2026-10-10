@@ -1,5 +1,5 @@
 {
-  "_doc": "Scenes film timeline (engine-scenes.html): hook -> real UI -> proof -> end card. Times in seconds on the beat grid (beat = 60/bpm). Bracketed strings and a null stat are placeholders: render.cjs refuses to make a video until they are replaced with verbatim copy / a verified number, each with a source. *Asterisks* mark accent words. variants.<X> is deep-merged over this file by --variant X (hook tests, CTA tests, markets).",
+  "_doc": "Scenes film timeline (engine-scenes.html): hook -> real UI -> proof -> end card. Times in seconds on the beat grid (beat = 60/bpm). Bracketed strings and a null stat are placeholders: render.cjs refuses to make a video until they are replaced with verbatim copy / a verified number, each with a source. *Asterisks* mark accent words. variants.<X> is deep-merged over this file by --variant X (hook tests, CTA tests, markets). safe overrides the engine's safe box per format (fractions of the frame). holds lists deliberate still stretches over 2.2 s with a reason (qa.py motion). captions[lang] is written by scripts/captions.py; captionStyle.active overrides the caption highlight colour.",
   "name": "example-scenes",
   "bpm": 120,
   "duration": 8.0,
@@ -13,6 +13,8 @@
   "palette": { "bg": "#F6F4EF", "ink": "#111111", "white": "#FFFFFF", "muted": "#6B6B6B", "accent": "#3B5BFF" },
   "images": { "screen1": "assets/screens/screen1.png", "logo": "assets/brand/logo.svg" },
   "hardCuts": [2.0],
+  "safe": { "portrait": { "l": 0.08, "r": 0.12, "t": 0.12, "b": 0.18 } },
+  "holds": [],
   "fast": [[3.75, 4.3, 12, 0.9], [5.75, 6.3, 12, 0.9]],
   "scenes": [
     { "id": "hook", "t": 0.0, "kind": "type", "copy": "hook", "bg": "ink", "color": "white", "accent": "accent" },

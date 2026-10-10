@@ -13,6 +13,11 @@ LOOP="$([ -n "$tl" ] && jq_tl loop || echo false)"
 
 echo "== probe"
 ffprobe -v error -show_entries stream=codec_name,width,height,r_frame_rate,pix_fmt,sample_rate,channels -show_entries format=duration,size,bit_rate -of compact "$v"
+echo "== colour tags (want bt709 / tv: untagged files are guessed as BT.601 and shift brand colours)"
+tags=$(ffprobe -v error -select_streams v -show_entries stream=color_space,color_primaries,color_transfer,color_range -of csv=p=0 "$v")
+echo "$tags"; [[ "$tags" == *bt709*tv* || "$tags" == *tv*bt709* ]] || echo "  WARN: not tagged bt709/tv (re-render with the current render.cjs)"
+echo "== audio track (some platforms reject video-only files)"
+ffprobe -v error -select_streams a -show_entries stream=codec_name -of csv=p=0 "$v" | grep -q . && echo "present" || echo "  WARN: no audio stream: mux a silent AAC track (render-all.sh does it for audio '-')"
 echo "== decode (must be empty)"
 ffmpeg -v error -i "$v" -f null - 2>&1 | head -5
 echo "== loudness (target -14 LUFS integrated, true peak <= -1 dBTP)"
@@ -38,6 +43,9 @@ if [ "$LOOP" = "true" ]; then
   ffmpeg -hide_banner -i "$tmp/first.png" -i "$tmp/last.png" -lavfi ssim -f null - 2>&1 | grep -o "All:[0-9.]*"; rm -rf "$tmp"
   ffmpeg -v error -y -stream_loop 2 -i "$v" -c copy "$base.loop_check.mp4" && echo "watch the seam: $base.loop_check.mp4"
 fi
+echo "== motion (frame 0, flashes, jumps, dead stretches${LOOP:+, loop seam})"
+python3 -I "$here/qa.py" motion "$v" ${tl:+"$tl"}
+if [ -n "$tl" ]; then echo "== static (engine code that breaks determinism)"; python3 -I "$here/qa.py" static "$(dirname "$tl")"; fi
 echo "== corners (should be empty: no labels, HUDs, frames)"
 python3 -I "$here/qa.py" corners "$v"
 if [ -n "$tl" ]; then echo "== audio sync (onsets vs state changes, target <= 1 frame)"; python3 -I "$here/qa.py" sync "$v" "$tl"; fi

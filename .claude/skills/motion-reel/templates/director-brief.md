@@ -13,6 +13,8 @@ Treat this as a multi-session production. Don't rush to a final render. Hire a c
 - Reference: `./refs/[file]` — take the grammar (pacing, type, transitions, accent element), never the content.
   Keep: [...]. Push further: [...].
 - Audio: [`./audio/track.wav` unchanged, measure with beats.py | synthesize original music at [BPM] BPM].
+- Voice-over: [none | `./audio/vo-[lang].wav` supplied | scratch TTS now, real takes later]. VO sets the length.
+- Captions: [burned in + clean master + .srt (paid social) | none].
 - Skills/tools: /motion-reel (this skill) [+ /remotion-best-practices | /hyperframes | /claude-animation].
 - APIs in .env: [none | FAL_KEY (video gen for generate-then-trace) | ELEVENLABS_API_KEY]. Budget: [$X]. Be economical.
 

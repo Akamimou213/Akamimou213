@@ -21,13 +21,17 @@ const P = TL.palette, FONT = `"${(TL.fonts && TL.fonts[0] && TL.fonts[0].family)
 // ---------------------------------------------------------------- layout is a function of the format
 const AR = W / H, FMT = AR < .9 ? 'portrait' : AR > 1.2 ? 'landscape' : 'square';
 const PUSH = FMT === 'portrait' ? 1.15 : 1;                       // portrait: push in so each state still fills the frame
+// safe box for render.cjs text checks (same defaults as engine-scenes; override with TL.safe = { portrait: {l, r, t, b} })
+const SF = { ...({ portrait: { l: .08, r: .12, t: .12, b: .18 } }[FMT] || { l: .07, r: .07, t: .09, b: .09 }), ...((TL.safe || {})[FMT] || {}) };
+window.SAFEBOX = { x0: W * SF.l, y0: H * SF.t, x1: W * (1 - SF.r), y1: H * (1 - SF.b) };
 
 // ---------------------------------------------------------------- the one shape + camera (pure functions of t)
 const kf = prop => KEYS.map(k => [k.t, k[prop]]);
 const tOut = i => (KEYS[i + 1] ? KEYS[i + 1].t : DUR + KEYS[0].t);
 const shapeAt = t => ({ w: track(t, kf('w')), h: track(t, kf('h')), r: track(t, kf('r')), ink: clamp(track(t, kf('ink'))) });
-const ZOOM = KEYS.map(k => [k.t, k.fit * Math.min(W / k.w, H / k.h) * PUSH]);
-const zoomAt = t => track(t, ZOOM, 90, 19);                       // lazy camera spring: lags the shape slightly
+// zoom springs in log space: a linear scale track reads as slowing down as it grows (and overshoots unevenly)
+const ZOOM = KEYS.map(k => [k.t, Math.log(k.fit * Math.min(W / k.w, H / k.h) * PUSH)]);
+const zoomAt = t => Math.exp(track(t, ZOOM, 90, 19));             // lazy camera spring: lags the shape slightly
 
 // ---------------------------------------------------------------- drawing helpers
 function font(size, weight = 500, italic = false) { g.font = `${italic ? 'italic ' : ''}${weight} ${size}px ${FONT}`; }

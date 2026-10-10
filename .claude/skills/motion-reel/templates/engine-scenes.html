@@ -19,11 +19,17 @@ const FAM = (TL.fonts && TL.fonts[0] && TL.fonts[0].family) || 'sans-serif';
 const HARD = TL.hardCuts || [];
 
 // ---------------------------------------------------------------- layout is a function of the format
-// Safe area for vertical feeds is a conservative house default (platform UI covers top and bottom): verify per platform.
+// Safe area: conservative house default. Vertical feeds cover the top, the bottom and a right-hand action rail
+// (~12 %); check the target platform's current spec and override per format with TL.safe = { portrait: {l, r, t, b} }.
 const AR = W / H, FMT = AR < .9 ? 'portrait' : AR > 1.2 ? 'landscape' : 'square';
 const U = Math.min(W, H) / 1080;                                   // 1 unit = 1 px on a 1080 short side
-const SAFE = FMT === 'portrait' ? { x: W * .08, top: H * .12, bottom: H * .18 } : { x: W * .07, top: H * .09, bottom: H * .09 };
-const BOX = { x: SAFE.x, y: SAFE.top, w: W - 2 * SAFE.x, h: H - SAFE.top - SAFE.bottom };
+const S0 = { portrait: { l: .08, r: .12, t: .12, b: .18 }, square: { l: .07, r: .07, t: .09, b: .09 }, landscape: { l: .07, r: .07, t: .09, b: .09 } };
+const SF = { ...S0[FMT], ...((TL.safe || {})[FMT] || {}) };
+window.SAFEBOX = { x0: W * SF.l, y0: H * SF.t, x1: W * (1 - SF.r), y1: H * (1 - SF.b) };   // render.cjs text checks against this
+// captions (sound-off feeds): a rail at the bottom of the safe box; scene content gets the space above it
+const CAPS = Q.get('captions') === '0' ? [] : ((TL.captions || {})[LANG] || []);
+const CAPBAND = CAPS.length ? (window.SAFEBOX.y1 - window.SAFEBOX.y0) * .17 : 0;
+const BOX = { x: W * SF.l, y: H * SF.t, w: W * (1 - SF.l - SF.r), h: H * (1 - SF.t - SF.b) - CAPBAND };
 const CX = BOX.x + BOX.w / 2, CY = BOX.y + BOX.h / 2;
 const col = k => P[k] || k;                                          // palette key or literal colour
 const dark = hex => { const n = parseInt(String(hex).slice(1, 7), 16); return ((n >> 16) * .299 + (n >> 8 & 255) * .587 + (n & 255) * .114) / 255 < .45; };
@@ -38,7 +44,7 @@ function parse(s) { let on = false; return s.split(/\s+/).filter(Boolean).map(w 
 function layoutWords(ws, size, maxW) {
   const lines = [[]], sp = size * .26; let x = 0;
   for (const w of ws) {
-    font(size, w.i ? 700 : 800, w.i); const ww = g.measureText(w.w).width;
+    font(size, w.i ? 700 : 800, w.i); const m = g.measureText(w.w), ww = Math.max(m.width, m.actualBoundingBoxRight);   // italics overhang their advance
     if (x > 0 && x + ww > maxW) { lines.push([]); x = 0; }
     lines[lines.length - 1].push({ ...w, x, ww }); x += ww + sp;
   }
@@ -147,6 +153,49 @@ function drawCursor(t) {
   }
 }
 
+// ---------------------------------------------------------------- captions: pure function of t (scripts/captions.py writes them)
+// TL.captions[lang] = [{ t0, t1, words: [{ w, t0, t1 }] } | { t0, t1, text }]. At most 2 lines in the rail at the bottom of the safe
+// box, heavy weight, dark stroke (no pill), a quick 0.12 s in/out; with word times the spoken word lights in the accent and pops
+// to 1.08 on its own start frame, never before. Burned in for sound-off feeds; ?captions=0 renders the clean master.
+function drawCaptions(t) {
+  const c = CAPS.find(c => t >= c.t0 - .08 && t < c.t1); if (!c) return;
+  const ws = c.words || c.text.split(/\s+/).map(w => ({ w, t0: c.t0, t1: c.t1 })), maxW = window.SAFEBOX.x1 - window.SAFEBOX.x0;
+  let size = 58 * U, lines;
+  const widths = () => { font(size, 800); g.letterSpacing = '0px'; return ws.map(w => g.measureText(w.w).width); };
+  const split = ww => {                                              // one line if it fits, else the most balanced 2-line break
+    const sp = size * .28, len = (a, b) => ww.slice(a, b).reduce((s, x) => s + x, 0) + sp * (b - a - 1);
+    if (len(0, ws.length) <= maxW) return [[0, ws.length]];
+    let best = null;
+    for (let k = 1; k < ws.length; k++) { const m = Math.max(len(0, k), len(k, ws.length)); if (m <= maxW && (!best || m < best[0])) best = [m, k]; }
+    return best ? [[0, best[1]], [best[1], ws.length]] : null;
+  };
+  let ww = widths();
+  for (lines = split(ww); !lines && size > 22 * U; lines = split(ww)) { size *= .94; ww = widths(); }
+  lines = lines || [[0, ws.length]];
+  const a = Math.min(clamp((t - c.t0 + .08) / .12), clamp((c.t1 - t) / .12)), lh = size * 1.12, sp = size * .28, cx = (window.SAFEBOX.x0 + window.SAFEBOX.x1) / 2;
+  const top = window.SAFEBOX.y1 - CAPBAND / 2 - lines.length * lh / 2 + (1 - a) * 12 * U;
+  g.save(); g.globalAlpha = a; g.textBaseline = 'middle'; g.lineJoin = 'round';
+  lines.forEach(([i0, i1], li) => {
+    const lw = ww.slice(i0, i1).reduce((s, x) => s + x, 0) + sp * (i1 - i0 - 1), y = top + li * lh + lh / 2;
+    let x = cx - lw / 2;
+    for (let i = i0; i < i1; i++) {
+      const w = ws[i], on = c.words && t >= w.t0 && t < Math.max(w.t1, w.t0 + .12), pop = on ? 1 + .08 * (spring(t - w.t0, 420, 26) - spring(t - w.t0 - .12, 300, 24)) : 1;
+      g.save(); g.translate(x + ww[i] / 2, y); g.scale(pop, pop); font(size, 800); g.letterSpacing = '0px'; g.textAlign = 'center';
+      g.lineWidth = size * .16; g.strokeStyle = 'rgba(0,0,0,.85)'; g.strokeText(w.w, 0, 0);
+      g.fillStyle = on ? CAP_ACTIVE : '#FFFFFF'; g.fillText(w.w, 0, 0); g.restore();
+      x += ww[i] + sp;
+    }
+  });
+  g.restore();
+}
+// active caption word: the brand accent, lifted toward white in OKLab until it reads at 4.5:1 on the black stroke
+const CAP_ACTIVE = (() => {
+  const L = rgb => rgb.map(c => { c /= 255; return c <= .03928 ? c / 12.92 : ((c + .055) / 1.055) ** 2.4; }).reduce((s, c, i) => s + c * [.2126, .7152, .0722][i], 0);
+  const base = (TL.captionStyle || {}).active || col('accent');
+  for (let k = 0; k <= 1; k += .05) { const m = window.Motion.mixOklab(base, '#FFFFFF', k), v = m.match(/\d+/g).map(Number); if ((L(v) + .05) / .05 >= 4.5) return m; }
+  return '#FFFFFF';
+})();
+
 // ---------------------------------------------------------------- draw(t): the only entry point
 function draw(T) {
   const t = TL.loop ? loopT(T, DUR) : Math.min(T, DUR - 1e-4);
@@ -161,6 +210,7 @@ function draw(T) {
   // content leaves in the last 0.25 s before a soft boundary (scale up, fade, blur), so scenes never overlap
   const out = hardOut ? 0 : clamp((t - (end - .25)) / .25);
   withLayer(1 - out, out * 10 * U, () => { g.translate(CX, CY); g.scale(1 + out * .06, 1 + out * .06); g.translate(-CX, -CY); KIND[s.kind](t, s, lt, end); });
+  drawCaptions(t);
   drawCursor(t);
 }
 window.draw = window.seek = draw;

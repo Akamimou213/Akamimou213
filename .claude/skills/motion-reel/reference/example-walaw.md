@@ -1,7 +1,7 @@
 # Worked example: Walaw (one client, three films)
 
 Walaw (walaw.io) is a Québec startup that sells voice-AI agents to health clinics. It's here to show the method end to end;
-nothing in the skill depends on it. Source lives in `walaw-promo/` in this repo (media is git-ignored).
+nothing in the skill depends on it. Source lives in `walaw-promo/` on the `claude/eager-ritchie-kkalq9` branch (media is git-ignored).
 
 ## The brief, as given
 A 20 s promo with "showreel energy", real assets only (Playwright screenshots, real logo/colours/fonts saved to

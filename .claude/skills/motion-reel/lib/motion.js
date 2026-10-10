@@ -6,6 +6,10 @@
   const lerp = (a, b, t) => a + (b - a) * t;
   const inv = (a, b, x) => clamp((x - a) / (b - a));            // 0..1 progress of x through [a, b]
 
+  // Timing bands (reference/craft.md): micro 120-240 ms, small element 320-480, card 560-880, scene change 800-1200,
+  // camera move 1.6-3.6 s. Exits take 60-75 % of their entrance. Sibling staggers 50-120 ms, whole stagger <= 500 ms.
+  // Enter from scale 0.90-0.97, never from 0. Longer travel takes longer (200 px ~1.3x, full frame ~1.8-2x a 50 px move).
+
   // Easings for things that are not springs (wipes, masks, counters). Springs for anything that "moves".
   const E = {
     linear: x => x,
@@ -32,6 +36,9 @@
     for (let i = 1; i < keys.length; i++) v += (keys[i][1] - keys[i - 1][1]) * spring(t - keys[i][0], k, d);
     return v;
   }
+
+  // Zoom / scale targets: spring in log space. A linear scale track reads as slowing down as it grows.
+  const logTrack = (t, keys, k = 90, d = 19) => Math.exp(track(t, keys.map(([t0, v]) => [t0, Math.log(v)]), k, d));
 
   // Stretching tab indicator: leading edge on a stiff spring, trailing edge on a soft one -> [left, right].
   // stops = [[t, x], ...] for one edge; pass the other edge's stops separately if widths differ.
@@ -63,6 +70,20 @@
     return `rgb(${A.map((v, i) => Math.round(lerp(v, B[i], clamp(t)))).join(',')})`;
   }
 
+  // Colour mix in OKLab: perceptually even, no grey dip between saturated hues (blue -> yellow). Returns 'rgb(...)'.
+  function mixOklab(a, b, t) {
+    const toLin = c => (c /= 255) <= .04045 ? c / 12.92 : ((c + .055) / 1.055) ** 2.4, toSrgb = c => 255 * (c <= .0031308 ? 12.92 * c : 1.055 * c ** (1 / 2.4) - .055);
+    const lab = h => {
+      const [r, g, b] = [1, 3, 5].map(i => toLin(parseInt(h.slice(i, i + 2), 16)));
+      const l = Math.cbrt(.4122214708 * r + .5363325363 * g + .0514459929 * b), m = Math.cbrt(.2119034982 * r + .6806995451 * g + .1073969566 * b), s = Math.cbrt(.0883024619 * r + .2817188376 * g + .6299787005 * b);
+      return [.2104542553 * l + .793617785 * m - .0040720468 * s, 1.9779984951 * l - 2.428592205 * m + .4505937099 * s, .0259040371 * l + .7827717662 * m - .808675766 * s];
+    };
+    const A = lab(a), B = lab(b), [L, M, S] = A.map((v, i) => lerp(v, B[i], clamp(t)));
+    const l = (L + .3963377774 * M + .2158037573 * S) ** 3, m = (L - .1055613458 * M - .0638541728 * S) ** 3, s = (L - .0894841775 * M - 1.291485548 * S) ** 3;
+    const rgb = [4.0767416621 * l - 3.3077115913 * m + .2309699292 * s, -1.2684380046 * l + 2.6097574011 * m - .3413193965 * s, -.0041960863 * l - .7034186147 * m + 1.707614701 * s];
+    return `rgb(${rgb.map(c => Math.round(clamp(toSrgb(clamp(c)), 0, 255))).join(',')})`;
+  }
+
   // Subframe sample times for motion blur at frame i. fast = [[t0, t1, n, shutter], ...] raises the sample count
   // on fast moves; hardCuts clamps samples so a shutter never straddles a cut (that makes a grey ghost frame).
   function subframeTimes(i, { fps = 60, sub = 6, shutter = .75, fast = [], hardCuts = [], dur = Infinity } = {}) {
@@ -79,7 +100,7 @@
   // Per-character stagger helper: progress of character j of a word entering at t0.
   const stagger = (t, t0, j, gap = .03, k = 260, d = 24) => spring(t - t0 - j * gap, k, d);
 
-  const api = { clamp, lerp, inv, E, spring, track, indicator, swapAlpha, loopT, segOf, rng, hash, mixHex, subframeTimes, stagger };
+  const api = { clamp, lerp, inv, E, spring, track, logTrack, indicator, swapAlpha, loopT, segOf, rng, hash, mixHex, mixOklab, subframeTimes, stagger };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   root.Motion = api;
 })(typeof globalThis !== 'undefined' ? globalThis : this);
