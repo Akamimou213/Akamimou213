@@ -66,3 +66,13 @@ Audit of every section as a B2C app growth buyer would read it (founder or head 
 4. **Claims to keep defensible**: $3.8M+ managed (not on the portfolio site), $842K and 1.25M+ (super app), "taking 5 founding clients", the "in 4 weeks" timeframe of the creative test.
 5. **Benchmark source**: the page says "category benchmark". If it's RevenueCat's, naming it adds credibility.
 6. **Pixels**: install GTM / Meta / TikTok; events are already wired (`cta_*`, `growth_plan_submit`, `proof_zoom`).
+
+## v3 changes (from client feedback)
+
+- **Hero rebuilt.** "Installs don't pay. Subscribers do." with an animated strike-through, and a funnel strip (Ad → Store → Onboarding → Paywall → Paying) where users stream through, drop at each stage and turn lime as payers. Cost per install removed from the hero, which fixed the contradiction of saying "not installs" while leading with install costs.
+- **Two-field lead capture in the hero.** Type the app name, pick it from live App Store results, add an email, done. Google Play users paste their link. The pick also pre-fills the long form below.
+- **Weak numbers removed.** Trial conversion, trial starts, the first-open → trial funnel and the PostHog funnel screenshot are gone. The benchmark image now shows only its top rows (labelled "selected metrics"). Numbers were removed, never changed.
+- **Cost per install moved down.** The giant "–56%" block is replaced by the "Top 20% of its category" band; the creative-test CPI is now a small note in Chapter 1.
+- **30–40 tested ads a month** everywhere, with an FAQ answer on how that volume is produced.
+- **Copy rewritten** section by section: shorter, specific, no filler phrases.
+- **Preview fixes.** Images in the preview link were broken by a path bug in the single-file conversion; fixed. The preview sandbox can't reach the App Store, so the preview carries an offline index of 56 popular apps; the real site searches the full App Store live.

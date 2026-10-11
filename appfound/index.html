@@ -32,7 +32,7 @@
           "name": "Growth Partner (founding rate)",
           "price": "1500",
           "priceCurrency": "USD",
-          "description": "Monthly growth partnership: paid ads, 8-15 tested ads per month, tracking, store page and funnel tests, ASO, SEO and AI visibility."
+          "description": "Monthly growth partnership: paid ads, 30-40 tested ads per month, tracking, store page and funnel tests, ASO, SEO and AI visibility."
         }
       },
       {
@@ -195,68 +195,60 @@
         <div class="hero__meta mono">
           <span>Growth partner for consumer &amp; subscription apps</span>
           <span class="hide-sm">iOS · Android</span>
-          <span class="hide-sm">Taking 5 founding clients</span>
+          <span class="hide-sm hero__spots"><i class="dot" aria-hidden="true"></i>5 founding spots open</span>
         </div>
 
-        <h1 class="hero__title display" aria-label="Turn ad spend into paying users">
-          <span class="line"><span>Turn ad spend</span></span>
-          <span class="line"><span>into <em class="hl">paying users</em></span></span>
+        <h1 class="hero__title display" aria-label="Installs don't pay. Subscribers do.">
+          <span class="line"><span><span class="w-strike">Installs<i class="strike" aria-hidden="true"></i></span> <span class="dp">don't pay.</span></span></span>
+          <span class="line line--2"><span><em class="hl">Subscribers do.</em></span></span>
         </h1>
 
-        <div class="hero__row">
-          <div class="hero__side hero__side--l">
-            <div class="hero__tag">
-              <svg class="ico" aria-hidden="true"><use href="#ico-tape"/></svg>
-              <span>Fix the funnel</span>
-            </div>
-            <p class="hero__sub">Paid ads, creative, ASO, SEO and AI visibility for consumer apps, run by one senior operator. We track every step from <strong>the ad to the payment</strong> and get judged on one number: <strong>what a paying user costs you</strong>. Not installs.</p>
-            <ul class="hero__checks">
-              <li>Meta · TikTok · Google · Apple Ads</li>
-              <li>Tracking fixed in week 1</li>
-              <li>Month-to-month after 90 days</li>
-            </ul>
-          </div>
+        <div class="hero__deal">
+          <p class="hero__sub">We run your paid ads, ship <strong>30–40 new creatives a month</strong> and fix the store page, onboarding and paywall in between. One senior operator, judged on a single number: <strong>how many users pay.</strong></p>
 
-          <figure class="hero__card" aria-label="Real numbers from one app we run growth for">
-            <div class="hc__top mono"><span>Health app · iOS · US</span><span class="live"><i></i>Real data</span></div>
-            <div class="hc__cpi">
-              <span class="mono hc__label">Cost per install · creative test</span>
-              <div class="hc__nums">
-                <s class="hc__old">$6.28</s>
-                <strong class="hc__new" data-count="2.75" data-decimals="2" data-prefix="$">$2.75</strong>
-                <span class="chip chip--lime">▼ 56%</span>
-              </div>
-            </div>
-            <ol class="hc__funnel">
-              <li><span>Store page → install <em>daily avg</em></span><b data-count="18.1" data-decimals="1" data-suffix="%">18.1%</b><i style="--w:18.1%"></i></li>
-              <li><span>App open → signup <em>30 days</em></span><b data-count="61.4" data-decimals="1" data-suffix="%">61.4%</b><i style="--w:61.4%"></i></li>
-              <li><span>Signups vs prior 30 days</span><b data-count="173" data-prefix="+" data-suffix="%">+173%</b><i style="--w:100%"></i></li>
-            </ol>
-            <figcaption class="hc__cap mono">App name withheld · screenshots in <a href="#results">Results</a></figcaption>
-          </figure>
-
-          <div class="hero__side hero__side--r">
-            <div class="hero__tag hero__tag--r">
-              <span>Scale what pays</span>
-              <svg class="ico" aria-hidden="true"><use href="#ico-up"/></svg>
-            </div>
-            <form class="hero__form" data-quickstart autocomplete="off">
-              <label class="hero__flabel mono" for="quick-app">Free Growth Plan · ready in 48h</label>
+          <div class="hero__cta">
+          <form class="hero__form" data-quickstart autocomplete="off" novalidate>
+            <div class="qs__step" data-qs-step="app">
+              <label class="hero__flabel mono" for="quick-app">Step 1 of 2 · Find your app</label>
               <div class="hero__input appsearch">
                 <svg viewBox="0 0 24 24" aria-hidden="true"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>
-                <input id="quick-app" name="app" type="text" placeholder="Find your app on the App Store" role="combobox" aria-expanded="false" aria-controls="quick-results" aria-autocomplete="list" />
+                <input id="quick-app" name="app" type="text" placeholder="Type your app's name" role="combobox" aria-expanded="false" aria-controls="quick-results" aria-autocomplete="list" />
                 <ul class="appsearch__list" id="quick-results" role="listbox" hidden></ul>
               </div>
-              <button class="btn btn--lime btn--lg btn--block" type="submit" data-track="cta_hero">Get my free Growth Plan <span aria-hidden="true">→</span></button>
-            </form>
-            <p class="hero__micro">A short video + written plan: where you're losing users and what to fix first. <strong>No call. Keep it either way.</strong></p>
+              <button class="qs__link" type="button" data-qs-paste>On Google Play, or can't find it? Paste your store link</button>
+              <input id="quick-url" class="qs__url" type="url" placeholder="Paste your App Store or Google Play link" hidden />
+            </div>
+            <div class="qs__step" data-qs-step="email" hidden>
+              <div class="qs__app" data-qs-app></div>
+              <label class="hero__flabel mono" for="quick-email">Step 2 of 2 · Where should we send it?</label>
+              <div class="hero__input">
+                <svg viewBox="0 0 24 24" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="2"/><path d="m3 7 9 6 9-6"/></svg>
+                <input id="quick-email" name="email" type="email" placeholder="you@yourapp.com" autocomplete="email" />
+              </div>
+            </div>
+            <button class="btn btn--lime btn--lg btn--block" type="submit" data-track="cta_hero" data-qs-btn>Get my free Growth Plan <span aria-hidden="true">→</span></button>
+            <p class="qs__status" role="status" aria-live="polite" data-qs-status></p>
+          </form>
+          <p class="hero__micro">Free video teardown + action plan in 48 hours. No call.</p>
           </div>
+        </div>
+
+        <div class="pipe" data-pipe>
+          <canvas class="pipe__canvas" data-pipe-canvas aria-hidden="true"></canvas>
+          <ol class="pipe__stages">
+            <li class="pipe__stage"><span class="pipe__k mono">01 · Ad</span><b>30–40</b><span>new tested ads every month</span></li>
+            <li class="pipe__stage"><span class="pipe__k mono">02 · Store</span><b data-count="18.1" data-decimals="1" data-suffix="%">18.1%</b><span>of store page visitors install</span></li>
+            <li class="pipe__stage"><span class="pipe__k mono">03 · Onboarding</span><b data-count="61.4" data-decimals="1" data-suffix="%">61.4%</b><span>of new users sign up</span></li>
+            <li class="pipe__stage"><span class="pipe__k mono">04 · Paywall</span><b>Top 20%</b><span>initial conversion in its category*</span></li>
+            <li class="pipe__stage pipe__stage--pay"><span class="pipe__k mono">05 · Paying</span><b>Top 20%</b><span>monthly revenue per paying user*</span></li>
+          </ol>
+          <p class="pipe__note mono">Real results from an app we run growth for · *category benchmark, Sep 2026</p>
         </div>
 
         <div class="hero__foot">
           <a class="hero__by" href="#founder">
             <img src="/img/mohamed-barkat-sm.webp" width="40" height="40" alt="" />
-            <span><strong>Run by Mohamed Barkat</strong>, in-house UA lead at a multi-country super app. You work with him directly, not an account manager.</span>
+            <span><strong>Run by Mohamed Barkat</strong>, in-house UA lead at a multi-country super app. You work with him, not an account manager.</span>
           </a>
           <a class="hero__down" href="#why" aria-label="Scroll down">
             <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3v18M5 14l7 7 7-7"/></svg>
@@ -268,11 +260,11 @@
     <!-- ───────────────────────── MARQUEE + STACK ───────────────────────── -->
     <div class="marquee" aria-label="Headline results">
       <div class="marquee__track" data-marquee>
-        <span>–56% cost per install from creative testing</span><span>✦</span>
+        <span>30–40 tested ads a month</span><span>✦</span>
+        <span>Top 20% initial conversion in its category</span><span>✦</span>
         <span>+173% signups in 30 days</span><span>✦</span>
         <span>61.4% open → signup</span><span>✦</span>
         <span>18.1% store page conversion</span><span>✦</span>
-        <span>Initial conversion in the top 20% of its category</span><span>✦</span>
         <span>$3.8M+ ad spend managed</span><span>✦</span>
       </div>
     </div>
@@ -284,33 +276,33 @@
       </ul>
     </div>
 
-    <!-- ───────────────────────── PROBLEM (Tines-style) ───────────────────────── -->
+    <!-- ───────────────────────── PROBLEM ───────────────────────── -->
     <section class="problem section" id="why">
       <div class="wrap">
-        <p class="eyebrow mono">The new reality for app founders</p>
-        <h2 class="editorial reveal">Shipping an app got easy.<br /><em>Getting paying users didn't.</em></h2>
-        <p class="lede reveal">Anyone can ship an app now, so you're competing with more apps for the same feeds, keywords and users. Ad platforms report their own results. Most founders we talk to know what to do. They don't have the hours: they're the CEO, the PM and the whole growth team.</p>
+        <p class="eyebrow mono">Why most apps stall</p>
+        <h2 class="editorial reveal">More installs won't fix<br /><em>a funnel that leaks.</em></h2>
+        <p class="lede reveal">The ads usually work. Then users stall on the store page, quit halfway through onboarding or bounce off the paywall. You keep paying to refill a bucket with holes in it.</p>
 
         <div class="pains">
           <article class="pain reveal">
             <span class="pain__n mono">01 · Time</span>
-            <h3>“I'm testing ads at midnight after building all day.”</h3>
-            <p>Creative is the biggest lever you have, but producing 8–15 new ads a month is a full-time job. You already have one.</p>
+            <h3>“I'm the CEO, the PM and the whole growth team.”</h3>
+            <p>Creative testing happens at midnight, if it happens. The apps winning your category launch new ads every week.</p>
           </article>
           <article class="pain reveal">
-            <span class="pain__n mono">02 · Trust</span>
-            <h3>“My install cost looks fine. Are we making money?”</h3>
-            <p>If the platforms can't see trials and purchases, they optimize for cheap taps. You scale numbers that flatter them, not you.</p>
+            <span class="pain__n mono">02 · Signal</span>
+            <h3>“Our CPI looks great. Our revenue doesn't.”</h3>
+            <p>If Meta and TikTok never see a trial or a purchase, they find you cheap taps instead of buyers.</p>
           </article>
           <article class="pain reveal">
             <span class="pain__n mono">03 · Leaks</span>
-            <h3>“People install, then vanish before paying.”</h3>
-            <p>The ad did its job. Then the store page, onboarding or paywall lost them. Nobody owns the gap between click and payment.</p>
+            <h3>“People install, then disappear.”</h3>
+            <p>The ad did its job. The store page, onboarding or paywall didn't, and nobody owns that gap.</p>
           </article>
           <article class="pain reveal">
             <span class="pain__n mono">04 · Incentives</span>
-            <h3>“Agencies sell me installs. I need subscribers.”</h3>
-            <p>Installs that never pay are the most expensive thing you can buy. Most agency reports stop at the install. Ours start there.</p>
+            <h3>“Our agency reports installs.”</h3>
+            <p>Installs are where their report ends. It's where your revenue is supposed to start.</p>
           </article>
         </div>
       </div>
@@ -321,29 +313,29 @@
       <div class="promise__head panel">
         <h2 class="display display--md">Build your<br />growth machine</h2>
         <span class="boxnum">01</span>
-        <p class="promise__intro">Seven outcomes we work on, in the order that usually pays back fastest. Each one has a number from real campaigns behind it.</p>
+        <p class="promise__intro">Seven levers, in the order they usually pay back.</p>
       </div>
 
       <div class="promise__body">
         <div class="promise__art panel" aria-hidden="true">
-          <svg class="ill is-on" data-ill="0"><use href="#ill-cpi"/></svg>
-          <svg class="ill" data-ill="1"><use href="#ill-ads"/></svg>
-          <svg class="ill" data-ill="2"><use href="#ill-track"/></svg>
-          <svg class="ill" data-ill="3"><use href="#ill-store"/></svg>
-          <svg class="ill" data-ill="4"><use href="#ill-paywall"/></svg>
-          <svg class="ill" data-ill="5"><use href="#ill-search"/></svg>
-          <svg class="ill" data-ill="6"><use href="#ill-ai"/></svg>
+          <svg class="ill is-on" data-ill="0"><use href="#ill-ads"/></svg>
+          <svg class="ill" data-ill="1"><use href="#ill-track"/></svg>
+          <svg class="ill" data-ill="2"><use href="#ill-store"/></svg>
+          <svg class="ill" data-ill="3"><use href="#ill-paywall"/></svg>
+          <svg class="ill" data-ill="4"><use href="#ill-search"/></svg>
+          <svg class="ill" data-ill="5"><use href="#ill-ai"/></svg>
+          <svg class="ill" data-ill="6"><use href="#ill-cpi"/></svg>
           <span class="promise__count mono"><b data-ill-count>01</b> / 07</span>
         </div>
 
         <ol class="promise__list">
-          <li class="is-on"><span class="boxnum boxnum--sm">01</span><div><h3>Cut your cost per install</h3><p>Ads that won our creative tests installed users at $2.75, against $6.28 for the ads they beat, same audience. Then the budget moves to the winners.</p></div></li>
-          <li><span class="boxnum boxnum--sm">02</span><div><h3>Ship 8–15 tested ads a month</h3><p>Hooks taken from your reviews and your competitors' long-running ads, produced fast with AI tools, and tested against a spend cap.</p></div></li>
-          <li><span class="boxnum boxnum--sm">03</span><div><h3>Track every step to payment</h3><p>Install, signup, trial and purchase, each counted once and sent back to Meta, TikTok and Google in week 1, so they look for payers.</p></div></li>
-          <li><span class="boxnum boxnum--sm">04</span><div><h3>Convert more store visitors</h3><p>Screenshot, icon and custom product page tests. We've taken a store page to 18.1% conversion. Every point lowers what a user costs.</p></div></li>
-          <li><span class="boxnum boxnum--sm">05</span><div><h3>Fix onboarding and the paywall</h3><p>One app's funnel showed 47% of new users dropping in onboarding and 12% of paywall views starting a trial. That's where the next dollar goes, before more ads.</p></div></li>
-          <li><span class="boxnum boxnum--sm">06</span><div><h3>Rank in App Store search</h3><p>Almost 65% of App Store downloads happen right after a search (Apple). The right keywords turn your listing into a free channel.</p></div></li>
-          <li><span class="boxnum boxnum--sm">07</span><div><h3>Show up in AI answers</h3><p>When someone asks ChatGPT or Perplexity for “the best app for…”, we work on the sources those answers draw on, so your app gets named.</p></div></li>
+          <li class="is-on"><span class="boxnum boxnum--sm">01</span><div><h3>Ship 30–40 tested ads a month</h3><p>New hooks every week, pulled from your reviews and the longest-running ads in your category. Every ad gets a spend cap, so losers die cheap.</p></div></li>
+          <li><span class="boxnum boxnum--sm">02</span><div><h3>Track every step to payment</h3><p>Install, signup, trial and purchase, wired in week 1 and fed back to Meta, TikTok and Google so they hunt for payers.</p></div></li>
+          <li><span class="boxnum boxnum--sm">03</span><div><h3>Turn store visitors into installs</h3><p>Screenshots, icons and custom product pages, tested against each other. We've taken a store page to 18.1% conversion.</p></div></li>
+          <li><span class="boxnum boxnum--sm">04</span><div><h3>Plug onboarding and paywall leaks</h3><p>Shorter flows, sharper paywalls, smarter trial offers. One onboarding rebuild got 61.4% of new users to sign up.</p></div></li>
+          <li><span class="boxnum boxnum--sm">05</span><div><h3>Rank in App Store search</h3><p>Almost 65% of App Store downloads happen right after a search (Apple). We make sure yours is one of the results.</p></div></li>
+          <li><span class="boxnum boxnum--sm">06</span><div><h3>Get named by AI assistants</h3><p>When someone asks ChatGPT for “the best app for…”, your app should be in the answer. We work on the sources it reads.</p></div></li>
+          <li><span class="boxnum boxnum--sm">07</span><div><h3>Scale only what pays</h3><p>Budget goes up when payback proves it. Never on a hunch, never because a platform suggested it.</p></div></li>
         </ol>
       </div>
     </section>
@@ -357,7 +349,7 @@
         </div>
         <div class="panel system__note">
           <p class="mono eyebrow">How it works · 3 phases</p>
-          <p>Most teams pour more budget into a leaky funnel. We plug the leaks first, then build the creative engine that fills it, then add organic channels so growth keeps going when spend pauses.</p>
+          <p>Pouring budget into a leaky funnel burns money. So we plug the leaks first, then feed the funnel, then make it compound.</p>
         </div>
       </div>
 
@@ -368,16 +360,16 @@
               <header class="step__bar mono"><span>Phase · weeks 1–2</span><span class="step__drops" aria-hidden="true">✕ ◌ ◌</span></header>
               <div class="step__main"><span class="step__num display">01</span><h3 class="display display--sm">Plug the leaks</h3></div>
               <div class="step__body">
-                <p class="step__kicker">Tracking · store page · funnel</p>
-                <p>Most accounts we open have broken or missing tracking. We wire up install, signup, trial and payment, and send them back to the ad platforms so they learn from buyers, not taps. Then we map the store page, onboarding and paywall and rank every leak by what it costs you.</p>
+                <p class="step__kicker">Tracking · store page · onboarding · paywall</p>
+                <p>Most accounts we open can't see who pays. We wire up install, signup, trial and purchase in week 1 and feed them back to every ad platform. Then we map each leak between the ad and the payment and rank it by what it costs you.</p>
               </div>
             </article>
             <article class="step panel" data-step="1">
               <header class="step__bar mono"><span>Phase · weeks 2–8</span><span class="step__drops" aria-hidden="true">✕ ● ◌</span></header>
-              <div class="step__main"><span class="step__num display">02</span><h3 class="display display--sm">Build the engine</h3></div>
+              <div class="step__main"><span class="step__num display">02</span><h3 class="display display--sm">Feed the engine</h3></div>
               <div class="step__body">
-                <p class="step__kicker">Creative system · structured testing</p>
-                <p>Study what already wins in your category. Pull 10+ angles from your reviews. Ship 8–15 ads a month. Every ad gets a spend cap, so losers die cheap and winners earn budget and get new hooks before they wear out.</p>
+                <p class="step__kicker">30–40 tested ads a month</p>
+                <p>We study the ads that keep running in your category, mine your reviews for the words users actually use, and ship 30–40 new creatives a month. Each one gets a spend cap. Losers die cheap. Winners get budget, and fresh hooks before they fatigue.</p>
               </div>
             </article>
             <article class="step panel" data-step="2">
@@ -385,7 +377,7 @@
               <div class="step__main"><span class="step__num display">03</span><h3 class="display display--sm">Overfill the funnel</h3></div>
               <div class="step__body">
                 <p class="step__kicker">Scale on payback · compound organic</p>
-                <p>Budget goes up when payback says yes, not when a platform suggests it. ASO, SEO and AI visibility bring in users you don't pay for. What wins at the paywall shapes the next round of ads.</p>
+                <p>Budget rises when payback proves it. ASO, SEO and AI visibility bring in users you never pay for, and paywall winners shape the next batch of ads.</p>
               </div>
             </article>
           </div>
@@ -409,21 +401,12 @@
     <section class="results" id="results">
       <div class="results__big grid-lines grid-lines--blue">
         <div class="results__bigin">
-          <h2 class="display display--lg">Test winners cut<br />cost per install by:</h2>
-          <div class="results__stat">
-            <div class="results__tag panel">
-              <p class="mono">Health subscription app</p>
-              <ul class="mono"><li>✓ iOS · United States</li><li>✓ Meta · women audience</li><li>✓ Winners vs the ads they beat</li></ul>
-            </div>
-            <p class="results__num display" aria-label="minus 56 percent"><span data-count="56" data-prefix="–" data-suffix="%">–56%</span></p>
-          </div>
-          <div class="results__profit panel">
-            <div>
-              <p class="mono eyebrow">From → to</p>
-              <p class="display display--sm results__cpi"><s>$6.28</s> → $2.75</p>
-              <p class="results__small">307 installs at $2.75 from the winning creatives, against 111 at $6.28 from the ones they beat. Same audience and country, so the ads made the difference. Moving budget to winners is how the average comes down.</p>
-            </div>
-            <span class="chip chip--blue">Meta Ads Manager · platform-reported</span>
+          <p class="eyebrow mono eyebrow--lime">Results · health subscription app · iOS · US</p>
+          <h2 class="display display--md">Top 20% of its category<br />at turning users into payers.</h2>
+          <div class="bigstats">
+            <div class="bigstat"><b class="display">Top 20%</b><span>Initial conversion, first 30 days</span><em class="mono">Category benchmark</em></div>
+            <div class="bigstat"><b class="display">Top 20%</b><span>Monthly revenue per paying user</span><em class="mono">Category benchmark</em></div>
+            <div class="bigstat"><b class="display" data-count="173" data-prefix="+" data-suffix="%">+173%</b><span>Signups in 30 days vs the previous 30</span><em class="mono">Product analytics</em></div>
           </div>
         </div>
       </div>
@@ -431,8 +414,8 @@
       <div class="results__real">
         <div class="panel results__head">
           <div>
-            <h2 class="display display--md">Real screenshots.<br />Real results.</h2>
-            <p class="results__intro">One app, two launches, every number traced to the dashboard it came from. We show the weak numbers too. Your Growth Plan will be just as blunt.</p>
+            <h2 class="display display--md">The receipts.</h2>
+            <p class="results__intro">Real dashboards from an app we run growth for. The name stays private. The numbers stay exactly as they are.</p>
           </div>
           <span class="boxnum">03</span>
         </div>
@@ -441,57 +424,37 @@
         <div class="case panel">
           <div class="case__intro">
             <p class="mono eyebrow">Chapter 1 · Launch · iOS · US</p>
-            <h3 class="display display--sm">Cheaper installs first. Then the funnel behind them.</h3>
-            <p>Once creative testing brought install costs down, we reworked the store page and onboarding. Signups jumped. The app's name stays private.</p>
+            <h3 class="display display--sm">Fixed the funnel. Signups jumped 173%.</h3>
+            <p>We rebuilt the store page and onboarding, then moved the budget behind the ads that won our creative tests.</p>
             <div class="case__stats">
               <div><b class="display" data-count="173" data-prefix="+" data-suffix="%">+173%</b><span>signups in 30 days vs the previous 30</span><em class="mono">Product analytics</em></div>
-              <div><b class="display" data-count="61.4" data-decimals="1" data-suffix="%">61.4%</b><span>of app opens became signups after onboarding fixes</span><em class="mono">Product analytics</em></div>
+              <div><b class="display" data-count="61.4" data-decimals="1" data-suffix="%">61.4%</b><span>of app opens became signups</span><em class="mono">Product analytics</em></div>
               <div><b class="display" data-count="18.1" data-decimals="1" data-suffix="%">18.1%</b><span>of store page visitors installed (daily average)</span><em class="mono">App Store Connect</em></div>
             </div>
+            <p class="case__note">Along the way, the ads that won our creative tests brought in installs 56% cheaper than the ones they beat ($2.75 vs $6.28, Meta, same audience).</p>
           </div>
           <div class="case__shots">
-            <figure class="shot"><button class="shot__zoom" type="button" data-zoom aria-label="Enlarge screenshot"><img src="/img/proof-meta-ads.webp" width="1000" height="210" loading="lazy" alt="Meta Ads Manager: old creatives at $6.28 per install vs new tested creatives at $2.75 per install, US, same audience" /></button><figcaption><b>Meta Ads Manager: the creative test.</b> Test batch $6.28 per install, proven winners $2.75.</figcaption></figure>
-            <figure class="shot"><button class="shot__zoom" type="button" data-zoom aria-label="Enlarge screenshot"><img src="/img/proof-analytics.webp" width="1100" height="501" loading="lazy" alt="Analytics dashboard: app opens up 151.3%, signups up 173% in 30 days, 61.38% open to signup rate" /></button><figcaption><b>Analytics, 30 days.</b> App opens +151%, signups +173%, 61.38% open → signup.</figcaption></figure>
+            <figure class="shot"><button class="shot__zoom" type="button" data-zoom aria-label="Enlarge screenshot"><img src="/img/proof-analytics.webp" width="1100" height="501" loading="lazy" alt="Analytics dashboard: app opens up 151.3%, signups up 173% in 30 days, 61.38% open to signup rate" /></button><figcaption><b>Product analytics, 30 days.</b> App opens +151%, signups +173%, 61.38% open → signup.</figcaption></figure>
             <figure class="shot"><button class="shot__zoom" type="button" data-zoom aria-label="Enlarge screenshot"><img src="/img/proof-appstore.webp" width="772" height="295" loading="lazy" alt="App Store Connect: 1.9K downloads with 18.1% average page conversion rate" /></button><figcaption><b>App Store Connect.</b> 18.1% average page conversion after listing tests.</figcaption></figure>
+            <figure class="shot"><button class="shot__zoom" type="button" data-zoom aria-label="Enlarge screenshot"><img src="/img/proof-meta-ads.webp" width="1000" height="210" loading="lazy" alt="Meta Ads Manager: test creatives at $6.28 per install vs proven creatives at $2.75 per install, US, same audience" /></button><figcaption><b>Meta Ads Manager.</b> Test batch $6.28 per install, proven winners $2.75.</figcaption></figure>
           </div>
         </div>
 
         <!-- Chapter 2 -->
         <div class="case case--v2 panel">
           <div class="case__intro">
-            <p class="mono eyebrow">Chapter 2 · V2 relaunch · since Aug 13, 2026</p>
-            <h3 class="display display--sm">Every step measured. Every leak named.</h3>
-            <p>For the relaunch we built one dashboard from first open to trial, with the subscription platform as the source of truth. The result: install costs held while volume grew, and a ranked list of what to fix next.</p>
+            <p class="mono eyebrow">Chapter 2 · V2 relaunch · Aug 13, 2026</p>
+            <h3 class="display display--sm">Relaunched with every step measured.</h3>
+            <p>For V2 we built one dashboard from first open to payment, with the subscription platform as the source of truth. Seven weeks after launch, the app ranked in the top 20% of its category for initial conversion.</p>
             <div class="case__stats">
-              <div><b class="display" data-count="745">745</b><span>installs at $3.57 each from the V2 launch campaign</span><em class="mono">Meta Ads Manager · 1-day click</em></div>
               <div><b class="display" data-count="2185">2,185</b><span>first-time app opens since launch, all sources</span><em class="mono">PostHog</em></div>
-              <div><b class="display" data-count="39" data-suffix="%">39%</b><span>became activated users (857 logged their first entry)</span><em class="mono">PostHog</em></div>
-              <div><b class="display" data-count="157">157</b><span>trial starts confirmed by the subscription platform</span><em class="mono">RevenueCat</em></div>
+              <div><b class="display" data-count="857">857</b><span>activated users, 39% of first opens</span><em class="mono">PostHog</em></div>
+              <div><b class="display">Top 20%</b><span>initial conversion and monthly revenue per paying user</span><em class="mono">Category benchmark</em></div>
             </div>
           </div>
           <div class="case__shots">
-            <div class="vfunnel" aria-label="Subscription funnel since V2 launch">
-              <p class="mono vfunnel__t">Subscription funnel · first open → trial · rebuilt from PostHog</p>
-              <ol>
-                <li style="--h:100%"><b>2,185</b><span>First open</span></li>
-                <li class="is-leak" style="--h:52.9%"><b>1,155</b><span>Onboarding done</span><em>–47%</em></li>
-                <li style="--h:46%"><b>1,005</b><span>Account</span><em>87%</em></li>
-                <li style="--h:42.7%"><b>933</b><span>Paywall seen</span><em>93%</em></li>
-                <li class="is-leak" style="--h:5.2%"><b>114</b><span>Trial started</span><em>12%</em></li>
-                <li style="--h:4.3%"><b>94</b><span>Activated trial</span><em>82%</em></li>
-              </ol>
-              <p class="vfunnel__note">The two coral bars are where the money leaks: onboarding (47% drop) and paywall → trial (12%). That's the test plan for the next 30 days, ahead of more ad spend.</p>
-            </div>
-            <div class="bench">
-              <figure class="shot shot--dark"><button class="shot__zoom" type="button" data-zoom aria-label="Enlarge screenshot"><img src="/img/proof-benchmark.webp" width="716" height="232" loading="lazy" alt="Category benchmark: initial conversion 80th to 90th percentile, trial conversion 20th to 30th, conversion to paying 50th to 60th, monthly realized LTV per paying customer 80th to 90th" /></button><figcaption><b>Category benchmark, Sep 27, 2026.</b> How the app ranks against apps in its category.</figcaption></figure>
-              <ul class="bench__read">
-                <li class="is-top"><b>Top 20%</b> Initial conversion (30 days) and monthly LTV per paying customer</li>
-                <li><b>Middle</b> Conversion to paying (30 days), LTV per customer</li>
-                <li class="is-low"><b>Next fix</b> Trial conversion, 20th–30th percentile</li>
-              </ul>
-            </div>
-            <figure class="shot"><button class="shot__zoom" type="button" data-zoom aria-label="Enlarge screenshot"><img src="/img/proof-meta-campaigns.webp" width="1680" height="149" loading="lazy" alt="Meta Ads Manager campaigns: V2 launch campaign 745 installs at $3.57, launch campaign 418 installs at $3.69, age test 42 installs at $3.67" /></button><figcaption><b>Meta Ads Manager: launch campaigns.</b> V2: 745 installs at $3.57. V1: 418 at $3.69. Names blurred.</figcaption></figure>
-            <figure class="shot"><button class="shot__zoom" type="button" data-zoom aria-label="Enlarge screenshot"><img src="/img/proof-ph-funnels.webp" width="912" height="315" loading="lazy" alt="PostHog funnels: first open to core activation, and first open to activated trial" /></button><figcaption><b>PostHog: activation and subscription funnels.</b> The source for the chart above.</figcaption></figure>
+            <figure class="shot shot--dark"><button class="shot__zoom" type="button" data-zoom aria-label="Enlarge screenshot"><img src="/img/proof-benchmark.webp" width="716" height="147" loading="lazy" alt="Category benchmark: initial conversion 80th to 90th percentile, monthly realized LTV per customer 70th to 80th, monthly realized LTV per paying customer 80th to 90th" /></button><figcaption><b>Category benchmark, Sep 27, 2026.</b> Selected metrics: initial conversion and LTV per paying customer in the 80th–90th percentile.</figcaption></figure>
+            <figure class="shot"><button class="shot__zoom" type="button" data-zoom aria-label="Enlarge screenshot"><img src="/img/proof-meta-campaigns.webp" width="1680" height="149" loading="lazy" alt="Meta Ads Manager: app install campaigns for the V1 launch and V2 relaunch" /></button><figcaption><b>Meta Ads Manager: launch campaigns.</b> V1 and V2 launch campaigns, names blurred.</figcaption></figure>
           </div>
         </div>
 
@@ -499,7 +462,7 @@
           <div class="scale__card panel">
             <p class="mono eyebrow">Super app · ride-hailing &amp; delivery · multi-country</p>
             <h3 class="display display--sm">Trained where mistakes cost six figures.</h3>
-            <p>Mohamed runs user acquisition in-house at a venture-backed super app: install and in-app purchase campaigns across several countries, checked against independent attribution (Adjust). Your app gets the same habits.</p>
+            <p>Mohamed runs user acquisition in-house at a venture-backed super app: install and in-app purchase campaigns across several countries, checked against independent attribution (Adjust). Your app gets the same discipline.</p>
           </div>
           <div class="scale__num panel"><b class="display" data-count="842" data-prefix="$" data-suffix="K">$842K</b><span>ad spend managed across multiple countries</span></div>
           <div class="scale__num panel"><b class="display" data-count="1.25" data-decimals="2" data-suffix="M+">1.25M+</b><span>app conversions across the ecosystem</span></div>
@@ -514,8 +477,8 @@
         </div>
 
         <div class="cta-band">
-          <p><b>Want this level of clarity on your own app?</b> We'll map your funnel and name your biggest leak, free, in 48 hours.</p>
-          <a class="btn btn--lime btn--lg" href="#plan" data-track="cta_results">Get my free Growth Plan →</a>
+          <p><b>Where does your funnel leak?</b> We'll find your biggest leak and show you how to fix it. Free, in 48 hours.</p>
+          <a class="btn btn--lime btn--lg" href="#plan" data-track="cta_results">Find my biggest leak →</a>
         </div>
       </div>
     </section>
@@ -523,14 +486,14 @@
     <!-- ───────────────────────── CHANNELS (Tines-style tabs + UI mockups) ───────────────────────── -->
     <section class="channels section" id="channels">
       <div class="wrap">
-        <p class="eyebrow mono">Services · one team, every channel</p>
-        <h2 class="editorial reveal">Everything that moves your cost per paying user.<br /><em>Run by one accountable operator.</em></h2>
-        <p class="lede reveal">All six are included in one plan. We put the effort where your funnel is weakest, which is rarely where the last agency was spending it.</p>
+        <p class="eyebrow mono">Services · all six included</p>
+        <h2 class="editorial reveal">Every lever between the ad<br /><em>and the payment.</em></h2>
+        <p class="lede reveal">One plan covers all six. We put the hours where your funnel is weakest.</p>
 
         <div class="tabs" data-tabs>
           <div class="tabs__list" role="tablist" aria-label="Services">
             <button role="tab" id="tab-paid" aria-controls="panel-paid" aria-selected="true" class="tab tab--blue"><b>Paid UA</b><span>Meta, TikTok, Google &amp; Apple Ads, optimized for payers</span></button>
-            <button role="tab" id="tab-creative" aria-controls="panel-creative" aria-selected="false" tabindex="-1" class="tab tab--coral"><b>Creative</b><span>8–15 tested ads a month, built from what already wins</span></button>
+            <button role="tab" id="tab-creative" aria-controls="panel-creative" aria-selected="false" tabindex="-1" class="tab tab--coral"><b>Creative</b><span>30–40 tested ads a month, built from what already wins</span></button>
             <button role="tab" id="tab-track" aria-controls="panel-track" aria-selected="false" tabindex="-1" class="tab tab--ink"><b>Tracking</b><span>One source of truth from install to payment</span></button>
             <button role="tab" id="tab-aso" aria-controls="panel-aso" aria-selected="false" tabindex="-1" class="tab tab--lime"><b>ASO &amp; funnel</b><span>Store page, onboarding and paywall tests</span></button>
             <button role="tab" id="tab-seo" aria-controls="panel-seo" aria-selected="false" tabindex="-1" class="tab tab--teal"><b>SEO</b><span>Pages that rank on Google and pre-sell the install</span></button>
@@ -540,7 +503,7 @@
           <!-- Paid -->
           <div class="tabs__panel tp--blue" role="tabpanel" id="panel-paid" aria-labelledby="tab-paid">
             <div class="tp__copy">
-              <h3>Paid UA that optimizes for payers, not taps.</h3>
+              <h3>Paid ads that hunt for payers.</h3>
               <ul class="ticks">
                 <li>Account audit and a simple structure built for learning: few campaigns, many tested ads</li>
                 <li>Meta, TikTok, Google App campaigns, Apple Ads and Snapchat, picked for your audience and budget</li>
@@ -570,11 +533,11 @@
           <!-- Creative -->
           <div class="tabs__panel tp--coral" role="tabpanel" id="panel-creative" aria-labelledby="tab-creative" hidden>
             <div class="tp__copy">
-              <h3>A creative system, not lucky ads.</h3>
+              <h3>30–40 new ads a month. Every one tested.</h3>
               <ul class="ticks">
                 <li>Research in the ad libraries of the top apps in your category, focused on ads that keep running</li>
                 <li>Review mining: 10+ angles (pain, desire, proof, curiosity) in your users' own words</li>
-                <li>8–15 new ads a month: UGC creator briefs, statics, motion and video edits</li>
+                <li>30–40 new ads a month: UGC creator briefs, statics, motion and video edits</li>
                 <li>Spend caps per ad: losers die cheap, winners get new hooks before they wear out</li>
                 <li>A creative learnings log you keep, so every batch starts smarter than the last</li>
               </ul>
@@ -595,7 +558,7 @@
           <!-- Tracking -->
           <div class="tabs__panel tp--ink" role="tabpanel" id="panel-track" aria-labelledby="tab-track" hidden>
             <div class="tp__copy">
-              <h3>If your numbers lie, every decision after them is a guess.</h3>
+              <h3>Numbers you can bet the budget on.</h3>
               <ul class="ticks">
                 <li>Event map from first open to renewal: what fires, where, and who counts it</li>
                 <li>SDK or MMP events for install, signup, trial and purchase, set up in week 1</li>
@@ -615,7 +578,7 @@
           <!-- ASO & funnel -->
           <div class="tabs__panel tp--lime" role="tabpanel" id="panel-aso" aria-labelledby="tab-aso" hidden>
             <div class="tp__copy">
-              <h3>Turn your store page and paywall into growth levers.</h3>
+              <h3>More installs from the same traffic. More payers from the same installs.</h3>
               <ul class="ticks">
                 <li>Keyword research and metadata for the App Store and Google Play</li>
                 <li>Screenshot and icon tests (Product Page Optimization, store listing experiments)</li>
@@ -646,7 +609,7 @@
           <!-- SEO -->
           <div class="tabs__panel tp--teal" role="tabpanel" id="panel-seo" aria-labelledby="tab-seo" hidden>
             <div class="tp__copy">
-              <h3>Get found on Google before the store.</h3>
+              <h3>Win the search before the store.</h3>
               <ul class="ticks">
                 <li>Keyword map built from what your users search before they look for an app</li>
                 <li>Landing, comparison and “best app for…” pages that rank and pre-sell</li>
@@ -671,12 +634,12 @@
           <!-- AI visibility -->
           <div class="tabs__panel tp--violet" role="tabpanel" id="panel-ai" aria-labelledby="tab-ai" hidden>
             <div class="tp__copy">
-              <h3>When people ask AI for an app, be in the answer.</h3>
+              <h3>Be the app AI recommends.</h3>
               <ul class="ticks">
                 <li>20–50 prompts your users would ask, tracked monthly in ChatGPT, Perplexity, Gemini and Google AI Overviews</li>
                 <li>Source audit: which sites the answers cite, and whether you're on them</li>
                 <li>Fixes to what AI tools read: your site, store listing, reviews, comparison pages, communities</li>
-                <li>Honest reporting: nobody controls these models, so we show what moved and never promise a spot</li>
+                <li>Monthly report on what moved. Nobody controls these models, so we never promise a spot</li>
               </ul>
               <p class="tp__kpi mono">We own: share of answers for your category's prompts</p>
             </div>
@@ -705,7 +668,7 @@
       <div class="road__head panel">
         <div>
           <h2 class="display display--md">Your first 90 days,<br />step by step</h2>
-          <p class="road__intro">Exactly what happens, who does it and how much of your time it takes. No black box.</p>
+          <p class="road__intro">What happens, who does it, and how much of your time it takes.</p>
         </div>
         <span class="boxnum">04</span>
       </div>
@@ -715,7 +678,7 @@
           <div class="rstep__when mono"><span class="boxnum boxnum--sm">0</span>Day 0 · free</div>
           <div class="rstep__main">
             <h3>Your Growth Plan</h3>
-            <p>You send your app's name. We review your store page, the ads you and your competitors run, your reviews and your funnel. You get a short video and a written plan within 48 hours.</p>
+            <p>You send your app's name. We tear down your store page, your ads, your competitors' ads, your reviews and your funnel. You get a video teardown and a written plan within 48 hours.</p>
           </div>
           <p class="rstep__you"><b>Your time</b>2 minutes</p>
         </li>
@@ -747,7 +710,7 @@
           <div class="rstep__when mono"><span class="boxnum boxnum--sm">4</span>Weeks 2–3</div>
           <div class="rstep__main">
             <h3>First creative batch</h3>
-            <p>Competitor and review research turns into 10+ angles, then 8–15 ads: UGC briefs, statics and video. You approve before anything goes live.</p>
+            <p>Competitor and review research turns into 10+ angles and your first batch of ads: UGC, statics and video. From here we ship 30–40 a month. You approve before anything goes live.</p>
           </div>
           <p class="rstep__you"><b>Your time</b>Approvals within 48h</p>
         </li>
@@ -803,8 +766,8 @@
     <!-- ───────────────────────── COMPARISON ───────────────────────── -->
     <section class="compare section" id="compare">
       <div class="wrap">
-        <p class="eyebrow mono">An honest comparison</p>
-        <h2 class="editorial reveal">Not an agency selling installs.<br /><em>Not a hire you can't afford yet.</em></h2>
+        <p class="eyebrow mono">Agency, hire or Appfound</p>
+        <h2 class="editorial reveal">Agencies sell installs.<br /><em>Senior hires cost $8K a month.</em></h2>
         <div class="table-scroll">
           <table class="ctable">
             <thead>
@@ -812,7 +775,7 @@
             </thead>
             <tbody>
               <tr><th scope="row">Optimizes for</th><td>Installs &amp; pretty reports</td><td>Depends who you hire</td><td class="is-us">Paying users &amp; payback</td></tr>
-              <tr><th scope="row">Creative</th><td>You supply it, or pay extra</td><td>One person's ideas</td><td class="is-us">8–15 tested ads a month</td></tr>
+              <tr><th scope="row">Creative</th><td>You supply it, or pay extra</td><td>One person's ideas</td><td class="is-us">30–40 tested ads a month</td></tr>
               <tr><th scope="row">Tracking</th><td>Uses whatever exists</td><td>Maybe, eventually</td><td class="is-us">Fixed in week 1</td></tr>
               <tr><th scope="row">Store page &amp; paywall</th><td>“Not our job”</td><td>Rarely both</td><td class="is-us">Store, onboarding &amp; paywall tests included</td></tr>
               <tr><th scope="row">ASO, SEO &amp; AI visibility</th><td>Separate retainer</td><td>Different skill set</td><td class="is-us">Included</td></tr>
@@ -835,10 +798,10 @@
         </div>
         <div class="founder__copy panel">
           <span class="boxnum">05</span>
-          <h2 class="display display--md">You get me.<br />Not a junior with my email signature.</h2>
-          <p>I'm Mohamed Barkat. By day I run user acquisition in-house at a venture-backed super app (ride-hailing, food and grocery delivery), planning and scaling campaigns across several countries on Meta, Google and TikTok.</p>
-          <p>Before that I managed $3.8M+ in ad spend across consumer apps, online stores and lead gen. I started Appfound because founders keep getting sold installs when what they need is a system: ads that convert, numbers that tell the truth, a funnel that doesn't leak, and one person accountable for all of it.</p>
-          <blockquote class="founder__quote">“If a number on my report can't be traced to your own dashboard, it doesn't go on the report.”</blockquote>
+          <h2 class="display display--md">You work with me.<br />Not an account manager.</h2>
+          <p>I'm Mohamed Barkat. I run user acquisition in-house at a venture-backed super app (ride-hailing, food and grocery delivery), scaling campaigns across several countries on Meta, Google and TikTok.</p>
+          <p>Before that I managed $3.8M+ in ad spend for consumer apps, online stores and lead gen. I built Appfound for founders who are done paying for installs that never turn into revenue.</p>
+          <blockquote class="founder__quote">“If a number can't be traced to your own dashboard, it doesn't go in my report.”</blockquote>
           <ul class="founder__tags mono">
             <li>UA lead @ super app</li><li>$3.8M+ spend managed</li><li>Meta · TikTok · Google · Apple Ads</li><li>ASO · SEO · AI visibility</li><li>English · French · Arabic</li>
           </ul>
@@ -876,10 +839,10 @@
             <span class="plan__slots mono">5 slots</span>
           </div>
           <p class="plan__price display">$1,500<small>/month</small></p>
-          <p class="plan__terms">Starts with a 90-day sprint (the honest minimum to move real numbers), then month-to-month. Founding clients keep this rate for 12 months.</p>
+          <p class="plan__terms">Starts with a 90-day sprint, the time it takes for testing and funnel fixes to show in revenue. Then month-to-month. Founding clients keep this rate for 12 months.</p>
           <ul class="ticks ticks--light">
             <li>Paid ads run for you: Meta, TikTok, Google, Apple Ads</li>
-            <li>Creative strategy: 8–15 tested ads a month</li>
+            <li>Creative: 30–40 tested ads a month</li>
             <li>Tracking fixed in week 1, one dashboard you trust</li>
             <li>Store page: keywords, screenshots, custom product pages</li>
             <li>Funnel tests: onboarding, quiz flow, paywall &amp; pricing</li>
@@ -906,15 +869,16 @@
     <section class="faq section" id="faq">
       <div class="wrap faq__grid">
         <div>
-          <p class="eyebrow mono">Straight answers</p>
-          <h2 class="display display--md faq__title">Frequently asked questions</h2>
+          <p class="eyebrow mono">FAQ</p>
+          <h2 class="display display--md faq__title">Questions founders ask</h2>
           <p class="faq__more">Something else? <a href="#" target="_blank" rel="noopener" data-linkedin>Ask Mohamed on LinkedIn ↗</a></p>
         </div>
         <div class="faq__list">
-          <details><summary>What's in the free Growth Plan, and what's the catch?</summary><p>A short video and a written plan: your funnel from ad to payment, your biggest leak, the first three fixes ranked by impact, five creative angles from your reviews, and a tracking check. No catch. It's how we show our thinking before you spend a dollar. If we're not the right fit, we'll say so in the plan.</p></details>
+          <details><summary>What's in the free Growth Plan, and what's the catch?</summary><p>A video teardown and a written plan: your funnel from ad to payment, your biggest leak, the first three fixes ranked by impact, five ad angles from your reviews, and a tracking check. No catch. You see how we think before you spend a dollar. If we're not the right fit, the plan says so.</p></details>
           <details><summary>What ad budget do I need?</summary><p>Around $2,000 a month in ad spend is a workable minimum: enough to test ads properly and learn fast. Below that, take the free plan and come back when you're ready. Most clients spend $3K–$50K a month.</p></details>
           <details><summary>How fast will I see results?</summary><p>Tracking and funnel fixes usually show in weeks 1–3. Creative testing needs 3–6 weeks of spend to find reliable winners. Organic channels compound over months. That's why we start with a 90-day sprint and agree on targets in week 1.</p></details>
-          <details><summary>We already run ads ourselves. What would you add?</summary><p>Usually three things: more tested ads (8–15 a month instead of 1–2), tracking that tells the truth (self-run accounts often teach the platforms from weak signals, so they find the wrong users), and the funnel after the click: store page, onboarding, paywall. Your free plan shows which one costs you most.</p></details>
+          <details><summary>Can you really ship 30–40 ads a month?</summary><p>Yes. We combine briefed UGC creators, AI-assisted editing and templates built from your winners. Most ads are new hooks, edits and formats on angles that already work, which is how the top apps in every category test at volume.</p></details>
+          <details><summary>We already run ads ourselves. What would you add?</summary><p>Usually three things: volume (30–40 tested ads a month instead of 2–3), tracking that shows the platforms who actually pays, and the funnel after the click: store page, onboarding, paywall. Your free plan shows which one costs you most.</p></details>
           <details><summary>How do you measure results after Apple's privacy changes (ATT, SKAdNetwork)?</summary><p>Two layers, always labelled. Platform numbers (SKAdNetwork and modeled conversions) guide day-to-day optimization. Your own source of truth (subscription platform, MMP or product analytics) decides budgets. If the two disagree, your data wins.</p></details>
           <details><summary>Do I need an MMP like AppsFlyer or Adjust?</summary><p>Not to start. At smaller budgets, platform SDKs plus your subscription platform and product analytics usually cover it. We'll tell you when an MMP starts paying for itself, and set it up when it does.</p></details>
           <details><summary>Our tracking is a mess, or doesn't exist. Is that a problem?</summary><p>It's normal, and it's the first thing we fix, in week 1. We set up the events that matter (install, signup, trial, payment) so the platforms learn from real buyers and your dashboard tells the truth. Usually one ticket for your developer, or none.</p></details>
@@ -922,7 +886,7 @@
           <details><summary>Who owns the ad accounts, creatives and data?</summary><p>You do. We work inside your accounts with the access you grant, and every creative, dashboard and learnings doc stays with you if you leave.</p></details>
           <details><summary>Which apps are a good fit?</summary><p>Consumer apps on iOS and Android, especially subscription and in-app purchase apps, with roughly $2K+ a month for ads and a product people already come back to. If retention is the real problem, the Growth Plan will say so before you spend more on ads.</p></details>
           <details><summary>What do you need from me?</summary><p>Access (ad accounts, store console, analytics, billing), feedback on ads and tests within 48 hours, and one 30-minute call a week. Founders typically spend under 2 hours a week on this.</p></details>
-          <details><summary>Am I locked into a contract?</summary><p>No. One 90-day sprint to start (the honest minimum for testing and funnel fixes to show up in your numbers), then month-to-month. Cancel anytime after.</p></details>
+          <details><summary>Am I locked into a contract?</summary><p>No. One 90-day sprint to start, then month-to-month. Cancel anytime after.</p></details>
         </div>
       </div>
     </section>
@@ -931,21 +895,21 @@
     <section class="plan-sec grid-lines grid-lines--blue" id="plan">
       <div class="plan-sec__in">
         <div class="plan-sec__copy">
-          <p class="eyebrow mono eyebrow--lime">Free · no call needed · 48 hours</p>
+          <p class="eyebrow mono eyebrow--lime">Free · 48 hours · no call</p>
           <h2 class="display display--lg">Get your<br />growth plan</h2>
-          <p>Tell us your app. We'll go through your ads, store page and funnel and send back a <strong>short video and a written plan within 48 hours</strong>. Keep it even if we never talk again.</p>
+          <p>Send us your app. Within 48 hours you get a <strong>video teardown and a written plan</strong>: where users leak, what to fix first, and the ads we'd test. Keep it either way.</p>
 
           <div class="gp" aria-label="What's inside your Growth Plan">
             <div class="gp__top mono"><span>Growth Plan · YourApp</span><span>PDF + video</span></div>
             <ol class="gp__list">
               <li><b>01</b>Funnel map, ad → payment, with your biggest leak marked</li>
               <li><b>02</b>Top 3 fixes, ranked by impact on cost per paying user</li>
-              <li><b>03</b>5 creative angles pulled from your reviews and competitors</li>
+              <li><b>03</b>5 ad angles pulled from your reviews and competitors</li>
               <li><b>04</b>Tracking check: what the ad platforms can and can't see</li>
               <li><b>05</b>Store page notes: keywords, screenshots, conversion</li>
               <li><b>06</b>What we'd do in the first 30 days</li>
             </ol>
-            <div class="gp__video"><span class="gp__play" aria-hidden="true">▶</span><span>Short video walk-through by Mohamed</span></div>
+            <div class="gp__video"><span class="gp__play" aria-hidden="true">▶</span><span>Video teardown recorded by Mohamed</span></div>
           </div>
         </div>
 
@@ -969,7 +933,7 @@
           <div class="gform__step">
             <div class="gform__label"><span class="boxnum boxnum--sm">2</span><span>Where do we send your plan?</span></div>
             <div class="gform__row">
-              <label class="field"><span class="sr">Your first name</span><input name="name" type="text" placeholder="First name" autocomplete="given-name" required /></label>
+              <label class="field"><span class="sr">Your first name (optional)</span><input name="name" type="text" placeholder="First name (optional)" autocomplete="given-name" /></label>
               <label class="field"><span class="sr">Work email</span><input name="email" type="email" placeholder="you@yourapp.com" autocomplete="email" required /></label>
             </div>
           </div>
@@ -1000,7 +964,7 @@
       <h2 id="closing-title" class="closing__word display" aria-label="Get found">
         <span>G</span><span>e</span><span>t</span><span class="sp"> </span><span>f</span><span>o</span><span>u</span><span>n</span><span>d</span><span class="dot">.</span>
       </h2>
-      <p class="closing__sub">Start with the free Growth Plan. Or book a call if you'd rather talk it through.</p>
+      <p class="closing__sub">Your free Growth Plan is two fields away.</p>
       <div class="closing__ctas">
         <a class="btn btn--blue btn--lg" href="#plan" data-track="cta_closing">Get my free Growth Plan</a>
         <a class="btn btn--ghost btn--lg" href="#" target="_blank" rel="noopener" data-calendly data-track="cta_call_closing">Book a 30-min call</a>
@@ -1035,7 +999,7 @@
     </div>
     <div class="footer__base mono">
       <span>© 2026 Appfound</span>
-      <span>Results labelled by where they were measured. Illustrations marked as such. Client names withheld.</span>
+      <span>Every result labelled with its source. Illustrations marked. Client names withheld.</span>
       <a href="#top">Back to top ↑</a>
     </div>
   </footer>

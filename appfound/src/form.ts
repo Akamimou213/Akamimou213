@@ -28,6 +28,13 @@ function utms(): Record<string, string> {
 
 /* iTunes Search API: try CORS fetch, fall back to JSONP */
 async function searchAppStore(term: string): Promise<AppHit[] | null> {
+  const local = (window as unknown as { __AF_APPS__?: AppHit[] }).__AF_APPS__;
+  if (local) {
+    const q = term.toLowerCase();
+    const hits = local.filter((a) => a.trackName.toLowerCase().includes(q) || a.artistName.toLowerCase().includes(q));
+    hits.sort((a, b) => Number(!a.trackName.toLowerCase().startsWith(q)) - Number(!b.trackName.toLowerCase().startsWith(q)));
+    if (hits.length) return hits.slice(0, 6);
+  }
   const url = `https://itunes.apple.com/search?entity=software&limit=6&term=${encodeURIComponent(term)}`;
   try {
     const r = await fetch(url);
@@ -77,6 +84,7 @@ export function attachAppSearch(input: HTMLInputElement, list: HTMLUListElement,
     const q = input.value.trim();
     if (!enabled() || q.length < 2) return close();
     timer = window.setTimeout(async () => {
+      if (document.activeElement !== input) return;
       const mine = ++seq;
       const res = await searchAppStore(q);
       if (mine !== seq || document.activeElement !== input) return;
@@ -84,7 +92,7 @@ export function attachAppSearch(input: HTMLInputElement, list: HTMLUListElement,
       hits = res ?? [];
       active = -1;
       render();
-    }, 260);
+    }, 180);
   });
   input.addEventListener('keydown', (e) => {
     if (list.hidden || !hits.length) return;
@@ -100,6 +108,34 @@ export function attachAppSearch(input: HTMLInputElement, list: HTMLUListElement,
   input.addEventListener('blur', () => setTimeout(close, 150));
   return { close, search: () => input.dispatchEvent(new Event('input')) };
 }
+
+export type Lead = { app_name: string; store: string; app_id: string; store_url: string; name: string; email: string; monthly_spend: string; source: string };
+
+/** Sends a Growth Plan request. Resolves 'ok', or 'fallback' with copy-paste HTML when no endpoint is set or it fails. */
+export async function sendLead(lead: Lead): Promise<{ ok: true } | { ok: false; html: string }> {
+  const payload = { ...lead, page: location.href, submitted_at: new Date().toISOString(), ...utms() };
+  track('growth_plan_submit', { store: lead.store, monthly_spend: lead.monthly_spend, source: lead.source });
+  try {
+    if (!config.formEndpoint) throw new Error('no-endpoint');
+    const r = await fetch(config.formEndpoint, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    if (!r.ok) throw new Error(String(r.status));
+    return { ok: true };
+  } catch (err) {
+    if ((err as Error).message === 'no-endpoint') console.warn('[appfound] Set config.formEndpoint to receive Growth Plan requests.');
+    const msg = `Hi Mohamed, I'd like a free Growth Plan.\nApp: ${lead.app_name || '-'} (${lead.store})\nStore link: ${lead.store_url || '-'}\nName: ${lead.name || '-'}\nEmail: ${lead.email}\nMonthly ad spend: ${lead.monthly_spend || '-'}`;
+    let copied = false;
+    try { await navigator.clipboard.writeText(msg); copied = true; } catch { /* clipboard blocked */ }
+    return { ok: false, html: `We couldn't send this automatically. ${copied ? 'Your request is copied.' : 'Copy the request below.'} Send it to Mohamed on <a href="${config.linkedinUrl}" target="_blank" rel="noopener">LinkedIn</a> and he'll reply within 48 hours.<pre>${esc(msg)}</pre>` };
+  }
+}
+
+export const isEmail = (v: string) => /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v);
+export const isStoreUrl = (v: string) => /^(https?:\/\/)?(apps\.apple\.com|itunes\.apple\.com|play\.google\.com)\//i.test(v);
+export { esc };
 
 let prefill: ((h: AppHit) => void) | null = null;
 /** Lets the hero hand a picked app to the main form */
@@ -169,14 +205,11 @@ export function initGrowthForm() {
 
     flag(input, !appName && !url);
     if (!appName && !url) errors.push('your app (name or store link)');
-    const urlBad = !!url && !/^(https?:\/\/)?(apps\.apple\.com|itunes\.apple\.com|play\.google\.com)\//i.test(url);
+    const urlBad = !!url && !isStoreUrl(url);
     flag(urlField, urlBad);
     if (urlBad) errors.push('an App Store or Google Play link');
-    const nameEl = form.querySelector<HTMLInputElement>('input[name="name"]');
-    flag(nameEl, !name);
-    if (!name) errors.push('your first name');
     const emailEl = form.querySelector<HTMLInputElement>('input[name="email"]');
-    const emailBad = !/^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(email);
+    const emailBad = !isEmail(email);
     flag(emailEl, emailBad);
     if (emailBad) errors.push('a valid email');
 
@@ -187,46 +220,21 @@ export function initGrowthForm() {
       return;
     }
 
-    const payload = {
-      app_name: appName,
-      store: store(),
-      app_id: idField.value,
-      store_url: url,
-      name,
-      email,
-      monthly_spend: String(fd.get('spend') || ''),
-      page: location.href,
-      submitted_at: new Date().toISOString(),
-      ...utms(),
-    };
     const btn = form.querySelector<HTMLButtonElement>('button[type="submit"]')!;
     btn.disabled = true;
     const label = btn.textContent;
     btn.textContent = 'Sending…';
-
-    // Only non-personal fields go to ad pixels
-    track('growth_plan_submit', { store: payload.store, monthly_spend: payload.monthly_spend });
-
     try {
-      if (!config.formEndpoint) throw new Error('no-endpoint');
-      const r = await fetch(config.formEndpoint, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', Accept: 'application/json' },
-        body: JSON.stringify(payload),
-      });
-      if (!r.ok) throw new Error(String(r.status));
-      status.classList.add('is-ok');
-      status.innerHTML = `<b>Got it, ${esc(name)}.</b> Your Growth Plan for ${esc(appName || 'your app')} lands in ${esc(email)} within 48 hours. Want it sooner? <a href="${config.calendlyUrl}" target="_blank" rel="noopener">Book a 30-min call</a>.`;
-      form.reset();
-      if (!picked.hidden) unpick();
-    } catch (err) {
-      // No endpoint configured (or it failed): never lose the lead. Copy the request and point to LinkedIn.
-      if ((err as Error).message === 'no-endpoint') console.warn('[appfound] Set config.formEndpoint to receive Growth Plan requests.');
-      const msg = `Hi Mohamed, I'd like a free Growth Plan.\nApp: ${appName || '-'} (${payload.store})\nStore link: ${url || '-'}\nName: ${name}\nEmail: ${email}\nMonthly ad spend: ${payload.monthly_spend || '-'}`;
-      let copied = false;
-      try { await navigator.clipboard.writeText(msg); copied = true; } catch { /* clipboard blocked */ }
-      status.classList.add('is-err');
-      status.innerHTML = `We couldn't send this automatically. ${copied ? 'Your request is copied.' : 'Copy the request below.'} Send it to Mohamed on <a href="${config.linkedinUrl}" target="_blank" rel="noopener">LinkedIn</a> and he'll reply within 48 hours.<pre>${esc(msg)}</pre>`;
+      const res = await sendLead({ app_name: appName, store: store(), app_id: idField.value, store_url: url, name, email, monthly_spend: String(fd.get('spend') || ''), source: 'form' });
+      if (res.ok) {
+        status.classList.add('is-ok');
+        status.innerHTML = `<b>Done${name ? `, ${esc(name)}` : ''}.</b> Your Growth Plan for ${esc(appName || 'your app')} lands in ${esc(email)} within 48 hours. Want it sooner? <a href="${config.calendlyUrl}" target="_blank" rel="noopener">Book a 30-min call</a>.`;
+        form.reset();
+        if (!picked.hidden) unpick();
+      } else {
+        status.classList.add('is-err');
+        status.innerHTML = res.html;
+      }
     } finally {
       btn.disabled = false;
       btn.textContent = label;

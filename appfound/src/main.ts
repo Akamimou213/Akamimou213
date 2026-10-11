@@ -11,7 +11,8 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Lenis from 'lenis';
 import { config } from './config';
 import { initBucket } from './bucket';
-import { attachAppSearch, initGrowthForm, prefillApp } from './form';
+import { initGrowthForm } from './form';
+import { initPipe, initQuickstart } from './hero';
 import { track } from './track';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -135,44 +136,18 @@ function initLinks() {
 
 /* ───────────── Hero ───────────── */
 function initHero() {
-  const lines = $$('.hero__title .line > span');
-  const card = $('.hero__card');
+  initPipe(reduced);
   if (reduced) return;
+  // Setup → action → resolution: "Installs" lands, gets struck through, "Subscribers do." answers it.
   const tl = gsap.timeline({ defaults: { ease: 'expo.out' } });
-  tl.from(lines, { yPercent: 105, duration: 1.1, stagger: 0.09 })
-    .from('.hero__meta span', { opacity: 0, y: 10, stagger: 0.05, duration: 0.6 }, 0.1)
-    .from(card, { y: 40, rotate: -2, opacity: 0, duration: 1 }, 0.35)
-    .from('.hero__tag', { opacity: 0, duration: 0.8 }, 0.5)
-    .from(['.hero__sub', '.hero__form', '.hero__micro', '.hero__foot'], { y: 18, opacity: 0, stagger: 0.07, duration: 0.8 }, 0.55)
-    .add(() => $$('.hero [data-count]').forEach((el) => countUp(el, 1.8)), 0.6);
-
-}
-
-/* Hero app search: pick an app here and it is already filled in below */
-function initQuickstart() {
-  const quick = $<HTMLFormElement>('[data-quickstart]')!;
-  const input = $<HTMLInputElement>('#quick-app', quick)!;
-  const goToForm = (focusSel: string) => {
-    scrollToEl($('#plan')!);
-    setTimeout(() => $<HTMLInputElement>(focusSel)?.focus({ preventScroll: true }), 900);
-  };
-  attachAppSearch(input, $<HTMLUListElement>('#quick-results', quick)!, (h) => {
-    input.value = h.trackName;
-    prefillApp(h);
-    track('cta_hero', { app: h.trackName, picked: true });
-    goToForm('.gform input[name="name"]');
-  });
-  quick.addEventListener('submit', (e) => {
-    e.preventDefault();
-    const name = input.value.trim();
-    const search = $<HTMLInputElement>('#app-search')!;
-    track('cta_hero', { app: name, picked: false });
-    if (name && !search.hidden) {
-      search.value = name;
-      goToForm('#app-search');
-      setTimeout(() => search.dispatchEvent(new Event('input', { bubbles: true })), 950);
-    } else goToForm(name ? '.gform input[name="name"]' : '#app-search');
-  });
+  tl.from('.hero__meta span', { opacity: 0, y: 10, stagger: 0.05, duration: 0.6 }, 0)
+    .from('.hero__title .line:first-child > span', { yPercent: 105, duration: 0.9 }, 0.1)
+    .fromTo('.hero__title .strike', { scaleX: 0 }, { scaleX: 1, duration: 0.5, ease: 'power2.inOut' }, 0.75)
+    .from('.hero__title .line--2 > span', { yPercent: 110, duration: 0.8, ease: 'back.out(1.7)' }, 1.05)
+    .from(['.hero__sub', '.hero__form', '.hero__micro'], { y: 18, opacity: 0, stagger: 0.07, duration: 0.7 }, 1.15)
+    .from('.pipe__stage', { y: 24, opacity: 0, stagger: 0.07, duration: 0.6, ease: 'cubic-bezier(0.16,1,0.3,1)' }, 1.3)
+    .from(['.pipe__note', '.hero__foot'], { opacity: 0, duration: 0.6 }, 1.6)
+    .add(() => $$('.hero [data-count]').forEach((el) => countUp(el, 1.4)), 1.35);
 }
 
 /* ───────────── Marquee ───────────── */
@@ -393,7 +368,7 @@ function initAnchors() {
     if (!el) return;
     e.preventDefault();
     scrollToEl(el);
-    if (id === '#plan' && !mobile()) setTimeout(() => $<HTMLInputElement>('#app-search')?.focus({ preventScroll: true }), 900);
+    if (id === '#plan' && !mobile()) setTimeout(() => { const s = $<HTMLInputElement>('#app-search'); if (s && !s.hidden) s.focus({ preventScroll: true }); }, 900);
   });
 }
 
