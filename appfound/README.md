@@ -31,7 +31,8 @@ Vercel: set **Root Directory** to `appfound`, framework preset **Vite**, build `
 | Hero intro, scroll highlight, tabs, counters, menu | `src/main.ts` |
 | Leaky-funnel canvas animation | `src/bucket.ts` |
 | Growth Plan form, App Store search (iTunes Search API), UTM capture | `src/form.ts` |
-| Proof screenshots, portrait, OG image | `public/img/`, `public/og.png` |
+| Proof screenshots (cropped and redacted), portrait, OG image | `public/img/`, `public/og.png` |
+| Full audit of v1 → v2 changes and open items | `docs/AUDIT.md` |
 
 ## Content rules
 

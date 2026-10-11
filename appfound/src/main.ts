@@ -11,7 +11,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger';
 import Lenis from 'lenis';
 import { config } from './config';
 import { initBucket } from './bucket';
-import { initGrowthForm } from './form';
+import { attachAppSearch, initGrowthForm, prefillApp } from './form';
 import { track } from './track';
 
 gsap.registerPlugin(ScrollTrigger);
@@ -146,19 +146,32 @@ function initHero() {
     .from(['.hero__sub', '.hero__form', '.hero__micro', '.hero__foot'], { y: 18, opacity: 0, stagger: 0.07, duration: 0.8 }, 0.55)
     .add(() => $$('.hero [data-count]').forEach((el) => countUp(el, 1.8)), 0.6);
 
-  // Quick-start: carry the app name into the full form
+}
+
+/* Hero app search: pick an app here and it is already filled in below */
+function initQuickstart() {
   const quick = $<HTMLFormElement>('[data-quickstart]')!;
+  const input = $<HTMLInputElement>('#quick-app', quick)!;
+  const goToForm = (focusSel: string) => {
+    scrollToEl($('#plan')!);
+    setTimeout(() => $<HTMLInputElement>(focusSel)?.focus({ preventScroll: true }), 900);
+  };
+  attachAppSearch(input, $<HTMLUListElement>('#quick-results', quick)!, (h) => {
+    input.value = h.trackName;
+    prefillApp(h);
+    track('cta_hero', { app: h.trackName, picked: true });
+    goToForm('.gform input[name="name"]');
+  });
   quick.addEventListener('submit', (e) => {
     e.preventDefault();
-    const name = (new FormData(quick).get('app') as string).trim();
+    const name = input.value.trim();
     const search = $<HTMLInputElement>('#app-search')!;
-    if (name) {
+    track('cta_hero', { app: name, picked: false });
+    if (name && !search.hidden) {
       search.value = name;
-      search.dispatchEvent(new Event('input', { bubbles: true }));
-    }
-    track('cta_hero', { app: name });
-    scrollToEl($('#plan')!);
-    setTimeout(() => (name ? $<HTMLInputElement>('.gform input[name="name"]') : search)?.focus({ preventScroll: true }), 900);
+      goToForm('#app-search');
+      setTimeout(() => search.dispatchEvent(new Event('input', { bubbles: true })), 950);
+    } else goToForm(name ? '.gform input[name="name"]' : '#app-search');
   });
 }
 
@@ -179,7 +192,7 @@ function initReveals() {
     onEnter: (els) => gsap.to(els, { opacity: 1, y: 0, duration: 0.9, ease: 'expo.out', stagger: 0.08 }),
   });
   // Panels slide up subtly
-  $$('.step, .case, .scale > *, .anchor, .plan, .founder__copy, .founder__photo').forEach((el) => {
+  $$('.step, .case, .scale > *, .anchor, .plan, .founder__copy, .founder__photo, .rstep, .cta-band, .gp').forEach((el) => {
     gsap.from(el, { y: 50, opacity: 0, duration: 1, ease: 'expo.out', scrollTrigger: { trigger: el, start: 'top 90%', once: true } });
   });
 }
@@ -209,7 +222,7 @@ function initSystem() {
   const canvas = $<HTMLCanvasElement>('[data-bucket]');
   if (!canvas) return;
   const label = $('[data-bucket-state]')!;
-  const names = ['Step 01 · Leaking', 'Step 02 · Plugged & filling', 'Step 03 · Overflowing'];
+  const names = ['Phase 01 · Leaking', 'Phase 02 · Patched & filling', 'Phase 03 · Overflowing'];
   const bucket = initBucket(canvas, reduced);
   const set = (i: number) => {
     bucket.setState(i);
@@ -313,6 +326,51 @@ function initClosing() {
   });
 }
 
+/* ───────────── Desktop nav: highlight the current section ───────────── */
+function initNavLinks() {
+  $$<HTMLAnchorElement>('.nav__links a').forEach((a) => {
+    const target = $(a.getAttribute('href')!);
+    if (!target) return;
+    ScrollTrigger.create({ trigger: target, start: 'top 45%', end: 'bottom 45%', onToggle: (st) => a.classList.toggle('is-active', st.isActive) });
+  });
+}
+
+/* ───────────── Screenshot lightbox ───────────── */
+function initZoom() {
+  const dlg = $<HTMLDialogElement>('[data-zoom-dialog]');
+  if (!dlg) return;
+  const img = $<HTMLImageElement>('[data-zoom-img]', dlg)!;
+  const cap = $('[data-zoom-cap]', dlg)!;
+  $$<HTMLButtonElement>('[data-zoom]').forEach((b) =>
+    b.addEventListener('click', () => {
+      const src = b.querySelector('img')!;
+      img.src = src.currentSrc || src.src;
+      img.alt = src.alt;
+      cap.textContent = b.closest('figure')?.querySelector('figcaption')?.textContent ?? '';
+      dlg.showModal();
+      lenis?.stop();
+      track('proof_zoom', { image: src.getAttribute('src') });
+    }),
+  );
+  dlg.addEventListener('close', () => lenis?.start());
+  dlg.addEventListener('click', (e) => { if (e.target === dlg) dlg.close(); });
+}
+
+/* ───────────── Real-data funnel bars grow in ───────────── */
+function initVFunnel() {
+  const f = $('.vfunnel');
+  if (!f) return;
+  if (reduced) return f.classList.add('is-in');
+  ScrollTrigger.create({ trigger: f, start: 'top 80%', once: true, onEnter: () => f.classList.add('is-in') });
+}
+
+/* ───────────── Footer service links open the right tab ───────────── */
+function initTabLinks() {
+  $$<HTMLAnchorElement>('[data-tab-link]').forEach((a) =>
+    a.addEventListener('click', () => $<HTMLButtonElement>(`#${a.dataset.tabLink}`)?.click()),
+  );
+}
+
 /* ───────────── Mobile sticky CTA ───────────── */
 function initMobileBar() {
   const bar = $('[data-mbar]');
@@ -342,6 +400,7 @@ function initAnchors() {
 initLinks();
 initNav();
 initHero();
+initQuickstart();
 initMarquee();
 initPromise();
 initSystem();
@@ -352,5 +411,9 @@ initClosing();
 initMobileBar();
 initAnchors();
 initGrowthForm();
+initNavLinks();
+initZoom();
+initVFunnel();
+initTabLinks();
 
 document.fonts?.ready.then(() => ScrollTrigger.refresh());

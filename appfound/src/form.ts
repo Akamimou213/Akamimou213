@@ -1,7 +1,7 @@
 import { config } from './config';
 import { track } from './track';
 
-type AppHit = { trackId: number; trackName: string; artistName: string; artworkUrl100: string; trackViewUrl: string; averageUserRating?: number; userRatingCount?: number };
+export type AppHit = { trackId: number; trackName: string; artistName: string; artworkUrl100: string; trackViewUrl: string; averageUserRating?: number; userRatingCount?: number };
 
 const esc = (s: string) => s.replace(/[&<>"']/g, (c) => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' })[c]!);
 
@@ -47,6 +47,62 @@ async function searchAppStore(term: string): Promise<AppHit[]> {
   }
 }
 
+/* Accessible App Store autocomplete, used by the hero and the main form */
+export function attachAppSearch(input: HTMLInputElement, list: HTMLUListElement, onPick: (h: AppHit) => void, enabled: () => boolean = () => true) {
+  let hits: AppHit[] = [];
+  let active = -1;
+  let timer: number | undefined;
+  let seq = 0;
+  const optId = (i: number) => `${list.id}-opt-${i}`;
+
+  const close = () => { list.hidden = true; input.setAttribute('aria-expanded', 'false'); active = -1; };
+  const render = () => {
+    list.innerHTML = hits.length
+      ? hits.map((h, i) => `
+        <li role="option" id="${optId(i)}" aria-selected="${i === active}" data-i="${i}">
+          <img src="${esc(h.artworkUrl100)}" alt="" width="40" height="40" loading="lazy" />
+          <div><b>${esc(h.trackName)}</b><span>${esc(h.artistName)}${h.userRatingCount ? ` · ★ ${h.averageUserRating?.toFixed(1)} (${h.userRatingCount.toLocaleString('en-US')})` : ''}</span></div>
+        </li>`).join('')
+      : `<li class="empty">No match on the App Store. You can paste your store link instead.</li>`;
+    list.hidden = false;
+    input.setAttribute('aria-expanded', 'true');
+    input.setAttribute('aria-activedescendant', active >= 0 ? optId(active) : '');
+  };
+  const pick = (h: AppHit) => { close(); onPick(h); };
+
+  input.addEventListener('input', () => {
+    input.removeAttribute('aria-invalid');
+    window.clearTimeout(timer);
+    const q = input.value.trim();
+    if (!enabled() || q.length < 2) return close();
+    timer = window.setTimeout(async () => {
+      const mine = ++seq;
+      const res = await searchAppStore(q);
+      if (mine !== seq || document.activeElement !== input) return;
+      hits = res;
+      active = -1;
+      render();
+    }, 260);
+  });
+  input.addEventListener('keydown', (e) => {
+    if (list.hidden || !hits.length) return;
+    if (e.key === 'ArrowDown') { e.preventDefault(); active = (active + 1) % hits.length; render(); }
+    else if (e.key === 'ArrowUp') { e.preventDefault(); active = (active - 1 + hits.length) % hits.length; render(); }
+    else if (e.key === 'Enter' && active >= 0) { e.preventDefault(); pick(hits[active]); }
+    else if (e.key === 'Escape') close();
+  });
+  list.addEventListener('mousedown', (e) => {
+    const li = (e.target as HTMLElement).closest<HTMLElement>('li[data-i]');
+    if (li) { e.preventDefault(); pick(hits[Number(li.dataset.i)]); }
+  });
+  input.addEventListener('blur', () => setTimeout(close, 150));
+  return { close, search: () => input.dispatchEvent(new Event('input')) };
+}
+
+let prefill: ((h: AppHit) => void) | null = null;
+/** Lets the hero hand a picked app to the main form */
+export const prefillApp = (h: AppHit) => prefill?.(h);
+
 export function initGrowthForm() {
   utms();
   const form = document.querySelector<HTMLFormElement>('[data-gform]');
@@ -58,30 +114,9 @@ export function initGrowthForm() {
   const status = form.querySelector<HTMLElement>('[data-status]')!;
   const idField = form.elements.namedItem('app_id') as HTMLInputElement;
   const iconField = form.elements.namedItem('app_icon') as HTMLInputElement;
-
   const store = () => (form.querySelector<HTMLInputElement>('input[name="store"]:checked')?.value ?? 'ios') as 'ios' | 'android';
-  let hits: AppHit[] = [];
-  let active = -1;
-  let timer: number | undefined;
-  let seq = 0;
 
-  const closeList = () => { list.hidden = true; input.setAttribute('aria-expanded', 'false'); active = -1; };
-  const render = () => {
-    if (!hits.length) {
-      list.innerHTML = `<li class="empty">No match on the App Store. Paste your store link below instead.</li>`;
-    } else {
-      list.innerHTML = hits.map((h, i) => `
-        <li role="option" id="app-opt-${i}" aria-selected="${i === active}" data-i="${i}">
-          <img src="${esc(h.artworkUrl100)}" alt="" width="40" height="40" loading="lazy" />
-          <div><b>${esc(h.trackName)}</b><span>${esc(h.artistName)}${h.userRatingCount ? ` · ★ ${h.averageUserRating?.toFixed(1)} (${h.userRatingCount.toLocaleString('en-US')})` : ''}</span></div>
-        </li>`).join('');
-    }
-    list.hidden = false;
-    input.setAttribute('aria-expanded', 'true');
-    input.setAttribute('aria-activedescendant', active >= 0 ? `app-opt-${active}` : '');
-  };
-
-  const pick = (h: AppHit) => {
+  const pick = (h: AppHit, focusNext = true) => {
     idField.value = String(h.trackId);
     iconField.value = h.artworkUrl100;
     urlField.value = h.trackViewUrl.split('?')[0];
@@ -90,8 +125,7 @@ export function initGrowthForm() {
     picked.hidden = false;
     picked.innerHTML = `<img src="${esc(h.artworkUrl100)}" alt="" /><div><b>${esc(h.trackName)}</b><span>${esc(h.artistName)}</span></div><button type="button">Change</button>`;
     picked.querySelector('button')!.addEventListener('click', unpick);
-    closeList();
-    form.querySelector<HTMLInputElement>('input[name="name"]')?.focus();
+    if (focusNext) form.querySelector<HTMLInputElement>('input[name="name"]')?.focus({ preventScroll: true });
   };
   const unpick = () => {
     idField.value = iconField.value = urlField.value = '';
@@ -100,37 +134,17 @@ export function initGrowthForm() {
     input.focus();
     input.select();
   };
+  prefill = (h) => {
+    const ios = form.querySelector<HTMLInputElement>('input[name="store"][value="ios"]')!;
+    ios.checked = true;
+    pick(h, false);
+  };
 
-  input.addEventListener('input', () => {
-    input.removeAttribute('aria-invalid');
-    window.clearTimeout(timer);
-    const q = input.value.trim();
-    if (store() !== 'ios' || q.length < 2) return closeList();
-    timer = window.setTimeout(async () => {
-      const mine = ++seq;
-      hits = await searchAppStore(q);
-      if (mine !== seq) return;
-      active = -1;
-      render();
-    }, 280);
-  });
-  input.addEventListener('keydown', (e) => {
-    if (list.hidden || !hits.length) return;
-    if (e.key === 'ArrowDown') { e.preventDefault(); active = (active + 1) % hits.length; render(); }
-    else if (e.key === 'ArrowUp') { e.preventDefault(); active = (active - 1 + hits.length) % hits.length; render(); }
-    else if (e.key === 'Enter' && active >= 0) { e.preventDefault(); pick(hits[active]); }
-    else if (e.key === 'Escape') closeList();
-  });
-  list.addEventListener('mousedown', (e) => {
-    const li = (e.target as HTMLElement).closest<HTMLElement>('li[data-i]');
-    if (li) { e.preventDefault(); pick(hits[Number(li.dataset.i)]); }
-  });
-  input.addEventListener('blur', () => setTimeout(closeList, 120));
+  attachAppSearch(input, list, (h) => pick(h), () => store() === 'ios');
 
   form.querySelectorAll<HTMLInputElement>('input[name="store"]').forEach((r) =>
     r.addEventListener('change', () => {
       if (!picked.hidden) unpick();
-      closeList();
       const android = store() === 'android';
       input.placeholder = android ? "Your app's name" : 'Search your app by name';
       urlField.placeholder = android ? 'Paste your Google Play link (recommended)' : 'Or paste your store link';
@@ -167,7 +181,7 @@ export function initGrowthForm() {
     if (errors.length) {
       status.classList.add('is-err');
       status.textContent = `Almost there. Please add ${errors.join(', ')}.`;
-      (form.querySelector('[aria-invalid="true"]') as HTMLElement | null)?.focus();
+      (form.querySelector('[aria-invalid="true"]:not([hidden])') as HTMLElement | null)?.focus();
       return;
     }
 
@@ -200,7 +214,7 @@ export function initGrowthForm() {
       });
       if (!r.ok) throw new Error(String(r.status));
       status.classList.add('is-ok');
-      status.textContent = `Got it, ${name}. Your Growth Plan for ${appName || 'your app'} lands in ${email} within 48 hours.`;
+      status.innerHTML = `<b>Got it, ${esc(name)}.</b> Your Growth Plan for ${esc(appName || 'your app')} lands in ${esc(email)} within 48 hours. Want it sooner? <a href="${config.calendlyUrl}" target="_blank" rel="noopener">Book a 30-min call</a>.`;
       form.reset();
       if (!picked.hidden) unpick();
     } catch (err) {
