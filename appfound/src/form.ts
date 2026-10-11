@@ -27,22 +27,22 @@ function utms(): Record<string, string> {
 }
 
 /* iTunes Search API: try CORS fetch, fall back to JSONP */
-async function searchAppStore(term: string): Promise<AppHit[]> {
+async function searchAppStore(term: string): Promise<AppHit[] | null> {
   const url = `https://itunes.apple.com/search?entity=software&limit=6&term=${encodeURIComponent(term)}`;
   try {
     const r = await fetch(url);
     if (!r.ok) throw new Error(String(r.status));
     return (await r.json()).results as AppHit[];
   } catch {
-    return new Promise((resolve) => {
+    return new Promise<AppHit[] | null>((resolve) => {
       const cb = `af_cb_${Date.now()}`;
       const s = document.createElement('script');
-      const done = (v: AppHit[]) => { delete (window as any)[cb]; s.remove(); resolve(v); };
+      const done = (v: AppHit[] | null) => { delete (window as any)[cb]; s.remove(); resolve(v); };
       (window as any)[cb] = (data: { results: AppHit[] }) => done(data.results || []);
       s.src = `${url}&callback=${cb}`;
-      s.onerror = () => done([]);
+      s.onerror = () => done(null);
       document.head.appendChild(s);
-      setTimeout(() => done([]), 6000);
+      setTimeout(() => done(null), 6000);
     });
   }
 }
@@ -50,6 +50,7 @@ async function searchAppStore(term: string): Promise<AppHit[]> {
 /* Accessible App Store autocomplete, used by the hero and the main form */
 export function attachAppSearch(input: HTMLInputElement, list: HTMLUListElement, onPick: (h: AppHit) => void, enabled: () => boolean = () => true) {
   let hits: AppHit[] = [];
+  let offline = false;
   let active = -1;
   let timer: number | undefined;
   let seq = 0;
@@ -63,7 +64,7 @@ export function attachAppSearch(input: HTMLInputElement, list: HTMLUListElement,
           <img src="${esc(h.artworkUrl100)}" alt="" width="40" height="40" loading="lazy" />
           <div><b>${esc(h.trackName)}</b><span>${esc(h.artistName)}${h.userRatingCount ? ` · ★ ${h.averageUserRating?.toFixed(1)} (${h.userRatingCount.toLocaleString('en-US')})` : ''}</span></div>
         </li>`).join('')
-      : `<li class="empty">No match on the App Store. You can paste your store link instead.</li>`;
+      : `<li class="empty">${offline ? "Couldn't reach the App Store from here. Paste your store link instead." : 'No match on the App Store. You can paste your store link instead.'}</li>`;
     list.hidden = false;
     input.setAttribute('aria-expanded', 'true');
     input.setAttribute('aria-activedescendant', active >= 0 ? optId(active) : '');
@@ -79,7 +80,8 @@ export function attachAppSearch(input: HTMLInputElement, list: HTMLUListElement,
       const mine = ++seq;
       const res = await searchAppStore(q);
       if (mine !== seq || document.activeElement !== input) return;
-      hits = res;
+      offline = res === null;
+      hits = res ?? [];
       active = -1;
       render();
     }, 260);
