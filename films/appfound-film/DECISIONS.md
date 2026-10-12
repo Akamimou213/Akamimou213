@@ -1,0 +1,22 @@
+# Decisions (one line each)
+
+- Direction A, "the leak track", over B (bucket), C (pill roster) and D (dashboard truth); see `docs/directions.html`.
+- The funnel stages are the site's own hero strip (Ad, Store, Onboarding, Paywall, Paying), so the film and the site teach one model.
+- Colour carries meaning, never alone: coral = lost users / the problem, lime = paying users / fixed, blue = Appfound, white = users in flight. Every coloured thing also has a label or shape.
+- Ink ground for the problem, Appfound blue from the moment one user pays, grid paper for the process (the site's three grounds).
+- The lime paying-user dot is the recurring character: it opens the iris, becomes the logo tile, and returns as the click at the end.
+- No results, percentages or spend figures, per the brief. Service facts stated on the site stay (30–40 ads a month, 48 hours, 90 days).
+- Quote tags ("01 · TIME", …) removed after review: they were noise and appeared out of order.
+- Phase eyebrows kept (the review suggested cutting them): the user asked for the full process, and the three phases are the method.
+- All nine 90-day steps kept for the same reason. They read as a feed, one per beat, so a viewer scans rather than reads.
+- "INSTALLS" strike-through dropped from the payoff after review; "DON'T PAY." keeps the hook's coral on an ink plate (coral on blue fails WCAG at 2.6:1).
+- 9:16 stacks the funnel vertically instead of shrinking the row; stage labels went from ~19 px to 34 px at 1080 wide.
+- Organic users (SEO, AI) are white like every other user; lime is reserved for users who pay.
+- No voice-over: autoplay is muted on every feed this will run in; the on-screen lines ship as an SRT for accessibility.
+- Loudness: −14 LUFS integrated (the sound prompt and the motion-reel skill) instead of −16 (the explainer prompt), because the film's first home is social feeds that normalise to about −14. True peak ≤ −1.5 dBTP, the stricter of the two prompts.
+- Sound: the opus-sound-layer scripts were not run (Claude Code's safety check blocked running third-party code). We used the CC0 recordings its manifest pins, placed by our own `sound/place.py`. Hits, clicks and whooshes are all real recordings; nothing is synthesized except the music bed.
+- Rejected after looking at the waveform and spectrogram sheet: error_008 (8 events in one clip), error_002/004 (2 events), glass_004 (tremolo, 6 events), confirmation_001/003 (multi-note), scratch_001/002 (steady synth tone), maximize_003 (clean sine sweep), boom-337695 (pulsed, several hits).
+- Two hero hits, about 42 s apart (iris at 17.5, "SUBSCRIBERS DO." at 59.25), each after a music rest. A third, smaller accent lands on the turn (41.5).
+- The cursor click on the CTA stays: it is the one action the film asks for, and the click releases the lime dot back into the logo.
+- Captions are not burned in: every line is already on screen as type. `captions.srt` ships for platform closed captions and screen readers.
+- Reduced-motion cut = timeline variant `reduced` (no camera push, no slams, no pulses, no extra motion-blur samples). Same sequence of ideas, same timing.
