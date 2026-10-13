@@ -372,6 +372,42 @@ function initAnchors() {
   });
 }
 
+/* ───────────── Film ───────────── */
+// Phones get the 9:16 cut (the 16:9 type is too small there). It plays muted while in view and pauses out of view.
+// Reduced motion: the reduced-motion cut on wider screens, no autoplay, native controls kept.
+function initFilm() {
+  const v = $<HTMLVideoElement>('[data-film]');
+  if (!v) return;
+  const btn = $<HTMLButtonElement>('[data-film-sound]');
+  const src = v.querySelector('source')!;
+  if (mobile()) {
+    src.src = '/film/appfound-film-9x16.mp4';
+    v.poster = '/film/poster-9x16.webp';
+    v.width = 1080; v.height = 1920;
+    v.classList.add('is-portrait');
+    v.load();
+  } else if (reduced) {
+    src.src = '/film/appfound-film-16x9-reduced.mp4';
+    v.load();
+  }
+  let started = false;
+  v.addEventListener('play', () => { if (!started) { started = true; track('film_play', { format: mobile() ? '9x16' : '16x9' }); } });
+  let done = false;                                                   // loops, so 'ended' never fires: count the first full watch
+  v.addEventListener('timeupdate', () => { if (!done && v.duration && v.currentTime > v.duration - 1) { done = true; track('film_complete'); } });
+  if (reduced) { btn?.remove(); return; }
+  v.controls = false;
+  v.loop = true;
+  v.preload = 'metadata';
+  new IntersectionObserver(([e]) => { if (e.isIntersecting) v.play().catch(() => {}); else v.pause(); }, { threshold: 0.35 }).observe(v);
+  v.addEventListener('click', () => { if (v.paused) v.play().catch(() => {}); else v.pause(); });
+  btn?.addEventListener('click', () => {
+    v.muted = !v.muted;
+    btn.setAttribute('aria-pressed', String(!v.muted));
+    btn.textContent = v.muted ? 'Turn sound on' : 'Mute';
+    if (!v.muted) { v.currentTime = 0; v.play().catch(() => {}); track('film_sound_on'); }
+  });
+}
+
 initLinks();
 initNav();
 initHero();
@@ -390,5 +426,6 @@ initNavLinks();
 initZoom();
 initVFunnel();
 initTabLinks();
+initFilm();
 
 document.fonts?.ready.then(() => ScrollTrigger.refresh());

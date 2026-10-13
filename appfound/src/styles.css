@@ -702,6 +702,21 @@ strong, b { font-weight: 700; }
 .stack__list { display: flex; flex-wrap: wrap; gap: 8px; }
 .stack__list li { padding: 5px 11px; border: 1px solid #d3d2e3; border-radius: 99px; font-size: 13.5px; font-weight: 600; color: var(--ink); }
 
+/* Film */
+.film { margin: var(--gut); padding: clamp(14px, 1.6vw, 22px); background: var(--paper); border: 1px solid var(--line); border-radius: var(--r); }
+.film__head { display: flex; justify-content: space-between; align-items: center; gap: 16px; padding-bottom: 14px; }
+.film__head h2 { color: var(--blue); font-weight: 600; }
+.film__sound { flex: none; white-space: nowrap; height: 36px; padding: 0 14px; border: 1px solid var(--line); border-radius: 99px; background: transparent; color: var(--blue); font-weight: 600; transition: background .25s, color .25s; }
+.film__sound:hover { background: var(--grey-2); }
+.film__sound[aria-pressed="true"] { background: var(--blue); color: #fff; }
+.film__frame { margin: 0; border-radius: 6px; overflow: hidden; background: var(--ink); }
+.film__video { display: block; width: 100%; height: auto; aspect-ratio: 16 / 9; background: var(--ink); }
+.js .film__video { cursor: pointer; }
+@media (max-width: 760px) {
+  .film__frame { width: min(100%, calc(min(78svh, 680px) * 9 / 16)); margin-inline: auto; }
+  .film__video.is-portrait { aspect-ratio: 9 / 16; }
+}
+
 /* Results intro + chapter 2 */
 .results__head > div { display: grid; gap: 18px; }
 .results__intro { color: var(--mute); max-width: 58ch; font-size: 17px; }

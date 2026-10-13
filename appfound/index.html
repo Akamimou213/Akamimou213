@@ -36,6 +36,16 @@
         }
       },
       {
+        "@type": "VideoObject",
+        "name": "How Appfound works",
+        "description": "A 64-second explainer: why more installs won't fix a funnel that leaks, the six services Appfound runs between the ad and the payment, and the first 90 days step by step.",
+        "thumbnailUrl": "https://appfound.vercel.app/film/poster-16x9.webp",
+        "contentUrl": "https://appfound.vercel.app/film/appfound-film-16x9.mp4",
+        "uploadDate": "2026-10-13",
+        "duration": "PT1M4S",
+        "inLanguage": "en"
+      },
+      {
         "@type": "FAQPage",
         "mainEntity": [
           { "@type": "Question", "name": "What's in the free Growth Plan?", "acceptedAnswer": { "@type": "Answer", "text": "A short video and a written plan: your funnel from ad to payment, your biggest leak, the first three fixes ranked by impact, five creative angles from your reviews, and a tracking check. Delivered within 48 hours, no call needed." } },
@@ -275,6 +285,21 @@
         <li>Meta Ads</li><li>TikTok Ads</li><li>Google App campaigns</li><li>Apple Ads</li><li>Snapchat</li><li>App Store Connect</li><li>Google Play Console</li><li>RevenueCat</li><li>Adjust</li><li>PostHog</li><li>GA4 / Firebase</li>
       </ul>
     </div>
+
+    <!-- ───────────────────────── FILM ───────────────────────── -->
+    <section class="film" aria-labelledby="film-title">
+      <div class="film__head">
+        <h2 id="film-title" class="mono">How Appfound works · 64 sec</h2>
+        <button class="film__sound mono" type="button" aria-pressed="false" data-film-sound>Turn sound on</button>
+      </div>
+      <figure class="film__frame">
+        <video class="film__video" data-film controls muted playsinline preload="none" width="1920" height="1080" poster="/film/poster-16x9.webp" aria-describedby="film-desc">
+          <source src="/film/appfound-film-16x9.mp4" type="video/mp4" />
+          <track kind="captions" src="/film/captions.en.vtt" srclang="en" label="English" />
+        </video>
+        <figcaption id="film-desc" class="sr">A 64-second explainer. Users run along the funnel from ad to store, onboarding, paywall and paying, and most leak out before they pay. Appfound plugs the leaks with tracking and store, onboarding and paywall tests; feeds the funnel with 30–40 tested ads a month and paid UA; overfills it with SEO and AI visibility; then scales only what pays. It closes on the first 90 days step by step, the operator, and the free Growth Plan.</figcaption>
+      </figure>
+    </section>
 
     <!-- ───────────────────────── PROBLEM ───────────────────────── -->
     <section class="problem section" id="why">

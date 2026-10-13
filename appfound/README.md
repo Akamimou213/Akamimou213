@@ -32,6 +32,7 @@ Vercel: set **Root Directory** to `appfound`, framework preset **Vite**, build `
 | Leaky-funnel canvas animation | `src/bucket.ts` |
 | Growth Plan form, App Store search (iTunes Search API), UTM capture | `src/form.ts` |
 | Proof screenshots (cropped and redacted), portrait, OG image | `public/img/`, `public/og.png` |
+| Explainer film (16:9, 9:16 for phones, reduced-motion cut, captions, posters) | `public/film/`; source in `films/appfound-film/` |
 | Full audit of v1 → v2 changes and open items | `docs/AUDIT.md` |
 
 ## Content rules
