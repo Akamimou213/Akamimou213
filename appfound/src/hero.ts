@@ -31,7 +31,7 @@ export function initQuickstart() {
     chip.querySelector('[data-qs-change]')!.addEventListener('click', toApp);
     appStep.hidden = true;
     mailStep.hidden = false;
-    btn.innerHTML = 'Send my free Growth Plan <span aria-hidden="true">→</span>';
+    btn.innerHTML = 'Send my free Growth Report <span aria-hidden="true">→</span>';
     say('');
     email.focus();
   };
@@ -86,11 +86,11 @@ export function initQuickstart() {
     btn.disabled = false;
     if (res.ok) {
       form.classList.add('is-done');
-      say(`<b>Done.</b> Your Growth Plan for ${esc(app.name)} lands in ${esc(mail)} within 48 hours. Want it sooner? <a href="${config.calendlyUrl}" target="_blank" rel="noopener">Book a 30-min call</a>.`, 'ok');
+      say(`<b>Done.</b> Your Growth Report for ${esc(app.name)} lands in ${esc(mail)} within 48 hours. Want it sooner? <a href="${config.calendlyUrl}" target="_blank" rel="noopener">Book a 30-min call</a>.`, 'ok');
       btn.hidden = true;
       mailStep.hidden = true;
     } else {
-      btn.innerHTML = 'Send my free Growth Plan <span aria-hidden="true">→</span>';
+      btn.innerHTML = 'Send my free Growth Report <span aria-hidden="true">→</span>';
       say(res.html, 'err');
     }
   });

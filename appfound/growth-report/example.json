@@ -1,0 +1,131 @@
+{
+  "sample": true,
+  "app": {
+    "name": "Sample Habit App",
+    "developer": "Sample Labs",
+    "category": "Health & Fitness",
+    "store": "ios",
+    "url": "https://apps.apple.com/app/id0000000000",
+    "icon": ""
+  },
+  "prepared": { "date": "2026-10-15", "by": "Mohamed Barkat" },
+  "contact": { "calendly": "https://calendly.com/mohamed-getregular/30min" },
+  "video_url": "",
+  "verdict": "People who find you like you (4.6 stars), but too few find you, and the paywall loses most of those who do. Fix the paywall and the first screenshot before you buy more installs.",
+  "biggest_leak": {
+    "stage": "Paywall",
+    "why": "The paywall appears before the user has tracked a single habit, offers one plan with no trial, and the close button is hidden for 5 seconds."
+  },
+  "areas": [
+    {
+      "key": "store",
+      "name": "Store page",
+      "checks": [
+        { "label": "Title & subtitle use the words people search", "score": 2, "max": 4, "note": "Title is the brand name only; 'habit tracker' is missing from title and subtitle." },
+        { "label": "First 3 screenshots sell the outcome", "score": 2, "max": 5, "note": "Screenshot 1 shows the settings screen. No benefit headline on any screenshot." },
+        { "label": "Ratings & reviews", "score": 4, "max": 4, "note": "4.6 stars. Developer replies to recent reviews." },
+        { "label": "Preview video", "score": 0, "max": 3, "note": "No app preview video." },
+        { "label": "Custom product pages for ad angles", "score": 1, "max": 4, "note": "One store page for every ad." }
+      ],
+      "findings": ["Rewrite screenshot 1 as the outcome ('Build 3 habits in 21 days') before the next ad test."]
+    },
+    {
+      "key": "ads",
+      "name": "Paid ads",
+      "checks": [
+        { "label": "Running paid social at all", "score": 4, "max": 4, "note": "3 active ads on Meta." },
+        { "label": "Creative volume vs competitors", "score": 1, "max": 5, "note": "3 ads vs 40–120 for the top 3 competitors." },
+        { "label": "Format mix (video, UGC-style, static)", "score": 1, "max": 4, "note": "Statics only." },
+        { "label": "Hooks speak to a pain or outcome", "score": 2, "max": 4, "note": "Hooks lead with features ('Track unlimited habits')." },
+        { "label": "Fresh ads in the last 30 days", "score": 1, "max": 3, "note": "Newest ad started 41 days ago." }
+      ],
+      "findings": []
+    },
+    {
+      "key": "reviews",
+      "name": "Reviews & demand",
+      "checks": [
+        { "label": "Clear reason people love it", "score": 4, "max": 5, "note": "Simplicity and widgets come up again and again." },
+        { "label": "Complaints are fixable, not fatal", "score": 4, "max": 5, "note": "Mostly price and sync, not core value." },
+        { "label": "Review volume growing", "score": 2, "max": 5, "note": "About 30 new ratings a month." },
+        { "label": "Reviews used in ads or store page", "score": 0, "max": 5, "note": "None quoted anywhere." }
+      ],
+      "findings": []
+    },
+    {
+      "key": "funnel",
+      "name": "Onboarding & paywall",
+      "checks": [
+        { "label": "Time to first value under 60 seconds", "score": 2, "max": 5, "note": "7 screens before the first habit." },
+        { "label": "Paywall after a moment of value", "score": 1, "max": 5, "note": "Paywall shows on screen 4, before any habit is tracked." },
+        { "label": "Plan choice & trial", "score": 2, "max": 5, "note": "Yearly plan only, no trial." },
+        { "label": "Paywall copy sells the outcome", "score": 2, "max": 5, "note": "A list of 9 features, no outcome, no social proof." }
+      ],
+      "findings": []
+    },
+    {
+      "key": "visibility",
+      "name": "Search & AI visibility",
+      "checks": [
+        { "label": "Ranks top 10 for a core keyword", "score": 1, "max": 5, "note": "Best rank is 18 ('daily habits')." },
+        { "label": "Website ranks on Google for the category", "score": 1, "max": 5, "note": "Only the brand name ranks." },
+        { "label": "Named by AI assistants", "score": 2, "max": 5, "note": "Perplexity names it for 1 of 3 questions; ChatGPT and Gemini don't." },
+        { "label": "Listed in 'best apps' articles", "score": 1, "max": 5, "note": "In 1 of the top 10 Google results for 'best habit tracker app'." }
+      ],
+      "findings": []
+    }
+  ],
+  "competitor_ads": [
+    { "app": "Sample Habit App (you)", "you": true, "active_ads": 3, "formats": "Static", "longest_running": "41 days", "top_hook": "Track unlimited habits" },
+    { "app": "Competitor A", "active_ads": 118, "formats": "UGC-style video, static", "longest_running": "7 months", "top_hook": "I failed every habit until I tried this" },
+    { "app": "Competitor B", "active_ads": 64, "formats": "Video, carousel", "longest_running": "4 months", "top_hook": "Your phone can make you more disciplined" },
+    { "app": "Competitor C", "active_ads": 41, "formats": "Static, motion", "longest_running": "3 months", "top_hook": "21 days. 3 habits. One app." }
+  ],
+  "reviews": {
+    "pains": [
+      { "theme": "Price shock", "quote": "Loved it until it asked for $40 before I could try anything." },
+      { "theme": "Sync", "quote": "My streak disappeared when I changed phones." },
+      { "theme": "Too many reminders", "quote": "Notifications every hour made me delete it once." }
+    ],
+    "loves": [
+      { "theme": "Simple", "quote": "The only habit app that doesn't feel like homework." },
+      { "theme": "Widgets", "quote": "The home screen widget is what keeps me going." },
+      { "theme": "Streaks", "quote": "Day 112 and I've never kept a habit this long." }
+    ]
+  },
+  "angles": [
+    { "angle": "Not homework", "hook": "Every habit app felt like homework. This one didn't.", "format": "UGC-style video" },
+    { "angle": "The widget", "hook": "I didn't build discipline. I built a widget.", "format": "Screen recording + voice" },
+    { "angle": "Streak proof", "hook": "Day 112. Here's the only thing I changed.", "format": "UGC-style video" },
+    { "angle": "Failed before", "hook": "If you've quit 5 habit apps, read this.", "format": "Static" },
+    { "angle": "3 habits, 21 days", "hook": "3 habits. 21 days. 2 taps a day.", "format": "Motion" }
+  ],
+  "funnel": [
+    { "step": "First open", "note": "Splash + 3 intro slides about features.", "leak": false },
+    { "step": "Account", "note": "Sign-up is required before seeing the app.", "leak": true },
+    { "step": "Goal quiz", "note": "3 questions, good personalisation.", "leak": false },
+    { "step": "Paywall", "note": "Yearly plan only, no trial, close button hidden for 5 seconds.", "leak": true },
+    { "step": "First habit", "note": "Reached on screen 8. Clear and fast once there.", "leak": false }
+  ],
+  "keywords": [
+    { "keyword": "habit tracker", "rank": "Not in top 100", "leader": "Competitor A" },
+    { "keyword": "daily habits", "rank": "18", "leader": "Competitor B" },
+    { "keyword": "routine planner", "rank": "64", "leader": "Competitor C" }
+  ],
+  "ai_visibility": [
+    { "prompt": "best habit tracker app for iPhone", "chatgpt": false, "perplexity": true, "gemini": false, "named_instead": "Competitor A, Competitor B" },
+    { "prompt": "simple app to build a morning routine", "chatgpt": false, "perplexity": false, "gemini": false, "named_instead": "Competitor C" },
+    { "prompt": "habit app with a home screen widget", "chatgpt": false, "perplexity": false, "gemini": false, "named_instead": "Competitor A" }
+  ],
+  "fixes": [
+    { "title": "Move the paywall after the first habit and add a 7-day trial", "why": "Users who log one habit before they see a price are more likely to start a trial. This is the biggest leak.", "impact": "High", "effort": "Medium" },
+    { "title": "Rebuild screenshots 1–3 around the outcome and real reviews", "why": "Most store visitors never scroll past the first screenshots. Today they see a settings screen.", "impact": "High", "effort": "Low" },
+    { "title": "Test 15 new ads from the 5 angles above", "why": "3 static ads can't find a winner. Competitors run 40–120.", "impact": "High", "effort": "Low" }
+  ],
+  "first_30_days": [
+    { "week": "Week 1", "do": "Tracking from install to paid trial sent to Meta. Baseline written down. 1–2 targets agreed." },
+    { "week": "Week 2", "do": "New screenshots live. Paywall test briefed to your developer. First 15 AI-made ads ready for approval." },
+    { "week": "Week 3", "do": "Ads live with spend caps per ad. Losers cut after their cap, winners get new hooks." },
+    { "week": "Week 4", "do": "Paywall test live. Keywords updated. First read on cost per trial vs baseline." }
+  ]
+}

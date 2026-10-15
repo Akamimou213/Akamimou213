@@ -111,9 +111,11 @@ export function attachAppSearch(input: HTMLInputElement, list: HTMLUListElement,
 
 export type Lead = { app_name: string; store: string; app_id: string; store_url: string; name: string; email: string; monthly_spend: string; source: string };
 
-/** Sends a Growth Plan request. Resolves 'ok', or 'fallback' with copy-paste HTML when no endpoint is set or it fails. */
+/** Sends a Growth Report request. Resolves 'ok', or 'fallback' with copy-paste HTML when no endpoint is set or it fails. */
 export async function sendLead(lead: Lead): Promise<{ ok: true } | { ok: false; html: string }> {
-  const payload = { ...lead, page: location.href, submitted_at: new Date().toISOString(), ...utms() };
+  const spend = lead.monthly_spend ? ` · spend ${lead.monthly_spend}` : '';
+  // _subject sets the notification email's subject in Formspree; replies go to the `email` field
+  const payload = { _subject: `Growth Report request: ${lead.app_name || lead.store_url || 'new app'}${spend}`, ...lead, page: location.href, submitted_at: new Date().toISOString(), ...utms() };
   track('growth_plan_submit', { store: lead.store, monthly_spend: lead.monthly_spend, source: lead.source });
   try {
     if (!config.formEndpoint) throw new Error('no-endpoint');
@@ -125,8 +127,8 @@ export async function sendLead(lead: Lead): Promise<{ ok: true } | { ok: false; 
     if (!r.ok) throw new Error(String(r.status));
     return { ok: true };
   } catch (err) {
-    if ((err as Error).message === 'no-endpoint') console.warn('[appfound] Set config.formEndpoint to receive Growth Plan requests.');
-    const msg = `Hi Mohamed, I'd like a free Growth Plan.\nApp: ${lead.app_name || '-'} (${lead.store})\nStore link: ${lead.store_url || '-'}\nName: ${lead.name || '-'}\nEmail: ${lead.email}\nMonthly ad spend: ${lead.monthly_spend || '-'}`;
+    if ((err as Error).message === 'no-endpoint') console.warn('[appfound] Set config.formEndpoint to receive Growth Report requests.');
+    const msg = `Hi Mohamed, I'd like a free Growth Report.\nApp: ${lead.app_name || '-'} (${lead.store})\nStore link: ${lead.store_url || '-'}\nName: ${lead.name || '-'}\nEmail: ${lead.email}\nMonthly ad spend: ${lead.monthly_spend || '-'}`;
     let copied = false;
     try { await navigator.clipboard.writeText(msg); copied = true; } catch { /* clipboard blocked */ }
     return { ok: false, html: `We couldn't send this automatically. ${copied ? 'Your request is copied.' : 'Copy the request below.'} Send it to Mohamed on <a href="${config.linkedinUrl}" target="_blank" rel="noopener">LinkedIn</a> and he'll reply within 48 hours.<pre>${esc(msg)}</pre>` };
@@ -228,7 +230,7 @@ export function initGrowthForm() {
       const res = await sendLead({ app_name: appName, store: store(), app_id: idField.value, store_url: url, name, email, monthly_spend: String(fd.get('spend') || ''), source: 'form' });
       if (res.ok) {
         status.classList.add('is-ok');
-        status.innerHTML = `<b>Done${name ? `, ${esc(name)}` : ''}.</b> Your Growth Plan for ${esc(appName || 'your app')} lands in ${esc(email)} within 48 hours. Want it sooner? <a href="${config.calendlyUrl}" target="_blank" rel="noopener">Book a 30-min call</a>.`;
+        status.innerHTML = `<b>Done${name ? `, ${esc(name)}` : ''}.</b> Your Growth Report for ${esc(appName || 'your app')} lands in ${esc(email)} within 48 hours. Want it sooner? <a href="${config.calendlyUrl}" target="_blank" rel="noopener">Book a 30-min call</a>.`;
         form.reset();
         if (!picked.hidden) unpick();
       } else {
