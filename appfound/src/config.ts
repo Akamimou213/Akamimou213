@@ -4,7 +4,7 @@ export const config = {
   siteUrl: '',
 
   /**
-   * Where Growth Report requests are POSTed as JSON (Formspree). Each request is emailed
+   * Where Growth Plan requests are POSTed as JSON (Formspree). Each request is emailed
    * to the account owner and kept in the Formspree dashboard. If the POST fails, the form falls back to copying the
    * request and opening LinkedIn, so no lead is lost.
    */

@@ -1,6 +1,6 @@
 #!/usr/bin/env node
-// Builds a Growth Report from one JSON file: an A4 HTML page, plus a PDF when Playwright is installed.
-//   node growth-report/build.mjs growth-report/reports/my-app.json
+// Builds a Growth Plan from one JSON file: an A4 HTML page, plus a PDF when Playwright is installed.
+//   node growth-plan/build.mjs growth-plan/reports/my-app.json
 // Output goes next to the JSON in out/: <slug>.html and <slug>.pdf
 import { readFile, writeFile, mkdir } from 'node:fs/promises';
 import { basename, dirname, join, resolve } from 'node:path';
@@ -8,7 +8,7 @@ import { pathToFileURL } from 'node:url';
 
 const file = process.argv[2];
 if (!file) {
-  console.error('Usage: node growth-report/build.mjs <report.json>');
+  console.error('Usage: node growth-plan/build.mjs <report.json>');
   process.exit(1);
 }
 const r = JSON.parse(await readFile(file, 'utf8'));
@@ -29,10 +29,10 @@ const score = pct(sum(areas, 'got'), sum(areas, 'max'));
 
 const page = (n, title, body) => `
 <section class="page">
-  <header class="ph"><span class="logo">appfound</span><span>Growth Report · ${esc(r.app.name)}</span><span>${n}</span></header>
+  <header class="ph"><span class="logo">appfound</span><span>Growth Plan · ${esc(r.app.name)}</span><span>${n}</span></header>
   <h2>${title}</h2>
   ${body}
-  <footer class="pf">${r.sample ? '<b>Sample report: illustrative data, not a real app.</b> · ' : ''}Public data only, checked ${esc(r.prepared.date)}. We did not access your accounts.</footer>
+  <footer class="pf">${r.sample ? '<b>Sample plan: illustrative data, not a real app.</b> · ' : ''}Public data only, checked ${esc(r.prepared.date)}. We did not access your accounts.</footer>
 </section>`;
 
 const checksTable = (a) => `
@@ -50,7 +50,7 @@ const areaBlock = (key) => {
 
 const cover = `
 <section class="page cover">
-  <div class="cover__top"><span class="logo logo--light">appfound</span><span>Growth Report</span></div>
+  <div class="cover__top"><span class="logo logo--light">appfound</span><span>Growth Plan</span></div>
   <div class="cover__app">
     ${r.app.icon ? `<img src="${esc(r.app.icon)}" alt="" />` : '<div class="ph-icon">★</div>'}
     <div><h1>${esc(r.app.name)}</h1><p>${esc(r.app.developer)} · ${esc(r.app.category)} · ${r.app.store === 'android' ? 'Google Play' : 'App Store'}</p></div>
@@ -128,7 +128,7 @@ const plan = page('07', 'Your first 30 days', `
 const css = await readFile(new URL('./report.css', import.meta.url), 'utf8');
 const html = `<!doctype html>
 <html lang="en"><head><meta charset="utf-8" />
-<title>Growth Report · ${esc(r.app.name)}</title>
+<title>Growth Plan · ${esc(r.app.name)}</title>
 <link rel="preconnect" href="https://fonts.googleapis.com" /><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
 <link href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,400..900&family=IBM+Plex+Mono:wght@500;600&display=swap" rel="stylesheet" />
 <style>${css}</style></head>

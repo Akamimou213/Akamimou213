@@ -1,4 +1,4 @@
-/* Growth Report: A4 pages in the site's colours (ink, electric blue, lime, coral) */
+/* Growth Plan: A4 pages in the site's colours (ink, electric blue, lime, coral) */
 :root { --ink: #0e0c2b; --blue: #2412ff; --lime: #d6ff3d; --coral: #ff5b2e; --mute: #5d5b78; --line: #e3e2ef; --soft: #f5f5fb; --good: #12805c; --mid: #b26b00; }
 @page { size: A4; margin: 0; }
 * { box-sizing: border-box; margin: 0; padding: 0; }
