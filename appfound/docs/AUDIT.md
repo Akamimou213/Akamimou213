@@ -76,3 +76,13 @@ Audit of every section as a B2C app growth buyer would read it (founder or head 
 - **30–40 tested ads a month** everywhere, with an FAQ answer on how that volume is produced.
 - **Copy rewritten** section by section: shorter, specific, no filler phrases.
 - **Preview fixes.** Images in the preview link were broken by a path bug in the single-file conversion; fixed. The preview sandbox can't reach the App Store, so the preview carries an offline index of 56 popular apps; the real site searches the full App Store live.
+
+## v4 changes (from client feedback)
+
+- **Leads arrive.** The form posts to Formspree, so every request is emailed with a readable subject (`Growth Plan request: <app> · spend <range>`). Tested end to end from a browser: 200 OK, success message shown.
+- **One paid plan, one lead magnet.** Pricing shows a single plan (Growth Partner, $1,500/month). The free **Growth Plan** stays as the lead magnet: an audit of the lead's app plus a growth plan, as a scored PDF and a video teardown, which leads to a call and a demo of the service. The template, builder and 48-hour workflow are in `growth-plan/`.
+- **Guarantee.** "Work free until we beat it" (open-ended) became "if we haven't beaten your baseline by day 90, your fourth month is free". Also added as an FAQ.
+- **AI-made creatives.** The hero, service tab, 90-day plan, comparison, pricing and FAQ now say the 30–40 monthly ads are made with AI and edited by hand. Real creators are optional and billed at cost.
+- **$2K/month ad spend is a requirement**, not a suggestion, in the guarantee, pricing note and FAQ. The unprovable "most clients spend $3K–$50K" line is removed.
+- **Price stays $1,500** for the 5 founding clients and goes up once their case studies are published.
+- **Film is smaller.** Desktop: copy on the left, video capped at 820 px wide on the right, so the section is about 500 px tall instead of a full screen. Phones: the 9:16 cut is capped at 56% of screen height.

@@ -11,3 +11,7 @@ films/*/docs/ref/
 films/*/audio/raw/
 films/*/assets/capture/screens/
 films/*/assets/capture/fonts/
+
+# Growth Plan: lead data and renders stay out of git
+appfound/growth-plan/reports/
+appfound/growth-plan/out/

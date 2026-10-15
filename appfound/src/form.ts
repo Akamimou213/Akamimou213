@@ -113,7 +113,9 @@ export type Lead = { app_name: string; store: string; app_id: string; store_url:
 
 /** Sends a Growth Plan request. Resolves 'ok', or 'fallback' with copy-paste HTML when no endpoint is set or it fails. */
 export async function sendLead(lead: Lead): Promise<{ ok: true } | { ok: false; html: string }> {
-  const payload = { ...lead, page: location.href, submitted_at: new Date().toISOString(), ...utms() };
+  const spend = lead.monthly_spend ? ` · spend ${lead.monthly_spend}` : '';
+  // _subject sets the notification email's subject in Formspree; replies go to the `email` field
+  const payload = { _subject: `Growth Plan request: ${lead.app_name || lead.store_url || 'new app'}${spend}`, ...lead, page: location.href, submitted_at: new Date().toISOString(), ...utms() };
   track('growth_plan_submit', { store: lead.store, monthly_spend: lead.monthly_spend, source: lead.source });
   try {
     if (!config.formEndpoint) throw new Error('no-endpoint');

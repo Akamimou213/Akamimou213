@@ -18,7 +18,7 @@ Vercel: set **Root Directory** to `appfound`, framework preset **Vite**, build `
 
 ## Before going live
 
-1. **`src/config.ts` → `formEndpoint`**: where Growth Plan requests are POSTed as JSON (Formspree, Web3Forms, a Make/Zapier webhook or your own API). Until it's set, the form copies the request and sends people to LinkedIn so no lead is lost, but that path converts worse.
+1. **Leads**: done. `src/config.ts` → `formEndpoint` posts Growth Plan requests to Formspree (`formspree.io/f/xgaorogn`), which emails each one. If the POST fails, the form copies the request and sends people to LinkedIn so no lead is lost. The free Formspree plan caps at 50 submissions a month.
 2. **`src/config.ts` → `siteUrl`**: the live domain, used in the "Ask AI about Appfound" prompts. Also add `<link rel="canonical">` and make `og:image` absolute in `index.html`.
 3. **Tracking**: add GTM / Meta Pixel / TikTok Pixel. `src/track.ts` already pushes `cta_*` clicks and `growth_plan_submit` to `dataLayer`, and fires `Lead` / `SubmitForm` on the pixels with non-personal fields only. The form also captures first-touch UTMs and click IDs (gclid, fbclid, ttclid) into the lead payload.
 
@@ -31,6 +31,7 @@ Vercel: set **Root Directory** to `appfound`, framework preset **Vite**, build `
 | Hero intro, scroll highlight, tabs, counters, menu | `src/main.ts` |
 | Leaky-funnel canvas animation | `src/bucket.ts` |
 | Growth Plan form, App Store search (iTunes Search API), UTM capture | `src/form.ts` |
+| Growth Plan lead magnet: template, builder, 48-hour workflow, sample PDF | `growth-plan/` (see its README) |
 | Proof screenshots (cropped and redacted), portrait, OG image | `public/img/`, `public/og.png` |
 | Explainer film (16:9, 9:16 for phones, reduced-motion cut, captions, posters) | `public/film/`; source in `films/appfound-film/` |
 | Full audit of v1 → v2 changes and open items | `docs/AUDIT.md` |
