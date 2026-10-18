@@ -1,0 +1,140 @@
+import { Link } from "react-router-dom";
+import { addDays, dayKey, formatDay, landingStatus, toDisplay, trend, weekStats } from "../lib/calc";
+import { track, useStore } from "../lib/store";
+import { FlightPathChart } from "../components/instruments";
+import { doseTicks } from "./Path";
+
+export default function Report() {
+  const { data } = useStore();
+  const p = data.profile;
+  const today = dayKey();
+  const pts = trend(data.weights);
+  const kgs = data.weights.map((w) => w.kg);
+  const start = pts[0];
+  const current = pts[pts.length - 1];
+  const lowest = kgs.length ? Math.min(...kgs) : null;
+  const u = p.units;
+  const w = (kg: number | null | undefined) => (kg == null ? "–" : `${toDisplay(kg, u).toFixed(1)} ${u}`);
+  const doses = [...data.doses].sort((a, b) => (a.at < b.at ? 1 : -1)).slice(0, 12);
+  const weeks = [0, 1, 2, 3].map((i) => {
+    const end = addDays(today, -7 * i);
+    return { end, s: weekStats(data, end) };
+  });
+  const landing = data.landing?.active ? landingStatus(data.landing, data.weights, today) : null;
+  const first = pts[0]?.day ?? addDays(today, -28);
+
+  return (
+    <div className="screen report">
+      <div className="no-print row">
+        <Link to="/path" className="btn ghost sm">
+          ← Back
+        </Link>
+        <button
+          type="button"
+          className="btn primary sm"
+          onClick={() => {
+            track("report_generated");
+            window.print();
+          }}
+        >
+          Download PDF
+        </button>
+      </div>
+
+      <header className="report-head">
+        <div>
+          <p className="eyebrow">Clinician summary · {formatDay(today, { month: "long", day: "numeric", year: "numeric" })}</p>
+          <h1>{p.name || "Patient"} · GLP-1 progress</h1>
+          <p className="muted">
+            {p.medication || "Medication not set"} · {p.medForm === "pill" ? "daily pill" : "weekly injection"} · current dose {p.currentDose || "–"}
+          </p>
+        </div>
+      </header>
+
+      <section>
+        <h2>Weight</h2>
+        <div className="readouts">
+          <div>
+            <span className="inst-label">First recorded</span>
+            <span className="mono">{w(start?.kg)}</span>
+          </div>
+          <div>
+            <span className="inst-label">Current 7-day avg</span>
+            <span className="mono">{w(current?.avg)}</span>
+          </div>
+          <div>
+            <span className="inst-label">Lowest</span>
+            <span className="mono">{w(lowest)}</span>
+          </div>
+        </div>
+        <FlightPathChart weights={data.weights} units={u} ticks={doseTicks(data.doses)} fromDay={first} toDay={today} animate={false} />
+      </section>
+
+      <section>
+        <h2>Recent doses</h2>
+        {doses.length ? (
+          <table>
+            <thead>
+              <tr>
+                <th>Date</th>
+                <th>Medication</th>
+                <th>Dose</th>
+                <th>Site</th>
+              </tr>
+            </thead>
+            <tbody>
+              {doses.map((d) => (
+                <tr key={d.id}>
+                  <td className="mono">{formatDay(dayKey(new Date(d.at)))}</td>
+                  <td>{d.medication}</td>
+                  <td className="mono">{d.dose}</td>
+                  <td>{d.site ?? "–"}</td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        ) : (
+          <p className="muted">No doses logged.</p>
+        )}
+      </section>
+
+      <section>
+        <h2>Weekly averages (self-reported, 0–4)</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Week ending</th>
+              <th>Nausea</th>
+              <th>Food noise</th>
+              <th>Protein days ≥ {p.proteinTarget}g</th>
+              <th>Strength</th>
+            </tr>
+          </thead>
+          <tbody>
+            {weeks.map(({ end, s }) => (
+              <tr key={end}>
+                <td className="mono">{formatDay(end)}</td>
+                <td className="mono">{s.avgNausea === null ? "–" : s.avgNausea.toFixed(1)}</td>
+                <td className="mono">{s.avgNoise === null ? "–" : s.avgNoise.toFixed(1)}</td>
+                <td className="mono">{s.proteinDaysHit}/7</td>
+                <td className="mono">{s.strength}</td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </section>
+
+      {landing && data.landing && (
+        <section>
+          <h2>Landing mode</h2>
+          <p>
+            Change: {data.landing.changeKind} from {formatDay(data.landing.changeDate)}. Landing weight {w(data.landing.landingKg)} (±{data.landing.zonePct}%). Status:{" "}
+            <strong>{landing.status === "on" ? "on course" : landing.status === "drifting" ? "drifting" : "above zone"}</strong>.
+          </p>
+        </section>
+      )}
+
+      <footer className="report-foot">Generated by the patient using Landed. Self-reported data; not a medical record.</footer>
+    </div>
+  );
+}
