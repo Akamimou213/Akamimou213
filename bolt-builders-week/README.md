@@ -1,14 +1,21 @@
 # Bolt Builders Week: what to build and why
 
-**Recommendation: build _Opened_.** It's a mobile-first web app. You snap any scary letter, bill, fine, insurance or government notice, and in about 20 seconds you get a calm verdict: what it is, whether you must act, by when, what ignoring it costs, whether it's a scam, and the one next step. Then it writes the reply, fee-waiver request, appeal or phone script, adds the deadline to your calendar, and tracks the letter until it's done.
+**Recommendation: build _Landed_.** It's a mobile-first GLP-1 companion for the two things that decide whether the weight loss lasts:
 
-**Tagline:** *Your scary mail, opened for you.*
+1. **Protecting muscle while you lose.** Snap your plate and see protein against your target, even when you're barely hungry.
+2. **Landing safely when your dose changes or stops.** Landing mode watches your weight trend and food noise and gives you a course correction before a drift becomes a regain.
+
+It supports weekly shots and the new daily pills. It never gives dose advice and never counts calories.
+
+**Tagline:** *You lost it on the meds. Now land it.*
 
 | File | What it is |
 |---|---|
-| [`01-PROJECT-KNOWLEDGE.md`](01-PROJECT-KNOWLEDGE.md) | The full product spec. Paste it into Bolt **Project settings → Knowledge**. |
+| [`01-PROJECT-KNOWLEDGE.md`](01-PROJECT-KNOWLEDGE.md) | Full product spec. Paste it into Bolt **Project settings → Knowledge**. |
 | [`02-BUILD-PROMPTS.md`](02-BUILD-PROMPTS.md) | 10 phase prompts (Plan → Polish), with checks between phases and fix-it prompts. |
-| [`03-SUBMISSION-KIT.md`](03-SUBMISSION-KIT.md) | Submission form answers, tool disclosure, demo video script, a validation plan and unit economics. |
+| [`03-SUBMISSION-KIT.md`](03-SUBMISSION-KIT.md) | Form answers and tool disclosure, a demo video script, a validation plan, unit economics and go-to-market. |
+
+> **Change log:** v1 recommended "Opened" (an AI that explains scary mail). It was dropped because Meta's **Muse** agent (launched Sept 8, 2026) already reads email, photos and documents, fills in forms and negotiates bills ([TechCrunch](https://techcrunch.com/2026/09/08/meta-debuts-its-muse-ai-agent-will-consumers-trust-it/)). The lesson shaped this pick: **if the core is "AI reads or writes text for you," a general agent will absorb it.**
 
 ---
 
@@ -16,126 +23,128 @@
 
 | Fact | Implication |
 |---|---|
-| Submissions close **Tue Oct 20, 23:59 PT**. Free model weekend ends **Sun Oct 18, 23:59 PT**. | You have ~2 days. Build the demo path first. |
-| The free model is **GLM 5.3 Flash** (not "GLM 3.5"), in 6-hour usage blocks. | Phase-by-phase prompts work better than one mega-prompt (Bolt's own guidance, and GLM is flagged as verbose and "experimental" in Bolt). |
-| You must submit a **live link that is publicly accessible, free of charge, and functional** through judging, plus the Bolt project link. | Mobile **web** app on bolt.host, not an Expo/App Store build. **No hard paywall in front of the core flow.** |
-| Judging, weighted equally: **use of Bolt, idea, implementation & design, potential impact.** Ties go to "use of Bolt". | Use Bolt Database, Auth, Server functions, Secrets, Stripe and Publish on purpose, and say so in the submission. |
-| Theme: "Turn a business idea into a product." | It needs a credible business model, not just a cool demo. |
-| Bolt has **no built-in keyless AI for generated apps**. AI calls go through a server function with your own key in Secrets. | You need an API key (OpenRouter recommended). Samples must still work if the AI fails. |
-| Excluded countries include Brazil, China, Russia, Cuba, Iran, North Korea, Syria, Quebec and some others. Algeria is not on the list. | You're eligible, assuming you're 18+ and not otherwise excluded. |
+| Submissions close **Tue Oct 20, 23:59 PT**. The free-model weekend ends **Sun Oct 18, 23:59 PT**. | About 2 days. Build the demo path first. |
+| The free model is **GLM 5.3 Flash** (not "GLM 3.5"), in 6-hour usage blocks. | Use phase-by-phase prompts. Bolt's own guidance favors them, and GLM is flagged as verbose and "experimental" in Bolt. |
+| The live link must be **publicly accessible, free of charge, and functional** throughout judging. | Build a mobile **web** app on bolt.host with a `/demo` that needs no account. **No hard paywall.** |
+| Judges score four things equally: **use of Bolt, idea, implementation & design, potential impact.** Ties go to "use of Bolt". | Use Bolt Database, Auth, Server functions, Secrets, Stripe and Publish on purpose, and say so. |
+| Bolt has **no built-in keyless AI for generated apps**. | You need an OpenRouter key in Secrets, and a vision-capable model for meal photos. The demo falls back to pre-computed results. |
+| Excluded countries include Brazil, China, Russia, Cuba, Iran, North Korea, Syria and Quebec, among others. Algeria isn't on the list. | You're eligible (18+). |
 
-Sources: [Builders Week](https://bolt.new/builders-week), [Official rules](https://bolt.new/builders-week/terms), [Bolt Cloud](https://support.bolt.new/bolt-cloud), [Server functions](https://support.bolt.new/bolt-cloud/database/server-functions), [Secrets](https://support.bolt.new/bolt-cloud/database/secrets), [Stripe integration](https://support.bolt.new/integrations/stripe), [Expo](https://support.bolt.new/integrations/expo), [Bolt Forge](https://support.bolt.new/account/bolt-forge), [Prompting effectively](https://support.bolt.new/prompting/prompting-effectively), [GLM 5.3 Flash on Artificial Analysis](https://artificialanalysis.ai/models/glm-5-3-flash).
-
-**Where your notes don't apply to this contest:**
-- *iOS-only, native SwiftUI, hard paywall, $7.99/week.* That playbook optimizes App Store revenue. The contest needs a free public link, and the audience here is anxious and often money-stressed, so weekly pricing would read as predatory.
-- *Freemium.* Freemium with 3 free letters a month is the right call here. Native iOS is the right *next* step once demand is proven, because the camera and notifications really are core to the product.
+Sources: [Builders Week](https://bolt.new/builders-week), [Official rules](https://bolt.new/builders-week/terms), [Bolt Cloud](https://support.bolt.new/bolt-cloud), [Server functions](https://support.bolt.new/bolt-cloud/database/server-functions), [Secrets](https://support.bolt.new/bolt-cloud/database/secrets), [Stripe integration](https://support.bolt.new/integrations/stripe), [Bolt Forge](https://support.bolt.new/account/bolt-forge), [Prompting effectively](https://support.bolt.new/prompting/prompting-effectively).
 
 ---
 
 ## 2. How the idea was chosen
 
-**Method:**
-- 4 parallel research passes:
-  - life admin
-  - small service businesses
-  - unfair charges, caregiving and rental deposits
-  - Bolt platform capabilities
-- Plus a Reddit-specific pull.
+### The filter (what survives Muse, ChatGPT and Claude)
+A B2C app survives general agents when its value comes from things they don't own:
+- a **daily ritual** anchored to the phone (camera, one-tap logs)
+- a **history built up over time** that only the app holds and that gets more useful each week
+- an **emotional, identity-level outcome** (looks, health, addiction)
+- a niche where **competitors already make money** and **creators already make content** (your validation rule)
 
-**Source limits:**
-- **Reddit pages couldn't be fetched directly** from this environment. Reddit's public search RSS feeds did work, so every Reddit quote below is verbatim from a post body, with its date. Comment threads and upvote counts weren't accessible.
-- Trade-forum quotes (LawnSite, ContractorTalk) came only from search snippets and are treated as weaker.
+### Candidates (2nd research round; Reddit quotes are verbatim from post bodies via Reddit's search RSS)
+| | GLP-1 companion (**Landed**) | Quit vaping / Zyn | Hair-loss progress tracker |
+|---|---|---|---|
+| Pain intensity | High: fear of regain, nausea, muscle loss | High: relapse loops | High: obsessive checking, quitting treatment early |
+| Market size | **12% of US adults currently take a GLP-1** (KFF, Nov 2025) | 14.8% of 18–24s vape (NHIS 2024) | r/tressless ~500K members |
+| Proof competitors make money | **Strong:** Shotsy, ~350K MAU, est. ~£3.5M ARR (third-party estimate) | **Strong:** Puff Count $41K/month, Quittr $250K MRR | **Weak:** the only verified tracker makes $705 MRR and is for sale |
+| Open gap | **Daily pills unsupported, weak protein help, no maintenance mode, bait-and-switch paywalls** | Vape- and Zyn-specific positioning only | Standardized photo capture |
+| Survives general agents? | Partly: dose-anchored ritual + history + Landing mode | Mostly: the craving moment | Partly: capture ritual |
+| Saturation | High, but nobody owns the "landing" | Very high (r/QuitVaping is full of indie app launches) | Low, because the money is weak |
+| Risk | Medical-adjacent (manageable with strict guardrails) | Minors are a large share of users | Body-dysmorphia patterns |
 
-### Candidates scored (1 = weak, 5 = strong; scores are my judgment from the evidence below)
+**Why Landed wins:**
+- It's the only candidate with **proven spend + a huge, growing market + a specific gap the incumbents' own reviews point to**. That gap is the moment the dose changes or stops, which is exactly when users are most scared and current trackers lose them.
+- It also fits a judge's 20-second test well: tap "Try the demo", snap a meal, watch the protein needle sweep, see Landing mode flag a drift.
 
-| Candidate | Pain evidence | Frequency | Proven spend | Judge can try it via a link | AI essential | Buildable in 2 days | Differentiation |
-|---|---|---|---|---|---|---|---|
-| **Opened**: scary-mail decoder + reply writer | 5 | 4 | 3 | 5 | 5 | 4 | 4 |
-| Quote-to-close for solo trades | 4 | 5 | 5 | 3 | 4 | 5 | 2 |
-| Insurance-denial appeal writer | 5 | 2 | 2 | 4 | 5 | 4 | 2 |
-| Rental deposit evidence + dispute | 4 | 1 | 2 | 4 | 3 | 4 | 4 |
-| Caregiver hub for aging parents | 5 | 5 | 2 | 3 | 3 | 3 | 2 |
-
-**Why Opened wins:**
-- It's the only idea strong on all three contest-critical axes: **a judge feels it in 20 seconds** (tap a sample, watch the envelope open, get the verdict), **AI is the product rather than a feature**, and the **emotional stakes are high**.
-- It also **absorbs the two runners-up as letter types:** insurance denials become "Appeal it" drafts, and late fees become fee-waiver drafts. So it carries the strongest data story without being a narrow niche tool.
-
-**Why not the runner-up (quote-to-close for trades):**
-- It has the clearest willingness to pay. Jobber charges $49–$199/mo for one user, and 37% of pros call quoting a major time drain (Jobber 2026 report).
-- But incumbents already ship AI quoting.
-- A judge can't really feel a contractor's pain through a demo link.
-- It's a weaker "idea" score.
-- If you'd rather build a B2B business than win the contest, this is the one to revisit.
+**Why not the others:**
+- **Quit vaping/Zyn** has real money but is drowning in indie clones, and its moat is purely paid distribution.
+- **Hair loss** has real pain but no evidence of spend on tracking.
 
 ---
 
-## 3. The evidence for Opened
+## 3. The evidence for Landed
 
-### Problem: people avoid opening official mail, and it costs real money
-**Reddit, verbatim, from post bodies fetched via search RSS:**
-- "I'm scared that I'll open a letter and it'll be something I need to take action on… I walk past the mail and think about how should open it, but I PHYSICALLY CANNOT." ([r/ADHD, Dec 2021](https://www.reddit.com/r/ADHD/comments/r80svt/))
-- "I once avoided ours for 6 months, which wrecked my credit)… We lose real money monthly to late fees and enforcement costs" ([r/ADHD, Jul 2026](https://www.reddit.com/r/ADHD/comments/1uoqlq5/))
-- "neither of us has an overview of what's paid, pending, or missing anymore." (same post)
-- "uh, yeah, I have ADHD, letters are useless, they don't have notifications." This came after a $138 bill went to collections and their psychiatrist appointment was cancelled. ([r/ADHD, Oct 2020](https://www.reddit.com/r/ADHD/comments/jk92wi/))
-- "it isn't normal to have multiple tubs, bins, and boxes for your massive unopened mail collection… Then I get sent to collections agencies" ([r/ADHD, Sep 2023](https://www.reddit.com/r/ADHD/comments/16fn758/))
-- "For years I have felt sick, depressed and anxious everytime I get an email or letter from HMRC." ([r/UKPersonalFinance, Nov 2025](https://www.reddit.com/r/UKPersonalFinance/comments/1p5hslw/))
-- "I started to ignore the letters as it was added stress… the debt snowballed" ([r/UKPersonalFinance, May 2026](https://www.reddit.com/r/UKPersonalFinance/comments/1tqvlci/))
-- "my parent has not been opening letters for 10 years, and my sibling is now going through them all." ([r/UKPersonalFinance, Jul 2023](https://www.reddit.com/r/UKPersonalFinance/comments/14v8rjy/))
-- "honestly I ignore most of my paper mail because I do autopay online" (then a $400 doctor's bill went to collections) ([r/personalfinance, Sep 2021](https://www.reddit.com/r/personalfinance/comments/psgne5/))
+### Pain (Reddit, verbatim)
+- **Fear of regain:** "whenever I delay my injection even 4–5 days, my appetite explodes and I feel like I'll gain everything back immediately." ([r/Ozempic, Mar 2026](https://www.reddit.com/r/Ozempic/comments/1rpo3i8/glp1_plateau_and_fear_of_stopping_has_anyone/))
+- **Asking for an app:** "Did anyone do something specific in the transition phase? Supplements, coaching, slow taper? App?" ([r/Ozempic, May 2026](https://www.reddit.com/r/Ozempic/comments/1t7jb0l/am_i_the_only_one_terrified_about_weight/))
+- **Hunger after stopping:** "My hunger seems twice as it was before… It is pretty much uncontrollable in my opinion." ([r/Ozempic, May 2026](https://www.reddit.com/r/Ozempic/comments/1t2rm8r/stopping_ozempic_and_regaining_weight/))
+- **Protein is hard:** "My dietician has me at 1,500 calories and 100 grams of protein as a minimum. Most days it's still hard to hit that" ([r/Zepbound, Aug 2026](https://www.reddit.com/r/Zepbound/comments/1vrx6m7/officially_100pounds_down/))
+- **Under-eating stalls progress:** "I stopped tracking and stalled. Turned out I wasn't eating enough, maybe 1,000 calories a day." (same post)
+- **Plateau:** "I've been on 15mg since 12/2024 and gained and lost the same 7lbs for the last 19 months." ([r/Zepbound, Aug 2026](https://www.reddit.com/r/Zepbound/comments/1w3m9ti/never_surrender_it_took_me_507_days_to_lose_5lbs/))
+- **Muscle matters to users:** "Really proud of the fact I only lost 6lbs of lean muscle mass in the 68 pounds I've lost… prioritize muscle preservation" ([r/WegovyWeightLoss, Jul 2026](https://www.reddit.com/r/WegovyWeightLoss/comments/1utip9n/365_days_and_62lbs_of_fat_later/))
+- **Nausea:** "0.75 made me vomit every time I ate… the first 6 months were hell for me." ([r/Mounjaro, Jan 2026](https://www.reddit.com/r/Mounjaro/comments/1q2amtn/my_weight_loss_journey/))
+- **Design warning:** "Tracking. App'ing, step counting, workout tracking, constantly checking this sub, taking the photos, should I weigh myself today?" ([r/Zepbound, Aug 2026](https://www.reddit.com/r/Zepbound/comments/1vr8mab/food_noise_just_replaced_with_zep_noise/)). Landed must feel *lighter* than tracking.
 
-**Other sources:**
-- "My missed deadlines for student loan payments alone have cost me roughly $50,000." ([ADDitude reader quote](https://www.additudemag.com/adhd-tax-financial-wellness-money-problems/))
-- "My credit has been completely ruined because the bills just go to collections since I never see them… My husband has been handling the mail since 2015." ([fearof.net](https://www.fearof.net/fear-of-letters/))
+### Size and science
+- **12%** of US adults currently take a GLP-1 and **18%** have ever taken one. **14%** of ever-users stopped because of cost and **13%** because of side effects ([KFF, Nov 2025](https://www.kff.org/public-opinion/poll-1-in-8-adults-say-they-are-currently-taking-a-glp-1-drug-for-weight-loss-diabetes-or-another-condition-even-as-half-say-the-drugs-are-difficult-to-afford/)).
+  - *My inference from the same poll:* roughly 6% of US adults are former users, which is the Landing-mode segment.
+- **11%** of US adults take a GLP-1 for weight loss, up from 3% in 2024 ([Gallup, 2026](https://news.gallup.com/poll/712157/glp-usage-reaches-new-high.aspx)).
+- **Daily pills are new:**
+  - Wegovy pill: FDA-approved Dec 22, 2025 ([PR Newswire](https://www.prnewswire.com/news-releases/fda-approves-novo-nordisks-wegovy-pill-the-first-and-only-oral-glp-1-for-weight-loss-in-adults-302648344.html)).
+  - Lilly's Foundayo: approved Apr 1, 2026 ([CNBC](https://www.cnbc.com/2026/04/01/eli-lilly-glp-1-pill-foundayo-approved-for-obesity.html)).
+  - A Glapp review (Jun 2026) complains "there are no options to enter for the pill".
+- **Regain is the norm without a plan.** In the STEP 1 extension, participants regained about **two-thirds** of their weight loss within a year of stopping semaglutide ([Wilding et al., 2022](https://pmc.ncbi.nlm.nih.gov/articles/PMC9542252/)).
+- **Protein:** the RDA is 0.8 g/kg, and 1.2–1.6 g/kg has been proposed for people losing weight on these drugs ([AJCN joint advisory, 2025](https://ajcn.nutrition.org/article/S0002-9165(25)00240-0/fulltext)).
 
-**The pattern:** the fear is the *unknown action or amount* inside the envelope, not laziness. Once mail is opened, a second problem appears: nobody knows what's paid, pending or missing.
+### Competitors and the gap
+- **Ratings** (iTunes API, Oct 18, 2026): Shotsy 4.83 (33.7K ratings), MeAgain 4.79 (37.9K), Glowise 4.78 (6.7K), Pep AI 4.73 (3.9K), Glapp 4.75 (1K).
+- **Shotsy pricing:** $9.99/mo or $39.99/yr, up to $14.99/mo or $59.99/yr ([App Store](https://apps.apple.com/us/app/-/id6499510249)).
+- **Free competition:** Noom's GLP-1 Companion went free on Jun 24, 2026 ([GlobeNewswire](https://www.globenewswire.com/news-release/2026/06/24/3316992/0/en/noom-launches-free-version-of-its-powerful-glp-1-companion-empowering-providers-with-a-research-backed-tool-to-support-weight-loss-that-lasts.html)).
+- **ChatGPT Health** reached all US adults on Jul 23, 2026 ([MacRumors](https://www.macrumors.com/2026/07/23/chatgpt-apple-health-integration/)).
 
-### Size and cost (quantitative)
-- **37%** of US adults paid a late fee in the past 12 months, and **61%** of parents of minors did. NerdWallet survey, Apr 2024, n=2,061 ([CNBC](https://www.cnbc.com/2024/05/30/37percent-of-americans-paid-a-late-fee-in-the-last-12-months-report-finds.html)).
-- **45%** paid a bill late in the past year. Of those, **28% forgot** and 28% mixed up the due date. LendingTree, ~Nov 2024 ([source](https://www.lendingtree.com/debt-consolidation/affording-bills-survey/)).
-- **79%** of people who asked for a late fee to be waived got it waived. LendingTree, late 2025 ([source](https://www.lendingtree.com/debt-consolidation/economic-squeeze-survey/)). **This is the core product mechanic: Opened does the asking.**
-- **6.0%** of US adults (~15.5M) have a current ADHD diagnosis, and 55.9% were diagnosed as adults. CDC MMWR, 2024 ([PMC](https://www.ncbi.nlm.nih.gov/pmc/articles/PMC11466376/)).
-- In the UK, adults with ADHD estimate ADHD costs them about **£1,600 a year**. **49%** have forgotten to pay a bill, vs 18% of neurotypical people. Monzo/YouGov ([Monzo](https://monzo.com/help/your-needs/adhd-support)).
-- Adults with ADHD have **4×+** the rate of overdrafts and arrears. Swedish registry data, *Science Advances*, 2020 ([paper](https://www.science.org/doi/10.1126/sciadv.aba1551)).
-- **~19%** of in-network ACA Marketplace claims were denied in 2024, and **fewer than 1%** were appealed. KFF, Mar 2026 ([KFF](https://www.kff.org/patient-consumer-protections/claims-denials-and-appeals-in-aca-marketplace-plans-in-2024/)). In the 2023 data, 44% of appeals were overturned ([KFF](https://www.kff.org/private-insurance/claims-denials-and-appeals-in-aca-marketplace-plans-in-2023/)).
+**What competitors' reviews complain about (App Store reviews, Sep–Oct 2026)** → **what Landed does instead:**
+- Free features moved behind a paywall ("Bait and Switch") → **"Logging is free forever"**.
+- Billing traps → **plain renewal terms**.
+- No protein calculation ("does not help you calculate… protein needs") → **protein target + photo estimates + "Close the gap"**.
+- No portion amounts → **ranges with honest confidence**.
+- No way to share with a doctor → **clinician report + share link**.
+- No maintenance mode → **Landing mode**.
+- No pill option → **pills are supported from day one**.
 
-### How people solve it today, and the gap
-| Workaround | Why it fails |
-|---|---|
-| A partner opens the mail | Dependence; useless if you live alone. The most common pattern in the evidence. |
-| Autopay | Covers recurring bills only, not fines, tax letters, denials or renewals. It also trains people to ignore paper mail (see the r/personalfinance quote above). |
-| Bins, folders, spreadsheets, "admin day" | Abandoned. "none of this has worked to tame the pile" ([ADDitude](https://www.additudemag.com/adhd-organization-mail-paperwork-clutter/)). |
-| Pasting a letter into ChatGPT | Works once, if you can get yourself to do it. It doesn't track the deadline, nudge you, or keep a paid/pending/done overview. |
-| Rocket Money and bill-negotiation apps | Proof that people pay for help with bills and subscriptions, but they don't read one-off paper letters. |
-| Virtual mailbox and scan services | Digitize the mail without explaining it. |
+**Independent signal:** someone has already put a "Glidepath" GLP-1 *weaning-readiness* intake prototype online ([proof of concept](https://glidepath-intake-poc.vercel.app/)). Others see the off-ramp gap too, which is why I avoided that name.
 
-**The gap:** nothing turns *one-off official paper* into *understanding + action + tracking* in one motion, without a spouse.
+### Why Muse, ChatGPT Health or Noom won't simply absorb it
+They can answer "what should I eat with nausea?" They don't own:
+- the **dose-anchored daily ritual** (shot day, days since dose, pill time)
+- the **longitudinal record** linking dose × food noise × protein × weight
+- a **Landing program** with a defined zone, drift detection and course corrections
+- the **cockpit metaphor** that makes all of this feel lighter than tracking
+
+Be honest about the moat: it's **execution + positioning + distribution**, the same as Shotsy's. The positioning ("built for landing, not just losing") is the part incumbents can't easily copy without repositioning their whole product.
 
 ---
 
-## 4. Why this is a business, not just a demo
+## 4. Business model
 
-- **Core desire:** relief from dread and protection of money, plus feeling like a capable adult again. It's a painkiller with a monthly trigger (the mail keeps coming).
-- **Model:** freemium (3 letters/month free). **Plus at $6.99/mo or $49.99/yr**, as hypotheses to test. AI cost per letter is about **$0.001–0.003** at GLM 5.3 Flash prices, so gross margin is driven by payment fees, not AI.
-- **ROI story the user can feel:** one waived $32 late fee or one avoided £35 → £70 parking escalation pays for months of Plus. The app shows user-confirmed "money protected", never invented savings.
-- **Distribution that fits your skill set:** "Opening my 6-month mail pile with AI" is natively watchable short-form content (an unboxing format with real stakes). It fits TikTok/IG faceless slideshows and UGC around #ADHDtax, then Spark Ads / Meta once a creative wins. Details and unit economics are in [`03-SUBMISSION-KIT.md`](03-SUBMISSION-KIT.md).
-- **Expansion:**
-  - **Family mode** (an adult child handling a parent's mail, a pattern in the evidence above)
-  - **Shared household pile**
-  - Email-forwarding inbox
-  - Native iOS app with push reminders
-  - B2B2C with credit unions or neobanks: Monzo already runs ADHD support pages.
+- **Core desires:**
+  - Looks and identity ("not going back")
+  - Protecting a big investment of money and effort
+  - Control instead of fear
+- **Free forever:** all logging, 3 AI meal estimates per day, flight path, 1 clinician report per month.
+- **Plus at $9.99/mo or $49.99/yr** (a hypothesis to test):
+  - Unlimited photo estimates
+  - "Close the gap" suggestions
+  - Weekly AI flight reports
+  - Landing mode
+  - Share links
+- **Retention thesis:** shot trackers get cancelled when the shots stop. Landing mode is a reason to keep paying at exactly that moment.
+- **Margins:** AI costs are pennies per user per month (see the kit). Payment fees dominate.
+- **Expansion:** native iOS with HealthKit and push reminders, a dietitian and clinic channel built on the clinician report, and employer or health-plan maintenance programs once retention data exists.
 
 ## 5. Risks, and what would change this recommendation
 
-| Risk | Mitigation built into the spec |
+| Risk | Built-in mitigation |
 |---|---|
-| AI misreads a deadline or amount on a legal or medical letter | Every deadline and amount must quote the source text (enforced server-side by substring check), an "unsure about" section, confidence stamps, and a "check the original" disclaimer. |
-| "It's just ChatGPT" | The barrier is avoidance, not intelligence. The product's value is the calm reveal, the one next step, the deadline capture, the tracking and the drafts. |
-| Privacy (people photograph sensitive letters) | OCR runs **on device**, photos are never uploaded, numbers are auto-redacted, and the user approves the text sent. |
-| Legal-advice exposure | Positioned as "explains letters", never as an "AI lawyer". The FTC's 2025 order against DoNotPay's "robot lawyer" claims is the cautionary example. Court and eviction letters route to free legal aid. |
-| Frequency is lower than hoped | Measure "second letter within 30 days". If it's weak, lead with Family mode, or bundle with a bank or credit union. |
-| Unproven direct-to-consumer willingness to pay in this exact niche | **This is the biggest unknown.** I found no public revenue for a direct competitor. Adjacent spend (bill-negotiation apps, virtual mailboxes, ADHD coaching) is real, but that is inference, not proof. Validate before investing past the contest. |
+| **Medical-advice exposure** | Wellness positioning. No dose, taper or stop advice anywhere: filtered in prompts, server functions and QA. A safety page with red-flag symptoms. Decisions are always "with your prescriber". |
+| **Disordered eating** | Protein-first, never calories. No "bad food" language, no resetting streaks, a "hide weight numbers" mode, and a gentle low-intake prompt. |
+| **Health-data privacy** | Meal photos are never stored. No ad pixels (the FTC sued Hims & Hers over exactly this in Jul 2026). Owner-only row-level security, export and delete. |
+| **Crowded category, Noom now free** | Lead with Landing mode and honest pricing, not with "another shot tracker". |
+| **Bad photo estimates** | Honest ranges and confidence, a user-adjustable grams stepper, and "describe it" as a fallback. |
 
-**I'd switch to the trades quote-to-close idea if:**
-- fewer than 3 of 10 interviews (script in the submission kit) report a fee, collection or penalty from unopened mail in the last 6 months, or
-- fewer than 40% of people who start the capture flow reach a verdict.
+**I'd change the recommendation if** interviews (script in the kit) show:
+- fewer than half of GLP-1 users name regain or muscle loss as a top worry, **or**
+- almost nobody has paid for a tracker.
+
+In that case the next pick is the **quit vaping/Zyn** craving-moment app. It has proven money and the least overlap with general agents, but it needs a paid-UGC budget to compete.
