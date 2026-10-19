@@ -22,7 +22,7 @@ cta_variant: "ibs-subtype-log"
 sources:
   - title: "Lacy BE, Pimentel M, Brenner DM, et al. ACG Clinical Guideline: Management of Irritable Bowel Syndrome. Am J Gastroenterol, 2021"
     url: "https://pubmed.ncbi.nlm.nih.gov/33315591/"
-  - title: "Lacy BE, Mearin F, Chang L, et al. Bowel Disorders. Gastroenterology, 2016 (Rome IV)"
+  - title: "Mearin F, Lacy BE, Chang L, et al. Bowel Disorders. Gastroenterology, 2016 (Rome IV)"
     url: "https://pubmed.ncbi.nlm.nih.gov/27144627/"
   - title: "Rome Foundation. Rome IV Criteria"
     url: "https://theromefoundation.org/rome-iv/rome-iv-criteria/"
@@ -179,7 +179,7 @@ Not necessarily. IBS-M describes the pattern, not the severity. Severity depends
 ## Sources
 
 1. Lacy BE, Pimentel M, Brenner DM, et al. ACG Clinical Guideline: Management of Irritable Bowel Syndrome. Am J Gastroenterol. 2021;116(1):17–44. https://pubmed.ncbi.nlm.nih.gov/33315591/
-2. Lacy BE, Mearin F, Chang L, et al. Bowel Disorders. Gastroenterology. 2016 (Rome IV). https://pubmed.ncbi.nlm.nih.gov/27144627/
+2. Mearin F, Lacy BE, Chang L, et al. Bowel Disorders. Gastroenterology. 2016 (Rome IV). https://pubmed.ncbi.nlm.nih.gov/27144627/
 3. Rome Foundation. Rome IV Criteria. https://theromefoundation.org/rome-iv/rome-iv-criteria/
 4. NIDDK. Definition & Facts for Irritable Bowel Syndrome. https://www.niddk.nih.gov/health-information/digestive-diseases/irritable-bowel-syndrome/definition-facts
 5. NIDDK. Diagnosis of Irritable Bowel Syndrome. https://www.niddk.nih.gov/health-information/digestive-diseases/irritable-bowel-syndrome/diagnosis
