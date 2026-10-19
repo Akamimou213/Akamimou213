@@ -1,0 +1,73 @@
+app,rating,theme,quote,date,implication
+mySymptoms,2,insights_fail,"it still hasn’t been able to tell me anything I don’t already know, even after using it every day",2024-07-12,Message 'possible patterns' with confidence + time-window logic; set expectations on how many days of data are needed
+mySymptoms,2,insights_fail,My numbers one trigger is “water” now. Its laughable how bad this is.,2025-01-29,"Correlation engines that flag ubiquitous foods destroy trust; exclude staples, show evidence counts"
+mySymptoms,2,insights_fail,The analysis will basically report that every food is a factor for your symptoms.,2022-01-16,Frequent symptoms (gas) break naive correlation; content explaining delayed/overlapping windows
+mySymptoms,1,logging_friction,This diary wants you to track every second of every day and make you do all the work.,2022-03-02,Photo/text quick-log is the wedge vs ingredient-level diaries
+mySymptoms,3,logging_friction,Logging all the ingredients that you eat every day is a real drag.,2023-11-01,Lead with 'snap a photo' copy
+mySymptoms,2,logging_friction,"Barcode scanner won’t find half the foods, makes pen and paper seem like a better solution.",2023-03-22,Whole-food/home-cooked photo logging beats barcode DBs
+mySymptoms,3,time_to_value,Requires entering a lot of data and food entries to properly notice trends and correlations between symptoms and food. Like Maybe months.,2021-08-17,Show early value (stool/regularity summary) before trigger insights mature
+mySymptoms,1,paywall_transparency,Once they have all your info they tell you it is a two week trial.,2025-03-31,State pricing before signup; trust copy 'no surprise paywall'
+mySymptoms,1,paywall_transparency,as soon as I was finished creating a login it brought me paid subscription page with no option to skip.,2025-08-03,Avoid hard paywall after onboarding; be explicit in App Store listing
+mySymptoms,1,doctor_export,"I have a doctor appointment up coming and wanted to email my results, but the email won’t work.",2024-05-21,Reliable doctor-ready export is a high-stakes moment; blog 'what to bring to your GI'
+mySymptoms,1,doctor_export,"I purchased this app so I could email my symptoms to my nutritionist, but this app function doesn’t work.",2025-09-09,Export = purchase driver
+mySymptoms,2,stool_detail,without options for tracking blood and mucus in stool that is a major hindrance,2025-06-23,Highlight blood/mucus/urgency fields; IBD-adjacent users
+mySymptoms,5,doctor_export_love,This app played a crucial role in being heard by my doctor. It’s hard to ignore symptoms when they are detailed in a report.,2025-11-20,Core JTBD: 'be taken seriously' - use in hero copy
+mySymptoms,5,doctor_export_love,Because of the tracking I can do on this app my son’s doctor was able to find a pattern that led us to diagnosis.,2026-08-17,Caregiver segment (parents)
+mySymptoms,5,doctor_export_love,"When I went to the doctor, I printed my records and felt prepared for the first time.",2025-09-06,Emotional outcome: preparedness
+mySymptoms,5,delayed_reactions,it’s so difficult due to the delayed reaction and volume of food and chemicals I have contact with!,2025-09-18,Delayed-reaction explainer content
+mySymptoms,4,feature_gap_photo,the ability to more quickly enter food or symptoms (e.g. via voice or photos),2025-02-08,Users explicitly ask for photo/voice logging - Get Regular has it
+mySymptoms,5,ai_summary_demand,I will load into AI to create a summary and try to understand the data better.,2026-03-29,Users already DIY AI summaries; native AI summary is a pull
+Cara Care,3,score_transparency,the symptom score makes no sense and there is not even a FAQ to explain how the symptom score is calculated.,2025-12-01,Publish 'How the Gut Score works' page
+Cara Care,3,score_transparency,there’s no transparency about the algorithm that determines the “Symptom Score.”,2024-07-18,Same: explain scores openly; good AI-citation content
+Cara Care,3,insights_fail,it's telling me I'm constipated even though I've visited the toilet six times that day,2017-10-02,Score must reconcile with what user sees; show reasoning
+Cara Care,3,logging_friction,you have to make a new addition for each thing you consume. It makes it incredibly cumbersome,2024-05-14,One photo = whole meal
+Cara Care,2,doctor_export,I just want to be able to download my data onto an excel sheet,2025-07-30,CSV/PDF export
+Cara Care,1,data_loss,My appointment is tomorrow and I have lost all my data for a year.,2022-06-12,Data durability + backup messaging
+Cara Care,1,privacy,A diary app should not require a login just so that the app provider can harvest data,2025-05-05,"Privacy-first copy: what's stored, never sold"
+Cara Care,3,competitor_churn,They also advised that this app is going away soon with no updates available any longer.,2026-07-05,Cara Care users may be looking for alternatives; 'Cara Care alternative' page
+Cara Care,3,doctor_export,"If my doctor asks, “when did this start?” I can’t easily answer that question",2018-04-05,Timeline view / first-occurrence summary
+Cara Care,5,self_advocacy,No doctor has been able to give me this info nor guide me to finding out what’s going on with my body,2025-08-04,Dismissal by doctors drives self-tracking
+Bowelle,3,insights_gap,I expected a bit more ‘intelligence’ from the app.  I was looking for some sort of correlations listed,2026-02-03,Get Regular's AI pattern insight is the differentiator vs Bowelle
+Bowelle,1,insights_gap,it’s impossible to glean any insights from the data.,2026-01-26,
+Bowelle,3,stool_detail,It only shows days with bowel movements and does not show days with no movements.,2026-07-27,Zero-BM days matter for constipation tracking
+Bowelle,3,timeline,BMs and food should be listed all together. This would make it easier to see if what’s eaten is having an effect on BMs,2026-01-05,Unified food+stool timeline
+Bowelle,5,ease_love,Finally something low fiction enough to use every day,2026-07-27,Low friction is the #1 retention driver
+Bowelle,5,doctor_export_love,I absolutely love having the 7-day average for telling my GI at appointments.,2026-05-31,Rolling averages for GI visits
+Bowelle,5,ease_love,It doesn’t feel like a burden and I love the customization,2025-06-04,
+Bowelle,4,ai_summary_demand,I sent 6 weeks of data to ChatGBT to look for patterns,2026-03-10,DIY AI analysis = latent demand
+Balloon,1,clinician_view,"As a gastroenterologist, I was looking for an app I could confidently recommend to my patients",2025-12-09,"Clinician audience wants clean weekly/monthly trends, no upsell noise"
+Balloon,1,paywall_transparency,understand this app is $60 a year and requires a subscription.,2025-07-01,
+Balloon,2,paywall_core,This app paywalls tracking your symptoms.,2025-05-28,Keep core logging free
+Balloon,1,privacy,the privacy policy for the account you have to create is wildly different from the privacy policy presented on the App Store page.,2024-09-28,"Consistent, plain-language privacy page"
+Balloon,3,stool_detail,"the color selection for BMs is very limited, ignoring orange and dark brown.",2025-08-02,
+Balloon,4,self_advocacy,"The doctors tell me just to take laxatives, but I've wanted a real solution to my problems.",2025-04-22,Constipation: dismissal -> self-tracking
+Balloon,5,patterns_love,I’ve noticed patterns I never would have without the app!,2024-09-16,
+plop,1,ads,"there is a very, very, very long ad after every entry you make.",2026-05-15,No-ads positioning
+plop,1,paywall_core,"I have to pay to a monthly subscription fee to ""unlock"" my historical data? No Thanks.",2022-08-30,Never hold history hostage
+plop,2,stool_detail,I can’t even report specifically if there’s blood or pain with my stool.,2023-06-25,
+plop,3,logging_context,"not all people desire to pull out their $1,000 smartphones in the toilet room!",2022-05-07,Watch/widget/after-the-fact logging
+PCal,2,paywall_core,"if you want to see any data (even from the month prior) or even export it to show a doctor, you have to pay",2021-02-07,
+PCal,2,data_loss,It’s bad enough having to stare at my poo without making it pointless to boot.,2021-04-13,Reliability; also shows emotional cost of tracking
+PCal,5,self_advocacy,I'll have impeccable records to prove my intestines are a disaster.,2022-06-06,Records as proof for doctors
+Endive,2,timeline,you can’t track symptoms separate from meals,2021-07-27,Symptoms must be loggable independently of meals
+Happy Poop,5,privacy_photo,I appreciate the ability to add photos and not have them be on my photo album on my phone.,2026-08-13,Stool photos must stay out of camera roll - state it
+Happy Poop,5,doctor_export_love,"It gets all the questions that they ask, how much, texture, what color and the things.",2026-08-06,Map logs to the questions GI doctors ask
+Happy Poop,5,doctor_export_love,I wanted to start tracking  my bowel movements as the doctors always ask about that.,2026-09-15,
+Flush,1,ai_reliability,"App was working and about a week it keeps crashing during analysis, they don’t have anyway to contact them.",2026-07-06,AI stool-photo apps fail on reliability/support
+ZOE,1,ai_accuracy,First meal photo was analyzed WRONG and no way to correct it!,2025-07-14,Always allow editing AI food recognition
+ZOE,1,ai_accuracy,AI food recognition gives different answers on same image.,2026-01-10,
+ZOE,5,photo_love,"Just take a picture of what you are eating, and it is pretty darn accurate.",2025-06-17,Photo logging delights when editable
+Monash FODMAP,1,feature_gap_tracking,"thinking it would help me track what I ate, record how I felt, and assist with the elimination phase. There is nothing interactive here.",2026-10-15,FODMAP users want tracking + reintroduction guidance
+Monash FODMAP,1,data_loss,The diary went back several years. I used it often to go over with my doctor.,2025-12-23,
+Monash FODMAP,3,feature_gap_tracking,I wish there was a better way the app can be used to guide the reintroduction.,2026-04-27,Reintroduction-phase content
+Nerva,2,ai_skepticism,literally no one is asking for ai enhanced anything,2025-10-07,Avoid AI buzzword copy; describe concrete outcomes
+Nerva,2,ai_skepticism,The only “AI powered customization” is you click on which symptom you are most worried about,2026-09-25,
+Bearable,1,privacy,Silly app makes you sign up to even try to use the app.,2023-05-10,
+Bearable,5,patterns_love,"After tracking signs and symptoms for two months, I finally found what was wrong",2024-03-07,Typical time-to-insight ~weeks to months
+Get Regular,5,validation,it really showed me that my symptoms aren’t normal and i can actually see a doctor about this without thinking im crazy.,2026-10-13,Core GR emotional benefit: validation -> doctor
+Get Regular,5,feature_request,i wish the was a setting or option for it to log that i didn’t go,2026-10-13,Add 'no BM today' quick log / reminder
+Get Regular,5,ease_love,"As someone who usually gets overwhelmed by tracking, this app has made it simple and straightforward.",2026-02-20,
+Get Regular,5,photo_love,"being able to snap pictures of my food and stool, and have the app handle the rest.",2026-02-20,Photo logging is GR's most-praised feature
+Get Regular,5,ease_love,it actually makes tracking feel easy instead of overwhelming.,2026-02-23,
+Get Regular,5,control,I feel so much more in control about my diet and what I’m putting into my body.,2026-09-17,
+Get Regular,4,feature_request,It just needs an option to edit our entries on things.,2026-04-28,Editability (also key for AI trust)

@@ -35,10 +35,11 @@ primary_keyword: "bristol stool chart types"
 secondary_keywords: ["poop types", "stool consistency chart", "type 4 poop"]
 search_intent: "informational"               # informational | commercial | transactional | navigational
 funnel: "TOFU"                                # TOFU | MOFU | BOFU
-pillar: "/tools/bristol-stool-chart"          # the pillar/product page this article supports
-internal_links: ["/poop-tracker", "/learn/how-often-should-you-poop"]   # URLs actually linked in body
+pillar: "/resources/bristol-stool-chart"      # the pillar page this article supports (see keywords/keyword-strategy.md §4)
+product_page: "/poop-tracker"                  # the BOFU product page linked from the tracking section
+internal_links: ["/resources/bristol-stool-chart", "/poop-tracker", "/blog/how-often-should-you-poop"]   # every internal URL linked in body; blogs live at /blog/<slug>
 author: "Get Regular Editorial Team"          # replace with a real named author before publish
-medical_reviewer: "PENDING"                   # MUST be a real qualified reviewer before publish
+medical_reviewer: "PENDING"                   # MUST be a real qualified reviewer before publish (candidate: clinical advisor Michael Schopis, MD — only if he actually reviews it)
 review_status: "draft-needs-medical-review"
 date_published: null                          # set at publish
 date_updated: null
@@ -46,7 +47,10 @@ reading_time_min: 8
 schema_type: "BlogPosting"                    # BlogPosting | HowTo-style article (still BlogPosting) | CollectionPage
 og_image_brief: "Clean illustrated 7-type Bristol chart in brand palette"
 cta_variant: "bristol-log"                    # used by Codex to pick the App Store campaign link (ct= value)
-sources_count: 6
+sources:                                      # same list as the Sources section; Codex maps this to PostMeta.sources
+  - title: "Lewis SJ, Heaton KW. Stool form scale as a useful guide to intestinal transit time. Scand J Gastroenterol 1997"
+    url: "https://pubmed.ncbi.nlm.nih.gov/9299672/"
+feature_dependencies: []                      # app features this article claims that are still UNVERIFIED in the fact sheet (publish gate)
 ---
 ```
 

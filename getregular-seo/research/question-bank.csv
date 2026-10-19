@@ -1,0 +1,272 @@
+question,cluster,source_type,source_url_or_query,intent,notes
+what does a healthy bowel movement look like,stool_bristol_tracking,autocomplete,Google autocomplete (US) seed query: 'why do i bowel movement',informational,baseline 'what's normal' intent; pair with Bristol visual
+what does a normal bowel movement look like,stool_bristol_tracking,autocomplete,Google autocomplete (US) seed query: 'why do i bowel movement',informational,
+how do i know my poop is healthy,stool_bristol_tracking,autocomplete,Google autocomplete (US) seed query: 'how do i know poop',informational,reassurance-seeking
+how do i know if my bowel movements are normal,stool_bristol_tracking,autocomplete,Google autocomplete (US) seed query: 'how do i know bowel movement',informational,
+how many bowel movements a day is normal,stool_bristol_tracking,autocomplete,Google autocomplete (US) seed query: 'how to bowel movement',informational,frequency norms (3/day to 3/week)
+how many times should you poop a day,stool_bristol_tracking,autocomplete,Google autocomplete (US) seed query: 'how many times should you poop',informational,
+how many times should you poop a week,stool_bristol_tracking,autocomplete,Google autocomplete (US) seed query: 'how many times should you poop',informational,
+how often is too much pooping,stool_bristol_tracking,autocomplete,Google autocomplete (US) seed query: 'how often how many times should you poop',informational,
+is it normal pooping 3 times a day,stool_bristol_tracking,autocomplete,Google autocomplete (US) seed query: 'is it normal poop',informational,
+is it normal to have bowel movement every other day,stool_bristol_tracking,autocomplete,Google autocomplete (US) seed query: 'is it normal bowel movement',informational,
+is it normal to have bowel movement once a week,stool_bristol_tracking,autocomplete,Google autocomplete (US) seed query: 'is it normal bowel movement',informational,borders constipation
+how long between bowel movements before concern,stool_bristol_tracking,autocomplete,Google autocomplete (US) seed query: 'when to bowel movement',informational,red-flag threshold intent
+should i poop everyday,stool_bristol_tracking,autocomplete,Google autocomplete (US) seed query: 'should i poop',informational,
+what is bristol stool chart,stool_bristol_tracking,autocomplete,Google autocomplete (US) seed query: 'why do i bristol stool',informational,definitional; Bristol hub page
+how to read bristol stool chart,stool_bristol_tracking,autocomplete,Google autocomplete (US) seed query: 'how to bristol stool',informational,how-to; tracking angle
+how to use bristol stool chart,stool_bristol_tracking,autocomplete,Google autocomplete (US) seed query: 'how to bristol stool',informational,
+what does bristol stool type 6 mean,stool_bristol_tracking,autocomplete,Google autocomplete (US) seed query: 'what does bristol stool',informational,type-level pages
+what does bristol stool type 5 mean,stool_bristol_tracking,autocomplete,Google autocomplete (US) seed query: 'what does bristol stool',informational,
+what causes bristol stool type 1,stool_bristol_tracking,autocomplete,Google autocomplete (US) seed query: 'what causes bristol stool',informational,
+how to get bristol stool type 4,stool_bristol_tracking,autocomplete,Google autocomplete (US) seed query: 'how to bristol stool',informational,goal-state language: 'type 4'
+bristol stool 5 vs 6,stool_bristol_tracking,autocomplete,Google autocomplete (US) seed query: 'bristol stool vs',informational,comparison
+bristol stool chart normal vs abnormal,stool_bristol_tracking,autocomplete,Google autocomplete (US) seed query: 'bristol stool vs',informational,
+why is my poop green,stool_bristol_tracking,autocomplete,Google autocomplete (US) seed query: 'why is my poop',informational,color cluster - high volume
+why is my poop yellow,stool_bristol_tracking,autocomplete,Google autocomplete (US) seed query: 'why is my poop',informational,
+why is my poop black,stool_bristol_tracking,autocomplete,Google autocomplete (US) seed query: 'why is my poop',informational,red-flag adjacent
+why is my poop floating,stool_bristol_tracking,autocomplete,Google autocomplete (US) seed query: 'why is my poop',informational,
+what does poop color mean,stool_bristol_tracking,autocomplete,Google autocomplete (US) seed query: 'what does poop',informational,
+when to worry about poop color,stool_bristol_tracking,autocomplete,Google autocomplete (US) seed query: 'when to poop color',informational,red-flag intent
+should i be worried about light colored poop,stool_bristol_tracking,autocomplete,Google autocomplete (US) seed query: 'should i poop color',informational,
+is it normal for stool to have mucus,stool_bristol_tracking,autocomplete,Google autocomplete (US) seed query: 'is it normal stool',informational,
+what does mucus in stool mean,stool_bristol_tracking,autocomplete,Google autocomplete (US) seed query: 'what does mucus in stool',informational,
+when to worry about mucus in stool,stool_bristol_tracking,autocomplete,Google autocomplete (US) seed query: 'when to mucus in stool',informational,
+does mucus in stool mean ibs,stool_bristol_tracking,autocomplete,Google autocomplete (US) seed query: 'does mucus in stool',informational,bridges to IBS
+how much mucus in stool is normal,stool_bristol_tracking,autocomplete,Google autocomplete (US) seed query: 'how often mucus in stool',informational,also appears with 'reddit' modifier
+why is my poop consistency always different,stool_bristol_tracking,autocomplete,Google autocomplete (US) seed query: 'why is my stool consistency',informational,variability = IBS signal
+is it normal for stool consistency to change daily,stool_bristol_tracking,autocomplete,Google autocomplete (US) seed query: 'is it normal stool consistency',informational,
+why have my bowel habits changed,stool_bristol_tracking,autocomplete,Google autocomplete (US) seed query: 'why do i bowel habits',informational,
+what is considered a change in bowel habits,stool_bristol_tracking,autocomplete,Google autocomplete (US) seed query: 'is it normal bowel habits',informational,doctor-threshold language
+is there an app to track bowel movements,stool_bristol_tracking,autocomplete,Google autocomplete (US) seed query: 'stool best app',commercial,direct app intent
+how to chart bowel movement,stool_bristol_tracking,autocomplete,Google autocomplete (US) seed query: 'how to bowel movement',informational,tracking how-to
+why do i still need to poop after pooping,stool_bristol_tracking,autocomplete,Google autocomplete (US) seed query: 'should i bowel movement',informational,incomplete evacuation
+what causes bowel movements to be skinny,stool_bristol_tracking,autocomplete,Google autocomplete (US) seed query: 'what causes bowel movement',informational,anxiety-driven
+how to identify food triggers,food_symptom_diary_triggers,autocomplete,Google autocomplete (US) seed query: 'how do i know food triggers',informational,core tracking how-to
+how to find trigger foods,food_symptom_diary_triggers,autocomplete,Google autocomplete (US) seed query: 'how do i know trigger foods',informational,
+what are trigger foods for ibs,food_symptom_diary_triggers,autocomplete,Google autocomplete (US) seed query: 'what does trigger foods',informational,
+how do i know what food causes diarrhea,food_symptom_diary_triggers,autocomplete,Google autocomplete (US) seed query: 'how do i know food triggers',informational,attribution problem
+should i keep a food diary,food_symptom_diary_triggers,autocomplete,Google autocomplete (US) seed query: 'should i food diary',informational,
+does a food diary help,food_symptom_diary_triggers,autocomplete,Google autocomplete (US) seed query: 'does food diary',informational,skepticism
+why keep a food diary,food_symptom_diary_triggers,autocomplete,Google autocomplete (US) seed query: 'why do i food diary',informational,
+how to write food diary,food_symptom_diary_triggers,autocomplete,Google autocomplete (US) seed query: 'how to food diary',informational,
+what does a food diary look like,food_symptom_diary_triggers,autocomplete,Google autocomplete (US) seed query: 'why do i food diary',informational,template intent
+how long for food intolerance symptoms to start,food_symptom_diary_triggers,autocomplete,Google autocomplete (US) seed query: 'how often food intolerance',informational,delayed-reaction window - key differentiator content
+how long does food intolerance take to kick in,food_symptom_diary_triggers,autocomplete,Google autocomplete (US) seed query: 'how often food intolerance',informational,
+what does food intolerance feel like,food_symptom_diary_triggers,autocomplete,Google autocomplete (US) seed query: 'what does food intolerance',informational,
+what does food intolerance poop look like,food_symptom_diary_triggers,autocomplete,Google autocomplete (US) seed query: 'what does food intolerance',informational,
+can food intolerance develop suddenly,food_symptom_diary_triggers,autocomplete,Google autocomplete (US) seed query: 'should i food intolerance',informational,
+why do i keep developing food intolerances,food_symptom_diary_triggers,autocomplete,Google autocomplete (US) seed query: 'why do i food intolerance',informational,
+does food intolerance test work,food_symptom_diary_triggers,autocomplete,Google autocomplete (US) seed query: 'does food intolerance',informational,IgG test skepticism
+food intolerance vs allergy,food_symptom_diary_triggers,autocomplete,Google autocomplete (US) seed query: 'food intolerance',informational,
+food intolerance vs ibs,food_symptom_diary_triggers,autocomplete,Google autocomplete (US) seed query: 'food intolerance vs',informational,
+does food intolerance cause bloating,food_symptom_diary_triggers,autocomplete,Google autocomplete (US) seed query: 'does food intolerance',informational,
+does food intolerance cause constipation,food_symptom_diary_triggers,autocomplete,Google autocomplete (US) seed query: 'does food intolerance',informational,
+why is my lactose intolerance inconsistent,food_symptom_diary_triggers,autocomplete,Google autocomplete (US) seed query: 'why is my food intolerance',informational,dose-dependence
+best food diary app for tracking symptoms,food_symptom_diary_triggers,autocomplete,Google autocomplete (US) seed query: 'food diary best app',commercial,
+food log and symptoms app,food_symptom_diary_triggers,autocomplete,Google autocomplete (US) seed query: 'food log vs',commercial,
+app to track food intolerance,food_symptom_diary_triggers,autocomplete,Google autocomplete (US) seed query: 'food intolerance best app',commercial,
+best food intolerance tracking app,food_symptom_diary_triggers,autocomplete,Google autocomplete (US) seed query: 'food intolerance best app',commercial,
+app to track food and bowel movements,food_symptom_diary_triggers,autocomplete,Google autocomplete (US) seed query: 'bowel movement best app',commercial,exact Get Regular JTBD
+why do i have ibs all of a sudden,ibs,autocomplete,Google autocomplete (US) seed query: 'why do i ibs',informational,
+why is my ibs flaring up,ibs,autocomplete,Google autocomplete (US) seed query: 'why is my ibs',informational,
+why does my ibs flare up randomly,ibs,autocomplete,Google autocomplete (US) seed query: 'why is my ibs flare',informational,'randomly' = no visible pattern -> tracking pitch
+how long ibs flare up last,ibs,autocomplete,Google autocomplete (US) seed query: 'how often ibs',informational,
+how to calm ibs flare up,ibs,autocomplete,Google autocomplete (US) seed query: 'how to ibs flare',informational,
+what to do when ibs flares up,ibs,autocomplete,Google autocomplete (US) seed query: 'when to ibs flare',informational,
+should i eat during ibs flare up,ibs,autocomplete,Google autocomplete (US) seed query: 'should i ibs flare',informational,
+what does ibs flare up pain feel like,ibs,autocomplete,Google autocomplete (US) seed query: 'what does ibs flare',informational,
+is it normal to have ibs symptoms everyday,ibs,autocomplete,Google autocomplete (US) seed query: 'is it normal ibs',informational,
+can you have normal poop with ibs,ibs,autocomplete,Google autocomplete (US) seed query: 'is it normal ibs',informational,
+what does ibs stool look like,ibs,autocomplete,Google autocomplete (US) seed query: 'what does ibs',informational,
+how do i know i have ibs and not something else,ibs,autocomplete,Google autocomplete (US) seed query: 'how do i know ibs',informational,diagnostic anxiety
+how is ibs detected,ibs,autocomplete,Google autocomplete (US) seed query: 'how do i know ibs app',informational,
+ibs vs ibd,ibs,autocomplete,Google autocomplete (US) seed query: 'ibs vs',informational,
+ibs vs colon cancer,ibs,autocomplete,Google autocomplete (US) seed query: 'ibs vs',informational,fear-driven
+ibs vs sibo,ibs,autocomplete,Google autocomplete (US) seed query: 'ibs vs',informational,
+ibs flare up vs food poisoning,ibs,autocomplete,Google autocomplete (US) seed query: 'ibs flare vs',informational,
+how do i know i have sibo or ibs,ibs,autocomplete,Google autocomplete (US) seed query: 'how do i know sibo',informational,
+does low fodmap work,ibs,autocomplete,Google autocomplete (US) seed query: 'does low fodmap',informational,
+how long is low fodmap elimination phase,ibs,autocomplete,Google autocomplete (US) seed query: 'how often low fodmap',informational,
+can low fodmap make ibs worse,ibs,autocomplete,Google autocomplete (US) seed query: 'can low fodmap',informational,
+why is my ibs worse at night,ibs,autocomplete,Google autocomplete (US) seed query: 'why is my ibs',informational,
+can anxiety affect bowel habits,ibs,autocomplete,Google autocomplete (US) seed query: 'does bowel habits',informational,gut-brain
+best ibs app reddit,ibs,autocomplete,Google autocomplete (US) seed query: 'ibs best app',commercial,users want peer-vetted app picks
+best ibs tracking app,ibs,autocomplete,Google autocomplete (US) seed query: 'ibs best app',commercial,
+best low fodmap app reddit,ibs,autocomplete,Google autocomplete (US) seed query: 'low fodmap best app',commercial,
+why am i bloated after eating,bloating_gas,autocomplete,Google autocomplete (US) seed query: 'why do i bloated after eating',informational,head term
+why am i bloating after every meal,bloating_gas,autocomplete,Google autocomplete (US) seed query: 'why do i bloating',informational,
+why do i bloat so easily,bloating_gas,autocomplete,Google autocomplete (US) seed query: 'why do i bloating',informational,
+is it normal to bloat after eating every time,bloating_gas,autocomplete,Google autocomplete (US) seed query: 'is it normal bloated after eating',informational,
+how long should you be bloated after eating,bloating_gas,autocomplete,Google autocomplete (US) seed query: 'how often bloated after eating',informational,
+how long does bloating after eating last,bloating_gas,autocomplete,Google autocomplete (US) seed query: 'how often bloated after eating',informational,
+what causes bloating after eating,bloating_gas,autocomplete,Google autocomplete (US) seed query: 'what causes bloating',informational,
+why is my bloating worse in the morning,bloating_gas,autocomplete,Google autocomplete (US) seed query: 'why is my bloating',informational,
+is bloating after eating ibs,bloating_gas,autocomplete,Google autocomplete (US) seed query: 'does bloated after eating',informational,
+how do i know if my bloating is normal,bloating_gas,autocomplete,Google autocomplete (US) seed query: 'how do i know bloating',informational,
+should i see doctor for bloating,bloating_gas,autocomplete,Google autocomplete (US) seed query: 'should i bloating',informational,escalation
+bloating vs fat,bloating_gas,autocomplete,Google autocomplete (US) seed query: 'bloating vs',informational,body-image driver
+bloating vs distension,bloating_gas,autocomplete,Google autocomplete (US) seed query: 'bloating vs',informational,
+bloating vs gas,bloating_gas,autocomplete,Google autocomplete (US) seed query: 'bloating vs',informational,
+how much bloating is normal,bloating_gas,autocomplete,Google autocomplete (US) seed query: 'how often bloating',informational,
+why do i bloat after eating bread,bloating_gas,autocomplete,Google autocomplete (US) seed query: 'why do i bloated after eating',informational,
+does fiber make you bloated,bloating_gas,autocomplete,Google autocomplete (US) seed query: 'does fiber',informational,
+can fiber make you gassy,bloating_gas,autocomplete,Google autocomplete (US) seed query: 'can fiber',informational,
+what causes gas in the stomach,bloating_gas,autocomplete,Google autocomplete (US) seed query: 'what causes gas',informational,
+why is my food causing gas,bloating_gas,autocomplete,Google autocomplete (US) seed query: 'why is my trigger foods',informational,
+is it normal to be gassy at night,bloating_gas,autocomplete,Google autocomplete (US) seed query: 'is it normal gas',informational,
+can gas cause back pain,bloating_gas,autocomplete,Google autocomplete (US) seed query: 'can gas',informational,
+is bloating bad gut health,bloating_gas,autocomplete,Google autocomplete (US) seed query: 'is it normal gut health',informational,
+how long constipation before doctor,constipation_regularity,autocomplete,Google autocomplete (US) seed query: 'how often constipation',informational,red-flag threshold
+how do i know if constipation is serious,constipation_regularity,autocomplete,Google autocomplete (US) seed query: 'how do i know constipation',informational,
+how do i know constipation is over,constipation_regularity,autocomplete,Google autocomplete (US) seed query: 'how do i know constipation',informational,
+can i have bowel movements and still be constipated,constipation_regularity,autocomplete,Google autocomplete (US) seed query: 'should i bowel movement',informational,definition confusion
+why do i go from constipation to diarrhea,constipation_regularity,autocomplete,Google autocomplete (US) seed query: 'why do i constipation',informational,IBS-M signal
+is it normal for constipation to turn into diarrhea,constipation_regularity,autocomplete,Google autocomplete (US) seed query: 'is it normal constipation',informational,
+does constipation cause bloating,constipation_regularity,autocomplete,Google autocomplete (US) seed query: 'does constipation',informational,
+does constipation make you tired,constipation_regularity,autocomplete,Google autocomplete (US) seed query: 'does constipation',informational,
+should i take fiber if im constipated,constipation_regularity,autocomplete,Google autocomplete (US) seed query: 'should i fiber',informational,
+should i take stool softener or laxative,constipation_regularity,autocomplete,Google autocomplete (US) seed query: 'should i stool',informational,
+how to get regular bowel movements,constipation_regularity,autocomplete,Google autocomplete (US) seed query: 'how to bowel movement',informational,brand-aligned 'regular' language
+how to poop when constipated,constipation_regularity,autocomplete,Google autocomplete (US) seed query: 'how to poop',informational,
+why is my constipation lasting so long,constipation_regularity,autocomplete,Google autocomplete (US) seed query: 'why is my constipation',informational,
+constipation vs fecal impaction,constipation_regularity,autocomplete,Google autocomplete (US) seed query: 'constipation vs',informational,
+does low fodmap help with constipation,constipation_regularity,autocomplete,Google autocomplete (US) seed query: 'does low fodmap',informational,
+how do i know if im pooping enough,constipation_regularity,autocomplete,Google autocomplete (US) seed query: 'how do i know poop',informational,
+best constipation app,constipation_regularity,autocomplete,Google autocomplete (US) seed query: 'constipation best app',commercial,
+how often poop on wegovy,constipation_regularity,autocomplete,Google autocomplete (US) seed query: 'how often poop',informational,emerging GLP-1 segment
+how often bowel movement on zepbound,constipation_regularity,autocomplete,Google autocomplete (US) seed query: 'how often bowel movement',informational,emerging GLP-1 segment
+how often poop on glp 1,constipation_regularity,autocomplete,Google autocomplete (US) seed query: 'how often poop',informational,emerging GLP-1 segment
+why do i poop right after i eat,diarrhea,autocomplete,Google autocomplete (US) seed query: 'why do i poop',informational,high-volume; gastrocolic reflex
+why do i poop after every meal,diarrhea,autocomplete,Google autocomplete (US) seed query: 'why do i poop',informational,
+is it normal poop after every meal,diarrhea,autocomplete,Google autocomplete (US) seed query: 'is it normal poop',informational,
+is it normal to have diarrhea after eating,diarrhea,autocomplete,Google autocomplete (US) seed query: 'how to diarrhea after eating',informational,
+why do i have diarrhea every day after i eat,diarrhea,autocomplete,Google autocomplete (US) seed query: 'how often diarrhea after eating',informational,
+what does it mean if every time i eat i have diarrhea,diarrhea,autocomplete,Google autocomplete (US) seed query: 'should i diarrhea after eating',informational,
+what causes diarrhea after eating fatty foods,diarrhea,autocomplete,Google autocomplete (US) seed query: 'what causes diarrhea after eating',informational,
+why do i get diarrhea after eating salad,diarrhea,autocomplete,Google autocomplete (US) seed query: 'why do i diarrhea after eating',informational,
+does diarrhea after eating mean food poisoning,diarrhea,autocomplete,Google autocomplete (US) seed query: 'does diarrhea after eating',informational,
+how fast diarrhea after eating,diarrhea,autocomplete,Google autocomplete (US) seed query: 'how to diarrhea after eating',informational,timing window
+how do i know it's diarrhea,diarrhea,autocomplete,Google autocomplete (US) seed query: 'how do i know stool',informational,definition confusion
+what causes bowel movements right after eating,diarrhea,autocomplete,Google autocomplete (US) seed query: 'what causes bowel movement',informational,
+why do i poop so much in the morning,diarrhea,autocomplete,Google autocomplete (US) seed query: 'why do i poop',informational,
+why is my stool loose,diarrhea,autocomplete,Google autocomplete (US) seed query: 'why is my stool',informational,
+can fiber help with diarrhea,diarrhea,autocomplete,Google autocomplete (US) seed query: 'can fiber',informational,
+is it normal to have diarrhea after eating dairy,diarrhea,autocomplete,Google autocomplete (US) seed query: 'is it normal diarrhea after eating',informational,
+what to expect at gastroenterologist appointment,doctor_gi_prep,autocomplete,Google autocomplete (US) seed query: 'why do i gastroenterologist appointment',informational,
+how to prepare for gi appointment,doctor_gi_prep,autocomplete,Google autocomplete (US) seed query: 'how to gastroenterologist appointment',informational,prime Get Regular content: what to log + export
+what does a gi appointment consist of,doctor_gi_prep,autocomplete,Google autocomplete (US) seed query: 'why do i gastroenterologist appointment',informational,
+should i eat before my gastroenterologist appointment,doctor_gi_prep,autocomplete,Google autocomplete (US) seed query: 'should i gastroenterologist appointment',informational,
+how often should you see your gastroenterologist,doctor_gi_prep,autocomplete,Google autocomplete (US) seed query: 'how often gastroenterologist appointment',informational,
+what does stool calprotectin test for,doctor_gi_prep,autocomplete,Google autocomplete (US) seed query: 'what does stool',informational,
+what does stool sample test for,doctor_gi_prep,autocomplete,Google autocomplete (US) seed query: 'what does stool',informational,
+can stool sample detect cancer,doctor_gi_prep,autocomplete,Google autocomplete (US) seed query: 'can stool',informational,
+what does stool look like with colon cancer,doctor_gi_prep,autocomplete,Google autocomplete (US) seed query: 'what does stool',informational,fear-driven
+when to poop after colonoscopy,doctor_gi_prep,autocomplete,Google autocomplete (US) seed query: 'when to poop',informational,
+best poop tracker app,app_selection_friction,autocomplete,Google autocomplete (US) seed query: 'poop tracker best app',commercial,
+best poop tracker app reddit,app_selection_friction,autocomplete,Google autocomplete (US) seed query: 'poop best app',commercial,peer validation
+best poop tracker app free,app_selection_friction,autocomplete,Google autocomplete (US) seed query: 'poop best app',commercial,price sensitivity
+best poop tracker app with friends,app_selection_friction,autocomplete,Google autocomplete (US) seed query: 'poop best app',commercial,social/fun segment
+poop tracker widget,app_selection_friction,autocomplete,Google autocomplete (US) seed query: 'poop tracker',commercial,
+best bowel movement tracker app,app_selection_friction,autocomplete,Google autocomplete (US) seed query: 'bowel movement best app',commercial,
+best free bowel movement tracker app,app_selection_friction,autocomplete,Google autocomplete (US) seed query: 'bowel movement best app',commercial,
+best ibs tracker app uk,app_selection_friction,autocomplete,Google autocomplete (US) seed query: 'ibs best app',commercial,
+best ibs diary app,app_selection_friction,autocomplete,Google autocomplete (US) seed query: 'ibs best app',commercial,
+best gut health tracking app,app_selection_friction,autocomplete,Google autocomplete (US) seed query: 'gut health best app',commercial,
+best symptom tracker app for chronic illness,app_selection_friction,autocomplete,Google autocomplete (US) seed query: 'symptom tracker best app',commercial,
+food diary app free,app_selection_friction,autocomplete,Google autocomplete (US) seed query: 'food diary',commercial,
+best food diary app reddit,app_selection_friction,autocomplete,Google autocomplete (US) seed query: 'food diary best app',commercial,
+how to log poop,app_selection_friction,autocomplete,Google autocomplete (US) seed query: 'how to poop tracker',informational,
+what is symptom tracking,app_selection_friction,autocomplete,Google autocomplete (US) seed query: 'what does symptom tracker',informational,
+best stool tracking apps,app_selection_friction,autocomplete,Google autocomplete (US) seed query: 'stool best app',commercial,
+best low fodmap scanner app,app_selection_friction,autocomplete,Google autocomplete (US) seed query: 'low fodmap best app',commercial,
+can your poop be traced back to you,privacy_ai_trust,autocomplete,Google autocomplete (US) seed query: 'what does poop tracker',informational,literal privacy anxiety around poop data
+why is my health app not accurate,privacy_ai_trust,autocomplete,Google autocomplete (US) seed query: 'why is my gut health app',informational,accuracy distrust
+are gut health tests worth it,privacy_ai_trust,autocomplete,Google autocomplete (US) seed query: 'should i gut health app',informational,skepticism of gut-health products
+what does a gut health test show,privacy_ai_trust,autocomplete,Google autocomplete (US) seed query: 'why do i gut health',informational,
+how do i know my gut health is bad,gut_health_general,autocomplete,Google autocomplete (US) seed query: 'how do i know gut health',informational,
+how do i know if my gut health is improving,gut_health_general,autocomplete,Google autocomplete (US) seed query: 'how do i know gut health',informational,progress-tracking intent
+how long does it take for gut health to improve,gut_health_general,autocomplete,Google autocomplete (US) seed query: 'when to gut health',informational,
+why is my gut health suddenly bad,gut_health_general,autocomplete,Google autocomplete (US) seed query: 'why is my gut health',informational,
+can bad gut health cause anxiety,gut_health_general,autocomplete,Google autocomplete (US) seed query: 'is it normal gut health',informational,
+how to get good gut health naturally,gut_health_general,autocomplete,Google autocomplete (US) seed query: 'how to gut health',informational,
+what does gut health affect,gut_health_general,autocomplete,Google autocomplete (US) seed query: 'what does gut health',informational,
+how long for gut health to return after antibiotics,gut_health_general,autocomplete,Google autocomplete (US) seed query: 'how often gut health',informational,
+is my gut healthy,gut_health_general,autocomplete,Google autocomplete (US) seed query: 'why is my gut health',informational,
+Where on the Bristol stool chart does your IBS sit?,stool_bristol_tracking,forum,https://community.patient.info/t/where-on-the-bristol-stool-chart-does-your-ibs-sit/401265,informational,"patient.info thread title, created 2015-04-25"
+Is it normal to poop once in everyday ?,stool_bristol_tracking,forum,https://community.patient.info/t/is-it-normal-to-poop-once-in-everyday/743549,informational,"patient.info thread title, created 2020-08-02"
+Poops starting big then getting smaller?,stool_bristol_tracking,forum,https://community.patient.info/t/poops-starting-big-then-getting-smaller/684750,informational,"patient.info thread title, created 2018-11-06"
+How do you bulk out your poop?,stool_bristol_tracking,forum,https://community.patient.info/t/how-do-you-bulk-out-your-poop/636584,informational,"patient.info thread title, created 2018-02-07"
+"Floating stool for 2 weeks, should I be concerned?",stool_bristol_tracking,forum,https://community.patient.info/t/floating-stool-for-2-weeks-should-i-be-concerned/753793,informational,"patient.info thread title, created 2021-01-19"
+Constant floating stools with IBS??Anyone shed any light?,stool_bristol_tracking,forum,https://community.patient.info/t/constant-floating-stools-with-ibs-anyone-shed-any-light/804550,informational,"patient.info thread title, created 2023-10-05"
+Clear mucus in stool?,stool_bristol_tracking,forum,https://community.patient.info/t/clear-mucus-in-stool/601894,informational,"patient.info thread title, created 2017-07-19"
+Has anyone had green stools before with IBS?,stool_bristol_tracking,forum,https://community.patient.info/t/has-anyone-had-green-stools-before-with-ibs/742853,informational,"patient.info thread title, created 2020-07-24"
+Stool starts OK but then goes mushy?,stool_bristol_tracking,forum,https://community.patient.info/t/stool-starts-ok-but-then-goes-mushy/562862,informational,"patient.info thread title, created 2017-02-03"
+Is ibs constant small or flat stools daily?,stool_bristol_tracking,forum,https://community.patient.info/t/is-ibs-constant-small-or-flat-stools-daily/604477,informational,"patient.info thread title, created 2017-08-03"
+Tips for bulking up stool?,stool_bristol_tracking,forum,https://community.patient.info/t/tips-for-bulking-up-stool/600208,informational,"patient.info thread title, created 2017-07-09"
+What do you do to track symptoms/causes? Do you use a diary?,food_symptom_diary_triggers,forum,https://community.patient.info/t/what-do-you-do-to-track-symptoms-causes-do-you-use-a-diary/618897,informational,"patient.info thread title, created 2017-10-30"
+How to identify potential trigger foods,food_symptom_diary_triggers,forum,https://community.patient.info/t/how-to-identify-potential-trigger-foods/529540,informational,"patient.info thread title, created 2016-08-16"
+HElp with food diary,food_symptom_diary_triggers,forum,https://community.patient.info/t/help-with-food-diary/542449,informational,"patient.info thread title, created 2016-10-18"
+going to gp tomo armed with food and symptom diary- IBS?,food_symptom_diary_triggers,forum,https://community.patient.info/t/going-to-gp-tomo-armed-with-food-and-symptom-diary-ibs/21006,informational,"patient.info thread title, created 2008-11-21"
+What foods are safe for IBS,food_symptom_diary_triggers,forum,https://community.patient.info/t/what-foods-are-safe-for-ibs/679800,informational,"patient.info thread title, created 2018-09-26"
+Your food intolerance symptoms?,food_symptom_diary_triggers,forum,https://community.patient.info/t/your-food-intolerance-symptoms/296961,informational,"patient.info thread title, created 2014-09-30"
+"Some ground meat causing IBS flare up, others not--why?",food_symptom_diary_triggers,forum,https://community.patient.info/t/some-ground-meat-causing-ibs-flare-up-others-not-why/495156,informational,"patient.info thread title, created 2016-01-27"
+I'm assuming this is lactose intolerance?,food_symptom_diary_triggers,forum,https://community.patient.info/t/im-assuming-this-is-lactose-intolerance/725867,informational,"patient.info thread title, created 2020-01-22"
+Help Needed / Get bad stomach Pains 16-20hrs after some Meals,food_symptom_diary_triggers,forum,https://community.patient.info/t/help-needed-get-bad-stomach-pains-16-20hrs-after-some-meals/543952,informational,"patient.info thread title, created 2016-10-26"
+Uncomfortable feeling in lower abdomen,food_symptom_diary_triggers,forum,https://community.patient.info/t/uncomfortable-feeling-in-lower-abdomen/678651,informational,"patient.info thread title, created 2018-09-18"
+IBS flare up constant.  Anyone else?,ibs,forum,https://community.patient.info/t/ibs-flare-up-constant-anyone-else/374326,informational,"patient.info thread title, created 2015-03-06"
+How often are your flare ups!?,ibs,forum,https://community.patient.info/t/how-often-are-your-flare-ups/568473,informational,"patient.info thread title, created 2017-03-02"
+What do you eat in an IBS flare?,ibs,forum,https://community.patient.info/t/what-do-you-eat-in-an-ibs-flare/734359,informational,"patient.info thread title, created 2020-04-22"
+Does avoiding food for a day help with an IBS flareup?,ibs,forum,https://community.patient.info/t/does-avoiding-food-for-a-day-help-with-an-ibs-flareup/556622,informational,"patient.info thread title, created 2017-01-05"
+IBS or health anxiety?,ibs,forum,https://community.patient.info/t/ibs-or-health-anxiety/733482,informational,"patient.info thread title, created 2020-04-14"
+Can anxiety trigger ibs symptoms?,ibs,forum,https://community.patient.info/t/can-anxiety-trigger-ibs-symptoms/658171,informational,"patient.info thread title, created 2018-05-21"
+Following the FODMAP diet on your own?,ibs,forum,https://community.patient.info/t/following-the-fodmap-diet-on-your-own/592598,informational,"patient.info thread title, created 2017-05-23"
+does the low fodmap diet work?,ibs,forum,https://community.patient.info/t/does-the-low-fodmap-diet-work/413916,informational,"patient.info thread title, created 2015-05-21"
+Is it possible to have almost constant IBS symptoms?,ibs,forum,https://community.patient.info/t/is-it-possible-to-have-almost-constant-ibs-symptoms/658940,informational,"patient.info thread title, created 2018-05-25"
+Ibs and diarrhea? What counts as diarrhea?,ibs,forum,https://community.patient.info/t/ibs-and-diarrhea-what-counts-as-diarrhea/616237,informational,"patient.info thread title, created 2017-10-13"
+"IBS-C to IBS-D - sudden change, is this possible?",ibs,forum,https://community.patient.info/t/ibs-c-to-ibs-d-sudden-change-is-this-possible/714879,informational,"patient.info thread title, created 2019-09-26"
+Why can’t I leave the house because of ibs and anxiety,ibs,forum,https://community.patient.info/t/why-cant-i-leave-the-house-because-of-ibs-and-anxiety/627459,informational,"patient.info thread title, created 2017-12-21"
+Diagnosed with IBS but concerned it could be something else?,ibs,forum,https://community.patient.info/t/diagnosed-with-ibs-but-concerned-it-could-be-something-else/704723,informational,"patient.info thread title, created 2019-06-15"
+"I have been suffering from gas for the past 2 weeks, what should I do?",bloating_gas,forum,https://community.patient.info/t/i-have-been-suffering-from-gas-for-the-past-2-weeks-what-should-i-do/620750,informational,"patient.info thread title, created 2017-11-11"
+I'm constantly bloated what do I do?,bloating_gas,forum,https://community.patient.info/t/i-m-constantly-bloated-what-do-i-do/735312,informational,"patient.info thread title, created 2020-05-01"
+Wind gas problems is this a big part of IBS?,bloating_gas,forum,https://community.patient.info/t/wind-gas-problems-is-this-a-big-part-of-ibs/585334,informational,"patient.info thread title, created 2017-04-10"
+"Bloated, full feeling, regurgitation? For hours after eating. Someone please help",bloating_gas,forum,https://community.patient.info/t/bloated-full-feeling-regurgitation-for-hours-after-eating-someone-plea/533045,informational,"patient.info thread title, created 2016-09-03"
+Is this tummy pain & bloating normal?,bloating_gas,forum,https://community.patient.info/t/is-this-tummy-pain-bloating-normal/295585,informational,"patient.info thread title, created 2014-09-15"
+Does trapped wind cause back pain?,bloating_gas,forum,https://community.patient.info/t/does-trapped-wind-cause-back-pain/358589,informational,"patient.info thread title, created 2015-01-27"
+What do you do if you feel constipated for 2 days?,constipation_regularity,forum,https://community.patient.info/t/what-do-you-do-if-you-feel-constipated-for-2-days/480035,informational,"patient.info thread title, created 2015-09-30"
+Can only go toilet with laxatives?!,constipation_regularity,forum,https://community.patient.info/t/can-only-go-toilet-with-laxatives/699567,informational,"patient.info thread title, created 2019-04-16"
+"I suffer with constipation regularly, any advice?",constipation_regularity,forum,https://community.patient.info/t/i-suffer-with-constipation-regularly-any-advice/510689,informational,"patient.info thread title, created 2016-05-01"
+"Worsening constipation, what to do?",constipation_regularity,forum,https://community.patient.info/t/worsening-constipation-what-to-do/766333,informational,"patient.info thread title, created 2021-07-09"
+Perfect BM’s and then unexplained constipation?,constipation_regularity,forum,https://community.patient.info/t/perfect-bm-s-and-then-unexplained-constipation/673401,informational,"patient.info thread title, created 2018-08-13"
+Anyone else have trouble pooping?,constipation_regularity,forum,https://community.patient.info/t/anyone-else-have-trouble-pooping/716182,informational,"patient.info thread title, created 2019-10-08"
+fibre supplements?,constipation_regularity,forum,https://community.patient.info/t/fibre-supplements/646144,informational,"patient.info thread title, created 2018-03-23"
+Anyone use fibre suppliments for ibs?,constipation_regularity,forum,https://community.patient.info/t/anyone-use-fibre-suppliments-for-ibs/522578,informational,"patient.info thread title, created 2016-07-10"
+Urgency to poop ???,constipation_regularity,forum,https://community.patient.info/t/urgency-to-poop/571289,informational,"patient.info thread title, created 2017-03-17"
+Pain and loose stools every morning - sound familiar?,diarrhea,forum,https://community.patient.info/t/pain-and-loose-stools-every-morning-sound-familiar/404361,informational,"patient.info thread title, created 2015-05-15"
+diarrhea almost every day for 3 years?,diarrhea,forum,https://community.patient.info/t/diarrhea-almost-every-day-for-3-years/324915,informational,"patient.info thread title, created 2014-12-10"
+Help IBS / strong diarrhea every morning,diarrhea,forum,https://community.patient.info/t/help-ibs-strong-diarrhea-every-morning/413530,informational,"patient.info thread title, created 2015-05-19"
+Why haven't i had a normal stool in 16 years?,diarrhea,forum,https://community.patient.info/t/why-havent-i-had-a-normal-stool-in-16-years/667725,informational,"patient.info thread title, created 2018-07-11"
+Diarrhea after gallbladder removal?,diarrhea,forum,https://community.patient.info/t/diarrhea-after-gallbladder-removal/564733,informational,"patient.info thread title, created 2017-02-12"
+IBS-D. Suggestions? :(,diarrhea,forum,https://community.patient.info/t/ibs-d-suggestions/654714,informational,"patient.info thread title, created 2018-05-02"
+What do you think I should do before my next appointment?,doctor_gi_prep,forum,https://community.patient.info/t/what-do-you-think-i-should-do-before-my-next-appointment/582732,informational,"patient.info thread title, created 2017-03-25"
+What to expect at appoint/What do you think is wrong?,doctor_gi_prep,forum,https://community.patient.info/t/what-to-expect-at-appoint-what-do-you-think-is-wrong/613874,informational,"patient.info thread title, created 2017-09-29"
+"Help!  First Colonoscopy scheduled, Suffer from White Jacket Syndrome!",doctor_gi_prep,forum,https://community.patient.info/t/help-first-colonoscopy-scheduled-suffer-from-white-jacket-syndrome/712364,informational,"patient.info thread title, created 2019-08-31"
+Nothing on colonoscopy... what does this mean for me?,doctor_gi_prep,forum,https://community.patient.info/t/nothing-on-colonoscopy-what-does-this-mean-for-me/591831,informational,"patient.info thread title, created 2017-05-19"
+"I'm 20 , Should I get a Colonoscopy?",doctor_gi_prep,forum,https://community.patient.info/t/i-m-20-should-i-get-a-colonoscopy/653882,informational,"patient.info thread title, created 2018-04-27"
+"Calprotectin.  Can it reveal IBS, IBD or more?",doctor_gi_prep,forum,https://community.patient.info/t/calprotectin-can-it-reveal-ibs-ibd-or-more/508277,informational,"patient.info thread title, created 2016-04-18"
+Does this sound like SIBO? If so how to get GP to test.,doctor_gi_prep,forum,https://community.patient.info/t/does-this-sound-like-sibo-if-so-how-to-get-gp-to-test/551606,informational,"patient.info thread title, created 2016-12-06"
+"Borderline stool sample results, help?!",doctor_gi_prep,forum,https://community.patient.info/t/borderline-stool-sample-results-help/541524,informational,"patient.info thread title, created 2016-10-13"
+Tracking your symptoms/anyone?,app_selection_friction,forum,https://community.patient.info/t/tracking-your-symptoms-anyone/626199,informational,"patient.info thread title, created 2017-12-13"
+Best way to find out what's causing your IBS!,food_symptom_diary_triggers,forum,https://healthunlocked.com/ibs-support/posts/134628513/best-way-to-find-out-whats-causing-your-ibs,informational,HealthUnlocked IBS Support; replies cite delayed-reaction confusion
+A question about food intolerances,food_symptom_diary_triggers,forum,https://healthunlocked.com/ibs-support/posts/140782068/a-question-about-food-intolerances,informational,HealthUnlocked; 'if the symptoms arent related to food then why...'
+What can i eat- confused,food_symptom_diary_triggers,forum,https://healthunlocked.com/ibs-support/posts/141530854/what-can-i-eat-confused,informational,HealthUnlocked; conflicting diet advice
+Worst foods for generating gas?,bloating_gas,forum,https://healthunlocked.com/ibs-support/posts/147436971/worst-foods-for-generating-gas,informational,HealthUnlocked IBS Support
+Nandos - what are the triggers?,food_symptom_diary_triggers,forum,https://healthunlocked.com/theibsnetwork/posts/144003145/nandos-what-are-the-triggers,informational,HealthUnlocked IBS Network; restaurant-meal attribution
+How to actually use a food and symptom journal?,food_symptom_diary_triggers,forum,https://healthunlocked.com/ibs-support/posts/153250078/food-symptom-tracking-and-correlation,informational,HealthUnlocked thread title seen in 'You may also like' list on this page (23 replies); direct URL not captured
+"Food, symptom tracking and correlation",app_selection_friction,forum,https://healthunlocked.com/ibs-support/posts/153250078/food-symptom-tracking-and-correlation,informational,HealthUnlocked 2026; indie dev describes 'point me back to the last meal' failure of diary apps
+Slow transit constipation,constipation_regularity,forum,https://healthunlocked.com/ibs-support/posts/153267634/slow-transit-constipation,informational,HealthUnlocked 2026 listing; wording taken from URL slug
+Negative hydrogen breath test - what next?,doctor_gi_prep,forum,https://healthunlocked.com/ibs-support/posts/153251136/negative-hydrogen-breath-test-what-next,informational,HealthUnlocked 2026 listing; wording taken from URL slug
+Do Not Settle For Box Labelled IBS,doctor_gi_prep,forum,https://healthunlocked.com/ibs-support/posts/153208525/do-not-settle-for-box-labelled-ibs,informational,"HealthUnlocked 2026; distrust of IBS 'label', advocacy"
+Is there a way to see what foods were on my best days and worst days?,app_selection_friction,review,App Store review: Cara Care (1-star 2022-09-21: 'App doesn’t show foods on best days and worst days'),informational,"review-derived need, paraphrased into question form"
+How is the symptom score calculated?,privacy_ai_trust,review,App Store review: Cara Care (3-star 2025-12-01: 'there is not even a FAQ to explain how the symptom score is calculated'),informational,review-derived; AI/score transparency
+Can I export my data to a spreadsheet or PDF for my doctor?,doctor_gi_prep,review,"App Store reviews: Cara Care 2025-07-30, 2024-07-18; mySymptoms 2024-05-21",informational,review-derived; recurring request
+Can I log that I didn't poop today?,stool_bristol_tracking,review,App Store review: Get Regular 5-star 2026-10-13 ('log that i didn’t go'); Bowelle 3-star 2026-07-27 (graph omits no-BM days),informational,review-derived; zero-BM days matter for constipation
