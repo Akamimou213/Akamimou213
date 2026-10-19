@@ -24,7 +24,7 @@
 | Printable | `/resources/bristol-stool-chart.pdf` (chart page + 14-day log; Letter and A4 variants `-letter.pdf`, `-a4.pdf`) |
 | Internal links out | "poop tracker app" → `/poop-tracker`; "constipation diary" → `/resources/constipation-diary`; "food diary for diarrhea" → `/resources/food-diary-for-diarrhea`; "IBS food diary" → `/resources/ibs-food-diary`; "GI appointment checklist" → `/resources/gastroenterologist-appointment-prep`; "How our AI works" → `/how-ai-works`; all C1 children (§13) + `/blog/bristol-stool-type-1-2`, `/blog/how-to-describe-poop-to-doctor`, `/blog/when-to-see-doctor-bowel-changes` |
 | Pages that must link in | `/poop-tracker` (pillar), all 10 C1 posts, `/blog/bristol-stool-type-1-2`, `/blog/how-to-describe-poop-to-doctor`, `/resources/constipation-diary`, `/resources/food-diary-for-diarrhea`, `/resources/ibs-food-diary`, homepage resources grid, footer |
-| Link-path note | `keywords/blog-topic-plan.csv` lists the C1 printable post at `/resources/bristol-stool-chart-pdf`; this page links it as `/blog/bristol-stool-chart-pdf` (blog drafts route to `/blog/<slug>`). **[CONFIRM: final route; Codex link validator will flag a mismatch.]** |
+| Link-path note | `keywords/blog-topic-plan.csv` lists the C1 printable post at `/blog/bristol-stool-chart-pdf`; this page links it as `/blog/bristol-stool-chart-pdf` (blog drafts route to `/blog/<slug>`). **[CONFIRM: final route; Codex link validator will flag a mismatch.]** |
 
 ---
 
@@ -155,7 +155,7 @@ Below: the 7 types in plain words, what each one *can* suggest, when to see a do
 - Blood in or on your stool, or bleeding from your bottom [3][5]
 - Black, tarry or maroon stools — can signal bleeding higher in the gut, though iron supplements and bismuth medicines can also darken stool [5][6]
 - Pale, white or clay-colored stools for more than a few days — urgently if your skin or eyes look yellow [6]
-- Unexplained weight loss or ongoing tiredness [3]
+- Unexplained weight loss, or tiredness and shortness of breath that could signal anemia [3][15]
 - Diarrhea that wakes you from sleep [14]
 - A change in your usual bowel habit that lasts — new symptoms later in life or with a family history of colon cancer deserve a check [3][15]
 - Constant or severe abdominal pain, vomiting, fever, or being unable to pass gas [10]

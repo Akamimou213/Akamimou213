@@ -14,7 +14,7 @@
 | Not owned (link out) | "why am I so bloated all the time" → `/blog/why-am-i-so-bloated`; "bloated after eating very little" → `/blog/bloating-after-eating-very-little`; food-specific bloating posts (§13) |
 | Search intent | Informational (problem-aware), worried |
 | Title tag (55 chars) | `Bloating After Eating: Causes, Timing & How to Track It` |
-| Meta description (155 chars) | `Why you bloat after eating, how long it usually lasts, common food and non-food causes, red flags to know, and a free 14-day bloating diary to find your pattern.` |
+| Meta description (153 chars) | `Why you bloat after eating, how long it lasts, common food and non-food causes, red flags to know, and a free 14-day bloating diary to find your pattern.` |
 | H1 | Bloating After Eating: Why It Happens and How to Find Your Pattern |
 | OG title | Bloated after eating? Causes, red flags and a 14-day diary |
 | OG description | The usual reasons you bloat after meals, the signs that need a doctor, and a free diary to find your own pattern. |

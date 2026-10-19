@@ -14,7 +14,7 @@
 | Not owned (link out) | "constipation tracker app" → `/poop-tracker`; "haven't pooped in 3 days" → `/blog/havent-pooped-in-days`; "regular poop schedule" → `/blog/regular-poop-schedule` |
 | Search intent | Informational + template download |
 | Title tag (50 chars) | `Constipation Diary: Free Bowel Log + What to Track` |
-| Meta description (157 chars) | `A free printable constipation diary and bowel log: what to record (Bristol type, straining, fiber, fluids), a filled example week, and when to see a doctor.` |
+| Meta description (156 chars) | `A free printable constipation diary and bowel log: what to record (Bristol type, straining, fiber, fluids), a filled example week, and when to see a doctor.` |
 | H1 | Constipation Diary: What to Track and a Free Printable Bowel Log |
 | OG title | Free constipation diary + bowel log (printable) |
 | OG description | Track Bristol type, straining, fiber, fluids and routine for 2 weeks — and know when constipation needs a doctor. |

@@ -6,7 +6,7 @@
 - `keyword-universe.csv`: 1,599 keywords with cluster, source, volume/KD or demand tier, intent, feasibility, priority and target URL.
 - `blog-topic-plan.csv`: 80 blog topics (8 clusters × 10), each with opportunity score, score factors, feasibility evidence, app tie-in, pillar link, YMYL note and merge notes.
 
-**URL conventions:** blog posts at `/blog/<slug>`; tools, guides and printables at `/resources/<slug>`; product and pillar pages at the root (`/poop-tracker`, `/food-symptom-tracker`, `/ibs-tracker`, `/science`, `/privacy`, `/gut-health-app-comparison`). These replace the `/features/`, `/guides/`, `/tools/` and `/learn/` paths in the 6 Oct execution plan.
+**URL conventions:** blog posts at `/blog/<slug>`; tools, guides and printables at `/resources/<slug>`; product and pillar pages at the root (`/poop-tracker`, `/food-symptom-tracker`, `/ibs-tracker`, `/how-ai-works`, `/legal/privacy-policy`, `/gut-health-app-comparison`). These replace the `/features/`, `/guides/`, `/tools/` and `/learn/` paths in the 6 Oct execution plan.
 
 ---
 
@@ -63,7 +63,7 @@ We kept 8 clusters. **FODMAP sits inside C3 (IBS)**: the workbook puts FODMAP on
 | C4 | Bloating & gas | `/resources/bloating-after-eating` (hub + bloating diary section) | `/food-symptom-tracker` | why am i so bloated 8,100 / 36; can coffee cause bloating 2,400 / 17; bloating after eating 8,100 / 74 (long-term) | Food-specific bloat questions (coffee, gluten, dairy, fiber, salad) are dominated by brand blogs and Ubie. |
 | C5 | Constipation & regularity | `/resources/constipation-diary` | `/poop-tracker` | can constipation cause back pain 12,100 / 17; do bananas cause constipation 12,100 / 29; can constipation cause nausea 8,100 / 20; does cheese cause constipation 5,400 / 33 | The best measured-volume / low-KD quick wins in the dataset. Balloon already ranks in this cluster. |
 | C6 | Diarrhea & urgency | `/resources/food-diary-for-diarrhea` | `/poop-tracker` + `/food-symptom-tracker` | food diary for diarrhea 9,900 / 37 (validate); can stress cause loose bowel movements 3,600 / 43; "diarrhea after eating …" has 300+ autocomplete variants | Very weak SERPs: Ubie, patents, telehealth blogs. YMYL needs care. |
-| C7 | Gut health apps, AI & comparisons (BOFU) | `/gut-health-app-comparison` | `/` (homepage), `/science`, `/privacy` | gut health app 70 / 39; poop tracker app 590 / 33; apps for ibs 140 / 34 | "Best X app" SERPs are vendor self-rankings plus a 2020 Healthline roundup. A tested, disclosed comparison can compete. |
+| C7 | Gut health apps, AI & comparisons (BOFU) | `/gut-health-app-comparison` | `/` (homepage), `/how-ai-works`, `/app` | gut health app 70 / 39; poop tracker app 590 / 33; apps for ibs 140 / 34 | "Best X app" SERPs are vendor self-rankings plus a 2020 Healthline roundup. A tested, disclosed comparison can compete. |
 | C8 | Doctor / dietitian visit prep & sharing logs | `/resources/gastroenterologist-appointment-prep` | `/poop-tracker`, `/food-symptom-tracker` (export, once verified) | symptom diary 90 / 28; "how long does it take to get an appointment with a gastroenterologist" (autocomplete, 14 queries) | Local clinics and Q&A sites rank. Low volume, high trust value. |
 
 ---
@@ -78,8 +78,8 @@ Blogs link **up** to their pillar in the first 30% of the post, and to the produ
 | `/poop-tracker` | Product | poop tracker app, poop tracker, poop app, bowel movement tracker (app), stool tracker, bristol stool chart app, constipation tracker app | C1, C5, C6 posts |
 | `/food-symptom-tracker` | Product | food and symptom tracker (app), food symptom tracker app, food sensitivity tracker, food trigger tracker, bloating tracker/app | C2, C4, C6 posts |
 | `/ibs-tracker` | Product (new, P2) | ibs tracker, ibs tracker app, ibs symptom tracker, ibs food diary app | C3 posts |
-| `/science` | Trust / method | gut health ai, ai gut health app (methodology), gut health score method | gut-health-score-explained, ai-gut-health-apps |
-| `/privacy` | Trust | gut health app privacy facts | gut-health-app-privacy, poop-photo-analysis |
+| `/how-ai-works` | Trust / method | gut health ai, ai gut health app (methodology), gut health score method | gut-health-score-explained, ai-gut-health-apps |
+| `/legal/privacy-policy` (+ plain-language section on `/how-ai-works`) | Trust | gut health app privacy facts | gut-health-app-privacy, poop-photo-analysis |
 | `/gut-health-app-comparison` | Comparison hub (P3, after testing) | best gut health app(s), apps for gut health | best-poop-tracker-apps, best-ibs-apps, best-food-symptom-tracker-apps, free-gut-health-apps, mysymptoms-alternatives |
 | `/resources/bristol-stool-chart` | Tool / reference | bristol stool chart, bristol stool scale, poop chart, types of poop, stool types, bowel movement chart | C1 posts; `/resources/bristol-stool-chart-pdf` |
 | `/resources/food-symptom-diary` | Guide + printable | food and symptom diary (+pdf/template), food diary template, food diary pdf, symptom diary template | C2 posts |

@@ -9,7 +9,7 @@ search_intent: "informational"
 funnel: "MOFU"
 pillar: "/resources/food-symptom-diary"
 product_page: "/food-symptom-tracker"
-internal_links: ["/resources/food-symptom-diary", "/food-symptom-tracker", "/science", "/blog/food-symptom-diary-example", "/blog/how-to-identify-food-triggers", "/blog/elimination-diet-tracking", "/blog/ibs-and-stress"]
+internal_links: ["/resources/food-symptom-diary", "/food-symptom-tracker", "/how-ai-works", "/blog/food-symptom-diary-example", "/blog/how-to-identify-food-triggers", "/blog/elimination-diet-tracking", "/blog/ibs-and-stress"]
 author: "Get Regular Editorial Team"
 medical_reviewer: "PENDING"
 review_status: "draft-needs-medical-review"
@@ -137,7 +137,7 @@ A confounder is something that travels with a food and causes symptoms itself. T
 
 Good analysis starts with good data. The diary habits that matter most: log meals and symptoms at the time (not from memory), record start times and a 0–10 severity, log good days as carefully as bad ones, and add a line of daily context. If you need a structure, our [food and symptom diary example](/blog/food-symptom-diary-example) shows a filled-in week, and the blank printable lives on our [food and symptom diary page](/resources/food-symptom-diary).
 
-Apps help with the counting, which is the part people rarely do by hand. The [Get Regular food and symptom tracker](/food-symptom-tracker) keeps meals, stool and symptoms on one timeline, and its AI-generated Weekly Digest looks across your food, stool and symptom history for *possible* patterns. Subscribers can generate a Doctor Report PDF that includes food-symptom correlations to review with a clinician. Like any automated analysis, these are leads to test with the scorecard above, not proof of cause. Our [science page](/science) explains how Get Regular approaches this.
+Apps help with the counting, which is the part people rarely do by hand. The [Get Regular food and symptom tracker](/food-symptom-tracker) keeps meals, stool and symptoms on one timeline, and its AI-generated Weekly Digest looks across your food, stool and symptom history for *possible* patterns. Subscribers can generate a Doctor Report PDF that includes food-symptom correlations to review with a clinician. Like any automated analysis, these are leads to test with the scorecard above, not proof of cause. Our [science page](/how-ai-works) explains how Get Regular approaches this.
 
 When you have a suspect that scores well, the next step is the structured method in [how to identify food triggers](/blog/how-to-identify-food-triggers).
 

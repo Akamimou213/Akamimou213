@@ -13,7 +13,7 @@
 | Not owned (link out) | "ibs food diary" / template → `/resources/ibs-food-diary`; "best ibs apps" → `/blog/best-ibs-apps` |
 | Search intent | Commercial / transactional |
 | Title tag (56 chars) | `IBS Tracker App: Food, Stool & Symptom Log | Get Regular` |
-| Meta description (154 chars) | `An IBS tracker app for iPhone: log meals, Bristol stool type, symptoms and period days in one timeline, spot possible flare patterns and share a PDF report.` |
+| Meta description (156 chars) | `An IBS tracker app for iPhone: log meals, Bristol stool type, symptoms and period days in one timeline, spot possible flare patterns and share a PDF report.` |
 | H1 | An IBS tracker for the days between appointments |
 | OG title | Get Regular: an IBS tracker app for iPhone |
 | OG description | Food, stool type, symptoms and your cycle in one timeline — and a report your GI or dietitian can read in minutes. |

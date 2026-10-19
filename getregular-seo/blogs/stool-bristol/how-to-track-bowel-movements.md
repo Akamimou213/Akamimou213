@@ -9,7 +9,7 @@ search_intent: "informational"
 funnel: "MOFU"
 pillar: "/resources/bristol-stool-chart"
 product_page: "/poop-tracker"
-internal_links: ["/resources/bristol-stool-chart", "/resources/bristol-stool-chart-pdf", "/poop-tracker", "/blog/how-often-should-you-poop", "/blog/how-long-does-it-take-food-to-become-poop", "/blog/when-to-see-doctor-bowel-changes"]
+internal_links: ["/resources/bristol-stool-chart", "/blog/bristol-stool-chart-pdf", "/poop-tracker", "/blog/how-often-should-you-poop", "/blog/how-long-does-it-take-food-to-become-poop", "/blog/when-to-see-doctor-bowel-changes"]
 author: "Get Regular Editorial Team"
 medical_reviewer: "PENDING"
 review_status: "draft-needs-medical-review"
@@ -87,7 +87,7 @@ Log six fields for every bowel movement, plus a one-line entry on days you don't
 | **Appearance notes** | Color if not brown; blood, mucus, floating, greasy | Some of these are red flags (see below) |
 | **Symptoms** | Pain, bloating, "not fully empty" feeling | Incomplete emptying is another constipation feature [6] |
 
-**What's the Bristol stool type?** It's a 7-point scale, from type 1 (separate hard lumps) to type 7 (entirely liquid), developed at the Bristol Royal Infirmary [1]. Cleveland Clinic describes types 3 and 4 as the most ideal, types 1–2 as suggesting constipation and types 5–7 as suggesting diarrhea [5]. If you want the chart in front of you, the [full Bristol stool chart guide](/resources/bristol-stool-chart) explains each type, and there's a [printable Bristol chart with a 14-day log](/resources/bristol-stool-chart-pdf) if you prefer paper.
+**What's the Bristol stool type?** It's a 7-point scale, from type 1 (separate hard lumps) to type 7 (entirely liquid), developed at the Bristol Royal Infirmary [1]. Cleveland Clinic describes types 3 and 4 as the most ideal, types 1–2 as suggesting constipation and types 5–7 as suggesting diarrhea [5]. If you want the chart in front of you, the [full Bristol stool chart guide](/resources/bristol-stool-chart) explains each type, and there's a [printable Bristol chart with a 14-day log](/blog/bristol-stool-chart-pdf) if you prefer paper.
 
 **Optional fields** (add only if they're relevant to your question):
 - Meals and drinks, if you suspect food is involved. Food usually takes a day or more to come out the other end, so a [food log needs a longer look-back window](/blog/how-long-does-it-take-food-to-become-poop) than "what did I just eat".

@@ -12,7 +12,7 @@
 | Owned variants | get regular price, is get regular free, get regular android, get regular review (facts), get regular ai gut health, get regular subscription, get regular privacy |
 | Search intent | Navigational / product-aware (branded fan-out queries: "official", "price", "android", "is it safe") |
 | Title tag (52 chars) | `Get Regular App: Features, Pricing, Privacy & Limits` |
-| Meta description (150 chars) | `Plain facts about the Get Regular iOS app: what you can log, what it costs, what's Premium, how AI and your data are handled, and what it can't do.` |
+| Meta description (147 chars) | `Plain facts about the Get Regular iOS app: what you can log, what it costs, what's Premium, how AI and your data are handled, and what it can't do.` |
 | H1 | Get Regular: the iOS app for tracking food, stool and gut symptoms |
 | OG title | Get Regular app: the facts |
 | OG description | Features, prices, platforms, privacy and limits of the Get Regular gut health app, in plain text. Last verified 19 Oct 2026. |
@@ -256,7 +256,7 @@ Delete your account in the app. The privacy policy says data is permanently remo
 **How do I cancel?**
 In iPhone Settings → [your name] → Subscriptions. You keep access until the end of the paid period.
 
-**Is Get Regular clinically validated?**
+**Has Get Regular been tested in a clinical study?**
 No validation study has been published. The app was built with input from a board-certified gastroenterologist **[CONFIRM wording]**, and it doesn't diagnose any condition.
 
 **Does it work with Apple Health?**

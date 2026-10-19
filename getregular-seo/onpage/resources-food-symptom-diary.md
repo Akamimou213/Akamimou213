@@ -14,7 +14,7 @@
 | Not owned (link out) | "food and symptom diary example" → `/blog/food-symptom-diary-example`; "food diary for food intolerance" → `/blog/food-diary-for-food-intolerance`; "how to identify food triggers" → `/blog/how-to-identify-food-triggers` |
 | Search intent | Informational + template download |
 | Title tag (53 chars) | `Food and Symptom Diary: Free Template + How to Use It` |
-| Meta description (156 chars) | `A free printable food and symptom diary with the columns that matter (timing, portion, onset, severity, stool type), a filled example week and how to read it.` |
+| Meta description (158 chars) | `A free printable food and symptom diary with the columns that matter (timing, portion, onset, severity, stool type), a filled example week and how to read it.` |
 | H1 | Food and Symptom Diary: Free Template and How to Use It |
 | OG title | Free food and symptom diary (printable PDF) |
 | OG description | The diary columns that actually reveal patterns — timing, portion, onset, severity, stool type — plus a filled example week. |

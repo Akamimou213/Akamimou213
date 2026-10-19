@@ -9,7 +9,7 @@ search_intent: "informational"
 funnel: "TOFU"
 pillar: "/resources/food-diary-for-diarrhea"
 product_page: "/food-symptom-tracker"
-internal_links: ["/resources/food-diary-for-diarrhea", "/food-symptom-tracker", "/blog/when-to-see-doctor-bowel-changes", "/blog/diarrhea-after-fatty-food", "/blog/diarrhea-after-dairy", "/blog/coffee-poop", "/blog/bristol-stool-type-6"]
+internal_links: ["/resources/food-diary-for-diarrhea", "/food-symptom-tracker", "/blog/when-to-see-doctor-bowel-changes", "/blog/diarrhea-after-fatty-food", "/blog/diarrhea-after-dairy", "/blog/coffee-poop", "/blog/bristol-stool-type-6", "/blog/stress-diarrhea"]
 author: "Get Regular Editorial Team"
 medical_reviewer: "PENDING"
 review_status: "draft-needs-medical-review"
@@ -204,7 +204,7 @@ Not usually, if it happens repeatedly. Food poisoning tends to be a single, sudd
 
 ### Can stress cause diarrhea after eating?
 
-It can make it worse. Stress and anxiety can amplify gut sensitivity and the urge to go, especially in people with IBS. If you notice your worst days line up with stressful ones, note that in your log too.
+It can make it worse. Stress can change how quickly your gut moves and how strongly you feel the urge to go, especially if you have IBS; our guide to [stress and loose stools](/blog/stress-diarrhea) explains how to test that. If your worst days line up with stressful ones, note that in your log too.
 
 ### Why do I get diarrhea after eating out but not at home?
 
@@ -226,4 +226,4 @@ Restaurant meals are often larger and higher in fat and butter than home cooking
 
 > *This article is for general education and isn't medical advice. Get Regular is a tracking app — it doesn't diagnose or treat any condition. If you have red-flag symptoms or ongoing changes in your digestion, talk to a doctor.*
 
-<!-- WRITER NOTES: SERP top results: Vinmec, Ubie (AI doctor's note), Narayana Health, Geisinger (2017 listicle), Oshi Health, Nourish, Imodium (brand), Silver Fern (supplement brand), Healthline (updated Feb 2024, PA-C reviewed; acute vs chronic causes, red flags, FAQ suggests a food diary but gives no method). Strategy notes Ubie x3 and a USPTO patent for the "immediately" variant. Our edge: a timing decision table (minutes vs 30 min–2 h vs 30 min–8 h vs next morning vs night-time) that maps onset to likely explanations, a filled illustrative 5-day log with a worked reading, and explicit "what a doctor may check" (bile acid diarrhea, celiac, microscopic colitis) tied to the 2019 AGA guideline. Merged "sudden urge to poop after eating"/"why do i poop right after i eat" (gastrocolic reflex section). Open questions for medical reviewer: (1) Is the "next morning" row for alcohol/coffee acceptable without a specific citation, or should it be removed/cited? (2) Stress FAQ answer has no citation; acceptable as general statement or cite Rome/IBS source? (3) Red-flag list items "after travel" and "family history" are uncited in this article (they come from the editorial standard and are cited in /blog/when-to-see-doctor-bowel-changes); OK? (4) Camilleri 32% figure is from a 2009 systematic review cited within a 2015 review; acceptable? -->
+<!-- WRITER NOTES: SERP top results: Vinmec, Ubie (AI doctor's note), Narayana Health, Geisinger (2017 listicle), Oshi Health, Nourish, Imodium (brand), Silver Fern (supplement brand), Healthline (updated Feb 2024, PA-C reviewed; acute vs chronic causes, red flags, FAQ suggests a food diary but gives no method). Strategy notes Ubie x3 and a USPTO patent for the "immediately" variant. Our edge: a timing decision table (minutes vs 30 min–2 h vs 30 min–8 h vs next morning vs night-time) that maps onset to likely explanations, a filled illustrative 5-day log with a worked reading, and explicit "what a doctor may check" (bile acid diarrhea, celiac, microscopic colitis) tied to the 2019 AGA guideline. Merged "sudden urge to poop after eating"/"why do i poop right after i eat" (gastrocolic reflex section). Open questions for medical reviewer: (1) Is the "next morning" row for alcohol/coffee acceptable without a specific citation, or should it be removed/cited? (2) Stress FAQ answer is uncited here and defers to /blog/stress-diarrhea (which is sourced); OK? (3) Red-flag list items "after travel" and "family history" are uncited in this article (they come from the editorial standard and are cited in /blog/when-to-see-doctor-bowel-changes); OK? (4) Camilleri 32% figure is from a 2009 systematic review cited within a 2015 review; acceptable? -->

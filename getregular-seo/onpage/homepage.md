@@ -12,7 +12,7 @@
 | Owned variants | gut health tracker, gut health tracker app, digestive health app, get regular (brand), get regular app |
 | Search intent | Navigational (brand) + commercial ("gut health app") |
 | Title tag (58 chars) | `Gut Health App: Food, Poop & Symptom Tracker | Get Regular` |
-| Meta description (155 chars) | `Get Regular is an iOS gut health app. Log meals, poop (Bristol scale) and symptoms, see weekly patterns, and bring a PDF report to your doctor.` |
+| Meta description (143 chars) | `Get Regular is an iOS gut health app. Log meals, poop (Bristol scale) and symptoms, see weekly patterns, and bring a PDF report to your doctor.` |
 | H1 | Option A (recommended): "Your gut is talking. Are you listening?" + visible category line (see §2). Option B: "The gut health app for tracking food, poop and symptoms" |
 | OG title | Get Regular: the gut health app for food, poop & symptom tracking |
 | OG description | Log meals, bowel movements and symptoms on your iPhone. See your patterns and walk into your next appointment with data. |
@@ -49,7 +49,7 @@
 | # | Element | Before (live, 19 Oct 2026) | After | Why |
 |---|---|---|---|---|
 | 1 | `<title>` | Get Regular — Trust Your Gut Again | Gut Health App: Food, Poop & Symptom Tracker \| Get Regular | Names the category and the jobs (audit F14). Keeps brand at end |
-| 2 | Meta description | "AI-powered gut health tracking. Analyze your stool, meals, and **biomarkers** … built with a board-certified gastroenterologist." | See header (155 chars) | "Biomarkers" is undocumented (fact sheet §10 C2). New text lists only verified features |
+| 2 | Meta description | "AI-powered gut health tracking. Analyze your stool, meals, and **biomarkers** … built with a board-certified gastroenterologist." | See header (143 chars) | "Biomarkers" is undocumented (fact sheet §10 C2). New text lists only verified features |
 | 3 | H1 | "Your gut is talking. Are you listening?" (rendered with `opacity:0` until JS) | Keep as Option A **plus** a visible category line directly under it, both server-rendered visible (T10). Option B available | Brand line stays; category becomes visible and crawlable (F04, F14) |
 | 4 | Hero badge | "AI-Powered · **Clinically Validated** · Available on iOS" | "For iPhone & iPad · Photo or manual logging · Doctor-ready PDF report" | No validation study exists (F01, fact sheet C1). **Remove "Clinically Validated" everywhere at once** (site, App Store, socials) |
 | 5 | Hero sub-copy | "Get Regular analyzes your stool, meals, symptoms and biomarkers to give you personalized insights." | "Log meals, bowel movements and symptoms in seconds. Get Regular turns them into daily scores and weekly patterns you can test — and a report you can bring to your doctor." | Drops "biomarkers"; adds the "be heard by your doctor" outcome (VOC §1.7) |
@@ -212,7 +212,7 @@ Two columns.
 **Quote (only with fresh written approval, trimmed):**
 "The app's internal analysis and outputs underwent extensive scrutiny and tweaking to ensure it correctly follows all current major gastroenterology guidelines as it relates to gut health." — Dr. Michael Schopis, Clinical Advisor, Get Regular
 **Link:** `How our AI and scores work →` `/how-ai-works`
-**Do not use:** "clinically validated", "evidence-based interpretation … reliably demonstrating", "FDA".
+*(Internal note — do not render.)* **Do not use:** "clinically validated", "evidence-based interpretation … reliably demonstrating", "FDA".
 
 ### 2.9 Pricing strip (NEW, plain text)
 
@@ -253,7 +253,7 @@ No. You can log a bowel movement by choosing the Bristol type yourself. Photo lo
 Yes. You can log a no-go day, and no-go days don't break your streak.
 
 **Will the app tell me what's wrong with me?**
-No. Get Regular shows possible patterns in what you log. It doesn't diagnose or treat any condition. If you have blood in your stool, black stools, unexplained weight loss, or symptoms that wake you at night, see a doctor.
+No. Get Regular shows possible patterns in what you log. It doesn't diagnose or treat any condition. If you have blood in your stool, black stools, unexplained weight loss, or diarrhea that wakes you at night, see a doctor.
 
 **Can I share my logs with my doctor?**
 Yes, with Premium: the Doctor Report is a PDF with your bowel patterns, Bristol trends, symptom frequency, diet quality and possible food–symptom correlations.

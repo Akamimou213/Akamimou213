@@ -13,7 +13,7 @@
 | Not owned (link out instead) | "best poop tracker apps" → `/blog/best-poop-tracker-apps`; "how to track bowel movements" → `/blog/how-to-track-bowel-movements`; "bristol stool chart" → `/resources/bristol-stool-chart` |
 | Search intent | Commercial / transactional (solution-aware: looking for an app) |
 | Title tag (59 chars) | `Poop Tracker App: Log Bristol Type in Seconds | Get Regular` |
-| Meta description (152 chars) | `A poop tracker app for iPhone: log each bowel movement by photo or Bristol type, track no-go days and toilet time, and see your weekly pattern.` |
+| Meta description (143 chars) | `A poop tracker app for iPhone: log each bowel movement by photo or Bristol type, track no-go days and toilet time, and see your weekly pattern.` |
 | H1 | The poop tracker app that keeps it simple |
 | OG title | Get Regular: a poop tracker app for iPhone |
 | OG description | Log every bowel movement in seconds — by photo or by picking the Bristol type — and see what your week really looks like. |
@@ -123,7 +123,7 @@ Get Regular is a poop tracker app for iPhone. Log each bowel movement in seconds
 > - **It can't see what you don't log.** Gaps make patterns less reliable.
 
 **Red-flag box (always visible, styled as alert):**
-**See a doctor promptly if you notice:** blood in or on your stool, or black, tarry stools · constant or severe abdominal pain · unexplained weight loss · vomiting, fever, or being unable to pass gas with constipation · diarrhea lasting more than 2 days or six or more loose stools a day · a lasting change in your usual bowel habit, especially new symptoms later in life or with a family history of colon cancer [5][6][7]. More: [bowel changes that need a doctor](/blog/when-to-see-doctor-bowel-changes).
+**See a doctor promptly if you notice:** blood in or on your stool, or black, tarry stools · constant or severe abdominal pain · unexplained weight loss · vomiting, fever, or being unable to pass gas with constipation · diarrhea lasting more than 2 days or six or more loose stools a day · diarrhea that wakes you at night [8] · a lasting change in your usual bowel habit, especially new symptoms later in life or with a family history of colon cancer [5][6][7]. More: [bowel changes that need a doctor](/blog/when-to-see-doctor-bowel-changes).
 
 ---
 
@@ -201,5 +201,6 @@ No — iPhone and iPad only (as of 19 Oct 2026).
 5. NIDDK. Symptoms & causes of constipation. https://www.niddk.nih.gov/health-information/digestive-diseases/constipation/symptoms-causes
 6. NIDDK. Symptoms & causes of diarrhea. https://www.niddk.nih.gov/health-information/digestive-diseases/diarrhea/symptoms-causes
 7. American College of Gastroenterology. Irritable bowel syndrome (patient information): warning signs. https://gi.org/topics/irritable-bowel-syndrome/
+8. Brandler J, Chey WD. Fishing for irritable bowel syndrome: which alarm features weave the best net? *Clin Gastroenterol Hepatol*. 2022;20(2):276–278. https://pubmed.ncbi.nlm.nih.gov/33220527/
 
 *Note for reviewer:* the "three times a day to three times a week" range is a widely used clinical rule of thumb; Heaton 1992 supports "most people don't go exactly once a day" but doesn't state that range. **[CONFIRM: reviewer to approve or attach an additional citation.]**

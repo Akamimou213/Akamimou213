@@ -13,7 +13,7 @@
 | Owned variants | irritable bowel syndrome food diary (2,400/mo, KD 25), ibs food diary template, ibs food diary pdf, how to keep a food diary for ibs, ibs symptom tracker printable, ibs diary |
 | Search intent | Informational + template download (problem-aware) |
 | Title tag (53 chars) | `IBS Food Diary: Free Printable Template + Worked Week` |
-| Meta description (154 chars) | `How to keep an IBS food diary that helps: what to log, for how long, a free printable template, a filled-in example week and how to read it with your doctor.` |
+| Meta description (157 chars) | `How to keep an IBS food diary that helps: what to log, for how long, a free printable template, a filled-in example week and how to read it with your doctor.` |
 | H1 | IBS Food Diary: What to Log, a Free Template and a Worked Week |
 | OG title | Free IBS food diary (printable) + how to read it |
 | OG description | The columns that matter for IBS — meal timing, stool type, symptom onset, stress, cycle day — plus a filled-in example week. |

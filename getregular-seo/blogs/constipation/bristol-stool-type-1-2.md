@@ -23,7 +23,7 @@ sources:
   - title: "Lewis SJ, Heaton KW. Stool form scale as a useful guide to intestinal transit time. Scand J Gastroenterol 1997"
     url: "https://pubmed.ncbi.nlm.nih.gov/9299672/"
   - title: "NICE. Bristol Stool Chart (CG99 resource)"
-    url: "https://www.nice.org.uk/guidance/cg99/resources/bristol-stool-chart-pdf-245459773"
+    url: "https://www.nice.org.uk/guidance/cg99/blog/bristol-stool-chart-pdf-245459773"
   - title: "Rome Foundation. Rome IV Criteria"
     url: "https://theromefoundation.org/rome-iv/rome-iv-criteria/"
   - title: "Mitsuhashi S et al. Characterizing normal bowel frequency and consistency in a representative sample of adults in the United States (NHANES). Am J Gastroenterol 2018"
@@ -185,7 +185,7 @@ Type 1 is separate hard lumps. Type 2 is hard lumps stuck together into a sausag
 ## Sources
 
 1. Lewis SJ, Heaton KW. Stool form scale as a useful guide to intestinal transit time. *Scand J Gastroenterol.* 1997;32(9):920–924. https://pubmed.ncbi.nlm.nih.gov/9299672/
-2. NICE. Bristol Stool Chart (resource for CG99). https://www.nice.org.uk/guidance/cg99/resources/bristol-stool-chart-pdf-245459773
+2. NICE. Bristol Stool Chart (resource for CG99). https://www.nice.org.uk/guidance/cg99/blog/bristol-stool-chart-pdf-245459773
 3. Rome Foundation. Rome IV Criteria. https://theromefoundation.org/rome-iv/rome-iv-criteria/
 4. Mitsuhashi S, Ballou S, Jiang ZG, et al. Characterizing normal bowel frequency and consistency in a representative sample of adults in the United States (NHANES). *Am J Gastroenterol.* 2018;113(1):115–123. https://doi.org/10.1038/ajg.2017.213
 5. NIDDK. Symptoms & Causes of Constipation. https://www.niddk.nih.gov/health-information/digestive-diseases/constipation/symptoms-causes

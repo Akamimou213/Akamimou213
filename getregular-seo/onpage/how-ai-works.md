@@ -12,7 +12,7 @@
 | Owned variants | gut health ai, ai gut health app (methodology), gut health score method, get regular gut health score, is get regular accurate, get regular privacy openai |
 | Search intent | Informational / trust (product-aware) |
 | Title tag (51 chars) | `How Get Regular's AI Works: Inputs, Scores & Limits` |
-| Meta description (157 chars) | `What Get Regular's AI does with your food, stool and symptom logs, what the scores summarize, where data is processed (OpenAI API), and the limits to know.` |
+| Meta description (155 chars) | `What Get Regular's AI does with your food, stool and symptom logs, what the scores summarize, where data is processed (OpenAI API), and the limits to know.` |
 | H1 | How Get Regular's AI works |
 | OG title | How Get Regular's AI works — and where it can be wrong |
 | OG description | Inputs, outputs, scores, data flow and limits of the AI in the Get Regular gut health app, in plain language. |
@@ -143,7 +143,7 @@ Get Regular's clinical advisor is **Dr. Michael Schopis, MD**, a board-certified
 
 **Standards the app references:** the Bristol Stool Form Scale [1]. **[CONFIRM: any other guidance used — e.g., Rome IV definitions or ACG/AGA guidelines — and name it here only if it's actually implemented.]**
 
-Wording rule for every page: "built with input from a board-certified gastroenterologist" **[CONFIRM wording with Dr. Schopis]** — never "clinically validated" or "doctor-approved results".
+*(Internal note — do not render:* approved wording on every page is "built with input from a board-certified gastroenterologist" **[CONFIRM wording with Dr. Schopis]**; never use validation or "doctor-approved results" claims.*)*
 
 ---
 

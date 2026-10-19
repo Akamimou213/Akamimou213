@@ -11,7 +11,7 @@ plan = list(csv.DictReader(open(os.path.join(ROOT, "keywords/blog-topic-plan.csv
 blog_slugs = {r["slug"] for r in plan}
 FIXED = {"/", "/app", "/how-ai-works", "/poop-tracker", "/food-symptom-tracker", "/ibs-tracker",
          "/science", "/privacy", "/gut-health-app-comparison", "/legal/privacy-policy", "/legal/terms-of-service"}
-RES = {"/resources/" + s for s in ["bristol-stool-chart", "bristol-stool-chart-pdf", "food-symptom-diary", "ibs-food-diary",
+RES = {"/resources/" + s for s in ["bristol-stool-chart", "food-symptom-diary", "ibs-food-diary",
        "bloating-after-eating", "constipation-diary", "food-diary-for-diarrhea", "gastroenterologist-appointment-prep"]}
 valid = FIXED | RES | {"/blog/" + s for s in blog_slugs} | {"/blog/what-your-poop-is-trying-to-tell-you"}
 

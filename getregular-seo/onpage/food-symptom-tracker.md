@@ -13,7 +13,7 @@
 | Not owned (link out) | "food and symptom diary" template → `/resources/food-symptom-diary`; "best food symptom tracker apps" → `/blog/best-food-symptom-tracker-apps`; "how to identify food triggers" → `/blog/how-to-identify-food-triggers` |
 | Search intent | Commercial / transactional |
 | Title tag (53 chars) | `Food and Symptom Tracker App for iPhone | Get Regular` |
-| Meta description (154 chars) | `Log meals by photo or text, tap your symptoms and log poop on the Bristol scale, then see possible food–symptom patterns to test and discuss with a doctor.` |
+| Meta description (155 chars) | `Log meals by photo or text, tap your symptoms and log poop on the Bristol scale, then see possible food–symptom patterns to test and discuss with a doctor.` |
 | H1 | A food and symptom tracker that looks beyond your last meal |
 | OG title | Get Regular: food and symptom tracker for iPhone |
 | OG description | Snap your meals, tap your symptoms, log your poop. See possible patterns across hours and days — then test them. |
@@ -137,7 +137,7 @@ Get Regular is a food and symptom tracker app for iPhone. Snap or type what you 
 > - **It's not a FODMAP database** and doesn't tell you a food's FODMAP content. For that, Monash University's FODMAP app is the reference tool; for a guided low-FODMAP diet, work with a dietitian.
 > - **It's not for allergies.** If you have allergy symptoms (swelling, wheezing, hives), seek urgent care.
 
-**Red-flag box:** **See a doctor if you have:** blood in your stool or black, tarry stools · unexplained weight loss · symptoms that wake you at night · persistent vomiting or severe abdominal pain · bloating with a lump or swelling in your tummy · symptoms that keep coming back despite diet changes [4][6][7].
+**Red-flag box:** **See a doctor if you have:** blood in your stool or black, tarry stools · unexplained weight loss · diarrhea that wakes you at night [8] · persistent vomiting or severe abdominal pain · bloating with a lump or swelling in your tummy · symptoms that keep coming back despite diet changes [6][7].
 
 ---
 
@@ -209,3 +209,4 @@ Yes — the Premium Doctor Report is a PDF that includes possible food–symptom
 5. NIDDK. Symptoms & causes of lactose intolerance. https://www.niddk.nih.gov/health-information/digestive-diseases/lactose-intolerance/symptoms-causes
 6. NHS. Bloating. https://www.nhs.uk/conditions/bloating/
 7. NIDDK. Diagnosis of irritable bowel syndrome. https://www.niddk.nih.gov/health-information/digestive-diseases/irritable-bowel-syndrome/diagnosis
+8. Brandler J, Chey WD. Fishing for irritable bowel syndrome: which alarm features weave the best net? *Clin Gastroenterol Hepatol*. 2022;20(2):276–278. https://pubmed.ncbi.nlm.nih.gov/33220527/
