@@ -40,6 +40,8 @@ sources:
     url: "https://doi.org/10.1053/j.gastro.2019.07.004"
   - title: "NIDDK. Diagnosis of Celiac Disease"
     url: "https://www.niddk.nih.gov/health-information/digestive-diseases/celiac-disease/diagnosis"
+  - title: "US Preventive Services Task Force. Screening for Colorectal Cancer: Recommendation Statement, JAMA 2021"
+    url: "https://jamanetwork.com/journals/jama/fullarticle/2779985"
 feature_dependencies: []
 ---
 
@@ -180,7 +182,8 @@ Book an appointment soon for:
 - Diarrhea lasting 4 weeks or more (chronic) [2]
 - Unintended weight loss
 - New diarrhea after a course of antibiotics, which can be linked to *C. difficile* infection [1]
-- Diarrhea after travel, or a new change in bowel habit after age 50
+- Diarrhea after travel
+- A new, lasting change in bowel habit at 45 or older (the age US guidelines now start routine colorectal cancer screening) [11]
 - A family history of celiac disease, IBD or colorectal cancer
 
 For a fuller checklist, read [when to see a doctor about bowel changes](/blog/when-to-see-doctor-bowel-changes).
@@ -219,7 +222,8 @@ Restaurant meals are often larger and higher in fat and butter than home cooking
 8. NIDDK. Symptoms & Causes of Microscopic Colitis. https://www.niddk.nih.gov/health-information/digestive-diseases/microscopic-colitis/symptoms-causes
 9. Smalley W, et al. AGA Clinical Practice Guidelines on the Laboratory Evaluation of Functional Diarrhea and Diarrhea-Predominant Irritable Bowel Syndrome in Adults (IBS-D). Gastroenterology, 2019. https://doi.org/10.1053/j.gastro.2019.07.004
 10. NIDDK. Diagnosis of Celiac Disease. https://www.niddk.nih.gov/health-information/digestive-diseases/celiac-disease/diagnosis
+11. US Preventive Services Task Force. Screening for Colorectal Cancer: US Preventive Services Task Force Recommendation Statement. JAMA, 2021. https://jamanetwork.com/journals/jama/fullarticle/2779985
 
 > *This article is for general education and isn't medical advice. Get Regular is a tracking app — it doesn't diagnose or treat any condition. If you have red-flag symptoms or ongoing changes in your digestion, talk to a doctor.*
 
-<!-- WRITER NOTES: SERP top results: Vinmec, Ubie (AI doctor's note), Narayana Health, Geisinger (2017 listicle), Oshi Health, Nourish, Imodium (brand), Silver Fern (supplement brand), Healthline (updated Feb 2024, PA-C reviewed; acute vs chronic causes, red flags, FAQ suggests a food diary but gives no method). Strategy notes Ubie x3 and a USPTO patent for the "immediately" variant. Our edge: a timing decision table (minutes vs 30 min–2 h vs 30 min–8 h vs next morning vs night-time) that maps onset to likely explanations, a filled illustrative 5-day log with a worked reading, and explicit "what a doctor may check" (bile acid diarrhea, celiac, microscopic colitis) tied to the 2019 AGA guideline. Merged "sudden urge to poop after eating"/"why do i poop right after i eat" (gastrocolic reflex section). Open questions for medical reviewer: (1) Is the "next morning" row for alcohol/coffee acceptable without a specific citation, or should it be removed/cited? (2) Stress FAQ answer has no citation; acceptable as general statement or cite Rome/IBS source? (3) Red-flag list items "after travel", "after 50", "family history" are uncited in this article (they come from the editorial standard and are cited in /blog/when-to-see-doctor-bowel-changes); OK? (4) Camilleri 32% figure is from a 2009 systematic review cited within a 2015 review; acceptable? -->
+<!-- WRITER NOTES: SERP top results: Vinmec, Ubie (AI doctor's note), Narayana Health, Geisinger (2017 listicle), Oshi Health, Nourish, Imodium (brand), Silver Fern (supplement brand), Healthline (updated Feb 2024, PA-C reviewed; acute vs chronic causes, red flags, FAQ suggests a food diary but gives no method). Strategy notes Ubie x3 and a USPTO patent for the "immediately" variant. Our edge: a timing decision table (minutes vs 30 min–2 h vs 30 min–8 h vs next morning vs night-time) that maps onset to likely explanations, a filled illustrative 5-day log with a worked reading, and explicit "what a doctor may check" (bile acid diarrhea, celiac, microscopic colitis) tied to the 2019 AGA guideline. Merged "sudden urge to poop after eating"/"why do i poop right after i eat" (gastrocolic reflex section). Open questions for medical reviewer: (1) Is the "next morning" row for alcohol/coffee acceptable without a specific citation, or should it be removed/cited? (2) Stress FAQ answer has no citation; acceptable as general statement or cite Rome/IBS source? (3) Red-flag list items "after travel" and "family history" are uncited in this article (they come from the editorial standard and are cited in /blog/when-to-see-doctor-bowel-changes); OK? (4) Camilleri 32% figure is from a 2009 systematic review cited within a 2015 review; acceptable? -->
