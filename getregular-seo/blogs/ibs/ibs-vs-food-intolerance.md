@@ -56,6 +56,9 @@ In this guide:
 - Overlap is common. One review reports that 85–90% of people with IBS say certain foods make symptoms worse [2], and people with IBS report lactose intolerance more often than others [3].
 - Blood "food sensitivity" (IgG) panels aren't validated for IBS [1]. Breath tests and celiac blood tests, ordered by a clinician, are more useful.
 
+
+![Two symptom timelines comparing a single-food intolerance pattern with an IBS pattern](/images/blog/ibs-vs-food-intolerance/intolerance-vs-ibs-timelines.webp "IMAGE BRIEF: Two stacked week-long line charts: top spikes only after a repeated milk icon; bottom spikes linked to mixed icons (stress, sleep, several foods); clearly labeled illustrative; brand palette")
+
 ## What's the difference between IBS and a food intolerance?
 
 The core difference is what drives the symptoms. In food intolerance, a specific food or food component sets off the reaction. In IBS, the gut itself is more sensitive and reactive, so many inputs can set off symptoms.

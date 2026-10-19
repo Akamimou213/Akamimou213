@@ -60,6 +60,9 @@ In this guide:
 - Low ovarian hormone levels around menses may raise gut pain sensitivity [3].
 - Endometriosis can cause bowel symptoms and is about 3 times more common alongside IBS. Painful periods, pain with sex or painful bowel movements during periods are worth raising with a doctor [5][6].
 
+
+![Menstrual cycle wheel showing gut symptoms clustering in the days before and during a period](/images/blog/ibs-and-period/ibs-cycle-wheel.webp "IMAGE BRIEF: 28-day cycle wheel divided into menses, follicular, ovulation and luteal phases with bloating/cramp/loose-stool icons clustered around late-luteal and menses; brand palette")
+
 ## Does IBS flare up during your period?
 
 For many people with IBS, yes. NIDDK states that women with IBS often have more symptoms during their periods [1]. Cleveland Clinic notes that symptoms may worsen predictably with the menstrual cycle [4].

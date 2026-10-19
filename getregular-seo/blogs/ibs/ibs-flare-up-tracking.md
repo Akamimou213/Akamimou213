@@ -56,6 +56,9 @@ In this guide:
 - Triggers commonly named in guidance include alcohol, caffeine, spicy or fatty food, stress and anxiety, and the menstrual cycle. Sometimes there is no obvious cause [1][3].
 - A flare that looks different from your usual pattern, or comes with blood, weight loss, fever or night-time symptoms, needs a doctor rather than a diary [4][7].
 
+
+![Timeline of three days leading into an IBS flare, with meal, sleep, stress and period markers stacked above each day](/images/blog/ibs-flare-up-tracking/flare-lookback-timeline.webp "IMAGE BRIEF: Horizontal 4-day timeline; days -3 to -1 show small icons (coffee, moon with short bar, stress bolt, calendar drop) stacking up before a highlighted flare day; brand palette; no text other than day labels")
+
 ## What is an IBS flare-up?
 
 An IBS flare-up is a period when your IBS symptoms are clearly worse than your usual baseline. The NHS describes it simply: there may be days when symptoms are better and days when they're worse, and the worse days are flare-ups [1].

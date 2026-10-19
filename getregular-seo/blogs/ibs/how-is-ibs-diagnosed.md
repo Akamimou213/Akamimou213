@@ -63,6 +63,9 @@ In this guide:
 - Red flags (bleeding, weight loss, anemia, older age at onset, family history) change the plan [1][3].
 - Online symptom checkers and apps can help you prepare, but they can't diagnose IBS.
 
+
+![Diagnosis pathway from symptom history to red-flag check to targeted tests to diagnosis](/images/blog/how-is-ibs-diagnosed/ibs-diagnosis-pathway.webp "IMAGE BRIEF: Four-step flow diagram: history and exam, red-flag check, targeted tests (celiac blood test, calprotectin), diagnosis and plan; side note "Rome IV / Rome V"; brand palette")
+
 ## How is IBS diagnosed?
 
 IBS is diagnosed when a clinician confirms a typical symptom pattern and finds no features that point to another condition. NIDDK describes the process: your doctor reviews your symptoms, medical and family history, and does a physical exam, then sometimes orders tests to rule out other problems [3].

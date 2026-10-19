@@ -58,6 +58,9 @@ In this guide:
 - Post-infection IBS often improves over time, though it can last for years [2].
 - New bowel symptoms after 50, or with blood, weight loss or night-time symptoms, should be checked by a doctor before being labeled IBS [3][5].
 
+
+![Timeline from a stomach bug to ongoing IBS-type symptoms and a doctor visit](/images/blog/can-ibs-start-suddenly/post-infection-timeline.webp "IMAGE BRIEF: Horizontal timeline: stomach-bug icon at week 0, gap, recurring symptom dots at weeks 2-12, clipboard and stethoscope icon at the end; brand palette")
+
 ## Can IBS appear suddenly?
 
 Yes. The clearest example is post-infection IBS, where symptoms start right after a gut infection clears up [2]. Other people notice IBS building over a few weeks during a stressful period or after a medicine change, and it can feel sudden in hindsight.

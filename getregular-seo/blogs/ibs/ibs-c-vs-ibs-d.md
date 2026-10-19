@@ -58,6 +58,9 @@ In this guide:
 - The ACG guideline recommends daily diaries for 2 weeks, ideally while off medicines that change bowel habits, for the most accurate subtype [1].
 - More than half of people with IBS change subtype over a year, so your subtype isn't fixed [1].
 
+
+![Three bars of Bristol stool icons showing the 25 percent thresholds for IBS-C, IBS-D and IBS-M](/images/blog/ibs-c-vs-ibs-d/ibs-subtype-25-percent.webp "IMAGE BRIEF: Three horizontal bars built from small hard/normal/loose stool icons with a dotted 25% line; labels IBS-C, IBS-D, IBS-M; clean flat illustration, brand palette")
+
 ## What's the difference between IBS-C and IBS-D?
 
 IBS-C (IBS with constipation) and IBS-D (IBS with diarrhea) share the same core: recurring belly pain linked to bowel movements and changes in stool frequency or form [2][3]. What separates them is which kind of abnormal stool dominates.

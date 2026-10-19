@@ -56,6 +56,9 @@ In this guide:
 - Soluble fiber (like oats or psyllium) helps IBS more than insoluble fiber (like bran). Add it gradually [3][4].
 - A flare diet is for days, not months. Long-term strict restriction should be planned with a dietitian [3][5].
 
+
+![A simple IBS flare plate with plain protein, rice or potato, and cooked low-FODMAP vegetables](/images/blog/ibs-flare-what-to-eat/flare-plate.webp "IMAGE BRIEF: Top-down plate photo-style illustration: grilled fish or tofu, white rice, steamed carrots and zucchini, glass of water; calm, warm lighting; brand palette accents")
+
 ## What should you eat during an IBS flare-up?
 
 Eat simple, familiar meals that are low in fat and low in FODMAPs, in smaller portions spread through the day. These foods are less likely to cause extra gas, water or speed in an already irritable gut.

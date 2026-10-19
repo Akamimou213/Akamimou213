@@ -58,6 +58,9 @@ In this guide:
 - Stress affects gut sensitivity, movement and secretion through the gut-brain axis [4].
 - Gut-directed psychological therapies, including CBT and gut-directed hypnotherapy, are suggested in the ACG guideline for overall IBS symptoms [5].
 
+
+![A two-by-two grid comparing symptom scores on high- and low-stress days with and without a suspected trigger food](/images/blog/ibs-and-stress/stress-food-2x2.webp "IMAGE BRIEF: 2x2 grid card with rows high/low stress and columns food eaten/not eaten, each cell showing a small bar; labeled illustrative; brand palette")
+
 ## Does IBS flare up with stress?
 
 For many people, yes. In a classic diary study, women with IBS rated their stress and gut symptoms every day across two menstrual cycles. Within each woman, days with more stress were days with more symptoms, and this held after accounting for cycle phase [2]. A related study found that at least 40% of women with IBS had a clear day-to-day link between psychological distress and gut symptoms [3].

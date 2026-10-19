@@ -58,6 +58,9 @@ In this guide:
 - For many people, FODMAPs are the main food factor. A short, dietitian-guided low-FODMAP trial followed by reintroduction is the evidence-based approach [3][4].
 - Test one suspect at a time. Broad elimination can harm nutrition and doesn't tell you which food mattered [4].
 
+
+![A one-food test card with baseline, remove, reintroduce and compare steps](/images/blog/ibs-trigger-foods/one-food-test-card.webp "IMAGE BRIEF: Illustrated index card with four numbered steps (baseline, remove, reintroduce, compare) next to a single circled coffee cup; brand palette")
+
 ## IBS symptoms: which foods should you avoid first?
 
 Start with the changes most guidelines agree on, not a long ban list. The NHS's IBS diet advice is a good baseline [1]:

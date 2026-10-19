@@ -58,6 +58,9 @@ In this guide:
 - The strict phase is meant to be short-term. Long-term over-restriction may cause nutritional problems, so the ACG recommends a trained GI dietitian [5].
 - A good log records dose, timing, symptoms, stool and confounders (stress, sleep, period, illness) so you and your dietitian can tell a real reaction from a bad day.
 
+
+![Calendar showing a three-day FODMAP challenge with increasing servings followed by washout days](/images/blog/low-fodmap-reintroduction-tracking/fodmap-challenge-calendar.webp "IMAGE BRIEF: Two-week grid: three challenge days with rising color intensity (moderate, high, higher serve), then 2-3 neutral washout days, then next group; brand palette; no food brand names")
+
 ## How does low-FODMAP reintroduction work?
 
 Low-FODMAP reintroduction is the second of three steps. You add back foods rich in one FODMAP group at a time to see which ones you tolerate. FODMAPs are fermentable carbohydrates: Fermentable Oligosaccharides, Disaccharides, Monosaccharides And Polyols [3].
