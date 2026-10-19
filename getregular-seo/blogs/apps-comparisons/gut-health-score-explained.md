@@ -2,7 +2,7 @@
 title: "What Is a Gut Health Score? How Apps Calculate It"
 slug: "gut-health-score-explained"
 cluster: "apps-comparisons"
-description: "A gut health score is an app's own summary of your stool, food and symptom logs, not a medical test. Here's how scores are built, what they can't tell you, and how to read one."
+description: "A gut health score is an app's summary of your stool, food and symptom logs, not a medical test. How scores are built, their limits, and how to read one."
 primary_keyword: "gut health score"
 secondary_keywords: ["what is a gut health score", "how to calculate gut health score", "how to check gut health score", "can you measure gut health", "gut health score calculator"]
 search_intent: "informational"

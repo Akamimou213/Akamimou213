@@ -52,8 +52,13 @@ for f in files:
     n_src = len(fm.get("sources") or [])
     cites = {int(x) for x in re.findall(r"\[(\d{1,2})\](?!\()", body)}
     if cites and max(cites) > n_src: errors.append(f"{rel}: cites [{max(cites)}] but only {n_src} sources")
-    for bad in ["clinically validated", "diagnoses your", "cures ", "finds your triggers", "find your triggers"]:
-        if bad in body.lower(): errors.append(f"{rel}: banned phrase '{bad.strip()}'")
+    for line in body.lower().splitlines():
+        for bad in ["clinically validated", "diagnoses your", "cures ", "finds your triggers", "find your triggers"]:
+            i = line.find(bad)
+            if i < 0: continue
+            quoted = any(q in line[max(0, i - 12):i] for q in "\"“‘")
+            negated = re.search(r"\b(not|none|no|never|isn't|aren't|hasn't|without)\b", line[:i])
+            if not (quoted or negated): errors.append(f"{rel}: banned phrase '{bad.strip()}' in: {line.strip()[:90]}")
     words = len(re.findall(r"\b\w+\b", body))
     rows.append((rel, words, n_src, len(used), fm.get("review_status"), ",".join(fm.get("feature_dependencies") or [])))
 

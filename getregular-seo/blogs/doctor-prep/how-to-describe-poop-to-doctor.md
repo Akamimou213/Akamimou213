@@ -9,7 +9,7 @@ search_intent: "informational"
 funnel: "MOFU"
 pillar: "/resources/gastroenterologist-appointment-prep"
 product_page: "/poop-tracker"
-internal_links: ["/resources/gastroenterologist-appointment-prep", "/resources/bristol-stool-chart", "/poop-tracker", "/blog/how-to-describe-abdominal-pain", "/resources/gi-symptom-checklist", "/blog/when-to-see-doctor-bowel-changes"]
+internal_links: ["/resources/gastroenterologist-appointment-prep", "/resources/bristol-stool-chart", "/poop-tracker", "/blog/how-to-describe-abdominal-pain", "/blog/gi-symptom-checklist", "/blog/when-to-see-doctor-bowel-changes"]
 author: "Get Regular Editorial Team"
 medical_reviewer: "PENDING"
 review_status: "draft-needs-medical-review"
@@ -133,7 +133,7 @@ Use this script, filled in with your own numbers. Put red flags first.
 > It **[does / doesn't]** wake me at night.
 > I've tried **[X]**, and **[result]**."
 
-If saying it out loud feels awkward, hand over a printed version. Our [GI symptom checklist](/resources/gi-symptom-checklist) has these fields ready to fill in.
+If saying it out loud feels awkward, hand over a printed version. Our [GI symptom checklist](/blog/gi-symptom-checklist) has these fields ready to fill in.
 
 ## How do you build your bowel habit history?
 

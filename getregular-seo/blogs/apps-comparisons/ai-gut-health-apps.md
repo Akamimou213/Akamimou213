@@ -2,7 +2,7 @@
 title: "AI Gut Health Apps: What AI Can and Can't Tell You"
 slug: "ai-gut-health-apps"
 cluster: "apps-comparisons"
-description: "What AI gut health apps actually do with your food photos, poop logs and symptoms, what the research says about accuracy, and the questions to ask before you trust an AI insight."
+description: "What AI gut health apps really do with your food photos, poop logs and symptoms, how accurate they are, and what to ask before trusting an AI insight."
 primary_keyword: "ai gut health app"
 secondary_keywords: ["gut health ai", "ai poop tracker", "ai food diary", "ai symptom tracker", "ai gut health"]
 search_intent: "commercial"
