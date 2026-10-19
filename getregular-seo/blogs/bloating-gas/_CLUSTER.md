@@ -1,6 +1,6 @@
 # Cluster: bloating-gas
 
-9 drafts · all `review_status: draft-needs-medical-review` · generated from frontmatter by `scripts/build_cluster_index.py`
+10 drafts · all `review_status: draft-needs-medical-review` · generated from frontmatter by `scripts/build_cluster_index.py`
 
 | # | Slug | Title | Primary keyword | Volume / tier | Words | Pillar | Feature deps |
 |---|---|---|---|---|---|---|---|
@@ -13,6 +13,7 @@
 | 7 | `dairy-bloating` | Does Dairy Cause Bloating? Lactose Signs, Timing and Tests | is bloating a sign of dairy intolerance | unmeasured (autocomplete-validated); tie | 2075 | `/resources/bloating-after-eating` | — |
 | 8 | `gas-after-eating` | Excessive Gas After Eating: Causes and What to Track | excessive gas after eating | 720 (variants) | 2137 | `/resources/bloating-after-eating` | — |
 | 9 | `why-am-i-so-bloated` | Why Am I So Bloated All the Time? Causes and Red Flags | why am i so bloated | 8,100 | 2340 | `/resources/bloating-after-eating` | — |
+| 10 | `bloating-after-eating-very-little` | Bloated After Eating Very Little? Causes and Red Flags | stomach bloating after eating very little | 2,900 | 3150 | `/resources/bloating-after-eating` | — |
 
 ## Internal link map
 
@@ -25,6 +26,7 @@
 - `dairy-bloating` → `/resources/bloating-after-eating`, `/food-symptom-tracker`, `/blog/diarrhea-after-dairy`, `/blog/can-coffee-cause-bloating`, `/blog/gluten-bloating`, `/blog/food-intolerance-test-vs-food-diary`
 - `gas-after-eating` → `/resources/bloating-after-eating`, `/food-symptom-tracker`, `/blog/how-to-identify-food-triggers`, `/blog/dairy-bloating`, `/blog/fiber-bloating`, `/blog/bloated-after-salad`
 - `why-am-i-so-bloated` → `/resources/bloating-after-eating`, `/food-symptom-tracker`, `/blog/bloated-at-night`, `/blog/bloating-after-eating-very-little`, `/blog/when-to-see-doctor-bowel-changes`, `/blog/ibs-and-period`
+- `bloating-after-eating-very-little` → `/resources/bloating-after-eating`, `/food-symptom-tracker`, `/blog/when-to-see-doctor-bowel-changes`, `/blog/why-am-i-so-bloated`, `/blog/gas-after-eating`, `/blog/bloated-at-night`, `/blog/symptom-diary-for-doctor`, `/blog/how-to-describe-abdominal-pain`
 
 ## Publish order
 
@@ -41,3 +43,4 @@ Publish in the order above (by opportunity score), after the pillar page is live
 - **dairy-bloating**: (1) The "within 30 minutes of a small amount is less typical" clue is mechanistic reasoning, not cited — keep? (2) OK to dismiss IgG milk tests in one line and link to the C2 test-vs-diary post? (3) Add explicit FPIES/eosinophilic esophagitis caveats? (likely out of scope)
 - **gas-after-eating**: (1) The "stress" FAQ is lightly cited (AGA BGBT recommendation) — sufficient? (2) Should we mention alpha-galactosidase/simethicone (omitted for lack of verified evidence in this pass)? (3) Timing table rows are partly heuristic — acceptable as "clues, not diagnostic"?
 - **why-am-i-so-bloated**: (1) NICE/NHS are UK — add a US source (ACOG / NCI) for ovarian symptoms? (2) The bloating-vs-fat heuristic (fluctuation) — acceptable as stated? (3) "Endometriosis" omitted for lack of a primary source in this pass — add? (4) Confirm the AGA "weight loss >10% of body weight" threshold is better left unstated (we used "unintended weight loss").
+- **bloating-after-eating-very-little**: (1) NICE NG12 page returned 403 to the fetch tool; the ovarian recommendation wording (persistent/frequent distension, more than 12 times a month, 50+, IBS-like symptoms in 50+) is taken from search-result summaries of NICE CG122/NG12 and from the NHS page, so please verify against the live NG12 text and confirm whether current NG12 wording applies to "early satiety" as listed. (2) Rome IV criteria and PDS prevalence are from the search summary of PMC12239946 and Rome Foundation criteria; AAFP page gives age 60+ endoscopy and H. pylori test-and-treat under 60; US ACG/CAG guidance may use a dif

@@ -1,6 +1,6 @@
 # Cluster: diarrhea
 
-6 drafts · all `review_status: draft-needs-medical-review` · generated from frontmatter by `scripts/build_cluster_index.py`
+10 drafts · all `review_status: draft-needs-medical-review` · generated from frontmatter by `scripts/build_cluster_index.py`
 
 | # | Slug | Title | Primary keyword | Volume / tier | Words | Pillar | Feature deps |
 |---|---|---|---|---|---|---|---|
@@ -10,6 +10,10 @@
 | 4 | `coffee-poop` | Why Does Coffee Make You Poop (and Sometimes Give You Diarrhea)? | why does coffee make me poop | unmeasured (autocomplete-validated); tie | 1926 | `/resources/food-diary-for-diarrhea` | — |
 | 5 | `glp1-diarrhea-tracking` | Diarrhea on Zepbound, Wegovy or Ozempic: What to Track | diarrhea on zepbound | unmeasured (autocomplete-validated); tie | 2260 | `/resources/food-diary-for-diarrhea` | — |
 | 6 | `diarrhea-after-fatty-food` | Diarrhea After Fatty Food: Gallbladder, Bile and Other Causes | diarrhea after eating fatty foods | unmeasured (autocomplete-validated); tie | 2347 | `/resources/food-diary-for-diarrhea` | — |
+| 7 | `diarrhea-after-alcohol` | Why Does Alcohol Give You Diarrhea? The Day-After Poop | diarrhea after drinking alcohol | unmeasured (autocomplete-validated); tie | 2388 | `/resources/food-diary-for-diarrhea` | — |
+| 8 | `diarrhea-after-dairy` | Diarrhea After Dairy: How Soon It Starts and How Long It Lasts | diarrhea after dairy | unmeasured (autocomplete-validated); tie | 2517 | `/resources/food-diary-for-diarrhea` | — |
+| 9 | `constipation-then-diarrhea` | Constipation Then Diarrhea: Why Bowels Swing Back and Forth | constipation then diarrhea | unmeasured (autocomplete-validated); tie | 2505 | `/resources/food-diary-for-diarrhea` | — |
+| 10 | `yellow-diarrhea` | Yellow Diarrhea in Adults: Common Causes and When to Worry | bright yellow loose bowel movements | 2,900 | 2451 | `/resources/food-diary-for-diarrhea` | — |
 
 ## Internal link map
 
@@ -19,6 +23,10 @@
 - `coffee-poop` → `/resources/food-diary-for-diarrhea`, `/food-symptom-tracker`, `/blog/when-to-see-doctor-bowel-changes`, `/blog/urgent-bowel-movement-morning`, `/blog/diarrhea-after-dairy`, `/blog/can-coffee-cause-bloating`
 - `glp1-diarrhea-tracking` → `/resources/food-diary-for-diarrhea`, `/food-symptom-tracker`, `/blog/when-to-see-doctor-bowel-changes`, `/blog/diarrhea-after-fatty-food`, `/blog/havent-pooped-in-days`, `/blog/share-food-symptom-log-with-doctor`
 - `diarrhea-after-fatty-food` → `/resources/food-diary-for-diarrhea`, `/food-symptom-tracker`, `/blog/when-to-see-doctor-bowel-changes`, `/blog/diarrhea-after-eating`, `/blog/floating-poop`, `/blog/yellow-diarrhea`, `/blog/glp1-diarrhea-tracking`
+- `diarrhea-after-alcohol` → `/resources/food-diary-for-diarrhea`, `/food-symptom-tracker`, `/poop-tracker`, `/blog/when-to-see-doctor-bowel-changes`, `/blog/diarrhea-after-eating`, `/blog/diarrhea-after-dairy`, `/blog/stress-diarrhea`, `/blog/bristol-stool-type-6`
+- `diarrhea-after-dairy` → `/resources/food-diary-for-diarrhea`, `/food-symptom-tracker`, `/poop-tracker`, `/blog/when-to-see-doctor-bowel-changes`, `/blog/dairy-bloating`, `/blog/diarrhea-after-eating`, `/blog/ibs-vs-food-intolerance`, `/blog/delayed-food-intolerance-symptoms`, `/blog/can-food-intolerance-start-suddenly`
+- `constipation-then-diarrhea` → `/resources/food-diary-for-diarrhea`, `/resources/ibs-food-diary`, `/poop-tracker`, `/food-symptom-tracker`, `/blog/when-to-see-doctor-bowel-changes`, `/blog/ibs-c-vs-ibs-d`, `/blog/bristol-stool-type-6`, `/blog/havent-pooped-in-days`, `/blog/how-to-track-bowel-movements`
+- `yellow-diarrhea` → `/resources/food-diary-for-diarrhea`, `/poop-tracker`, `/food-symptom-tracker`, `/blog/when-to-see-doctor-bowel-changes`, `/blog/poop-color-chart`, `/blog/floating-poop`, `/blog/diarrhea-after-fatty-food`, `/blog/bristol-stool-type-6`
 
 ## Publish order
 
@@ -32,3 +40,7 @@ Publish in the order above (by opportunity score), after the pillar page is live
 - **coffee-poop**: (1) Rao 1998 abstract is internally inconsistent on decaf vs water; we only state "23% more than decaf". OK? (2) "Coffee dependence may point to constipation" — uncited practical note; keep? (3) Should we add an explicit caution for people with GERD/IBS about caffeine?
 - **glp1-diarrhea-tracking**: see writer notes at end of file
 - **diarrhea-after-fatty-food**: see writer notes at end of file
+- **diarrhea-after-alcohol**: (1) Mechanism claims come from a PMC review (PMC6826790; fetched page did not show the author line, add full citation before publishing) which includes animal data; is the hedged wording sufficient? (2) The "usually settles within a day or so" duration is uncited general clinical expectation; cite or soften. (3) No peer-reviewed comparison of beer vs wine vs spirits was found; the beer FAQ and the community-pattern sentence are hedged and uncited. (4) The withdrawal bullet uses MedlinePlus, which does not list diarrhea as a withdrawal symptom; it is included as a safety flag only. (5) The dehy
+- **diarrhea-after-dairy**: (1) The 12 g/1 cup figure and low-lactose cheese/yogurt advice come from NIDDK pages last reviewed Feb 2018; confirm current. (2) "1 to 2 weeks" log length is a practical suggestion; NIDDK gives no trial length, which the text says. (3) Cleveland Clinic transit-time explanation gives "up to a day or two" rather than a precise duration of diarrhea; is that wording fine? (4) The 4-weeks and family-history bullets are standard red flags from the editorial standard and are not cited here. (5) Experiments feature mention relies on the Terms/App Store description (premium); confirm wording with prod
+- **constipation-then-diarrhea**: (1) Overflow "clues" list and the "don't start an anti-diarrheal after days of constipation" advice go slightly beyond Harvard Health's text (which says only that overflow can be mistaken for diarrhea); a web search summary of NHS England resources suggested antidiarrheals could worsen impaction, but that was not opened; please confirm or soften. (2) NIDDK constipation page does not mention impaction; medicine list from it is cited as causes of constipation only. (3) "Stacking laxatives" bullet and the explosive-diarrhea FAQ are uncited general guidance. (4) Family-history bullet citation [2] 
+- **yellow-diarrhea**: (1) The jaundice red flag cites NIDDK pancreatitis page, which frames it for pancreatitis; add a liver/gallstone source (e.g., Johns Hopkins gallstones, seen in search results but not opened) before publish. (2) Cleveland Clinic "within a few days / more than a week" thresholds come from one source; confirm. (3) Stress was deliberately left out for lack of a source. (4) Giardia risk list follows the CDC page wording. (5) Family-history bullet is uncited (editorial standard).

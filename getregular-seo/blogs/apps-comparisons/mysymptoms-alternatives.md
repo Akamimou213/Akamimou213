@@ -2,7 +2,7 @@
 title: "mySymptoms Alternatives (2026): Food & Symptom Diaries Compared"
 slug: "mysymptoms-alternatives"
 cluster: "apps-comparisons"
-description: "Looking for a mySymptoms alternative? Compare Bowelle, Bearable, Plop, CareClinic, Balloon and Get Regular on price, logging style, export and platforms. Checked 19 Oct 2026."
+description: "Looking for a mySymptoms alternative? Compare Bowelle, Bearable, Plop, CareClinic, Balloon and Get Regular on price, logging, export and platforms. Checked 19 Oct 2026."
 primary_keyword: "mysymptoms alternative"
 secondary_keywords: ["apps like mysymptoms", "mysymptoms vs bowelle", "mysymptoms review", "mysymptoms free alternative"]
 search_intent: "commercial"

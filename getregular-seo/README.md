@@ -23,7 +23,12 @@ Research and content were done by Claude. Implementation is done by Codex in `av
 
 ## Status and limits (19 Oct 2026)
 
-- Every article is a **draft that needs medical review** (`review_status: draft-needs-medical-review`). Nothing has been published.
+- **80 article drafts** (8 clusters × 10, ~181k words) and **13 page-copy files** are complete.
+- `python3 scripts/validate_blogs.py` passes with 0 errors and 0 warnings. It checks frontmatter, internal links, citation numbering, duplicate keywords and banned claims.
+- All 60 cited PubMed IDs were verified against NCBI.
+- `scripts/build_cluster_index.py` rebuilds the `_CLUSTER.md` indexes.
+- Every article is a **draft that needs medical review** (`review_status: draft-needs-medical-review`). Nothing has been published. Reviewer questions sit in each `_CLUSTER.md` and in the `WRITER NOTES` comment at the end of each file.
+- About 100 `[CONFIRM]` flags in `onpage/` need answers from the owner. See STRATEGY §11.
 - Search volumes come from one Semrush snapshot (6 Oct). Autocomplete-only terms are labeled "unmeasured".
 - The AI-visibility results are a **web-search proxy**, not real assistant output.
 - Reddit and People Also Ask could not be collected from this environment. See STRATEGY §10 for the manual protocol.
