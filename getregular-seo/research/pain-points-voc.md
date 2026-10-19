@@ -349,7 +349,7 @@ Headline counts:
 See `question-bank.csv`, which has **271 rows**:
 - **By source:** autocomplete 193, forum 74 (patient.info 64, HealthUnlocked 10), and 4 needs taken from reviews.
 - **By cluster:** stool/Bristol 54, food diary/triggers 41, IBS 39, bloating/gas 30, constipation 30, diarrhea 22, doctor prep 21, app selection 20, gut health general 9, privacy/AI 5.
-- **By intent:** informational dominates. 27 rows are commercial, mostly "best … app" queries.
+- **By intent:** informational dominates. 25 rows are commercial, mostly "best … app" queries.
 
 Highest-leverage question families for GEO, where AI assistants get asked directly:
 - "how many times should you poop a day / is it normal…"
