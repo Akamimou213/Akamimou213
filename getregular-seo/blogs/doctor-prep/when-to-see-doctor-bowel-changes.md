@@ -1,5 +1,5 @@
 ---
-title: "Changes in Bowel Habits: Which Need a Doctor (and Which You Can Track)"
+title: "Change in Bowel Habits: When to See a Doctor"
 slug: "when-to-see-doctor-bowel-changes"
 cluster: "doctor-prep"
 description: "A change in bowel habits that lasts weeks, or comes with blood, weight loss or night symptoms, needs a doctor. Here's how to tell which changes to track instead."

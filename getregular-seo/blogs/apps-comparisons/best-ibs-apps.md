@@ -9,7 +9,7 @@ search_intent: "commercial"
 funnel: "BOFU"
 pillar: "/gut-health-app-comparison"
 product_page: "/ibs-tracker"
-internal_links: ["/gut-health-app-comparison", "/ibs-tracker", "/blog/ibs-flare-up-tracking", "/blog/low-fodmap-reintroduction-tracking", "/blog/best-food-symptom-tracker-apps", "/blog/mysymptoms-alternatives", "/blog/how-is-ibs-diagnosed", "/blog/gut-health-app-privacy"]
+internal_links: ["/gut-health-app-comparison", "/ibs-tracker", "/blog/ibs-flare-up-tracking", "/blog/low-fodmap-reintroduction-tracking", "/blog/best-food-symptom-tracker-apps", "/blog/mysymptoms-alternatives", "/blog/how-is-ibs-diagnosed", "/blog/gut-health-app-privacy", "/blog/free-gut-health-apps"]
 author: "Get Regular Editorial Team"
 medical_reviewer: "PENDING"
 review_status: "draft-needs-medical-review"
@@ -181,7 +181,7 @@ An app can organise your symptoms; it can't rule out other conditions. IBS is di
 For pure tracking, choose based on how you like to log. mySymptoms suits detailed typists, Bowelle and Plop suit quick, free-to-start logging, Bearable suits people tracking several conditions, and Get Regular suits iPhone users who prefer photos. Check each listing's price and export options first.
 
 **What IBS app does Reddit recommend?**
-On r/IBS, people most often mention mySymptoms, Bowelle, Monash and Nerva, and recommendations vary with what each person needs. Treat any single thread as one person's experience and check the listing details yourself.
+Reddit threads mix trackers, therapy apps and FODMAP guides, and recommendations depend on each poster's IBS type and phone. Treat any thread as one person's experience: match the app to your job (tracking, therapy or FODMAP lookup), then check the current price, Android availability and export options on the listing yourself.
 
 **Is there a free IBS app?**
 Yes. Bowelle and Fast FODMAP are free downloads, and Plop and Bearable have free versions. Monash costs $7.99 once (US). Most AI or program-based apps are subscription-based; see [free gut health apps](/blog/free-gut-health-apps) for what free tiers include.

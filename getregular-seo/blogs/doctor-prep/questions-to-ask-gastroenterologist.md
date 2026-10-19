@@ -1,5 +1,5 @@
 ---
-title: "Questions to Ask Your Gastroenterologist (First Visit, IBS, Follow-Up)"
+title: "Questions to Ask Your Gastroenterologist (IBS & First Visit)"
 slug: "questions-to-ask-gastroenterologist"
 cluster: "doctor-prep"
 description: "Questions to ask a gastroenterologist at your first visit, about IBS, and at follow-ups, plus the questions your GI doctor will ask you and how to answer with data."
