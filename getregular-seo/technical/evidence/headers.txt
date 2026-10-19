@@ -1,0 +1,73 @@
+=== GET https://www.getregular.com/
+HTTP/1.1 200 Connection Established
+
+HTTP/2 200 
+access-control-allow-origin: *
+age: 5072
+cache-control: public, max-age=0, must-revalidate
+content-disposition: inline
+content-encoding: br
+content-type: text/html; charset=utf-8
+date: Mon, 19 Oct 2026 07:09:36 GMT
+etag: W/"3ce66b83b6aef699c0eec4373ffb524d"
+server: Vercel
+strict-transport-security: max-age=63072000
+vary: rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch
+x-matched-path: /
+x-nextjs-prerender: 1
+x-nextjs-stale-time: 300
+x-vercel-cache: HIT
+x-vercel-id: iad1::26ksg-1792393776125-a8dedc9124a2
+
+=== GET https://getregular.com/
+HTTP/1.1 200 Connection Established
+
+HTTP/2 307 
+cache-control: public, max-age=0, must-revalidate
+content-type: text/plain
+date: Mon, 19 Oct 2026 07:09:36 GMT
+location: https://www.getregular.com/
+server: Vercel
+strict-transport-security: max-age=63072000
+x-vercel-id: iad1::j4q5n-1792393776413-e453f0acc510
+
+=== GET https://www.getregular.com/this-page-does-not-exist-xyz123
+HTTP/1.1 200 Connection Established
+
+HTTP/2 404 
+access-control-allow-origin: *
+age: 12
+cache-control: public, max-age=0, must-revalidate
+content-disposition: inline; filename="404"
+content-encoding: br
+content-type: text/html; charset=utf-8
+date: Mon, 19 Oct 2026 07:09:36 GMT
+etag: W/"796110bd635b640a66938b6845ced314"
+last-modified: Mon, 19 Oct 2026 07:09:24 GMT
+server: Vercel
+strict-transport-security: max-age=63072000
+x-matched-path: /404
+x-vercel-cache: HIT
+x-vercel-id: iad1::vbjbm-1792393776630-e193418b7f9f
+
+=== GET https://www.getregular.com/legal/privacy-policy
+HTTP/1.1 200 Connection Established
+
+HTTP/2 200 
+access-control-allow-origin: *
+age: 8
+cache-control: public, max-age=0, must-revalidate
+content-disposition: inline
+content-encoding: br
+content-type: text/html; charset=utf-8
+date: Mon, 19 Oct 2026 07:09:36 GMT
+etag: W/"46b258abb512d48648fdefae8490d0ef"
+server: Vercel
+strict-transport-security: max-age=63072000
+vary: rsc, next-router-state-tree, next-router-prefetch, next-router-segment-prefetch
+x-matched-path: /legal/privacy-policy
+x-nextjs-prerender: 1
+x-nextjs-stale-time: 300
+x-vercel-cache: HIT
+x-vercel-id: iad1::tbbjg-1792393776876-3cbf54533cc6
+

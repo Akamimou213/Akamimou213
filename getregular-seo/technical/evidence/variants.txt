@@ -1,0 +1,66 @@
+=== http://getregular.com/
+200 hops=2 final=https://www.getregular.com/ size=49028 t=0.942290
+HTTP/1.1 308 Permanent Redirect
+location: https://getregular.com/
+refresh: 0;url=https://getregular.com/
+=== https://getregular.com/
+200 hops=1 final=https://www.getregular.com/ size=49028 t=0.520044
+HTTP/1.1 200 Connection Established
+HTTP/2 307 
+location: https://www.getregular.com/
+=== http://www.getregular.com/
+200 hops=1 final=https://www.getregular.com/ size=49028 t=0.417547
+HTTP/1.1 308 Permanent Redirect
+location: https://www.getregular.com/
+refresh: 0;url=https://www.getregular.com/
+=== https://www.getregular.com/
+200 hops=0 final=https://www.getregular.com/ size=49028 t=0.230194
+HTTP/1.1 200 Connection Established
+HTTP/2 200 
+x-matched-path: /
+=== https://www.getregular.com
+200 hops=0 final=https://www.getregular.com/ size=49028 t=0.257112
+HTTP/1.1 200 Connection Established
+HTTP/2 200 
+x-matched-path: /
+=== https://www.getregular.com/index.html
+404 hops=0 final=https://www.getregular.com/index.html size=13323 t=0.204118
+HTTP/1.1 200 Connection Established
+HTTP/2 404 
+x-matched-path: /404
+=== https://WWW.GETREGULAR.COM/
+200 hops=0 final=https://WWW.GETREGULAR.COM/ size=49028 t=0.236028
+HTTP/1.1 200 Connection Established
+HTTP/2 200 
+x-matched-path: /
+=== https://www.getregular.com/LEGAL/PRIVACY-POLICY
+404 hops=0 final=https://www.getregular.com/LEGAL/PRIVACY-POLICY size=13323 t=0.184110
+HTTP/1.1 200 Connection Established
+HTTP/2 404 
+x-matched-path: /404
+=== https://www.getregular.com/legal/privacy-policy/
+200 hops=1 final=https://www.getregular.com/legal/privacy-policy size=43921 t=0.406999
+HTTP/1.1 200 Connection Established
+HTTP/2 308 
+location: /legal/privacy-policy
+refresh: 0;url=/legal/privacy-policy
+=== https://www.getregular.com/?utm_source=test&gclid=abc
+200 hops=0 final=https://www.getregular.com/?utm_source=test&gclid=abc size=49028 t=0.248544
+HTTP/1.1 200 Connection Established
+HTTP/2 200 
+x-matched-path: /
+=== https://www.getregular.com/this-page-does-not-exist-xyz123
+404 hops=0 final=https://www.getregular.com/this-page-does-not-exist-xyz123 size=13323 t=0.203734
+HTTP/1.1 200 Connection Established
+HTTP/2 404 
+x-matched-path: /404
+=== https://getregular.com/legal/privacy-policy
+200 hops=1 final=https://www.getregular.com/legal/privacy-policy size=43921 t=0.408810
+HTTP/1.1 200 Connection Established
+HTTP/2 307 
+location: https://www.getregular.com/legal/privacy-policy
+=== http://www.getregular.com/legal/terms-of-service
+200 hops=1 final=https://www.getregular.com/legal/terms-of-service size=28937 t=0.402504
+HTTP/1.1 308 Permanent Redirect
+location: https://www.getregular.com/legal/terms-of-service
+refresh: 0;url=https://www.getregular.com/legal/terms-of-service

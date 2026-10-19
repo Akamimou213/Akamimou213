@@ -1,0 +1,24 @@
+/robots.txt                                   404 text/html; charset=utf-8 13323B redirects=0
+/sitemap.xml                                  200 application/xml 686B redirects=0
+/sitemap_index.xml                            404 text/html; charset=utf-8 13323B redirects=0
+/sitemap-index.xml                            404 text/html; charset=utf-8 13323B redirects=0
+/sitemap-0.xml                                404 text/html; charset=utf-8 13323B redirects=0
+/llms.txt                                     404 text/html; charset=utf-8 13323B redirects=0
+/llms-full.txt                                404 text/html; charset=utf-8 13323B redirects=0
+/.well-known/apple-app-site-association       200 application/json 160B redirects=0
+/apple-app-site-association                   404 text/html; charset=utf-8 13323B redirects=0
+/.well-known/security.txt                     404 text/html; charset=utf-8 13323B redirects=0
+/.well-known/assetlinks.json                  404 text/html; charset=utf-8 13323B redirects=0
+/favicon.ico                                  404 text/html; charset=utf-8 13323B redirects=0
+/icon.png                                     200 image/png 1481B redirects=0
+/apple-icon.png                               404 text/html; charset=utf-8 13323B redirects=0
+/apple-touch-icon.png                         404 text/html; charset=utf-8 13323B redirects=0
+/manifest.json                                404 text/html; charset=utf-8 13323B redirects=0
+/manifest.webmanifest                         404 text/html; charset=utf-8 13323B redirects=0
+/site.webmanifest                             404 text/html; charset=utf-8 13323B redirects=0
+/images/preview.png                           200 image/png 916724B redirects=0
+/opengraph-image                              404 text/html; charset=utf-8 13323B redirects=0
+/ads.txt                                      404 text/html; charset=utf-8 13323B redirects=0
+/humans.txt                                   404 text/html; charset=utf-8 13323B redirects=0
+/feed.xml                                     404 text/html; charset=utf-8 13323B redirects=0
+/rss.xml                                      404 text/html; charset=utf-8 13323B redirects=0

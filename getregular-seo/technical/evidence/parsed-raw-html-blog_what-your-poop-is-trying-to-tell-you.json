@@ -1,0 +1,163 @@
+{
+ "bytes": 24429,
+ "lang": "en",
+ "title": "What Your Poop Is Trying to Tell You — Get Regular",
+ "meta": [
+  {
+   "name": "viewport",
+   "content": "width=device-width, initial-scale=1"
+  },
+  {
+   "name": "next-size-adjust",
+   "content": ""
+  },
+  {
+   "name": "description",
+   "content": "A friendly guide to the Bristol Stool Scale, the 7-type chart doctors actually use to talk about poop."
+  },
+  {
+   "property": "og:title",
+   "content": "What Your Poop Is Trying to Tell You"
+  },
+  {
+   "property": "og:description",
+   "content": "A friendly guide to the Bristol Stool Scale, the 7-type chart doctors actually use to talk about poop."
+  },
+  {
+   "property": "og:image",
+   "content": "https://getregular.com/images/preview.png"
+  },
+  {
+   "property": "og:type",
+   "content": "article"
+  },
+  {
+   "property": "article:published_time",
+   "content": "2026-10-20"
+  },
+  {
+   "name": "twitter:card",
+   "content": "summary_large_image"
+  },
+  {
+   "name": "twitter:title",
+   "content": "What Your Poop Is Trying to Tell You"
+  },
+  {
+   "name": "twitter:description",
+   "content": "A friendly guide to the Bristol Stool Scale, the 7-type chart doctors actually use to talk about poop."
+  },
+  {
+   "name": "twitter:image",
+   "content": "https://getregular.com/images/preview.png"
+  }
+ ],
+ "canonical": [
+  "https://getregular.com/blog/what-your-poop-is-trying-to-tell-you"
+ ],
+ "alternate": [],
+ "icons": [
+  {
+   "rel": "icon",
+   "href": "/icon.png?icon.0h07_ycc7g179.png",
+   "sizes": "64x64",
+   "type": "image/png"
+  }
+ ],
+ "preloads": [
+  {
+   "rel": "preload",
+   "href": "/_next/static/media/5c285b27cdda1fe8-s.p.0yo6-5yoeeudq.woff2",
+   "as": "font",
+   "crossorigin": "",
+   "type": "font/woff2"
+  },
+  {
+   "rel": "preload",
+   "href": "/_next/static/media/83afe278b6a6bb3c-s.p.0q-301v4kxxnr.woff2",
+   "as": "font",
+   "crossorigin": "",
+   "type": "font/woff2"
+  },
+  {
+   "rel": "preload",
+   "href": "/_next/static/media/able_lead_otf_webfont-s.p.01wlb24.u76aq.woff",
+   "as": "font",
+   "crossorigin": "",
+   "type": "font/woff"
+  },
+  {
+   "rel": "preload",
+   "href": "/_next/static/media/able_lead_otf_webfont-s.p.0w8ywo8k_gs5u.woff2",
+   "as": "font",
+   "crossorigin": "",
+   "type": "font/woff2"
+  },
+  {
+   "rel": "stylesheet",
+   "href": "/_next/static/chunks/0_eixglinl4uv.css",
+   "data-precedence": "next"
+  },
+  {
+   "rel": "preload",
+   "as": "script",
+   "fetchpriority": "low",
+   "href": "/_next/static/chunks/13aus3kqanczm.js"
+  }
+ ],
+ "headings": [
+  [
+   "h1",
+   "What Your Poop Is Trying to Tell You"
+  ],
+  [
+   "h2",
+   "The 7 types"
+  ],
+  [
+   "h2",
+   "One poop is not a pattern"
+  ],
+  [
+   "h2",
+   "When to talk to a doctor"
+  ],
+  [
+   "h2",
+   "Trust your gut again."
+  ]
+ ],
+ "links": [
+  {
+   "href": "/blog",
+   "text": "← All Posts",
+   "rel": null,
+   "target": null,
+   "aria": null
+  },
+  {
+   "href": "https://apps.apple.com/ca/app/get-regular/id6749188690",
+   "text": "Download on the App Store",
+   "rel": "noopener noreferrer",
+   "target": "_blank",
+   "aria": null
+  }
+ ],
+ "imgs": [],
+ "scripts_ext": [
+  "/_next/static/chunks/0dgq26a5_oy.a.js",
+  "/_next/static/chunks/0vxi98ewbbk5w.js",
+  "/_next/static/chunks/00nvzi6qb_-1r.js",
+  "/_next/static/chunks/turbopack-00xbgy~au.whv.js",
+  "/_next/static/chunks/04eklj-7j4aqp.js",
+  "/_next/static/chunks/0d3shmwh5_nmn.js",
+  "/_next/static/chunks/114z5h6ee3i-c.js",
+  "/_next/static/chunks/03~yq9q893hmn.js",
+  "/_next/static/chunks/13aus3kqanczm.js"
+ ],
+ "jsonld": [
+  "{\"@context\":\"https://schema.org\",\"@type\":\"BlogPosting\",\"headline\":\"What Your Poop Is Trying to Tell You\",\"description\":\"A friendly guide to the Bristol Stool Scale, the 7-type chart doctors actually use to talk about poop.\",\"datePublished\":\"2026-10-20\",\"image\":\"https://getregular.com/images/preview.png\",\"author\":{\"@type\":\"Organization\",\"name\":\"Get Regular Team\"},\"publisher\":{\"@type\":\"Organization\",\"name\":\"Get Regular Health, Inc.\"},\"mainEntityOfPage\":\"https://getregular.com/blog/what-your-poop-is-trying-to-tell-you\"}"
+ ],
+ "inline_script_bytes": 16959,
+ "word_count": 396
+}

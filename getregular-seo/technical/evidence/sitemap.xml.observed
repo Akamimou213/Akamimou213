@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+<url>
+<loc>https://getregular.com</loc>
+<changefreq>monthly</changefreq>
+<priority>1</priority>
+</url>
+<url>
+<loc>https://getregular.com/blog</loc>
+<changefreq>weekly</changefreq>
+<priority>0.8</priority>
+</url>
+<url>
+<loc>https://getregular.com/blog/what-your-poop-is-trying-to-tell-you</loc>
+<lastmod>2026-10-20</lastmod>
+<changefreq>yearly</changefreq>
+<priority>0.6</priority>
+</url>
+<url>
+<loc>https://getregular.com/legal/privacy-policy</loc>
+<priority>0.2</priority>
+</url>
+<url>
+<loc>https://getregular.com/legal/terms-of-service</loc>
+<priority>0.2</priority>
+</url>
+</urlset>

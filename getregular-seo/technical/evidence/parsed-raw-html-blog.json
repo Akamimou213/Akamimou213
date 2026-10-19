@@ -1,0 +1,155 @@
+{
+ "bytes": 15716,
+ "lang": "en",
+ "title": "The Journal — Get Regular",
+ "meta": [
+  {
+   "name": "viewport",
+   "content": "width=device-width, initial-scale=1"
+  },
+  {
+   "name": "next-size-adjust",
+   "content": ""
+  },
+  {
+   "name": "description",
+   "content": "Weekly reads on gut health, digestion, and feeling regular, from the Get Regular team."
+  },
+  {
+   "property": "og:title",
+   "content": "Get Regular — Trust Your Gut Again"
+  },
+  {
+   "property": "og:description",
+   "content": "AI-powered gut health tracking built with a board-certified gastroenterologist."
+  },
+  {
+   "property": "og:image",
+   "content": "https://getregular.com/images/preview.png"
+  },
+  {
+   "property": "og:image:width",
+   "content": "1200"
+  },
+  {
+   "property": "og:image:height",
+   "content": "630"
+  },
+  {
+   "property": "og:image:alt",
+   "content": "Get Regular — AI Gut Health Tracking"
+  },
+  {
+   "property": "og:type",
+   "content": "website"
+  },
+  {
+   "name": "twitter:card",
+   "content": "summary_large_image"
+  },
+  {
+   "name": "twitter:title",
+   "content": "Get Regular — Trust Your Gut Again"
+  },
+  {
+   "name": "twitter:description",
+   "content": "AI-powered gut health tracking built with a board-certified gastroenterologist."
+  },
+  {
+   "name": "twitter:image",
+   "content": "https://getregular.com/images/preview.png"
+  }
+ ],
+ "canonical": [],
+ "alternate": [],
+ "icons": [
+  {
+   "rel": "icon",
+   "href": "/icon.png?icon.0h07_ycc7g179.png",
+   "sizes": "64x64",
+   "type": "image/png"
+  }
+ ],
+ "preloads": [
+  {
+   "rel": "preload",
+   "href": "/_next/static/media/5c285b27cdda1fe8-s.p.0yo6-5yoeeudq.woff2",
+   "as": "font",
+   "crossorigin": "",
+   "type": "font/woff2"
+  },
+  {
+   "rel": "preload",
+   "href": "/_next/static/media/83afe278b6a6bb3c-s.p.0q-301v4kxxnr.woff2",
+   "as": "font",
+   "crossorigin": "",
+   "type": "font/woff2"
+  },
+  {
+   "rel": "preload",
+   "href": "/_next/static/media/able_lead_otf_webfont-s.p.01wlb24.u76aq.woff",
+   "as": "font",
+   "crossorigin": "",
+   "type": "font/woff"
+  },
+  {
+   "rel": "preload",
+   "href": "/_next/static/media/able_lead_otf_webfont-s.p.0w8ywo8k_gs5u.woff2",
+   "as": "font",
+   "crossorigin": "",
+   "type": "font/woff2"
+  },
+  {
+   "rel": "stylesheet",
+   "href": "/_next/static/chunks/0_eixglinl4uv.css",
+   "data-precedence": "next"
+  },
+  {
+   "rel": "preload",
+   "as": "script",
+   "fetchpriority": "low",
+   "href": "/_next/static/chunks/13aus3kqanczm.js"
+  }
+ ],
+ "headings": [
+  [
+   "h1",
+   "The Journal"
+  ],
+  [
+   "h2",
+   "What Your Poop Is Trying to Tell You"
+  ]
+ ],
+ "links": [
+  {
+   "href": "/",
+   "text": "← Back to Home",
+   "rel": null,
+   "target": null,
+   "aria": null
+  },
+  {
+   "href": "/blog/what-your-poop-is-trying-to-tell-you",
+   "text": "October 20, 2026What Your Poop Is Trying to Tell YouA friendly guide to the Bris",
+   "rel": null,
+   "target": null,
+   "aria": null
+  }
+ ],
+ "imgs": [],
+ "scripts_ext": [
+  "/_next/static/chunks/0dgq26a5_oy.a.js",
+  "/_next/static/chunks/0vxi98ewbbk5w.js",
+  "/_next/static/chunks/00nvzi6qb_-1r.js",
+  "/_next/static/chunks/turbopack-00xbgy~au.whv.js",
+  "/_next/static/chunks/04eklj-7j4aqp.js",
+  "/_next/static/chunks/0d3shmwh5_nmn.js",
+  "/_next/static/chunks/10ehd079jy5i6.js",
+  "/_next/static/chunks/03~yq9q893hmn.js",
+  "/_next/static/chunks/13aus3kqanczm.js"
+ ],
+ "jsonld": [],
+ "inline_script_bytes": 11470,
+ "word_count": 58
+}

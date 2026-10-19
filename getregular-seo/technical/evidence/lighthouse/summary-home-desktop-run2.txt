@@ -1,0 +1,99 @@
+===== home-desktop-run2.json https://www.getregular.com/ desktop LH 12.8.2 warnings []
+ scores {'performance': 67}
+  first-contentful-paint: 1.2 s score=0.78
+  largest-contentful-paint: 4.6 s score=0.11
+  total-blocking-time: 40 ms score=1
+  cumulative-layout-shift: 0 score=1
+  speed-index: 3.6 s score=0.15
+  interactive: 6.0 s score=0.26
+  server-response-time: Root document took 40 ms score=1
+  total-byte-weight: Total size was 5,625 KiB score=0.5
+  dom-size: 326 elements score=1
+  bootup-time: 1.0 s score=1
+  mainthread-work-breakdown: 2.1 s score=0
+  LCP el: <h1 class="font-display font-light text-white tracking-tight mb-7" style="font-size: clamp(44px, 6vw, 88px); opacity: 1; transform: none;"> Your gut is talking.
+Are you listening?
+  LCP phase: {'phase': 'TTFB', 'timing': 290.174, 'percent': '6%'}
+  LCP phase: {'phase': 'Load Delay', 'timing': 0, 'percent': '0%'}
+  LCP phase: {'phase': 'Load Time', 'timing': 0, 'percent': '0%'}
+  LCP phase: {'phase': 'Render Delay', 'timing': 4313.103700000001, 'percent': '94%'}
+  [render-blocking-resources] score=0.5 Est savings of 0 ms Eliminate render-blocking resources
+      {'url': 'https://www.getregular.com/_next/static/chunks/0_eixglinl4uv.css', 'totalBytes': '9403', 'wastedMs': '65'}
+  [render-blocking-insight] score=0.5  Render blocking requests
+      {'url': 'https://www.getregular.com/_next/static/chunks/0_eixglinl4uv.css', 'totalBytes': '9403', 'wastedMs': '67'}
+  [unused-javascript] score=0 Est savings of 201 KiB Reduce unused JavaScript
+      {'url': 'https://us-assets.i.posthog.com/static/array.js', 'totalBytes': '106034', 'wastedBytes': '69012'}
+      {'url': 'https://us-assets.i.posthog.com/static/1.438.12/posthog-recorder.js', 'totalBytes': '67890', 'wastedBytes': '33203'}
+      {'url': 'https://www.getregular.com/_next/static/chunks/00nvzi6qb_-1r.js', 'totalBytes': '72128', 'wastedBytes': '29556'}
+      {'url': 'https://us-assets.i.posthog.com/static/1.438.12/surveys.js', 'totalBytes': '33318', 'wastedBytes': '28628'}
+      {'url': 'https://www.getregular.com/_next/static/chunks/124f~efm-qklz.js', 'totalBytes': '53225', 'wastedBytes': '24028'}
+      {'url': 'https://www.getregular.com/_next/static/chunks/0vxi98ewbbk5w.js', 'totalBytes': '39868', 'wastedBytes': '21797'}
+  [unused-css-rules] score=1  Reduce unused CSS
+  [uses-responsive-images] score=0.5 Est savings of 873 KiB Properly size images
+      {'node': '<img src="/images/schopis-cropped.png" alt="Dr. Michael Schopis" class="w-12 h-12 rounded-full object-cover shrink-0">', 'url': 'https://www.getregular.com/images/schopis-cropped.png', 'totalBytes': '895157', 'wastedBytes': '894085'}
+  [modern-image-formats] score=0.5 Est savings of 1,446 KiB Serve images in next-gen formats
+      {'node': '<img src="/images/schopis-cropped.png" alt="Dr. Michael Schopis" class="w-12 h-12 rounded-full object-cover shrink-0">', 'url': 'https://www.getregular.com/images/schopis-cropped.png', 'totalBytes': '895157', 'wastedBytes': '794852.45'}
+      {'node': '<img src="/images/home.png" alt="Get Regular home screen" class="w-[180px] h-auto">', 'url': 'https://www.getregular.com/images/home.png', 'totalBytes': '759917', 'wastedBytes': '685488.9'}
+  [uses-optimized-images] score=1  Efficiently encode images
+  [offscreen-images] score=0.5 Est savings of 874 KiB Defer offscreen images
+      {'node': '<img src="/images/schopis-cropped.png" alt="Dr. Michael Schopis" class="w-12 h-12 rounded-full object-cover shrink-0">', 'url': 'https://www.getregular.com/images/schopis-cropped.png', 'totalBytes': '895157', 'wastedBytes': '895157'}
+  [efficient-animated-content] score=1  Use video formats for animated content
+  [unsized-images] score=0.5  Image elements do not have explicit `width` and `height`
+      {'url': 'https://www.getregular.com/images/home.png', 'node': '<img src="/images/home.png" alt="Get Regular home screen" class="w-[260px] h-auto">'}
+  [font-display] score=1  All text remains visible during webfont loads
+  [font-display-insight] score=0 Est savings of 60 ms Font display
+      {'url': 'https://fonts.gstatic.com/s/roboto/v48/KFO7CnqEu92Fr1ME7kSn66aGLdTylUAMa3yUBHMdazQ.woff2', 'wastedMs': '60'}
+  [legacy-javascript] score=0.5 Est savings of 41 KiB Avoid serving legacy JavaScript to modern browsers
+      {'url': 'https://www.getregular.com/_next/static/chunks/00nvzi6qb_-1r.js', 'wastedBytes': '13952', 'totalBytes': '0'}
+      {'url': 'https://us-assets.i.posthog.com/static/1.438.12/posthog-recorder.js', 'wastedBytes': '10779', 'totalBytes': '0'}
+      {'url': 'https://us-assets.i.posthog.com/static/1.438.12/surveys.js', 'wastedBytes': '8589', 'totalBytes': '0'}
+      {'url': 'https://us-assets.i.posthog.com/static/array.js', 'wastedBytes': '8310', 'totalBytes': '0'}
+  [legacy-javascript-insight] score=0.5 Est savings of 41 KiB Legacy JavaScript
+      {'url': 'https://www.getregular.com/_next/static/chunks/00nvzi6qb_-1r.js', 'wastedBytes': '14104'}
+      {'url': 'https://us-assets.i.posthog.com/static/1.438.12/posthog-recorder.js', 'wastedBytes': '11312'}
+      {'url': 'https://us-assets.i.posthog.com/static/1.438.12/surveys.js', 'wastedBytes': '8689'}
+      {'url': 'https://us-assets.i.posthog.com/static/array.js', 'wastedBytes': '8384'}
+  [duplicated-javascript] score=1  Remove duplicate modules in JavaScript bundles
+  [uses-long-cache-ttl] score=0.5 169 resources found Serve static assets with an efficient cache policy
+      {'url': 'https://us-assets.i.posthog.com/array/phc_NlIRWmuA1MWWMDYI10nh3AEawcIZ02l8mLsfjZfoHYP/config.js', 'cacheLifetimeMs': '300000', 'totalBytes': '916', 'wastedBytes': '877.8333333333334'}
+      {'url': 'https://storage.googleapis.com/getregular-public-assets/onboarding-v1.mp4', 'cacheLifetimeMs': '3600000', 'totalBytes': '48344', 'wastedBytes': '38675.200000000004'}
+      {'url': 'https://storage.googleapis.com/getregular-public-assets/onboarding-v1.mp4', 'cacheLifetimeMs': '3600000', 'totalBytes': '47353', 'wastedBytes': '37882.4'}
+      {'url': 'https://storage.googleapis.com/getregular-public-assets/onboarding-v1.mp4', 'cacheLifetimeMs': '3600000', 'totalBytes': '0', 'wastedBytes': '0'}
+      {'url': 'https://i.ytimg.com/vi/WEEbxLhSRT8/maxresdefault.jpg?sqp=-oaymwEmCIAKENAF8quKqQMa8AEB-AH-CYAC0AWKAgwIABABGGUgW', 'cacheLifetimeMs': '7200000', 'totalBytes': '37870', 'wastedBytes': '28402.5'}
+      {'url': 'https://us-assets.i.posthog.com/static/array.js', 'cacheLifetimeMs': '14400000', 'totalBytes': '106557', 'wastedBytes': '72458.76'}
+  [cache-insight] score=0 Est savings of 303 KiB Use efficient cache lifetimes
+      {'url': 'https://us-assets.i.posthog.com/static/array.js', 'cacheLifetimeMs': '14400000', 'totalBytes': '106557', 'wastedBytes': '72458.76'}
+      {'url': 'https://storage.googleapis.com/getregular-public-assets/onboarding-v1.mp4', 'cacheLifetimeMs': '3600000', 'totalBytes': '47353', 'wastedBytes': '37882.4'}
+      {'url': 'https://lf16-tiktok-common.tiktokcdn-us.com/obj/tiktok-web-common-tx/tiktok_fonts/TikTokSans-VF.woff2?_default', 'cacheLifetimeMs': '1190099000', 'totalBytes': '350566', 'wastedBytes': '34393.2376692983'}
+      {'url': 'https://lf16-tiktok-web.tiktokcdn-us.com/obj/tiktok-web-tx/tiktok_4d_playback/static/js/async/322.20d372cbbb.j', 'cacheLifetimeMs': '290439000', 'totalBytes': '159557', 'wastedBytes': '30469.154304687498'}
+      {'url': 'https://i.ytimg.com/vi/WEEbxLhSRT8/maxresdefault.jpg?sqp=-oaymwEmCIAKENAF8quKqQMa8AEB-AH-CYAC0AWKAgwIABABGGUgW', 'cacheLifetimeMs': '7200000', 'totalBytes': '37870', 'wastedBytes': '28402.5'}
+      {'url': 'https://lf16-tiktok-web.tiktokcdn-us.com/obj/tiktok-web-tx/tiktok_4d_playback/static/js/163.6f1abc5f4b.js', 'cacheLifetimeMs': '2490637000', 'totalBytes': '207087', 'wastedBytes': '19446.116179071607'}
+  [image-delivery-insight] score=0.5 Est savings of 719 KiB Improve image delivery
+      {'url': 'https://www.getregular.com/images/home.png', 'totalBytes': '759917', 'wastedBytes': '736692'}
+  [lcp-discovery-insight] score=None  LCP request discovery
+  [network-dependency-tree-insight] score=0  Network dependency tree
+      {'value': "{'type': 'network-tree', 'chains': {'3584D051BCFA87F081B89AC1CBD2A517': {'url': 'https://www.getregular.com/',"}
+      {'description': '[preconnect](https://developer.chrome.com/docs/lighthouse/performance/uses-rel-preconnect/) hints help the bro', 'value': "{'type': 'table', 'headings': [{'key': 'origin', 'valueType': 'text', 'subItemsHeading': {'key': 'warning'}, '"}
+      {'description': 'Add [preconnect](https://developer.chrome.com/docs/lighthouse/performance/uses-rel-preconnect/) hints to your ', 'value': "{'type': 'table', 'headings': [{'key': 'origin', 'valueType': 'text', 'label': 'Origin'}, {'key': 'wastedMs', "}
+  [third-party-summary] score=1 Third-party code blocked the main thread for 80 ms Minimize third-party usage
+      {'mainThreadTime': '296.1350000000007', 'blockingTime': '76.92848074700535', 'transferSize': '209134', 'entity': 'posthog.com'}
+      {'mainThreadTime': '0', 'blockingTime': '0', 'transferSize': '2009016', 'entity': 'tiktokcdn-us.com'}
+      {'mainThreadTime': '0.189', 'blockingTime': '0', 'transferSize': '1042120', 'entity': 'YouTube'}
+      {'mainThreadTime': '0.33199999999999996', 'blockingTime': '0', 'transferSize': '145160', 'entity': 'TikTok'}
+      {'mainThreadTime': '0', 'blockingTime': '0', 'transferSize': '121113', 'entity': 'Other Google APIs/SDKs'}
+      {'mainThreadTime': '0', 'blockingTime': '0', 'transferSize': '109529', 'entity': 'tiktokv.us'}
+  [layout-shifts] score=1 5 layout shifts found Avoid large layout shifts
+      {'node': '<p class="text-[15px] text-taupe max-w-[380px]">', 'score': '0'}
+      {'node': '<span class="text-white/70 px-3.5 py-1.5 rounded-full text-[13px] font-medium tracking-…" style="opacity: 1; transform: ', 'score': '0'}
+      {'node': '<div class="fixed bottom-5 left-1/2 -translate-x-1/2 z-50" style="opacity: 1; transform: none;">', 'score': '0'}
+      {'node': '<link rel="preload" href="/_next/static/media/5c285b27cdda1fe8-s.p.0yo6-5yoeeudq.woff2" as="font" crossorigin="" type="f', 'score': '0'}
+      {'node': '<link rel="preload" as="image" href="/images/home.png">', 'score': '0'}
+  [cls-culprits-insight] score=1  Layout shift culprits
+      {}
+  [long-tasks] score=1 3 long tasks found Avoid long main-thread tasks
+      {'url': 'https://us-assets.i.posthog.com/static/array.js'}
+      {'url': 'https://us-assets.i.posthog.com/static/1.438.12/posthog-recorder.js'}
+      {'url': 'https://us-assets.i.posthog.com/array/phc_NlIRWmuA1MWWMDYI10nh3AEawcIZ02l8mLsfjZfoHYP/config.js'}
+  [prioritize-lcp-image] score=None  Preload Largest Contentful Paint image
+  [uses-text-compression] score=1  Enable text compression
+  [viewport] score=1  Has a `<meta name="viewport">` tag with `width` or `initial-scale`

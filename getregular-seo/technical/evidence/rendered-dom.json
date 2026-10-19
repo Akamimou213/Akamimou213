@@ -1,0 +1,1486 @@
+{
+ "mobile https://www.getregular.com/": {
+  "title": "Get Regular \u2014 Trust Your Gut Again",
+  "lang": "en",
+  "meta": [
+   [
+    "viewport",
+    "width=device-width, initial-scale=1"
+   ],
+   [
+    "next-size-adjust",
+    ""
+   ],
+   [
+    "description",
+    "AI-powered gut health tracking. Analyze your stool, meals, and biomarkers for personalized insights \u2014 built with a board-certified gastroenterologist."
+   ],
+   [
+    "og:title",
+    "Get Regular \u2014 Trust Your Gut Again"
+   ],
+   [
+    "og:description",
+    "AI-powered gut health tracking built with a board-certified gastroenterologist."
+   ],
+   [
+    "og:image",
+    "https://getregular.com/images/preview.png"
+   ],
+   [
+    "og:image:width",
+    "1200"
+   ],
+   [
+    "og:image:height",
+    "630"
+   ],
+   [
+    "og:image:alt",
+    "Get Regular \u2014 AI Gut Health Tracking"
+   ],
+   [
+    "og:type",
+    "website"
+   ],
+   [
+    "twitter:card",
+    "summary_large_image"
+   ],
+   [
+    "twitter:title",
+    "Get Regular \u2014 Trust Your Gut Again"
+   ],
+   [
+    "twitter:description",
+    "AI-powered gut health tracking built with a board-certified gastroenterologist."
+   ],
+   [
+    "twitter:image",
+    "https://getregular.com/images/preview.png"
+   ]
+  ],
+  "canonical": [],
+  "headings": [
+   [
+    "H1",
+    "Your gut is talking. Are you listening?",
+    true
+   ],
+   [
+    "H2",
+    "You've been flushing your most powerful biomarker.",
+    true
+   ],
+   [
+    "H2",
+    "We turn gut feelings into gut data.",
+    true
+   ],
+   [
+    "H3",
+    "Snap it.",
+    false
+   ],
+   [
+    "H3",
+    "We analyze it.",
+    false
+   ],
+   [
+    "H3",
+    "See your scores.",
+    false
+   ],
+   [
+    "H3",
+    "Get your plan.",
+    false
+   ],
+   [
+    "H3",
+    "Watch it work.",
+    false
+   ],
+   [
+    "H3",
+    "Snap it.",
+    true
+   ],
+   [
+    "H3",
+    "We analyze it.",
+    true
+   ],
+   [
+    "H3",
+    "See your scores.",
+    true
+   ],
+   [
+    "H3",
+    "Get your plan.",
+    true
+   ],
+   [
+    "H3",
+    "Watch it work.",
+    true
+   ],
+   [
+    "H2",
+    "The community is talking.",
+    true
+   ],
+   [
+    "H2",
+    "Gut feelings. Confirmed.",
+    true
+   ],
+   [
+    "H2",
+    "Built with a gastroenterologist, not just an algorithm.",
+    true
+   ],
+   [
+    "H2",
+    "Fresh reads for a happier gut.",
+    true
+   ],
+   [
+    "H3",
+    "What Your Poop Is Trying to Tell You",
+    true
+   ],
+   [
+    "H2",
+    "It's time to Get Regular.",
+    true
+   ]
+  ],
+  "words": 632,
+  "links": [
+   {
+    "href": "#",
+    "text": "",
+    "aria": null,
+    "visible": true
+   },
+   {
+    "href": "#problem",
+    "text": "The Problem",
+    "aria": null,
+    "visible": false
+   },
+   {
+    "href": "#how",
+    "text": "How It Works",
+    "aria": null,
+    "visible": false
+   },
+   {
+    "href": "#community",
+    "text": "Community",
+    "aria": null,
+    "visible": false
+   },
+   {
+    "href": "#science",
+    "text": "Science",
+    "aria": null,
+    "visible": false
+   },
+   {
+    "href": "/blog",
+    "text": "Blog",
+    "aria": null,
+    "visible": false
+   },
+   {
+    "href": "https://apps.apple.com/ca/app/get-regular/id6749188690",
+    "text": "Download",
+    "aria": null,
+    "visible": false
+   },
+   {
+    "href": "https://www.tiktok.com/@getregular",
+    "text": "TIKTOK",
+    "aria": null,
+    "visible": true
+   },
+   {
+    "href": "https://www.instagram.com/get.regular",
+    "text": "INSTAGRAM",
+    "aria": null,
+    "visible": true
+   },
+   {
+    "href": "https://www.linkedin.com/company/get-regular/",
+    "text": "LINKEDIN",
+    "aria": null,
+    "visible": true
+   },
+   {
+    "href": "/blog",
+    "text": "VIEW ALL \u2192",
+    "aria": null,
+    "visible": true
+   },
+   {
+    "href": "/blog/what-your-poop-is-trying-to-tell-you",
+    "text": "OCTOBER 20, 2026 What Your Poop Is Trying to Tell You A frie",
+    "aria": null,
+    "visible": true
+   },
+   {
+    "href": "mailto:hello@getregular.com",
+    "text": "hello@getregular.com",
+    "aria": null,
+    "visible": true
+   },
+   {
+    "href": "/legal/privacy-policy",
+    "text": "PRIVACY",
+    "aria": null,
+    "visible": true
+   },
+   {
+    "href": "/legal/terms-of-service",
+    "text": "TERMS",
+    "aria": null,
+    "visible": true
+   },
+   {
+    "href": "https://www.tiktok.com/@getregular",
+    "text": "TIKTOK",
+    "aria": null,
+    "visible": true
+   },
+   {
+    "href": "https://www.instagram.com/get.regular",
+    "text": "INSTAGRAM",
+    "aria": null,
+    "visible": true
+   },
+   {
+    "href": "https://www.linkedin.com/company/get-regular/",
+    "text": "LINKEDIN",
+    "aria": null,
+    "visible": true
+   },
+   {
+    "href": "mailto:hello@getregular.com",
+    "text": "CONTACT",
+    "aria": null,
+    "visible": true
+   },
+   {
+    "href": "https://apps.apple.com/ca/app/get-regular/id6749188690",
+    "text": "Download on the App Store",
+    "aria": null,
+    "visible": true
+   }
+  ],
+  "buttons": [
+   {
+    "text": "Menu",
+    "aria": "Menu"
+   }
+  ],
+  "imgs": [
+   {
+    "src": "https://www.getregular.com/logo-black.svg",
+    "alt": "Get Regular",
+    "natural": [
+     143,
+     49
+    ],
+    "rendered": [
+     93,
+     32
+    ],
+    "loading": "auto",
+    "attrW": "120",
+    "attrH": "40"
+   },
+   {
+    "src": "https://www.getregular.com/images/home.png",
+    "alt": "Get Regular home screen",
+    "natural": [
+     684,
+     1410
+    ],
+    "rendered": [
+     0,
+     0
+    ],
+    "loading": "auto",
+    "attrW": null,
+    "attrH": null
+   },
+   {
+    "src": "https://www.getregular.com/images/home.png",
+    "alt": "Get Regular home screen",
+    "natural": [
+     684,
+     1410
+    ],
+    "rendered": [
+     180,
+     371
+    ],
+    "loading": "auto",
+    "attrW": null,
+    "attrH": null
+   },
+   {
+    "src": "https://www.getregular.com/images/schopis-cropped.png",
+    "alt": "Dr. Michael Schopis",
+    "natural": [
+     1406,
+     1368
+    ],
+    "rendered": [
+     48,
+     48
+    ],
+    "loading": "auto",
+    "attrW": null,
+    "attrH": null
+   },
+   {
+    "src": "https://www.getregular.com/logo-white.svg",
+    "alt": "Get Regular",
+    "natural": [
+     242,
+     84
+    ],
+    "rendered": [
+     69,
+     24
+    ],
+    "loading": "lazy",
+    "attrW": "100",
+    "attrH": "34"
+   }
+  ],
+  "videos": [
+   {
+    "src": "https://storage.googleapis.com/getregular-public-assets/onboarding-v1.mp4",
+    "poster": "",
+    "autoplay": true,
+    "preload": "metadata",
+    "muted": true
+   }
+  ],
+  "jsonld": [],
+  "scrollH": 8965,
+  "consoleErrors": [
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "@tiktok-fe/web-cookie-banner init failed: load cookie banner multiple times.",
+   "@tiktok-fe/web-cookie-banner init failed: load cookie banner multiple times.",
+   "@tiktok-fe/web-cookie-banner init failed: load cookie banner multiple times.",
+   "@tiktok-fe/web-cookie-banner init failed: load cookie banner multiple times.",
+   "@tiktok-fe/web-cookie-banner init failed: load cookie banner multiple times.",
+   "@tiktok-fe/web-cookie-banner init failed: load cookie banner multiple times.",
+   "{errorType: invalid_param, errorCode: 2007, videoId: 7613530170246417695}",
+   "Permissions policy violation: accelerometer is not allowed in this document.",
+   "Permissions policy violation: accelerometer is not allowed in this document.",
+   "Permissions policy violation: accelerometer is not allowed in this document.",
+   "Permissions policy violation: accelerometer is not allowed in this document.",
+   "Permissions policy violation: accelerometer is not allowed in this document.",
+   "Permissions policy violation: accelerometer is not allowed in this document.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "goto:page.goto: Timeout 60000ms exceeded.\nCall log:\n\u001b[2m  - navigating to \"https://www.getregular.com/\", waiting until \"networkidle\"\u001b[22m\n"
+  ]
+ },
+ "mobile https://www.getregular.com/blog": {
+  "title": "The Journal \u2014 Get Regular",
+  "lang": "en",
+  "meta": [
+   [
+    "viewport",
+    "width=device-width, initial-scale=1"
+   ],
+   [
+    "next-size-adjust",
+    ""
+   ],
+   [
+    "description",
+    "Weekly reads on gut health, digestion, and feeling regular, from the Get Regular team."
+   ],
+   [
+    "og:title",
+    "Get Regular \u2014 Trust Your Gut Again"
+   ],
+   [
+    "og:description",
+    "AI-powered gut health tracking built with a board-certified gastroenterologist."
+   ],
+   [
+    "og:image",
+    "https://getregular.com/images/preview.png"
+   ],
+   [
+    "og:image:width",
+    "1200"
+   ],
+   [
+    "og:image:height",
+    "630"
+   ],
+   [
+    "og:image:alt",
+    "Get Regular \u2014 AI Gut Health Tracking"
+   ],
+   [
+    "og:type",
+    "website"
+   ],
+   [
+    "twitter:card",
+    "summary_large_image"
+   ],
+   [
+    "twitter:title",
+    "Get Regular \u2014 Trust Your Gut Again"
+   ],
+   [
+    "twitter:description",
+    "AI-powered gut health tracking built with a board-certified gastroenterologist."
+   ],
+   [
+    "twitter:image",
+    "https://getregular.com/images/preview.png"
+   ]
+  ],
+  "canonical": [],
+  "headings": [
+   [
+    "H1",
+    "The Journal",
+    true
+   ],
+   [
+    "H2",
+    "What Your Poop Is Trying to Tell You",
+    true
+   ]
+  ],
+  "words": 54,
+  "links": [
+   {
+    "href": "/",
+    "text": "\u2190 BACK TO HOME",
+    "aria": null,
+    "visible": true
+   },
+   {
+    "href": "/blog/what-your-poop-is-trying-to-tell-you",
+    "text": "OCTOBER 20, 2026 What Your Poop Is Trying to Tell You A frie",
+    "aria": null,
+    "visible": true
+   }
+  ],
+  "buttons": [],
+  "imgs": [],
+  "videos": [],
+  "jsonld": [],
+  "scrollH": 844,
+  "consoleErrors": []
+ },
+ "mobile https://www.getregular.com/blog/what-your-poop-is-trying-to-tell-you": {
+  "title": "What Your Poop Is Trying to Tell You \u2014 Get Regular",
+  "lang": "en",
+  "meta": [
+   [
+    "viewport",
+    "width=device-width, initial-scale=1"
+   ],
+   [
+    "next-size-adjust",
+    ""
+   ],
+   [
+    "description",
+    "A friendly guide to the Bristol Stool Scale, the 7-type chart doctors actually use to talk about poop."
+   ],
+   [
+    "og:title",
+    "What Your Poop Is Trying to Tell You"
+   ],
+   [
+    "og:description",
+    "A friendly guide to the Bristol Stool Scale, the 7-type chart doctors actually use to talk about poop."
+   ],
+   [
+    "og:image",
+    "https://getregular.com/images/preview.png"
+   ],
+   [
+    "og:type",
+    "article"
+   ],
+   [
+    "article:published_time",
+    "2026-10-20"
+   ],
+   [
+    "twitter:card",
+    "summary_large_image"
+   ],
+   [
+    "twitter:title",
+    "What Your Poop Is Trying to Tell You"
+   ],
+   [
+    "twitter:description",
+    "A friendly guide to the Bristol Stool Scale, the 7-type chart doctors actually use to talk about poop."
+   ],
+   [
+    "twitter:image",
+    "https://getregular.com/images/preview.png"
+   ]
+  ],
+  "canonical": [
+   "https://getregular.com/blog/what-your-poop-is-trying-to-tell-you"
+  ],
+  "headings": [
+   [
+    "H1",
+    "What Your Poop Is Trying to Tell You",
+    true
+   ],
+   [
+    "H2",
+    "The 7 types",
+    true
+   ],
+   [
+    "H2",
+    "One poop is not a pattern",
+    true
+   ],
+   [
+    "H2",
+    "When to talk to a doctor",
+    true
+   ],
+   [
+    "H2",
+    "Trust your gut again.",
+    true
+   ]
+  ],
+  "words": 386,
+  "links": [
+   {
+    "href": "/blog",
+    "text": "\u2190 ALL POSTS",
+    "aria": null,
+    "visible": true
+   },
+   {
+    "href": "https://apps.apple.com/ca/app/get-regular/id6749188690",
+    "text": "Download on the App Store",
+    "aria": null,
+    "visible": true
+   }
+  ],
+  "buttons": [],
+  "imgs": [],
+  "videos": [],
+  "jsonld": [
+   "{\"@context\":\"https://schema.org\",\"@type\":\"BlogPosting\",\"headline\":\"What Your Poop Is Trying to Tell You\",\"description\":\"A friendly guide to the Bristol Stool Scale, the 7-type chart doctors actually use to talk about poop.\",\"datePublished\":\"2026-10-20\",\"image\":\"https://getregular.com/images/preview.png\",\"author\":{\"@type\":\"Organization\",\"name\":\"Get Regular Team\"},\"publisher\":{\"@type\":\"Organization\",\"name\":\"Get Regular Health, Inc.\"},\"mainEntityOfPage\":\"https://getregular.com/blog/what-your-poop-is-trying-to-tell-you\"}"
+  ],
+  "scrollH": 2184,
+  "consoleErrors": []
+ },
+ "desktop https://www.getregular.com/": {
+  "title": "Get Regular \u2014 Trust Your Gut Again",
+  "lang": "en",
+  "meta": [
+   [
+    "viewport",
+    "width=device-width, initial-scale=1"
+   ],
+   [
+    "next-size-adjust",
+    ""
+   ],
+   [
+    "description",
+    "AI-powered gut health tracking. Analyze your stool, meals, and biomarkers for personalized insights \u2014 built with a board-certified gastroenterologist."
+   ],
+   [
+    "og:title",
+    "Get Regular \u2014 Trust Your Gut Again"
+   ],
+   [
+    "og:description",
+    "AI-powered gut health tracking built with a board-certified gastroenterologist."
+   ],
+   [
+    "og:image",
+    "https://getregular.com/images/preview.png"
+   ],
+   [
+    "og:image:width",
+    "1200"
+   ],
+   [
+    "og:image:height",
+    "630"
+   ],
+   [
+    "og:image:alt",
+    "Get Regular \u2014 AI Gut Health Tracking"
+   ],
+   [
+    "og:type",
+    "website"
+   ],
+   [
+    "twitter:card",
+    "summary_large_image"
+   ],
+   [
+    "twitter:title",
+    "Get Regular \u2014 Trust Your Gut Again"
+   ],
+   [
+    "twitter:description",
+    "AI-powered gut health tracking built with a board-certified gastroenterologist."
+   ],
+   [
+    "twitter:image",
+    "https://getregular.com/images/preview.png"
+   ]
+  ],
+  "canonical": [],
+  "headings": [
+   [
+    "H1",
+    "Your gut is talking. Are you listening?",
+    true
+   ],
+   [
+    "H2",
+    "You've been flushing your most powerful biomarker.",
+    true
+   ],
+   [
+    "H2",
+    "We turn gut feelings into gut data.",
+    true
+   ],
+   [
+    "H3",
+    "Snap it.",
+    true
+   ],
+   [
+    "H3",
+    "We analyze it.",
+    true
+   ],
+   [
+    "H3",
+    "See your scores.",
+    true
+   ],
+   [
+    "H3",
+    "Get your plan.",
+    true
+   ],
+   [
+    "H3",
+    "Watch it work.",
+    true
+   ],
+   [
+    "H3",
+    "Snap it.",
+    false
+   ],
+   [
+    "H3",
+    "We analyze it.",
+    false
+   ],
+   [
+    "H3",
+    "See your scores.",
+    false
+   ],
+   [
+    "H3",
+    "Get your plan.",
+    false
+   ],
+   [
+    "H3",
+    "Watch it work.",
+    false
+   ],
+   [
+    "H2",
+    "The community is talking.",
+    true
+   ],
+   [
+    "H2",
+    "Gut feelings. Confirmed.",
+    true
+   ],
+   [
+    "H2",
+    "Built with a gastroenterologist, not just an algorithm.",
+    true
+   ],
+   [
+    "H2",
+    "Fresh reads for a happier gut.",
+    true
+   ],
+   [
+    "H3",
+    "What Your Poop Is Trying to Tell You",
+    true
+   ],
+   [
+    "H2",
+    "It's time to Get Regular.",
+    true
+   ]
+  ],
+  "words": 641,
+  "links": [
+   {
+    "href": "#",
+    "text": "",
+    "aria": null,
+    "visible": true
+   },
+   {
+    "href": "#problem",
+    "text": "THE PROBLEM",
+    "aria": null,
+    "visible": true
+   },
+   {
+    "href": "#how",
+    "text": "HOW IT WORKS",
+    "aria": null,
+    "visible": true
+   },
+   {
+    "href": "#community",
+    "text": "COMMUNITY",
+    "aria": null,
+    "visible": true
+   },
+   {
+    "href": "#science",
+    "text": "SCIENCE",
+    "aria": null,
+    "visible": true
+   },
+   {
+    "href": "/blog",
+    "text": "BLOG",
+    "aria": null,
+    "visible": true
+   },
+   {
+    "href": "https://apps.apple.com/ca/app/get-regular/id6749188690",
+    "text": "DOWNLOAD",
+    "aria": null,
+    "visible": true
+   },
+   {
+    "href": "https://www.tiktok.com/@getregular",
+    "text": "TIKTOK",
+    "aria": null,
+    "visible": true
+   },
+   {
+    "href": "https://www.instagram.com/get.regular",
+    "text": "INSTAGRAM",
+    "aria": null,
+    "visible": true
+   },
+   {
+    "href": "https://www.linkedin.com/company/get-regular/",
+    "text": "LINKEDIN",
+    "aria": null,
+    "visible": true
+   },
+   {
+    "href": "/blog",
+    "text": "VIEW ALL \u2192",
+    "aria": null,
+    "visible": true
+   },
+   {
+    "href": "/blog/what-your-poop-is-trying-to-tell-you",
+    "text": "OCTOBER 20, 2026 What Your Poop Is Trying to Tell You A frie",
+    "aria": null,
+    "visible": true
+   },
+   {
+    "href": "mailto:hello@getregular.com",
+    "text": "hello@getregular.com",
+    "aria": null,
+    "visible": true
+   },
+   {
+    "href": "/legal/privacy-policy",
+    "text": "PRIVACY",
+    "aria": null,
+    "visible": true
+   },
+   {
+    "href": "/legal/terms-of-service",
+    "text": "TERMS",
+    "aria": null,
+    "visible": true
+   },
+   {
+    "href": "https://www.tiktok.com/@getregular",
+    "text": "TIKTOK",
+    "aria": null,
+    "visible": true
+   },
+   {
+    "href": "https://www.instagram.com/get.regular",
+    "text": "INSTAGRAM",
+    "aria": null,
+    "visible": true
+   },
+   {
+    "href": "https://www.linkedin.com/company/get-regular/",
+    "text": "LINKEDIN",
+    "aria": null,
+    "visible": true
+   },
+   {
+    "href": "mailto:hello@getregular.com",
+    "text": "CONTACT",
+    "aria": null,
+    "visible": true
+   },
+   {
+    "href": "https://apps.apple.com/ca/app/get-regular/id6749188690",
+    "text": "Download on the App Store",
+    "aria": null,
+    "visible": true
+   }
+  ],
+  "buttons": [
+   {
+    "text": "Menu",
+    "aria": "Menu"
+   }
+  ],
+  "imgs": [
+   {
+    "src": "https://www.getregular.com/logo-black.svg",
+    "alt": "Get Regular",
+    "natural": [
+     143,
+     49
+    ],
+    "rendered": [
+     93,
+     32
+    ],
+    "loading": "auto",
+    "attrW": "120",
+    "attrH": "40"
+   },
+   {
+    "src": "https://www.getregular.com/images/home.png",
+    "alt": "Get Regular home screen",
+    "natural": [
+     684,
+     1410
+    ],
+    "rendered": [
+     260,
+     536
+    ],
+    "loading": "auto",
+    "attrW": null,
+    "attrH": null
+   },
+   {
+    "src": "https://www.getregular.com/images/home.png",
+    "alt": "Get Regular home screen",
+    "natural": [
+     684,
+     1410
+    ],
+    "rendered": [
+     0,
+     0
+    ],
+    "loading": "auto",
+    "attrW": null,
+    "attrH": null
+   },
+   {
+    "src": "https://www.getregular.com/images/schopis-cropped.png",
+    "alt": "Dr. Michael Schopis",
+    "natural": [
+     1406,
+     1368
+    ],
+    "rendered": [
+     48,
+     48
+    ],
+    "loading": "auto",
+    "attrW": null,
+    "attrH": null
+   },
+   {
+    "src": "https://www.getregular.com/logo-white.svg",
+    "alt": "Get Regular",
+    "natural": [
+     242,
+     84
+    ],
+    "rendered": [
+     69,
+     24
+    ],
+    "loading": "lazy",
+    "attrW": "100",
+    "attrH": "34"
+   }
+  ],
+  "videos": [
+   {
+    "src": "https://storage.googleapis.com/getregular-public-assets/onboarding-v1.mp4",
+    "poster": "",
+    "autoplay": true,
+    "preload": "metadata",
+    "muted": true
+   }
+  ],
+  "jsonld": [],
+  "scrollH": 9217,
+  "consoleErrors": [
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "Failed to load resource: the server responded with a status of 403 ()",
+   "Failed to load resource: the server responded with a status of 403 ()",
+   "Failed to load resource: the server responded with a status of 403 ()",
+   "Failed to load resource: the server responded with a status of 403 ()",
+   "Failed to load resource: the server responded with a status of 403 ()",
+   "Failed to load resource: the server responded with a status of 403 ()",
+   "{errorType: invalid_param, errorCode: 2007, videoId: 7613530170246417695}",
+   "Failed to load resource: the server responded with a status of 403 ()",
+   "Failed to load resource: the server responded with a status of 403 ()",
+   "Failed to load resource: the server responded with a status of 403 ()",
+   "Failed to load resource: the server responded with a status of 403 ()",
+   "Permissions policy violation: accelerometer is not allowed in this document.",
+   "Permissions policy violation: accelerometer is not allowed in this document.",
+   "Permissions policy violation: accelerometer is not allowed in this document.",
+   "Permissions policy violation: accelerometer is not allowed in this document.",
+   "Permissions policy violation: accelerometer is not allowed in this document.",
+   "Permissions policy violation: accelerometer is not allowed in this document.",
+   "Failed to load resource: the server responded with a status of 403 ()",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "The Content Security Policy directive 'upgrade-insecure-requests' is ignored when delivered in a report-only policy.",
+   "Failed to load resource: the server responded with a status of 403 ()",
+   "Failed to load resource: the server responded with a status of 403 ()",
+   "Failed to load resource: the server responded with a status of 403 ()",
+   "Failed to load resource: the server responded with a status of 403 ()",
+   "Failed to load resource: the server responded with a status of 403 ()",
+   "goto:page.goto: Timeout 60000ms exceeded.\nCall log:\n\u001b[2m  - navigating to \"https://www.getregular.com/\", waiting until \"networkidle\"\u001b[22m\n"
+  ]
+ },
+ "desktop https://www.getregular.com/blog": {
+  "title": "The Journal \u2014 Get Regular",
+  "lang": "en",
+  "meta": [
+   [
+    "viewport",
+    "width=device-width, initial-scale=1"
+   ],
+   [
+    "next-size-adjust",
+    ""
+   ],
+   [
+    "description",
+    "Weekly reads on gut health, digestion, and feeling regular, from the Get Regular team."
+   ],
+   [
+    "og:title",
+    "Get Regular \u2014 Trust Your Gut Again"
+   ],
+   [
+    "og:description",
+    "AI-powered gut health tracking built with a board-certified gastroenterologist."
+   ],
+   [
+    "og:image",
+    "https://getregular.com/images/preview.png"
+   ],
+   [
+    "og:image:width",
+    "1200"
+   ],
+   [
+    "og:image:height",
+    "630"
+   ],
+   [
+    "og:image:alt",
+    "Get Regular \u2014 AI Gut Health Tracking"
+   ],
+   [
+    "og:type",
+    "website"
+   ],
+   [
+    "twitter:card",
+    "summary_large_image"
+   ],
+   [
+    "twitter:title",
+    "Get Regular \u2014 Trust Your Gut Again"
+   ],
+   [
+    "twitter:description",
+    "AI-powered gut health tracking built with a board-certified gastroenterologist."
+   ],
+   [
+    "twitter:image",
+    "https://getregular.com/images/preview.png"
+   ]
+  ],
+  "canonical": [],
+  "headings": [
+   [
+    "H1",
+    "The Journal",
+    true
+   ],
+   [
+    "H2",
+    "What Your Poop Is Trying to Tell You",
+    true
+   ]
+  ],
+  "words": 54,
+  "links": [
+   {
+    "href": "/",
+    "text": "\u2190 BACK TO HOME",
+    "aria": null,
+    "visible": true
+   },
+   {
+    "href": "/blog/what-your-poop-is-trying-to-tell-you",
+    "text": "OCTOBER 20, 2026 What Your Poop Is Trying to Tell You A frie",
+    "aria": null,
+    "visible": true
+   }
+  ],
+  "buttons": [],
+  "imgs": [],
+  "videos": [],
+  "jsonld": [],
+  "scrollH": 900,
+  "consoleErrors": []
+ },
+ "desktop https://www.getregular.com/blog/what-your-poop-is-trying-to-tell-you": {
+  "title": "What Your Poop Is Trying to Tell You \u2014 Get Regular",
+  "lang": "en",
+  "meta": [
+   [
+    "viewport",
+    "width=device-width, initial-scale=1"
+   ],
+   [
+    "next-size-adjust",
+    ""
+   ],
+   [
+    "description",
+    "A friendly guide to the Bristol Stool Scale, the 7-type chart doctors actually use to talk about poop."
+   ],
+   [
+    "og:title",
+    "What Your Poop Is Trying to Tell You"
+   ],
+   [
+    "og:description",
+    "A friendly guide to the Bristol Stool Scale, the 7-type chart doctors actually use to talk about poop."
+   ],
+   [
+    "og:image",
+    "https://getregular.com/images/preview.png"
+   ],
+   [
+    "og:type",
+    "article"
+   ],
+   [
+    "article:published_time",
+    "2026-10-20"
+   ],
+   [
+    "twitter:card",
+    "summary_large_image"
+   ],
+   [
+    "twitter:title",
+    "What Your Poop Is Trying to Tell You"
+   ],
+   [
+    "twitter:description",
+    "A friendly guide to the Bristol Stool Scale, the 7-type chart doctors actually use to talk about poop."
+   ],
+   [
+    "twitter:image",
+    "https://getregular.com/images/preview.png"
+   ]
+  ],
+  "canonical": [
+   "https://getregular.com/blog/what-your-poop-is-trying-to-tell-you"
+  ],
+  "headings": [
+   [
+    "H1",
+    "What Your Poop Is Trying to Tell You",
+    true
+   ],
+   [
+    "H2",
+    "The 7 types",
+    true
+   ],
+   [
+    "H2",
+    "One poop is not a pattern",
+    true
+   ],
+   [
+    "H2",
+    "When to talk to a doctor",
+    true
+   ],
+   [
+    "H2",
+    "Trust your gut again.",
+    true
+   ]
+  ],
+  "words": 386,
+  "links": [
+   {
+    "href": "/blog",
+    "text": "\u2190 ALL POSTS",
+    "aria": null,
+    "visible": true
+   },
+   {
+    "href": "https://apps.apple.com/ca/app/get-regular/id6749188690",
+    "text": "Download on the App Store",
+    "aria": null,
+    "visible": true
+   }
+  ],
+  "buttons": [],
+  "imgs": [],
+  "videos": [],
+  "jsonld": [
+   "{\"@context\":\"https://schema.org\",\"@type\":\"BlogPosting\",\"headline\":\"What Your Poop Is Trying to Tell You\",\"description\":\"A friendly guide to the Bristol Stool Scale, the 7-type chart doctors actually use to talk about poop.\",\"datePublished\":\"2026-10-20\",\"image\":\"https://getregular.com/images/preview.png\",\"author\":{\"@type\":\"Organization\",\"name\":\"Get Regular Team\"},\"publisher\":{\"@type\":\"Organization\",\"name\":\"Get Regular Health, Inc.\"},\"mainEntityOfPage\":\"https://getregular.com/blog/what-your-poop-is-trying-to-tell-you\"}"
+  ],
+  "scrollH": 1812,
+  "consoleErrors": []
+ }
+}

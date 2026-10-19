@@ -1,0 +1,15 @@
+UA                 home_st bytes    md5      blog_st title
+Chrome             200    49028    d3c92ba3 200    <title>Get Regular — Trust Your Gut Again h1=1
+Googlebot          200    49028    d3c92ba3 200    <title>Get Regular — Trust Your Gut Again h1=1
+Bingbot            200    49028    d3c92ba3 200    <title>Get Regular — Trust Your Gut Again h1=1
+OAI-SearchBot      200    49028    d3c92ba3 200    <title>Get Regular — Trust Your Gut Again h1=1
+ChatGPT-User       200    49028    d3c92ba3 200    <title>Get Regular — Trust Your Gut Again h1=1
+GPTBot             200    49028    d3c92ba3 200    <title>Get Regular — Trust Your Gut Again h1=1
+PerplexityBot      200    49028    d3c92ba3 200    <title>Get Regular — Trust Your Gut Again h1=1
+Perplexity-User    200    49028    d3c92ba3 200    <title>Get Regular — Trust Your Gut Again h1=1
+ClaudeBot          200    49028    d3c92ba3 200    <title>Get Regular — Trust Your Gut Again h1=1
+Claude-SearchBot   200    49028    d3c92ba3 200    <title>Get Regular — Trust Your Gut Again h1=1
+Claude-User        200    49028    d3c92ba3 200    <title>Get Regular — Trust Your Gut Again h1=1
+Applebot           200    49028    d3c92ba3 200    <title>Get Regular — Trust Your Gut Again h1=1
+CCBot              200    49028    d3c92ba3 200    <title>Get Regular — Trust Your Gut Again h1=1
+curl-default       200    49028    d3c92ba3 200    <title>Get Regular — Trust Your Gut Again h1=1

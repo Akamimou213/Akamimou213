@@ -1,0 +1,139 @@
+===== home-desktop.report.json https://www.getregular.com/ desktop LH 12.8.2 warnings []
+ scores {'performance': 70, 'accessibility': 96, 'best-practices': 78, 'seo': 100}
+  first-contentful-paint: 1.0 s score=0.86
+  largest-contentful-paint: 4.4 s score=0.12
+  total-blocking-time: 30 ms score=1
+  cumulative-layout-shift: 0 score=1
+  speed-index: 2.9 s score=0.3
+  interactive: 6.0 s score=0.26
+  server-response-time: Root document took 50 ms score=1
+  total-byte-weight: Total size was 5,769 KiB score=0.5
+  dom-size: 326 elements score=1
+  bootup-time: 1.2 s score=1
+  mainthread-work-breakdown: 2.4 s score=0
+  LCP el: <h1 class="font-display font-light text-white tracking-tight mb-7" style="font-size: clamp(44px, 6vw, 88px); opacity: 1; transform: none;"> Your gut is talking.
+Are you listening?
+  LCP phase: {'phase': 'TTFB', 'timing': 256.059, 'percent': '6%'}
+  LCP phase: {'phase': 'Load Delay', 'timing': 0, 'percent': '0%'}
+  LCP phase: {'phase': 'Load Time', 'timing': 0, 'percent': '0%'}
+  LCP phase: {'phase': 'Render Delay', 'timing': 4172.372969999999, 'percent': '94%'}
+  [render-blocking-resources] score=0.5 Est savings of 0 ms Eliminate render-blocking resources
+      {'url': 'https://www.getregular.com/_next/static/chunks/0_eixglinl4uv.css', 'totalBytes': '9395', 'wastedMs': '79'}
+  [render-blocking-insight] score=0.5  Render blocking requests
+      {'url': 'https://www.getregular.com/_next/static/chunks/0_eixglinl4uv.css', 'totalBytes': '9395', 'wastedMs': '81'}
+  [unused-javascript] score=0 Est savings of 202 KiB Reduce unused JavaScript
+      {'url': 'https://us-assets.i.posthog.com/static/array.js', 'totalBytes': '106111', 'wastedBytes': '69062'}
+      {'url': 'https://us-assets.i.posthog.com/static/1.438.12/posthog-recorder.js', 'totalBytes': '67899', 'wastedBytes': '33208'}
+      {'url': 'https://www.getregular.com/_next/static/chunks/00nvzi6qb_-1r.js', 'totalBytes': '72128', 'wastedBytes': '29556'}
+      {'url': 'https://us-assets.i.posthog.com/static/1.438.12/surveys.js', 'totalBytes': '33413', 'wastedBytes': '28710'}
+      {'url': 'https://www.getregular.com/_next/static/chunks/124f~efm-qklz.js', 'totalBytes': '53225', 'wastedBytes': '24028'}
+      {'url': 'https://www.getregular.com/_next/static/chunks/0vxi98ewbbk5w.js', 'totalBytes': '39868', 'wastedBytes': '21797'}
+  [unused-css-rules] score=1  Reduce unused CSS
+  [uses-responsive-images] score=0.5 Est savings of 873 KiB Properly size images
+      {'node': '<img src="/images/schopis-cropped.png" alt="Dr. Michael Schopis" class="w-12 h-12 rounded-full object-cover shrink-0">', 'url': 'https://www.getregular.com/images/schopis-cropped.png', 'totalBytes': '895157', 'wastedBytes': '894085'}
+  [modern-image-formats] score=0.5 Est savings of 1,446 KiB Serve images in next-gen formats
+      {'node': '<img src="/images/schopis-cropped.png" alt="Dr. Michael Schopis" class="w-12 h-12 rounded-full object-cover shrink-0">', 'url': 'https://www.getregular.com/images/schopis-cropped.png', 'totalBytes': '895157', 'wastedBytes': '794852.45'}
+      {'node': '<img src="/images/home.png" alt="Get Regular home screen" class="w-[180px] h-auto">', 'url': 'https://www.getregular.com/images/home.png', 'totalBytes': '759917', 'wastedBytes': '685488.9'}
+  [uses-optimized-images] score=1  Efficiently encode images
+  [offscreen-images] score=0.5 Est savings of 874 KiB Defer offscreen images
+      {'node': '<img src="/images/schopis-cropped.png" alt="Dr. Michael Schopis" class="w-12 h-12 rounded-full object-cover shrink-0">', 'url': 'https://www.getregular.com/images/schopis-cropped.png', 'totalBytes': '895157', 'wastedBytes': '895157'}
+  [efficient-animated-content] score=1  Use video formats for animated content
+  [unsized-images] score=0.5  Image elements do not have explicit `width` and `height`
+      {'url': 'https://www.getregular.com/images/home.png', 'node': '<img src="/images/home.png" alt="Get Regular home screen" class="w-[260px] h-auto">'}
+  [font-display] score=1  All text remains visible during webfont loads
+  [font-display-insight] score=0 Est savings of 60 ms Font display
+      {'url': 'https://fonts.gstatic.com/s/roboto/v48/KFO7CnqEu92Fr1ME7kSn66aGLdTylUAMa3yUBHMdazQ.woff2', 'wastedMs': '60'}
+  [legacy-javascript] score=0.5 Est savings of 41 KiB Avoid serving legacy JavaScript to modern browsers
+      {'url': 'https://www.getregular.com/_next/static/chunks/00nvzi6qb_-1r.js', 'wastedBytes': '13952', 'totalBytes': '0'}
+      {'url': 'https://us-assets.i.posthog.com/static/1.438.12/posthog-recorder.js', 'wastedBytes': '10781', 'totalBytes': '0'}
+      {'url': 'https://us-assets.i.posthog.com/static/1.438.12/surveys.js', 'wastedBytes': '8614', 'totalBytes': '0'}
+      {'url': 'https://us-assets.i.posthog.com/static/array.js', 'wastedBytes': '8316', 'totalBytes': '0'}
+  [legacy-javascript-insight] score=1  Legacy JavaScript
+  [duplicated-javascript] score=1  Remove duplicate modules in JavaScript bundles
+  [uses-long-cache-ttl] score=0.5 168 resources found Serve static assets with an efficient cache policy
+      {'url': 'https://us-assets.i.posthog.com/array/phc_NlIRWmuA1MWWMDYI10nh3AEawcIZ02l8mLsfjZfoHYP/config.js', 'cacheLifetimeMs': '300000', 'totalBytes': '939', 'wastedBytes': '899.875'}
+      {'url': 'https://storage.googleapis.com/getregular-public-assets/onboarding-v1.mp4', 'cacheLifetimeMs': '3600000', 'totalBytes': '200658', 'wastedBytes': '160526.40000000002'}
+      {'url': 'https://storage.googleapis.com/getregular-public-assets/onboarding-v1.mp4', 'cacheLifetimeMs': '3600000', 'totalBytes': '47358', 'wastedBytes': '37886.4'}
+      {'url': 'https://i.ytimg.com/vi/WEEbxLhSRT8/maxresdefault.jpg?sqp=-oaymwEmCIAKENAF8quKqQMa8AEB-AH-CYAC0AWKAgwIABABGGUgW', 'cacheLifetimeMs': '7200000', 'totalBytes': '37866', 'wastedBytes': '28399.5'}
+      {'url': 'https://us-assets.i.posthog.com/static/array.js', 'cacheLifetimeMs': '14400000', 'totalBytes': '106634', 'wastedBytes': '72511.12'}
+      {'url': 'https://lf16-tiktok-web.tiktokcdn-us.com/obj/tiktok-web-tx/tiktok_4d_playback/static/js/async/322.20d372cbbb.j', 'cacheLifetimeMs': '290695000', 'totalBytes': '159554', 'wastedBytes': '30456.762607060176'}
+  [cache-insight] score=0 Est savings of 303 KiB Use efficient cache lifetimes
+      {'url': 'https://us-assets.i.posthog.com/static/array.js', 'cacheLifetimeMs': '14400000', 'totalBytes': '106634', 'wastedBytes': '72511.12'}
+      {'url': 'https://storage.googleapis.com/getregular-public-assets/onboarding-v1.mp4', 'cacheLifetimeMs': '3600000', 'totalBytes': '47358', 'wastedBytes': '37886.4'}
+      {'url': 'https://lf16-tiktok-common.tiktokcdn-us.com/obj/tiktok-web-common-tx/tiktok_fonts/TikTokSans-VF.woff2?_default', 'cacheLifetimeMs': '1190355000', 'totalBytes': '350561', 'wastedBytes': '34392.45699114487'}
+      {'url': 'https://lf16-tiktok-web.tiktokcdn-us.com/obj/tiktok-web-tx/tiktok_4d_playback/static/js/async/322.20d372cbbb.j', 'cacheLifetimeMs': '290695000', 'totalBytes': '159554', 'wastedBytes': '30456.762607060176'}
+      {'url': 'https://i.ytimg.com/vi/WEEbxLhSRT8/maxresdefault.jpg?sqp=-oaymwEmCIAKENAF8quKqQMa8AEB-AH-CYAC0AWKAgwIABABGGUgW', 'cacheLifetimeMs': '7200000', 'totalBytes': '37866', 'wastedBytes': '28399.5'}
+      {'url': 'https://lf16-tiktok-web.tiktokcdn-us.com/obj/tiktok-web-tx/tiktok_4d_playback/static/js/163.6f1abc5f4b.js', 'cacheLifetimeMs': '2490893000', 'totalBytes': '207084', 'wastedBytes': '19445.66307801831'}
+  [image-delivery-insight] score=0.5 Est savings of 719 KiB Improve image delivery
+      {'url': 'https://www.getregular.com/images/home.png', 'totalBytes': '759917', 'wastedBytes': '736692'}
+  [lcp-discovery-insight] score=None  LCP request discovery
+  [network-dependency-tree-insight] score=0  Network dependency tree
+      {'value': "{'type': 'network-tree', 'chains': {'6E99DF3B29C9C41916F652974290B63D': {'url': 'https://www.getregular.com/',"}
+      {'description': '[preconnect](https://developer.chrome.com/docs/lighthouse/performance/uses-rel-preconnect/) hints help the bro', 'value': "{'type': 'table', 'headings': [{'key': 'origin', 'valueType': 'text', 'subItemsHeading': {'key': 'warning'}, '"}
+      {'description': 'Add [preconnect](https://developer.chrome.com/docs/lighthouse/performance/uses-rel-preconnect/) hints to your ', 'value': "{'type': 'table', 'headings': [{'key': 'origin', 'valueType': 'text', 'label': 'Origin'}, {'key': 'wastedMs', "}
+  [third-party-summary] score=1 Third-party code blocked the main thread for 50 ms Minimize third-party usage
+      {'mainThreadTime': '276.2320000000002', 'blockingTime': '46.00971199663442', 'transferSize': '209338', 'entity': 'posthog.com'}
+      {'mainThreadTime': '0', 'blockingTime': '0', 'transferSize': '2011640', 'entity': 'tiktokcdn-us.com'}
+      {'mainThreadTime': '0.258', 'blockingTime': '0', 'transferSize': '1042571', 'entity': 'YouTube'}
+      {'mainThreadTime': '0', 'blockingTime': '0', 'transferSize': '273431', 'entity': 'Other Google APIs/SDKs'}
+      {'mainThreadTime': '0.525', 'blockingTime': '0', 'transferSize': '143590', 'entity': 'TikTok'}
+      {'mainThreadTime': '0', 'blockingTime': '0', 'transferSize': '103163', 'entity': 'tiktokv.us'}
+  [layout-shifts] score=1 5 layout shifts found Avoid large layout shifts
+      {'node': '<div class="relative rounded-[38px] p-[5px] bg-gradient-to-b from-[#2a2520] to-[#1a171…">', 'score': '0'}
+      {'node': '<h1 class="font-display font-light text-white tracking-tight mb-7" style="font-size: clamp(44px, 6vw, 88px); opacity: 1;', 'score': '0'}
+      {'node': '<span class="text-white/70 px-3.5 py-1.5 rounded-full text-[13px] font-medium tracking-…" style="opacity: 1; transform: ', 'score': '0'}
+      {'node': '<head>', 'score': '0'}
+      {'node': '<link rel="preload" as="image" href="/logo-white.svg">', 'score': '0'}
+  [cls-culprits-insight] score=1  Layout shift culprits
+      {}
+  [long-tasks] score=1 4 long tasks found Avoid long main-thread tasks
+      {'url': 'https://us-assets.i.posthog.com/static/1.438.12/posthog-recorder.js'}
+      {'url': 'https://www.getregular.com/_next/static/chunks/124f~efm-qklz.js'}
+      {'url': 'https://us-assets.i.posthog.com/static/array.js'}
+      {'url': 'https://us-assets.i.posthog.com/array/phc_NlIRWmuA1MWWMDYI10nh3AEawcIZ02l8mLsfjZfoHYP/config.js'}
+  [prioritize-lcp-image] score=None  Preload Largest Contentful Paint image
+  [uses-text-compression] score=1  Enable text compression
+  [viewport] score=1  Has a `<meta name="viewport">` tag with `width` or `initial-scale`
+  [document-title] score=1  Document has a `<title>` element
+  [meta-description] score=1  Document has a meta description
+  [is-crawlable] score=1  Page isn’t blocked from indexing
+  [link-text] score=1  Links have descriptive text
+  [crawlable-anchors] score=1  Links are crawlable
+  [robots-txt] score=None  robots.txt is valid
+  [canonical] score=None  Document has a valid `rel=canonical`
+  [hreflang] score=1  Document has a valid `hreflang`
+  [structured-data] score=None  Structured data is valid
+  [image-alt] score=1  Image elements have `[alt]` attributes
+  [color-contrast] score=0  Background and foreground colors do not have a sufficient contrast rat
+      {'node': '<span class="font-body text-[13px] font-medium tracking-[0.08em] uppercase text-taupe-l…">'}
+      {'node': '<span class="font-body text-[13px] font-medium tracking-[0.08em] uppercase text-taupe-l…">'}
+      {'node': '<span class="font-body text-[13px] font-medium tracking-[0.08em] uppercase text-taupe-l…">'}
+      {'node': '<span class="font-body text-[13px] font-medium tracking-[0.08em] uppercase text-taupe-l…">'}
+      {'node': '<span class="font-body text-[13px] font-medium tracking-[0.08em] uppercase text-taupe-l…">'}
+      {'node': '<span class="text-[10px] tracking-[0.2em] uppercase text-accent">'}
+  [heading-order] score=1  Heading elements appear in a sequentially-descending order
+  [label] score=None  Form elements have associated labels
+  [link-name] score=1  Links have a discernible name
+  [button-name] score=None  Buttons have an accessible name
+  [target-size] score=1  Touch targets have sufficient size and spacing.
+  [errors-in-console] score=1  No browser errors logged to the console
+  [inspector-issues] score=0  Issues were logged in the `Issues` panel in Chrome Devtools
+      {}
+  [valid-source-maps] score=1  Page has valid source maps
+      {}
+      {}
+      {}
+  [csp-xss] score=1  Ensure CSP is effective against XSS attacks
+      {'description': 'No CSP found in enforcement mode'}
+  [has-hsts] score=1  Use a strong HSTS policy
+      {'description': 'No `includeSubDomains` directive found'}
+      {'description': 'No `preload` directive found'}
+  [origin-isolation] score=1  Ensure proper origin isolation with COOP
+      {'description': 'No COOP header found'}
+  [clickjacking-mitigation] score=1  Mitigate clickjacking with XFO or CSP
+      {'description': 'No frame control policy found'}
+  [identical-links-same-purpose] score=None  Identical links have the same purpose.
+  [landmark-one-main] score=1  Document has a main landmark.
+      {'node': '<html lang="en" class="ablelead_4afcfe46-module__u-sK3q__variable dm_sans_99d4f0aa-module__4zJgrW…">'}
+  [image-size-responsive] score=1  Serves images with appropriate resolution
+  [image-aspect-ratio] score=1  Displays images with correct aspect ratio

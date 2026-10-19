@@ -1,0 +1,11 @@
+{
+  "applinks": {
+    "apps": [],
+    "details": [
+      {
+        "appID": "9SGLZLT9FV.com.getregular.app",
+        "paths": ["/invite/*"]
+      }
+    ]
+  }
+}

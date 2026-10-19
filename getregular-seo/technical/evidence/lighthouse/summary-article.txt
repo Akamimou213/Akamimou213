@@ -1,0 +1,112 @@
+===== article-mobile.json https://www.getregular.com/blog/what-your-poop-is-trying-to-tell-you mobile LH 12.8.2 warnings []
+ scores {'performance': 81, 'accessibility': 95, 'best-practices': 100, 'seo': 100}
+  first-contentful-paint: 1.2 s score=0.99
+  largest-contentful-paint: 4.6 s score=0.35
+  total-blocking-time: 170 ms score=0.93
+  cumulative-layout-shift: 0 score=1
+  speed-index: 3.3 s score=0.9
+  interactive: 4.6 s score=0.81
+  server-response-time: Root document took 50 ms score=1
+  total-byte-weight: Total size was 527 KiB score=1
+  dom-size: 60 elements score=1
+  bootup-time: 0.7 s score=1
+  mainthread-work-breakdown: 1.1 s score=1
+  LCP el: <p class="text-taupe mb-6"> Gastroenterologists have a tool for exactly this conversation. It's called the …
+  LCP phase: {'phase': 'TTFB', 'timing': 680.878, 'percent': '15%'}
+  LCP phase: {'phase': 'Load Delay', 'timing': 0, 'percent': '0%'}
+  LCP phase: {'phase': 'Load Time', 'timing': 0, 'percent': '0%'}
+  LCP phase: {'phase': 'Render Delay', 'timing': 3918.6470000000004, 'percent': '85%'}
+  [render-blocking-resources] score=0.5 Est savings of 0 ms Eliminate render-blocking resources
+      {'url': 'https://www.getregular.com/_next/static/chunks/0_eixglinl4uv.css', 'totalBytes': '9395', 'wastedMs': '150'}
+  [render-blocking-insight] score=0.5  Render blocking requests
+      {'url': 'https://www.getregular.com/_next/static/chunks/0_eixglinl4uv.css', 'totalBytes': '9395', 'wastedMs': '150'}
+  [unused-javascript] score=0 Est savings of 157 KiB Reduce unused JavaScript
+      {'url': 'https://us-assets.i.posthog.com/static/array.js', 'totalBytes': '105970', 'wastedBytes': '68940'}
+      {'url': 'https://us-assets.i.posthog.com/static/1.438.12/posthog-recorder.js', 'totalBytes': '67789', 'wastedBytes': '33180'}
+      {'url': 'https://www.getregular.com/_next/static/chunks/00nvzi6qb_-1r.js', 'totalBytes': '72128', 'wastedBytes': '29897'}
+      {'url': 'https://us-assets.i.posthog.com/static/1.438.12/surveys.js', 'totalBytes': '33334', 'wastedBytes': '28642'}
+  [unused-css-rules] score=1  Reduce unused CSS
+  [uses-responsive-images] score=1  Properly size images
+  [modern-image-formats] score=1  Serve images in next-gen formats
+  [uses-optimized-images] score=1  Efficiently encode images
+  [offscreen-images] score=1  Defer offscreen images
+  [efficient-animated-content] score=1  Use video formats for animated content
+  [unsized-images] score=1  Image elements have explicit `width` and `height`
+  [font-display] score=1  All text remains visible during webfont loads
+  [font-display-insight] score=1  Font display
+  [legacy-javascript] score=0.5 Est savings of 41 KiB Avoid serving legacy JavaScript to modern browsers
+      {'url': 'https://www.getregular.com/_next/static/chunks/00nvzi6qb_-1r.js', 'wastedBytes': '13952', 'totalBytes': '0'}
+      {'url': 'https://us-assets.i.posthog.com/static/1.438.12/posthog-recorder.js', 'wastedBytes': '10763', 'totalBytes': '0'}
+      {'url': 'https://us-assets.i.posthog.com/static/1.438.12/surveys.js', 'wastedBytes': '8593', 'totalBytes': '0'}
+      {'url': 'https://us-assets.i.posthog.com/static/array.js', 'wastedBytes': '8305', 'totalBytes': '0'}
+  [legacy-javascript-insight] score=0 Est savings of 41 KiB Legacy JavaScript
+      {'url': 'https://www.getregular.com/_next/static/chunks/00nvzi6qb_-1r.js', 'wastedBytes': '14114'}
+      {'url': 'https://us-assets.i.posthog.com/static/1.438.12/posthog-recorder.js', 'wastedBytes': '11295'}
+      {'url': 'https://us-assets.i.posthog.com/static/1.438.12/surveys.js', 'wastedBytes': '8693'}
+      {'url': 'https://us-assets.i.posthog.com/static/array.js', 'wastedBytes': '8379'}
+  [duplicated-javascript] score=1  Remove duplicate modules in JavaScript bundles
+  [uses-long-cache-ttl] score=0.5 2 resources found Serve static assets with an efficient cache policy
+      {'url': 'https://us-assets.i.posthog.com/array/phc_NlIRWmuA1MWWMDYI10nh3AEawcIZ02l8mLsfjZfoHYP/config.js', 'cacheLifetimeMs': '300000', 'totalBytes': '916', 'wastedBytes': '877.8333333333334'}
+      {'url': 'https://us-assets.i.posthog.com/static/array.js', 'cacheLifetimeMs': '14400000', 'totalBytes': '106493', 'wastedBytes': '72415.23999999999'}
+  [cache-insight] score=0 Est savings of 72 KiB Use efficient cache lifetimes
+      {'url': 'https://us-assets.i.posthog.com/static/array.js', 'cacheLifetimeMs': '14400000', 'totalBytes': '106493', 'wastedBytes': '72415.23999999999'}
+      {'url': 'https://us-assets.i.posthog.com/array/phc_NlIRWmuA1MWWMDYI10nh3AEawcIZ02l8mLsfjZfoHYP/config.js', 'cacheLifetimeMs': '300000', 'totalBytes': '916', 'wastedBytes': '877.8333333333334'}
+  [image-delivery-insight] score=1  Improve image delivery
+  [lcp-discovery-insight] score=None  LCP request discovery
+  [network-dependency-tree-insight] score=0  Network dependency tree
+      {'value': "{'type': 'network-tree', 'chains': {'1D273EBC6E6D1BEE1707CF8A280AF5B2': {'url': 'https://www.getregular.com/bl"}
+      {'description': '[preconnect](https://developer.chrome.com/docs/lighthouse/performance/uses-rel-preconnect/) hints help the bro', 'value': "{'type': 'text', 'value': 'no origins were preconnected'}"}
+      {'description': 'Add [preconnect](https://developer.chrome.com/docs/lighthouse/performance/uses-rel-preconnect/) hints to your ', 'value': "{'type': 'table', 'headings': [{'key': 'origin', 'valueType': 'text', 'label': 'Origin'}, {'key': 'wastedMs', "}
+  [third-party-summary] score=1 Third-party code blocked the main thread for 110 ms Minimize third-party usage
+      {'mainThreadTime': '378.9680000000011', 'blockingTime': '108.30475134453164', 'transferSize': '208985', 'entity': 'posthog.com'}
+  [layout-shifts] score=None  Avoid large layout shifts
+  [cls-culprits-insight] score=1  Layout shift culprits
+  [long-tasks] score=1 4 long tasks found Avoid long main-thread tasks
+      {'url': 'https://us-assets.i.posthog.com/static/array.js'}
+      {'url': 'https://www.getregular.com/_next/static/chunks/13aus3kqanczm.js'}
+      {'url': 'https://us-assets.i.posthog.com/static/1.438.12/posthog-recorder.js'}
+      {'url': 'https://www.getregular.com/_next/static/chunks/00nvzi6qb_-1r.js'}
+  [prioritize-lcp-image] score=None  Preload Largest Contentful Paint image
+  [uses-text-compression] score=1  Enable text compression
+  [viewport] score=1  Has a `<meta name="viewport">` tag with `width` or `initial-scale`
+  [document-title] score=1  Document has a `<title>` element
+  [meta-description] score=1  Document has a meta description
+  [is-crawlable] score=1  Page isn’t blocked from indexing
+  [link-text] score=1  Links have descriptive text
+  [crawlable-anchors] score=1  Links are crawlable
+  [robots-txt] score=None  robots.txt is valid
+  [canonical] score=1  Document has a valid `rel=canonical`
+  [hreflang] score=1  Document has a valid `hreflang`
+  [structured-data] score=None  Structured data is valid
+  [image-alt] score=None  Image elements have `[alt]` attributes
+  [color-contrast] score=0  Background and foreground colors do not have a sufficient contrast rat
+      {'node': '<a class="text-[11px] tracking-[0.14em] uppercase text-taupe hover:text-ink transiti…" href="/blog">'}
+      {'node': '<p class="text-[11px] tracking-[0.14em] uppercase text-taupe mb-4">'}
+      {'node': '<p class="text-taupe text-lg mb-12">'}
+      {'node': '<p class="text-taupe mb-6">'}
+      {'node': '<p class="text-taupe mb-6">'}
+      {'node': '<li class="pl-1">'}
+  [heading-order] score=1  Heading elements appear in a sequentially-descending order
+  [label] score=None  Form elements have associated labels
+  [link-name] score=1  Links have a discernible name
+  [button-name] score=None  Buttons have an accessible name
+  [target-size] score=1  Touch targets have sufficient size and spacing.
+  [errors-in-console] score=1  No browser errors logged to the console
+  [inspector-issues] score=1  No issues in the `Issues` panel in Chrome Devtools
+  [valid-source-maps] score=1  Page has valid source maps
+      {}
+      {}
+      {}
+  [csp-xss] score=1  Ensure CSP is effective against XSS attacks
+      {'description': 'No CSP found in enforcement mode'}
+  [has-hsts] score=1  Use a strong HSTS policy
+      {'description': 'No `includeSubDomains` directive found'}
+      {'description': 'No `preload` directive found'}
+  [origin-isolation] score=1  Ensure proper origin isolation with COOP
+      {'description': 'No COOP header found'}
+  [clickjacking-mitigation] score=1  Mitigate clickjacking with XFO or CSP
+      {'description': 'No frame control policy found'}
+  [identical-links-same-purpose] score=None  Identical links have the same purpose.
+  [landmark-one-main] score=None  Document has a main landmark.
+  [image-size-responsive] score=1  Serves images with appropriate resolution
+  [image-aspect-ratio] score=1  Displays images with correct aspect ratio
