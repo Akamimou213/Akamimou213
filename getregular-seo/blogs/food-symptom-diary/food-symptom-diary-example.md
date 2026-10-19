@@ -9,7 +9,7 @@ search_intent: "informational"
 funnel: "MOFU"
 pillar: "/resources/food-symptom-diary"
 product_page: "/food-symptom-tracker"
-internal_links: ["/resources/food-symptom-diary", "/food-symptom-tracker", "/blog/food-symptom-patterns", "/blog/how-to-identify-food-triggers", "/blog/delayed-food-intolerance-symptoms", "/blog/share-food-symptom-log-with-doctor"]
+internal_links: ["/resources/food-symptom-diary", "/food-symptom-tracker", "/blog/food-symptom-patterns", "/blog/how-to-identify-food-triggers", "/blog/delayed-food-intolerance-symptoms", "/blog/share-food-symptom-log-with-doctor", "/blog/food-diary-for-acid-reflux"]
 author: "Get Regular Editorial Team"
 medical_reviewer: "PENDING"
 review_status: "draft-needs-medical-review"
@@ -76,7 +76,7 @@ The trick is recording enough detail to be useful without making it a second job
 | Context | Hours slept, stress 1–5, period day, alcohol, exercise, new medicines or supplements | These can trigger or worsen gut symptoms on their own |
 | Notes | Eating out, eating fast, very large meal, ate late | Restaurant meals and big portions often explain a pattern |
 
-You don't need calories, grams of fiber or a nutrition database. Rough amounts ("half a plate", "a handful") are enough.
+You don't need calories, grams of fiber or a nutrition database. Rough amounts ("half a plate", "a handful") are enough. If heartburn is your main symptom, add meal size and the time you lay down; our [food diary for acid reflux](/blog/food-diary-for-acid-reflux) explains why.
 
 ## A filled-in food and symptom diary example
 
@@ -144,7 +144,7 @@ A simple routine:
 - Add one line of context before bed: sleep, stress, period day, alcohol, anything unusual.
 - Once a week, do the five-step read above.
 
-If you'd rather not keep a spreadsheet, the [Get Regular food and symptom tracker](/food-symptom-tracker) puts meals (photo or text), stool (Bristol type, by photo or manual entry) and symptoms on one timeline, lets you backdate entries up to 7 days, and has free-text notes for context. Its Weekly Digest uses AI to point out *possible* patterns across your food, stool and symptom history, which you can then test and discuss with a clinician. Subscribers can also generate a PDF Doctor Report that includes bowel patterns, symptom frequency and food-symptom correlations. If you plan to bring your log to an appointment, see [how to share a food and symptom log with your doctor](/blog/share-food-symptom-log-with-doctor).
+If you'd rather not keep a spreadsheet, the [Get Regular food and symptom tracker](/food-symptom-tracker) puts meals (photo or text), stool (Bristol type, by photo or manual entry) and symptoms on one timeline, lets you backdate entries up to 7 days, and has free-text notes for context. Get Regular's Weekly Digest uses AI to point out *possible* patterns across your food, stool and symptom history, which you can then test and discuss with a clinician. Subscribers can also generate a PDF Doctor Report that includes bowel patterns, symptom frequency and food-symptom correlations. If you plan to bring your log to an appointment, see [how to share a food and symptom log with your doctor](/blog/share-food-symptom-log-with-doctor).
 
 ## When to see a doctor
 

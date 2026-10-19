@@ -15,7 +15,7 @@ medical_reviewer: "PENDING"
 review_status: "draft-needs-medical-review"
 date_published: null
 date_updated: null
-reading_time_min: 8
+reading_time_min: 9
 schema_type: "BlogPosting"
 og_image_brief: "A cheese board next to a simple two-column diary page (meals / Bristol type), warm brand palette, no gross imagery"
 cta_variant: "constipation-cheese-test"

@@ -15,7 +15,7 @@ medical_reviewer: "PENDING"
 review_status: "draft-needs-medical-review"
 date_published: null
 date_updated: null
-reading_time_min: 8
+reading_time_min: 9
 schema_type: "BlogPosting"
 og_image_brief: "Clean, non-graphic illustration of Bristol types 1 and 2 (separate pebbles; lumpy sausage) next to type 4 for comparison, brand palette"
 cta_variant: "bristol-hard-share"

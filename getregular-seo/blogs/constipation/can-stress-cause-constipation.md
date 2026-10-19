@@ -2,7 +2,7 @@
 title: "Can Stress Cause Constipation? The Gut-Brain Link"
 slug: "can-stress-cause-constipation"
 cluster: "constipation"
-description: "Can stress cause constipation? It can contribute, directly and through routine changes. Learn how the gut-brain link works and how to track stress against your bowels."
+description: "Can stress cause constipation? It can, directly and by disrupting your routine. Learn how the gut-brain link works and how to track stress against your bowels."
 primary_keyword: "can stress cause constipation"
 secondary_keywords: ["stress constipation", "can anxiety cause constipation", "anxiety and bowel movements"]
 search_intent: "informational"

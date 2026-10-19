@@ -2,7 +2,7 @@
 title: "Food and Symptom Correlation: Real Pattern or Coincidence?"
 slug: "food-symptom-patterns"
 cluster: "food-symptom-diary"
-description: "Food and symptom correlation in a diary can be real or pure coincidence. Learn a simple counting method, a 6-point pattern scorecard and the confounders to rule out."
+description: "Food and symptom correlation in a diary can be real or coincidence. Learn a simple counting method, a 6-point pattern scorecard and the confounders to rule out."
 primary_keyword: "food and symptom correlation"
 secondary_keywords: ["food diary patterns", "how to analyze a food diary", "find patterns in symptom diary", "food diary and symptom correlation"]
 search_intent: "informational"

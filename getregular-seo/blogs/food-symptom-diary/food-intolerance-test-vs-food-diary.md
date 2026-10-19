@@ -124,7 +124,7 @@ To be honest about a diary's limits: it shows correlations, not causes, and it's
 3. **Review it honestly.** Compare days with and without each suspect. The [14-day method for identifying food triggers](/blog/how-to-identify-food-triggers) walks through it.
 4. **Test one suspect with a dietitian.** A structured elimination and reintroduction is how the NHS describes confirming an intolerance [6]. Our [elimination diet tracking guide](/blog/elimination-diet-tracking) covers what to log.
 
-If you want a digital diary, the [Get Regular food and symptom tracker](/food-symptom-tracker) logs meals (photo or text), stool (Bristol type) and symptoms on one timeline, and its AI-generated Weekly Digest highlights *possible* patterns for you to test, not diagnoses. With a subscription, Experiments let Gut Check, the app's AI coach, suggest a structured single-food self-experiment (for example, eliminating dairy for a week) with a protocol and daily tracking, and the Doctor Report turns your log into a PDF for your doctor or dietitian. It's a tracking tool, not a test, and it doesn't diagnose intolerance.
+If you want a digital diary, the [Get Regular food and symptom tracker](/food-symptom-tracker) logs meals (photo or text), stool (Bristol type) and symptoms on one timeline, and its AI-generated Weekly Digest highlights *possible* patterns for you to test, not diagnoses. With a Get Regular subscription, Experiments let Gut Check, the app's AI coach, suggest a structured single-food self-experiment (for example, eliminating dairy for a week) with a protocol and daily tracking, and the Doctor Report turns your log into a PDF for your doctor or dietitian. It's a tracking tool, not a test, and it doesn't diagnose intolerance.
 
 ## When to see a doctor
 

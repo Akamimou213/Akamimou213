@@ -2,7 +2,7 @@
 title: "Food Diary for Food Intolerance: What to Record and Why"
 slug: "food-diary-for-food-intolerance"
 cluster: "food-symptom-diary"
-description: "A food diary for food intolerance only works if it captures ingredients, timing and dose. Here's exactly what to record, hidden sources to watch, and a sample log."
+description: "A food diary for food intolerance only works if it captures ingredients, timing and dose. Here's what to record, hidden sources to watch, and a sample log."
 primary_keyword: "food diary for food intolerance"
 secondary_keywords: ["food intolerance diary", "food intolerance journal", "food sensitivity diary", "food sensitivity journal", "best food sensitivity journal"]
 search_intent: "informational"
@@ -136,7 +136,7 @@ The two habits that make the biggest difference are logging at the time you eat 
 4. Log stool with its Bristol type.
 5. Once a week, look back from each symptom across the previous 24–48 hours.
 
-The [Get Regular food and symptom tracker](/food-symptom-tracker) is built for this. You can log meals by photo or text and edit the ingredients, re-log a recent meal with one tap, log stool by Bristol type, and tap in symptoms on the same timeline. You can also add free-text notes (handy for "large portion" or "ate out"). Its AI-generated Weekly Digest highlights possible patterns across your food, stool and symptom history. Treat these as things to test and discuss with a clinician, not a verdict.
+The [Get Regular food and symptom tracker](/food-symptom-tracker) is built for this. You can log meals by photo or text and edit the ingredients, re-log a recent meal with one tap, log stool by Bristol type, and tap in symptoms on the same timeline. You can also add free-text notes (handy for "large portion" or "ate out"). Get Regular's AI-generated Weekly Digest highlights possible patterns across your food, stool and symptom history. Treat these as things to test and discuss with a clinician, not a verdict.
 
 ## When to see a doctor
 

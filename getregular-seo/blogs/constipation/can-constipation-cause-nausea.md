@@ -15,7 +15,7 @@ medical_reviewer: "PENDING"
 review_status: "draft-needs-medical-review"
 date_published: null
 date_updated: null
-reading_time_min: 8
+reading_time_min: 9
 schema_type: "BlogPosting"
 og_image_brief: "Calm illustration of a person holding their stomach with a simple traffic-light panel: green 'mild queasiness', amber 'worsening', red 'vomiting + no gas'"
 cta_variant: "constipation-nausea-log"

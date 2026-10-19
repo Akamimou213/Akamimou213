@@ -15,7 +15,7 @@ medical_reviewer: "PENDING"
 review_status: "draft-needs-medical-review"
 date_published: null
 date_updated: null
-reading_time_min: 9
+reading_time_min: 10
 schema_type: "BlogPosting"
 og_image_brief: "Split illustration: a glass of psyllium drink and kiwifruit on one side, a bowl of bran on the other, with a simple up/down arrow chart between them"
 cta_variant: "fiber-4week-test"

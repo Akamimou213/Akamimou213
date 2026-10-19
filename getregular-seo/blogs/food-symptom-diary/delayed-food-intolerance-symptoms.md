@@ -2,14 +2,14 @@
 title: "How Long After Eating Do Food Intolerance Symptoms Start?"
 slug: "delayed-food-intolerance-symptoms"
 cluster: "food-symptom-diary"
-description: "How long after eating do food intolerance symptoms start? Usually a few hours, sometimes the next day. See typical timing by cause and how to trace delayed symptoms."
+description: "How long after eating do food intolerance symptoms start? Usually a few hours, sometimes the next day. See timing by cause and how to trace delayed symptoms."
 primary_keyword: "how long after eating do food intolerance symptoms start"
 secondary_keywords: ["delayed food intolerance symptoms", "how long do food intolerance symptoms last", "food intolerance reaction time", "how long after eating dairy do symptoms start"]
 search_intent: "informational"
 funnel: "TOFU"
 pillar: "/resources/food-symptom-diary"
 product_page: "/food-symptom-tracker"
-internal_links: ["/resources/food-symptom-diary", "/food-symptom-tracker", "/blog/food-diary-for-food-intolerance", "/blog/food-symptom-diary-example", "/blog/how-to-identify-food-triggers", "/blog/how-long-does-it-take-food-to-become-poop"]
+internal_links: ["/resources/food-symptom-diary", "/food-symptom-tracker", "/blog/food-diary-for-food-intolerance", "/blog/food-symptom-diary-example", "/blog/how-to-identify-food-triggers", "/blog/how-long-does-it-take-food-to-become-poop", "/blog/can-food-intolerance-start-suddenly"]
 author: "Get Regular Editorial Team"
 medical_reviewer: "PENDING"
 review_status: "draft-needs-medical-review"
@@ -88,7 +88,7 @@ Dose and stacking add another layer. A small amount of a problem food might caus
 
 Food intolerance symptoms can last a few hours or a few days [1]. Bloating and gas often settle once the food has moved through. Changes in stool can show up the next day. Because effects can linger, Monash's FODMAP reintroduction guidance recommends a break of 2–3 days between food challenges, or until symptoms settle, so one test doesn't blur into the next [6].
 
-How long a reaction lasts can also be a clue in your diary. If you're still bloated two days after one meal, it's worth checking whether something else (stress, your cycle, a new medicine, ongoing meals with the same ingredient) is keeping it going.
+How long a reaction lasts can also be a clue in your diary. If you're still bloated two days after one meal, it's worth checking whether something else (stress, your cycle, a new medicine, ongoing meals with the same ingredient) is keeping it going. And if a food that never bothered you now does, see [can you suddenly develop a food intolerance?](/blog/can-food-intolerance-start-suddenly).
 
 ## How to trace a delayed reaction
 
@@ -114,7 +114,7 @@ For a full week of entries analyzed this way, see our [food and symptom diary ex
 
 ### Tracking it without doing the math by hand
 
-Paper works: the printable on our [food and symptom diary page](/resources/food-symptom-diary) has time columns built in. The tedious part is scrolling back a day or two every time you feel off. The [Get Regular food and symptom tracker](/food-symptom-tracker) puts meals, stool and symptoms on one timeline so the previous day is right there, and you can backdate a forgotten entry (with a custom time) up to 7 days. Its AI-generated Weekly Digest looks across your food, stool and symptom history for *possible* patterns, rather than only the last meal. Treat what it surfaces as a hypothesis to test, ideally with a clinician, using the steps in [how to identify food triggers](/blog/how-to-identify-food-triggers).
+Paper works: the printable on our [food and symptom diary page](/resources/food-symptom-diary) has time columns built in. The tedious part is scrolling back a day or two every time you feel off. The [Get Regular food and symptom tracker](/food-symptom-tracker) puts meals, stool and symptoms on one timeline so the previous day is right there, and you can backdate a forgotten entry (with a custom time) up to 7 days. Get Regular's AI-generated Weekly Digest looks across your food, stool and symptom history for *possible* patterns, rather than only the last meal. Treat what it surfaces as a hypothesis to test, ideally with a clinician, using the steps in [how to identify food triggers](/blog/how-to-identify-food-triggers).
 
 ## When to see a doctor
 

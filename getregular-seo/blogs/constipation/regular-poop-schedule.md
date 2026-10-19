@@ -15,7 +15,7 @@ medical_reviewer: "PENDING"
 review_status: "draft-needs-medical-review"
 date_published: null
 date_updated: null
-reading_time_min: 9
+reading_time_min: 10
 schema_type: "BlogPosting"
 og_image_brief: "Sunrise-toned illustration of a simple morning routine timeline: wake, breakfast, short walk, 5-minute toilet window with a footstool"
 cta_variant: "regular-schedule-14day"

@@ -2,14 +2,14 @@
 title: "How to Identify Food Triggers: A 14-Day Method"
 slug: "how-to-identify-food-triggers"
 cluster: "food-symptom-diary"
-description: "How to identify food triggers for bloating, gas or loose stools: a 14-day food and symptom method, how long to keep a food diary, and what to do with the results."
+description: "How to identify food triggers for bloating, gas or loose stools: a 14-day food and symptom method, how long to keep a food diary, and what to do with results."
 primary_keyword: "how to identify food triggers"
 secondary_keywords: ["what are food triggers", "how to find food triggers", "food trigger tracker", "track food triggers", "how long to keep a food diary", "food intolerance diary how long"]
 search_intent: "informational"
 funnel: "MOFU"
 pillar: "/resources/food-symptom-diary"
 product_page: "/food-symptom-tracker"
-internal_links: ["/resources/food-symptom-diary", "/food-symptom-tracker", "/blog/food-symptom-diary-example", "/blog/food-symptom-patterns", "/blog/elimination-diet-tracking", "/blog/dietitian-appointment-prep"]
+internal_links: ["/resources/food-symptom-diary", "/food-symptom-tracker", "/blog/food-symptom-diary-example", "/blog/food-symptom-patterns", "/blog/elimination-diet-tracking", "/blog/dietitian-appointment-prep", "/blog/photo-food-diary"]
 author: "Get Regular Editorial Team"
 medical_reviewer: "PENDING"
 review_status: "draft-needs-medical-review"
@@ -77,7 +77,7 @@ Here's the plan, day by day. You eat normally the whole time.
 | Days | What you do | Why |
 |---|---|---|
 | Day 0 (10 minutes) | Choose your tool (paper, notes app or a tracker). Write down your top 3 suspects *before* you start. | Forces you to state hunches up front so you can check them honestly |
-| Days 1–14: every meal | Log time, what you ate and drank, main ingredients and rough amount. A photo plus a few words is fine. | Ingredients and amounts matter more than meal names |
+| Days 1–14: every meal | Log time, what you ate and drank, main ingredients and rough amount. A photo plus a few words is fine (see [photo food diary tips](/blog/photo-food-diary)). | Ingredients and amounts matter more than meal names |
 | Days 1–14: every symptom | Log type, start time and severity (0–10). | Start time is how you link symptoms to meals |
 | Days 1–14: every bowel movement | Log time and Bristol stool type (1–7). | Stool changes often follow the day after a trigger |
 | Days 1–14: before bed | One line of context: hours slept, stress 1–5, period day, alcohol, exercise, new medicines. | These cause symptoms on their own |
@@ -137,7 +137,7 @@ If you have IBS or a clinician has asked for longer, follow their plan.
 
 Any tool works if it captures time, ingredients, symptoms with start time, stool and context. Paper is fine; the printable on our [food and symptom diary page](/resources/food-symptom-diary) has these columns.
 
-The [Get Regular food and symptom tracker](/food-symptom-tracker) does it on your phone: log meals by photo or text (and edit the ingredients), log stool by Bristol type, tap in symptoms, and add notes, all on one timeline. If you forget an entry, you can backdate it up to 7 days. Its AI-generated Weekly Digest points out *possible* patterns across your food, stool and symptom history, which you can then check with the day-15 review above. With a subscription, Gut Check, the app's AI chat, can suggest simple self-experiments with a protocol and daily tracking, and the Doctor Report creates a PDF of your patterns to share with your clinician. None of this proves a food is a trigger; it helps you collect cleaner evidence.
+The [Get Regular food and symptom tracker](/food-symptom-tracker) does it on your phone: log meals by photo or text (and edit the ingredients), log stool by Bristol type, tap in symptoms, and add notes, all on one timeline. If you forget an entry, you can backdate it up to 7 days. Get Regular's AI-generated Weekly Digest points out *possible* patterns across your food, stool and symptom history, which you can then check with the day-15 review above. With a subscription, Gut Check, the app's AI chat, can suggest simple self-experiments with a protocol and daily tracking, and the Doctor Report creates a PDF of your patterns to share with your clinician. None of this proves a food is a trigger; it helps you collect cleaner evidence.
 
 ## When to see a doctor
 

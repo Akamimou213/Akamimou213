@@ -123,7 +123,7 @@ Start a two-week log the moment a "new" reaction appears, while you still eat no
 
 **Step 4: Take it to a clinician** before cutting the food out, especially if you suspect gluten (test first) or have any warning signs.
 
-You can use the printable on our [food and symptom diary page](/resources/food-symptom-diary), or the [Get Regular food and symptom tracker](/food-symptom-tracker), which logs meals (photo or text), stool (Bristol type) and symptoms on one timeline, with notes and backdating up to 7 days. Its AI-generated Weekly Digest surfaces *possible* patterns to discuss with your doctor. Subscribers can also generate a Doctor Report PDF summarizing bowel patterns, symptom frequency and food-symptom correlations.
+You can use the printable on our [food and symptom diary page](/resources/food-symptom-diary), or the [Get Regular food and symptom tracker](/food-symptom-tracker), which logs meals (photo or text), stool (Bristol type) and symptoms on one timeline, with notes and backdating up to 7 days. Get Regular's AI-generated Weekly Digest surfaces *possible* patterns to discuss with your doctor. Subscribers can also generate a Doctor Report PDF summarizing bowel patterns, symptom frequency and food-symptom correlations.
 
 Thinking about an at-home test kit instead? Read [are food intolerance tests worth it?](/blog/food-intolerance-test-vs-food-diary) first.
 
