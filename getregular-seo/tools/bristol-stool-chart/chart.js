@@ -78,68 +78,14 @@ export const TYPES = {
   },
 };
 
-export const GROUP_LABEL = { hard: "Hard (types 1–2)", ideal: "Formed (types 3–4)", soft: "Soft (type 5)", loose: "Loose (types 6–7)", none: "No bowel movement" };
+/* Where each type sits between slow and fast transit (schematic, for the
+ * chart's speed gauge and the transit slider; Lewis & Heaton 1997 showed stool
+ * form tracks whole-gut transit, but there are no per-type hour values). */
+export const SPEED = { 1: "Slow", 2: "Slow", 3: "Normal", 4: "Normal", 5: "Normal–fast", 6: "Fast", 7: "Fast" };
+export const SIDE = { 1: "Constipation side", 2: "Constipation side", 3: "Often ideal", 4: "Often ideal", 5: "Common", 6: "Diarrhea side", 7: "Diarrhea" };
 
-/* 7-day mini log: entries is an array of 7 values, each 1..7, "none" or null. */
-export function summarizeWeek(entries) {
-  const counts = { hard: 0, ideal: 0, soft: 0, loose: 0, none: 0 };
-  let logged = 0;
-  for (const e of entries) {
-    if (e === null || e === undefined) continue;
-    logged++;
-    counts[e === "none" ? "none" : TYPES[e].group]++;
-  }
-  const movements = logged - counts.none;
-  let headline;
-  if (logged < 4) headline = "Log at least 4 days to see a pattern.";
-  else if (counts.hard >= 3 && counts.loose >= 2) headline = "Your week swung between hard and loose.";
-  else if (counts.hard + counts.none >= 4 && counts.hard >= 2) headline = "Your week leaned hard and slow.";
-  else if (counts.loose >= 3) headline = "Your week leaned loose.";
-  else if (counts.ideal + counts.soft >= Math.max(1, movements - 1)) headline = "Your week looks mostly in the usual range.";
-  else headline = "Your week was mixed.";
-  return { counts, logged, movements, headline };
-}
-
-/* ---------- Dated log (mirrors the app: backdate up to 7 days, streak = days in types 3–4) ---------- */
-
-export const BACKFILL_DAYS = 7; // the app allows logging up to 7 days in the past
-
-export function dayKey(d) {
-  const z = (n) => String(n).padStart(2, "0");
-  return `${d.getFullYear()}-${z(d.getMonth() + 1)}-${z(d.getDate())}`;
-}
-
-export function lastDays(today, n = 7) {
-  const out = [];
-  for (let k = n - 1; k >= 0; k--) { const d = new Date(today); d.setDate(d.getDate() - k); out.push(d); }
-  return out;
-}
-
-/* Streak, as the app defines it: consecutive days with stool in the Bristol
- * 3–4 range; "no-go" days don't break the streak; an unlogged day does. The
- * count may end today or yesterday (today not logged yet keeps it alive). */
-export function streak(log, today) {
-  let n = 0;
-  const d = new Date(today);
-  if (log[dayKey(d)] === undefined) d.setDate(d.getDate() - 1);
-  for (let k = 0; k < 366; k++) {
-    const v = log[dayKey(d)];
-    if (v === undefined) break;
-    if (v === "none") { d.setDate(d.getDate() - 1); continue; }
-    if (v === 3 || v === 4) n++; else break;
-    d.setDate(d.getDate() - 1);
-  }
-  return n;
-}
-
-export function snapshot(log, today) {
-  const week = lastDays(today, 7).map((d) => (log[dayKey(d)] === undefined ? null : log[dayKey(d)]));
-  return { ...summarizeWeek(week), streak: streak(log, today), daysLogged: Object.keys(log).length };
-}
-
-/* Drop entries older than the 7-day window plus 30 days, so the browser log stays small. */
-export function prune(log, today, keepDays = 37) {
-  const cut = new Date(today); cut.setDate(cut.getDate() - keepDays);
-  const k = dayKey(cut);
-  return Object.fromEntries(Object.entries(log).filter(([d]) => d >= k));
+/* Transit slider: 0 (slowest) .. 100 (fastest) -> type 1..7 */
+export function typeForSpeed(x) {
+  const v = Math.max(0, Math.min(100, Number(x)));
+  return Math.min(7, 1 + Math.floor(v / (100 / 7)));
 }
