@@ -28,6 +28,20 @@
   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/37452811/"
  },
  {
+  "pmid": "37204227",
+  "title": "American Gastroenterological Association-American College of Gastroenterology Clinical Practice Guideline: Pharmacological Management of Chronic Idiopathic Constipation",
+  "first_author": "Chang L",
+  "authors_short": "Chang L et al.",
+  "journal": "Am J Gastroenterol",
+  "year": "2023",
+  "doi": "10.14309/ajg.0000000000002227",
+  "publication_types": "Journal Article;Practice Guideline",
+  "evidence_tier": "Guideline",
+  "cited_in": "onpage;science",
+  "times_cited_by_us": 2,
+  "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/37204227/"
+ },
+ {
   "pmid": "39647502",
   "title": "International consensus statement on microbiome testing in clinical practice",
   "first_author": "Porcari S",
@@ -40,20 +54,6 @@
   "cited_in": "apps-comparisons",
   "times_cited_by_us": 1,
   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/39647502/"
- },
- {
-  "pmid": "37204227",
-  "title": "American Gastroenterological Association-American College of Gastroenterology Clinical Practice Guideline: Pharmacological Management of Chronic Idiopathic Constipation",
-  "first_author": "Chang L",
-  "authors_short": "Chang L et al.",
-  "journal": "Am J Gastroenterol",
-  "year": "2023",
-  "doi": "10.14309/ajg.0000000000002227",
-  "publication_types": "Journal Article;Practice Guideline",
-  "evidence_tier": "Guideline",
-  "cited_in": "onpage",
-  "times_cited_by_us": 1,
-  "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/37204227/"
  },
  {
   "pmid": "32023228",
@@ -84,6 +84,20 @@
   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/29653941/"
  },
  {
+  "pmid": "34090581",
+  "title": "Global prevalence of functional constipation according to the Rome criteria: a systematic review and meta-analysis",
+  "first_author": "Barberio B",
+  "authors_short": "Barberio B et al.",
+  "journal": "Lancet Gastroenterol Hepatol",
+  "year": "2021",
+  "doi": "10.1016/S2468-1253(21)00111-4",
+  "publication_types": "Journal Article;Meta-Analysis;Research Support, Non-U.S. Gov't;Systematic Review",
+  "evidence_tier": "Systematic review / meta-analysis",
+  "cited_in": "onpage;science",
+  "times_cited_by_us": 2,
+  "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/34090581/"
+ },
+ {
   "pmid": "28069350",
   "title": "Prevalence, Risk Factors, and Outcomes of Irritable Bowel Syndrome After Infectious Enteritis: A Systematic Review and Meta-analysis",
   "first_author": "Klem F",
@@ -110,20 +124,6 @@
   "cited_in": "bloating-gas;food-symptom-diary",
   "times_cited_by_us": 2,
   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/20404262/"
- },
- {
-  "pmid": "34090581",
-  "title": "Global prevalence of functional constipation according to the Rome criteria: a systematic review and meta-analysis",
-  "first_author": "Barberio B",
-  "authors_short": "Barberio B et al.",
-  "journal": "Lancet Gastroenterol Hepatol",
-  "year": "2021",
-  "doi": "10.1016/S2468-1253(21)00111-4",
-  "publication_types": "Journal Article;Meta-Analysis;Research Support, Non-U.S. Gov't;Systematic Review",
-  "evidence_tier": "Systematic review / meta-analysis",
-  "cited_in": "onpage",
-  "times_cited_by_us": 1,
-  "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/34090581/"
  },
  {
   "pmid": "30560578",
@@ -182,6 +182,20 @@
   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/9299672/"
  },
  {
+  "pmid": "32619212",
+  "title": "Contrasting effects of viscous and particulate fibers on colonic fermentation in vitro and in vivo, and their impact on intestinal water studied by MRI in a randomized trial",
+  "first_author": "Gunn D",
+  "authors_short": "Gunn D et al.",
+  "journal": "Am J Clin Nutr",
+  "year": "2020",
+  "doi": "10.1093/ajcn/nqaa173",
+  "publication_types": "Journal Article;Randomized Controlled Trial;Research Support, Non-U.S. Gov't",
+  "evidence_tier": "Randomized trial",
+  "cited_in": "bloating-gas;science",
+  "times_cited_by_us": 2,
+  "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/32619212/"
+ },
+ {
   "pmid": "23648697",
   "title": "No effects of gluten in patients with self-reported non-celiac gluten sensitivity after dietary reduction of fermentable, poorly absorbed, short-chain carbohydrates",
   "first_author": "Biesiekierski JR",
@@ -208,20 +222,6 @@
   "cited_in": "food-symptom-diary",
   "times_cited_by_us": 1,
   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/40706614/"
- },
- {
-  "pmid": "32619212",
-  "title": "Contrasting effects of viscous and particulate fibers on colonic fermentation in vitro and in vivo, and their impact on intestinal water studied by MRI in a randomized trial",
-  "first_author": "Gunn D",
-  "authors_short": "Gunn D et al.",
-  "journal": "Am J Clin Nutr",
-  "year": "2020",
-  "doi": "10.1093/ajcn/nqaa173",
-  "publication_types": "Journal Article;Randomized Controlled Trial;Research Support, Non-U.S. Gov't",
-  "evidence_tier": "Randomized trial",
-  "cited_in": "bloating-gas",
-  "times_cited_by_us": 1,
-  "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/32619212/"
  },
  {
   "pmid": "20497775",
@@ -336,6 +336,20 @@
   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/11254489/"
  },
  {
+  "pmid": "23545709",
+  "title": "Fiber and functional gastrointestinal disorders",
+  "first_author": "Eswaran S",
+  "authors_short": "Eswaran S et al.",
+  "journal": "Am J Gastroenterol",
+  "year": "2013",
+  "doi": "10.1038/ajg.2013.63",
+  "publication_types": "Journal Article;Review",
+  "evidence_tier": "Review",
+  "cited_in": "bloating-gas;science",
+  "times_cited_by_us": 2,
+  "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/23545709/"
+ },
+ {
   "pmid": "41713703",
   "title": "Bowel Disorders",
   "first_author": "Corsetti M",
@@ -434,20 +448,6 @@
   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/25339801/"
  },
  {
-  "pmid": "23545709",
-  "title": "Fiber and functional gastrointestinal disorders",
-  "first_author": "Eswaran S",
-  "authors_short": "Eswaran S et al.",
-  "journal": "Am J Gastroenterol",
-  "year": "2013",
-  "doi": "10.1038/ajg.2013.63",
-  "publication_types": "Journal Article;Review",
-  "evidence_tier": "Review",
-  "cited_in": "bloating-gas",
-  "times_cited_by_us": 1,
-  "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/23545709/"
- },
- {
   "pmid": "35288511",
   "title": "A Smartphone Application Using Artificial Intelligence Is Superior To Subject Self-Reporting When Assessing Stool Form",
   "first_author": "Pimentel M",
@@ -474,6 +474,20 @@
   "cited_in": "ibs;stool-bristol",
   "times_cited_by_us": 2,
   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/27144627/"
+ },
+ {
+  "pmid": "8995945",
+  "title": "Clinical response to dietary fiber treatment of chronic constipation",
+  "first_author": "Voderholzer WA",
+  "authors_short": "Voderholzer WA et al.",
+  "journal": "Am J Gastroenterol",
+  "year": "1997",
+  "doi": "",
+  "publication_types": "Journal Article;Research Support, Non-U.S. Gov't",
+  "evidence_tier": "Study",
+  "cited_in": "constipation;science",
+  "times_cited_by_us": 2,
+  "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/8995945/"
  },
  {
   "pmid": "1624166",
@@ -768,20 +782,6 @@
   "cited_in": "ibs",
   "times_cited_by_us": 1,
   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/9144039/"
- },
- {
-  "pmid": "8995945",
-  "title": "Clinical response to dietary fiber treatment of chronic constipation",
-  "first_author": "Voderholzer WA",
-  "authors_short": "Voderholzer WA et al.",
-  "journal": "Am J Gastroenterol",
-  "year": "1997",
-  "doi": "",
-  "publication_types": "Journal Article;Research Support, Non-U.S. Gov't",
-  "evidence_tier": "Study",
-  "cited_in": "constipation",
-  "times_cited_by_us": 1,
-  "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/8995945/"
  },
  {
   "pmid": "8977347",
