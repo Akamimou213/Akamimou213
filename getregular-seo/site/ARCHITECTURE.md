@@ -164,7 +164,7 @@ The publish gate is unchanged: an article ships only after a named clinician app
 
 | # | Tool | Main queries (US/mo, Semrush 6 Oct; "AC" = autocomplete only) | Why build it | Lead capture |
 |---|---|---|---|---|
-| T1 | **Bristol Stool Chart: what's my type?** (depends on the licensing decision in §12) | bristol stool chart 74,000 · poop chart 33,100 · bristol stool scale 5,400 · bowel movement chart 2,400 · type 6 1,000 … (40+ variants) | The single biggest owned-intent term in the category. Today's SERP is clinic PDFs and static images; an interactive, cited, mobile-first chart is a clear upgrade. KD 50–68, so it's a 6–12 month play built on links | Printable PDF (optional email), "track your type for 7 days" → App Store |
+| T1 | **Bristol Stool Chart: what's my type?** (depends on the licensing decision in §11) | bristol stool chart 74,000 · poop chart 33,100 · bristol stool scale 5,400 · bowel movement chart 2,400 · type 6 1,000 … (40+ variants) | The single biggest owned-intent term in the category. Today's SERP is clinic PDFs and static images; an interactive, cited, mobile-first chart is a clear upgrade. KD 50–68, so it's a 6–12 month play built on links | Printable PDF (optional email), "track your type for 7 days" → App Store |
 | T2 | **How regular are you?** (built: `tools/how-regular-are-you/`) | AC: "am i constipated quiz", "do i have ibs quiz", "ibs quiz free", "**ibs quiz no email**", "gut health quiz free", "bowel health quiz" | Long-tail quiz demand, plus the best destination for **paid social and creators** (MenoScale's traffic is press- and podcast-led, not SEO) | Result first, email optional (see §6) |
 | T3 | **Poop color chart** | bowel movement color chart 1,900 · green poop (C1 draft) · yellow diarrhea (C6) | High intent, strong red-flag duty (black, red, pale stool) | Optional email |
 | T4 | **Why am I bloated?** | why am i so bloated i look pregnant 18,100 · why am i so bloated 8,100 · why am i always bloated 4,400 · why am i bloated after eating 320 | Huge question cluster. A 6-question timing check (after meals vs end of day, with which foods, with cycle, with stool changes) maps to the C4 articles | Optional email |
@@ -270,7 +270,7 @@ Added to `geo/ai-prompt-panel.csv` (54 prompts now; clusters `tool-quiz`, `tool-
 
 ZOE's reach comes from its podcast (reported to touch ~40% of sales), press and a famous scientist; organic search is about a third of its traffic (Semrush estimate). **The tools won't bring traffic by themselves.** Plan T2 as the destination for paid social, creators and email, and T1 and the Learn hubs as the organic engine.
 
-## 12. Licensing: the Bristol scale and validated questionnaires
+## 11. Licensing: the Bristol scale and validated questionnaires
 
 The research on 20 Oct 2026 found **no validated GI questionnaire that a commercial consumer site can reuse freely**. This is not legal advice; counsel decides.
 
@@ -285,10 +285,10 @@ The research on 20 Oct 2026 found **no validated GI questionnaire that a commerc
 
 **The ZOE lesson that matters most:** MenoScale is credible because ZOE validated it in a published paper. Get Regular's equivalent path is to license IBS-SSS (validated today), or to collect consented quiz and app data under the research program (`/science/research`) and publish a validation of the Regularity Score later. Until then, label it "not validated" everywhere.
 
-## 11. Open decisions and [CONFIRM] items
+## 12. Open decisions and [CONFIRM] items
 
 1. **Clinical reviewer** for the tools and science pages (named, consenting). Also: the Rome V check on T2 thresholds.
-2. **Legal:** consent text, ESP data handling, no-pixel policy on health pages, `ct` token style, a Consumer Health Data Privacy Policy page, a retention schedule, and **the Bristol scale licensing question (§12)**, which also affects the app and its App Store copy.
+2. **Legal:** consent text, ESP data handling, no-pixel policy on health pages, `ct` token style, a Consumer Health Data Privacy Policy page, a retention schedule, and **the Bristol scale licensing question (§11)**, which also affects the app and its App Store copy.
 3. **Product:** Gut Health Score weights for `/science/gut-health-score`; what the in-app research consent covers.
 4. **Email endpoint:** a Kit form, or a first-party API route that double-opts-in and stores consent records.
 5. **App Store Custom Product Page IDs** once approved, so the tools deep-link to the right page.

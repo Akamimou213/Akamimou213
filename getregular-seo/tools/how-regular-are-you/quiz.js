@@ -14,7 +14,7 @@
  * "available by license", and the common chart artwork is Norgine's. So the
  * form question uses our own wording and our own drawings, not the BSFS text
  * or chart. Counsel decides whether a Rome Foundation license is needed for
- * the 7-type structure itself (site/ARCHITECTURE.md §12). Every
+ * the 7-type structure itself (site/ARCHITECTURE.md §11). Every
  * threshold below names its source so the clinical reviewer can check it.
  */
 
