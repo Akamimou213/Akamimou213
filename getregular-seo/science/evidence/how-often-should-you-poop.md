@@ -46,7 +46,7 @@ sources_checked: 2026-10-20   # every abstract re-read from PubMed on this date
 
 ## Track it
 
-Count bowel movements and note stool type for 2 weeks. Then compare your weekly total with the 3–21 range and see whether your pattern is steady or swings. [Try the 2-minute check](/tools/how-regular-are-you) · [Printable bowel movement log](/resources/bowel-movement-log-pdf) · [Poop hub](/learn/poop). Going less often with hard stools? See the [constipation hub](/learn/constipation). Going more often with loose stools? See the [diarrhea hub](/learn/diarrhea).
+Count bowel movements and note stool type for 2 weeks. Then compare your weekly total with the 3–21 range and see whether your pattern is steady or swings. [Find your stool type](/tools/bristol-stool-chart) · [Printable bowel movement log](/resources/bowel-movement-log-pdf) · [Poop hub](/learn/poop). Going less often with hard stools? See the [constipation hub](/learn/constipation). Going more often with loose stools? See the [diarrhea hub](/learn/diarrhea).
 
 **See a doctor promptly** if a change in how often you go doesn't settle, or comes with blood in the stool, unexplained weight loss, severe pain, or a new change after age 50 [CONFIRM reviewer: alarm list per site standard].
 

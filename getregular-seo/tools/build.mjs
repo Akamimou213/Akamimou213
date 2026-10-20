@@ -12,8 +12,8 @@ const root = dirname(fileURLToPath(import.meta.url));
 const shared = join(root, "_shared");
 
 export const TOOLS = [
-  { slug: "bristol-stool-chart", title: "What's your poop type?", blurb: "Tap the shape that matches, log today, and start your streak.", img: "moss" },
-  { slug: "why-am-i-bloated", title: "Why am I so bloated?", blurb: "Seven questions, the patterns that fit, and a 7-day experiment.", img: "kiwi-table" },
+  { slug: "bristol-stool-chart", title: "Bristol stool chart", blurb: "All 7 poop types explained, what's normal, and a printable chart.", img: "moss" },
+  { slug: "why-am-i-bloated", title: "Why am I so bloated?", blurb: "A 1-minute quiz: your bloat profile and a 7-day plan to test it.", img: "kiwi-table" },
 ];
 
 const only = process.argv[2];

@@ -550,7 +550,6 @@ The score is built from what you log in the app. The privacy policy confirms the
 
 **[CONFIRM: definition. Until confirmed, render only:]** A third daily score shown alongside the Gut Health Score and Nutrition Score. We'll describe how it works here once the method is documented.
 
-*(Internal note — do not render: the quiz at `/tools/how-regular-are-you` produces a separate "Regularity Score" with its own published rules. Don't conflate the two names on this page until product confirms how the in-app Regular Score relates to it.)*
 
 ---
 
@@ -558,7 +557,7 @@ The score is built from what you log in the app. The privacy policy confirms the
 
 If a score surprises you, open the Backlog: it shows the logs behind each day. If you think the score is wrong, email hello@getregular.com with "Score question" in the subject and the date. See [how our AI works](/science/how-our-ai-works) for the full data flow and limits.
 
-**Related:** [The science behind Get Regular](/science) · [How our AI works](/science/how-our-ai-works) · [What is a gut health score?](/learn/gut-health-score-explained) · [The Bristol Stool Scale: what the research says](/science/evidence/bristol-stool-scale) · [How often should you poop?](/science/evidence/how-often-should-you-poop) · [How regular are you? 2-minute check](/tools/how-regular-are-you)
+**Related:** [The science behind Get Regular](/science) · [How our AI works](/science/how-our-ai-works) · [What is a gut health score?](/learn/gut-health-score-explained) · [The Bristol Stool Scale: what the research says](/science/evidence/bristol-stool-scale) · [How often should you poop?](/science/evidence/how-often-should-you-poop) · [Find your stool type](/tools/bristol-stool-chart)
 
 *Get Regular is a wellness tracking app. It doesn't diagnose, treat or prevent any condition. If you have red-flag symptoms or ongoing changes in your digestion, talk to a doctor.*
 
@@ -734,7 +733,7 @@ publish_gate: "Do not publish until the team confirms what the in-app research c
 
 > **In short:** Get Regular hasn't published any research yet, and we have no results to share. Since version 2.0.0 (August 2026), the app has an optional "Research consent" setting so that, in the future, people who choose to can contribute de-identified data to studies of everyday bowel habits, food and symptoms. This page explains what that consent covers, how we'd protect your data, and what we'll publish and when. We'll update it as things happen, including when results are disappointing.
 
-**On this page:** [Why](#why) · [Research consent](#consent) · [Privacy](#privacy) · [What we'll publish](#publish) · [Validating the Regularity Score](#regularity-score) · [For researchers](#researchers)
+**On this page:** [Why](#why) · [Research consent](#consent) · [Privacy](#privacy) · [What we'll publish](#publish) · [Validating our free tools](#tool-validation) · [For researchers](#researchers)
 
 ---
 
@@ -805,21 +804,21 @@ Until then, every study on our site is someone else's work. See [the research we
 
 ---
 
-## Is the Regularity Score validated? {#regularity-score}
+## Are the free tools validated? {#tool-validation}
 
-**No. The Regularity Score from our free [How regular are you?](/tools/how-regular-are-you) check isn't validated today.** It's a simple summary of your answers. The score starts at 100 and drops for stool shape outside types 3–5, frequency outside the usual range, frequent straining, unfinished feelings or urgency, weekly pain and frequent bloating. The weights are our editorial choice and haven't been tested in a study. It has no clinical cut-offs and can't diagnose anything. Use it to compare yourself with yourself over time.
+**No. Our free [bloat profile quiz](/tools/why-am-i-bloated) and [stool chart](/tools/bristol-stool-chart) are self-checks, not validated questionnaires.** The quiz matches your answers to the bloating patterns described in the American Gastroenterological Association's 2023 clinical practice update, and sends anyone with a warning sign to a doctor before anything else. It gives no score, has no clinical cut-offs and can't diagnose anything. The stool chart uses the 7-type idea from Lewis & Heaton 1997 in our own words and drawings.
 
-**What validating it would take** (a plan, not something we've done) **[CONFIRM: whether and when the team will run this]**:
+**What validating the quiz would take** (a plan, not something we've done) **[CONFIRM: whether and when the team will run this]**:
 
 | Step | Question it answers | Status |
 |---|---|---|
-| 1. Clinical review of the questions and thresholds against Rome V criteria | Do the questions match current clinical definitions? | Pending clinical review |
-| 2. Test-retest | Do people get a similar score when nothing has changed? | Not started |
-| 3. Compare with logged data | Among people who opt in to research, does the quiz score line up with 2–4 weeks of logged stool type and frequency? | Not started; needs research consent |
-| 4. Compare with established, validated questionnaires | Does it agree with tools clinicians already use? | Not started |
+| 1. Clinical review of the questions, patterns and warning signs against the AGA 2023 update | Do the questions and patterns match current clinical guidance? | Pending clinical review |
+| 2. Safety audit of the warning-sign routing | Does every answer with an alarm feature reach the "see a doctor" result? | Automated tests in place; clinical sign-off pending |
+| 3. Test-retest | Do people get the same top pattern when nothing has changed? | Not started |
+| 4. Compare with 7-day experiment outcomes | Among people who opt in to research, does the suggested experiment change their logged bloating more often than chance? | Not started; needs research consent |
 | 5. Publish the method and results | Can others check our work? | Not started |
 
-Until those steps are done and published, we won't call the score validated, accurate or clinically meaningful. The in-app Regular Score is a separate measure. **[CONFIRM: how the in-app Regular Score relates to the quiz's Regularity Score.]**
+Until those steps are done and published, we won't call the quiz validated, accurate or clinically meaningful. The in-app Regular Score is a separate measure, described on [our gut health score page](/science/gut-health-score).
 
 ---
 
@@ -848,7 +847,7 @@ We can't share individual user data. Any collaboration would use only de-identif
 4. Get Regular. Privacy policy (last updated 8 June 2026). https://www.getregular.com/legal/privacy-policy
 
 <!-- JSON-LD: WebPage { @id: https://www.getregular.com/science/research#webpage, isPartOf: /science#webpage, publisher: #org, dateModified, about: "Get Regular research program" }. No Dataset, ResearchProject or ScholarlyArticle markup until a study exists. No reviewedBy without consent. -->
-<!-- WRITER NOTES: Regularity Score wording mirrors tools/how-regular-are-you/copy.js (method + "haven't been validated in a study"); keep them in sync. NHANES n=4,775 (abstract). The research-consent table is a draft; product fact sheet lists it as UNVERIFIED (§6.5, §11 item 15). STRATEGY: the first aggregate de-identified report is the planned PR/citation asset; don't announce it before the method page exists. -->
+<!-- WRITER NOTES: Tool-validation wording mirrors tools/why-am-i-bloated/bloat.js and the quiz intro ("A self-check, not a diagnosis"); keep them in sync. NHANES n=4,775 (abstract). The research-consent table is a draft; product fact sheet lists it as UNVERIFIED (§6.5, §11 item 15). STRATEGY: the first aggregate de-identified report is the planned PR/citation asset; don't announce it before the method page exists. -->
 
 <!-- END FILE: science/research.md -->
 
@@ -1221,7 +1220,7 @@ sources_checked: 2026-10-20   # every abstract re-read from PubMed on this date
 
 ## Track it
 
-Count bowel movements and note stool type for 2 weeks. Then compare your weekly total with the 3–21 range and see whether your pattern is steady or swings. [Try the 2-minute check](/tools/how-regular-are-you) · [Printable bowel movement log](/resources/bowel-movement-log-pdf) · [Poop hub](/learn/poop). Going less often with hard stools? See the [constipation hub](/learn/constipation). Going more often with loose stools? See the [diarrhea hub](/learn/diarrhea).
+Count bowel movements and note stool type for 2 weeks. Then compare your weekly total with the 3–21 range and see whether your pattern is steady or swings. [Find your stool type](/tools/bristol-stool-chart) · [Printable bowel movement log](/resources/bowel-movement-log-pdf) · [Poop hub](/learn/poop). Going less often with hard stools? See the [constipation hub](/learn/constipation). Going more often with loose stools? See the [diarrhea hub](/learn/diarrhea).
 
 **See a doctor promptly** if a change in how often you go doesn't settle, or comes with blood in the stool, unexplained weight loss, severe pain, or a new change after age 50 [CONFIRM reviewer: alarm list per site standard].
 
@@ -1362,7 +1361,7 @@ sources_checked: 2026-10-20   # every abstract re-read from PubMed on this date
 
 ## Track it
 
-Log your stool type (Bristol scale), fiber and water for 2–3 weeks while you increase fiber slowly. If your stool moves toward types 3–4 and straining eases, it's working. If not, take the log to your doctor. [Try the 2-minute check](/tools/how-regular-are-you) · [Printable bowel movement log](/resources/bowel-movement-log-pdf) · [Constipation hub](/learn/constipation)
+Log your stool type (Bristol scale), fiber and water for 2–3 weeks while you increase fiber slowly. If your stool moves toward types 3–4 and straining eases, it's working. If not, take the log to your doctor. [Find your stool type](/tools/bristol-stool-chart) · [Printable bowel movement log](/resources/bowel-movement-log-pdf) · [Constipation hub](/learn/constipation)
 
 **See a doctor promptly** if constipation comes with blood in the stool, unexplained weight loss, a new change after age 50, or severe pain [CONFIRM reviewer: alarm list per site standard].
 
@@ -1431,7 +1430,7 @@ sources_checked: 2026-10-20   # every abstract re-read from PubMed on this date
 
 ## Track it
 
-Log meals, symptoms and stool type as they happen for about 2 weeks. Note portion size and timing. Then look for repeats, not one-offs, and bring the log to your appointment. [Printable food and symptom diary](/resources/food-symptom-diary-pdf) · [GI appointment prep](/tools/gi-appointment-prep) · [Food and symptoms hub](/learn/food-and-symptoms)
+Log meals, symptoms and stool type as they happen for about 2 weeks. Note portion size and timing. Then look for repeats, not one-offs, and bring the log to your appointment. [Printable food and symptom diary](/resources/food-symptom-diary-pdf) · [GI visit checklist](/resources/gi-visit-checklist) · [Food and symptoms hub](/learn/food-and-symptoms)
 
 Related evidence: [Gluten without celiac disease](/science/evidence/gluten-without-celiac) · [Lactose intolerance](/science/evidence/lactose-intolerance) · [IBS diet guidelines](/science/evidence/ibs-diet-guidelines)
 
@@ -1573,7 +1572,7 @@ sources_checked: 2026-10-20   # every abstract re-read from PubMed on this date
 
 ## Track it
 
-Before changing your diet, log wheat and gluten foods, symptoms and stool type for about 2 weeks, and ask about celiac testing. If you later try cutting back, keep logging so you can see what actually changed. [GI appointment prep](/tools/gi-appointment-prep) · [Printable food and symptom diary](/resources/food-symptom-diary-pdf) · [IBS hub](/learn/ibs)
+Before changing your diet, log wheat and gluten foods, symptoms and stool type for about 2 weeks, and ask about celiac testing. If you later try cutting back, keep logging so you can see what actually changed. [GI visit checklist](/resources/gi-visit-checklist) · [Printable food and symptom diary](/resources/food-symptom-diary-pdf) · [IBS hub](/learn/ibs)
 
 Related evidence: [IBS diet guidelines](/science/evidence/ibs-diet-guidelines) · [Food diaries vs memory](/science/evidence/food-diaries-vs-memory) · [Lactose intolerance](/science/evidence/lactose-intolerance)
 
@@ -1716,7 +1715,7 @@ sources_checked: 2026-10-20   # every abstract re-read from PubMed on this date
 
 ## Track it
 
-Rate your stress alongside symptoms and stool type (Bristol scale) at the same times each day for 2–3 weeks. Then look for patterns: do bad afternoons come before bad evenings? Bring the log to your doctor. [Free IBS food diary template](/resources/ibs-food-diary-template) · [GI appointment prep](/tools/gi-appointment-prep) · [IBS hub](/learn/ibs) · [Why diaries beat memory](/science/evidence/food-diaries-vs-memory)
+Rate your stress alongside symptoms and stool type (Bristol scale) at the same times each day for 2–3 weeks. Then look for patterns: do bad afternoons come before bad evenings? Bring the log to your doctor. [Free IBS food diary template](/resources/ibs-food-diary-template) · [GI visit checklist](/resources/gi-visit-checklist) · [IBS hub](/learn/ibs) · [Why diaries beat memory](/science/evidence/food-diaries-vs-memory)
 
 **See a doctor promptly** if gut symptoms come with blood in the stool, unexplained weight loss, a new change after age 50, or symptoms that wake you at night [CONFIRM reviewer: alarm list per site standard]. Don't assume stress explains these.
 
@@ -1781,7 +1780,7 @@ sources_checked: 2026-10-20   # every abstract re-read from PubMed on this date
 
 ## Track it
 
-If gut symptoms started or changed after a stomach bug or food poisoning, note the date of the illness, any antibiotics, and how your stool type (Bristol scale) and symptoms have changed since. A clear timeline is useful to bring to a doctor. [Prep for your GI appointment](/tools/gi-appointment-prep) · [Free IBS food diary template](/resources/ibs-food-diary-template) · [IBS hub](/learn/ibs) · [Diarrhea hub](/learn/diarrhea)
+If gut symptoms started or changed after a stomach bug or food poisoning, note the date of the illness, any antibiotics, and how your stool type (Bristol scale) and symptoms have changed since. A clear timeline is useful to bring to a doctor. [GI visit checklist](/resources/gi-visit-checklist) · [Free IBS food diary template](/resources/ibs-food-diary-template) · [IBS hub](/learn/ibs) · [Diarrhea hub](/learn/diarrhea)
 
 **See a doctor promptly** if symptoms after an infection include blood in the stool, fever, signs of dehydration, unexplained weight loss, or diarrhea that doesn't settle [CONFIRM reviewer: alarm list per site standard].
 
@@ -1927,7 +1926,7 @@ The consensus doesn't call microbiome science useless. It sets minimum standards
 
 ## Track it
 
-Things you can see change, like stool type, how often you go, what you ate and how you felt, are cheaper to track and easier to act on. A 2–3 week log gives your doctor real patterns to look at. [How regular are you? 2-minute check](/tools/how-regular-are-you) · [Food diaries vs memory: the research](/science/evidence/food-diaries-vs-memory) · [Gut health apps hub](/learn/gut-health-apps)
+Things you can see change, like stool type, how often you go, what you ate and how you felt, are cheaper to track and easier to act on. A 2–3 week log gives your doctor real patterns to look at. [Find your stool type](/tools/bristol-stool-chart) · [Food diaries vs memory: the research](/science/evidence/food-diaries-vs-memory) · [Gut health apps hub](/learn/gut-health-apps)
 
 **See a doctor promptly** for blood in the stool, unexplained weight loss, ongoing diarrhea or severe pain. Don't rely on a microbiome report to rule anything out [CONFIRM reviewer: alarm list per site standard].
 

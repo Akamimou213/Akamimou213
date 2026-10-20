@@ -46,7 +46,7 @@ sources_checked: 2026-10-20   # every abstract re-read from PubMed on this date
 
 ## Track it
 
-Log meals, symptoms and stool type as they happen for about 2 weeks. Note portion size and timing. Then look for repeats, not one-offs, and bring the log to your appointment. [Printable food and symptom diary](/resources/food-symptom-diary-pdf) · [GI appointment prep](/tools/gi-appointment-prep) · [Food and symptoms hub](/learn/food-and-symptoms)
+Log meals, symptoms and stool type as they happen for about 2 weeks. Note portion size and timing. Then look for repeats, not one-offs, and bring the log to your appointment. [Printable food and symptom diary](/resources/food-symptom-diary-pdf) · [GI visit checklist](/resources/gi-visit-checklist) · [Food and symptoms hub](/learn/food-and-symptoms)
 
 Related evidence: [Gluten without celiac disease](/science/evidence/gluten-without-celiac) · [Lactose intolerance](/science/evidence/lactose-intolerance) · [IBS diet guidelines](/science/evidence/ibs-diet-guidelines)
 

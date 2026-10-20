@@ -109,7 +109,8 @@ export function stoolSvg(t, color = "#e3c9a0") {
  * questions auto-advance; multi-choice ones use Next. Options may set
  * `exclusive` (e.g. "None of these").
  */
-export function createStepper({ questions, els, artFor, onDone, onStep, onChange, tool, history: useHistory = false }) {
+/* questions may include { fact: true, ... } screens; renderFact(q) returns their HTML. */
+export function createStepper({ questions, els, artFor, renderFact, onDone, onStep, onChange, tool, history: useHistory = false }) {
   const answers = {};
   let i = 0;
   const list = () => (typeof questions === "function" ? questions(answers) : questions);
@@ -120,10 +121,19 @@ export function createStepper({ questions, els, artFor, onDone, onStep, onChange
   function render() {
     const qs = list(); const q = qs[i];
     dots(qs.length, i);
-    $("stepTxt").textContent = `${i + 1} / ${qs.length}`;
+    const real = qs.filter((x) => !x.fact), n = qs.slice(0, i + 1).filter((x) => !x.fact).length;
+    $("stepTxt").textContent = q.fact ? "Did you know" : `${n} / ${real.length}`;
     $("title").textContent = q.title;
     $("help").textContent = q.help || ""; $("help").hidden = !q.help;
     const box = $("opts");
+    if (q.fact) {
+      box.className = "opts fact-box"; box.removeAttribute("aria-label");
+      box.innerHTML = renderFact ? renderFact(q) : "";
+      const v = $("view"); v.classList.remove("enter"); void v.offsetWidth; v.classList.add("enter");
+      $("back").style.visibility = "visible";
+      $("next").disabled = false; $("next").textContent = "Continue";
+      return;
+    }
     box.className = "opts" + (q.tiles ? " tiles" : "");
     box.setAttribute("aria-label", q.title);
     box.innerHTML = "";
@@ -209,5 +219,6 @@ export function showStickyBar({ cpp = "default", ct, text }) {
   }
   bar.innerHTML = `<span>${esc(text)}</span><a class="btn btn-white btn-sm" href="${appStoreUrl({ cpp, ct })}" rel="noopener">${APPLE}Get the app</a>`;
   bar.querySelector("a").addEventListener("click", () => track("app_store_click", { placement: ct }));
+  document.body.classList.add("has-sticky");
   requestAnimationFrame(() => bar.classList.add("on"));
 }

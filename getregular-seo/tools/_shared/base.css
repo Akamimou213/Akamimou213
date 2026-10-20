@@ -355,6 +355,7 @@ td .chip-c { display: inline-block; width: 14px; height: 14px; border-radius: 50
   padding: 10px 10px 10px 18px; border-radius: 999px; border: 1px solid var(--w18); background: rgba(14,14,12,.82); -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px);
   box-shadow: 0 18px 50px rgba(0,0,0,.5); font-size: 14px; color: var(--w90); transform: translateY(140%); transition: transform .6s var(--spring); }
 .sticky-bar.on { transform: none; }
+body.has-sticky { padding-bottom: calc(84px + env(safe-area-inset-bottom, 0px)); }
 .sticky-bar .btn, .sticky-bar a { white-space: nowrap; flex: none; }
 .sticky-bar > span { line-height: 1.35; }
 

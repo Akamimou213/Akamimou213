@@ -13,7 +13,19 @@ export const BLOAT_SOURCES = {
   niddk: { label: "NIDDK: gas in the digestive tract", url: "https://www.niddk.nih.gov/health-information/digestive-diseases/gas-digestive-tract/symptoms-causes" },
 };
 
+export const BLOAT_GOALS = {
+  meals: "Feel less bloated after meals",
+  triggers: "Find my trigger foods",
+  regular: "Get more regular",
+  doctor: "Know whether I should see a doctor",
+};
+
 export const BLOAT_QUESTIONS = [
+  { id: "goal", title: "What would you most like to change?", options: Object.entries(BLOAT_GOALS).map(([v, label]) => ({ v, label })) },
+  { id: "often", title: "How often do you feel bloated?", options: [
+    { v: "daily", label: "Most days" },
+    { v: "weekly", label: "A few times a week" },
+    { v: "monthly", label: "A few times a month or less" } ] },
   { id: "timing", title: "When is your belly at its flattest and biggest?", options: [
     { v: "growsDay", label: "Flatter in the morning, bigger after meals or by evening" },
     { v: "afterMeals", label: "It swells soon after eating, then settles" },
@@ -123,6 +135,22 @@ export function matchBloat(a) {
   return { patterns: [...new Set(out)].slice(0, 3), flags, seeDoctor };
 }
 
+/* ---------- quiz flow: questions with two "did you know" screens ---------- */
+export const BLOAT_FACTS = {
+  common: { fact: true, id: "fact-common", title: "You're far from alone.", big: "1 in 7", text: "Americans had been bloated in the past week, in a survey of nearly 89,000 people. Most had never seen a doctor about it.", cite: ["survey"] },
+  real: { fact: true, id: "fact-real", title: "It's not in your head.", big: "12 cm", text: "In a study of women with IBS, belly girth grew by up to 12 cm over a day. Bloating is measurable, and it often has a pattern you can find.", cite: ["houghton"] },
+};
+
+export function quizFlow() {
+  const out = [];
+  for (const q of BLOAT_QUESTIONS) {
+    out.push(q);
+    if (q.id === "timing") out.push(BLOAT_FACTS.common);
+    if (q.id === "cycle") out.push(BLOAT_FACTS.real);
+  }
+  return out;
+}
+
 /* ---------- 7-day experiment (mirrors the app's Experiments / "Try This") ---------- */
 // One experiment per pattern; persistent/upper patterns get no experiment: they get a doctor.
 export const EXPERIMENTS = {
@@ -134,23 +162,21 @@ export const EXPERIMENTS = {
   ibs: { title: "Bloating, stress and sleep", how: "Log bloating, stress and sleep for 7 days, without changing your diet yet.", watch: "what lines up with bad days" },
 };
 
-export const BLOAT_LEVELS = [["0", "None"], ["1", "Mild"], ["2", "Bad"]];
-
 export function experimentFor(patterns) {
   const k = patterns.find((p) => EXPERIMENTS[p]);
   return k ? { key: k, ...EXPERIMENTS[k] } : null;
 }
 
-/* log: { "YYYY-MM-DD": 0|1|2 } for the experiment's days. Compares the first
- * and last three logged days once at least five are in. */
-export function experimentProgress(log) {
-  const days = Object.keys(log).sort();
-  const vals = days.map((d) => Number(log[d]));
-  const out = { logged: days.length, done: days.length >= 7, verdict: null };
-  if (vals.length >= 5) {
-    const avg = (xs) => xs.reduce((a, b) => a + b, 0) / xs.length;
-    const first = avg(vals.slice(0, 3)), last = avg(vals.slice(-3));
-    out.verdict = last < first - 0.3 ? "better" : last > first + 0.3 ? "worse" : "same";
-  }
-  return out;
+/* The 3-step plan shown on the result. Any warning sign, persistent or
+ * early-fullness pattern gets a doctor-visit plan instead of an experiment. */
+export function planFor(result) {
+  const exp = result.seeDoctor ? null : experimentFor(result.patterns);
+  if (!exp) return { kind: "doctor", title: "Get it checked, with your notes", steps: [
+    { b: "Book a visit with your doctor", s: "Bloating like yours is worth checking in person, not self-managing." },
+    { b: "Log it for 2 weeks", s: "Bloating morning and evening, plus meals and bowel movements." },
+    { b: "Bring a Doctor Report", s: "Get Regular turns your logs into a PDF report to share at the visit." } ] };
+  return { kind: "experiment", key: exp.key, title: exp.title, steps: [
+    { b: `Days 1–7: ${exp.title.toLowerCase()}`, s: exp.how },
+    { b: "Every evening: a 10-second check-in", s: `Rate your bloating. What to note: ${exp.watch}.` },
+    { b: "Day 7: compare", s: "Your first 3 days against your last 3 show whether this change is the one." } ] };
 }

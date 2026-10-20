@@ -1,23 +1,47 @@
 # Get Regular free tools (`/tools`)
 
-Five tools, each a lead source for search, AI answers and paid social, routing to the App Store. All are prototypes: `noindex`, `draft-needs-medical-review`, not for publication until clinical and legal review.
+Two tools. Each one answers a high-intent search on the spot, then hands the visitor to the App Store with a reason to continue there. They're a pre-experience of the app, not stand-alone products. Both are prototypes: `noindex`, `draft-needs-medical-review`, not for publication until clinical and legal review.
 
-| Tool | URL | Main search demand (US/mo, Semrush 6 Oct; AC = autocomplete only) | What it does | Folder |
-|---|---|---|---|---|
-| **Bristol stool chart** | `/tools/bristol-stool-chart` | bristol stool chart 74,000 · poop chart 33,100 · bristol stool scale 5,400 · bowel movement chart 2,400 | Tap your stool type → what it suggests, common reasons, what to try, when to see a doctor; 7-day log saved in the browser | `bristol-stool-chart/` |
-| **How regular are you?** | `/tools/how-regular-are-you` | AC: am i constipated quiz, do i have ibs quiz, ibs quiz free, ibs quiz no email, gut health quiz free | 10–11 question self-check → 0–100 Regularity Score, pattern (9 types), 3 things to try, doctor card on warning signs | `how-regular-are-you/` |
-| **Poop color chart** | `/tools/poop-color-chart` | bowel movement color chart 1,900 · green poop, yellow diarrhea (C1/C6 drafts) | Pick a color + 3 follow-ups → usually food / watch it / call a doctor today / emergency | `poop-color-chart/` |
-| **Why am I bloated?** | `/tools/why-am-i-bloated` | why am i so bloated i look pregnant 18,100 · why am i so bloated 8,100 · why am i always bloated 4,400 | 7 questions on timing, foods, bowels, cycle → up to 3 matching patterns with next steps; doctor card on alarm features | `why-am-i-bloated/` |
-| **GI appointment prep** | `/tools/gi-appointment-prep` | questions to ask gastroenterologist, symptom diary for doctor (C8 drafts) | Choose visit type, symptoms, what you tried → printable one-page visit sheet (summary, mention-first, questions, what to bring) | `gi-appointment-prep/` |
+| Tool | URL | Main search demand (US/mo, Semrush 6 Oct) | Intent it serves | Bridge to the app | Folder |
+|---|---|---|---|---|---|
+| **Bristol stool chart** | `/tools/bristol-stool-chart` | bristol stool chart 74,000 · poop chart 33,100 · bristol stool scale 5,400 · bowel movement chart 2,400 | "Show me the chart and tell me what my type means" | Log your type daily: one poop is a clue, a week is the story | `bristol-stool-chart/` |
+| **Why am I bloated?** | `/tools/why-am-i-bloated` | why am i so bloated i look pregnant 18,100 · why am i so bloated 8,100 · why am i always bloated 4,400 | "Find out why, and what to do about it" | Run the 7-day plan in the app (or track before a doctor visit) | `why-am-i-bloated/` |
+
+Removed on 20 Oct 2026: the poop color chart, "How regular are you?" and GI appointment prep. The GI visit checklist content moves to `/resources` (see `science/`).
 
 Open any `<tool>/prototype.html` in a browser to try it (single file, no server).
+
+## Bristol stool chart: what's on the page
+
+The searcher wants *the chart*, so the chart is the page:
+
+1. **Hero finder:** 7 drawn tiles plus "Not sure". One tap gives the type's meaning, an urgent box for type 7, and "See causes and what to try", which opens that row in the chart.
+2. **The chart:** all 7 types as rows, slow to fast, with the ideal band (3–4). Each row opens to "What it suggests", "Common reasons" and "What to try", with sources. Every row has an anchor (`#type-6`), for long-tail queries like "bristol stool chart type 6".
+3. **Transit slider:** "Same food, different speed." Drag from slower to faster transit and watch the type change. It's labeled schematic: the study showed stool form tracks transit, not per-type hours.
+4. **Printable chart:** "Print the chart" (or Ctrl+P) prints a clean one-page white handout: the 7 types, a doctor box, sources and a QR code to the app.
+5. App section, Learn content (short answer, what's normal, accuracy, color, when to see a doctor, FAQ, sources), related tool, sign-off.
+
+## Why am I bloated?: the quiz funnel
+
+1. **Intro card** in the hero: what you'll get (9 questions, a bloat profile and a 7-day plan, warning signs first, no email).
+2. **9 one-tap questions:** goal, how often, timing, foods, bowels, cycle, early fullness, how long, warning signs. Single-choice answers advance on their own. Back works, including the browser back button.
+3. **2 "did you know" screens** with sourced stats (1 in 7 Americans bloated in the past week, Oh 2023; up to 12 cm of distension over a day in women with IBS, Houghton 2006).
+4. **"Matching your answers…"** (1.5 s; 0.25 s with reduced motion). It honestly describes what happens: comparison with the AGA 2023 patterns and a warning-sign check.
+5. **Your bloat profile:**
+   - the doctor alert first, if any warning sign;
+   - the top pattern and explanation, plus "Also in your answers";
+   - **your 7-day plan** (3 steps from the matching experiment, framed by the goal);
+   - **Start this plan in Get Regular** (iPhone: App Store button; desktop: QR code; phones: sticky bar).
+   Any warning sign, or a persistent or early-fullness pattern, switches the plan to a doctor-visit plan ("Book a visit · Log it for 2 weeks · Bring a Doctor Report") and the handoff to "Track it before your visit".
+6. **Full profile:** all matched patterns with next steps and the optional, consented email. Then the indexable Learn content.
+
+The profile is kept in `localStorage` (this device only), so returning visitors see it again.
 
 ## Build and test
 
 ```bash
-node tools/build.mjs                          # writes every <tool>/prototype.html
-node --test tools/tools.test.mjs              # chart, color, bloating, prep logic (15 tests)
-node --test tools/how-regular-are-you/quiz.test.mjs   # quiz scoring (11 tests)
+node tools/build.mjs              # writes every <tool>/prototype.html
+node --test tools/tools.test.mjs  # chart data + licensing guard, slider, bloat matching, plan, quiz flow (9 tests)
 ```
 
 ## Design system (v2, 20 Oct 2026)
@@ -28,16 +52,16 @@ Built from Get Regular's brand creatives (Gut Check, Try This and meal-logging p
 - **Type:** a serif headline line (Newsreader 500) over a light Inter line, italic serif accent words ("are *you*?", "what *happens*"), Inter 300 body.
 - **Components:** dark glass cards with hairline borders, outlined pills with line icons (the Meals / Stool / Check-ins connector), an underlined "→" CTA, `01.` hairline step labels, slide-dot progress, the 7-circle day row and "Active" status pill, and the "Get Regular · gut-health app" sign-off with the logo.
 - **Page structure** (every tool):
-  1. Photo hero with a live glass preview
-  2. The tool in a glass workspace, with the result inline
+  1. Photo hero with the tool itself in a glass card (finder or quiz), and jump-link pills
+  2. The tool's main section (the chart; the full bloat profile)
   3. "How it works" steps
   4. App section with phone + "Try This" card
   5. Learn content on warm paper (answer box, table, FAQ, sources)
-  6. Photo cards for the other tools
+  6. A photo card for the other tool
   7. Closing sign-off + footer
-- **Shared pieces** (`_shared/partials/*.html`, filled by `build.mjs`): head, nav, app section, final, and the related-tools grid (`<!-- @related slug -->`). The ableLead logo, the app screenshot and the fonts load from getregular.com / Google Fonts; in production, use the site's own assets.
+- **Shared pieces** (`_shared/partials/*.html`, filled by `build.mjs`): head, nav, app section, final, and the related-tool card (`<!-- @related slug -->`). The ableLead logo, the app screenshot and the fonts load from getregular.com / Google Fonts; in production, use the site's own assets.
 
-Structure: each tool has a pure logic module (`chart.js`, `colors.js`, `bloat.js`, `prep.js`, `quiz.js` + `copy.js`), an `index.html` (UI + server-renderable SEO content + JSON-LD), and the shared `_shared/base.css` (getregular.com palette and type) and `_shared/ui.js` (analytics, App Store links, email form, original stool drawings). Checked in Chromium at 1280px and 390px with no console errors (20 Oct 2026).
+Structure: each tool has a pure logic module (`chart.js`, `bloat.js`), an `index.html` (UI + server-renderable SEO content + JSON-LD), and the shared `_shared/base.css` (palette, type, components, print sheet) and `_shared/ui.js` (analytics, App Store links + handoff + sticky bar, stepper with fact screens, email form, original stool drawings). Checked in Chromium at 1440px and 390px with no console errors, including the print sheet and both quiz paths (20 Oct 2026).
 
 **Porting to Next.js:** one route per tool. Server-render the hero and the `<article class="content">` section, so the H1, answer and table are in the HTML. Make the interactive part a client component that imports the logic module unchanged.
 
@@ -60,22 +84,22 @@ Structure: each tool has a pure logic module (`chart.js`, `colors.js`, `bloat.js
   - a **Consumer Health Data Privacy Policy** linked from the homepage. Every tool footer links `/legal/consumer-health-data-privacy`, which **doesn't exist yet**.
 - **Retention:** set a schedule (e.g. delete tool answers 12 months after the last email interaction) and a deletion path.
 - **CAN-SPAM:** postal address, working unsubscribe, opt-outs honored within 10 business days.
-- **App Store `ct` tokens** (e.g. `quiz-ibs-c`) reveal a pattern only to Apple's aggregate analytics. If legal prefers, switch to neutral codes.
+- **App Store `ct` tokens** (e.g. `tool-bloat-quiz-carbs`) reveal a pattern only to Apple's aggregate analytics. If legal prefers, switch to neutral codes.
 
 ## Licensing (decide before publishing; not legal advice)
 
 | Instrument | Status | What the tools do |
 |---|---|---|
-| Bristol Stool Form Scale | Rome Foundation lists it as "available by license". The widespread chart artwork is © Norgine | All stool wording and drawings are Get Regular's own. `tools.test.mjs` fails if the official descriptor text appears. **Counsel decides** whether the 7-type structure or the name needs a license for the chart tool, the quiz, and the app's own copy ("Bristol Stool Scale"). Ask the Rome Foundation for a license quote |
-| Rome IV / V questionnaires | Licensed, fees, can't be altered | The quiz paraphrases thresholds with citations; it never reproduces the questionnaire |
+| Bristol Stool Form Scale | Rome Foundation lists it as "available by license". The widespread chart artwork is © Norgine | All stool wording and drawings are Get Regular's own. `tools.test.mjs` fails if the official descriptor text appears in the data or the page. **Counsel decides** whether the 7-type structure or the name ("Bristol stool chart" in the H1 and title) needs a license for the chart tool and the app's own copy. Ask the Rome Foundation for a license quote |
+| Rome IV / V questionnaires | Licensed, fees, can't be altered | Not used. The bloat quiz follows the AGA 2023 practice update's patterns and alarm features in its own words |
 | IBS-SSS | © Rome Foundation, via ePROVIDE | Optional upgrade: license it to get a *validated* severity score |
 | PAC-SYM, PAC-QOL, GSRS, PROMIS GI | Commercial use needs permission | Not used |
 
-The quiz is an **original, non-validated self-check** and says so on the page. The route to a ZOE-style validated score is in `science/research.md`.
+The bloat quiz is an **original, non-validated self-check** and says so on the page. What validating it would take is in `science/research.md` (#tool-validation).
 
 ## Before any tool goes live
 
-1. A named clinician reviews each tool's copy, warning signs and thresholds (Rome V for the quiz).
+1. A named clinician reviews each tool's copy, patterns and warning signs (AGA 2023 for the quiz).
 2. Legal: the licensing decision, consent text, the Consumer Health Data Privacy Policy page, the retention schedule and the no-pixel rule.
 3. An email endpoint (`EMAIL_ENDPOINT` in `_shared/ui.js`, e.g. Kit with double opt-in), plus the App Store provider token and Custom Product Page IDs (`PPIDS`).
 4. Remove `noindex` and the prototype footer.

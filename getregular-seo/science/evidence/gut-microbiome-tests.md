@@ -55,7 +55,7 @@ The consensus doesn't call microbiome science useless. It sets minimum standards
 
 ## Track it
 
-Things you can see change, like stool type, how often you go, what you ate and how you felt, are cheaper to track and easier to act on. A 2–3 week log gives your doctor real patterns to look at. [How regular are you? 2-minute check](/tools/how-regular-are-you) · [Food diaries vs memory: the research](/science/evidence/food-diaries-vs-memory) · [Gut health apps hub](/learn/gut-health-apps)
+Things you can see change, like stool type, how often you go, what you ate and how you felt, are cheaper to track and easier to act on. A 2–3 week log gives your doctor real patterns to look at. [Find your stool type](/tools/bristol-stool-chart) · [Food diaries vs memory: the research](/science/evidence/food-diaries-vs-memory) · [Gut health apps hub](/learn/gut-health-apps)
 
 **See a doctor promptly** for blood in the stool, unexplained weight loss, ongoing diarrhea or severe pain. Don't rely on a microbiome report to rule anything out [CONFIRM reviewer: alarm list per site standard].
 

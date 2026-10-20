@@ -3,16 +3,16 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Why Am I So Bloated? Free 1-Minute Bloating Pattern Check | Get Regular</title>
-<meta name="description" content="Answer 7 quick questions about when your bloating happens to see which common patterns fit, what to try first, and the signs that mean you should see a doctor. Then run a free 7-day experiment.">
+<title>Why Am I So Bloated? Free 1-Minute Bloating Quiz | Get Regular</title>
+<meta name="description" content="Take the free 1-minute bloating quiz: 9 quick questions on when it happens, what you ate and your bowel habits. Get your bloat profile, a 7-day plan to test it, and the signs that mean you should see a doctor.">
 <link rel="canonical" href="https://www.getregular.com/tools/why-am-i-bloated">
 <meta name="robots" content="noindex"><!-- PROTOTYPE -->
 <meta name="theme-color" content="#0b0c0a">
 <!-- @include head -->
 <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[
- {"@type":"WebApplication","@id":"https://www.getregular.com/tools/why-am-i-bloated#tool","name":"Bloating pattern check","url":"https://www.getregular.com/tools/why-am-i-bloated","applicationCategory":"HealthApplication","operatingSystem":"Any (web browser)","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@id":"https://www.getregular.com/#org"}},
- {"@type":"MedicalWebPage","@id":"https://www.getregular.com/tools/why-am-i-bloated#webpage","url":"https://www.getregular.com/tools/why-am-i-bloated","name":"Why Am I So Bloated? Bloating pattern check","mainEntity":{"@id":"https://www.getregular.com/tools/why-am-i-bloated#tool"},"about":{"@type":"MedicalSymptom","name":"Abdominal bloating"},
+ {"@type":"WebApplication","@id":"https://www.getregular.com/tools/why-am-i-bloated#tool","name":"Bloat profile quiz","url":"https://www.getregular.com/tools/why-am-i-bloated","applicationCategory":"HealthApplication","operatingSystem":"Any (web browser)","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@id":"https://www.getregular.com/#org"}},
+ {"@type":"MedicalWebPage","@id":"https://www.getregular.com/tools/why-am-i-bloated#webpage","url":"https://www.getregular.com/tools/why-am-i-bloated","name":"Why Am I So Bloated? Bloat profile quiz","mainEntity":{"@id":"https://www.getregular.com/tools/why-am-i-bloated#tool"},"about":{"@type":"MedicalSymptom","name":"Abdominal bloating"},
   "citation":[{"@type":"ScholarlyArticle","name":"AGA Clinical Practice Update on Evaluation and Management of Belching, Abdominal Bloating, and Distention: Expert Review","sameAs":"https://pubmed.ncbi.nlm.nih.gov/37452811/"}],
   "lastReviewed":"[SET AT PUBLISH]","reviewedBy":"[CONFIRM: clinician Person @id, only with consent]"}
 ]}
@@ -22,8 +22,8 @@
   .pattern .rank { font: 400 12px var(--sans); letter-spacing: .14em; text-transform: uppercase; color: var(--amber-soft); }
   .pattern h3 { margin: 10px 0 10px; font: 500 clamp(24px, 2.6vw, 32px)/1.06 var(--serif); letter-spacing: -.02em; }
   .pattern p { margin: 0 0 16px; color: var(--w70); }
-  .exp-card { margin-top: 20px; padding: 20px; border-radius: 20px; border: 1px solid var(--w18); background: #121211; }
-  .exp-card .glass-row { margin-top: 14px; }
+  .also { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin: 4px 0 0; font-size: 13px; color: var(--w55); }
+  #card { scroll-margin-top: 96px; }
 </style>
 </head>
 <body>
@@ -32,66 +32,78 @@
 <header class="hero hero-tool photo grain busy" style="--bg:url(../_shared/img/kiwi-table.jpg);--pos:right center">
   <div class="wrap grid">
     <div class="enter">
-      <p class="label"><b>Free tool</b> · 1 minute · no email needed</p>
+      <p class="label"><b>Free quiz</b> · 1 minute · no email needed</p>
       <h1 class="headline"><span class="s">Why am I</span><span class="t">so <em>bloated</em>?</span></h1>
-      <p class="sub">Seven quick questions on when it happens and what you ate. The patterns that fit, then one change to try for 7 days.</p>
-      <ul class="pills" style="margin-top:28px">
-        <li class="pill" data-icon="clock">Timing</li>
-        <li class="pill" data-icon="meals">Food</li>
-        <li class="pill" data-icon="leaf">7-day experiment</li>
-      </ul>
+      <p class="sub">Nine quick questions on when it happens, what you ate and how your gut behaves. Get your bloat profile and a 7-day plan to test it.</p>
+      <nav class="pills jump" style="margin-top:28px" aria-label="On this page">
+        <a class="pill" data-icon="checkins" href="#card">Take the quiz</a>
+        <a class="pill" data-icon="meals" href="#causes">Common causes</a>
+        <a class="pill" data-icon="shield" href="#doctor">When to worry</a>
+      </nav>
     </div>
 
     <div class="glass live enter" id="card" style="animation-delay:.12s">
       <div class="welcome" id="welcome" hidden></div>
 
-      <div id="qView" aria-live="polite">
+      <div id="intro">
+        <div class="live-head"><span class="name">Bloat profile quiz</span><span class="muted tiny">About 1 minute</span></div>
+        <h2 class="q">Find the pattern behind <em>your</em> bloating.</h2>
+        <ul class="intro-list">
+          <li data-icon="clock">9 quick questions, one tap each</li>
+          <li data-icon="leaf">Your bloat profile and a 7-day plan</li>
+          <li data-icon="shield">Warning signs flagged first</li>
+          <li data-icon="doc">No email needed. Answers stay on this device</li>
+        </ul>
+        <button class="btn btn-white" id="start" type="button">Start the quiz</button>
+        <p class="cite" style="margin:18px 0 0">Built on the American Gastroenterological Association's 2023 guidance on bloating <a href="https://pubmed.ncbi.nlm.nih.gov/37452811/">[1]</a>. A self-check, not a diagnosis.</p>
+      </div>
+
+      <div id="qView" hidden aria-live="polite">
         <div class="live-head"><div class="dots" id="dots" aria-hidden="true"></div><span class="muted tiny" id="stepTxt"></span></div>
         <h2 class="q" id="qtitle" tabindex="-1"></h2>
         <p class="help" id="qhelp"></p>
         <div class="opts" id="opts" role="group"></div>
-        <div class="forming" id="forming" aria-live="polite"></div>
         <div class="tool-foot" style="margin-top:20px"><button class="link" id="back" type="button">← Back</button><button class="btn btn-white" id="next" type="button" disabled>Next</button></div>
       </div>
 
-      <div id="rView" class="inline-result" hidden>
-        <div class="live-head"><span class="name">Your closest pattern</span><button class="link" id="retake" type="button">Retake</button></div>
-        <div class="alert" id="doctor" hidden role="alert" style="margin:0 0 18px"><span class="ico">!</span><div><h3>See a doctor about your bloating</h3><p>Your answers include signs doctors want to check in person. Most bloating turns out to be harmless, but these shouldn't wait on an app. <span id="ovarianNote" hidden>For women, especially over 50, frequent new bloating, early fullness or urinary changes should be checked for ovarian causes.</span> <span class="cite" style="display:block;margin-top:6px">Sources: <a href="https://pubmed.ncbi.nlm.nih.gov/37452811/">AGA 2023</a> · <a href="https://www.nice.org.uk/guidance/ng12/chapter/Recommendations-organised-by-site-of-cancer">NICE NG12</a></span></p></div></div>
-        <span class="tag ok" id="rTag">Closest match</span>
-        <h3 class="result-title" id="rHead" tabindex="-1"></h3>
-        <p class="result-body" id="rBody"></p>
-        <div class="exp-card" id="expOffer" hidden>
-          <p class="h3" style="margin:0">Try This</p>
-          <div class="glass-row"><span id="expTitle"></span><span class="status-pill">7 days</span></div>
-          <p class="muted small" id="expHow" style="margin:14px 0 0"></p>
-          <div class="actions-row"><button class="btn btn-white" id="startExp" type="button">Start the 7-day experiment</button><a class="link" href="#more">All my patterns ↓</a></div>
+      <div id="mView" hidden aria-live="polite">
+        <div class="matching">
+          <span class="muted tiny">Building your profile</span>
+          <h2 class="q" style="margin:0">Matching your answers…</h2>
+          <p class="help" style="margin:0">Comparing them with the common bloating patterns in the AGA guidance, and checking for warning signs first.</p>
+          <div class="bar"><i id="mBar"></i></div>
         </div>
       </div>
 
-      <div id="eView" hidden>
-        <div class="live-head"><span class="name" id="eName"></span><span class="status-pill">Active</span></div>
-        <h2 class="q" id="eHead"></h2>
-        <p class="help" id="eHow"></p>
-        <div class="circles" id="eCircles" aria-hidden="true"></div>
-        <div class="exp-day"><span class="muted small">How bloated were you today?</span><div class="chips" id="eToday"></div></div>
-        <p class="muted small" id="eMsg" style="margin:16px 0 0"></p>
+      <div id="rView" class="inline-result" hidden>
+        <div class="live-head"><span class="name">Your bloat profile</span><button class="link" id="retake" type="button">Retake</button></div>
+        <div class="alert" id="doctor-alert" hidden role="alert" style="margin:0 0 18px"><span class="ico">!</span><div><h3>See a doctor about your bloating</h3><p>Your answers include signs doctors want to check in person. Most bloating turns out to be harmless, but these shouldn't wait on an app. <span id="ovarianNote" hidden>For women, especially over 50, frequent new bloating, early fullness or urinary changes should be checked for ovarian causes.</span> <span class="cite" style="display:block;margin-top:6px">Sources: <a href="https://pubmed.ncbi.nlm.nih.gov/37452811/">AGA 2023</a> · <a href="https://www.nice.org.uk/guidance/ng12/chapter/Recommendations-organised-by-site-of-cancer">NICE NG12</a></span></p></div></div>
+        <span class="tag watch" id="rTag"></span>
+        <h3 class="result-title" id="rHead" tabindex="-1"></h3>
+        <p class="result-body" id="rBody"></p>
+        <div class="also" id="rAlso"></div>
+        <div class="plan">
+          <div class="live-head" style="margin:0"><span class="name" id="planName">Your 7-day plan</span><span class="status-pill">Ready</span></div>
+          <p class="h3" id="planTitle" style="margin:12px 0 2px"></p>
+          <p class="muted small" id="planGoal" style="margin:0"></p>
+          <ol id="planSteps"></ol>
+        </div>
         <div id="handoff"></div>
-        <div class="tool-foot" style="margin-top:16px"><button class="link" id="stopExp" type="button">End experiment</button><a class="link" href="#more">My patterns ↓</a></div>
+        <div class="tool-foot" style="margin-top:16px"><a class="link" href="#more">Your full profile ↓</a><span class="muted tiny">Saved on this device only</span></div>
       </div>
     </div>
   </div>
 </header>
 
 <main>
-  <section class="sec photo blurred shade-full" id="more" style="--bg:url(../_shared/img/kiwi-table.jpg)" aria-labelledby="moreH">
+  <section class="sec photo blurred shade-full" id="more" hidden style="--bg:url(../_shared/img/kiwi-table.jpg)" aria-labelledby="moreH">
     <div class="wrap">
-      <p class="label"><b>Your patterns</b></p>
+      <p class="label"><b>Your full profile</b></p>
       <h2 class="h2" id="moreH" style="max-width:18ch">Bloating rarely has<span class="t">just <em>one</em> cause.</span></h2>
-      <p class="sub" id="moreEmpty">Answer the questions above to see the patterns that fit you here.</p>
       <div class="grid-patterns" id="patterns" style="display:grid;gap:14px;margin-top:40px"></div>
-      <p class="cite" id="moreNote" hidden>These are common explanations to discuss and test, not a diagnosis.</p>
-      <div class="panel mail" id="mailPanel" hidden style="margin-top:14px">
-        <h4>Email me my patterns and a printable bloat map</h4>
+      <p class="cite">These are common explanations to discuss and test, not a diagnosis.</p>
+      <div class="panel mail" style="margin-top:14px">
+        <h4>Email me my bloat profile and 7-day plan (optional)</h4>
         <form class="mail-form" id="mailForm" novalidate>
           <div class="row"><input type="email" required autocomplete="email" placeholder="you@example.com" aria-label="Email address"><button class="btn btn-ghost" type="submit">Send it to me</button></div>
           <label class="consent"><input type="checkbox" name="consentHealth" required> <span>I consent to Get Regular storing my answers with my email to send my results. This is health information; I can withdraw consent at any time. <a href="/legal/consumer-health-data-privacy">Policy</a>.</span></label>
@@ -126,7 +138,7 @@
       </div>
       <article class="prose">
         <div class="answer"><p class="label"><b>Short answer</b></p><p>Constant bloating is most often linked to how your gut handles food and gas: certain carbohydrates (lactose, fructose, fructans, sugar alcohols), constipation, IBS or a sensitive gut, swallowed air, hormonal shifts, and a belly-wall reflex after meals <a href="https://pubmed.ncbi.nlm.nih.gov/37452811/">[1]</a>. Bloating that's persistent or worsening, or comes with weight loss, bleeding, vomiting or early fullness, needs a doctor.</p></div>
-        <h2>Which pattern fits?</h2>
+        <h2 id="causes">Which pattern fits?</h2>
         <div class="table-wrap"><table><thead><tr><th>Pattern</th><th>Possible explanations</th><th>Next step</th></tr></thead><tbody>
           <tr><td>Flat on waking, bigger after meals, worst by evening</td><td>Meal-related distension, belly-wall reflex, fermentation</td><td>Log meals and timing</td></tr>
           <tr><td>Worse after specific foods (dairy, wheat, beans, sugar-free)</td><td>Carbohydrate intolerance</td><td>Structured 2-week elimination of one suspect <a href="https://pubmed.ncbi.nlm.nih.gov/37452811/">[1]</a></td></tr>
@@ -135,7 +147,7 @@
           <tr><td>Full after a few bites, with nausea</td><td>Stomach causes, such as slow emptying</td><td>See a doctor</td></tr>
           <tr><td>There all day, including on waking, steadily worse</td><td>Needs medical evaluation</td><td>Book an appointment soon</td></tr>
         </tbody></table></div>
-        <h2>When to see a doctor about bloating</h2>
+        <h2 id="doctor">When to see a doctor about bloating</h2>
         <ul>
           <li>Weight loss without trying, repeated vomiting, or blood in stool or vomit</li>
           <li>New or worsening belly pain, fever, or symptoms that wake you at night</li>
@@ -146,7 +158,7 @@
         <div class="faq">
           <details><summary>Is bloating the same as belly fat?</summary><p>No. Bloating and distension come and go, often flatter in the morning and bigger by evening. A belly that's the same size all day and doesn't change with meals or bowel movements is worth checking with a doctor.</p></details>
           <details><summary>Why only one change at a time?</summary><p>Cutting many foods at once makes it impossible to tell what helped, and can affect nutrition. Test one suspect for about a week or two. A dietitian can guide a low-FODMAP trial <a href="https://pubmed.ncbi.nlm.nih.gov/37452811/">[1]</a>. See <a href="/science/evidence/bloating-research">what the research says about bloating</a>.</p></details>
-          <details><summary>Where are my answers saved?</summary><p>Only in this browser, so you can come back and log your experiment. Nothing is sent to us unless you ask for an email.</p></details>
+          <details><summary>Where are my answers saved?</summary><p>Only in this browser, so your profile is still here when you come back. Nothing is sent to us unless you ask for an email and tick the consent box.</p></details>
           <details><summary>Do I need tests?</summary><p>Most people don't need scans or scopes. Tests are for warning signs, recent worsening or an abnormal exam <a href="https://pubmed.ncbi.nlm.nih.gov/37452811/">[1]</a>.</p></details>
         </div>
         <div class="sources"><strong>Sources</strong><ol><li>Moshiree B et al. AGA Clinical Practice Update. <em>Gastroenterology</em> 2023</li><li>Oh JE et al. <em>Clin Gastroenterol Hepatol</em> 2023</li><li>Houghton LA et al. <em>Gastroenterology</em> 2006</li><li>NICE NG12. Suspected cancer: recognition and referral</li></ol>
@@ -161,55 +173,70 @@
 <!-- @include final {"img":"water","ct":"tool-bloat-check","cpp":"bloating"} -->
 
 <script type="module">
-import { BLOAT_QUESTIONS, BLOAT_PATTERNS, BLOAT_SOURCES, BLOAT_LEVELS, matchBloat, experimentFor, experimentProgress } from "./bloat.js";
-import { dayKey, lastDays } from "../bristol-stool-chart/chart.js";
+import { BLOAT_QUESTIONS, BLOAT_PATTERNS, BLOAT_SOURCES, BLOAT_GOALS, matchBloat, quizFlow, planFor } from "./bloat.js";
 import { track, wireAppStore, esc, sourceLinks, wireEmail, createStepper, ICONS, store, renderHandoff, showStickyBar } from "../_shared/ui.js";
 
 const $ = (id) => document.getElementById(id);
-const KEY = "gr-bloat-v1";
-const today = new Date(), TODAY = dayKey(today);
-let saved = store.get(KEY, null); // { answers, patterns, exp: { key, start, log } }
+const KEY = "gr-bloat-v2";
+const REDUCED = matchMedia("(prefers-reduced-motion: reduce)").matches;
+let saved = store.get(KEY, null); // { answers, result }
 document.querySelectorAll("[data-icon]").forEach((el) => el.insertAdjacentHTML("afterbegin", ICONS[el.dataset.icon] || ""));
 wireAppStore("why-am-i-bloated");
 
-function view(name) {
-  for (const v of ["qView", "rView", "eView"]) $(v).hidden = v !== name;
+function view(name, scroll = true) {
+  for (const v of ["intro", "qView", "mView", "rView"]) $(v).hidden = v !== name;
   const el = $(name); el.classList.remove("enter"); void el.offsetWidth; el.classList.add("enter");
+  // On phones the card sits below the headline: keep its top in view as screens change.
+  const top = $("card").getBoundingClientRect().top;
+  if (scroll && (top < 0 || top > innerHeight * 0.6)) $("card").scrollIntoView({ behavior: REDUCED ? "auto" : "smooth", block: "start" });
 }
-
-/* Live hint while answering: which patterns the answers point to so far. */
-function forming(ans) {
-  if (!Object.keys(ans).length) { $("forming").innerHTML = ""; return; }
-  const r = matchBloat(ans);
-  $("forming").innerHTML = `<span>Pointing to:</span>` + r.patterns.map((k) => `<span class="tag ok">${esc(BLOAT_PATTERNS[k].title)}</span>`).join("");
-}
+const label = (id, v) => (BLOAT_QUESTIONS.find((q) => q.id === id)?.options.find((o) => o.v === v) || {}).label || "";
 
 const stepper = createStepper({
   tool: "why-am-i-bloated", history: true,
-  questions: BLOAT_QUESTIONS,
+  questions: quizFlow(),
+  renderFact: (q) => `<div class="fact"><div class="big">${esc(q.big)}</div><p>${esc(q.text)}</p><p class="cite" style="margin:0">Source: ${sourceLinks(q.cite, BLOAT_SOURCES)}</p></div>`,
   els: { dots: $("dots"), stepTxt: $("stepTxt"), title: $("qtitle"), help: $("qhelp"), opts: $("opts"), back: $("back"), next: $("next"), view: $("qView") },
-  onChange: forming,
-  onDone: (ans) => { const r = matchBloat(ans); saved = { answers: { ...ans }, patterns: r.patterns, flags: r.flags, seeDoctor: r.seeDoctor, exp: saved && saved.exp || null }; store.set(KEY, saved); track("quiz_complete", { tool: "why-am-i-bloated" }); showResult(); },
+  onStep: () => view("qView"),
+  onDone: (ans) => {
+    saved = { answers: { ...ans }, result: matchBloat(ans) }; store.set(KEY, saved);
+    track("quiz_complete", { tool: "why-am-i-bloated" });
+    view("mView");
+    requestAnimationFrame(() => { $("mBar").style.width = "100%"; });
+    setTimeout(() => showResult(), REDUCED ? 250 : 1500);
+  },
 });
 
-function showResult() {
-  const top = BLOAT_PATTERNS[saved.patterns[0]];
-  $("doctor").hidden = !saved.seeDoctor;
-  $("ovarianNote").hidden = !(saved.flags || []).includes("ovarian");
+function showResult(scroll = true) {
+  const { answers: a, result: r } = saved;
+  const top = BLOAT_PATTERNS[r.patterns[0]];
+  $("doctor-alert").hidden = !r.seeDoctor;
+  $("ovarianNote").hidden = !r.flags.includes("ovarian");
+  $("rTag").textContent = [label("often", a.often), label("howLong", a.howLong)].filter(Boolean).join(" · ");
   $("rHead").textContent = top.title;
   $("rBody").textContent = top.body;
-  const exp = experimentFor(saved.patterns);
-  $("expOffer").hidden = !exp;
-  if (exp) { $("expTitle").textContent = exp.title; $("expHow").textContent = exp.how; }
+  const rest = r.patterns.slice(1);
+  $("rAlso").innerHTML = rest.length ? `<span>Also in your answers:</span>` + rest.map((k) => `<span class="tag ok">${esc(BLOAT_PATTERNS[k].title)}</span>`).join("") : "";
+
+  const plan = planFor(r);
+  $("planName").textContent = plan.kind === "doctor" ? "Your plan" : "Your 7-day plan";
+  $("planTitle").textContent = plan.title;
+  const goal = a.goal ? BLOAT_GOALS[a.goal].toLowerCase() : "";
+  $("planGoal").textContent = !goal ? "" : plan.kind === "doctor" && a.goal !== "doctor" ? `Rule out the warning signs first, then work on your goal: ${goal}.` : `Built around your goal: ${goal}.`;
+  $("planSteps").innerHTML = plan.steps.map((x) => `<li><div><b>${esc(x.b)}</b><span>${esc(x.s)}</span></div></li>`).join("");
+  renderHandoff($("handoff"), plan.kind === "doctor"
+    ? { cpp: "bloating", ct: "tool-bloat-quiz-doctor", title: "Track it before your visit", body: "Log bloating, meals and bowel movements in seconds in Get Regular, then share a Doctor Report PDF.", cta: "Get the app for my visit" }
+    : { cpp: "bloating", ct: `tool-bloat-quiz-${plan.key}`, title: "Start this plan in Get Regular", body: "The app runs it with you: a daily check-in, your meals and bowel movements on one timeline, and a Weekly Digest of what changed.", cta: "Start my plan in the app" });
+
   renderPatterns();
-  view("rView");
+  view("rView", scroll);
   $("rHead").focus({ preventScroll: true });
-  showStickyBar({ cpp: "bloating", ct: "tool-bloat-check-sticky", text: "Track your bloating in the app" });
+  showStickyBar({ cpp: "bloating", ct: "tool-bloat-quiz-sticky", text: "Run your 7-day plan in the app" });
 }
 
 function renderPatterns() {
-  $("moreEmpty").hidden = true; $("moreNote").hidden = false; $("mailPanel").hidden = false;
-  $("patterns").innerHTML = saved.patterns.map((k, n) => {
+  $("more").hidden = false;
+  $("patterns").innerHTML = saved.result.patterns.map((k, n) => {
     const p = BLOAT_PATTERNS[k];
     return `<div class="pattern"><span class="rank">${n === 0 ? "Closest match" : "Also possible"}</span><h3>${esc(p.title)}</h3><p>${esc(p.body)}</p>
       <ul class="ticks">${p.next.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>
@@ -217,44 +244,12 @@ function renderPatterns() {
   }).join("");
 }
 
-function showExperiment() {
-  const e = saved.exp, def = experimentFor([e.key]);
-  const start = new Date(e.start + "T12:00:00");
-  const days = Array.from({ length: 7 }, (_, k) => { const d = new Date(start); d.setDate(d.getDate() + k); return dayKey(d); });
-  const dayN = Math.min(7, Math.max(1, Math.round((new Date(TODAY + "T12:00:00") - start) / 864e5) + 1));
-  const prog = experimentProgress(e.log);
-  $("eName").textContent = `Try This · day ${dayN} of 7`;
-  $("eHead").textContent = def.title;
-  $("eHow").textContent = def.how + ` Watch: ${def.watch}.`;
-  $("eCircles").innerHTML = days.map((k, i) => {
-    const v = e.log[k]; const on = v !== undefined;
-    return `<i class="${on ? "on" : ""}" title="${k}">${on ? ["–", "~", "!"][+v] : i + 1}</i>`;
-  }).join("");
-  const inRange = days.includes(TODAY);
-  $("eToday").innerHTML = inRange ? BLOAT_LEVELS.map(([v, l]) => `<button class="chip" type="button" data-v="${v}" aria-pressed="${String(e.log[TODAY]) === v}">${l}</button>`).join("") : "";
-  $("eToday").querySelectorAll(".chip").forEach((b) => b.onclick = () => { e.log[TODAY] = +b.dataset.v; store.set(KEY, saved); track("tool_use", { tool: "why-am-i-bloated", action: "exp_log" }); showExperiment(); });
-  const msgs = { better: "Your last few days look better than your first few. Worth keeping this change, and testing it once more.", worse: "Your last few days look worse than your first few. This change may not be the one; try the next pattern.", same: "No clear change yet. That's useful too: this may not be your trigger." };
-  $("eMsg").textContent = !inRange ? "This experiment's 7 days are over. Start a new one from your patterns, or keep tracking in the app."
-    : e.log[TODAY] === undefined ? "Log today, then come back tomorrow. Your progress stays on this device."
-    : prog.verdict ? msgs[prog.verdict] : `Logged ${prog.logged} of 7 days. Come back tomorrow.`;
-  renderHandoff($("handoff"), { cpp: "bloating", ct: "tool-bloat-check-exp", title: "Run it in Get Regular", body: "Experiments in the app send daily check-ins and put your meals and bowel movements next to your bloating (subscription).", cta: "Continue in Get Regular" });
-  view("eView");
-}
+$("start").onclick = () => { track("quiz_start", { tool: "why-am-i-bloated" }); stepper.render(); view("qView"); $("qtitle").focus({ preventScroll: true }); };
+$("retake").onclick = () => { $("welcome").hidden = true; $("mBar").style.width = "0"; stepper.reset(); view("qView"); };
+wireEmail($("mailForm"), { tool: "why-am-i-bloated", getPayload: () => ({ patterns: saved && saved.result.patterns, see_doctor: saved && saved.result.seeDoctor, goal: saved && saved.answers.goal }) });
 
-$("startExp").onclick = () => {
-  const exp = experimentFor(saved.patterns);
-  saved.exp = { key: exp.key, start: TODAY, log: {} }; store.set(KEY, saved);
-  track("tool_use", { tool: "why-am-i-bloated", action: "exp_start" });
-  showExperiment();
-};
-$("stopExp").onclick = () => { saved.exp = null; store.set(KEY, saved); showResult(); };
-$("retake").onclick = () => { stepper.reset(); forming({}); view("qView"); };
-wireEmail($("mailForm"), { tool: "why-am-i-bloated", getPayload: () => ({ patterns: saved && saved.patterns, see_doctor: saved && saved.seeDoctor }) });
-
-/* ---------- start: resume where the visitor left off ---------- */
-if (saved && saved.exp) { $("welcome").hidden = false; $("welcome").textContent = "Welcome back. Log today's bloating to keep your experiment going."; renderPatterns(); showExperiment(); }
-else if (saved && saved.patterns) { $("welcome").hidden = false; $("welcome").textContent = "Welcome back. Here's your pattern from last time."; showResult(); }
-else { stepper.render(); }
+/* Returning visitor: their profile is still here (this device only). */
+if (saved && saved.result) { $("welcome").hidden = false; $("welcome").textContent = "Welcome back. Here's your bloat profile from last time."; showResult(false); }
 </script>
 </body>
 </html>

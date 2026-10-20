@@ -46,7 +46,7 @@ sources_checked: 2026-10-20   # every abstract re-read from PubMed on this date
 
 ## Track it
 
-Before changing your diet, log wheat and gluten foods, symptoms and stool type for about 2 weeks, and ask about celiac testing. If you later try cutting back, keep logging so you can see what actually changed. [GI appointment prep](/tools/gi-appointment-prep) · [Printable food and symptom diary](/resources/food-symptom-diary-pdf) · [IBS hub](/learn/ibs)
+Before changing your diet, log wheat and gluten foods, symptoms and stool type for about 2 weeks, and ask about celiac testing. If you later try cutting back, keep logging so you can see what actually changed. [GI visit checklist](/resources/gi-visit-checklist) · [Printable food and symptom diary](/resources/food-symptom-diary-pdf) · [IBS hub](/learn/ibs)
 
 Related evidence: [IBS diet guidelines](/science/evidence/ibs-diet-guidelines) · [Food diaries vs memory](/science/evidence/food-diaries-vs-memory) · [Lactose intolerance](/science/evidence/lactose-intolerance)
 

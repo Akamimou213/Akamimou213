@@ -45,7 +45,7 @@ sources_checked: 2026-10-20   # every abstract re-read from PubMed on this date
 
 ## Track it
 
-Log your stool type (Bristol scale), fiber and water for 2–3 weeks while you increase fiber slowly. If your stool moves toward types 3–4 and straining eases, it's working. If not, take the log to your doctor. [Try the 2-minute check](/tools/how-regular-are-you) · [Printable bowel movement log](/resources/bowel-movement-log-pdf) · [Constipation hub](/learn/constipation)
+Log your stool type (Bristol scale), fiber and water for 2–3 weeks while you increase fiber slowly. If your stool moves toward types 3–4 and straining eases, it's working. If not, take the log to your doctor. [Find your stool type](/tools/bristol-stool-chart) · [Printable bowel movement log](/resources/bowel-movement-log-pdf) · [Constipation hub](/learn/constipation)
 
 **See a doctor promptly** if constipation comes with blood in the stool, unexplained weight loss, a new change after age 50, or severe pain [CONFIRM reviewer: alarm list per site standard].
 

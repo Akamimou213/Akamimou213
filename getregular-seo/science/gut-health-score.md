@@ -116,7 +116,6 @@ The score is built from what you log in the app. The privacy policy confirms the
 
 **[CONFIRM: definition. Until confirmed, render only:]** A third daily score shown alongside the Gut Health Score and Nutrition Score. We'll describe how it works here once the method is documented.
 
-*(Internal note — do not render: the quiz at `/tools/how-regular-are-you` produces a separate "Regularity Score" with its own published rules. Don't conflate the two names on this page until product confirms how the in-app Regular Score relates to it.)*
 
 ---
 
@@ -124,7 +123,7 @@ The score is built from what you log in the app. The privacy policy confirms the
 
 If a score surprises you, open the Backlog: it shows the logs behind each day. If you think the score is wrong, email hello@getregular.com with "Score question" in the subject and the date. See [how our AI works](/science/how-our-ai-works) for the full data flow and limits.
 
-**Related:** [The science behind Get Regular](/science) · [How our AI works](/science/how-our-ai-works) · [What is a gut health score?](/learn/gut-health-score-explained) · [The Bristol Stool Scale: what the research says](/science/evidence/bristol-stool-scale) · [How often should you poop?](/science/evidence/how-often-should-you-poop) · [How regular are you? 2-minute check](/tools/how-regular-are-you)
+**Related:** [The science behind Get Regular](/science) · [How our AI works](/science/how-our-ai-works) · [What is a gut health score?](/learn/gut-health-score-explained) · [The Bristol Stool Scale: what the research says](/science/evidence/bristol-stool-scale) · [How often should you poop?](/science/evidence/how-often-should-you-poop) · [Find your stool type](/tools/bristol-stool-chart)
 
 *Get Regular is a wellness tracking app. It doesn't diagnose, treat or prevent any condition. If you have red-flag symptoms or ongoing changes in your digestion, talk to a doctor.*
 

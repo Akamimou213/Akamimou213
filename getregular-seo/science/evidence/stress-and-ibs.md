@@ -46,7 +46,7 @@ sources_checked: 2026-10-20   # every abstract re-read from PubMed on this date
 
 ## Track it
 
-Rate your stress alongside symptoms and stool type (Bristol scale) at the same times each day for 2–3 weeks. Then look for patterns: do bad afternoons come before bad evenings? Bring the log to your doctor. [Free IBS food diary template](/resources/ibs-food-diary-template) · [GI appointment prep](/tools/gi-appointment-prep) · [IBS hub](/learn/ibs) · [Why diaries beat memory](/science/evidence/food-diaries-vs-memory)
+Rate your stress alongside symptoms and stool type (Bristol scale) at the same times each day for 2–3 weeks. Then look for patterns: do bad afternoons come before bad evenings? Bring the log to your doctor. [Free IBS food diary template](/resources/ibs-food-diary-template) · [GI visit checklist](/resources/gi-visit-checklist) · [IBS hub](/learn/ibs) · [Why diaries beat memory](/science/evidence/food-diaries-vs-memory)
 
 **See a doctor promptly** if gut symptoms come with blood in the stool, unexplained weight loss, a new change after age 50, or symptoms that wake you at night [CONFIRM reviewer: alarm list per site standard]. Don't assume stress explains these.
 

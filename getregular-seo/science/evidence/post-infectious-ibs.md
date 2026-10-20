@@ -43,7 +43,7 @@ sources_checked: 2026-10-20   # every abstract re-read from PubMed on this date
 
 ## Track it
 
-If gut symptoms started or changed after a stomach bug or food poisoning, note the date of the illness, any antibiotics, and how your stool type (Bristol scale) and symptoms have changed since. A clear timeline is useful to bring to a doctor. [Prep for your GI appointment](/tools/gi-appointment-prep) · [Free IBS food diary template](/resources/ibs-food-diary-template) · [IBS hub](/learn/ibs) · [Diarrhea hub](/learn/diarrhea)
+If gut symptoms started or changed after a stomach bug or food poisoning, note the date of the illness, any antibiotics, and how your stool type (Bristol scale) and symptoms have changed since. A clear timeline is useful to bring to a doctor. [GI visit checklist](/resources/gi-visit-checklist) · [Free IBS food diary template](/resources/ibs-food-diary-template) · [IBS hub](/learn/ibs) · [Diarrhea hub](/learn/diarrhea)
 
 **See a doctor promptly** if symptoms after an infection include blood in the stool, fever, signs of dehydration, unexplained weight loss, or diarrhea that doesn't settle [CONFIRM reviewer: alarm list per site standard].
 

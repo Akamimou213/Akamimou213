@@ -25,7 +25,7 @@ publish_gate: "Do not publish until the team confirms what the in-app research c
 
 > **In short:** Get Regular hasn't published any research yet, and we have no results to share. Since version 2.0.0 (August 2026), the app has an optional "Research consent" setting so that, in the future, people who choose to can contribute de-identified data to studies of everyday bowel habits, food and symptoms. This page explains what that consent covers, how we'd protect your data, and what we'll publish and when. We'll update it as things happen, including when results are disappointing.
 
-**On this page:** [Why](#why) · [Research consent](#consent) · [Privacy](#privacy) · [What we'll publish](#publish) · [Validating the Regularity Score](#regularity-score) · [For researchers](#researchers)
+**On this page:** [Why](#why) · [Research consent](#consent) · [Privacy](#privacy) · [What we'll publish](#publish) · [Validating our free tools](#tool-validation) · [For researchers](#researchers)
 
 ---
 
@@ -96,21 +96,21 @@ Until then, every study on our site is someone else's work. See [the research we
 
 ---
 
-## Is the Regularity Score validated? {#regularity-score}
+## Are the free tools validated? {#tool-validation}
 
-**No. The Regularity Score from our free [How regular are you?](/tools/how-regular-are-you) check isn't validated today.** It's a simple summary of your answers. The score starts at 100 and drops for stool shape outside types 3–5, frequency outside the usual range, frequent straining, unfinished feelings or urgency, weekly pain and frequent bloating. The weights are our editorial choice and haven't been tested in a study. It has no clinical cut-offs and can't diagnose anything. Use it to compare yourself with yourself over time.
+**No. Our free [bloat profile quiz](/tools/why-am-i-bloated) and [stool chart](/tools/bristol-stool-chart) are self-checks, not validated questionnaires.** The quiz matches your answers to the bloating patterns described in the American Gastroenterological Association's 2023 clinical practice update, and sends anyone with a warning sign to a doctor before anything else. It gives no score, has no clinical cut-offs and can't diagnose anything. The stool chart uses the 7-type idea from Lewis & Heaton 1997 in our own words and drawings.
 
-**What validating it would take** (a plan, not something we've done) **[CONFIRM: whether and when the team will run this]**:
+**What validating the quiz would take** (a plan, not something we've done) **[CONFIRM: whether and when the team will run this]**:
 
 | Step | Question it answers | Status |
 |---|---|---|
-| 1. Clinical review of the questions and thresholds against Rome V criteria | Do the questions match current clinical definitions? | Pending clinical review |
-| 2. Test-retest | Do people get a similar score when nothing has changed? | Not started |
-| 3. Compare with logged data | Among people who opt in to research, does the quiz score line up with 2–4 weeks of logged stool type and frequency? | Not started; needs research consent |
-| 4. Compare with established, validated questionnaires | Does it agree with tools clinicians already use? | Not started |
+| 1. Clinical review of the questions, patterns and warning signs against the AGA 2023 update | Do the questions and patterns match current clinical guidance? | Pending clinical review |
+| 2. Safety audit of the warning-sign routing | Does every answer with an alarm feature reach the "see a doctor" result? | Automated tests in place; clinical sign-off pending |
+| 3. Test-retest | Do people get the same top pattern when nothing has changed? | Not started |
+| 4. Compare with 7-day experiment outcomes | Among people who opt in to research, does the suggested experiment change their logged bloating more often than chance? | Not started; needs research consent |
 | 5. Publish the method and results | Can others check our work? | Not started |
 
-Until those steps are done and published, we won't call the score validated, accurate or clinically meaningful. The in-app Regular Score is a separate measure. **[CONFIRM: how the in-app Regular Score relates to the quiz's Regularity Score.]**
+Until those steps are done and published, we won't call the quiz validated, accurate or clinically meaningful. The in-app Regular Score is a separate measure, described on [our gut health score page](/science/gut-health-score).
 
 ---
 
@@ -139,4 +139,4 @@ We can't share individual user data. Any collaboration would use only de-identif
 4. Get Regular. Privacy policy (last updated 8 June 2026). https://www.getregular.com/legal/privacy-policy
 
 <!-- JSON-LD: WebPage { @id: https://www.getregular.com/science/research#webpage, isPartOf: /science#webpage, publisher: #org, dateModified, about: "Get Regular research program" }. No Dataset, ResearchProject or ScholarlyArticle markup until a study exists. No reviewedBy without consent. -->
-<!-- WRITER NOTES: Regularity Score wording mirrors tools/how-regular-are-you/copy.js (method + "haven't been validated in a study"); keep them in sync. NHANES n=4,775 (abstract). The research-consent table is a draft; product fact sheet lists it as UNVERIFIED (§6.5, §11 item 15). STRATEGY: the first aggregate de-identified report is the planned PR/citation asset; don't announce it before the method page exists. -->
+<!-- WRITER NOTES: Tool-validation wording mirrors tools/why-am-i-bloated/bloat.js and the quiz intro ("A self-check, not a diagnosis"); keep them in sync. NHANES n=4,775 (abstract). The research-consent table is a draft; product fact sheet lists it as UNVERIFIED (§6.5, §11 item 15). STRATEGY: the first aggregate de-identified report is the planned PR/citation asset; don't announce it before the method page exists. -->
