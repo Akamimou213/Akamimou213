@@ -7,9 +7,8 @@
 <meta name="description" content="Answer 7 quick questions about when your bloating happens to see which common patterns fit, what to try first, and the signs that mean you should see a doctor. No email needed.">
 <link rel="canonical" href="https://www.getregular.com/tools/why-am-i-bloated">
 <meta name="robots" content="noindex"><!-- PROTOTYPE -->
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Instrument+Serif&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../_shared/base.css">
+<meta name="theme-color" content="#0b0c0a">
+<!-- @include head -->
 <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[
  {"@type":"WebApplication","@id":"https://www.getregular.com/tools/why-am-i-bloated#tool","name":"Bloating pattern check","url":"https://www.getregular.com/tools/why-am-i-bloated","applicationCategory":"HealthApplication","operatingSystem":"Any (web browser)","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@id":"https://www.getregular.com/#org"}},
@@ -19,159 +18,163 @@
 ]}
 </script>
 <style>
-  .pattern { background: var(--white); border: 1px solid var(--line); border-radius: 16px; padding: 20px; margin: 0 0 14px; }
-  .pattern h3 { font: 400 28px/1.1 "Instrument Serif", serif; margin: 4px 0 8px; }
-  .pattern .rank { font-size: 12px; text-transform: uppercase; letter-spacing: .08em; color: var(--bronze); font-weight: 700; }
+  .curve { width: 100%; height: 120px; margin-top: 18px; }
+  .pattern { padding: clamp(22px, 3vw, 32px); border-radius: 22px; border: 1px solid var(--w10); background: rgba(255,255,255,.02); }
+  .pattern + .pattern { margin-top: 14px; }
+  .pattern .rank { font: 400 12px var(--sans); letter-spacing: .14em; text-transform: uppercase; color: var(--amber-soft); }
+  .pattern h3 { margin: 10px 0 10px; font: 500 clamp(26px, 2.8vw, 36px)/1.06 var(--serif); letter-spacing: -.02em; }
+  .pattern p { margin: 0 0 18px; color: var(--w70); }
 </style>
 </head>
 <body>
-<header class="top"><div class="wrap"><a class="logo" href="/">Get Regular</a><span class="pill">Free tool</span></div></header>
-<main class="wrap">
-  <section id="intro" class="hero">
-    <div class="eyebrow">1-minute bloating check</div>
-    <h1>Why am I<br>so bloated?</h1>
-    <p class="lede">Answer 7 quick questions about when your bloating happens. See which common patterns fit, what to try first, and when to see a doctor.</p>
-    <ul class="facts"><li>7 questions</li><li>Results instantly</li><li>No email needed</li><li>Nothing is sent anywhere</li></ul>
-    <button class="btn" id="start">Start the check <span aria-hidden="true">→</span></button>
-  </section>
+<!-- @include nav {"ct":"tool-bloat-check","cpp":"bloating"} -->
 
-  <section id="quiz" class="card" hidden aria-live="polite">
-    <div class="progress" aria-hidden="true"><i id="bar"></i></div>
-    <div class="step" id="step"></div>
-    <h2 class="q" id="qtitle" tabindex="-1"></h2>
-    <p class="help" id="qhelp"></p>
-    <div class="opts" id="opts" role="group"></div>
-    <div class="nav"><button class="link" id="back">← Back</button><button class="btn" id="next" disabled>Next</button></div>
-  </section>
+<header class="hero photo grain busy" style="--bg:url(../_shared/img/kiwi-table.jpg);--pos:right center">
+  <div class="wrap grid">
+    <div class="enter">
+      <p class="label"><b>Free tool</b> · 1 minute · no email needed</p>
+      <h1 class="headline"><span class="s">Why am I</span><span class="t">so <em>bloated</em>?</span></h1>
+      <p class="sub">Seven quick questions on when it happens, what you ate and how your gut's been. The common patterns that fit, and what to try first.</p>
+      <div class="actions"><button class="arrow-cta" id="start" type="button">Find my pattern <span class="ar">→</span></button></div>
+    </div>
+    <div class="glass preview enter" style="animation-delay:.15s" aria-hidden="true">
+      <p class="muted small" style="margin:0">Bloating through the day</p>
+      <svg class="curve" viewBox="0 0 400 120" fill="none"><path d="M0 104 C70 102 90 96 130 84 S200 50 240 46 S330 22 400 14" stroke="#e3c9a0" stroke-width="2"/><path d="M0 104 C70 102 90 96 130 84 S200 50 240 46 S330 22 400 14 V120 H0Z" fill="url(#g)"/><defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e3c9a0" stop-opacity=".22"/><stop offset="1" stop-color="#e3c9a0" stop-opacity="0"/></linearGradient></defs><g fill="rgba(255,255,255,.45)" font-family="Inter" font-size="11"><text x="0" y="118">Wake</text><text x="120" y="118">Lunch</text><text x="232" y="118">Dinner</text><text x="352" y="118">Bed</text></g></svg>
+      <div class="glass-row" style="margin-top:16px"><span class="small">Flat on waking, bigger by evening</span><span class="tag ok">Meal-related</span></div>
+    </div>
+  </div>
+</header>
 
-  <section id="result" hidden>
-    <div class="card">
-      <div id="doctor" class="doctor" hidden role="alert">
-        <h3>See a doctor about your bloating</h3>
-        <p>Your answers include signs that doctors want to check in person. Most bloating turns out to be harmless, but these signs shouldn't wait on an app. <span id="ovarianNote" hidden>For women, especially over 50, frequent new bloating, early fullness or urinary changes should be checked for ovarian causes.</span> <span class="fine">Sources: <a href="https://pubmed.ncbi.nlm.nih.gov/37452811/">AGA 2023</a> · <a href="https://www.nice.org.uk/guidance/ng12/chapter/Recommendations-organised-by-site-of-cancer">NICE NG12</a></span></p>
+<main>
+  <section class="sec photo blurred shade-full" id="check" style="--bg:url(../_shared/img/kiwi-table.jpg)" aria-label="The bloating check">
+    <div class="wrap">
+      <div class="tool glass">
+        <div class="tool-top"><span class="name">Why am I so bloated?</span><div class="dots" id="dots" aria-hidden="true"></div><span class="muted tiny" id="stepTxt"></span></div>
+        <div class="tool-body" id="qView" aria-live="polite">
+          <h2 class="q" id="qtitle" tabindex="-1"></h2>
+          <p class="help" id="qhelp"></p>
+          <div class="opts" id="opts" role="group"></div>
+          <div class="tool-foot"><button class="link" id="back" type="button">← Back</button><button class="btn btn-white" id="next" type="button" disabled>Next</button></div>
+        </div>
+        <div class="tool-body" id="rView" hidden>
+          <div class="alert" id="doctor" hidden role="alert"><span class="ico">!</span><div><h3>See a doctor about your bloating</h3><p>Your answers include signs doctors want to check in person. Most bloating turns out to be harmless, but these signs shouldn't wait on an app. <span id="ovarianNote" hidden>For women, especially over 50, frequent new bloating, early fullness or urinary changes should be checked for ovarian causes.</span> <span class="cite" style="display:block;margin-top:6px">Sources: <a href="https://pubmed.ncbi.nlm.nih.gov/37452811/">AGA 2023</a> · <a href="https://www.nice.org.uk/guidance/ng12/chapter/Recommendations-organised-by-site-of-cancer">NICE NG12</a></span></p></div></div>
+          <p class="label"><b>Patterns that fit your answers</b></p>
+          <div id="patterns"></div>
+          <p class="cite">These are common explanations to discuss and test, not a diagnosis. Bloating often has more than one cause.</p>
+          <div class="panel-grid">
+            <div class="panel">
+              <h4>Make a 2-week bloat map</h4>
+              <div class="circles" aria-hidden="true"><i>M</i><i>T</i><i>W</i><i>T</i><i>F</i><i>S</i><i>S</i></div>
+              <p class="muted small" style="margin:16px 0 20px">Meals, bowel movements, symptoms and your cycle on one timeline. See what lines up with your worst days.</p>
+              <a class="btn btn-white js-appstore" data-ct="tool-bloat-check-result" data-cpp="bloating" href="#">Start in Get Regular</a>
+            </div>
+            <div class="panel mail">
+              <h4>Email me my patterns</h4>
+              <p class="muted small" style="margin:0">Optional, with a printable bloat map.</p>
+              <form class="mail-form" id="mailForm" novalidate>
+                <div class="row"><input type="email" required autocomplete="email" placeholder="you@example.com" aria-label="Email address"></div>
+                <label class="consent"><input type="checkbox" name="consentHealth" required> <span>I consent to Get Regular storing my answers with my email to send my results. This is health information; I can withdraw consent at any time. <a href="/legal/consumer-health-data-privacy">Policy</a>.</span></label>
+                <label class="consent"><input type="checkbox" name="consentNews"> <span>Also send me Get Regular's gut-health emails.</span></label>
+                <button class="btn btn-ghost" type="submit" style="justify-self:start">Send it to me</button>
+                <p class="status" role="status"></p>
+              </form>
+            </div>
+          </div>
+          <div class="tool-foot"><button class="link" id="retake" type="button">Retake the check</button><span class="muted tiny">Answers stay in your browser.</span></div>
+        </div>
       </div>
-      <span class="eyebrow">Patterns that fit your answers</span>
-      <div id="patterns" style="margin-top:12px"></div>
-      <p class="fine">These are common explanations to discuss and test, not a diagnosis. Bloating often has more than one cause.</p>
-      <div class="cta">
-        <h3>Make a 2-week bloat map</h3>
-        <p>Get Regular puts meals, bowel movements, symptoms and your cycle on one timeline, so you can see what lines up with your worst bloating days, and bring it to your doctor as a report.</p>
-        <a class="btn" id="appstore" href="#" rel="noopener">Download on the App Store <span aria-hidden="true">↗</span></a>
-        <p class="fine">Free download for iPhone and iPad. Subscription for premium features.</p>
-      </div>
-      <div class="mail">
-        <h3>Email me my patterns and a printable bloat map</h3>
-        <form id="mailForm" novalidate>
-          <input type="email" required autocomplete="email" placeholder="you@example.com" aria-label="Email address">
-          <label class="consent"><input type="checkbox" name="consentHealth" required> <span>I consent to Get Regular storing my answers with my email to send my results. This is health information; I can withdraw consent and ask for deletion at any time. <a href="/legal/privacy-policy">Privacy policy</a>.</span></label>
-          <label class="consent"><input type="checkbox" name="consentNews"> <span>Also send me Get Regular's gut-health emails (optional).</span></label>
-          <button class="btn gold" type="submit">Send it to me</button>
-          <p class="fine" role="status"></p>
-        </form>
-      </div>
-      <p><button class="link" id="retake">Retake the check</button></p>
     </div>
   </section>
 
-  <article class="content">
-    <h2>Why am I so bloated all the time?</h2>
-    <p class="answer"><strong>Short answer:</strong> constant bloating is most often linked to how your gut handles food and gas. Common causes are certain carbohydrates (lactose, fructose, fructans, sugar alcohols), constipation, IBS or a sensitive gut, swallowed air, hormonal shifts, and a belly-wall reflex after meals <a href="https://pubmed.ncbi.nlm.nih.gov/37452811/">[1]</a>. Bloating that's persistent or worsening, or that comes with weight loss, bleeding, vomiting or early fullness, needs a doctor.</p>
+  <section class="sec photo shade-bottom flip" style="--bg:url(../_shared/img/ocean.jpg)" aria-labelledby="howH">
+    <div class="wrap">
+      <p class="label"><b>You're not imagining it</b></p>
+      <h2 class="h2" id="howH" style="max-width:17ch">1 in 7 Americans.<span class="t">Bloated in the past week.</span></h2>
+      <div class="steps" style="margin-top:clamp(48px,6vw,88px)">
+        <div class="step"><p class="h3">It's common</p><p>In a survey of nearly 89,000 Americans, about 1 in 7 had been bloated in the past week, and most had never sought care.</p></div>
+        <div class="step"><p class="h3">It's measurable</p><p>In women with IBS, belly girth increased by up to 12 cm over a day. That's distension, not "just weight".</p></div>
+        <div class="step"><p class="h3">It's often a reflex</p><p>After meals, the diaphragm can push down and the belly wall relax, even without much extra gas. It can be treated.</p></div>
+      </div>
+      <p class="cite">Sources: <a href="https://pubmed.ncbi.nlm.nih.gov/36396061/">Oh et al. 2023</a> · <a href="https://pubmed.ncbi.nlm.nih.gov/17030170/">Houghton et al. 2006</a> · <a href="https://pubmed.ncbi.nlm.nih.gov/37452811/">AGA 2023</a></p>
+    </div>
+  </section>
 
-    <h2>You're not imagining it</h2>
-    <p>In a survey of nearly 89,000 Americans, about 1 in 7 had been bloated in the past week, and most had never sought care <a href="https://pubmed.ncbi.nlm.nih.gov/36396061/">[2]</a>. Visible distension is measurable: in women with IBS, belly girth increased by up to 12 cm over a day <a href="https://pubmed.ncbi.nlm.nih.gov/17030170/">[3]</a>.</p>
+  <!-- @include app {"img":"wood","label":"From a feeling to a pattern","title_s":"Try one change.","title_t":"Track what <em>happens</em>.","sub":"Test one suspect food at a time with a guided Experiment, and log bloating at waking and bedtime.","try":"Swap fizzy drinks for still","caption":"Log bowel movements and bloating.","ct":"tool-bloat-check","cpp":"bloating"} -->
 
-    <h2>Which pattern fits?</h2>
-    <div class="table-wrap"><table>
-      <thead><tr><th>Pattern</th><th>Possible explanations</th><th>Next step</th></tr></thead>
-      <tbody>
-        <tr><td>Flat on waking, bigger after meals, worst by evening</td><td>Meal-related distension, belly-wall reflex, fermentation</td><td>Log meals and timing</td></tr>
-        <tr><td>Worse after specific foods (dairy, wheat, beans, sugar-free)</td><td>Carbohydrate intolerance</td><td>Structured 2-week elimination of one suspect <a href="https://pubmed.ncbi.nlm.nih.gov/37452811/">[1]</a></td></tr>
-        <tr><td>Worse on days without a bowel movement</td><td>Constipation</td><td>Treat the constipation</td></tr>
-        <tr><td>Worse before your period</td><td>Hormonal</td><td>Track across 2–3 cycles</td></tr>
-        <tr><td>Full after a few bites, with nausea</td><td>Stomach causes, such as slow emptying</td><td>See a doctor</td></tr>
-        <tr><td>There all day, including on waking, steadily worse</td><td>Needs medical evaluation</td><td>Book an appointment soon</td></tr>
-      </tbody>
-    </table></div>
+  <section class="content-sec sec paper" aria-labelledby="learnH">
+    <div class="wrap split">
+      <div class="side">
+        <p class="label"><b>Learn</b></p>
+        <h2 class="h2" id="learnH">Why am I so bloated <em>all the time</em>?</h2>
+        <p class="sub" style="font-size:19px">The common causes, which pattern fits, and when bloating needs a doctor.</p>
+      </div>
+      <article class="prose">
+        <div class="answer"><p class="label"><b>Short answer</b></p><p>Constant bloating is most often linked to how your gut handles food and gas: certain carbohydrates (lactose, fructose, fructans, sugar alcohols), constipation, IBS or a sensitive gut, swallowed air, hormonal shifts, and a belly-wall reflex after meals <a href="https://pubmed.ncbi.nlm.nih.gov/37452811/">[1]</a>. Bloating that's persistent or worsening, or comes with weight loss, bleeding, vomiting or early fullness, needs a doctor.</p></div>
+        <h2>Which pattern fits?</h2>
+        <div class="table-wrap"><table><thead><tr><th>Pattern</th><th>Possible explanations</th><th>Next step</th></tr></thead><tbody>
+          <tr><td>Flat on waking, bigger after meals, worst by evening</td><td>Meal-related distension, belly-wall reflex, fermentation</td><td>Log meals and timing</td></tr>
+          <tr><td>Worse after specific foods (dairy, wheat, beans, sugar-free)</td><td>Carbohydrate intolerance</td><td>Structured 2-week elimination of one suspect <a href="https://pubmed.ncbi.nlm.nih.gov/37452811/">[1]</a></td></tr>
+          <tr><td>Worse on days without a bowel movement</td><td>Constipation</td><td>Treat the constipation</td></tr>
+          <tr><td>Worse before your period</td><td>Hormonal</td><td>Track across 2–3 cycles</td></tr>
+          <tr><td>Full after a few bites, with nausea</td><td>Stomach causes, such as slow emptying</td><td>See a doctor</td></tr>
+          <tr><td>There all day, including on waking, steadily worse</td><td>Needs medical evaluation</td><td>Book an appointment soon</td></tr>
+        </tbody></table></div>
+        <h2>When to see a doctor about bloating</h2>
+        <ul>
+          <li>Weight loss without trying, repeated vomiting, or blood in stool or vomit</li>
+          <li>New or worsening belly pain, fever, or symptoms that wake you at night</li>
+          <li>A family history of GI cancer, celiac disease or IBD <a href="https://pubmed.ncbi.nlm.nih.gov/37452811/">[1]</a></li>
+          <li>For women, especially 50 or older: persistent bloating, feeling full quickly, pelvic or belly pain, or needing to pee more often or urgently <a href="https://www.nice.org.uk/guidance/ng12/chapter/Recommendations-organised-by-site-of-cancer">[4]</a></li>
+        </ul>
+        <h2>Questions</h2>
+        <div class="faq">
+          <details><summary>Is bloating the same as belly fat?</summary><p>No. Bloating and distension come and go, often flatter in the morning and bigger by evening. A belly that's the same size all day and doesn't change with meals or bowel movements is worth checking with a doctor.</p></details>
+          <details><summary>Should I cut out lots of foods?</summary><p>Test one suspect at a time for about 2 weeks. Cutting many foods at once makes it hard to learn anything. A dietitian can guide a low-FODMAP trial <a href="https://pubmed.ncbi.nlm.nih.gov/37452811/">[1]</a>. See <a href="/science/evidence/bloating-research">what the research says about bloating</a>.</p></details>
+          <details><summary>Do I need tests?</summary><p>Most people don't need scans or scopes. Tests are for warning signs, recent worsening or an abnormal exam <a href="https://pubmed.ncbi.nlm.nih.gov/37452811/">[1]</a>.</p></details>
+        </div>
+        <div class="sources"><strong>Sources</strong><ol><li>Moshiree B et al. AGA Clinical Practice Update. <em>Gastroenterology</em> 2023</li><li>Oh JE et al. <em>Clin Gastroenterol Hepatol</em> 2023</li><li>Houghton LA et al. <em>Gastroenterology</em> 2006</li><li>NICE NG12. Suspected cancer: recognition and referral</li></ol>
+        <div class="reviewed"><span>Last reviewed [SET AT PUBLISH]</span><span>Reviewed by [CONFIRM]</span></div></div>
+      </article>
+    </div>
+  </section>
 
-    <h2>When to see a doctor about bloating</h2>
-    <ul>
-      <li>Weight loss without trying, repeated vomiting, or blood in stool or vomit</li>
-      <li>New or worsening belly pain, fever, or symptoms that wake you at night</li>
-      <li>A family history of GI cancer, celiac disease or IBD <a href="https://pubmed.ncbi.nlm.nih.gov/37452811/">[1]</a></li>
-      <li>For women, especially 50 or older: persistent bloating, feeling full quickly, pelvic or belly pain, or needing to pee more often or urgently <a href="https://www.nice.org.uk/guidance/ng12/chapter/Recommendations-organised-by-site-of-cancer">[4]</a></li>
-    </ul>
-
-    <h2>Frequently asked questions</h2>
-    <details><summary>Is bloating the same as belly fat?</summary><p>No. Bloating and distension come and go, often flatter in the morning and bigger by evening. A belly that's the same size all day and doesn't change with meals or bowel movements is worth checking with a doctor.</p></details>
-    <details><summary>Should I cut out lots of foods?</summary><p>Test one suspect at a time for about 2 weeks. Cutting many foods at once makes it hard to learn anything and can affect nutrition. A dietitian can guide a low-FODMAP trial <a href="https://pubmed.ncbi.nlm.nih.gov/37452811/">[1]</a>. See <a href="/science/evidence/bloating-research">what the research says about bloating</a>.</p></details>
-    <details><summary>Do I need tests?</summary><p>Most people don't need scans or scopes. Tests are for warning signs, recent worsening or an abnormal exam <a href="https://pubmed.ncbi.nlm.nih.gov/37452811/">[1]</a>.</p></details>
-    <p>Related: <a href="/tools/how-regular-are-you">How regular are you?</a> · <a href="/learn/why-am-i-so-bloated">Why am I so bloated? (full guide)</a> · <a href="/resources/food-symptom-diary-pdf">Printable food and symptom diary</a></p>
-    <p class="byline">Sources: [1] Moshiree B et al. AGA Clinical Practice Update, Gastroenterology 2023 · [2] Oh JE et al. Clin Gastroenterol Hepatol 2023 · [3] Houghton LA et al. Gastroenterology 2006 · [4] NICE NG12. Last reviewed: [SET AT PUBLISH].</p>
-  </article>
+  <!-- @related why-am-i-bloated -->
 </main>
-<footer><div class="wrap"><a href="/legal/consumer-health-data-privacy">Consumer Health Data Privacy Policy</a> · <a href="/legal/privacy-policy">Privacy policy</a><br>© Get Regular Health, Inc. For general information; doesn't replace medical advice. Prototype — not for publication until clinical and legal review.</div></footer>
+
+<!-- @include final {"img":"water","ct":"tool-bloat-check","cpp":"bloating"} -->
 
 <script type="module">
 import { BLOAT_QUESTIONS, BLOAT_PATTERNS, BLOAT_SOURCES, matchBloat } from "./bloat.js";
-import { track, appStoreUrl, esc, sourceLinks, wireEmail } from "../_shared/ui.js";
+import { track, wireAppStore, esc, sourceLinks, wireEmail, createStepper } from "../_shared/ui.js";
 
 const $ = (id) => document.getElementById(id);
-const ans = {};
-let i = 0;
-const QS = BLOAT_QUESTIONS;
+wireAppStore("why-am-i-bloated");
+const stepper = createStepper({
+  tool: "why-am-i-bloated",
+  questions: BLOAT_QUESTIONS,
+  els: { dots: $("dots"), stepTxt: $("stepTxt"), title: $("qtitle"), help: $("qhelp"), opts: $("opts"), back: $("back"), next: $("next"), view: $("qView") },
+  onDone: show,
+});
 
-function render() {
-  const q = QS[i];
-  $("bar").style.width = `${(i / QS.length) * 100}%`;
-  $("step").textContent = `Question ${i + 1} of ${QS.length}`;
-  $("qtitle").textContent = q.title;
-  $("qhelp").textContent = q.help || ""; $("qhelp").hidden = !q.help;
-  $("opts").innerHTML = "";
-  for (const o of q.options) {
-    const b = document.createElement("button");
-    b.type = "button"; b.className = "opt";
-    const sel = q.multi ? (ans[q.id] || []).includes(o.v) : ans[q.id] === o.v;
-    b.setAttribute("aria-pressed", String(sel));
-    b.innerHTML = `<span class="t"></span>`; b.querySelector(".t").textContent = o.label;
-    b.onclick = () => {
-      if (q.multi) {
-        let cur = ans[q.id] || [];
-        cur = o.exclusive ? (cur.includes(o.v) ? [] : [o.v]) : (cur.includes(o.v) ? cur.filter((v) => v !== o.v) : [...cur.filter((v) => v !== "none"), o.v]);
-        ans[q.id] = cur; render();
-      } else { ans[q.id] = o.v; render(); setTimeout(next, 180); }
-    };
-    $("opts").appendChild(b);
-  }
-  $("back").style.visibility = i === 0 ? "hidden" : "visible";
-  $("next").disabled = q.multi ? !(ans[q.id] || []).length : ans[q.id] === undefined;
-  $("next").textContent = i === QS.length - 1 ? "See my patterns" : "Next";
-  $("qtitle").focus({ preventScroll: true });
-}
-function next() { if (i < QS.length - 1) { i++; render(); } else show(); }
-
-function show() {
+function show(ans) {
   const r = matchBloat(ans);
   track("quiz_complete", { tool: "why-am-i-bloated" });
-  $("quiz").hidden = true; $("result").hidden = false;
+  $("qView").hidden = true; $("rView").hidden = false;
   $("doctor").hidden = !r.seeDoctor;
   $("ovarianNote").hidden = !r.flags.includes("ovarian");
   $("patterns").innerHTML = r.patterns.map((k, n) => {
     const p = BLOAT_PATTERNS[k];
     return `<div class="pattern"><span class="rank">${n === 0 ? "Closest match" : "Also possible"}</span><h3>${esc(p.title)}</h3><p>${esc(p.body)}</p>
-      <ul class="list">${p.next.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>
-      <p class="fine">Read more: <a href="${p.learn}">guide</a> · Sources: ${sourceLinks(p.cite, BLOAT_SOURCES)}</p></div>`;
+      <ul class="ticks">${p.next.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>
+      <p class="cite" style="margin-bottom:0"><a href="${p.learn}">Read the guide</a> · Sources: ${sourceLinks(p.cite, BLOAT_SOURCES)}</p></div>`;
   }).join("");
-  $("result").scrollIntoView({ behavior: "smooth", block: "start" });
+  $("check").scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
-$("start").onclick = () => { $("intro").hidden = true; $("quiz").hidden = false; track("quiz_start", { tool: "why-am-i-bloated" }); render(); };
-$("next").onclick = next;
-$("back").onclick = () => { if (i > 0) { i--; render(); } };
-$("retake").onclick = () => { for (const k in ans) delete ans[k]; i = 0; $("result").hidden = true; $("quiz").hidden = false; render(); };
-const a = $("appstore");
-a.href = appStoreUrl({ cpp: "bloating", ct: "tool-bloat-check" });
-a.onclick = () => track("app_store_click", { tool: "why-am-i-bloated" });
-wireEmail($("mailForm"), { tool: "why-am-i-bloated", getPayload: () => { const r = matchBloat(ans); return { patterns: r.patterns, see_doctor: r.seeDoctor }; } });
+$("start").onclick = () => { track("quiz_start", { tool: "why-am-i-bloated" }); $("check").scrollIntoView({ behavior: "smooth", block: "start" }); };
+$("retake").onclick = () => { $("rView").hidden = true; $("qView").hidden = false; stepper.reset(); };
+wireEmail($("mailForm"), { tool: "why-am-i-bloated", getPayload: () => { const r = matchBloat(stepper.answers); return { patterns: r.patterns, see_doctor: r.seeDoctor }; } });
+stepper.render();
 </script>
 </body>
 </html>

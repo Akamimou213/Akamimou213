@@ -41,9 +41,11 @@ button { font: inherit; color: inherit; }
 
 /* Full-bleed photo backgrounds with the creatives' dark falloff */
 .photo { position: relative; isolation: isolate; background: var(--night); }
-.photo::before { content: ""; position: absolute; inset: 0; z-index: -2; background: var(--bg) center / cover no-repeat; }
+.photo::before { content: ""; position: absolute; inset: 0; z-index: -2; background: var(--bg) var(--pos, center) / cover no-repeat; transform: var(--flip, none); }
+.photo.flip::before { --flip: scaleX(-1); }
 .photo::after { content: ""; position: absolute; inset: 0; z-index: -1;
   background: var(--shade, linear-gradient(90deg, rgba(8,9,7,.94) 0%, rgba(8,9,7,.78) 42%, rgba(8,9,7,.25) 100%)); }
+.photo.busy::after { --shade: linear-gradient(90deg, rgba(8,9,7,.97) 0%, rgba(8,9,7,.9) 40%, rgba(8,9,7,.62) 70%, rgba(8,9,7,.4) 100%); }
 .photo.shade-bottom::after { --shade: linear-gradient(180deg, rgba(8,9,7,.55) 0%, rgba(8,9,7,.35) 40%, rgba(8,9,7,.92) 100%); }
 .photo.shade-full::after { --shade: linear-gradient(180deg, rgba(8,9,7,.82), rgba(8,9,7,.9)); }
 .photo.blurred::before { filter: blur(28px) saturate(115%); transform: scale(1.12); }
@@ -112,7 +114,7 @@ button { font: inherit; color: inherit; }
   box-shadow: 0 30px 80px rgba(0,0,0,.45), inset 0 1px rgba(255,255,255,.07); }
 .glass-solid { position: relative; border-radius: var(--r-lg); border: 1px solid rgba(255,255,255,.14); background: #121211; box-shadow: 0 30px 80px rgba(0,0,0,.5); }
 .glass-row { border-radius: 18px; border: 1px solid var(--w18); padding: 18px 22px; display: flex; align-items: center; justify-content: space-between; gap: 14px; background: rgba(255,255,255,.02); }
-.status-pill { display: inline-flex; align-items: center; gap: 10px; padding: 9px 16px; border-radius: 999px; border: 1px solid var(--w18); font: 400 12.5px var(--sans); letter-spacing: .12em; text-transform: uppercase; color: var(--w90); background: rgba(255,255,255,.04); }
+.status-pill { white-space: nowrap; flex: none; display: inline-flex; align-items: center; gap: 10px; padding: 9px 16px; border-radius: 999px; border: 1px solid var(--w18); font: 400 12.5px var(--sans); letter-spacing: .12em; text-transform: uppercase; color: var(--w90); background: rgba(255,255,255,.04); }
 .status-pill::before { content: ""; width: 12px; height: 12px; border-radius: 50%; border: 1.3px solid currentColor; box-shadow: inset 0 0 0 2.5px #121211, inset 0 0 0 10px currentColor; }
 .circles { display: flex; gap: clamp(6px, 1.2vw, 12px); }
 .circles i { flex: 1 1 0; max-width: 52px; min-width: 0; aspect-ratio: 1; border-radius: 50%; border: 1.3px solid var(--w55); display: grid; place-items: center; font: 400 12px var(--sans); font-style: normal; color: var(--w55); transition: background .3s, border-color .3s; }
@@ -186,7 +188,7 @@ button { font: inherit; color: inherit; }
 .ring .val { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; }
 .ring .val b { font: 500 74px/1 var(--serif); letter-spacing: -.04em; }
 .ring .val span { font: 300 13px var(--sans); color: var(--w55); margin-top: 4px; }
-.tag { display: inline-flex; align-items: center; gap: 10px; padding: 8px 15px; border-radius: 999px; border: 1px solid var(--w18); font: 400 12px var(--sans); letter-spacing: .14em; text-transform: uppercase; color: var(--w90); }
+.tag { white-space: nowrap; flex: none; display: inline-flex; align-items: center; gap: 10px; padding: 8px 15px; border-radius: 999px; border: 1px solid var(--w18); font: 400 12px var(--sans); letter-spacing: .14em; text-transform: uppercase; color: var(--w90); }
 .tag::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; }
 .tag.ok { color: var(--sage); border-color: rgba(169,183,154,.35); }
 .tag.watch { color: var(--amber-soft); border-color: rgba(227,201,160,.35); }

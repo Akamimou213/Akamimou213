@@ -20,6 +20,23 @@ node --test tools/tools.test.mjs              # chart, color, bloating, prep log
 node --test tools/how-regular-are-you/quiz.test.mjs   # quiz scoring (11 tests)
 ```
 
+## Design system (v2, 20 Oct 2026)
+
+Built from Get Regular's brand creatives (Gut Check, Try This and meal-logging posts, story slides), not from generic UI:
+
+- **Photography first:** cinematic dark nature and organic shots (wet leaf, moss, lichen, dark water, candlelit food, dark wood) with a dark left-to-right falloff behind text. Stand-in Unsplash photos are in `_shared/img/` (credits in `_shared/img/CREDITS.md`); swap in brand photography before launch.
+- **Type:** a serif headline line (Newsreader 500) over a light Inter line, italic serif accent words ("are *you*?", "what *happens*"), Inter 300 body.
+- **Components:** dark glass cards with hairline borders, outlined pills with line icons (the Meals / Stool / Check-ins connector), an underlined "→" CTA, `01.` hairline step labels, slide-dot progress, the 7-circle day row and "Active" status pill, and the "Get Regular · gut-health app" sign-off with the logo.
+- **Page structure** (every tool):
+  1. Photo hero with a live glass preview
+  2. The tool in a glass workspace, with the result inline
+  3. "How it works" steps
+  4. App section with phone + "Try This" card
+  5. Learn content on warm paper (answer box, table, FAQ, sources)
+  6. Photo cards for the other tools
+  7. Closing sign-off + footer
+- **Shared pieces** (`_shared/partials/*.html`, filled by `build.mjs`): head, nav, app section, final, and the related-tools grid (`<!-- @related slug -->`). The ableLead logo, the app screenshot and the fonts load from getregular.com / Google Fonts; in production, use the site's own assets.
+
 Structure: each tool has a pure logic module (`chart.js`, `colors.js`, `bloat.js`, `prep.js`, `quiz.js` + `copy.js`), an `index.html` (UI + server-renderable SEO content + JSON-LD), and the shared `_shared/base.css` (getregular.com palette and type) and `_shared/ui.js` (analytics, App Store links, email form, original stool drawings). Checked in Chromium at 1280px and 390px with no console errors (20 Oct 2026).
 
 **Porting to Next.js:** one route per tool. Server-render the hero and the `<article class="content">` section, so the H1, answer and table are in the HTML. Make the interactive part a client component that imports the logic module unchanged.

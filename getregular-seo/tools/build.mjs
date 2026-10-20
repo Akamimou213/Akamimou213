@@ -15,7 +15,7 @@ export const TOOLS = [
   { slug: "how-regular-are-you", title: "How regular are you?", blurb: "A 2-minute check of your bowel habits, with a score and your pattern.", img: "hero-leaf" },
   { slug: "bristol-stool-chart", title: "What's your poop type?", blurb: "Tap the shape that matches. See what it suggests, and log your week.", img: "moss" },
   { slug: "poop-color-chart", title: "What does the color mean?", blurb: "Food, worth watching, or a call to your doctor today.", img: "lichen" },
-  { slug: "why-am-i-bloated", title: "Why am I so bloated?", blurb: "Seven questions on timing and food. The patterns that fit.", img: "breakfast" },
+  { slug: "why-am-i-bloated", title: "Why am I so bloated?", blurb: "Seven questions on timing and food. The patterns that fit.", img: "kiwi-table" },
   { slug: "gi-appointment-prep", title: "Walk in prepared", blurb: "A one-page sheet for your gastroenterologist visit.", img: "ceramic" },
 ];
 
