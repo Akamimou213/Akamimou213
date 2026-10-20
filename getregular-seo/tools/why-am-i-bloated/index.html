@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Why Am I So Bloated? Free 1-Minute Bloating Pattern Check | Get Regular</title>
-<meta name="description" content="Answer 7 quick questions about when your bloating happens to see which common patterns fit, what to try first, and the signs that mean you should see a doctor. No email needed.">
+<meta name="description" content="Answer 7 quick questions about when your bloating happens to see which common patterns fit, what to try first, and the signs that mean you should see a doctor. Then run a free 7-day experiment.">
 <link rel="canonical" href="https://www.getregular.com/tools/why-am-i-bloated">
 <meta name="robots" content="noindex"><!-- PROTOTYPE -->
 <meta name="theme-color" content="#0b0c0a">
@@ -18,70 +18,86 @@
 ]}
 </script>
 <style>
-  .curve { width: 100%; height: 120px; margin-top: 18px; }
   .pattern { padding: clamp(22px, 3vw, 32px); border-radius: 22px; border: 1px solid var(--w10); background: rgba(255,255,255,.02); }
-  .pattern + .pattern { margin-top: 14px; }
   .pattern .rank { font: 400 12px var(--sans); letter-spacing: .14em; text-transform: uppercase; color: var(--amber-soft); }
-  .pattern h3 { margin: 10px 0 10px; font: 500 clamp(26px, 2.8vw, 36px)/1.06 var(--serif); letter-spacing: -.02em; }
-  .pattern p { margin: 0 0 18px; color: var(--w70); }
+  .pattern h3 { margin: 10px 0 10px; font: 500 clamp(24px, 2.6vw, 32px)/1.06 var(--serif); letter-spacing: -.02em; }
+  .pattern p { margin: 0 0 16px; color: var(--w70); }
+  .exp-card { margin-top: 20px; padding: 20px; border-radius: 20px; border: 1px solid var(--w18); background: #121211; }
+  .exp-card .glass-row { margin-top: 14px; }
 </style>
 </head>
 <body>
 <!-- @include nav {"ct":"tool-bloat-check","cpp":"bloating"} -->
 
-<header class="hero photo grain busy" style="--bg:url(../_shared/img/kiwi-table.jpg);--pos:right center">
+<header class="hero hero-tool photo grain busy" style="--bg:url(../_shared/img/kiwi-table.jpg);--pos:right center">
   <div class="wrap grid">
     <div class="enter">
       <p class="label"><b>Free tool</b> · 1 minute · no email needed</p>
       <h1 class="headline"><span class="s">Why am I</span><span class="t">so <em>bloated</em>?</span></h1>
-      <p class="sub">Seven quick questions on when it happens, what you ate and how your gut's been. The common patterns that fit, and what to try first.</p>
-      <div class="actions"><button class="arrow-cta" id="start" type="button">Find my pattern <span class="ar">→</span></button></div>
+      <p class="sub">Seven quick questions on when it happens and what you ate. The patterns that fit, then one change to try for 7 days.</p>
+      <ul class="pills" style="margin-top:28px">
+        <li class="pill" data-icon="clock">Timing</li>
+        <li class="pill" data-icon="meals">Food</li>
+        <li class="pill" data-icon="leaf">7-day experiment</li>
+      </ul>
     </div>
-    <div class="glass preview enter" style="animation-delay:.15s" aria-hidden="true">
-      <p class="muted small" style="margin:0">Bloating through the day</p>
-      <svg class="curve" viewBox="0 0 400 120" fill="none"><path d="M0 104 C70 102 90 96 130 84 S200 50 240 46 S330 22 400 14" stroke="#e3c9a0" stroke-width="2"/><path d="M0 104 C70 102 90 96 130 84 S200 50 240 46 S330 22 400 14 V120 H0Z" fill="url(#g)"/><defs><linearGradient id="g" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#e3c9a0" stop-opacity=".22"/><stop offset="1" stop-color="#e3c9a0" stop-opacity="0"/></linearGradient></defs><g fill="rgba(255,255,255,.45)" font-family="Inter" font-size="11"><text x="0" y="118">Wake</text><text x="120" y="118">Lunch</text><text x="232" y="118">Dinner</text><text x="352" y="118">Bed</text></g></svg>
-      <div class="glass-row" style="margin-top:16px"><span class="small">Flat on waking, bigger by evening</span><span class="tag ok">Meal-related</span></div>
+
+    <div class="glass live enter" id="card" style="animation-delay:.12s">
+      <div class="welcome" id="welcome" hidden></div>
+
+      <div id="qView" aria-live="polite">
+        <div class="live-head"><div class="dots" id="dots" aria-hidden="true"></div><span class="muted tiny" id="stepTxt"></span></div>
+        <h2 class="q" id="qtitle" tabindex="-1"></h2>
+        <p class="help" id="qhelp"></p>
+        <div class="opts" id="opts" role="group"></div>
+        <div class="forming" id="forming" aria-live="polite"></div>
+        <div class="tool-foot" style="margin-top:20px"><button class="link" id="back" type="button">← Back</button><button class="btn btn-white" id="next" type="button" disabled>Next</button></div>
+      </div>
+
+      <div id="rView" class="inline-result" hidden>
+        <div class="live-head"><span class="name">Your closest pattern</span><button class="link" id="retake" type="button">Retake</button></div>
+        <div class="alert" id="doctor" hidden role="alert" style="margin:0 0 18px"><span class="ico">!</span><div><h3>See a doctor about your bloating</h3><p>Your answers include signs doctors want to check in person. Most bloating turns out to be harmless, but these shouldn't wait on an app. <span id="ovarianNote" hidden>For women, especially over 50, frequent new bloating, early fullness or urinary changes should be checked for ovarian causes.</span> <span class="cite" style="display:block;margin-top:6px">Sources: <a href="https://pubmed.ncbi.nlm.nih.gov/37452811/">AGA 2023</a> · <a href="https://www.nice.org.uk/guidance/ng12/chapter/Recommendations-organised-by-site-of-cancer">NICE NG12</a></span></p></div></div>
+        <span class="tag ok" id="rTag">Closest match</span>
+        <h3 class="result-title" id="rHead" tabindex="-1"></h3>
+        <p class="result-body" id="rBody"></p>
+        <div class="exp-card" id="expOffer" hidden>
+          <p class="h3" style="margin:0">Try This</p>
+          <div class="glass-row"><span id="expTitle"></span><span class="status-pill">7 days</span></div>
+          <p class="muted small" id="expHow" style="margin:14px 0 0"></p>
+          <div class="actions-row"><button class="btn btn-white" id="startExp" type="button">Start the 7-day experiment</button><a class="link" href="#more">All my patterns ↓</a></div>
+        </div>
+      </div>
+
+      <div id="eView" hidden>
+        <div class="live-head"><span class="name" id="eName"></span><span class="status-pill">Active</span></div>
+        <h2 class="q" id="eHead"></h2>
+        <p class="help" id="eHow"></p>
+        <div class="circles" id="eCircles" aria-hidden="true"></div>
+        <div class="exp-day"><span class="muted small">How bloated were you today?</span><div class="chips" id="eToday"></div></div>
+        <p class="muted small" id="eMsg" style="margin:16px 0 0"></p>
+        <div id="handoff"></div>
+        <div class="tool-foot" style="margin-top:16px"><button class="link" id="stopExp" type="button">End experiment</button><a class="link" href="#more">My patterns ↓</a></div>
+      </div>
     </div>
   </div>
 </header>
 
 <main>
-  <section class="sec photo blurred shade-full" id="check" style="--bg:url(../_shared/img/kiwi-table.jpg)" aria-label="The bloating check">
+  <section class="sec photo blurred shade-full" id="more" style="--bg:url(../_shared/img/kiwi-table.jpg)" aria-labelledby="moreH">
     <div class="wrap">
-      <div class="tool glass">
-        <div class="tool-top"><span class="name">Why am I so bloated?</span><div class="dots" id="dots" aria-hidden="true"></div><span class="muted tiny" id="stepTxt"></span></div>
-        <div class="tool-body" id="qView" aria-live="polite">
-          <h2 class="q" id="qtitle" tabindex="-1"></h2>
-          <p class="help" id="qhelp"></p>
-          <div class="opts" id="opts" role="group"></div>
-          <div class="tool-foot"><button class="link" id="back" type="button">← Back</button><button class="btn btn-white" id="next" type="button" disabled>Next</button></div>
-        </div>
-        <div class="tool-body" id="rView" hidden>
-          <div class="alert" id="doctor" hidden role="alert"><span class="ico">!</span><div><h3>See a doctor about your bloating</h3><p>Your answers include signs doctors want to check in person. Most bloating turns out to be harmless, but these signs shouldn't wait on an app. <span id="ovarianNote" hidden>For women, especially over 50, frequent new bloating, early fullness or urinary changes should be checked for ovarian causes.</span> <span class="cite" style="display:block;margin-top:6px">Sources: <a href="https://pubmed.ncbi.nlm.nih.gov/37452811/">AGA 2023</a> · <a href="https://www.nice.org.uk/guidance/ng12/chapter/Recommendations-organised-by-site-of-cancer">NICE NG12</a></span></p></div></div>
-          <p class="label"><b>Patterns that fit your answers</b></p>
-          <div id="patterns"></div>
-          <p class="cite">These are common explanations to discuss and test, not a diagnosis. Bloating often has more than one cause.</p>
-          <div class="panel-grid">
-            <div class="panel">
-              <h4>Make a 2-week bloat map</h4>
-              <div class="circles" aria-hidden="true"><i>M</i><i>T</i><i>W</i><i>T</i><i>F</i><i>S</i><i>S</i></div>
-              <p class="muted small" style="margin:16px 0 20px">Meals, bowel movements, symptoms and your cycle on one timeline. See what lines up with your worst days.</p>
-              <a class="btn btn-white js-appstore" data-ct="tool-bloat-check-result" data-cpp="bloating" href="#">Start in Get Regular</a>
-            </div>
-            <div class="panel mail">
-              <h4>Email me my patterns</h4>
-              <p class="muted small" style="margin:0">Optional, with a printable bloat map.</p>
-              <form class="mail-form" id="mailForm" novalidate>
-                <div class="row"><input type="email" required autocomplete="email" placeholder="you@example.com" aria-label="Email address"></div>
-                <label class="consent"><input type="checkbox" name="consentHealth" required> <span>I consent to Get Regular storing my answers with my email to send my results. This is health information; I can withdraw consent at any time. <a href="/legal/consumer-health-data-privacy">Policy</a>.</span></label>
-                <label class="consent"><input type="checkbox" name="consentNews"> <span>Also send me Get Regular's gut-health emails.</span></label>
-                <button class="btn btn-ghost" type="submit" style="justify-self:start">Send it to me</button>
-                <p class="status" role="status"></p>
-              </form>
-            </div>
-          </div>
-          <div class="tool-foot"><button class="link" id="retake" type="button">Retake the check</button><span class="muted tiny">Answers stay in your browser.</span></div>
-        </div>
+      <p class="label"><b>Your patterns</b></p>
+      <h2 class="h2" id="moreH" style="max-width:18ch">Bloating rarely has<span class="t">just <em>one</em> cause.</span></h2>
+      <p class="sub" id="moreEmpty">Answer the questions above to see the patterns that fit you here.</p>
+      <div class="grid-patterns" id="patterns" style="display:grid;gap:14px;margin-top:40px"></div>
+      <p class="cite" id="moreNote" hidden>These are common explanations to discuss and test, not a diagnosis.</p>
+      <div class="panel mail" id="mailPanel" hidden style="margin-top:14px">
+        <h4>Email me my patterns and a printable bloat map</h4>
+        <form class="mail-form" id="mailForm" novalidate>
+          <div class="row"><input type="email" required autocomplete="email" placeholder="you@example.com" aria-label="Email address"><button class="btn btn-ghost" type="submit">Send it to me</button></div>
+          <label class="consent"><input type="checkbox" name="consentHealth" required> <span>I consent to Get Regular storing my answers with my email to send my results. This is health information; I can withdraw consent at any time. <a href="/legal/consumer-health-data-privacy">Policy</a>.</span></label>
+          <label class="consent"><input type="checkbox" name="consentNews"> <span>Also send me Get Regular's gut-health emails.</span></label>
+          <p class="status" role="status"></p>
+        </form>
       </div>
     </div>
   </section>
@@ -99,7 +115,7 @@
     </div>
   </section>
 
-  <!-- @include app {"img":"wood","label":"From a feeling to a pattern","title_s":"Try one change.","title_t":"Track what <em>happens</em>.","sub":"Test one suspect food at a time with a guided Experiment, and log bloating at waking and bedtime.","try":"Swap fizzy drinks for still","caption":"Log bowel movements and bloating.","ct":"tool-bloat-check","cpp":"bloating"} -->
+  <!-- @include app {"img":"wood","label":"From a feeling to a pattern","title_s":"Try one change.","title_t":"Track what <em>happens</em>.","sub":"Get Regular runs the experiment with you: daily check-ins, your meals and bowel movements on one timeline, and a Weekly Digest of what changed.","try":"Pause one suspect food","caption":"Log bowel movements and bloating.","ct":"tool-bloat-check","cpp":"bloating"} -->
 
   <section class="content-sec sec paper" aria-labelledby="learnH">
     <div class="wrap split">
@@ -129,7 +145,8 @@
         <h2>Questions</h2>
         <div class="faq">
           <details><summary>Is bloating the same as belly fat?</summary><p>No. Bloating and distension come and go, often flatter in the morning and bigger by evening. A belly that's the same size all day and doesn't change with meals or bowel movements is worth checking with a doctor.</p></details>
-          <details><summary>Should I cut out lots of foods?</summary><p>Test one suspect at a time for about 2 weeks. Cutting many foods at once makes it hard to learn anything. A dietitian can guide a low-FODMAP trial <a href="https://pubmed.ncbi.nlm.nih.gov/37452811/">[1]</a>. See <a href="/science/evidence/bloating-research">what the research says about bloating</a>.</p></details>
+          <details><summary>Why only one change at a time?</summary><p>Cutting many foods at once makes it impossible to tell what helped, and can affect nutrition. Test one suspect for about a week or two. A dietitian can guide a low-FODMAP trial <a href="https://pubmed.ncbi.nlm.nih.gov/37452811/">[1]</a>. See <a href="/science/evidence/bloating-research">what the research says about bloating</a>.</p></details>
+          <details><summary>Where are my answers saved?</summary><p>Only in this browser, so you can come back and log your experiment. Nothing is sent to us unless you ask for an email.</p></details>
           <details><summary>Do I need tests?</summary><p>Most people don't need scans or scopes. Tests are for warning signs, recent worsening or an abnormal exam <a href="https://pubmed.ncbi.nlm.nih.gov/37452811/">[1]</a>.</p></details>
         </div>
         <div class="sources"><strong>Sources</strong><ol><li>Moshiree B et al. AGA Clinical Practice Update. <em>Gastroenterology</em> 2023</li><li>Oh JE et al. <em>Clin Gastroenterol Hepatol</em> 2023</li><li>Houghton LA et al. <em>Gastroenterology</em> 2006</li><li>NICE NG12. Suspected cancer: recognition and referral</li></ol>
@@ -144,37 +161,100 @@
 <!-- @include final {"img":"water","ct":"tool-bloat-check","cpp":"bloating"} -->
 
 <script type="module">
-import { BLOAT_QUESTIONS, BLOAT_PATTERNS, BLOAT_SOURCES, matchBloat } from "./bloat.js";
-import { track, wireAppStore, esc, sourceLinks, wireEmail, createStepper } from "../_shared/ui.js";
+import { BLOAT_QUESTIONS, BLOAT_PATTERNS, BLOAT_SOURCES, BLOAT_LEVELS, matchBloat, experimentFor, experimentProgress } from "./bloat.js";
+import { dayKey, lastDays } from "../bristol-stool-chart/chart.js";
+import { track, wireAppStore, esc, sourceLinks, wireEmail, createStepper, ICONS, store, renderHandoff, showStickyBar } from "../_shared/ui.js";
 
 const $ = (id) => document.getElementById(id);
+const KEY = "gr-bloat-v1";
+const today = new Date(), TODAY = dayKey(today);
+let saved = store.get(KEY, null); // { answers, patterns, exp: { key, start, log } }
+document.querySelectorAll("[data-icon]").forEach((el) => el.insertAdjacentHTML("afterbegin", ICONS[el.dataset.icon] || ""));
 wireAppStore("why-am-i-bloated");
+
+function view(name) {
+  for (const v of ["qView", "rView", "eView"]) $(v).hidden = v !== name;
+  const el = $(name); el.classList.remove("enter"); void el.offsetWidth; el.classList.add("enter");
+}
+
+/* Live hint while answering: which patterns the answers point to so far. */
+function forming(ans) {
+  if (!Object.keys(ans).length) { $("forming").innerHTML = ""; return; }
+  const r = matchBloat(ans);
+  $("forming").innerHTML = `<span>Pointing to:</span>` + r.patterns.map((k) => `<span class="tag ok">${esc(BLOAT_PATTERNS[k].title)}</span>`).join("");
+}
+
 const stepper = createStepper({
-  tool: "why-am-i-bloated",
+  tool: "why-am-i-bloated", history: true,
   questions: BLOAT_QUESTIONS,
   els: { dots: $("dots"), stepTxt: $("stepTxt"), title: $("qtitle"), help: $("qhelp"), opts: $("opts"), back: $("back"), next: $("next"), view: $("qView") },
-  onDone: show,
+  onChange: forming,
+  onDone: (ans) => { const r = matchBloat(ans); saved = { answers: { ...ans }, patterns: r.patterns, flags: r.flags, seeDoctor: r.seeDoctor, exp: saved && saved.exp || null }; store.set(KEY, saved); track("quiz_complete", { tool: "why-am-i-bloated" }); showResult(); },
 });
 
-function show(ans) {
-  const r = matchBloat(ans);
-  track("quiz_complete", { tool: "why-am-i-bloated" });
-  $("qView").hidden = true; $("rView").hidden = false;
-  $("doctor").hidden = !r.seeDoctor;
-  $("ovarianNote").hidden = !r.flags.includes("ovarian");
-  $("patterns").innerHTML = r.patterns.map((k, n) => {
+function showResult() {
+  const top = BLOAT_PATTERNS[saved.patterns[0]];
+  $("doctor").hidden = !saved.seeDoctor;
+  $("ovarianNote").hidden = !(saved.flags || []).includes("ovarian");
+  $("rHead").textContent = top.title;
+  $("rBody").textContent = top.body;
+  const exp = experimentFor(saved.patterns);
+  $("expOffer").hidden = !exp;
+  if (exp) { $("expTitle").textContent = exp.title; $("expHow").textContent = exp.how; }
+  renderPatterns();
+  view("rView");
+  $("rHead").focus({ preventScroll: true });
+  showStickyBar({ cpp: "bloating", ct: "tool-bloat-check-sticky", text: "Track your bloating in the app" });
+}
+
+function renderPatterns() {
+  $("moreEmpty").hidden = true; $("moreNote").hidden = false; $("mailPanel").hidden = false;
+  $("patterns").innerHTML = saved.patterns.map((k, n) => {
     const p = BLOAT_PATTERNS[k];
     return `<div class="pattern"><span class="rank">${n === 0 ? "Closest match" : "Also possible"}</span><h3>${esc(p.title)}</h3><p>${esc(p.body)}</p>
       <ul class="ticks">${p.next.map((x) => `<li>${esc(x)}</li>`).join("")}</ul>
       <p class="cite" style="margin-bottom:0"><a href="${p.learn}">Read the guide</a> · Sources: ${sourceLinks(p.cite, BLOAT_SOURCES)}</p></div>`;
   }).join("");
-  $("check").scrollIntoView({ behavior: "smooth", block: "start" });
 }
 
-$("start").onclick = () => { track("quiz_start", { tool: "why-am-i-bloated" }); $("check").scrollIntoView({ behavior: "smooth", block: "start" }); };
-$("retake").onclick = () => { $("rView").hidden = true; $("qView").hidden = false; stepper.reset(); };
-wireEmail($("mailForm"), { tool: "why-am-i-bloated", getPayload: () => { const r = matchBloat(stepper.answers); return { patterns: r.patterns, see_doctor: r.seeDoctor }; } });
-stepper.render();
+function showExperiment() {
+  const e = saved.exp, def = experimentFor([e.key]);
+  const start = new Date(e.start + "T12:00:00");
+  const days = Array.from({ length: 7 }, (_, k) => { const d = new Date(start); d.setDate(d.getDate() + k); return dayKey(d); });
+  const dayN = Math.min(7, Math.max(1, Math.round((new Date(TODAY + "T12:00:00") - start) / 864e5) + 1));
+  const prog = experimentProgress(e.log);
+  $("eName").textContent = `Try This · day ${dayN} of 7`;
+  $("eHead").textContent = def.title;
+  $("eHow").textContent = def.how + ` Watch: ${def.watch}.`;
+  $("eCircles").innerHTML = days.map((k, i) => {
+    const v = e.log[k]; const on = v !== undefined;
+    return `<i class="${on ? "on" : ""}" title="${k}">${on ? ["–", "~", "!"][+v] : i + 1}</i>`;
+  }).join("");
+  const inRange = days.includes(TODAY);
+  $("eToday").innerHTML = inRange ? BLOAT_LEVELS.map(([v, l]) => `<button class="chip" type="button" data-v="${v}" aria-pressed="${String(e.log[TODAY]) === v}">${l}</button>`).join("") : "";
+  $("eToday").querySelectorAll(".chip").forEach((b) => b.onclick = () => { e.log[TODAY] = +b.dataset.v; store.set(KEY, saved); track("tool_use", { tool: "why-am-i-bloated", action: "exp_log" }); showExperiment(); });
+  const msgs = { better: "Your last few days look better than your first few. Worth keeping this change, and testing it once more.", worse: "Your last few days look worse than your first few. This change may not be the one; try the next pattern.", same: "No clear change yet. That's useful too: this may not be your trigger." };
+  $("eMsg").textContent = !inRange ? "This experiment's 7 days are over. Start a new one from your patterns, or keep tracking in the app."
+    : e.log[TODAY] === undefined ? "Log today, then come back tomorrow. Your progress stays on this device."
+    : prog.verdict ? msgs[prog.verdict] : `Logged ${prog.logged} of 7 days. Come back tomorrow.`;
+  renderHandoff($("handoff"), { cpp: "bloating", ct: "tool-bloat-check-exp", title: "Run it in Get Regular", body: "Experiments in the app send daily check-ins and put your meals and bowel movements next to your bloating (subscription).", cta: "Continue in Get Regular" });
+  view("eView");
+}
+
+$("startExp").onclick = () => {
+  const exp = experimentFor(saved.patterns);
+  saved.exp = { key: exp.key, start: TODAY, log: {} }; store.set(KEY, saved);
+  track("tool_use", { tool: "why-am-i-bloated", action: "exp_start" });
+  showExperiment();
+};
+$("stopExp").onclick = () => { saved.exp = null; store.set(KEY, saved); showResult(); };
+$("retake").onclick = () => { stepper.reset(); forming({}); view("qView"); };
+wireEmail($("mailForm"), { tool: "why-am-i-bloated", getPayload: () => ({ patterns: saved && saved.patterns, see_doctor: saved && saved.seeDoctor }) });
+
+/* ---------- start: resume where the visitor left off ---------- */
+if (saved && saved.exp) { $("welcome").hidden = false; $("welcome").textContent = "Welcome back. Log today's bloating to keep your experiment going."; renderPatterns(); showExperiment(); }
+else if (saved && saved.patterns) { $("welcome").hidden = false; $("welcome").textContent = "Welcome back. Here's your pattern from last time."; showResult(); }
+else { stepper.render(); }
 </script>
 </body>
 </html>

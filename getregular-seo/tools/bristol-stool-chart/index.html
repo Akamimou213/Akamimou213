@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Bristol Stool Chart: What's Your Poop Type? (Interactive) | Get Regular</title>
-<meta name="description" content="Tap the shape that looks like your poop to see what your stool type suggests, what usually causes it, and when to see a doctor. Plus a free 7-day stool log.">
+<meta name="description" content="Tap the shape that looks like your poop to see what your stool type suggests and when to see a doctor. Log today, build your week, and track your streak. Free, no sign-up.">
 <link rel="canonical" href="https://www.getregular.com/tools/bristol-stool-chart">
 <meta name="robots" content="noindex"><!-- PROTOTYPE -->
 <meta name="theme-color" content="#0b0c0a">
@@ -18,112 +18,95 @@
 ]}
 </script>
 <style>
-  .chart-row { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; margin-top: 18px; }
-  .chart-row span { height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 12px; border: 1px solid var(--w10); }
-  .chart-row span.on { border-color: var(--amber-soft); background: rgba(227,201,160,.08); }
-  .chart-row svg { width: 80%; height: 26px; }
-  .week { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; }
-  .day { display: grid; gap: 10px; justify-items: center; }
-  .day b { font: 400 13px var(--sans); color: var(--w55); }
-  .day button { width: 100%; aspect-ratio: 1; max-width: 64px; border-radius: 50%; border: 1.3px solid var(--w35); background: transparent; cursor: pointer; display: grid; place-items: center; color: var(--amber-soft); font: 500 18px var(--serif); transition: transform .4s var(--spring), border-color .2s, background .2s; }
-  .day button:hover { transform: translateY(-2px); border-color: var(--w70); }
-  .day button.set { border-color: var(--amber-soft); background: rgba(227,201,160,.12); }
-  .day button.none { color: var(--w55); font: 300 12px var(--sans); }
-  .picker { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
-  .bars { display: grid; gap: 10px; margin-top: 18px; }
-  .bar { display: grid; grid-template-columns: 170px 1fr 28px; gap: 14px; align-items: center; font-size: 15px; color: var(--w70); }
-  .bar i { display: block; height: 6px; border-radius: 6px; background: var(--amber-soft); transition: width .6s var(--ease); }
-  @media (max-width: 560px) { .week { gap: 6px; } .bar { grid-template-columns: 112px 1fr 24px; font-size: 13.5px; } }
+  .types-list { display: grid; gap: 10px; }
+  .type-row { display: grid; grid-template-columns: 120px 90px 1fr auto; gap: 18px; align-items: center; padding: 16px 20px; border-radius: 18px; border: 1px solid var(--w10); background: rgba(255,255,255,.02); cursor: pointer; text-align: left; transition: border-color .2s, background .2s; }
+  .type-row:hover { border-color: var(--w35); }
+  .type-row[aria-current="true"] { border-color: var(--amber-soft); background: rgba(227,201,160,.07); }
+  .type-row svg { width: 110px; height: 34px; }
+  .type-row .n { font: 500 22px var(--serif); }
+  .type-row .l { color: var(--w70); }
+  @media (max-width: 720px) { .type-row { grid-template-columns: 84px 1fr; gap: 6px 14px; } .type-row svg { width: 80px; } .type-row .n { grid-row: span 2; display: none; } .type-row .tag { justify-self: start; } }
 </style>
 </head>
 <body>
 <!-- @include nav {"ct":"tool-stool-chart","cpp":"default"} -->
 
-<header class="hero photo grain" style="--bg:url(../_shared/img/moss.jpg)">
+<header class="hero hero-tool photo grain" style="--bg:url(../_shared/img/moss.jpg)">
   <div class="wrap grid">
     <div class="enter">
-      <p class="label"><b>Free tool</b> · stool type chart · 7-day log</p>
+      <p class="label"><b>Free tool</b> · 5 seconds · no sign-up</p>
       <h1 class="headline"><span class="s">What's your</span><span class="t">poop <em>type</em>?</span></h1>
-      <p class="sub">Tap the shape that looks like yours. See what it suggests, what usually causes it, and when to call a doctor.</p>
-      <div class="actions"><a class="arrow-cta" href="#chart">Open the chart <span class="ar">→</span></a></div>
+      <p class="sub">Tap the shape that looks like today's. See what it suggests, log it, and start your week. Your log stays on this device.</p>
+      <ul class="pills" style="margin-top:28px">
+        <li class="pill" data-icon="stool">Your type</li>
+        <li class="pill" data-icon="calendar">Your week</li>
+        <li class="pill" data-icon="checkins">Your streak</li>
+      </ul>
     </div>
-    <div class="glass preview enter" style="animation-delay:.15s" aria-hidden="true">
-      <p class="muted small" style="margin:0">Type 4 · often considered ideal</p>
-      <p class="h3" style="margin:10px 0 0">A smooth, soft log, easy to pass.</p>
-      <div class="chart-row" id="heroRow"></div>
-      <div class="glass-row" style="margin-top:22px"><span class="small">Log your week</span><span class="status-pill">7 days</span></div>
+
+    <div class="glass live enter" id="card" style="animation-delay:.12s" aria-live="polite">
+      <div class="welcome" id="welcome" hidden></div>
+
+      <div id="sPick">
+        <div class="live-head"><span class="name" id="pickDay"></span><span class="tag ok">Step 1 of 2</span></div>
+        <h2 class="q">Which looks like <em>today's</em>?</h2>
+        <p class="help">Tap the closest shape. Wording and drawings are our own.</p>
+        <div class="mini-tiles" id="tiles" role="group" aria-label="Stool types"></div>
+      </div>
+
+      <div id="sResult" class="inline-result" hidden>
+        <div class="live-head"><span class="name" id="resDay"></span><span class="tag ok">Step 2 of 2</span></div>
+        <div class="alert urgent" id="rUrgent" hidden style="margin:0 0 18px"><span class="ico">!</span><div><h3>Talk to a doctor right away if…</h3><p>it lasts more than 2 days, or comes with a high fever, 6 or more loose stools a day, severe pain, black or bloody stool, or signs of dehydration. <span class="cite" style="display:block;margin-top:6px">Source: <a href="https://www.niddk.nih.gov/health-information/digestive-diseases/diarrhea/symptoms-causes">NIDDK</a></span></p></div></div>
+        <span class="tag" id="rTag"></span>
+        <h3 class="result-title" id="rHead" tabindex="-1"></h3>
+        <p class="result-body" id="rBody"></p>
+        <div class="actions-row">
+          <button class="btn btn-white" id="logIt" type="button">Log it for today</button>
+          <button class="link" id="again" type="button">Pick again</button>
+          <a class="link" href="#detail" id="moreLink">What this means ↓</a>
+        </div>
+      </div>
+
+      <div id="sLogged" hidden>
+        <div class="live-head"><span class="name">Your week</span><span class="tag ok" id="loggedTag">Logged today</span></div>
+        <h2 class="q" id="weekHead"></h2>
+        <div class="strip" id="strip"></div>
+        <p class="muted tiny" style="margin:8px 0 0">Tap any day in the last week to add or change it.</p>
+        <div class="picker-sheet" id="picker" hidden></div>
+        <div class="stats">
+          <div class="stat"><b id="stStreak">0</b><span>day streak in types 3–4</span></div>
+          <div class="stat"><b id="stDays">0</b><span>days logged</span></div>
+          <div class="stat"><b id="stIdeal">0</b><span>formed days this week</span></div>
+        </div>
+        <div id="handoff"></div>
+        <details class="faq" style="margin-top:14px"><summary style="font-size:16px;padding:16px 0">Remind me to log tomorrow</summary>
+          <form class="mail-form" id="mailForm" novalidate style="margin:0 0 18px">
+            <div class="row"><input type="email" required autocomplete="email" placeholder="you@example.com" aria-label="Email address"><button class="btn btn-ghost" type="submit">Remind me</button></div>
+            <label class="consent"><input type="checkbox" name="consentHealth" required> <span>I agree to Get Regular emailing me log reminders about bowel habits. This is health information; I can unsubscribe and ask for deletion any time. <a href="/legal/consumer-health-data-privacy">Policy</a>.</span></label>
+            <p class="status" role="status"></p>
+          </form>
+        </details>
+      </div>
     </div>
   </div>
 </header>
 
 <main>
-  <section class="sec photo blurred shade-full" id="chart" style="--bg:url(../_shared/img/moss.jpg)" aria-label="Stool type chart">
-    <div class="wrap" style="display:grid;gap:22px">
-      <div class="tool glass">
-        <div class="tool-top"><span class="name">What's your poop type?</span><span class="muted tiny">Tap one</span></div>
-        <div class="tool-body">
-          <h2 class="q">Which looks most like <em>yours</em>?</h2>
-          <p class="help">Doctors use a 7-type stool chart first described by Lewis &amp; Heaton in 1997. The wording and drawings here are our own.</p>
-          <div class="opts tiles" id="types" role="group" aria-label="Stool types"></div>
-
-          <div id="detail" hidden aria-live="polite" style="margin-top:44px;padding-top:40px;border-top:1px solid var(--w10)">
-            <div class="alert urgent" id="dUrgent" hidden><span class="ico">!</span><div><h3>Talk to a doctor right away if…</h3><p>…it lasts more than 2 days, or comes with a high fever, 6 or more loose stools a day, severe belly or rectal pain, black or bloody stool, or signs of dehydration (dizziness, dark urine, very little urine). <span class="cite" style="display:block;margin-top:6px">Source: <a href="https://www.niddk.nih.gov/health-information/digestive-diseases/diarrhea/symptoms-causes">NIDDK</a></span></p></div></div>
-            <span class="tag" id="dLevel"></span>
-            <h3 class="result-title" id="dHead"></h3>
-            <p class="result-body" id="dSuggests"></p>
-            <div class="panel-grid">
-              <div class="panel"><h4>Common reasons</h4><ul class="ticks" id="dReasons"></ul></div>
-              <div class="panel"><h4>What to try</h4><ul class="ticks" id="dTry"></ul></div>
-            </div>
-            <p class="cite" id="dCite"></p>
-          </div>
-        </div>
-      </div>
-
-      <div class="tool glass" aria-labelledby="weekH">
-        <div class="tool-top"><span class="name" id="weekH">Log your week</span><span class="muted tiny">Stays on your device</span></div>
-        <div class="tool-body">
-          <h2 class="q">One poop says little. <em>A week</em> says a lot.</h2>
-          <p class="help">Tap a day, then pick your usual type for that day (or "none").</p>
-          <div class="week" id="week"></div>
-          <div class="picker" id="picker" hidden></div>
-          <div id="weekOut" hidden style="margin-top:36px">
-            <p class="h3" id="weekHead"></p>
-            <div class="bars" id="bars"></div>
-          </div>
-          <div class="tool-foot"><button class="link" id="clearWeek" type="button">Clear my week</button><a class="btn btn-white js-appstore" data-ct="tool-stool-chart-week" data-cpp="default" href="#">Keep logging in the app</a></div>
-        </div>
-      </div>
-
-      <div class="tool glass no-print">
-        <div class="tool-body" style="padding-block:clamp(26px,4vw,44px)">
-          <div class="panel mail" style="border:0;padding:0;background:none">
-            <h4>Get the printable chart and a 2-week log</h4>
-            <p class="muted small" style="margin:0">Optional. We'll email a printable stool-type chart and log sheet.</p>
-            <form class="mail-form" id="mailForm" novalidate>
-              <div class="row"><input type="email" required autocomplete="email" placeholder="you@example.com" aria-label="Email address"><button class="btn btn-ghost" type="submit">Email it to me</button></div>
-              <label class="consent"><input type="checkbox" name="consentNews"> <span>Also send me Get Regular's gut-health emails.</span></label>
-              <p class="status" role="status"></p>
-            </form>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-
-  <section class="sec photo shade-bottom flip" style="--bg:url(../_shared/img/ocean.jpg)" aria-labelledby="howH">
+  <section class="sec photo blurred shade-full" id="detail" style="--bg:url(../_shared/img/moss.jpg)" aria-labelledby="detH">
     <div class="wrap">
-      <p class="label"><b>How to read it</b></p>
-      <h2 class="h2" id="howH" style="max-width:17ch">Shape is a clue.<span class="t">Speed is the story.</span></h2>
-      <div class="steps" style="margin-top:clamp(48px,6vw,88px)">
-        <div class="step"><p class="h3">Hard and lumpy</p><p>Types 1–2 usually mean stool spent a long time in the colon. A common sign of constipation.</p></div>
-        <div class="step"><p class="h3">Smooth and formed</p><p>Types 3–4 are often considered ideal, and type 5 is common too. Some variation day to day is normal.</p></div>
-        <div class="step"><p class="h3">Mushy or liquid</p><p>Types 6–7 mean food moved through quickly. Diarrhea lasting more than 2 days needs a doctor.</p></div>
+      <p class="label"><b>The 7 types</b></p>
+      <h2 class="h2" id="detH" style="max-width:16ch">Shape is a clue.<span class="t">Speed is the story.</span></h2>
+      <p class="sub">Stool shape is a rough guide to how fast food moves through your gut. Tap a type for what it suggests, common reasons and what to try.</p>
+      <div class="detail-grid" style="margin-top:44px" id="detailCard" hidden>
+        <div class="panel"><h4 id="dTitle"></h4><p class="result-body" id="dSuggests" style="font-size:16px"></p></div>
+        <div class="panel"><h4>Common reasons</h4><ul class="ticks" id="dReasons"></ul></div>
+        <div class="panel"><h4>What to try</h4><ul class="ticks" id="dTry"></ul><p class="cite" id="dCite"></p></div>
       </div>
+      <div class="types-list" id="typesList" style="margin-top:22px" role="list"></div>
     </div>
   </section>
 
-  <!-- @include app {"img":"wood","label":"From one poop to a pattern","title_s":"Log it in seconds.","title_t":"See your <em>week</em>.","sub":"Get Regular logs each bowel movement from a photo or a tap, next to your meals and symptoms, and turns weeks of logs into a Doctor Report.","try":"Log your stool type daily","caption":"Seven days shows what one doesn't.","ct":"tool-stool-chart","cpp":"default"} -->
+  <!-- @include app {"img":"wood","label":"From one poop to a pattern","title_s":"Log it in seconds.","title_t":"See your <em>week</em>.","sub":"Get Regular logs each bowel movement from a photo or a tap, next to your meals and symptoms, keeps your streak, and turns weeks of logs into a Doctor Report.","try":"Log your stool type daily","caption":"Seven days shows what one doesn't.","ct":"tool-stool-chart","cpp":"default"} -->
 
   <section class="content-sec sec paper" aria-labelledby="learnH">
     <div class="wrap split">
@@ -140,6 +123,8 @@
         <p>Reasonably. In the original study, stool type tracked whole-gut transit time measured with markers <a href="https://pubmed.ncbi.nlm.nih.gov/9299672/">[1]</a>. When people classified stool models, 81% were correct overall, but borderline types (2, 3, 5 and 6) were harder <a href="https://pubmed.ncbi.nlm.nih.gov/27492648/">[2]</a>. More in <a href="/science/evidence/bristol-stool-scale">what the research says about the stool chart</a>.</p>
         <h2>What's normal?</h2>
         <p>In a US national survey, 96% of adults with normal bowel habits went between three times a day and three times a week <a href="https://pubmed.ncbi.nlm.nih.gov/28762379/">[4]</a>. Shape varies too: in a UK study only about 56–61% of stools were the "normal" types <a href="https://pubmed.ncbi.nlm.nih.gov/1624166/">[3]</a>. A lasting change from your normal matters more than any single day.</p>
+        <h2>What about color?</h2>
+        <p>Brown in any shade is normal. Green, yellow or orange is usually food. Black and tarry, red or maroon, or pale and clay-colored stool needs a doctor. See the <a href="/learn/poop-color-chart">poop color guide</a>.</p>
         <h2>When to see a doctor</h2>
         <ul>
           <li>Blood in your stool, or black, tarry stool</li>
@@ -150,8 +135,8 @@
         <h2>Questions</h2>
         <div class="faq">
           <details><summary>What's the healthiest poop type?</summary><p>Types 3 and 4 are often considered ideal: formed, soft and easy to pass. Type 5 is common too, and some researchers group types 3–5 as normal <a href="https://pubmed.ncbi.nlm.nih.gov/27492648/">[2]</a>.</p></details>
-          <details><summary>Is it bad to have type 6 or 7 sometimes?</summary><p>An occasional loose stool after coffee, a big meal or a stomach bug is common. Diarrhea lasting more than 2 days, or with fever, blood or dehydration, needs a doctor <a href="https://www.niddk.nih.gov/health-information/digestive-diseases/diarrhea/symptoms-causes">[5]</a>.</p></details>
-          <details><summary>Does my week log get saved anywhere?</summary><p>Only in your own browser. It isn't sent to us. Clear it any time.</p></details>
+          <details><summary>What counts toward my streak?</summary><p>Like in the Get Regular app, your streak counts consecutive days in the type 3–4 range. Days you didn't go don't break it; a day you didn't log does.</p></details>
+          <details><summary>Where is my log saved?</summary><p>Only in this browser on this device. It isn't sent to us. Clearing your browser data clears it.</p></details>
           <details><summary>Can an app tell my type from a photo?</summary><p>Some studies have tested AI on stool photos, with promising but early results. See <a href="/science/evidence/ai-stool-and-meal-photos">what the research says</a> and <a href="/science/how-our-ai-works">how our AI works</a>.</p></details>
         </div>
         <div class="sources"><strong>Sources</strong><ol><li>Lewis SJ, Heaton KW. <em>Scand J Gastroenterol</em> 1997</li><li>Blake MR et al. <em>Aliment Pharmacol Ther</em> 2016</li><li>Heaton KW et al. <em>Gut</em> 1992</li><li>Mitsuhashi S et al. <em>Am J Gastroenterol</em> 2018</li><li>NIDDK. Diarrhea</li><li>NIDDK. Constipation</li></ol>
@@ -166,67 +151,132 @@
 <!-- @include final {"img":"water","ct":"tool-stool-chart","cpp":"default"} -->
 
 <script type="module">
-import { TYPES, SOURCES, GROUP_LABEL, summarizeWeek } from "./chart.js";
-import { track, wireAppStore, esc, sourceLinks, wireEmail, stoolSvg } from "../_shared/ui.js";
+import { TYPES, SOURCES, dayKey, lastDays, snapshot, prune } from "./chart.js";
+import { track, wireAppStore, esc, sourceLinks, wireEmail, stoolSvg, ICONS, store, renderHandoff, showStickyBar } from "../_shared/ui.js";
 
 const $ = (id) => document.getElementById(id);
-const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
+const KEY = "gr-stool-log-v2";
+const today = new Date();
+const TODAY = dayKey(today);
+const fmt = (d) => d.toLocaleDateString("en-US", { weekday: "short", month: "short", day: "numeric" });
 const LEVEL = { ok: ["ok", "In the usual range"], watch: ["watch", "Worth watching"], warn: ["warn", "Diarrhea"] };
+let log = prune(store.get(KEY, {}), today);
+let selected = null;   // type picked in step 1 (1..7 or "none")
+let editing = TODAY;   // day the picker writes to
+
+document.querySelectorAll("[data-icon]").forEach((el) => el.insertAdjacentHTML("afterbegin", ICONS[el.dataset.icon] || ""));
 wireAppStore("bristol-stool-chart");
 
-$("heroRow").innerHTML = [1, 2, 3, 4, 5, 6, 7].map((t) => `<span class="${t === 4 ? "on" : ""}">${stoolSvg(t)}</span>`).join("");
-for (const t of [1, 2, 3, 4, 5, 6, 7]) {
-  const b = document.createElement("button");
-  b.type = "button"; b.className = "opt"; b.setAttribute("aria-pressed", "false");
-  b.innerHTML = `<span class="art">${stoolSvg(t)}</span><span class="t">Type ${t}</span><span class="d">${esc(TYPES[t].look)}</span>`;
-  b.onclick = () => show(t);
-  $("types").appendChild(b);
+/* ---------- tiles ---------- */
+function tilesHtml(active) {
+  return [1, 2, 3, 4, 5, 6, 7].map((t) => `<button type="button" class="mini" data-v="${t}" aria-pressed="${active === t}" aria-label="Type ${t}: ${esc(TYPES[t].look)}">${stoolSvg(t)}<span>Type ${t}</span></button>`).join("")
+    + `<button type="button" class="mini none" data-v="none" aria-pressed="${active === "none"}" aria-label="I didn't go today"><span class="dash">–</span><span>Didn't go</span></button>`;
 }
-$("typeTable").innerHTML = [1, 2, 3, 4, 5, 6, 7].map((t) => `<tr><td><strong>Type ${t}</strong></td><td>${esc(TYPES[t].look)}</td><td>${esc(TYPES[t].headline)}</td></tr>`).join("");
+function wireTiles(root, onPick) {
+  root.querySelectorAll(".mini").forEach((b) => b.onclick = () => onPick(b.dataset.v === "none" ? "none" : +b.dataset.v));
+}
 
-function show(t) {
+/* ---------- states ---------- */
+function show(state) {
+  $("sPick").hidden = state !== "pick"; $("sResult").hidden = state !== "result"; $("sLogged").hidden = state !== "logged";
+  const v = { pick: $("sPick"), result: $("sResult"), logged: $("sLogged") }[state];
+  v.classList.remove("enter"); void v.offsetWidth; v.classList.add("enter");
+}
+
+function renderPick() {
+  $("pickDay").textContent = `Today · ${fmt(today)}`;
+  $("tiles").innerHTML = tilesHtml(selected);
+  wireTiles($("tiles"), (v) => { selected = v; renderResult(); track("tool_use", { tool: "bristol-stool-chart", action: "type_selected" }); });
+  const n = Object.keys(log).length;
+  $("welcome").hidden = !n;
+  if (n) $("welcome").textContent = `Welcome back. You've logged ${n} day${n > 1 ? "s" : ""}. How was today?`;
+  show("pick");
+}
+
+function renderResult() {
+  $("welcome").hidden = true;
+  $("resDay").textContent = `Today · ${fmt(today)}`;
+  if (selected === "none") {
+    $("rTag").className = "tag watch"; $("rTag").textContent = "No-go day";
+    $("rHead").textContent = "Didn't go today";
+    $("rBody").textContent = "That's common, and a no-go day doesn't break your streak. If it's been 3 days or more, or you're straining when you do go, it's worth logging every day this week.";
+    $("rUrgent").hidden = true; $("moreLink").hidden = true;
+  } else {
+    const d = TYPES[selected];
+    $("rTag").className = `tag ${LEVEL[d.level][0]}`; $("rTag").textContent = `Type ${selected} · ${LEVEL[d.level][1]}`;
+    $("rHead").textContent = d.headline;
+    $("rBody").textContent = d.suggests;
+    $("rUrgent").hidden = !d.urgentNote; $("moreLink").hidden = false;
+    showDetail(selected);
+  }
+  show("result");
+  $("rHead").focus({ preventScroll: true });
+}
+
+function renderLogged() {
+  const days = lastDays(today, 7);
+  const snap = snapshot(log, today);
+  $("weekHead").textContent = snap.logged < 3 ? "Nice start. Come back tomorrow to keep building your week." : snap.headline;
+  $("loggedTag").textContent = log[TODAY] !== undefined ? "Logged today" : "Today not logged";
+  $("strip").innerHTML = days.map((d) => {
+    const k = dayKey(d), v = log[k];
+    const cls = v === undefined ? "" : v === "none" ? "set none" : (v === 3 || v === 4) ? "set ideal" : "set";
+    return `<div class="d ${k === TODAY ? "today" : ""}"><b>${k === TODAY ? "Today" : d.toLocaleDateString("en-US", { weekday: "short" })}</b><button type="button" class="${cls}" data-k="${k}" aria-label="${fmt(d)}: ${v === undefined ? "not logged" : v === "none" ? "didn't go" : "type " + v}">${v === undefined ? "" : v === "none" ? "none" : v}</button></div>`;
+  }).join("");
+  $("strip").querySelectorAll("button").forEach((b) => b.onclick = () => openPicker(b.dataset.k));
+  $("stStreak").textContent = snap.streak;
+  $("stDays").textContent = snap.daysLogged;
+  $("stIdeal").textContent = snap.counts.ideal;
+  renderHandoff($("handoff"), {
+    cpp: "default", ct: "tool-stool-chart-handoff",
+    title: snap.streak >= 2 ? `Keep your ${snap.streak}-day streak going` : "Keep this going in the app",
+    body: "Get Regular keeps your log, your streak and your meals in one place, and reminds you to log.",
+    cta: "Continue in Get Regular",
+  });
+  show("logged");
+}
+
+function openPicker(k) {
+  editing = k;
+  const d = new Date(k + "T12:00:00");
+  $("picker").hidden = false;
+  $("picker").innerHTML = `<div class="live-head" style="margin:0"><span class="name">${k === TODAY ? "Today" : fmt(d)}</span><button class="link" type="button" id="clearDay">Clear this day</button></div><div class="mini-tiles">${tilesHtml(log[k])}</div>`;
+  wireTiles($("picker"), (v) => { log[editing] = v; save(); $("picker").hidden = true; renderLogged(); });
+  $("clearDay").onclick = () => { delete log[editing]; save(); $("picker").hidden = true; renderLogged(); };
+}
+
+function save() { log = prune(log, today); store.set(KEY, log); }
+
+$("logIt").onclick = () => {
+  log[TODAY] = selected; save();
+  track("tool_use", { tool: "bristol-stool-chart", action: "logged" });
+  renderLogged();
+  showStickyBar({ cpp: "default", ct: "tool-stool-chart-sticky", text: "Keep your log going in the app" });
+};
+$("again").onclick = () => { selected = null; renderPick(); };
+
+/* ---------- detail section ---------- */
+function showDetail(t) {
   const d = TYPES[t];
-  [...$("types").children].forEach((b, i) => b.setAttribute("aria-pressed", String(i + 1 === t)));
-  $("detail").hidden = false;
-  $("dLevel").className = `tag ${LEVEL[d.level][0]}`; $("dLevel").textContent = `Type ${t} · ${LEVEL[d.level][1]}`;
-  $("dHead").textContent = d.headline;
+  $("detailCard").hidden = false;
+  $("dTitle").textContent = `Type ${t} · ${d.headline}`;
   $("dSuggests").textContent = d.suggests;
-  $("dUrgent").hidden = !d.urgentNote;
   $("dReasons").innerHTML = d.reasons.map((r) => `<li>${esc(r)}</li>`).join("");
   $("dTry").innerHTML = d.tryThis.map((r) => `<li>${esc(r)}</li>`).join("");
   $("dCite").innerHTML = "Based on " + sourceLinks(d.cite, SOURCES);
-  $("detail").classList.remove("enter"); void $("detail").offsetWidth; $("detail").classList.add("enter");
-  track("tool_use", { tool: "bristol-stool-chart", action: "type_selected" });
+  $("typesList").querySelectorAll(".type-row").forEach((r) => r.setAttribute("aria-current", String(+r.dataset.t === t)));
 }
+$("typesList").innerHTML = [1, 2, 3, 4, 5, 6, 7].map((t) => {
+  const d = TYPES[t];
+  return `<button type="button" class="type-row" role="listitem" data-t="${t}">${stoolSvg(t)}<span class="n">Type ${t}</span><span class="l">${esc(d.look)}</span><span class="tag ${LEVEL[d.level][0]}">${LEVEL[d.level][1]}</span></button>`;
+}).join("");
+$("typesList").querySelectorAll(".type-row").forEach((r) => r.onclick = () => { showDetail(+r.dataset.t); $("detailCard").scrollIntoView({ behavior: "smooth", block: "center" }); });
+$("typeTable").innerHTML = [1, 2, 3, 4, 5, 6, 7].map((t) => `<tr><td><strong>Type ${t}</strong></td><td>${esc(TYPES[t].look)}</td><td>${esc(TYPES[t].headline)}</td></tr>`).join("");
 
-// 7-day log in this browser only
-const KEY = "gr-stool-week";
-let week = Array(7).fill(null), active = null;
-try { const s = JSON.parse(localStorage.getItem(KEY) || "null"); if (Array.isArray(s) && s.length === 7) week = s; } catch {}
-const save = () => { try { localStorage.setItem(KEY, JSON.stringify(week)); } catch {} };
-function renderWeek() {
-  $("week").innerHTML = DAYS.map((d, i) => {
-    const v = week[i];
-    return `<div class="day"><b>${d}</b><button type="button" data-i="${i}" class="${v === null ? "" : v === "none" ? "set none" : "set"}" aria-label="${d}: ${v === null ? "not logged" : v === "none" ? "no bowel movement" : "type " + v}">${v === null ? "" : v === "none" ? "none" : v}</button></div>`;
-  }).join("");
-  $("week").querySelectorAll("button").forEach((b) => b.onclick = () => { active = +b.dataset.i; renderPicker(); });
-  const s = summarizeWeek(week);
-  $("weekOut").hidden = s.logged === 0;
-  $("weekHead").textContent = s.headline;
-  const max = Math.max(1, ...Object.values(s.counts));
-  $("bars").innerHTML = Object.entries(s.counts).map(([k, n]) => `<div class="bar"><span>${GROUP_LABEL[k]}</span><i style="width:${(n / max) * 100}%;${n ? "" : "opacity:.15"}"></i><span>${n}</span></div>`).join("");
-}
-function renderPicker() {
-  $("picker").hidden = false;
-  $("picker").innerHTML = `<span class="muted small" style="width:100%;margin-bottom:4px">${DAYS[active]}:</span>` +
-    [1, 2, 3, 4, 5, 6, 7].map((t) => `<button class="chip" type="button" data-v="${t}">Type ${t}</button>`).join("") + `<button class="chip" type="button" data-v="none">None</button><button class="chip" type="button" data-v="">Clear</button>`;
-  $("picker").querySelectorAll("button").forEach((b) => b.onclick = () => {
-    const v = b.dataset.v; week[active] = v === "" ? null : v === "none" ? "none" : +v; save(); $("picker").hidden = true; renderWeek();
-  });
-}
-$("clearWeek").onclick = () => { week = Array(7).fill(null); save(); $("picker").hidden = true; renderWeek(); };
-renderWeek();
-wireEmail($("mailForm"), { tool: "bristol-stool-chart", getPayload: () => ({ asset: "stool-chart-pdf" }) });
+wireEmail($("mailForm"), { tool: "bristol-stool-chart", getPayload: () => ({ purpose: "log_reminder" }) });
+
+/* ---------- start ---------- */
+if (log[TODAY] !== undefined) renderLogged(); else renderPick();
 </script>
 </body>
 </html>

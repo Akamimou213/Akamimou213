@@ -109,7 +109,7 @@ export function stoolSvg(t, color = "#e3c9a0") {
  * questions auto-advance; multi-choice ones use Next. Options may set
  * `exclusive` (e.g. "None of these").
  */
-export function createStepper({ questions, els, artFor, onDone, onStep, tool }) {
+export function createStepper({ questions, els, artFor, onDone, onStep, onChange, tool, history: useHistory = false }) {
   const answers = {};
   let i = 0;
   const list = () => (typeof questions === "function" ? questions(answers) : questions);
@@ -144,15 +144,70 @@ export function createStepper({ questions, els, artFor, onDone, onStep, tool }) 
     if (q.multi) {
       let cur = answers[q.id] || [];
       cur = o.exclusive ? (cur.includes(o.v) ? [] : [o.v]) : (cur.includes(o.v) ? cur.filter((x) => x !== o.v) : [...cur.filter((x) => x !== "none"), o.v]);
-      answers[q.id] = cur; render();
-    } else { answers[q.id] = o.v; render(); setTimeout(next, 260); }
+      answers[q.id] = cur; onChange && onChange(answers); render();
+    } else { answers[q.id] = o.v; onChange && onChange(answers); render(); setTimeout(next, 260); }
   }
   function next() {
     const qs = list();
-    if (i < qs.length - 1) { i++; onStep && onStep(i); track("quiz_step", { tool, step: i }); render(); }
+    if (i < qs.length - 1) {
+      i++; onStep && onStep(i); track("quiz_step", { tool, step: i });
+      if (useHistory) try { window.history.pushState({ step: i }, ""); } catch {}
+      render();
+    }
     else { dots(qs.length, 99); $("stepTxt").textContent = "Your result"; onDone(answers); }
   }
   $("next").onclick = next;
-  $("back").onclick = () => { if (i > 0) { i--; render(); } };
-  return { answers, render, reset() { for (const k in answers) delete answers[k]; i = 0; render(); } };
+  $("back").onclick = () => { if (i > 0) { if (useHistory) { window.history.back(); } else { i--; render(); } } };
+  if (useHistory) window.addEventListener("popstate", (e) => { const s = e.state && typeof e.state.step === "number" ? e.state.step : 0; if (s < i) { i = s; render(); } });
+  return { answers, render, get step() { return i; }, reset() { for (const k in answers) delete answers[k]; i = 0; render(); } };
+}
+
+
+/* ---------- Browser storage that never breaks the page ---------- */
+export const store = {
+  get(k, fallback) { try { const v = localStorage.getItem(k); return v === null ? fallback : JSON.parse(v); } catch { return fallback; } },
+  set(k, v) { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} },
+  del(k) { try { localStorage.removeItem(k); } catch {} },
+};
+
+/* ---------- Seamless handoff to the app ----------
+ * iPhone/iPad: App Store button (+ the native Smart App Banner from <head>).
+ * Desktop/Android: a QR code to open the listing on an iPhone, because nobody
+ * installs an iOS app from a laptop. Needs qrcode-generator (cdnjs) on the page. */
+export const isIOS = () => typeof navigator !== "undefined" && /iPhone|iPad|iPod/.test(navigator.userAgent || "") ;
+export const isDesktop = () => typeof window !== "undefined" && window.matchMedia && window.matchMedia("(min-width: 900px) and (pointer: fine)").matches;
+
+export function qrSvg(text, size = 132) {
+  if (typeof qrcode === "undefined") return "";
+  const q = qrcode(0, "M"); q.addData(text); q.make();
+  const n = q.getModuleCount(), c = size / (n + 8);
+  let d = "";
+  for (let r = 0; r < n; r++) for (let k = 0; k < n; k++) if (q.isDark(r, k)) d += `M${((k + 4) * c).toFixed(2)} ${((r + 4) * c).toFixed(2)}h${c.toFixed(2)}v${c.toFixed(2)}h-${c.toFixed(2)}z`;
+  return `<svg viewBox="0 0 ${size} ${size}" width="${size}" height="${size}" role="img" aria-label="QR code to open Get Regular on the App Store"><rect width="${size}" height="${size}" rx="14" fill="#fff"/><path d="${d}" fill="#111"/></svg>`;
+}
+
+const APPLE = '<svg class="apple" viewBox="0 0 24 24" aria-hidden="true"><path d="M16.37 1.43c0 1.14-.42 2.2-1.1 2.98-.82.95-2.04 1.6-3.07 1.52-.13-1.1.42-2.26 1.1-3 .77-.85 2.08-1.5 3.07-1.5zM20.5 17.3c-.55 1.27-.82 1.84-1.53 2.97-1 1.56-2.4 3.5-4.13 3.51-1.54.02-1.94-1-4.03-.99-2.09.01-2.53 1.01-4.07.99-1.73-.02-3.06-1.77-4.06-3.33C-.12 16.1-.42 11 1.33 8.3c1.24-1.93 3.2-3.05 5.04-3.05 1.87 0 3.05 1.02 4.6 1.02 1.5 0 2.42-1.02 4.58-1.02 1.64 0 3.38.9 4.62 2.44-4.06 2.22-3.4 8.02.33 9.6z"/></svg>';
+
+export function renderHandoff(el, { cpp = "default", ct, title, body, cta = "Continue in the app" }) {
+  const url = appStoreUrl({ cpp, ct });
+  const desktop = isDesktop() && !isIOS();
+  el.innerHTML = `<div class="handoff ${desktop ? "is-desktop" : ""}">
+    <div class="handoff-copy"><p class="h3" style="margin:0 0 6px">${esc(title)}</p><p class="muted small" style="margin:0">${esc(body)}</p></div>
+    ${desktop ? `<div class="handoff-qr">${qrSvg(url)}<span class="muted tiny">Scan with your iPhone camera</span></div>`
+              : `<a class="btn btn-white" href="${url}" rel="noopener">${APPLE}${esc(cta)}</a>`}
+  </div>`;
+  el.querySelectorAll("a").forEach((a) => a.addEventListener("click", () => track("app_store_click", { placement: ct })));
+}
+
+/* Sticky bottom bar on phones, shown once the visitor has engaged. */
+export function showStickyBar({ cpp = "default", ct, text }) {
+  if (typeof document === "undefined" || isDesktop()) return;
+  let bar = document.getElementById("stickyBar");
+  if (!bar) {
+    bar = document.createElement("div"); bar.id = "stickyBar"; bar.className = "sticky-bar no-print";
+    document.body.appendChild(bar);
+  }
+  bar.innerHTML = `<span>${esc(text)}</span><a class="btn btn-white btn-sm" href="${appStoreUrl({ cpp, ct })}" rel="noopener">${APPLE}Get the app</a>`;
+  bar.querySelector("a").addEventListener("click", () => track("app_store_click", { placement: ct }));
+  requestAnimationFrame(() => bar.classList.add("on"));
 }

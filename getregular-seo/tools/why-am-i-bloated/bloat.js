@@ -122,3 +122,35 @@ export function matchBloat(a) {
   const seeDoctor = flags.length > 0 || out.includes("persistent") || out.includes("upper");
   return { patterns: [...new Set(out)].slice(0, 3), flags, seeDoctor };
 }
+
+/* ---------- 7-day experiment (mirrors the app's Experiments / "Try This") ---------- */
+// One experiment per pattern; persistent/upper patterns get no experiment: they get a doctor.
+export const EXPERIMENTS = {
+  meal: { title: "Slower, smaller dinners", how: "Eat dinner over at least 20 minutes, a little smaller than usual, for 7 days.", watch: "bloating at bedtime" },
+  carbs: { title: "Pause one suspect food", how: "Pick the food you suspect most (for example dairy) and leave it out for 7 days. Change nothing else.", watch: "bloating after meals" },
+  air: { title: "Still, not fizzy", how: "Swap fizzy drinks and gum for still water for 7 days, and slow down at meals.", watch: "bloating and burping" },
+  constipation: { title: "Fiber, slowly, with water", how: "Add one extra serving of fiber a day and an extra glass of water, for 7 days.", watch: "bloating and how often you go" },
+  hormonal: { title: "Map it to your cycle", how: "Log bloating every day for 7 days and note your cycle day.", watch: "bloating by cycle day" },
+  ibs: { title: "Bloating, stress and sleep", how: "Log bloating, stress and sleep for 7 days, without changing your diet yet.", watch: "what lines up with bad days" },
+};
+
+export const BLOAT_LEVELS = [["0", "None"], ["1", "Mild"], ["2", "Bad"]];
+
+export function experimentFor(patterns) {
+  const k = patterns.find((p) => EXPERIMENTS[p]);
+  return k ? { key: k, ...EXPERIMENTS[k] } : null;
+}
+
+/* log: { "YYYY-MM-DD": 0|1|2 } for the experiment's days. Compares the first
+ * and last three logged days once at least five are in. */
+export function experimentProgress(log) {
+  const days = Object.keys(log).sort();
+  const vals = days.map((d) => Number(log[d]));
+  const out = { logged: days.length, done: days.length >= 7, verdict: null };
+  if (vals.length >= 5) {
+    const avg = (xs) => xs.reduce((a, b) => a + b, 0) / xs.length;
+    const first = avg(vals.slice(0, 3)), last = avg(vals.slice(-3));
+    out.verdict = last < first - 0.3 ? "better" : last > first + 0.3 ? "worse" : "same";
+  }
+  return out;
+}

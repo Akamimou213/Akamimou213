@@ -99,3 +99,47 @@ export function summarizeWeek(entries) {
   else headline = "Your week was mixed.";
   return { counts, logged, movements, headline };
 }
+
+/* ---------- Dated log (mirrors the app: backdate up to 7 days, streak = days in types 3–4) ---------- */
+
+export const BACKFILL_DAYS = 7; // the app allows logging up to 7 days in the past
+
+export function dayKey(d) {
+  const z = (n) => String(n).padStart(2, "0");
+  return `${d.getFullYear()}-${z(d.getMonth() + 1)}-${z(d.getDate())}`;
+}
+
+export function lastDays(today, n = 7) {
+  const out = [];
+  for (let k = n - 1; k >= 0; k--) { const d = new Date(today); d.setDate(d.getDate() - k); out.push(d); }
+  return out;
+}
+
+/* Streak, as the app defines it: consecutive days with stool in the Bristol
+ * 3–4 range; "no-go" days don't break the streak; an unlogged day does. The
+ * count may end today or yesterday (today not logged yet keeps it alive). */
+export function streak(log, today) {
+  let n = 0;
+  const d = new Date(today);
+  if (log[dayKey(d)] === undefined) d.setDate(d.getDate() - 1);
+  for (let k = 0; k < 366; k++) {
+    const v = log[dayKey(d)];
+    if (v === undefined) break;
+    if (v === "none") { d.setDate(d.getDate() - 1); continue; }
+    if (v === 3 || v === 4) n++; else break;
+    d.setDate(d.getDate() - 1);
+  }
+  return n;
+}
+
+export function snapshot(log, today) {
+  const week = lastDays(today, 7).map((d) => (log[dayKey(d)] === undefined ? null : log[dayKey(d)]));
+  return { ...summarizeWeek(week), streak: streak(log, today), daysLogged: Object.keys(log).length };
+}
+
+/* Drop entries older than the 7-day window plus 30 days, so the browser log stays small. */
+export function prune(log, today, keepDays = 37) {
+  const cut = new Date(today); cut.setDate(cut.getDate() - keepDays);
+  const k = dayKey(cut);
+  return Object.fromEntries(Object.entries(log).filter(([d]) => d >= k));
+}

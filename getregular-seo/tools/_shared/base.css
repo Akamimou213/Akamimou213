@@ -297,3 +297,78 @@ td .chip-c { display: inline-block; width: 14px; height: 14px; border-radius: 50
   .photo::before, .photo::after { display: none; } .glass, .glass-solid { background: #fff; border: 0; box-shadow: none; color: #111; -webkit-backdrop-filter: none; backdrop-filter: none; }
   .sec { padding-block: 0; } .muted, .help, .w70 { color: #444 !important; }
 }
+
+/* ==========================================================================
+   v2.1: the tool lives in the hero (zero-click start), log loops, handoff
+   ========================================================================== */
+.hero-tool .grid { grid-template-columns: .95fr 1.05fr; align-items: start; }
+.hero-tool { align-items: flex-start; padding-block: 150px 72px; }
+.hero-tool .headline { font-size: clamp(44px, 5.6vw, 84px); }
+@media (max-width: 960px) { .hero-tool { padding-block: 124px 40px; } .hero-tool .grid { grid-template-columns: 1fr; gap: 26px; } .hero-tool .sub { font-size: 18px; } }
+.live { padding: clamp(22px, 3vw, 34px); }
+.live-head { display: flex; justify-content: space-between; align-items: center; gap: 12px; margin-bottom: 18px; }
+.live-head .name { font: 400 14px var(--sans); color: var(--w70); }
+.live .q { font-size: clamp(24px, 2.6vw, 34px); margin-bottom: 8px; }
+.live .help { margin-bottom: 20px; font-size: 15px; }
+.welcome { display: flex; gap: 10px; align-items: center; padding: 10px 14px; border-radius: 14px; border: 1px solid rgba(227,201,160,.3); background: rgba(227,201,160,.07); color: var(--amber-soft); font-size: 14px; margin-bottom: 18px; }
+
+/* Compact stool tiles: drawing + number, 4 per row everywhere */
+.mini-tiles { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+.mini { position: relative; cursor: pointer; border-radius: 16px; border: 1px solid var(--w18); background: rgba(255,255,255,.025); padding: 14px 8px 12px; display: grid; justify-items: center; gap: 8px; transition: transform .45s var(--spring), border-color .2s, background .2s; }
+.mini:hover { transform: translateY(-2px); border-color: var(--w55); }
+.mini[aria-pressed="true"] { border-color: var(--amber-soft); background: rgba(227,201,160,.09); }
+.mini svg { width: 88%; height: 34px; }
+.mini span { font: 400 13px var(--sans); color: var(--w70); }
+.mini.none span { color: var(--w55); } .mini.none .dash { height: 34px; display: grid; place-items: center; font: 300 26px var(--sans); color: var(--w35); }
+
+/* Inline result inside the hero card */
+.inline-result .result-title { font-size: clamp(28px, 3vw, 40px); margin: 14px 0 10px; }
+.inline-result .result-body { font-size: 16.5px; }
+.actions-row { display: flex; gap: 12px; flex-wrap: wrap; align-items: center; margin-top: 22px; }
+
+/* Week strip (dated, like the app's day row) */
+.strip { display: grid; grid-template-columns: repeat(7, 1fr); gap: 8px; margin: 6px 0 4px; }
+.strip .d { display: grid; justify-items: center; gap: 8px; }
+.strip .d b { font: 400 12px var(--sans); color: var(--w55); }
+.strip .d.today b { color: var(--white); }
+.strip button { width: 100%; max-width: 54px; aspect-ratio: 1; border-radius: 50%; border: 1.3px solid var(--w35); background: transparent; cursor: pointer; display: grid; place-items: center; font: 500 17px var(--serif); color: var(--amber-soft); transition: transform .4s var(--spring), border-color .2s, background .2s; }
+.strip button:hover { transform: translateY(-2px); border-color: var(--w70); }
+.strip button.set { border-color: var(--amber-soft); background: rgba(227,201,160,.12); }
+.strip button.ideal { background: var(--amber-soft); color: #1a1712; border-color: var(--amber-soft); }
+.strip button.none { color: var(--w55); font: 300 11px var(--sans); }
+.strip .d.today button { box-shadow: 0 0 0 4px rgba(255,255,255,.06); }
+.stats { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; margin-top: 20px; }
+.stat { border: 1px solid var(--w10); border-radius: 16px; padding: 14px 16px; }
+.stat b { display: block; font: 500 34px/1 var(--serif); letter-spacing: -.03em; }
+.stat span { font-size: 13px; color: var(--w55); }
+.picker-sheet { margin-top: 16px; padding: 16px; border-radius: 18px; border: 1px solid var(--w18); background: rgba(10,11,9,.5); }
+.picker-sheet .mini-tiles { margin-top: 10px; }
+
+/* Handoff block */
+.handoff { display: flex; align-items: center; justify-content: space-between; gap: 18px; flex-wrap: wrap; margin-top: 22px; padding: 18px 20px; border-radius: 20px; border: 1px solid var(--w18); background: linear-gradient(135deg, rgba(227,201,160,.10), rgba(255,255,255,.02)); }
+.handoff-copy { flex: 1 1 220px; }
+.handoff-qr { display: grid; justify-items: center; gap: 6px; }
+.handoff-qr svg { width: 112px; height: 112px; display: block; }
+
+/* Sticky bar (phones) */
+.sticky-bar { position: fixed; left: 12px; right: 12px; bottom: calc(12px + env(safe-area-inset-bottom, 0px)); z-index: 50; display: flex; align-items: center; justify-content: space-between; gap: 12px;
+  padding: 10px 10px 10px 18px; border-radius: 999px; border: 1px solid var(--w18); background: rgba(14,14,12,.82); -webkit-backdrop-filter: blur(18px); backdrop-filter: blur(18px);
+  box-shadow: 0 18px 50px rgba(0,0,0,.5); font-size: 14px; color: var(--w90); transform: translateY(140%); transition: transform .6s var(--spring); }
+.sticky-bar.on { transform: none; }
+
+/* Live pattern hint (bloat) */
+.forming { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; min-height: 34px; margin-top: 18px; font-size: 13px; color: var(--w55); }
+.forming .tag { font-size: 11px; padding: 6px 12px; }
+
+/* Experiment tracker */
+.exp-day { display: grid; gap: 10px; margin-top: 18px; }
+.exp-day .chips .chip { min-width: 84px; }
+
+/* Single related card */
+.tool-card.wide { min-height: 420px; padding: clamp(28px, 4vw, 56px); justify-content: flex-end; }
+.tool-card.wide h3 { font-size: clamp(36px, 4.4vw, 60px); }
+.tool-card.wide p { font-size: 18px; max-width: 44ch; }
+
+/* Detail section under the hero */
+.detail-grid { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 14px; }
+@media (max-width: 900px) { .detail-grid { grid-template-columns: 1fr; } }

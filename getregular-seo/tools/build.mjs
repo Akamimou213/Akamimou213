@@ -12,11 +12,8 @@ const root = dirname(fileURLToPath(import.meta.url));
 const shared = join(root, "_shared");
 
 export const TOOLS = [
-  { slug: "how-regular-are-you", title: "How regular are you?", blurb: "A 2-minute check of your bowel habits, with a score and your pattern.", img: "hero-leaf" },
-  { slug: "bristol-stool-chart", title: "What's your poop type?", blurb: "Tap the shape that matches. See what it suggests, and log your week.", img: "moss" },
-  { slug: "poop-color-chart", title: "What does the color mean?", blurb: "Food, worth watching, or a call to your doctor today.", img: "lichen" },
-  { slug: "why-am-i-bloated", title: "Why am I so bloated?", blurb: "Seven questions on timing and food. The patterns that fit.", img: "kiwi-table" },
-  { slug: "gi-appointment-prep", title: "Walk in prepared", blurb: "A one-page sheet for your gastroenterologist visit.", img: "ceramic" },
+  { slug: "bristol-stool-chart", title: "What's your poop type?", blurb: "Tap the shape that matches, log today, and start your streak.", img: "moss" },
+  { slug: "why-am-i-bloated", title: "Why am I so bloated?", blurb: "Seven questions, the patterns that fit, and a 7-day experiment.", img: "kiwi-table" },
 ];
 
 const only = process.argv[2];
@@ -36,12 +33,13 @@ function inlineModule(file, seen) {
 }
 
 function related(current) {
-  const cards = TOOLS.filter((t) => t.slug !== current).map((t, i) =>
-    `<a class="tool-card" href="/tools/${t.slug}" style="--bg:url(../_shared/img/${t.img}.jpg)"><span class="n">0${i + 1}.</span><h3>${t.title}</h3><p>${t.blurb}</p><span class="go">Open the tool →</span></a>`).join("\n");
+  const other = TOOLS.filter((t) => t.slug !== current);
+  const cards = other.map((t) =>
+    `<a class="tool-card wide" href="/tools/${t.slug}" style="--bg:url(../_shared/img/${t.img}.jpg)"><span class="n">Next free check</span><h3>${t.title}</h3><p>${t.blurb}</p><span class="go">Open the tool →</span></a>`).join("\n");
   return `<section class="related sec night no-print" aria-labelledby="relH"><div class="wrap">
-  <p class="label"><b>More free tools</b></p>
+  <p class="label"><b>Keep going</b></p>
   <h2 class="h2" id="relH" style="margin-bottom:clamp(36px,5vw,64px)">Keep <em>listening</em>.<span class="t">Your gut has more to say.</span></h2>
-  <div class="tools-grid">${cards}</div></div></section>`;
+  ${cards}</div></section>`;
 }
 
 function expand(html) {
