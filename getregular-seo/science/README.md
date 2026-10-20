@@ -19,7 +19,7 @@ Every page is `draft-needs-medical-review` and needs a named clinician before pu
 
 **Retraction check:** `build_evidence_library.py` marks retracted papers as `RETRACTED` and prints a warning. Storhaug 2017 (PMID 28690131, the "two-thirds of adults are lactose intolerant" figure) was retracted in January 2025. It's been removed from `dairy-bloating` and `can-coffee-cause-bloating` and is cited only as retracted on the lactose page. Rebuild the library before every publish.
 
-**Rebuild:** `python3 science/build_evidence_library.py && python3 science/build_evidence_index.py`
+**Rebuild:** `python3 science/build_evidence_library.py && python3 science/build_evidence_index.py && python3 science/build_science_full.py`. **For Codex:** `science/SCIENCE_FULL.md` holds every page verbatim, with import instructions.
 
 ## 2.1 The honesty rule
 
