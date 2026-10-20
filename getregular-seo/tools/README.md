@@ -24,14 +24,14 @@ JavaScript only adds one-row-open-at-a-time, deep links, the phone sticky bar an
 ## Why am I bloated?: the quiz funnel
 
 1. **Intro card** in the hero: what you'll get (9 questions, a bloat profile and a 7-day plan, warning signs first, no email).
-2. **9 one-tap questions:** goal, how often, timing, foods, bowels, cycle, early fullness, how long, warning signs. Single-choice answers advance on their own. Back goes to the previous question. Without JavaScript the card says so and links to the causes table.
+2. **9 one-tap questions:** goal, how often, timing, foods, bowels, cycle, early fullness, how long, warning signs. Single-choice answers show the selection, then advance after 0.65 s; extra taps during the pause are ignored, so a double tap can't skip a question. Back goes to the previous question. Without JavaScript the card says so and links to the causes table.
 3. **2 "did you know" screens** with sourced stats (1 in 7 Americans bloated in the past week, Oh 2023; up to 12 cm of distension over a day in women with IBS, Houghton 2006).
-4. **"Matching your answers…"** (1.5 s; 0.25 s with reduced motion). It honestly describes what happens: comparison with the AGA 2023 patterns and a warning-sign check.
+4. **"Matching your answers…"** (2.2 s; 0.4 s with reduced motion). It honestly describes what happens: comparison with the AGA 2023 patterns and a warning-sign check.
 5. **Your bloat profile:**
    - the doctor alert first, if any warning sign;
    - the top pattern and explanation, plus "Also in your answers";
    - **your 7-day plan** (3 steps from the matching experiment, framed by the goal);
-   - **Start this plan in Get Regular** (iPhone: App Store button; desktop: QR code; phones: sticky bar).
+   - **Start this plan in Get Regular** (a direct App Store button everywhere, plus the sticky bar on phones).
    Any warning sign, or a persistent or early-fullness pattern, switches the plan to a doctor-visit plan ("Book a visit · Log it for 2 weeks · Bring a Doctor Report") and the handoff to "Track it before your visit".
 6. **Full profile:** all matched patterns with next steps and the optional, consented email. Then the indexable Learn content.
 

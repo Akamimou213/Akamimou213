@@ -468,3 +468,4 @@ a.pill { text-decoration: none; transition: border-color .25s, background .25s; 
 .row-cta a { color: var(--white); text-underline-offset: 4px; }
 @media (max-width: 960px) { .hero-compact { padding-block: 118px 48px; } }
 @media (max-width: 560px) { .chart .axis { font-size: 10.5px; letter-spacing: .1em; } .chart .axis .long { display: none; } }
+.opts.locked { pointer-events: none; }
