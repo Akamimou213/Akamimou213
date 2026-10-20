@@ -4,6 +4,7 @@ Research and content were done by Claude. Implementation is done by Codex in `av
 
 ## Start here
 
+0. **`NEXT_LEVEL.md`** (20 Oct 2026): what to do next, re-ranked. Covers the App Store listing (`aso/`), real-engine AI tracking (`geo/tracker/`) and the ChatSEO MCP verdict.
 1. **`STRATEGY.md`**: decisions, architecture, cluster plan, roadmap and the open questions for the team.
 2. **`codex/00-SEO-AUTOPILOT-LOOP.md`**: paste this into Codex `/loop`.
 3. **`codex/01-technical-seo-tasks.md`**: technical fixes T1–T21, with code and acceptance tests.
@@ -20,6 +21,8 @@ Research and content were done by Claude. Implementation is done by Codex in `av
 | `blogs/` | `_EDITORIAL_STANDARD.md` plus 8 cluster folders × 10 article drafts, each with a `_CLUSTER.md` |
 | `onpage/` | Page copy for the homepage, `/app`, `/how-ai-works`, product pages and resource pillars |
 | `codex/` | Implementation specs and the autopilot loop prompt |
+| `aso/` | App Store listing plan: metadata rewrite, Custom Product Pages, In-App Events, ratings plan, plus `check_metadata.py` |
+| `geo/tracker/` | Runs the prompt panel on real AI engines (ChatGPT, Perplexity, Gemini, Claude) with web search, then scores and saves the evidence |
 
 ## Status and limits (19 Oct 2026)
 
