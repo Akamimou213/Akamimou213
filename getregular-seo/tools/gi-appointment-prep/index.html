@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Gastroenterologist Appointment Prep: Free Checklist & Questions to Ask | Get Regular</title>
+<meta name="description" content="Build a one-page sheet for your GI appointment in 2 minutes: your symptom summary, the warning signs to mention first, the questions to ask, and what to bring. Print it or save it.">
+<link rel="canonical" href="https://www.getregular.com/tools/gi-appointment-prep">
+<meta name="robots" content="noindex"><!-- PROTOTYPE -->
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Instrument+Serif&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../_shared/base.css">
+<script type="application/ld+json">
+{"@context":"https://schema.org","@graph":[
+ {"@type":"WebApplication","@id":"https://www.getregular.com/tools/gi-appointment-prep#tool","name":"GI appointment prep sheet","url":"https://www.getregular.com/tools/gi-appointment-prep","applicationCategory":"HealthApplication","operatingSystem":"Any (web browser)","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@id":"https://www.getregular.com/#org"}},
+ {"@type":"MedicalWebPage","@id":"https://www.getregular.com/tools/gi-appointment-prep#webpage","url":"https://www.getregular.com/tools/gi-appointment-prep","name":"Gastroenterologist appointment prep: checklist and questions to ask","mainEntity":{"@id":"https://www.getregular.com/tools/gi-appointment-prep#tool"},"lastReviewed":"[SET AT PUBLISH]","reviewedBy":"[CONFIRM: clinician Person @id, only with consent]"}
+]}
+</script>
+<style>
+  .form { display: grid; gap: 22px; }
+  .form fieldset { border: 0; padding: 0; margin: 0; }
+  .form legend { font-weight: 600; margin-bottom: 8px; }
+  .sheet { background: var(--white); border: 1px solid var(--line); border-radius: 16px; padding: 26px; }
+  .sheet h2 { font: 400 34px/1.05 "Instrument Serif", serif; margin: 0 0 4px; }
+  .sheet h3 { font-size: 15px; text-transform: uppercase; letter-spacing: .06em; color: var(--bronze); margin: 22px 0 8px; }
+  .sheet .box { border: 1.5px solid #e9b89e; background: var(--warn-bg); border-radius: 12px; padding: 12px 16px; }
+  .sheet ol li, .sheet ul li { margin-bottom: 6px; }
+  .check li { list-style: none; position: relative; padding-left: 26px; } .check { padding-left: 0; }
+  .check li::before { content: ""; position: absolute; left: 0; top: 4px; width: 14px; height: 14px; border: 1.5px solid var(--ink-2); border-radius: 3px; }
+  .lines { border-bottom: 1px solid var(--line); height: 26px; }
+  .actions { display: flex; gap: 10px; flex-wrap: wrap; margin-top: 16px; }
+  @media print { .sheet { border: 0; padding: 0; } .actions { display: none; } }
+</style>
+</head>
+<body>
+<header class="top"><div class="wrap"><a class="logo" href="/">Get Regular</a><span class="pill">Free tool</span></div></header>
+<main class="wrap">
+  <section class="hero no-print">
+    <div class="eyebrow">GI appointment prep</div>
+    <h1>Walk in<br>prepared</h1>
+    <p class="lede">Build a one-page sheet for your gastroenterologist visit: your symptom summary, what to mention first, the questions to ask, and what to bring.</p>
+    <ul class="facts"><li>2 minutes</li><li>Print or save</li><li>Nothing is sent anywhere</li></ul>
+  </section>
+
+  <section class="card no-print">
+    <div class="form">
+      <fieldset><legend>What kind of visit is it?</legend><div class="chips" data-key="visit" data-single="1"></div></fieldset>
+      <fieldset><legend>Your main symptoms</legend><div class="chips" data-key="symptoms"></div></fieldset>
+      <fieldset><legend>How long has this been going on?</legend><div class="chips" data-key="duration" data-single="1"></div></fieldset>
+      <fieldset><legend>What have you already tried?</legend><div class="chips" data-key="tried"></div></fieldset>
+      <fieldset><legend>Any of these? (mention them first)</legend><div class="chips" data-key="warnings"></div></fieldset>
+      <div><button class="btn" id="build">Build my sheet</button></div>
+    </div>
+  </section>
+
+  <section id="out" hidden>
+    <div class="sheet" id="sheet" aria-live="polite"></div>
+    <div class="actions no-print">
+      <button class="btn" id="print">Print or save as PDF</button>
+      <button class="btn ghost" id="copy">Copy as text</button>
+      <span class="fine" id="copyMsg" role="status"></span>
+    </div>
+
+    <div class="cta">
+      <h3>Bring real data, not memory</h3>
+      <p>People recall their symptoms less accurately than they record them in a diary. Get Regular logs bowel movements, meals and symptoms day by day and turns them into a PDF Doctor Report to share at your visit.</p>
+      <a class="btn" id="appstore" href="#" rel="noopener">Download on the App Store <span aria-hidden="true">↗</span></a>
+      <p class="fine">Free download for iPhone and iPad. Doctor Report requires a subscription.</p>
+    </div>
+
+    <div class="mail no-print">
+      <h3>Email me this sheet</h3>
+      <form id="mailForm" novalidate>
+        <input type="email" required autocomplete="email" placeholder="you@example.com" aria-label="Email address">
+        <label class="consent"><input type="checkbox" name="consentHealth" required> <span>I consent to Get Regular storing my selections with my email to send this sheet. This is health information; I can withdraw consent and ask for deletion at any time. <a href="/legal/privacy-policy">Privacy policy</a>.</span></label>
+        <label class="consent"><input type="checkbox" name="consentNews"> <span>Also send me Get Regular's gut-health emails (optional).</span></label>
+        <button class="btn gold" type="submit">Send it to me</button>
+        <p class="fine" role="status"></p>
+      </form>
+    </div>
+  </section>
+
+  <article class="content">
+    <h2>How do I prepare for a gastroenterologist appointment?</h2>
+    <p class="answer"><strong>Short answer:</strong> write down your top three questions, most important first <a href="https://www.ahrq.gov/patients-consumers/patient-involvement/ask-your-doctor/questions-before-appointment.html">[1]</a>, bring a list of every medicine and supplement, and bring 2–4 weeks of symptom and bowel logs. Mention any warning signs (blood, black stool, weight loss, night symptoms) at the start. Leave knowing which symptoms should make you call back sooner.</p>
+
+    <h2>Why logs beat memory</h2>
+    <p>When researchers compared recall questionnaires with prospective diaries in people with GI symptoms, recall agreed poorly with what people had recorded day by day <a href="https://pubmed.ncbi.nlm.nih.gov/30394943/">[2]</a>. See <a href="/science/evidence/food-diaries-vs-memory">what the research says about diaries vs memory</a>.</p>
+
+    <h2>Questions about tests</h2>
+    <div class="table-wrap"><table>
+      <thead><tr><th>Test</th><th>Worth asking</th></tr></thead>
+      <tbody>
+        <tr><td>Blood tests (blood count, CRP, celiac antibodies)</td><td>Do I need to fast? Should I keep eating gluten until the celiac test? <a href="https://www.niddk.nih.gov/health-information/digestive-diseases/celiac-disease/diagnosis">[3]</a></td></tr>
+        <tr><td>Stool tests (calprotectin, infection, FIT)</td><td>How do I collect and return the sample? What does a borderline result mean?</td></tr>
+        <tr><td>Colonoscopy or upper endoscopy</td><td>Why do I need it? What prep will I use? Will you take biopsies? Do I need a ride home?</td></tr>
+        <tr><td>Breath tests</td><td>What should I eat beforehand, and which medicines should I pause?</td></tr>
+      </tbody>
+    </table></div>
+
+    <h2>Frequently asked questions</h2>
+    <details><summary>Is my sheet saved anywhere?</summary><p>No. It's built in your browser and isn't sent to us unless you choose to email it to yourself.</p></details>
+    <details><summary>What if I think I have IBS?</summary><p>Ask which criteria you meet, which subtype, and which tests ruled out other conditions. The ACG guideline supports a positive, symptom-based diagnosis with a few targeted tests <a href="https://pubmed.ncbi.nlm.nih.gov/33315591/">[4]</a>.</p></details>
+    <p>Related: <a href="/learn/questions-to-ask-gastroenterologist">Questions to ask a gastroenterologist (full guide)</a> · <a href="/learn/how-to-describe-poop-to-doctor">How to describe your poop to a doctor</a> · <a href="/tools/how-regular-are-you">How regular are you?</a></p>
+    <p class="byline">Sources: [1] AHRQ, Questions before your appointment · [2] PMID 30394943 · [3] NIDDK, Diagnosis of celiac disease · [4] Lacy BE et al. ACG IBS guideline, Am J Gastroenterol 2021. Last reviewed: [SET AT PUBLISH].</p>
+  </article>
+</main>
+<footer class="no-print"><div class="wrap"><a href="/legal/consumer-health-data-privacy">Consumer Health Data Privacy Policy</a> · <a href="/legal/privacy-policy">Privacy policy</a><br>© Get Regular Health, Inc. For general information; doesn't replace medical advice. Prototype — not for publication until clinical and legal review.</div></footer>
+
+<script type="module">
+import { VISITS, SYMPTOMS, TRIED, WARNINGS, buildSheet } from "./prep.js";
+import { track, appStoreUrl, esc, wireEmail } from "../_shared/ui.js";
+
+const $ = (id) => document.getElementById(id);
+const OPTS = { visit: VISITS, symptoms: SYMPTOMS, duration: { lt3m: "Less than 3 months", "3to12m": "3–12 months", gt1y: "More than a year" }, tried: TRIED, warnings: WARNINGS };
+const input = { visit: "first", symptoms: [], duration: "", tried: [], warnings: [] };
+
+document.querySelectorAll(".chips").forEach((box) => {
+  const key = box.dataset.key, single = !!box.dataset.single;
+  for (const [v, label] of Object.entries(OPTS[key])) {
+    const b = document.createElement("button");
+    b.type = "button"; b.className = "chip"; b.textContent = label;
+    const on = () => single ? input[key] === v : input[key].includes(v);
+    b.setAttribute("aria-pressed", String(on()));
+    b.onclick = () => {
+      if (single) input[key] = v; else input[key] = on() ? input[key].filter((x) => x !== v) : [...input[key], v];
+      [...box.children].forEach((x, i) => x.setAttribute("aria-pressed", String(single ? input[key] === Object.keys(OPTS[key])[i] : input[key].includes(Object.keys(OPTS[key])[i]))));
+    };
+    box.appendChild(b);
+  }
+});
+
+let sheet = null;
+$("build").onclick = () => {
+  sheet = buildSheet(input);
+  const li = (xs) => xs.map((x) => `<li>${esc(x)}</li>`).join("");
+  $("sheet").innerHTML = `
+    <span class="eyebrow">My GI visit sheet</span>
+    <h2>${esc(sheet.visitLabel)}</h2>
+    <p class="fine">Date: ____________ · Doctor: ______________________</p>
+    ${sheet.mentionFirst.length ? `<h3>Mention these first</h3><div class="box"><ul class="list">${li(sheet.mentionFirst)}</ul></div>` : ""}
+    <h3>My summary</h3><ul class="list">${li(sheet.summary)}</ul>
+    <h3>Questions to ask</h3><p class="fine">Star your top 3 and ask them first.</p><ol class="try">${li(sheet.questions)}</ol>
+    <h3>They'll probably ask me</h3><ul class="list">${li(sheet.theyWillAsk)}</ul>
+    <h3>Bring with me</h3><ul class="check">${li(sheet.bring)}</ul>
+    <h3>Notes from the visit</h3><div class="lines"></div><div class="lines"></div><div class="lines"></div>`;
+  $("out").hidden = false;
+  track("tool_use", { tool: "gi-appointment-prep", action: "sheet_built" });
+  $("out").scrollIntoView({ behavior: "smooth", block: "start" });
+};
+$("print").onclick = () => { track("tool_use", { tool: "gi-appointment-prep", action: "print" }); window.print(); };
+$("copy").onclick = async () => {
+  const text = $("sheet").innerText;
+  try { await navigator.clipboard.writeText(text); $("copyMsg").textContent = "Copied."; } catch { $("copyMsg").textContent = "Couldn't copy here; select the text instead."; }
+};
+const a = $("appstore");
+a.href = appStoreUrl({ cpp: "doctor", ct: "tool-gi-prep" });
+a.onclick = () => track("app_store_click", { tool: "gi-appointment-prep" });
+wireEmail($("mailForm"), { tool: "gi-appointment-prep", getPayload: () => ({ sheet: sheet ? { visit: input.visit, questions: sheet.questions.length } : null }) });
+</script>
+</body>
+</html>

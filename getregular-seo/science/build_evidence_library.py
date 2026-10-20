@@ -42,8 +42,11 @@ def cited_pmids():
     where = collections.defaultdict(set)
     for folder in ("blogs", "onpage", "science"):
         for f in (ROOT / folder).rglob("*.md"):
+            text = f.read_text(encoding="utf-8")
+            if "LIBRARY:START" in text:  # the generated library table cites everything; skip it
+                continue
             topic = f.parent.name if folder == "blogs" else folder
-            for pmid in PMID_RE.findall(f.read_text(encoding="utf-8")):
+            for pmid in PMID_RE.findall(text):
                 where[pmid].add(topic)
     extra = OUT / "extra_pmids.txt"
     if extra.exists():
@@ -67,6 +70,8 @@ def fetch(pmids):
 
 
 def tier(pubtypes):
+    if "Retracted Publication" in pubtypes:
+        return "RETRACTED"
     for name, types in TIERS:
         if types & set(pubtypes):
             return name
@@ -107,6 +112,9 @@ def main():
         w.writerows(rows)
     (OUT / "evidence-library.json").write_text(json.dumps(rows, indent=1, ensure_ascii=False))
     by_tier = collections.Counter(r["evidence_tier"] for r in rows)
+    for r in rows:
+        if r["evidence_tier"] == "RETRACTED":
+            print(f"WARNING retracted: PMID {r['pmid']} ({r['authors_short']} {r['year']}) cited in {r['cited_in']}")
     print(f"{len(rows)} studies:", dict(by_tier))
 
 

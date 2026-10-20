@@ -14,7 +14,7 @@
  * "available by license", and the common chart artwork is Norgine's. So the
  * form question uses our own wording and our own drawings, not the BSFS text
  * or chart. Counsel decides whether a Rome Foundation license is needed for
- * the 7-type structure itself (site/ARCHITECTURE.md §11). Every
+ * the 7-type structure itself (tools/README.md, "Licensing"). Every
  * threshold below names its source so the clinical reviewer can check it.
  */
 
@@ -218,7 +218,7 @@ export function redFlags(a) {
 /*
  * Each pattern maps to: copy keys for the result page, the Learn hub to
  * read next, the printable to offer, and the App Store Custom Product Page
- * (see aso/ASO.md) plus the campaign token for attribution.
+ * (set in App Store Connect) plus the campaign token for attribution.
  */
 export const PATTERNS = {
   regular: { label: "Regular", learn: "/learn/poop", cpp: "default", ct: "quiz-regular" },

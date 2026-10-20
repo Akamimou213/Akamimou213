@@ -30,8 +30,8 @@ sources:
     url: "https://www.niddk.nih.gov/health-information/digestive-diseases/gas-digestive-tract/eating-diet-nutrition"
   - title: "NIDDK. Eating, Diet, & Nutrition for Lactose Intolerance"
     url: "https://www.niddk.nih.gov/health-information/digestive-diseases/lactose-intolerance/eating-diet-nutrition"
-  - title: "Storhaug CL, et al. Country, regional, and global estimates for lactose malabsorption in adults. Lancet Gastroenterol Hepatol 2017"
-    url: "https://pubmed.ncbi.nlm.nih.gov/28690131/"
+  - title: "Misselwitz B, et al. Update on lactose malabsorption and intolerance: pathogenesis, diagnosis and clinical management. Gut 2019"
+    url: "https://pubmed.ncbi.nlm.nih.gov/31427404/"
   - title: "Bonnema AL, et al. Gastrointestinal tolerance of chicory inulin products. J Am Diet Assoc 2010"
     url: "https://pubmed.ncbi.nlm.nih.gov/20497775/"
   - title: "Moshiree B, Drossman D, Shaukat A. AGA Clinical Practice Update on Evaluation and Management of Belching, Abdominal Bloating, and Distention. Gastroenterology 2023"
@@ -86,7 +86,7 @@ Often it is what goes in the cup. Here are the usual suspects, roughly in order 
 
 | Add-in | Why it can bloat | What to try instead |
 |---|---|---|
-| Regular milk, cream, lattes | Lactose. Most adults worldwide (about 68%) malabsorb some lactose [6]. Undigested lactose is fermented into gas. Many people handle about 12 g, roughly 1 cup of milk, but a large latte can get close [5]. | Lactose-free milk for the test period, or a smaller splash |
+| Regular milk, cream, lattes | Lactose. Many adults digest lactose less well after childhood [6]. Undigested lactose is fermented into gas. Many people handle about 12 g, roughly 1 cup of milk, but a large latte can get close [5]. | Lactose-free milk for the test period, or a smaller splash |
 | "Nondairy" creamers | Can still contain milk-derived ingredients; NIDDK lists nondairy creamers among foods to check for hidden lactose [5]. | Read the label for milk, whey, milk solids |
 | Sugar-free syrups and sweeteners | Sugar alcohols (sorbitol, mannitol, xylitol, erythritol, maltitol) are poorly absorbed and can cause gas [4]. | Plain sugar or no sweetener for the test |
 | Chicory or "gut health" blends | Chicory root is a source of inulin; in a controlled trial, inulin mainly caused flatulence, then bloating, especially at higher doses [7]. | 100% coffee during the test |
@@ -189,7 +189,7 @@ A short walk, loosening tight waistbands, and waiting for the colon to do its th
 3. NIDDK. Symptoms & Causes of Gas in the Digestive Tract. https://www.niddk.nih.gov/health-information/digestive-diseases/gas-digestive-tract/symptoms-causes
 4. NIDDK. Eating, Diet, & Nutrition for Gas in the Digestive Tract. https://www.niddk.nih.gov/health-information/digestive-diseases/gas-digestive-tract/eating-diet-nutrition
 5. NIDDK. Eating, Diet, & Nutrition for Lactose Intolerance. https://www.niddk.nih.gov/health-information/digestive-diseases/lactose-intolerance/eating-diet-nutrition
-6. Storhaug CL, Fosse SK, Fadnes LT. Country, regional, and global estimates for lactose malabsorption in adults. *Lancet Gastroenterol Hepatol* 2017. https://pubmed.ncbi.nlm.nih.gov/28690131/
+6. Misselwitz B, Butter M, Verbeke K, Fox MR. Update on lactose malabsorption and intolerance: pathogenesis, diagnosis and clinical management. *Gut*. 2019;68(11):2080-2091. https://pubmed.ncbi.nlm.nih.gov/31427404/
 7. Bonnema AL, et al. Gastrointestinal tolerance of chicory inulin products. *J Am Diet Assoc* 2010. https://pubmed.ncbi.nlm.nih.gov/20497775/
 8. Moshiree B, Drossman D, Shaukat A. AGA Clinical Practice Update on Evaluation and Management of Belching, Abdominal Bloating, and Distention. *Gastroenterology* 2023. https://pubmed.ncbi.nlm.nih.gov/37452811/
 9. Oh JE, Chey WD, Spiegel B. Abdominal Bloating in the United States: Results of a Survey of 88,795 Americans. *Clin Gastroenterol Hepatol* 2023. https://pubmed.ncbi.nlm.nih.gov/36396061/

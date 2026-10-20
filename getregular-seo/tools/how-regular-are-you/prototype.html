@@ -255,6 +255,7 @@
 
 <script>
 (() => {
+
 /*
  * "How regular are you?" — scoring engine for the Get Regular bowel-habits self-check.
  *
@@ -271,7 +272,7 @@
  * "available by license", and the common chart artwork is Norgine's. So the
  * form question uses our own wording and our own drawings, not the BSFS text
  * or chart. Counsel decides whether a Rome Foundation license is needed for
- * the 7-type structure itself (site/ARCHITECTURE.md §11). Every
+ * the 7-type structure itself (tools/README.md, "Licensing"). Every
  * threshold below names its source so the clinical reviewer can check it.
  */
 
@@ -475,7 +476,7 @@ function redFlags(a) {
 /*
  * Each pattern maps to: copy keys for the result page, the Learn hub to
  * read next, the printable to offer, and the App Store Custom Product Page
- * (see aso/ASO.md) plus the campaign token for attribution.
+ * (set in App Store Connect) plus the campaign token for attribution.
  */
 const PATTERNS = {
   regular: { label: "Regular", learn: "/learn/poop", cpp: "default", ct: "quiz-regular" },
@@ -515,6 +516,7 @@ function appStoreUrl(r, ppids = {}) {
   u.searchParams.set("mt", "8");
   return u.toString();
 }
+
 
 /*
  * Result-page copy for "How regular are you?". Reviewed copy lives here, not
@@ -640,7 +642,9 @@ const METHOD = [
 ];
 
 
-// App Store Custom Product Page IDs from App Store Connect (aso/ASO.md). Empty until approved.
+
+
+// App Store Custom Product Page IDs from App Store Connect . Empty until approved.
 const PPIDS = {};
 // [CONFIRM] Email endpoint: Kit form or a first-party API route that double-opts-in.
 const EMAIL_ENDPOINT = "";
@@ -780,6 +784,7 @@ $("mailForm").onsubmit = async (e) => {
     track("email_submit", { marketing_opt_in: payload.consent_marketing });
   } catch { msg.textContent = "Something went wrong. Please try again."; }
 };
+
 })();
 </script>
 </body>

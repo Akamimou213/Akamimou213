@@ -14697,8 +14697,8 @@ sources:
     url: "https://www.niddk.nih.gov/health-information/digestive-diseases/gas-digestive-tract/eating-diet-nutrition"
   - title: "NIDDK. Eating, Diet, & Nutrition for Lactose Intolerance"
     url: "https://www.niddk.nih.gov/health-information/digestive-diseases/lactose-intolerance/eating-diet-nutrition"
-  - title: "Storhaug CL, et al. Country, regional, and global estimates for lactose malabsorption in adults. Lancet Gastroenterol Hepatol 2017"
-    url: "https://pubmed.ncbi.nlm.nih.gov/28690131/"
+  - title: "Misselwitz B, et al. Update on lactose malabsorption and intolerance: pathogenesis, diagnosis and clinical management. Gut 2019"
+    url: "https://pubmed.ncbi.nlm.nih.gov/31427404/"
   - title: "Bonnema AL, et al. Gastrointestinal tolerance of chicory inulin products. J Am Diet Assoc 2010"
     url: "https://pubmed.ncbi.nlm.nih.gov/20497775/"
   - title: "Moshiree B, Drossman D, Shaukat A. AGA Clinical Practice Update on Evaluation and Management of Belching, Abdominal Bloating, and Distention. Gastroenterology 2023"
@@ -14753,7 +14753,7 @@ Often it is what goes in the cup. Here are the usual suspects, roughly in order 
 
 | Add-in | Why it can bloat | What to try instead |
 |---|---|---|
-| Regular milk, cream, lattes | Lactose. Most adults worldwide (about 68%) malabsorb some lactose [6]. Undigested lactose is fermented into gas. Many people handle about 12 g, roughly 1 cup of milk, but a large latte can get close [5]. | Lactose-free milk for the test period, or a smaller splash |
+| Regular milk, cream, lattes | Lactose. Many adults digest lactose less well after childhood [6]. Undigested lactose is fermented into gas. Many people handle about 12 g, roughly 1 cup of milk, but a large latte can get close [5]. | Lactose-free milk for the test period, or a smaller splash |
 | "Nondairy" creamers | Can still contain milk-derived ingredients; NIDDK lists nondairy creamers among foods to check for hidden lactose [5]. | Read the label for milk, whey, milk solids |
 | Sugar-free syrups and sweeteners | Sugar alcohols (sorbitol, mannitol, xylitol, erythritol, maltitol) are poorly absorbed and can cause gas [4]. | Plain sugar or no sweetener for the test |
 | Chicory or "gut health" blends | Chicory root is a source of inulin; in a controlled trial, inulin mainly caused flatulence, then bloating, especially at higher doses [7]. | 100% coffee during the test |
@@ -14856,7 +14856,7 @@ A short walk, loosening tight waistbands, and waiting for the colon to do its th
 3. NIDDK. Symptoms & Causes of Gas in the Digestive Tract. https://www.niddk.nih.gov/health-information/digestive-diseases/gas-digestive-tract/symptoms-causes
 4. NIDDK. Eating, Diet, & Nutrition for Gas in the Digestive Tract. https://www.niddk.nih.gov/health-information/digestive-diseases/gas-digestive-tract/eating-diet-nutrition
 5. NIDDK. Eating, Diet, & Nutrition for Lactose Intolerance. https://www.niddk.nih.gov/health-information/digestive-diseases/lactose-intolerance/eating-diet-nutrition
-6. Storhaug CL, Fosse SK, Fadnes LT. Country, regional, and global estimates for lactose malabsorption in adults. *Lancet Gastroenterol Hepatol* 2017. https://pubmed.ncbi.nlm.nih.gov/28690131/
+6. Misselwitz B, Butter M, Verbeke K, Fox MR. Update on lactose malabsorption and intolerance: pathogenesis, diagnosis and clinical management. *Gut*. 2019;68(11):2080-2091. https://pubmed.ncbi.nlm.nih.gov/31427404/
 7. Bonnema AL, et al. Gastrointestinal tolerance of chicory inulin products. *J Am Diet Assoc* 2010. https://pubmed.ncbi.nlm.nih.gov/20497775/
 8. Moshiree B, Drossman D, Shaukat A. AGA Clinical Practice Update on Evaluation and Management of Belching, Abdominal Bloating, and Distention. *Gastroenterology* 2023. https://pubmed.ncbi.nlm.nih.gov/37452811/
 9. Oh JE, Chey WD, Spiegel B. Abdominal Bloating in the United States: Results of a Survey of 88,795 Americans. *Clin Gastroenterol Hepatol* 2023. https://pubmed.ncbi.nlm.nih.gov/36396061/
@@ -15083,8 +15083,8 @@ sources:
     url: "https://www.niddk.nih.gov/health-information/digestive-diseases/lactose-intolerance/eating-diet-nutrition"
   - title: "Shaukat A, et al. Systematic review: effective management strategies for lactose intolerance. Ann Intern Med 2010"
     url: "https://pubmed.ncbi.nlm.nih.gov/20404262/"
-  - title: "Storhaug CL, et al. Country, regional, and global estimates for lactose malabsorption in adults. Lancet Gastroenterol Hepatol 2017"
-    url: "https://pubmed.ncbi.nlm.nih.gov/28690131/"
+  - title: "Misselwitz B, et al. Update on lactose malabsorption and intolerance: pathogenesis, diagnosis and clinical management. Gut 2019"
+    url: "https://pubmed.ncbi.nlm.nih.gov/31427404/"
   - title: "Moshiree B, Drossman D, Shaukat A. AGA Clinical Practice Update on Evaluation and Management of Belching, Abdominal Bloating, and Distention. Gastroenterology 2023"
     url: "https://pubmed.ncbi.nlm.nih.gov/37452811/"
   - title: "NIDDK. Diagnosis of Celiac Disease"
@@ -15110,7 +15110,7 @@ Let's sort out which dairy problem, if any, you're dealing with.
 ## Key takeaways
 
 - Lactose intolerance causes bloating, gas, diarrhea, nausea, cramps and gurgling, usually within a few hours of dairy [1].
-- About two-thirds of adults worldwide malabsorb lactose, with big regional differences [5], but not everyone who malabsorbs gets symptoms [6].
+- Losing some ability to digest lactose after childhood is common, and how common varies a lot by ancestry and region [5], but not everyone who malabsorbs lactose gets symptoms [6].
 - Most adults with lactose intolerance tolerate 12–15 g of lactose, about a cup of milk [3][4].
 - Yogurt and hard cheeses have less lactose; lactose-free milk and lactase pills are options [3].
 - Milk allergy is a different, immune condition; symptoms like hives, swelling or breathing trouble need urgent care.
@@ -15121,7 +15121,7 @@ Bloating is one of the classic signs of lactose intolerance. NIDDK lists bloatin
 
 Here's why it happens. Lactose is the natural sugar in milk. Your small intestine needs an enzyme, lactase, to break it down. If you make too little, some lactose reaches your colon, where bacteria ferment it into gas and draw in fluid [1]. That's the bloat, and sometimes the diarrhea.
 
-Low lactase is extremely common. In most people it's genetic: lactase production naturally declines after infancy, and symptoms can begin anywhere from later childhood to early adulthood [1]. A global analysis estimated that about 68% of adults malabsorb lactose, from about 28% in western, southern and northern Europe to 70% in the Middle East [5]. Lactase can also drop temporarily after gut injury, for example from celiac disease, Crohn's disease, some medicines or surgery [1].
+Low lactase is extremely common. In most people it's genetic: lactase production naturally declines after infancy, and symptoms can begin anywhere from later childhood to early adulthood [1]. How common it is varies widely between populations [5]. (The often-quoted global figure of about two-thirds came from a 2017 analysis that was retracted in January 2025, so we don't quote a number.) Lactase can also drop temporarily after gut injury, for example from celiac disease, Crohn's disease, some medicines or surgery [1].
 
 Malabsorbing lactose doesn't guarantee symptoms. The AGA notes that people with a more sensitive gut, as in IBS, are more likely to feel it [6].
 
@@ -15227,7 +15227,7 @@ A structured elimination and reintroduction is simple and cheap; the hydrogen br
 2. NIDDK. Diagnosis of Lactose Intolerance. https://www.niddk.nih.gov/health-information/digestive-diseases/lactose-intolerance/diagnosis
 3. NIDDK. Eating, Diet, & Nutrition for Lactose Intolerance. https://www.niddk.nih.gov/health-information/digestive-diseases/lactose-intolerance/eating-diet-nutrition
 4. Shaukat A, et al. Systematic review: effective management strategies for lactose intolerance. *Ann Intern Med* 2010. https://pubmed.ncbi.nlm.nih.gov/20404262/
-5. Storhaug CL, Fosse SK, Fadnes LT. Country, regional, and global estimates for lactose malabsorption in adults: a systematic review and meta-analysis. *Lancet Gastroenterol Hepatol* 2017. https://pubmed.ncbi.nlm.nih.gov/28690131/
+5. Misselwitz B, Butter M, Verbeke K, Fox MR. Update on lactose malabsorption and intolerance: pathogenesis, diagnosis and clinical management. *Gut*. 2019;68(11):2080-2091. https://pubmed.ncbi.nlm.nih.gov/31427404/
 6. Moshiree B, Drossman D, Shaukat A. AGA Clinical Practice Update on Evaluation and Management of Belching, Abdominal Bloating, and Distention. *Gastroenterology* 2023. https://pubmed.ncbi.nlm.nih.gov/37452811/
 7. NIDDK. Diagnosis of Celiac Disease. https://www.niddk.nih.gov/health-information/digestive-diseases/celiac-disease/diagnosis
 

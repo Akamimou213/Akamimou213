@@ -12,3 +12,14 @@
 39486001 # gut-health-apps  Zhou 2025, smart toilet stool monitoring
 41081011 # gut-health-apps  Fridolfsson 2025, LLM nutrient estimation from photos
 41138916 # gut-health-apps  Chen 2025, customized GPT-4o dietary assessment
+40258374 # ibs  Cuffe 2025 network meta-analysis, dietary interventions in IBS
+30046155 # ibs  Dionne 2018 meta-analysis, diet in IBS
+30009817 # ibs  Barbara 2019 Rome working team, post-infection IBS
+1588218 # poop  Evans 1992, whole-gut transit normal range
+26938478 # food-and-symptoms  Zia 2016, food-symptom diary app pilot in IBS
+31427404 # food-and-symptoms  Misselwitz 2019, lactose malabsorption review (replaces retracted Storhaug 2017)
+39674208 # food-and-symptoms  Retraction notice for Storhaug 2017 (PMID 28690131)
+29102613 # food-and-symptoms  Skodje 2018, fructans vs gluten
+27523634 # food-and-symptoms  Molina-Infante 2017, gluten challenge trials
+41748906 # gut-health-apps  Servetas 2026, NIST consumer microbiome test comparison
+39695869 # gut-health-apps  Rodriguez 2024, direct-to-consumer microbiome kits
