@@ -21,76 +21,26 @@
 <body>
 <!-- @include nav {"ct":"tool-stool-chart","cpp":"default"} -->
 
-<header class="hero hero-tool photo grain" style="--bg:url(../_shared/img/moss.jpg)">
-  <div class="wrap grid">
-    <div class="enter">
-      <p class="label"><b>Bristol stool chart</b> · interactive · printable</p>
-      <h1 class="headline"><span class="s">The 7 poop types,</span><span class="t"><em>explained</em>.</span></h1>
-      <p class="sub">What each type means, which ones are normal, and when to see a doctor. Find yours in one tap.</p>
-      <nav class="pills jump" style="margin-top:28px" aria-label="On this page">
-        <a class="pill" data-icon="stool" href="#chart">All 7 types</a>
-        <a class="pill" data-icon="clock" href="#normal">What's normal</a>
-        <a class="pill" data-icon="shield" href="#doctor">When to worry</a>
-      </nav>
-    </div>
-
-    <div class="glass live enter" style="animation-delay:.12s" aria-live="polite">
-      <div id="finder">
-        <div class="live-head"><span class="name">Find your type</span><span class="muted tiny">1 tap</span></div>
-        <h2 class="q">Which looks most like <em>yours</em>?</h2>
-        <p class="help">Tap the closest match. Your answer stays on this device.</p>
-        <div class="mini-tiles" id="tiles" role="group" aria-label="Stool types"></div>
+<header class="hero hero-compact photo blurred shade-full grain" style="--bg:url(../_shared/img/moss.jpg)">
+  <div class="wrap">
+    <div class="chart-head">
+      <div>
+        <p class="label"><b>Bristol stool chart</b> · free · printable</p>
+        <h1 class="headline"><span class="s">The 7 poop types,</span><span class="t"><em>explained</em>.</span></h1>
+        <p class="sub">Tap the type that looks most like yours to see what it means, common causes, what to try, and when to see a doctor.</p>
       </div>
-      <div id="answer" class="inline-result" hidden>
-        <div class="live-head"><span class="name">Your type</span><button class="link" id="again" type="button">Pick again</button></div>
-        <div class="alert urgent" id="aUrgent" hidden style="margin:0 0 16px"><span class="ico">!</span><div><h3>Talk to a doctor right away if…</h3><p>it lasts more than 2 days, or comes with a high fever, 6 or more loose stools a day, severe pain, black or bloody stool, or signs of dehydration. <span class="cite" style="display:block;margin-top:6px">Source: <a href="https://www.niddk.nih.gov/health-information/digestive-diseases/diarrhea/symptoms-causes">NIDDK</a></span></p></div></div>
-        <span class="tag" id="aTag"></span>
-        <h3 class="result-title" id="aHead" tabindex="-1"></h3>
-        <p class="result-body" id="aBody"></p>
-        <div class="actions-row">
-          <a class="btn btn-white" id="aChart" href="#chart">See causes and what to try</a>
-          <a class="link js-appstore" data-ct="tool-stool-chart-answer" data-cpp="default" href="#">Track it daily in the app</a>
-        </div>
-      </div>
+      <div class="actions-row no-print" style="margin:0"><button class="btn btn-ghost" id="printBtn" type="button" hidden>Print the chart</button><a class="link" href="#doctor">When to worry</a></div>
     </div>
+    <div class="chart" id="chart">
+      <div class="axis" aria-hidden="true"><span>Slower<span class="long"> transit · harder</span></span><i></i><span style="grid-column:3;justify-self:end">Faster<span class="long"> transit · looser</span></span></div>
+<!-- @render ./render.js#chartRows -->
+    </div>
+    <p class="ideal-note">Types 3–4 are often considered ideal. Type 5 is common too.</p>
+    <p class="cite">Based on Lewis &amp; Heaton 1997 <a href="https://pubmed.ncbi.nlm.nih.gov/9299672/">[1]</a>, Blake et al. 2016 <a href="https://pubmed.ncbi.nlm.nih.gov/27492648/">[2]</a> and NIDDK. Get Regular's own wording and drawings. For general information; not a diagnosis.</p>
   </div>
 </header>
 
 <main>
-  <section class="sec photo blurred shade-full" id="chart" style="--bg:url(../_shared/img/moss.jpg)" aria-labelledby="chartH">
-    <div class="wrap">
-      <div style="display:flex;justify-content:space-between;align-items:flex-end;gap:20px;flex-wrap:wrap;margin-bottom:36px">
-        <div>
-          <p class="label"><b>The chart</b></p>
-          <h2 class="h2" id="chartH" style="max-width:15ch">All 7 types.<span class="t">Slow to fast.</span></h2>
-        </div>
-        <div class="actions-row no-print" style="margin:0"><button class="btn btn-ghost" id="printBtn" type="button">Print the chart</button></div>
-      </div>
-      <div class="chart" id="rows">
-        <div class="axis" aria-hidden="true"><span>Slow transit · harder</span><i></i><span style="grid-column:3;justify-self:end">Fast transit · looser</span></div>
-      </div>
-      <p class="ideal-note">Types 3–4 are often considered ideal. Type 5 is common too.</p>
-      <p class="cite">Based on Lewis &amp; Heaton 1997 <a href="https://pubmed.ncbi.nlm.nih.gov/9299672/">[1]</a>, Blake et al. 2016 <a href="https://pubmed.ncbi.nlm.nih.gov/27492648/">[2]</a> and NIDDK. Get Regular's own wording and drawings. For general information; not a diagnosis.</p>
-    </div>
-  </section>
-
-  <section class="sec photo shade-bottom flip no-print" style="--bg:url(../_shared/img/ocean.jpg)" aria-labelledby="speedH">
-    <div class="wrap">
-      <p class="label"><b>What the chart measures</b></p>
-      <h2 class="h2" id="speedH" style="max-width:17ch">Same food.<span class="t">Different <em>speed</em>.</span></h2>
-      <p class="sub" style="max-width:44ch">Stool shape is a guide to how long food spent in your gut. The longer it stays, the more water is absorbed and the harder it gets. Drag to see it.</p>
-      <div class="glass slider-card" style="margin-top:44px">
-        <div class="transit">
-          <label class="muted small" for="speed">Time in the gut</label>
-          <input type="range" id="speed" min="0" max="100" value="50" aria-describedby="speedOut">
-          <div class="ends"><span>Longer · slower</span><span>Shorter · faster</span></div>
-          <p class="cite" style="margin-top:6px">Schematic, not study data. In the original study, stool type tracked whole-gut transit measured with markers better than frequency did <a href="https://pubmed.ncbi.nlm.nih.gov/9299672/">[1]</a>.</p>
-        </div>
-        <div class="transit-out" id="speedOut" aria-live="polite"></div>
-      </div>
-    </div>
-  </section>
-
   <!-- @include app {"img":"wood","label":"From one day to a pattern","title_s":"One poop is a clue.","title_t":"A week is the <em>story</em>.","sub":"Get Regular logs your stool type from a photo or a tap, next to your meals and symptoms, keeps a streak of days in the 3–4 range, and turns weeks of logs into a Doctor Report.","try":"Log your stool type daily","caption":"Seven days shows what one doesn't.","ct":"tool-stool-chart","cpp":"default"} -->
 
   <section class="content-sec sec paper" aria-labelledby="learnH">
@@ -133,79 +83,34 @@
 
 <!-- @include final {"img":"water","ct":"tool-stool-chart","cpp":"default"} -->
 
-<div class="print-sheet" id="printSheet" aria-hidden="true"></div>
+<!-- @render ./render.js#printSheet -->
 <script type="module">
-import { TYPES, SOURCES, SPEED, SIDE, typeForSpeed } from "./chart.js";
-import { track, wireAppStore, esc, sourceLinks, stoolSvg, ICONS, showStickyBar, qrSvg, appStoreUrl } from "../_shared/ui.js";
+import { track, wireAppStore, qrSvg, showStickyBar } from "../_shared/ui.js";
 
+/* The chart is plain HTML <details> rows, so it works without JavaScript.
+ * This script only adds: one row open at a time, deep links, the sticky
+ * app bar on phones, and the print button. */
 const $ = (id) => document.getElementById(id);
-const LEVEL = { ok: "ok", watch: "watch", warn: "warn" };
-document.querySelectorAll("[data-icon]").forEach((el) => el.insertAdjacentHTML("afterbegin", ICONS[el.dataset.icon] || ""));
 wireAppStore("bristol-stool-chart");
+const rows = [...document.querySelectorAll("#chart details.row")];
+let engaged = false;
 
-/* ---------- the chart (also the indexable reference, with #type-N anchors) ---------- */
-$("rows").insertAdjacentHTML("beforeend", [1, 2, 3, 4, 5, 6, 7].map((t) => {
-  const d = TYPES[t];
-  const left = ((t - 1) / 6) * 78;
-  return `<details class="row ${t === 3 || t === 4 ? "ideal" : ""}" id="type-${t}">
-    <summary>${stoolSvg(t)}<span class="tn">Type ${t}</span>
-      <span class="tl"><b>${esc(d.look)}</b><span>${esc(d.headline)}</span></span>
-      <span class="sp"><span>${SPEED[t]} · ${SIDE[t]}</span><span class="bar"><i style="left:${left}%"></i></span></span></summary>
-    <div class="more">
-      <div class="panel"><h4>What it suggests</h4><p class="result-body" style="font-size:15.5px">${esc(d.suggests)}</p></div>
-      <div class="panel"><h4>Common reasons</h4><ul class="ticks">${d.reasons.map((r) => `<li>${esc(r)}</li>`).join("")}</ul></div>
-      <div class="panel"><h4>What to try</h4><ul class="ticks">${d.tryThis.map((r) => `<li>${esc(r)}</li>`).join("")}</ul><p class="cite">Based on ${sourceLinks(d.cite, SOURCES)}</p></div>
-    </div></details>`;
-}).join(""));
-$("rows").querySelectorAll("details.row").forEach((r) => r.addEventListener("toggle", () => { if (r.open) track("tool_use", { tool: "bristol-stool-chart", action: "row_open" }); }));
-
-function focusRow(t) {
-  const r = $(`type-${t}`);
-  $("rows").querySelectorAll("details.row").forEach((x) => { x.open = x === r; x.classList.toggle("hit", x === r); });
-  r.scrollIntoView({ behavior: "smooth", block: "center" });
-}
-
-/* ---------- finder (hero) ---------- */
-$("tiles").innerHTML = [1, 2, 3, 4, 5, 6, 7].map((t) => `<button type="button" class="mini" data-v="${t}" aria-pressed="false" aria-label="Type ${t}: ${esc(TYPES[t].look)}">${stoolSvg(t)}<span>Type ${t}</span></button>`).join("")
-  + `<a class="mini none" href="#chart" aria-label="Not sure: see the full chart"><span class="dash">?</span><span>Not sure</span></a>`;
-$("tiles").querySelectorAll("button.mini").forEach((b) => b.onclick = () => answer(+b.dataset.v));
-
-function answer(t) {
-  const d = TYPES[t];
-  $("aTag").className = `tag ${LEVEL[d.level]}`; $("aTag").textContent = `Type ${t} · ${SIDE[t]}`;
-  $("aHead").textContent = d.headline;
-  $("aBody").textContent = d.suggests;
-  $("aUrgent").hidden = !d.urgentNote;
-  $("aChart").onclick = (e) => { e.preventDefault(); focusRow(t); };
-  $("finder").hidden = true; $("answer").hidden = false;
-  $("answer").classList.remove("enter"); void $("answer").offsetWidth; $("answer").classList.add("enter");
-  $("aHead").focus({ preventScroll: true });
-  $("rows").querySelectorAll("details.row").forEach((x) => x.classList.toggle("hit", x.id === `type-${t}`));
-  track("tool_use", { tool: "bristol-stool-chart", action: "type_selected" });
-  showStickyBar({ cpp: "default", ct: "tool-stool-chart-sticky", text: "Track your type daily in the app" });
-}
-$("again").onclick = () => { $("answer").hidden = true; $("finder").hidden = false; };
+rows.forEach((r) => r.addEventListener("toggle", () => {
+  if (!r.open) return;
+  rows.forEach((x) => { if (x !== r) x.open = false; });
+  const top = r.getBoundingClientRect().top;
+  if (top < 80 || top > innerHeight * 0.7) r.scrollIntoView({ behavior: "smooth", block: "start" });
+  track("tool_use", { tool: "bristol-stool-chart", action: "row_open" });
+  if (!engaged) { engaged = true; showStickyBar({ cpp: "default", ct: "tool-stool-chart-sticky", text: "Track your type daily in the app" }); }
+}));
 
 /* Deep links like #type-6 open that row (long-tail "bristol stool chart type 6"). */
-const fromHash = () => { if (/^#type-[1-7]$/.test(location.hash)) setTimeout(() => focusRow(+location.hash.slice(6)), 300); };
+const fromHash = () => { const r = /^#type-[1-7]$/.test(location.hash) && $(location.hash.slice(1)); if (r) r.open = true; };
 fromHash(); addEventListener("hashchange", fromHash);
 
-/* ---------- transit slider ---------- */
-function speed(v) {
-  const t = typeForSpeed(v);
-  $("speedOut").innerHTML = `${stoolSvg(t)}<span class="tn">Type ${t}</span><span class="tag ${LEVEL[TYPES[t].level]}">${SPEED[t]} · ${SIDE[t]}</span><span class="muted small">${esc(TYPES[t].look)}</span>`;
-}
-$("speed").addEventListener("input", (e) => speed(e.target.value));
-$("speed").addEventListener("change", () => track("tool_use", { tool: "bristol-stool-chart", action: "slider" }));
-speed(50);
-
-/* ---------- print: a clean one-page handout (also what Ctrl+P prints) ---------- */
-document.body.classList.add("has-sheet");
-$("printSheet").innerHTML = `<header><div><h1>Stool type chart</h1><p>7 types, slow to fast. Types 3–4 are often considered ideal.</p></div><p>Get Regular · gut-health app</p></header>
-  <table>${[1, 2, 3, 4, 5, 6, 7].map((t) => `<tr class="${t === 3 || t === 4 ? "ideal" : ""}"><td class="d">${stoolSvg(t, "#6b4f35")}</td><td class="n">Type ${t}</td>
-    <td class="l"><b>${esc(TYPES[t].look)}</b><span>${esc(TYPES[t].headline)}</span></td><td class="s">${SPEED[t]} · ${SIDE[t]}</td></tr>`).join("")}</table>
-  <div class="doc"><b>Talk to a doctor</b> about blood in your stool or black, tarry stool; diarrhea lasting more than 2 days, with high fever, 6 or more loose stools a day or signs of dehydration; constipation with constant belly pain, vomiting, fever or weight loss without trying; or a change in bowel habits that lasts, especially if you're 50 or older (source: NIDDK).</div>
-  <footer><span>Based on Lewis &amp; Heaton 1997 and Blake et al. 2016. Get Regular's own wording and drawings; general information, not a diagnosis.<br>getregular.com/tools/bristol-stool-chart · Log your type daily in the Get Regular app (scan the code).</span>${qrSvg(appStoreUrl({ cpp: "default", ct: "tool-stool-chart-print" }), 120)}</footer>`;
+/* Print: a clean one-page handout (also what Ctrl+P prints). */
+document.querySelectorAll(".print-sheet .qr").forEach((el) => (el.innerHTML = qrSvg(el.dataset.qr, 120)));
+$("printBtn").hidden = false;
 $("printBtn").onclick = () => { track("tool_use", { tool: "bristol-stool-chart", action: "print" }); window.print(); };
 </script>
 </body>

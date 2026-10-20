@@ -55,6 +55,7 @@
           <li data-icon="doc">No email needed. Answers stay on this device</li>
         </ul>
         <button class="btn btn-white" id="start" type="button">Start the quiz</button>
+        <noscript><p class="welcome" style="margin:16px 0 0">This quiz needs JavaScript. Open the page in Safari or Chrome, or jump to <a href="#causes">common causes</a>.</p></noscript>
         <p class="cite" style="margin:18px 0 0">Built on the American Gastroenterological Association's 2023 guidance on bloating <a href="https://pubmed.ncbi.nlm.nih.gov/37452811/">[1]</a>. A self-check, not a diagnosis.</p>
       </div>
 
@@ -193,7 +194,7 @@ function view(name, scroll = true) {
 const label = (id, v) => (BLOAT_QUESTIONS.find((q) => q.id === id)?.options.find((o) => o.v === v) || {}).label || "";
 
 const stepper = createStepper({
-  tool: "why-am-i-bloated", history: true,
+  tool: "why-am-i-bloated",
   questions: quizFlow(),
   renderFact: (q) => `<div class="fact"><div class="big">${esc(q.big)}</div><p>${esc(q.text)}</p><p class="cite" style="margin:0">Source: ${sourceLinks(q.cite, BLOAT_SOURCES)}</p></div>`,
   els: { dots: $("dots"), stepTxt: $("stepTxt"), title: $("qtitle"), help: $("qhelp"), opts: $("opts"), back: $("back"), next: $("next"), view: $("qView") },

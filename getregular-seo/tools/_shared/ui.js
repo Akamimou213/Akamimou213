@@ -87,20 +87,52 @@ export function wireEmail(form, { tool, getPayload }) {
   });
 }
 
-/* Original stool drawings (not the licensed BSFS/Norgine artwork). */
+/* Original stool drawings (not the licensed BSFS/Norgine artwork).
+ * Shapes use fill="url(#G)" / stroke="url(#G)"; stoolSvg() swaps G for a
+ * per-drawing gradient so they read as soft, shaded forms. */
+const SH = (cx, w) => `<ellipse cx="${cx}" cy="41" rx="${w}" ry="2.6" fill="#000" opacity=".28"/>`;
+const HL = 'fill="none" stroke="#fff" stroke-linecap="round" opacity=".32"';
+const CR = 'fill="none" stroke="#000" stroke-linecap="round" opacity=".22"';
 export const STOOL_SVG = {
-  1: '<circle cx="18" cy="24" r="8"/><circle cx="40" cy="20" r="7"/><circle cx="60" cy="27" r="8"/><circle cx="82" cy="21" r="7"/><circle cx="104" cy="26" r="8"/>',
-  2: '<path d="M10 24c0-9 9-12 16-10 5-6 14-6 19 0 5-5 14-5 19 1 6-5 15-4 19 2 7-2 15 2 15 9s-8 11-15 9c-4 6-13 7-19 2-5 5-14 5-19 0-5 6-14 6-19 0-7 2-16-1-16-13z"/>',
-  3: '<rect x="8" y="13" width="114" height="22" rx="11"/><path d="M30 14v8M52 26v8M74 14v7M96 27v7" stroke="#f7f5f2" stroke-width="2.5" stroke-linecap="round"/>',
-  4: '<path d="M8 26c14-16 34-16 54-6s40 10 60-4" fill="none" stroke="currentColor" stroke-width="15" stroke-linecap="round"/>',
-  5: '<ellipse cx="22" cy="25" rx="13" ry="9"/><ellipse cx="54" cy="21" rx="14" ry="9"/><ellipse cx="88" cy="27" rx="13" ry="8"/><ellipse cx="113" cy="21" rx="9" ry="7"/>',
-  6: '<path d="M10 28c3-10 12-8 16-13 3 6 11 1 14 7 5-6 13-2 16 3 5-5 12-3 15 2 4-5 13-2 15 4 5-3 14 0 14 7-5 4-12 2-16 5-6-3-11 3-17 0-6 4-12-1-18 1-6-3-12 3-18-1-7 3-13-3-21-15z"/>',
-  7: '<path d="M8 30c10-8 22 2 34-3s20-6 32 0 24 4 34-2c6 4 6 10 0 12-34 6-70 6-100 0-4-2-4-5 0-7z" opacity=".75"/>',
-  mixed: '<circle cx="22" cy="24" r="8"/><circle cx="42" cy="22" r="7"/><path d="M62 30c6-8 16 2 26-3s16-4 28 1c4 3 4 7 0 9-18 4-38 4-54 0-3-2-3-5 0-7z" opacity=".75"/>',
+  1: SH(64, 54) +
+     '<path fill="url(#G)" d="M9 27c-1-6 3-11 9-11s10 5 9 11-4 9-9 9-8-3-9-9z"/>' +
+     '<path fill="url(#G)" d="M33 24c0-5 4-8 8-8s8 3 8 8-3 9-8 9-8-4-8-9z"/>' +
+     '<path fill="url(#G)" d="M54 28c-1-6 4-10 10-10s9 5 9 10-4 8-9 8-9-2-10-8z"/>' +
+     '<path fill="url(#G)" d="M79 25c0-5 3-8 7-8s8 3 8 8-4 8-8 8-7-3-7-8z"/>' +
+     '<path fill="url(#G)" d="M100 28c0-6 4-10 10-9s9 5 8 10-5 8-10 7-8-3-8-8z"/>' +
+     `<path ${HL} stroke-width="2" d="M13 21q4-3 8-1M37 20q3-2 6 0M58 22q4-2 8 0M82 21q3-2 6 0M104 23q4-2 8 0"/>`,
+  2: SH(64, 56) +
+     '<path fill="url(#G)" d="M9 27c-1-8 6-12 13-10 3-6 12-7 17-2 5-5 13-5 18 0 5-5 14-4 18 1 5-4 14-3 18 3 7-2 15 2 15 9 0 7-7 11-14 9-4 6-13 7-18 2-5 5-14 5-19 0-5 5-13 5-18 0-6 5-14 4-17-2-7 1-12-3-13-10z"/>' +
+     `<path ${CR} stroke-width="1.6" d="M39 17q-2 9 1 17M57 16q-2 9 1 18M75 16q-2 10 1 18M93 18q-2 8 1 16"/>` +
+     `<path ${HL} stroke-width="2.2" d="M18 19q6-3 12-1M44 17q5-2 10 0M62 17q5-2 10 0M80 17q5-2 10 0M96 21q4-2 7 0"/>`,
+  3: SH(65, 56) +
+     '<path fill="url(#G)" d="M14 22c2-6 9-9 18-9h66c11 0 19 4 20 11s-7 12-19 12H31c-11 0-19-6-17-14z"/>' +
+     `<path ${CR} stroke-width="1.7" d="M34 14l2 4-2 3M55 35l1-4 3-3M76 14l1 4-2 4M97 35l1-4 2-3"/>` +
+     `<path ${HL} stroke-width="2.4" d="M28 17q30-4 64-2"/>`,
+  4: SH(66, 56) +
+     '<path fill="none" stroke="url(#G)" stroke-width="15" stroke-linecap="round" d="M12 28c13-14 31-15 50-6s38 10 56-4"/>' +
+     `<path ${HL} stroke-width="2.6" d="M18 23c12-10 27-11 43-4M76 25c13 4 26 2 37-5"/>`,
+  5: SH(66, 56) +
+     '<path fill="url(#G)" d="M9 26c0-6 6-9 13-9s13 3 13 9-6 9-13 9-13-3-13-9z"/>' +
+     '<path fill="url(#G)" d="M41 22c0-6 6-9 13-9s14 3 14 9-7 9-14 9-13-3-13-9z"/>' +
+     '<path fill="url(#G)" d="M75 27c0-5 6-8 13-8s12 3 12 8-5 8-12 8-13-3-13-8z"/>' +
+     '<path fill="url(#G)" d="M105 22c0-4 4-7 9-7s9 3 9 7-4 7-9 7-9-3-9-7z"/>' +
+     `<path ${HL} stroke-width="2" d="M15 21q6-2 12 0M47 17q6-2 12 0M81 23q6-2 12 0M109 18q4-1 8 0"/>`,
+  6: SH(65, 58) +
+     '<path fill="url(#G)" d="M8 33c1-7 6-8 9-12 2 4 6 2 8-2 3 4 8 0 10-4 2 5 8 2 11-1 2 5 7 4 10 0 2 4 8 4 11 0 2 5 8 3 10-1 3 5 9 4 12 1 2 5 8 4 11 2 3 5 9 5 10 12 1 4-3 6-8 6l-6-2-6 3-7-2-7 3-7-3-8 3-7-3-7 2-7-3-7 3-7-2-6 2c-5 0-8-2-7-5z"/>' +
+     `<path ${CR} stroke-width="1.4" d="M28 27q3 2 6 0M52 25q3 2 6 0M76 26q3 2 6 0M99 27q3 2 6 0"/>` +
+     `<path ${HL} stroke-width="1.8" d="M20 25q4-3 8-2M44 22q5-3 9-1M68 22q4-3 9-1M92 23q4-3 8-1"/>`,
+  7: '<path fill="url(#G)" opacity=".85" d="M10 33c4-5 13-4 20-6 6-2 12-6 21-4 7 2 12 1 19-1 9-2 16 2 24 2 7 0 14-2 20 1 6 3 7 8 2 10-8 3-18 2-27 3-10 1-20 1-30 1-11 0-22 1-31-1-8-1-21-1-18-5z"/>' +
+     `<path ${HL} stroke-width="2" d="M30 30q10-3 20-3M66 28q12-2 22 0M98 30q6 0 10 2"/>` +
+     '<ellipse cx="22" cy="23" rx="3" ry="2.4" fill="url(#G)" opacity=".7"/><ellipse cx="112" cy="24" rx="2.4" ry="2" fill="url(#G)" opacity=".7"/>',
 };
 
+const SHADES = { "#e3c9a0": ["#f3e2c4", "#e3c9a0", "#b4925f"], "#6b4f35": ["#8f6c4b", "#6b4f35", "#4a3524"] };
+let gid = 0;
 export function stoolSvg(t, color = "#e3c9a0") {
-  return `<svg viewBox="0 0 130 46" fill="${color}" color="${color}" aria-hidden="true">${STOOL_SVG[t]}</svg>`;
+  const [hi, mid, lo] = SHADES[color] || [color, color, color];
+  const id = `gst${++gid}`;
+  return `<svg viewBox="0 0 130 46" aria-hidden="true"><defs><linearGradient id="${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${hi}"/><stop offset=".55" stop-color="${mid}"/><stop offset="1" stop-color="${lo}"/></linearGradient></defs>${STOOL_SVG[t].replaceAll("url(#G)", `url(#${id})`)}</svg>`;
 }
 
 /*

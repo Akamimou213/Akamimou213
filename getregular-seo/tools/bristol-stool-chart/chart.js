@@ -1,5 +1,5 @@
 /*
- * Stool-type chart data and the 7-day mini log.
+ * Stool-type chart data.
  * review_status: draft-needs-medical-review
  *
  * Wording and drawings are Get Regular's own. The 7-type idea comes from
@@ -79,13 +79,7 @@ export const TYPES = {
 };
 
 /* Where each type sits between slow and fast transit (schematic, for the
- * chart's speed gauge and the transit slider; Lewis & Heaton 1997 showed stool
+ * chart's speed gauge; Lewis & Heaton 1997 showed stool
  * form tracks whole-gut transit, but there are no per-type hour values). */
 export const SPEED = { 1: "Slow", 2: "Slow", 3: "Normal", 4: "Normal", 5: "Normal–fast", 6: "Fast", 7: "Fast" };
 export const SIDE = { 1: "Constipation side", 2: "Constipation side", 3: "Often ideal", 4: "Often ideal", 5: "Common", 6: "Diarrhea side", 7: "Diarrhea" };
-
-/* Transit slider: 0 (slowest) .. 100 (fastest) -> type 1..7 */
-export function typeForSpeed(x) {
-  const v = Math.max(0, Math.min(100, Number(x)));
-  return Math.min(7, 1 + Math.floor(v / (100 / 7)));
-}

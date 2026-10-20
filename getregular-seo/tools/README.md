@@ -13,18 +13,18 @@ Open any `<tool>/prototype.html` in a browser to try it (single file, no server)
 
 ## Bristol stool chart: what's on the page
 
-The searcher wants *the chart*, so the chart is the page:
+The searcher wants *the chart*, so the chart is the page, right under the H1:
 
-1. **Hero finder:** 7 drawn tiles plus "Not sure". One tap gives the type's meaning, an urgent box for type 7, and "See causes and what to try", which opens that row in the chart.
-2. **The chart:** all 7 types as rows, slow to fast, with the ideal band (3–4). Each row opens to "What it suggests", "Common reasons" and "What to try", with sources. Every row has an anchor (`#type-6`), for long-tail queries like "bristol stool chart type 6".
-3. **Transit slider:** "Same food, different speed." Drag from slower to faster transit and watch the type change. It's labeled schematic: the study showed stool form tracks transit, not per-type hours.
-4. **Printable chart:** "Print the chart" (or Ctrl+P) prints a clean one-page white handout: the 7 types, a doctor box, sources and a QR code to the app.
-5. App section, Learn content (short answer, what's normal, accuracy, color, when to see a doctor, FAQ, sources), related tool, sign-off.
+1. **The chart:** all 7 types as rows, slower to faster, with the ideal band (3–4) and shaded original drawings. Tap a row to open what it suggests, common reasons, what to try, sources and a "log your type daily" app link; type 7 adds an urgent box. Rows are plain HTML `<details>` rendered at build time (`render.js`), so the chart is in the page source for search and AI crawlers and works without JavaScript. Each row has an anchor (`#type-6`) for long-tail queries like "bristol stool chart type 6".
+2. **Printable chart:** "Print the chart" (or Ctrl+P) prints a clean one-page white handout: the 7 types, a doctor box, sources and a QR code to the app.
+3. App section, Learn content (short answer, what's normal, accuracy, color, when to see a doctor, FAQ, sources), the other tool, sign-off.
+
+JavaScript only adds one-row-open-at-a-time, deep links, the phone sticky bar and the print button.
 
 ## Why am I bloated?: the quiz funnel
 
 1. **Intro card** in the hero: what you'll get (9 questions, a bloat profile and a 7-day plan, warning signs first, no email).
-2. **9 one-tap questions:** goal, how often, timing, foods, bowels, cycle, early fullness, how long, warning signs. Single-choice answers advance on their own. Back works, including the browser back button.
+2. **9 one-tap questions:** goal, how often, timing, foods, bowels, cycle, early fullness, how long, warning signs. Single-choice answers advance on their own. Back goes to the previous question. Without JavaScript the card says so and links to the causes table.
 3. **2 "did you know" screens** with sourced stats (1 in 7 Americans bloated in the past week, Oh 2023; up to 12 cm of distension over a day in women with IBS, Houghton 2006).
 4. **"Matching your answers…"** (1.5 s; 0.25 s with reduced motion). It honestly describes what happens: comparison with the AGA 2023 patterns and a warning-sign check.
 5. **Your bloat profile:**
@@ -41,7 +41,7 @@ The profile is kept in `localStorage` (this device only), so returning visitors 
 
 ```bash
 node tools/build.mjs              # writes every <tool>/prototype.html
-node --test tools/tools.test.mjs  # chart data + licensing guard, slider, bloat matching, plan, quiz flow (9 tests)
+node --test tools/tools.test.mjs  # chart data, server-rendered rows, licensing guard, bloat matching, plan, quiz flow (9 tests)
 ```
 
 ## Design system (v2, 20 Oct 2026)
@@ -61,7 +61,7 @@ Built from Get Regular's brand creatives (Gut Check, Try This and meal-logging p
   7. Closing sign-off + footer
 - **Shared pieces** (`_shared/partials/*.html`, filled by `build.mjs`): head, nav, app section, final, and the related-tool card (`<!-- @related slug -->`). The ableLead logo, the app screenshot and the fonts load from getregular.com / Google Fonts; in production, use the site's own assets.
 
-Structure: each tool has a pure logic module (`chart.js`, `bloat.js`), an `index.html` (UI + server-renderable SEO content + JSON-LD), and the shared `_shared/base.css` (palette, type, components, print sheet) and `_shared/ui.js` (analytics, App Store links + handoff + sticky bar, stepper with fact screens, email form, original stool drawings). Checked in Chromium at 1440px and 390px with no console errors, including the print sheet and both quiz paths (20 Oct 2026).
+Structure: each tool has a pure logic module (`chart.js`, `bloat.js`), an `index.html` (UI + server-renderable SEO content + JSON-LD), and the shared `_shared/base.css` (palette, type, components, print sheet) and `_shared/ui.js` (analytics, App Store links + handoff + sticky bar, stepper with fact screens, email form, original stool drawings). Checked in Chromium at 1440px and 390px with no console errors: the chart with JavaScript on and off, the print sheet, both quiz paths, and the quiz inside a sandboxed iframe with storage blocked (20 Oct 2026). Not yet checked in Safari/WebKit.
 
 **Porting to Next.js:** one route per tool. Server-render the hero and the `<article class="content">` section, so the H1, answer and table are in the HTML. Make the interactive part a client component that imports the logic module unchanged.
 

@@ -1,12 +1,13 @@
 // Build a single-file prototype.html for each tool (opens from file://, easy to share).
 //  - <!-- @include name {"key":"value"} -->  -> _shared/partials/name.html with {{key}} filled
 //  - <!-- @related current-slug -->          -> cards for the other tools (TOOLS below)
+//  - <!-- @render ./module.js#fn -->         -> HTML returned by fn() at build time (server-rendered content)
 //  - inlines ../_shared/base.css and every ES module the page script imports
 //  - embeds ../_shared/img/*.jpg as data URIs so the file is self-contained
 // Usage: node tools/build.mjs [tool-slug]
 import { readFileSync, writeFileSync, readdirSync, existsSync } from "node:fs";
 import { join, dirname, resolve } from "node:path";
-import { fileURLToPath } from "node:url";
+import { fileURLToPath, pathToFileURL } from "node:url";
 
 const root = dirname(fileURLToPath(import.meta.url));
 const shared = join(root, "_shared");
@@ -37,8 +38,7 @@ function related(current) {
   const cards = other.map((t) =>
     `<a class="tool-card wide" href="/tools/${t.slug}" style="--bg:url(../_shared/img/${t.img}.jpg)"><span class="n">Next free check</span><h3>${t.title}</h3><p>${t.blurb}</p><span class="go">Open the tool →</span></a>`).join("\n");
   return `<section class="related sec night no-print" aria-labelledby="relH"><div class="wrap">
-  <p class="label"><b>Keep going</b></p>
-  <h2 class="h2" id="relH" style="margin-bottom:clamp(36px,5vw,64px)">Keep <em>listening</em>.<span class="t">Your gut has more to say.</span></h2>
+  <h2 class="h3" id="relH" style="margin:0 0 20px">Another free tool</h2>
   ${cards}</div></section>`;
 }
 
@@ -61,9 +61,18 @@ function embedImages(html, dir) {
   });
 }
 
+async function renderBlocks(html, dir) {
+  const re = /<!--\s*@render\s+([^#\s]+)#(\w+)\s*-->/g;
+  for (const [tag, mod, fn] of [...html.matchAll(re)]) {
+    const m = await import(pathToFileURL(resolve(dir, mod)).href);
+    html = html.replace(tag, () => m[fn]());
+  }
+  return html;
+}
+
 for (const name of dirs) {
   const dir = join(root, name);
-  let html = expand(readFileSync(join(dir, "index.html"), "utf8"));
+  let html = await renderBlocks(expand(readFileSync(join(dir, "index.html"), "utf8")), dir);
   html = html.replace(/<link rel="stylesheet" href="([^"]+\.css)">/g, (_, href) => `<style>\n${readFileSync(resolve(dir, href), "utf8")}\n</style>`);
   const m = html.match(/<script type="module">([\s\S]*?)<\/script>/);
   if (!m) throw new Error(`${name}: no module script`);

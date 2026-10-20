@@ -2,7 +2,8 @@
 import test from "node:test";
 import assert from "node:assert/strict";
 import { readFileSync } from "node:fs";
-import { TYPES, SPEED, SIDE, typeForSpeed } from "./bristol-stool-chart/chart.js";
+import { TYPES, SPEED, SIDE } from "./bristol-stool-chart/chart.js";
+import { chartRows, printSheet } from "./bristol-stool-chart/render.js";
 import { matchBloat, planFor, quizFlow, experimentFor, BLOAT_PATTERNS, BLOAT_QUESTIONS, BLOAT_GOALS, BLOAT_SOURCES, EXPERIMENTS } from "./why-am-i-bloated/bloat.js";
 
 const BSFS = /like nuts|sausage|clear-cut edges|fluffy pieces|entirely liquid/i;
@@ -20,18 +21,15 @@ test("stool chart: never the licensed BSFS descriptor text, in data or page", ()
   const all = Object.values(TYPES).map((t) => `${t.look} ${t.headline} ${t.suggests}`).join(" ");
   assert.ok(!BSFS.test(all));
   const page = readFileSync(new URL("./bristol-stool-chart/index.html", import.meta.url), "utf8");
-  assert.ok(!BSFS.test(page));
+  assert.ok(!BSFS.test(page) && !BSFS.test(chartRows()) && !BSFS.test(printSheet()));
 });
 
-test("stool chart: transit slider maps 0..100 onto types 1..7, in order", () => {
-  assert.equal(typeForSpeed(0), 1);
-  assert.equal(typeForSpeed(50), 4);
-  assert.equal(typeForSpeed(100), 7);
-  assert.equal(typeForSpeed(-20), 1);
-  assert.equal(typeForSpeed(250), 7);
-  let prev = 1;
-  for (let v = 0; v <= 100; v++) { const t = typeForSpeed(v); assert.ok(t >= prev && t <= 7); prev = t; }
-  assert.deepEqual([...new Set(Array.from({ length: 101 }, (_, v) => typeForSpeed(v)))], [1, 2, 3, 4, 5, 6, 7]);
+test("stool chart: the 7 rows are server-rendered HTML with deep-link anchors", () => {
+  const html = chartRows();
+  assert.equal((html.match(/<details class="row/g) || []).length, 7);
+  for (let t = 1; t <= 7; t++) assert.ok(html.includes(`id="type-${t}"`));
+  assert.equal((html.match(/class="alert urgent"/g) || []).length, 1); // type 7 only
+  assert.equal((printSheet().match(/<tr/g) || []).length, 7);
 });
 
 test("bloat: evening growth reads as meal-related", () => {
