@@ -4,12 +4,11 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Bristol Stool Chart: What's Your Poop Type? (Interactive) | Get Regular</title>
-<meta name="description" content="Tap the picture that looks like your poop to see what your stool type suggests, what usually causes it, and when to see a doctor. Plus a free 7-day stool log.">
+<meta name="description" content="Tap the shape that looks like your poop to see what your stool type suggests, what usually causes it, and when to see a doctor. Plus a free 7-day stool log.">
 <link rel="canonical" href="https://www.getregular.com/tools/bristol-stool-chart">
-<meta name="robots" content="noindex"><!-- PROTOTYPE: remove when the reviewed version ships -->
-<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Instrument+Serif&display=swap" rel="stylesheet">
-<link rel="stylesheet" href="../_shared/base.css">
+<meta name="robots" content="noindex"><!-- PROTOTYPE -->
+<meta name="theme-color" content="#0b0c0a">
+<!-- @include head -->
 <script type="application/ld+json">
 {"@context":"https://schema.org","@graph":[
  {"@type":"WebApplication","@id":"https://www.getregular.com/tools/bristol-stool-chart#tool","name":"Stool type chart and 7-day log","url":"https://www.getregular.com/tools/bristol-stool-chart","applicationCategory":"HealthApplication","operatingSystem":"Any (web browser)","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@id":"https://www.getregular.com/#org"}},
@@ -19,177 +18,214 @@
 ]}
 </script>
 <style>
-  .types { display: grid; grid-template-columns: repeat(auto-fill, minmax(165px, 1fr)); gap: 10px; }
-  .types .opt { flex-direction: column; align-items: flex-start; min-height: 150px; }
-  .detail { margin-top: 22px; background: var(--white); border-radius: 16px; border: 1px solid var(--line); padding: 22px; }
-  .detail h2 { font: 400 32px/1.08 "Instrument Serif", serif; margin: 10px 0 8px; }
-  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 14px; }
-  @media (max-width: 620px) { .two { grid-template-columns: 1fr; } }
-  .two h3 { font-size: 16px; margin: 0 0 8px; }
-  .week { display: grid; grid-template-columns: repeat(7, 1fr); gap: 6px; margin: 14px 0; }
-  .day { background: var(--white); border: 1px solid var(--line); border-radius: 12px; padding: 8px 4px; text-align: center; }
-  .day b { display: block; font-size: 12px; color: var(--muted); font-weight: 600; }
-  .day select { width: 100%; font: inherit; font-size: 14px; border: 0; background: transparent; text-align: center; padding: 6px 0; }
-  .bars { display: grid; gap: 6px; margin: 10px 0; }
-  .bar { display: grid; grid-template-columns: 150px 1fr 24px; gap: 10px; align-items: center; font-size: 14px; }
-  .bar i { display: block; height: 10px; border-radius: 6px; background: var(--bronze); }
-  @media (max-width: 460px) { .week { grid-template-columns: repeat(4, 1fr); } .bar { grid-template-columns: 110px 1fr 24px; } }
+  .chart-row { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; margin-top: 18px; }
+  .chart-row span { height: 40px; display: flex; align-items: center; justify-content: center; border-radius: 12px; border: 1px solid var(--w10); }
+  .chart-row span.on { border-color: var(--amber-soft); background: rgba(227,201,160,.08); }
+  .chart-row svg { width: 80%; height: 26px; }
+  .week { display: grid; grid-template-columns: repeat(7, 1fr); gap: 10px; }
+  .day { display: grid; gap: 10px; justify-items: center; }
+  .day b { font: 400 13px var(--sans); color: var(--w55); }
+  .day button { width: 100%; aspect-ratio: 1; max-width: 64px; border-radius: 50%; border: 1.3px solid var(--w35); background: transparent; cursor: pointer; display: grid; place-items: center; color: var(--amber-soft); font: 500 18px var(--serif); transition: transform .4s var(--spring), border-color .2s, background .2s; }
+  .day button:hover { transform: translateY(-2px); border-color: var(--w70); }
+  .day button.set { border-color: var(--amber-soft); background: rgba(227,201,160,.12); }
+  .day button.none { color: var(--w55); font: 300 12px var(--sans); }
+  .picker { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 20px; }
+  .bars { display: grid; gap: 10px; margin-top: 18px; }
+  .bar { display: grid; grid-template-columns: 170px 1fr 28px; gap: 14px; align-items: center; font-size: 15px; color: var(--w70); }
+  .bar i { display: block; height: 6px; border-radius: 6px; background: var(--amber-soft); transition: width .6s var(--ease); }
+  @media (max-width: 560px) { .week { gap: 6px; } .bar { grid-template-columns: 112px 1fr 24px; font-size: 13.5px; } }
 </style>
 </head>
 <body>
-<header class="top"><div class="wrap"><a class="logo" href="/">Get Regular</a><span class="pill">Free tool</span></div></header>
-<main class="wrap">
-  <section class="hero">
-    <div class="eyebrow">Interactive stool chart</div>
-    <h1>What's your<br>poop type?</h1>
-    <p class="lede">Tap the picture that looks most like yours. See what it suggests, what usually causes it, and when to see a doctor.</p>
-  </section>
+<!-- @include nav {"ct":"tool-stool-chart","cpp":"default"} -->
 
-  <section class="card" aria-labelledby="pick">
-    <h2 class="q" id="pick">Which looks most like yours?</h2>
-    <p class="help">Doctors use a 7-type stool chart, first described by Lewis &amp; Heaton in 1997. The wording and drawings here are our own.</p>
-    <div class="types" id="types" role="group" aria-label="Stool types"></div>
-    <div class="detail" id="detail" hidden aria-live="polite">
-      <span class="level" id="dLevel"></span>
-      <h2 id="dHead"></h2>
-      <p id="dSuggests"></p>
-      <div id="dUrgent" class="doctor urgent" hidden><h3>Talk to a doctor right away if…</h3><p>…it lasts more than 2 days, or comes with a high fever, 6 or more loose stools a day, severe belly or rectal pain, black or bloody stool, or signs of dehydration (dizziness, dark urine, very little urine). <span class="fine">Source: <a href="https://www.niddk.nih.gov/health-information/digestive-diseases/diarrhea/symptoms-causes">NIDDK</a></span></p></div>
-      <div class="two">
-        <div><h3>Common reasons</h3><ul class="list" id="dReasons"></ul></div>
-        <div><h3>What to try</h3><ul class="list" id="dTry"></ul></div>
+<header class="hero photo grain" style="--bg:url(../_shared/img/moss.jpg)">
+  <div class="wrap grid">
+    <div class="enter">
+      <p class="label"><b>Free tool</b> · stool type chart · 7-day log</p>
+      <h1 class="headline"><span class="s">What's your</span><span class="t">poop <em>type</em>?</span></h1>
+      <p class="sub">Tap the shape that looks like yours. See what it suggests, what usually causes it, and when to call a doctor.</p>
+      <div class="actions"><a class="arrow-cta" href="#chart">Open the chart <span class="ar">→</span></a></div>
+    </div>
+    <div class="glass preview enter" style="animation-delay:.15s" aria-hidden="true">
+      <p class="muted small" style="margin:0">Type 4 · often considered ideal</p>
+      <p class="h3" style="margin:10px 0 0">A smooth, soft log, easy to pass.</p>
+      <div class="chart-row" id="heroRow"></div>
+      <div class="glass-row" style="margin-top:22px"><span class="small">Log your week</span><span class="status-pill">7 days</span></div>
+    </div>
+  </div>
+</header>
+
+<main>
+  <section class="sec photo blurred shade-full" id="chart" style="--bg:url(../_shared/img/moss.jpg)" aria-label="Stool type chart">
+    <div class="wrap" style="display:grid;gap:22px">
+      <div class="tool glass">
+        <div class="tool-top"><span class="name">What's your poop type?</span><span class="muted tiny">Tap one</span></div>
+        <div class="tool-body">
+          <h2 class="q">Which looks most like <em>yours</em>?</h2>
+          <p class="help">Doctors use a 7-type stool chart first described by Lewis &amp; Heaton in 1997. The wording and drawings here are our own.</p>
+          <div class="opts tiles" id="types" role="group" aria-label="Stool types"></div>
+
+          <div id="detail" hidden aria-live="polite" style="margin-top:44px;padding-top:40px;border-top:1px solid var(--w10)">
+            <div class="alert urgent" id="dUrgent" hidden><span class="ico">!</span><div><h3>Talk to a doctor right away if…</h3><p>…it lasts more than 2 days, or comes with a high fever, 6 or more loose stools a day, severe belly or rectal pain, black or bloody stool, or signs of dehydration (dizziness, dark urine, very little urine). <span class="cite" style="display:block;margin-top:6px">Source: <a href="https://www.niddk.nih.gov/health-information/digestive-diseases/diarrhea/symptoms-causes">NIDDK</a></span></p></div></div>
+            <span class="tag" id="dLevel"></span>
+            <h3 class="result-title" id="dHead"></h3>
+            <p class="result-body" id="dSuggests"></p>
+            <div class="panel-grid">
+              <div class="panel"><h4>Common reasons</h4><ul class="ticks" id="dReasons"></ul></div>
+              <div class="panel"><h4>What to try</h4><ul class="ticks" id="dTry"></ul></div>
+            </div>
+            <p class="cite" id="dCite"></p>
+          </div>
+        </div>
       </div>
-      <p class="fine" id="dCite"></p>
+
+      <div class="tool glass" aria-labelledby="weekH">
+        <div class="tool-top"><span class="name" id="weekH">Log your week</span><span class="muted tiny">Stays on your device</span></div>
+        <div class="tool-body">
+          <h2 class="q">One poop says little. <em>A week</em> says a lot.</h2>
+          <p class="help">Tap a day, then pick your usual type for that day (or "none").</p>
+          <div class="week" id="week"></div>
+          <div class="picker" id="picker" hidden></div>
+          <div id="weekOut" hidden style="margin-top:36px">
+            <p class="h3" id="weekHead"></p>
+            <div class="bars" id="bars"></div>
+          </div>
+          <div class="tool-foot"><button class="link" id="clearWeek" type="button">Clear my week</button><a class="btn btn-white js-appstore" data-ct="tool-stool-chart-week" data-cpp="default" href="#">Keep logging in the app</a></div>
+        </div>
+      </div>
+
+      <div class="tool glass no-print">
+        <div class="tool-body" style="padding-block:clamp(26px,4vw,44px)">
+          <div class="panel mail" style="border:0;padding:0;background:none">
+            <h4>Get the printable chart and a 2-week log</h4>
+            <p class="muted small" style="margin:0">Optional. We'll email a printable stool-type chart and log sheet.</p>
+            <form class="mail-form" id="mailForm" novalidate>
+              <div class="row"><input type="email" required autocomplete="email" placeholder="you@example.com" aria-label="Email address"><button class="btn btn-ghost" type="submit">Email it to me</button></div>
+              <label class="consent"><input type="checkbox" name="consentNews"> <span>Also send me Get Regular's gut-health emails.</span></label>
+              <p class="status" role="status"></p>
+            </form>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
 
-  <section class="card" aria-labelledby="weekH">
-    <h2 class="q" id="weekH">Log your week</h2>
-    <p class="help">One poop doesn't tell you much. Pick your usual type for each day (or "none"). This stays on your device.</p>
-    <div class="week" id="week"></div>
-    <div id="weekOut" hidden>
-      <p><strong id="weekHead"></strong></p>
-      <div class="bars" id="bars"></div>
-      <div class="cta">
-        <h3>Keep the log going, automatically</h3>
-        <p>Get Regular logs each bowel movement from a photo or a tap, puts it next to your meals and symptoms, and turns weeks of logs into a Doctor Report.</p>
-        <a class="btn" id="appstore" href="#" rel="noopener">Download on the App Store <span aria-hidden="true">↗</span></a>
-        <p class="fine">Free download for iPhone and iPad. Subscription for premium features.</p>
+  <section class="sec photo shade-bottom" style="--bg:url(../_shared/img/ocean.jpg)" aria-labelledby="howH">
+    <div class="wrap">
+      <p class="label"><b>How to read it</b></p>
+      <h2 class="h2" id="howH" style="max-width:17ch">Shape is a clue.<span class="t">Speed is the story.</span></h2>
+      <div class="steps" style="margin-top:clamp(48px,6vw,88px)">
+        <div class="step"><p class="h3">Hard and lumpy</p><p>Types 1–2 usually mean stool spent a long time in the colon. A common sign of constipation.</p></div>
+        <div class="step"><p class="h3">Smooth and formed</p><p>Types 3–4 are often considered ideal, and type 5 is common too. Some variation day to day is normal.</p></div>
+        <div class="step"><p class="h3">Mushy or liquid</p><p>Types 6–7 mean food moved through quickly. Diarrhea lasting more than 2 days needs a doctor.</p></div>
       </div>
     </div>
-    <p class="no-print"><button class="link" id="clearWeek">Clear my week</button> · <a href="/resources/bowel-movement-log-pdf">Printable 2-week stool log</a></p>
   </section>
 
-  <section class="mail no-print" aria-labelledby="mailH">
-    <h3 id="mailH">Get the printable chart and a 2-week log</h3>
-    <p class="fine">Optional. We'll email a printable stool-type chart and log sheet.</p>
-    <form id="mailForm" novalidate>
-      <input type="email" required autocomplete="email" placeholder="you@example.com" aria-label="Email address">
-      <label class="consent"><input type="checkbox" name="consentNews"> <span>Also send me Get Regular's gut-health emails (optional).</span></label>
-      <button class="btn gold" type="submit">Email it to me</button>
-      <p class="fine" role="status"></p>
-    </form>
+  <!-- @include app {"img":"kiwi-table","label":"From one poop to a pattern","title_s":"Log it in seconds.","title_t":"See your <em>week</em>.","sub":"Get Regular logs each bowel movement from a photo or a tap, next to your meals and symptoms, and turns weeks of logs into a Doctor Report.","try":"Log your stool type daily","caption":"Seven days shows what one doesn't.","ct":"tool-stool-chart","cpp":"default"} -->
+
+  <section class="content-sec sec paper" aria-labelledby="learnH">
+    <div class="wrap split">
+      <div class="side">
+        <p class="label"><b>Learn</b></p>
+        <h2 class="h2" id="learnH">What does my poop type <em>mean</em>?</h2>
+        <p class="sub" style="font-size:19px">The 7 types, what's normal, how accurate the chart is, and when to see a doctor.</p>
+      </div>
+      <article class="prose">
+        <div class="answer"><p class="label"><b>Short answer</b></p><p>Stool shape is a rough guide to how fast food moves through your gut. Hard pellets (types 1–2) usually mean slow transit, smooth soft logs (types 3–4) are often considered ideal, and mushy or liquid stool (types 6–7) means fast transit <a href="https://pubmed.ncbi.nlm.nih.gov/9299672/">[1]</a>. Most people vary from day to day, so a week of logs says more than one bowel movement <a href="https://pubmed.ncbi.nlm.nih.gov/1624166/">[3]</a>.</p></div>
+        <h2>The 7 stool types at a glance</h2>
+        <div class="table-wrap"><table><thead><tr><th>Type</th><th>What it looks like</th><th>What it usually suggests</th></tr></thead><tbody id="typeTable"></tbody></table></div>
+        <h2>Is the stool chart accurate?</h2>
+        <p>Reasonably. In the original study, stool type tracked whole-gut transit time measured with markers <a href="https://pubmed.ncbi.nlm.nih.gov/9299672/">[1]</a>. When people classified stool models, 81% were correct overall, but borderline types (2, 3, 5 and 6) were harder <a href="https://pubmed.ncbi.nlm.nih.gov/27492648/">[2]</a>. More in <a href="/science/evidence/bristol-stool-scale">what the research says about the stool chart</a>.</p>
+        <h2>What's normal?</h2>
+        <p>In a US national survey, 96% of adults with normal bowel habits went between three times a day and three times a week <a href="https://pubmed.ncbi.nlm.nih.gov/28762379/">[4]</a>. Shape varies too: in a UK study only about 56–61% of stools were the "normal" types <a href="https://pubmed.ncbi.nlm.nih.gov/1624166/">[3]</a>. A lasting change from your normal matters more than any single day.</p>
+        <h2>When to see a doctor</h2>
+        <ul>
+          <li>Blood in your stool, or black, tarry stool</li>
+          <li>Diarrhea lasting more than 2 days, high fever, 6 or more loose stools a day, or signs of dehydration <a href="https://www.niddk.nih.gov/health-information/digestive-diseases/diarrhea/symptoms-causes">[5]</a></li>
+          <li>Constipation with constant belly pain, vomiting, fever, not being able to pass gas, or weight loss without trying <a href="https://www.niddk.nih.gov/health-information/digestive-diseases/constipation/symptoms-causes">[6]</a></li>
+          <li>A change in bowel habits that lasts, especially if you're 50 or older or have a family history of bowel cancer</li>
+        </ul>
+        <h2>Questions</h2>
+        <div class="faq">
+          <details><summary>What's the healthiest poop type?</summary><p>Types 3 and 4 are often considered ideal: formed, soft and easy to pass. Type 5 is common too, and some researchers group types 3–5 as normal <a href="https://pubmed.ncbi.nlm.nih.gov/27492648/">[2]</a>.</p></details>
+          <details><summary>Is it bad to have type 6 or 7 sometimes?</summary><p>An occasional loose stool after coffee, a big meal or a stomach bug is common. Diarrhea lasting more than 2 days, or with fever, blood or dehydration, needs a doctor <a href="https://www.niddk.nih.gov/health-information/digestive-diseases/diarrhea/symptoms-causes">[5]</a>.</p></details>
+          <details><summary>Does my week log get saved anywhere?</summary><p>Only in your own browser. It isn't sent to us. Clear it any time.</p></details>
+          <details><summary>Can an app tell my type from a photo?</summary><p>Some studies have tested AI on stool photos, with promising but early results. See <a href="/science/evidence/ai-stool-and-meal-photos">what the research says</a> and <a href="/science/how-our-ai-works">how our AI works</a>.</p></details>
+        </div>
+        <div class="sources"><strong>Sources</strong><ol><li>Lewis SJ, Heaton KW. <em>Scand J Gastroenterol</em> 1997</li><li>Blake MR et al. <em>Aliment Pharmacol Ther</em> 2016</li><li>Heaton KW et al. <em>Gut</em> 1992</li><li>Mitsuhashi S et al. <em>Am J Gastroenterol</em> 2018</li><li>NIDDK. Diarrhea</li><li>NIDDK. Constipation</li></ol>
+        <div class="reviewed"><span>Last reviewed [SET AT PUBLISH]</span><span>Reviewed by [CONFIRM]</span><span>Wording and drawings are Get Regular's own</span></div></div>
+      </article>
+    </div>
   </section>
 
-  <article class="content">
-    <h2>What does my poop type mean?</h2>
-    <p class="answer"><strong>Short answer:</strong> stool shape is a rough guide to how fast food moves through your gut. Hard pellets (types 1–2) usually mean slow transit, smooth soft logs (types 3–4) are often considered ideal, and mushy or liquid stool (types 6–7) means fast transit <a href="https://pubmed.ncbi.nlm.nih.gov/9299672/">[1]</a>. Most people vary from day to day, so a week of logs says more than one bowel movement <a href="https://pubmed.ncbi.nlm.nih.gov/1624166/">[3]</a>.</p>
-
-    <h2>The 7 stool types at a glance</h2>
-    <div class="table-wrap"><table>
-      <thead><tr><th>Type</th><th>What it looks like</th><th>What it usually suggests</th></tr></thead>
-      <tbody id="typeTable"></tbody>
-    </table></div>
-
-    <h2>Is the stool chart accurate?</h2>
-    <p>Reasonably. In the original study, stool type tracked whole-gut transit time measured with markers <a href="https://pubmed.ncbi.nlm.nih.gov/9299672/">[1]</a>. When people classified stool models, 81% were correct overall, but borderline types (2, 3, 5 and 6) were harder <a href="https://pubmed.ncbi.nlm.nih.gov/27492648/">[2]</a>. See <a href="/science/evidence/bristol-stool-scale">what the research says about the stool chart</a>.</p>
-
-    <h2>What's normal?</h2>
-    <p>In a US national survey, 96% of adults with normal bowel habits went between three times a day and three times a week <a href="https://pubmed.ncbi.nlm.nih.gov/28762379/">[4]</a>. Shape varies too: in a UK study only about 56–61% of stools were the "normal" types <a href="https://pubmed.ncbi.nlm.nih.gov/1624166/">[3]</a>. A lasting change from your normal matters more than any single day. <a href="/tools/how-regular-are-you">Take the 2-minute regularity check</a> · <a href="/tools/poop-color-chart">Check your poop color</a></p>
-
-    <h2>When to see a doctor</h2>
-    <ul>
-      <li>Blood in your stool, or black, tarry stool</li>
-      <li>Diarrhea lasting more than 2 days, high fever, 6 or more loose stools a day, or signs of dehydration <a href="https://www.niddk.nih.gov/health-information/digestive-diseases/diarrhea/symptoms-causes">[5]</a></li>
-      <li>Constipation with constant belly pain, vomiting, fever, not being able to pass gas, or weight loss without trying <a href="https://www.niddk.nih.gov/health-information/digestive-diseases/constipation/symptoms-causes">[6]</a></li>
-      <li>A change in bowel habits that lasts, especially if you're 50 or older or have a family history of bowel cancer</li>
-    </ul>
-
-    <h2>Frequently asked questions</h2>
-    <details><summary>What's the healthiest poop type?</summary><p>Types 3 and 4 are often considered ideal: formed, soft and easy to pass. Type 5 is common too, and some researchers group types 3–5 as normal <a href="https://pubmed.ncbi.nlm.nih.gov/27492648/">[2]</a>.</p></details>
-    <details><summary>Is it bad to have type 6 or 7 sometimes?</summary><p>An occasional loose stool after coffee, a big meal or a stomach bug is common. Diarrhea lasting more than 2 days, or with fever, blood or dehydration, needs a doctor <a href="https://www.niddk.nih.gov/health-information/digestive-diseases/diarrhea/symptoms-causes">[5]</a>.</p></details>
-    <details><summary>Does my week log get saved anywhere?</summary><p>Only in your own browser. It isn't sent to us. Clear it any time with "Clear my week".</p></details>
-    <details><summary>Can an app tell my type from a photo?</summary><p>Some studies have tested AI on stool photos, with promising but early results. See <a href="/science/evidence/ai-stool-and-meal-photos">what the research says</a> and <a href="/science/how-our-ai-works">how our AI works</a>.</p></details>
-
-    <p class="byline">Sources: [1] Lewis SJ, Heaton KW. Scand J Gastroenterol 1997 · [2] Blake MR et al. Aliment Pharmacol Ther 2016 · [3] Heaton KW et al. Gut 1992 · [4] Mitsuhashi S et al. Am J Gastroenterol 2018 · [5] NIDDK, Diarrhea · [6] NIDDK, Constipation. Wording and drawings are Get Regular's own. Last reviewed: [SET AT PUBLISH].</p>
-  </article>
+  <!-- @related bristol-stool-chart -->
 </main>
-<footer><div class="wrap"><a href="/legal/consumer-health-data-privacy">Consumer Health Data Privacy Policy</a> · <a href="/legal/privacy-policy">Privacy policy</a><br>© Get Regular Health, Inc. For general information; doesn't replace medical advice. Prototype — not for publication until clinical and legal review.</div></footer>
+
+<!-- @include final {"img":"water","ct":"tool-stool-chart","cpp":"default"} -->
 
 <script type="module">
 import { TYPES, SOURCES, GROUP_LABEL, summarizeWeek } from "./chart.js";
-import { track, appStoreUrl, esc, sourceLinks, wireEmail, stoolSvg } from "../_shared/ui.js";
+import { track, wireAppStore, esc, sourceLinks, wireEmail, stoolSvg } from "../_shared/ui.js";
 
 const $ = (id) => document.getElementById(id);
 const DAYS = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"];
-let current = null;
+const LEVEL = { ok: ["ok", "In the usual range"], watch: ["watch", "Worth watching"], warn: ["warn", "Diarrhea"] };
+wireAppStore("bristol-stool-chart");
 
-// Picker
+$("heroRow").innerHTML = [1, 2, 3, 4, 5, 6, 7].map((t) => `<span class="${t === 4 ? "on" : ""}">${stoolSvg(t)}</span>`).join("");
 for (const t of [1, 2, 3, 4, 5, 6, 7]) {
   const b = document.createElement("button");
   b.type = "button"; b.className = "opt"; b.setAttribute("aria-pressed", "false");
-  b.innerHTML = `${stoolSvg(t)}<span><span class="t">Type ${t}</span><span class="d">${esc(TYPES[t].look)}</span></span>`;
+  b.innerHTML = `<span class="art">${stoolSvg(t)}</span><span class="t">Type ${t}</span><span class="d">${esc(TYPES[t].look)}</span>`;
   b.onclick = () => show(t);
   $("types").appendChild(b);
 }
-// Indexable table (also server-rendered in production)
-$("typeTable").innerHTML = [1, 2, 3, 4, 5, 6, 7].map((t) =>
-  `<tr><td><strong>Type ${t}</strong></td><td>${esc(TYPES[t].look)}</td><td>${esc(TYPES[t].headline)}</td></tr>`).join("");
+$("typeTable").innerHTML = [1, 2, 3, 4, 5, 6, 7].map((t) => `<tr><td><strong>Type ${t}</strong></td><td>${esc(TYPES[t].look)}</td><td>${esc(TYPES[t].headline)}</td></tr>`).join("");
 
-const LEVEL_TEXT = { ok: "In the usual range", watch: "Worth watching", warn: "Diarrhea" };
 function show(t) {
-  current = t;
   const d = TYPES[t];
   [...$("types").children].forEach((b, i) => b.setAttribute("aria-pressed", String(i + 1 === t)));
   $("detail").hidden = false;
-  $("dLevel").className = `level ${d.level}`; $("dLevel").textContent = `Type ${t} · ${LEVEL_TEXT[d.level]}`;
+  $("dLevel").className = `tag ${LEVEL[d.level][0]}`; $("dLevel").textContent = `Type ${t} · ${LEVEL[d.level][1]}`;
   $("dHead").textContent = d.headline;
   $("dSuggests").textContent = d.suggests;
   $("dUrgent").hidden = !d.urgentNote;
   $("dReasons").innerHTML = d.reasons.map((r) => `<li>${esc(r)}</li>`).join("");
   $("dTry").innerHTML = d.tryThis.map((r) => `<li>${esc(r)}</li>`).join("");
-  $("dCite").innerHTML = "Based on: " + sourceLinks(d.cite, SOURCES);
+  $("dCite").innerHTML = "Based on " + sourceLinks(d.cite, SOURCES);
+  $("detail").classList.remove("enter"); void $("detail").offsetWidth; $("detail").classList.add("enter");
   track("tool_use", { tool: "bristol-stool-chart", action: "type_selected" });
 }
 
-// 7-day log, kept in this browser only
+// 7-day log in this browser only
 const KEY = "gr-stool-week";
-let week = Array(7).fill(null);
-try { const saved = JSON.parse(localStorage.getItem(KEY) || "null"); if (Array.isArray(saved) && saved.length === 7) week = saved; } catch {}
-function save() { try { localStorage.setItem(KEY, JSON.stringify(week)); } catch {} }
+let week = Array(7).fill(null), active = null;
+try { const s = JSON.parse(localStorage.getItem(KEY) || "null"); if (Array.isArray(s) && s.length === 7) week = s; } catch {}
+const save = () => { try { localStorage.setItem(KEY, JSON.stringify(week)); } catch {} };
 function renderWeek() {
-  $("week").innerHTML = DAYS.map((d, i) => `<label class="day"><b>${d}</b><select data-i="${i}" aria-label="${d} stool type">
-    <option value="">–</option>${[1, 2, 3, 4, 5, 6, 7].map((t) => `<option value="${t}" ${week[i] === t ? "selected" : ""}>Type ${t}</option>`).join("")}
-    <option value="none" ${week[i] === "none" ? "selected" : ""}>None</option></select></label>`).join("");
-  $("week").querySelectorAll("select").forEach((s) => s.onchange = () => {
-    const v = s.value; week[+s.dataset.i] = v === "" ? null : v === "none" ? "none" : +v; save(); renderSummary();
-  });
-  renderSummary();
-}
-function renderSummary() {
+  $("week").innerHTML = DAYS.map((d, i) => {
+    const v = week[i];
+    return `<div class="day"><b>${d}</b><button type="button" data-i="${i}" class="${v === null ? "" : v === "none" ? "set none" : "set"}" aria-label="${d}: ${v === null ? "not logged" : v === "none" ? "no bowel movement" : "type " + v}">${v === null ? "" : v === "none" ? "none" : v}</button></div>`;
+  }).join("");
+  $("week").querySelectorAll("button").forEach((b) => b.onclick = () => { active = +b.dataset.i; renderPicker(); });
   const s = summarizeWeek(week);
   $("weekOut").hidden = s.logged === 0;
   $("weekHead").textContent = s.headline;
   const max = Math.max(1, ...Object.values(s.counts));
-  $("bars").innerHTML = Object.entries(s.counts).map(([k, n]) =>
-    `<div class="bar"><span>${GROUP_LABEL[k]}</span><i style="width:${(n / max) * 100}%;${n ? "" : "opacity:.15"}"></i><span>${n}</span></div>`).join("");
+  $("bars").innerHTML = Object.entries(s.counts).map(([k, n]) => `<div class="bar"><span>${GROUP_LABEL[k]}</span><i style="width:${(n / max) * 100}%;${n ? "" : "opacity:.15"}"></i><span>${n}</span></div>`).join("");
 }
-$("clearWeek").onclick = () => { week = Array(7).fill(null); save(); renderWeek(); };
+function renderPicker() {
+  $("picker").hidden = false;
+  $("picker").innerHTML = `<span class="muted small" style="width:100%;margin-bottom:4px">${DAYS[active]}:</span>` +
+    [1, 2, 3, 4, 5, 6, 7].map((t) => `<button class="chip" type="button" data-v="${t}">Type ${t}</button>`).join("") + `<button class="chip" type="button" data-v="none">None</button><button class="chip" type="button" data-v="">Clear</button>`;
+  $("picker").querySelectorAll("button").forEach((b) => b.onclick = () => {
+    const v = b.dataset.v; week[active] = v === "" ? null : v === "none" ? "none" : +v; save(); $("picker").hidden = true; renderWeek();
+  });
+}
+$("clearWeek").onclick = () => { week = Array(7).fill(null); save(); $("picker").hidden = true; renderWeek(); };
 renderWeek();
-
-const a = $("appstore");
-a.href = appStoreUrl({ cpp: "default", ct: "tool-stool-chart" });
-a.onclick = () => track("app_store_click", { tool: "bristol-stool-chart" });
-// Printable only: no health answers are sent, so no health-data consent box.
 wireEmail($("mailForm"), { tool: "bristol-stool-chart", getPayload: () => ({ asset: "stool-chart-pdf" }) });
 </script>
 </body>

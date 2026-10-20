@@ -29,6 +29,32 @@ export function appStoreUrl({ cpp = "default", ct }) {
   return u.toString();
 }
 
+/* Point every .js-appstore link at the App Store with its CPP + campaign token. */
+export function wireAppStore(tool) {
+  if (typeof document === "undefined") return;
+  document.querySelectorAll(".js-appstore").forEach((a) => {
+    a.href = appStoreUrl({ cpp: a.dataset.cpp || "default", ct: a.dataset.ct || tool });
+    a.rel = "noopener";
+    a.addEventListener("click", () => track("app_store_click", { tool, placement: a.dataset.ct }));
+  });
+}
+
+/* Line icons in the style of the brand creatives (1.3px strokes). */
+export const ICONS = {
+  meals: '<svg viewBox="0 0 24 24"><path d="M7 3v8M5 3v5a2 2 0 0 0 4 0V3M7 11v10M16 3c-1.7 0-3 2.2-3 5s1.3 4 3 4v9M16 3v18"/></svg>',
+  stool: '<svg viewBox="0 0 24 24"><path d="M12 4c1.6 1.2 2 2.4 1.4 3.5 2.3.2 3.6 1.6 3.4 3.4 2 .5 3.2 2 3.2 3.8 0 2.4-2.4 4.3-8 4.3s-8-1.9-8-4.3c0-1.8 1.2-3.3 3.2-3.8-.2-1.8 1.1-3.2 3.4-3.4C10 6.4 10.6 5 12 4z"/></svg>',
+  checkins: '<svg viewBox="0 0 24 24"><path d="M5 20v-5M10 20V10M15 20v-8M20 20V5"/></svg>',
+  clock: '<svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="8.5"/><path d="M12 7.5V12l3 2"/></svg>',
+  shield: '<svg viewBox="0 0 24 24"><path d="M12 3l7 3v5c0 4.5-3 8.2-7 10-4-1.8-7-5.5-7-10V6l7-3z"/><path d="M9 12l2 2 4-4"/></svg>',
+  doc: '<svg viewBox="0 0 24 24"><path d="M7 3h7l4 4v14H7z"/><path d="M14 3v4h4M10 12h5M10 16h5"/></svg>',
+  drop: '<svg viewBox="0 0 24 24"><path d="M12 3c3.5 4.4 6 7.6 6 10.5A6 6 0 0 1 6 13.5C6 10.6 8.5 7.4 12 3z"/></svg>',
+  leaf: '<svg viewBox="0 0 24 24"><path d="M5 19c0-8 5-13 14-14 0 9-5 14-13 14"/><path d="M5 19c3-4 6-6.5 9.5-8.5"/></svg>',
+  calendar: '<svg viewBox="0 0 24 24"><rect x="4" y="5" width="16" height="15" rx="2.5"/><path d="M4 10h16M9 3v4M15 3v4"/></svg>',
+  palette: '<svg viewBox="0 0 24 24"><path d="M12 3a9 9 0 1 0 0 18c1.1 0 1.6-.8 1.6-1.6 0-1.2-1-1.5-1-2.6 0-.9.7-1.6 1.6-1.6H17a4 4 0 0 0 4-4C21 6.6 17 3 12 3z"/><circle cx="7.5" cy="11" r="1"/><circle cx="10" cy="7" r="1"/><circle cx="14.5" cy="7" r="1"/></svg>',
+  wave: '<svg viewBox="0 0 24 24"><path d="M3 13c2.5 0 2.5-3 5-3s2.5 3 5 3 2.5-3 5-3 2.5 3 3 3M3 18c2.5 0 2.5-3 5-3s2.5 3 5 3 2.5-3 5-3 2.5 3 3 3"/></svg>',
+  chat: '<svg viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/></svg>',
+};
+
 export function esc(s) {
   return String(s).replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
 }
@@ -73,6 +99,60 @@ export const STOOL_SVG = {
   mixed: '<circle cx="22" cy="24" r="8"/><circle cx="42" cy="22" r="7"/><path d="M62 30c6-8 16 2 26-3s16-4 28 1c4 3 4 7 0 9-18 4-38 4-54 0-3-2-3-5 0-7z" opacity=".75"/>',
 };
 
-export function stoolSvg(t, color = "#8a6a4b") {
+export function stoolSvg(t, color = "#e3c9a0") {
   return `<svg viewBox="0 0 130 46" fill="${color}" color="${color}" aria-hidden="true">${STOOL_SVG[t]}</svg>`;
+}
+
+/*
+ * One-question-at-a-time stepper shared by the question-based tools.
+ * questions: array, or (answers) => array for branching. Single-choice
+ * questions auto-advance; multi-choice ones use Next. Options may set
+ * `exclusive` (e.g. "None of these").
+ */
+export function createStepper({ questions, els, artFor, onDone, onStep, tool }) {
+  const answers = {};
+  let i = 0;
+  const list = () => (typeof questions === "function" ? questions(answers) : questions);
+  const $ = (k) => els[k];
+  function dots(n, cur) {
+    $("dots").innerHTML = Array.from({ length: n }, (_, k) => `<i class="${k < cur ? "done" : k === cur ? "now" : ""}"></i>`).join("");
+  }
+  function render() {
+    const qs = list(); const q = qs[i];
+    dots(qs.length, i);
+    $("stepTxt").textContent = `${i + 1} / ${qs.length}`;
+    $("title").textContent = q.title;
+    $("help").textContent = q.help || ""; $("help").hidden = !q.help;
+    const box = $("opts");
+    box.className = "opts" + (q.tiles ? " tiles" : "");
+    box.setAttribute("aria-label", q.title);
+    box.innerHTML = "";
+    for (const o of q.options) {
+      const b = document.createElement("button");
+      b.type = "button"; b.className = "opt";
+      b.setAttribute("aria-pressed", String(q.multi ? (answers[q.id] || []).includes(o.v) : answers[q.id] === o.v));
+      b.innerHTML = (artFor ? artFor(q, o) : "") + `<span class="t">${esc(o.label)}</span>` + (o.desc ? `<span class="d">${esc(o.desc)}</span>` : "");
+      b.onclick = () => choose(q, o);
+      box.appendChild(b);
+    }
+    const v = $("view"); v.classList.remove("enter"); void v.offsetWidth; v.classList.add("enter");
+    $("back").style.visibility = i === 0 ? "hidden" : "visible";
+    $("next").disabled = q.multi ? !(answers[q.id] || []).length : answers[q.id] === undefined;
+    $("next").textContent = i === qs.length - 1 ? "See my result" : "Next";
+  }
+  function choose(q, o) {
+    if (q.multi) {
+      let cur = answers[q.id] || [];
+      cur = o.exclusive ? (cur.includes(o.v) ? [] : [o.v]) : (cur.includes(o.v) ? cur.filter((x) => x !== o.v) : [...cur.filter((x) => x !== "none"), o.v]);
+      answers[q.id] = cur; render();
+    } else { answers[q.id] = o.v; render(); setTimeout(next, 260); }
+  }
+  function next() {
+    const qs = list();
+    if (i < qs.length - 1) { i++; onStep && onStep(i); track("quiz_step", { tool, step: i }); render(); }
+    else { dots(qs.length, 99); $("stepTxt").textContent = "Your result"; onDone(answers); }
+  }
+  $("next").onclick = next;
+  $("back").onclick = () => { if (i > 0) { i--; render(); } };
+  return { answers, render, reset() { for (const k in answers) delete answers[k]; i = 0; render(); } };
 }

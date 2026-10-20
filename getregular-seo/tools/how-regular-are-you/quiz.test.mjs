@@ -1,7 +1,8 @@
 // Run: node --test quiz.test.mjs
 import test from "node:test";
 import assert from "node:assert/strict";
-import { score, pattern, result, visibleQuestions, appStoreUrl, QUESTIONS } from "./quiz.js";
+import { score, pattern, result, visibleQuestions, QUESTIONS } from "./quiz.js";
+import { appStoreUrl, PPIDS } from "../_shared/ui.js";
 
 const base = { form: 4, freq: "1to3day", strain: "rarely", incomplete: "rarely", urgency: "rarely",
   pain: "none", bloat: "rarely", duration: "gt6m", redflags: ["none"], goal: "regular" };
@@ -64,7 +65,8 @@ test("pain-days question only shows when there is pain", () => {
 });
 
 test("App Store link carries the CPP and campaign token", () => {
-  const u = new URL(appStoreUrl(result({ ...base, form: 1, freq: "lt3wk" }), { constipation: "abc-123" }));
+  PPIDS.constipation = "abc-123";
+  const u = new URL(appStoreUrl(result({ ...base, form: 1, freq: "lt3wk" })));
   assert.equal(u.searchParams.get("ppid"), "abc-123");
   assert.equal(u.searchParams.get("ct"), "quiz-constipation");
 });

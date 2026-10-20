@@ -4,399 +4,278 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>How Regular Are You? Free 2-Minute Bowel Habits Quiz | Get Regular</title>
-<meta name="description" content="Free 2-minute self-check: answer about 10 questions about your poop, pain and bloating, and get your Regularity Score and pattern instantly. No email needed. Based on stool shape, frequency and symptom research.">
+<meta name="description" content="Free 2-minute self-check: answer about 10 questions about your poop, pain and bloating, and get your Regularity Score and pattern instantly. No email needed.">
 <link rel="canonical" href="https://www.getregular.com/tools/how-regular-are-you">
-<meta name="robots" content="noindex"><!-- PROTOTYPE: remove when the reviewed version ships -->
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=DM+Sans:opsz,wght@9..40,400;9..40,500;9..40,600;9..40,700&family=Instrument+Serif:ital@0;1&display=swap" rel="stylesheet">
+<meta name="robots" content="noindex"><!-- PROTOTYPE -->
+<meta name="theme-color" content="#0b0c0a">
+<!-- @include head -->
 <script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@graph": [
-    {
-      "@type": "WebApplication",
-      "@id": "https://www.getregular.com/tools/how-regular-are-you#tool",
-      "name": "How Regular Are You? Bowel habits self-check",
-      "url": "https://www.getregular.com/tools/how-regular-are-you",
-      "applicationCategory": "HealthApplication",
-      "operatingSystem": "Any (web browser)",
-      "isAccessibleForFree": true,
-      "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
-      "publisher": { "@id": "https://www.getregular.com/#org" },
-      "description": "A 10–11 question, non-diagnostic self-check of bowel habits using stool shape, usual bowel frequency and Rome symptom-frequency reference points."
-    },
-    {
-      "@type": "MedicalWebPage",
-      "@id": "https://www.getregular.com/tools/how-regular-are-you#webpage",
-      "url": "https://www.getregular.com/tools/how-regular-are-you",
-      "name": "How Regular Are You? Free 2-Minute Bowel Habits Quiz",
-      "mainEntity": { "@id": "https://www.getregular.com/tools/how-regular-are-you#tool" },
-      "about": [
-        { "@type": "MedicalCondition", "name": "Constipation" },
-        { "@type": "MedicalCondition", "name": "Irritable bowel syndrome" }
-      ],
-      "citation": [
-        { "@type": "ScholarlyArticle", "name": "Stool form scale as a useful guide to intestinal transit time", "sameAs": "https://pubmed.ncbi.nlm.nih.gov/9299672/" },
-        { "@type": "ScholarlyArticle", "name": "Characterizing Normal Bowel Frequency and Consistency in a Representative Sample of Adults in the United States (NHANES)", "sameAs": "https://pubmed.ncbi.nlm.nih.gov/28762379/" },
-        { "@type": "ScholarlyArticle", "name": "Bowel Disorders (Rome V)", "sameAs": "https://pubmed.ncbi.nlm.nih.gov/41713703/" }
-      ],
-      "lastReviewed": "[SET AT PUBLISH]",
-      "reviewedBy": "[CONFIRM: clinician Person @id, only with consent]"
-    }
-  ]
-}
+{"@context":"https://schema.org","@graph":[
+ {"@type":"WebApplication","@id":"https://www.getregular.com/tools/how-regular-are-you#tool","name":"How Regular Are You? Bowel habits self-check","url":"https://www.getregular.com/tools/how-regular-are-you","applicationCategory":"HealthApplication","operatingSystem":"Any (web browser)","isAccessibleForFree":true,"offers":{"@type":"Offer","price":"0","priceCurrency":"USD"},"publisher":{"@id":"https://www.getregular.com/#org"},"description":"A 10–11 question, non-diagnostic self-check of bowel habits using stool shape, usual bowel frequency and Rome symptom-frequency reference points."},
+ {"@type":"MedicalWebPage","@id":"https://www.getregular.com/tools/how-regular-are-you#webpage","url":"https://www.getregular.com/tools/how-regular-are-you","name":"How Regular Are You? Free 2-Minute Bowel Habits Quiz","mainEntity":{"@id":"https://www.getregular.com/tools/how-regular-are-you#tool"},
+  "about":[{"@type":"MedicalCondition","name":"Constipation"},{"@type":"MedicalCondition","name":"Irritable bowel syndrome"}],
+  "citation":[{"@type":"ScholarlyArticle","name":"Stool form scale as a useful guide to intestinal transit time","sameAs":"https://pubmed.ncbi.nlm.nih.gov/9299672/"},{"@type":"ScholarlyArticle","name":"Characterizing Normal Bowel Frequency and Consistency in a Representative Sample of Adults in the United States (NHANES)","sameAs":"https://pubmed.ncbi.nlm.nih.gov/28762379/"},{"@type":"ScholarlyArticle","name":"Bowel Disorders (Rome V)","sameAs":"https://pubmed.ncbi.nlm.nih.gov/41713703/"}],
+  "lastReviewed":"[SET AT PUBLISH]","reviewedBy":"[CONFIRM: clinician Person @id, only with consent]"}
+]}
 </script>
-<style>
-  :root {
-    --cream: #f0eeeb; --paper: #f7f5f2; --ink: #1a1714; --ink-2: #4a433c; --muted: #8c7e6e;
-    --line: #e2ddd6; --gold: #c4a882; --bronze: #9e7e58; --stool: #8a6a4b; --ok: #4f7a5a; --warn: #a3532f;
-    --radius: 18px; --shadow: 0 12px 40px rgba(26,23,20,.08);
-    color-scheme: light;
-  }
-  * { box-sizing: border-box; }
-  html { -webkit-text-size-adjust: 100%; }
-  body { margin: 0; background: var(--cream); color: var(--ink); font: 400 17px/1.55 "DM Sans", ui-sans-serif, system-ui, sans-serif; }
-  .wrap { max-width: 760px; margin: 0 auto; padding: 0 20px; }
-  .serif { font-family: "Instrument Serif", Georgia, serif; font-weight: 400; letter-spacing: -.01em; }
-  header.top { padding: 18px 0; }
-  header.top .wrap { display: flex; justify-content: space-between; align-items: center; }
-  .logo { font-weight: 700; letter-spacing: -.02em; font-size: 18px; color: var(--ink); text-decoration: none; }
-  .pill { font-size: 13px; color: var(--ink-2); border: 1px solid var(--line); border-radius: 999px; padding: 4px 12px; background: var(--paper); }
-
-  /* Hero */
-  .hero { padding: 40px 0 28px; text-align: center; }
-  .eyebrow { text-transform: uppercase; letter-spacing: .12em; font-size: 12px; font-weight: 600; color: var(--bronze); }
-  h1 { font-size: clamp(44px, 9vw, 76px); line-height: .98; margin: 14px 0 16px; }
-  .lede { font-size: 19px; color: var(--ink-2); max-width: 34ch; margin: 0 auto 26px; }
-  .facts { display: flex; gap: 8px; justify-content: center; flex-wrap: wrap; margin: 0 0 28px; padding: 0; list-style: none; }
-  .facts li { font-size: 14px; background: var(--paper); border: 1px solid var(--line); border-radius: 999px; padding: 6px 14px; }
-  .btn { appearance: none; border: 0; border-radius: 999px; background: var(--ink); color: #fff; font: 600 17px "DM Sans", sans-serif; padding: 16px 30px; cursor: pointer; text-decoration: none; display: inline-flex; align-items: center; gap: 10px; transition: transform .15s ease, background .15s; }
-  .btn:hover { transform: translateY(-1px); background: #000; }
-  .btn:focus-visible, .opt:focus-visible, .link:focus-visible { outline: 3px solid var(--gold); outline-offset: 3px; }
-  .btn.ghost { background: transparent; color: var(--ink); border: 1px solid var(--ink); }
-  .btn.gold { background: var(--bronze); }
-  .btn[disabled] { opacity: .35; cursor: not-allowed; transform: none; }
-
-  /* Quiz card */
-  .card { background: var(--paper); border-radius: var(--radius); box-shadow: var(--shadow); padding: clamp(20px, 5vw, 40px); margin: 0 0 40px; }
-  .progress { height: 6px; background: var(--line); border-radius: 99px; overflow: hidden; margin-bottom: 22px; }
-  .progress > i { display: block; height: 100%; background: var(--bronze); width: 0; transition: width .35s ease; }
-  .step { font-size: 13px; color: var(--muted); margin-bottom: 8px; }
-  .q { font-size: clamp(28px, 5.4vw, 38px); line-height: 1.08; margin: 0 0 8px; }
-  .help { color: var(--ink-2); font-size: 15px; margin: 0 0 18px; }
-  .opts { display: grid; gap: 10px; margin: 18px 0 22px; }
-  .opts.bristol { grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); }
-  .opt { text-align: left; background: #fff; border: 1.5px solid var(--line); border-radius: 14px; padding: 14px 16px; font: inherit; color: inherit; cursor: pointer; display: flex; gap: 12px; align-items: center; transition: border-color .12s, background .12s; }
-  .opt:hover { border-color: var(--gold); }
-  .opt[aria-pressed="true"] { border-color: var(--ink); background: #fbf8f3; box-shadow: inset 0 0 0 1px var(--ink); }
-  .opt .t { font-weight: 600; display: block; }
-  .opt .d { font-size: 14px; color: var(--ink-2); display: block; }
-  .opts.bristol .opt { flex-direction: column; align-items: flex-start; }
-  .opt svg { width: 100%; height: 46px; }
-  .nav { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
-  .link { background: none; border: 0; color: var(--ink-2); font: 500 15px "DM Sans", sans-serif; cursor: pointer; padding: 8px 4px; text-decoration: underline; text-underline-offset: 3px; }
-
-  /* Result */
-  .result-top { display: grid; grid-template-columns: 170px 1fr; gap: 26px; align-items: center; }
-  @media (max-width: 560px) { .result-top { grid-template-columns: 1fr; text-align: center; } .dial { margin: 0 auto; } }
-  .dial { width: 170px; height: 170px; position: relative; }
-  .dial svg { width: 100%; height: 100%; transform: rotate(-90deg); }
-  .dial .n { position: absolute; inset: 0; display: grid; place-content: center; text-align: center; }
-  .dial .n b { font: 400 58px/1 "Instrument Serif", serif; }
-  .dial .n span { font-size: 12px; color: var(--muted); letter-spacing: .08em; text-transform: uppercase; }
-  .band { display: inline-block; font-size: 13px; font-weight: 600; letter-spacing: .04em; color: var(--bronze); text-transform: uppercase; }
-  .r-head { font-size: clamp(30px, 6vw, 42px); line-height: 1.05; margin: 6px 0 10px; }
-  .r-body { color: var(--ink-2); margin: 0; }
-  .cites { font-size: 13px; color: var(--muted); margin-top: 10px; }
-  .cites a { color: var(--muted); }
-  .doctor { background: #fff4ee; border: 1.5px solid #e9b89e; border-radius: 14px; padding: 18px 20px; margin: 0 0 26px; }
-  .doctor h3 { margin: 0 0 6px; color: var(--warn); font-size: 19px; }
-  .doctor p { margin: 0; color: var(--ink-2); }
-  h2.sec { font-size: 30px; margin: 34px 0 12px; }
-  ol.try { padding-left: 22px; margin: 0; } ol.try li { margin: 0 0 10px; }
-  .cta { background: var(--ink); color: #fff; border-radius: var(--radius); padding: 28px; margin: 30px 0; display: grid; gap: 14px; }
-  .cta h3 { margin: 0; font: 400 32px/1.05 "Instrument Serif", serif; }
-  .cta p { margin: 0; color: #d9d2c9; }
-  .cta .btn { background: #fff; color: var(--ink); justify-self: start; }
-  .mail { border: 1px solid var(--line); border-radius: var(--radius); padding: 24px; background: #fff; }
-  .mail h3 { margin: 0 0 6px; font-size: 20px; }
-  .mail form { display: grid; gap: 12px; margin-top: 14px; }
-  .mail input[type=email] { font: inherit; padding: 14px 16px; border-radius: 12px; border: 1.5px solid var(--line); background: var(--paper); }
-  .mail label.consent { display: flex; gap: 10px; font-size: 14px; color: var(--ink-2); align-items: flex-start; }
-  .mail label.consent input { margin-top: 4px; }
-  .fine { font-size: 13px; color: var(--muted); }
-  details { border-top: 1px solid var(--line); padding: 14px 0; }
-  summary { cursor: pointer; font-weight: 600; }
-
-  /* SEO content */
-  .content { padding: 10px 0 60px; }
-  .content h2 { font: 400 34px/1.1 "Instrument Serif", serif; margin: 46px 0 12px; }
-  .content p, .content li { color: var(--ink-2); }
-  .answer { background: var(--paper); border-left: 4px solid var(--gold); padding: 16px 18px; border-radius: 0 12px 12px 0; }
-  .table-wrap { overflow-x: auto; }
-  table { border-collapse: collapse; width: 100%; font-size: 15px; background: var(--paper); border-radius: 12px; overflow: hidden; }
-  th, td { text-align: left; padding: 10px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
-  th { font-weight: 600; background: #ece8e2; }
-  .byline { font-size: 14px; color: var(--muted); }
-  footer { border-top: 1px solid var(--line); padding: 26px 0 40px; font-size: 13px; color: var(--muted); }
-  a { color: var(--bronze); text-underline-offset: 2px; }
-  [hidden] { display: none !important; }
-  @media (prefers-reduced-motion: reduce) { * { transition: none !important; } }
-</style>
 </head>
 <body>
-<header class="top"><div class="wrap"><a class="logo" href="/">Get Regular</a><span class="pill">Free tool</span></div></header>
+<!-- @include nav {"ct":"quiz","cpp":"default"} -->
 
-<main class="wrap">
-  <!-- 1. Intro: server-rendered, so the H1 and answer are in the HTML (T10) -->
-  <section id="intro" class="hero">
-    <div class="eyebrow">2-minute self-check</div>
-    <h1 class="serif">How regular<br>are you?</h1>
-    <p class="lede">Answer about 10 quick questions about your poop, pain and bloating. See your Regularity Score and pattern straight away.</p>
-    <ul class="facts"><li>About 10 questions</li><li>Results instantly</li><li>No email needed</li><li>Backed by published research</li></ul>
-    <button class="btn" id="start">Start the check <span aria-hidden="true">→</span></button>
-  </section>
+<header class="hero photo grain" style="--bg:url(../_shared/img/hero-leaf.jpg)">
+  <div class="wrap grid">
+    <div class="enter">
+      <p class="label"><b>Free tool</b> · 2 minutes · no email needed</p>
+      <h1 class="headline"><span class="s">How regular</span><span class="t">are <em>you</em>?</span></h1>
+      <p class="sub">About ten quick questions on your poop, pain and bloating. Your score, your pattern, and what to try next.</p>
+      <div class="actions">
+        <button class="arrow-cta" id="start" type="button">Start the check <span class="ar">→</span></button>
+      </div>
+    </div>
+    <div class="flow enter" style="animation-delay:.15s" aria-hidden="true">
+      <div class="stack">
+        <span class="pill" data-icon="stool">Stool</span>
+        <span class="pill" data-icon="clock">Rhythm</span>
+        <span class="pill" data-icon="checkins">Symptoms</span>
+      </div>
+      <svg class="bracket" viewBox="0 0 46 200" preserveAspectRatio="none" fill="none" stroke="rgba(255,255,255,.4)" stroke-width="1.2"><path d="M0 34h14q8 0 8 8v116q0 8-8 8H0M22 100h20"/><circle cx="44" cy="100" r="2.2" fill="rgba(255,255,255,.6)" stroke="none"/></svg>
+      <div class="glass preview">
+        <p class="muted small" style="margin:0 0 14px">Regularity Score</p>
+        <div style="display:flex;align-items:center;gap:22px">
+          <div class="ring" style="width:124px;height:124px"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="52" fill="none" stroke="rgba(255,255,255,.12)" stroke-width="5"/><circle cx="60" cy="60" r="52" fill="none" stroke="#e3c9a0" stroke-width="5" stroke-linecap="round" stroke-dasharray="326.7" stroke-dashoffset="72"/></svg><div class="val"><b style="font-size:38px">78</b></div></div>
+          <div><p class="h3" style="margin:0 0 6px">Mostly regular</p><p class="muted small" style="margin:0">Your pattern, what it suggests, and 3 things to try.</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</header>
 
-  <!-- 2. Questions -->
-  <section id="quiz" class="card" hidden aria-live="polite">
-    <div class="progress" aria-hidden="true"><i id="bar"></i></div>
-    <div class="step" id="step"></div>
-    <h2 class="q serif" id="qtitle" tabindex="-1"></h2>
-    <p class="help" id="qhelp"></p>
-    <div class="opts" id="opts" role="group"></div>
-    <div class="nav">
-      <button class="link" id="back">← Back</button>
-      <button class="btn" id="next" disabled>Next</button>
+<main>
+  <section class="sec photo blurred shade-full" id="check" style="--bg:url(../_shared/img/hero-leaf.jpg)" aria-label="The check">
+    <div class="wrap">
+      <div class="tool glass">
+        <div class="tool-top">
+          <span class="name">How regular are you?</span>
+          <div class="dots" id="dots" aria-hidden="true"></div>
+          <span class="muted tiny" id="stepTxt"></span>
+        </div>
+
+        <div class="tool-body" id="qView" aria-live="polite">
+          <h2 class="q" id="qtitle" tabindex="-1"></h2>
+          <p class="help" id="qhelp"></p>
+          <div class="opts" id="opts" role="group"></div>
+          <div class="tool-foot">
+            <button class="link" id="back" type="button">← Back</button>
+            <button class="btn btn-white" id="next" type="button" disabled>Next</button>
+          </div>
+        </div>
+
+        <div class="tool-body" id="rView" hidden>
+          <div class="alert" id="doctor" hidden role="alert"><span class="ico">!</span><div><h3></h3><p></p></div></div>
+          <div class="result-top">
+            <div class="ring" aria-hidden="true"><svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="52" fill="none" stroke="rgba(255,255,255,.12)" stroke-width="4"/><circle id="arc" cx="60" cy="60" r="52" fill="none" stroke="#e3c9a0" stroke-width="4" stroke-linecap="round" stroke-dasharray="326.7" stroke-dashoffset="326.7" style="transition:stroke-dashoffset 1.4s cubic-bezier(.22,1,.36,1)"/></svg><div class="val"><b id="score">0</b><span>of 100</span></div></div>
+            <div>
+              <span class="tag" id="band"></span>
+              <h2 class="result-title" id="rhead" tabindex="-1"></h2>
+              <p class="result-body" id="rbody"></p>
+              <p class="cite" id="rcites"></p>
+            </div>
+          </div>
+
+          <div class="panel-grid">
+            <div class="panel"><h4>3 things to try</h4><ul class="ticks" id="try"></ul></div>
+            <div class="panel">
+              <h4>See your real pattern in 7 days</h4>
+              <div class="circles" aria-hidden="true"><i>M</i><i>T</i><i>W</i><i>T</i><i>F</i><i>S</i><i>S</i></div>
+              <p class="muted small" id="ctaText" style="margin:16px 0 20px"></p>
+              <a class="btn btn-white js-appstore" id="resultStore" data-ct="quiz-result" href="#">Track it in Get Regular</a>
+            </div>
+          </div>
+
+          <div class="panel mail" style="margin-top:14px">
+            <h4>Email me my results and a 7-day plan</h4>
+            <p class="muted small" style="margin:0">Optional. Your score and pattern, a printable stool-type chart and a 7-day tracking plan.</p>
+            <form class="mail-form" id="mailForm" novalidate>
+              <div class="row"><input type="email" required autocomplete="email" placeholder="you@example.com" aria-label="Email address"><button class="btn btn-ghost" type="submit">Send my results</button></div>
+              <label class="consent"><input type="checkbox" name="consentHealth" required> <span>I consent to Get Regular storing my answers with my email to send my results. This is health information; I can withdraw consent and ask for deletion at any time. <a href="/legal/consumer-health-data-privacy">Consumer health data policy</a>.</span></label>
+              <label class="consent"><input type="checkbox" name="consentNews"> <span>Also send me Get Regular's gut-health emails.</span></label>
+              <p class="status" role="status"></p>
+            </form>
+          </div>
+
+          <div class="faq" style="margin-top:26px">
+            <details><summary>How this score works</summary><ul class="ticks" id="method" style="margin-bottom:24px"></ul></details>
+            <details><summary>Your answers</summary><ul class="ticks" id="answers" style="margin-bottom:24px"></ul></details>
+          </div>
+          <p class="cite" id="disclaimer"></p>
+          <div class="tool-foot"><button class="link" id="retake" type="button">Retake the check</button><span class="muted tiny">Answers stay in your browser.</span></div>
+        </div>
+      </div>
     </div>
   </section>
 
-  <!-- 3. Result -->
-  <section id="result" hidden>
-    <div class="card">
-      <div id="doctor" class="doctor" hidden role="alert"><h3></h3><p></p></div>
-      <div class="result-top">
-        <div class="dial" aria-hidden="true">
-          <svg viewBox="0 0 120 120"><circle cx="60" cy="60" r="52" fill="none" stroke="#e2ddd6" stroke-width="10"/><circle id="arc" cx="60" cy="60" r="52" fill="none" stroke="#9e7e58" stroke-width="10" stroke-linecap="round" stroke-dasharray="326.7" stroke-dashoffset="326.7" style="transition:stroke-dashoffset 1s ease"/></svg>
-          <div class="n"><b id="score">0</b><span>of 100</span></div>
-        </div>
-        <div>
-          <span class="band" id="band"></span>
-          <h2 class="r-head serif" id="rhead"></h2>
-          <p class="r-body" id="rbody"></p>
-          <p class="cites" id="rcites"></p>
-        </div>
+  <section class="sec photo shade-bottom" style="--bg:url(../_shared/img/ocean.jpg)" aria-labelledby="howH">
+    <div class="wrap">
+      <p class="label"><b>How it works</b></p>
+      <h2 class="h2" id="howH" style="max-width:16ch">About ten questions.<span class="t">One honest snapshot.</span></h2>
+      <div class="steps" style="margin-top:clamp(48px,6vw,88px)">
+        <div class="step"><p class="h3">Answer what doctors ask</p><p>Stool shape, how often you go, straining, urgency, pain, bloating and how long it's been going on.</p></div>
+        <div class="step"><p class="h3">See your score and pattern</p><p>A 0–100 Regularity Score, which way your answers lean, and three things to try. The weights are shown, not hidden.</p></div>
+        <div class="step"><p class="h3">Warning signs come first</p><p>If you select a sign doctors want to check in person, your result leads with that, before anything else.</p></div>
       </div>
-      <p class="fine" style="margin-top:18px" id="scoreNote">Your Regularity Score is <span id="scoreSr"></span> out of 100. It compares you with you, not with other people.</p>
-
-      <h2 class="sec serif">3 things to try</h2>
-      <ol class="try" id="try"></ol>
-
-      <div class="cta">
-        <h3>See your real pattern in 7 days</h3>
-        <p id="ctaText">A quiz is a snapshot. Get Regular tracks your stool type, meals and symptoms day by day, so you can see what lines up and bring a Doctor Report to your next appointment.</p>
-        <a class="btn" id="appstore" href="#" rel="noopener">Download on the App Store <span aria-hidden="true">↗</span></a>
-        <p class="fine" style="color:#b9b0a5">Free download for iPhone and iPad. Subscription for premium features.</p>
-      </div>
-
-      <div class="mail">
-        <h3>Email me my results and a 7-day plan</h3>
-        <p class="fine">You'll get your score and pattern, a printable stool-type chart and a 7-day tracking plan. Optional.</p>
-        <form id="mailForm" novalidate>
-          <input type="email" id="email" required autocomplete="email" placeholder="you@example.com" aria-label="Email address">
-          <label class="consent"><input type="checkbox" id="consentHealth" required> <span>I consent to Get Regular storing my quiz answers with my email to send my results. This is health information; I can withdraw consent and ask for deletion at any time. <a href="/legal/privacy-policy">Privacy policy</a>.</span></label>
-          <label class="consent"><input type="checkbox" id="consentNews"> <span>Also send me Get Regular's gut-health emails (optional).</span></label>
-          <button class="btn gold" type="submit">Send my results</button>
-          <p class="fine" id="mailMsg" role="status"></p>
-        </form>
-      </div>
-
-      <details><summary>How this score works</summary><ul id="method"></ul></details>
-      <details><summary>Your answers</summary><ul id="answers"></ul></details>
-      <p class="fine" id="disclaimer"></p>
-      <p><button class="link" id="retake">Retake the check</button></p>
     </div>
   </section>
 
-  <!-- 4. SEO / AEO content: in the server HTML, answer-first, sourced -->
-  <article class="content" id="content">
-    <h2>What does "regular" actually mean?</h2>
-    <p class="answer"><strong>Short answer:</strong> there's no single "right" number. In a US national survey, 96% of adults with normal bowel habits went between three times a day and three times a week <a href="https://pubmed.ncbi.nlm.nih.gov/28762379/">[1]</a>. Soft, formed stool passed without straining is common; Bristol types 3–4 are often considered ideal, but stool shape varies from day to day even in healthy people <a href="https://pubmed.ncbi.nlm.nih.gov/1624166/">[5]</a>. A change from <em>your</em> normal matters more than matching someone else's.</p>
+  <!-- @include app {"img":"kiwi-table","label":"Go beyond the snapshot","title_s":"Try one change.","title_t":"Track what <em>happens</em>.","sub":"A quiz is a moment. Get Regular logs your stool, meals and symptoms day by day, so you can see what actually lines up.","try":"Log every bowel movement","caption":"Seven days of logs show your real pattern.","ct":"quiz-app","cpp":"default"} -->
 
-    <h2>What this check looks at</h2>
-    <div class="table-wrap"><table>
-      <thead><tr><th>Question</th><th>Why it's asked</th><th>Reference point</th></tr></thead>
-      <tbody>
-        <tr><td>Stool shape</td><td>Stool shape tracks how fast stool moves through the gut</td><td>Lewis &amp; Heaton, the study behind the Bristol scale <a href="https://pubmed.ncbi.nlm.nih.gov/9299672/">[2]</a></td></tr>
-        <tr><td>How often you go</td><td>Fewer than 3 a week or more than 3 a day is outside the usual range</td><td>US national survey (NHANES) <a href="https://pubmed.ncbi.nlm.nih.gov/28762379/">[1]</a></td></tr>
-        <tr><td>Straining, unfinished feeling, urgency</td><td>"1 in 4 times or more" is the threshold in the Rome criteria</td><td>Rome IV <a href="https://pubmed.ncbi.nlm.nih.gov/27144627/">[3]</a>, Rome V <a href="https://pubmed.ncbi.nlm.nih.gov/41713703/">[6]</a> [CONFIRM]</td></tr>
-        <tr><td>Pain linked to pooping, and how long</td><td>Weekly pain linked to bowel movements for months is the IBS-type pattern</td><td>Rome V <a href="https://pubmed.ncbi.nlm.nih.gov/41713703/">[6]</a>, ACG <a href="https://pubmed.ncbi.nlm.nih.gov/33315591/">[4]</a></td></tr>
-        <tr><td>Warning signs</td><td>Some symptoms need a doctor, whatever the score</td><td>NIDDK <a href="https://www.niddk.nih.gov/health-information/digestive-diseases/constipation/symptoms-causes">[7]</a>, ACG <a href="https://pubmed.ncbi.nlm.nih.gov/33315591/">[4]</a></td></tr>
-      </tbody>
-    </table></div>
+  <section class="content-sec sec paper" aria-labelledby="learnH">
+    <div class="wrap split">
+      <div class="side">
+        <p class="label"><b>Learn</b></p>
+        <h2 class="h2" id="learnH">What does <em>regular</em> actually mean?</h2>
+        <p class="sub" style="font-size:19px">There's no single right number. Here's what the research says, and when to see a doctor.</p>
+      </div>
+      <article class="prose">
+        <div class="answer"><p class="label"><b>Short answer</b></p><p>In a US national survey, 96% of adults with normal bowel habits went between three times a day and three times a week <a href="https://pubmed.ncbi.nlm.nih.gov/28762379/">[1]</a>. Soft, formed stool passed without straining is common; types 3–4 are often considered ideal, but stool shape varies from day to day even in healthy people <a href="https://pubmed.ncbi.nlm.nih.gov/1624166/">[5]</a>. A change from <em>your</em> normal matters more than matching anyone else's.</p></div>
 
-    <h2>Is this a test for IBS or constipation?</h2>
-    <p>No. It's a self-check that shows which way your answers lean. Only a clinician can diagnose IBS, chronic constipation or anything else, often after ruling out other causes. What the check can do is tell you whether your pattern is worth tracking, and help you describe it clearly at an appointment.</p>
+        <h2>What this check looks at</h2>
+        <div class="table-wrap"><table>
+          <thead><tr><th>Question</th><th>Why it's asked</th><th>Reference point</th></tr></thead>
+          <tbody>
+            <tr><td>Stool shape</td><td>Stool shape tracks how fast stool moves through the gut</td><td>Lewis &amp; Heaton 1997 <a href="https://pubmed.ncbi.nlm.nih.gov/9299672/">[2]</a></td></tr>
+            <tr><td>How often you go</td><td>Fewer than 3 a week or more than 3 a day is outside the usual range</td><td>NHANES <a href="https://pubmed.ncbi.nlm.nih.gov/28762379/">[1]</a></td></tr>
+            <tr><td>Straining, unfinished feeling, urgency</td><td>"1 in 4 times or more" is the threshold in the Rome criteria</td><td>Rome IV <a href="https://pubmed.ncbi.nlm.nih.gov/27144627/">[3]</a> · Rome V <a href="https://pubmed.ncbi.nlm.nih.gov/41713703/">[6]</a> [CONFIRM]</td></tr>
+            <tr><td>Pain linked to pooping</td><td>Weekly pain linked to bowel movements for months is the IBS-type pattern</td><td>Rome V <a href="https://pubmed.ncbi.nlm.nih.gov/41713703/">[6]</a> · ACG <a href="https://pubmed.ncbi.nlm.nih.gov/33315591/">[4]</a></td></tr>
+            <tr><td>Warning signs</td><td>Some symptoms need a doctor, whatever the score</td><td>NIDDK <a href="https://www.niddk.nih.gov/health-information/digestive-diseases/constipation/symptoms-causes">[7]</a> · ACG <a href="https://pubmed.ncbi.nlm.nih.gov/33315591/">[4]</a></td></tr>
+          </tbody>
+        </table></div>
 
-    <h2>Why track instead of guessing?</h2>
-    <p>Memory is a poor record of bowel habits: people tend to remember the worst days. A week or two of logs, with stool type, meals and symptoms side by side, shows the real pattern and makes a doctor's visit faster. <a href="/learn/how-to-track-bowel-movements">How to track bowel movements</a> · <a href="/tools/bristol-stool-chart">Bristol Stool Chart</a> · <a href="/resources/food-symptom-diary-pdf">Printable food and symptom diary</a></p>
+        <h2>Is this a test for IBS or constipation?</h2>
+        <p>No. It's a self-check that shows which way your answers lean. Only a clinician can diagnose IBS, chronic constipation or anything else, often after ruling out other causes. What it can do is tell you whether your pattern is worth tracking, and help you describe it clearly at an appointment.</p>
 
-    <h2>Frequently asked questions</h2>
-    <details><summary>Do I need to give my email?</summary><p>No. Your result shows straight away. Email is optional, if you want your results and the 7-day plan sent to you.</p></details>
-    <details><summary>Where do my answers go?</summary><p>If you don't enter an email, your answers stay in your browser and aren't sent anywhere. If you do, they're stored with your email only to send your results, as described in our <a href="/legal/privacy-policy">privacy policy</a>. [CONFIRM with legal]</p></details>
-    <details><summary>Is my score a medical result?</summary><p>No. The score is a summary of your answers with editorial weights that haven't been validated in a study. Use it to compare yourself over time.</p></details>
-    <details><summary>Who made this?</summary><p>Get Regular, a gut-health tracking app for iPhone and iPad. [CONFIRM: reviewed by …, with consent.] See <a href="/science/how-our-ai-works">how our AI works</a> and <a href="/science/evidence">the evidence we use</a>.</p></details>
+        <h2>Why track instead of guessing?</h2>
+        <p>Memory is a poor record of bowel habits; people tend to remember the worst days. A week or two of logs, with stool type, meals and symptoms side by side, shows the real pattern. See <a href="/science/evidence/food-diaries-vs-memory">what the research says about diaries vs memory</a>.</p>
 
-    <p class="byline">Sources: [1] Mitsuhashi S et al. Am J Gastroenterol 2018 · [2] Lewis SJ, Heaton KW. Scand J Gastroenterol 1997 · [3] Mearin F et al. (Rome IV) Gastroenterology 2016 · [4] Lacy BE et al. ACG IBS guideline, Am J Gastroenterol 2021 · [5] Heaton KW et al. Gut 1992 · [6] Corsetti M et al. (Rome V) Gastroenterology 2026 · [7] NIDDK, Constipation. Stool drawings and wording are Get Regular's own. Last reviewed: [SET AT PUBLISH].</p>
-  </article>
+        <h2>Questions</h2>
+        <div class="faq">
+          <details><summary>Do I need to give my email?</summary><p>No. Your result shows straight away. Email is optional, if you want your results and the 7-day plan sent to you.</p></details>
+          <details><summary>Where do my answers go?</summary><p>Unless you ask for an email, your answers stay in your browser and aren't sent anywhere. If you do, they're stored with your email only to send your results. [CONFIRM with legal]</p></details>
+          <details><summary>Is my score a medical result?</summary><p>No. It summarizes your answers using editorial weights that haven't been validated in a study. Use it to compare yourself with yourself over time.</p></details>
+          <details><summary>Who made this?</summary><p>Get Regular, a gut-health tracking app for iPhone and iPad. See <a href="/science/how-our-ai-works">how our AI works</a> and <a href="/science/evidence">the evidence we use</a>. [CONFIRM: reviewed by …, with consent]</p></details>
+        </div>
+
+        <div class="sources"><strong>Sources</strong><ol>
+          <li>Mitsuhashi S et al. <em>Am J Gastroenterol</em> 2018 (NHANES)</li><li>Lewis SJ, Heaton KW. <em>Scand J Gastroenterol</em> 1997</li><li>Mearin F et al. (Rome IV). <em>Gastroenterology</em> 2016</li><li>Lacy BE et al. ACG IBS guideline. <em>Am J Gastroenterol</em> 2021</li><li>Heaton KW et al. <em>Gut</em> 1992</li><li>Corsetti M et al. (Rome V). <em>Gastroenterology</em> 2026</li><li>NIDDK. Constipation: symptoms and causes</li>
+        </ol>
+        <div class="reviewed"><span>Last reviewed [SET AT PUBLISH]</span><span>Reviewed by [CONFIRM]</span><span>Wording and drawings are Get Regular's own</span></div></div>
+      </article>
+    </div>
+  </section>
+
+  <!-- @related how-regular-are-you -->
 </main>
 
-<footer><div class="wrap"><a href="/legal/consumer-health-data-privacy">Consumer Health Data Privacy Policy</a> · <a href="/legal/privacy-policy">Privacy policy</a><br>© Get Regular Health, Inc. This tool is for general information and doesn't replace medical advice. Prototype build — not for publication until clinical and legal review.</div></footer>
+<!-- @include final {"img":"water","ct":"quiz","cpp":"default"} -->
 
 <script type="module">
-import { QUESTIONS, visibleQuestions, result, appStoreUrl } from "./quiz.js";
+import { QUESTIONS, visibleQuestions, result } from "./quiz.js";
 import { RESULT_COPY, SOURCES, DOCTOR_CARD, DISCLAIMER, METHOD } from "./copy.js";
-
-// App Store Custom Product Page IDs from App Store Connect . Empty until approved.
-const PPIDS = {};
-// [CONFIRM] Email endpoint: Kit form or a first-party API route that double-opts-in.
-const EMAIL_ENDPOINT = "";
+import { track, appStoreUrl, wireAppStore, wireEmail, esc, sourceLinks, stoolSvg, ICONS } from "../_shared/ui.js";
 
 const $ = (id) => document.getElementById(id);
 const answers = {};
 let i = 0;
+document.querySelectorAll("[data-icon]").forEach((el) => el.insertAdjacentHTML("afterbegin", ICONS[el.dataset.icon] || ""));
+wireAppStore("how-regular-are-you");
 
-// Analytics: event names and step index only, to first-party analytics.
-// Never send answers, score or pattern anywhere. No Meta/TikTok/Google ad
-// pixels on this page at all: the URL itself reveals a bowel-health interest
-// (FTC Health Breach Notification Rule; GoodRx and BetterHelp orders 2023).
-function track(name, props = {}) {
-  (window.dataLayer = window.dataLayer || []).push({ event: name, tool: "how-regular-are-you", ...props });
+function renderDots(n, cur) {
+  $("dots").innerHTML = Array.from({ length: n }, (_, k) => `<i class="${k < cur ? "done" : k === cur ? "now" : ""}"></i>`).join("");
 }
 
-const BRISTOL_SVG = {
-  1: '<circle cx="18" cy="24" r="8"/><circle cx="40" cy="20" r="7"/><circle cx="60" cy="27" r="8"/><circle cx="82" cy="21" r="7"/><circle cx="104" cy="26" r="8"/>',
-  2: '<path d="M10 24c0-9 9-12 16-10 5-6 14-6 19 0 5-5 14-5 19 1 6-5 15-4 19 2 7-2 15 2 15 9s-8 11-15 9c-4 6-13 7-19 2-5 5-14 5-19 0-5 6-14 6-19 0-7 2-16-1-16-13z"/>',
-  3: '<rect x="8" y="13" width="114" height="22" rx="11"/><path d="M30 14v8M52 26v8M74 14v7M96 27v7" stroke="#f7f5f2" stroke-width="2.5" stroke-linecap="round"/>',
-  4: '<path d="M8 26c14-16 34-16 54-6s40 10 60-4" fill="none" stroke="currentColor" stroke-width="15" stroke-linecap="round"/>',
-  5: '<ellipse cx="22" cy="25" rx="13" ry="9"/><ellipse cx="54" cy="21" rx="14" ry="9"/><ellipse cx="88" cy="27" rx="13" ry="8"/><ellipse cx="113" cy="21" rx="9" ry="7"/>',
-  6: '<path d="M10 28c3-10 12-8 16-13 3 6 11 1 14 7 5-6 13-2 16 3 5-5 12-3 15 2 4-5 13-2 15 4 5-3 14 0 14 7-5 4-12 2-16 5-6-3-11 3-17 0-6 4-12-1-18 1-6-3-12 3-18-1-7 3-13-3-21-15z"/>',
-  7: '<path d="M8 30c10-8 22 2 34-3s20-6 32 0 24 4 34-2c6 4 6 10 0 12-34 6-70 6-100 0-4-2-4-5 0-7z" opacity=".75"/>',
-  mixed: '<circle cx="22" cy="24" r="8"/><circle cx="42" cy="22" r="7"/><path d="M62 30c6-8 16 2 26-3s16-4 28 1c4 3 4 7 0 9-18 4-38 4-54 0-3-2-3-5 0-7z" opacity=".75"/>',
-};
-
-function renderQuestion() {
+function render() {
   const qs = visibleQuestions(answers);
   const q = qs[i];
-  $("bar").style.width = `${(i / qs.length) * 100}%`;
-  $("step").textContent = `Question ${i + 1} of ${qs.length}`;
+  renderDots(qs.length, i);
+  $("stepTxt").textContent = `${i + 1} / ${qs.length}`;
   $("qtitle").textContent = q.title;
-  $("qhelp").textContent = q.help || "";
-  $("qhelp").hidden = !q.help;
+  $("qhelp").textContent = q.help || ""; $("qhelp").hidden = !q.help;
   const box = $("opts");
-  box.className = "opts" + (q.kind === "bristol" ? " bristol" : "");
+  box.className = "opts" + (q.kind === "bristol" ? " tiles" : "");
   box.setAttribute("aria-label", q.title);
   box.innerHTML = "";
   for (const o of q.options) {
     const b = document.createElement("button");
-    b.type = "button";
-    b.className = "opt";
-    const selected = q.multi ? (answers[q.id] || []).includes(o.v) : answers[q.id] === o.v;
-    b.setAttribute("aria-pressed", String(selected));
-    const art = q.kind === "bristol" ? `<svg viewBox="0 0 130 46" fill="#8a6a4b" color="#8a6a4b" aria-hidden="true">${BRISTOL_SVG[o.v]}</svg>` : "";
-    b.innerHTML = `${art}<span><span class="t"></span><span class="d"></span></span>`;
-    b.querySelector(".t").textContent = o.label;
-    b.querySelector(".d").textContent = o.desc || "";
+    b.type = "button"; b.className = "opt";
+    b.setAttribute("aria-pressed", String(q.multi ? (answers[q.id] || []).includes(o.v) : answers[q.id] === o.v));
+    b.innerHTML = (q.kind === "bristol" ? `<span class="art">${stoolSvg(o.v)}</span>` : "") + `<span class="t">${esc(o.label)}</span>` + (o.desc ? `<span class="d">${esc(o.desc)}</span>` : "");
     b.onclick = () => choose(q, o);
     box.appendChild(b);
   }
+  $("qView").classList.remove("enter"); void $("qView").offsetWidth; $("qView").classList.add("enter");
   $("back").style.visibility = i === 0 ? "hidden" : "visible";
   $("next").disabled = q.multi ? !(answers[q.id] || []).length : answers[q.id] === undefined;
   $("next").textContent = i === qs.length - 1 ? "See my result" : "Next";
-  $("qtitle").focus({ preventScroll: true });
 }
 
 function choose(q, o) {
   if (q.multi) {
     let cur = answers[q.id] || [];
-    if (o.exclusive) cur = cur.includes(o.v) ? [] : [o.v];
-    else cur = cur.includes(o.v) ? cur.filter((v) => v !== o.v) : [...cur.filter((v) => v !== "none"), o.v];
+    cur = o.exclusive ? (cur.includes(o.v) ? [] : [o.v]) : (cur.includes(o.v) ? cur.filter((v) => v !== o.v) : [...cur.filter((v) => v !== "none"), o.v]);
     answers[q.id] = cur;
-    renderQuestion();
+    render();
   } else {
     answers[q.id] = o.v;
     if (q.id === "pain" && o.v === "none") delete answers.painDays;
-    renderQuestion();
-    setTimeout(next, 180); // single-choice auto-advances
+    render();
+    setTimeout(next, 260);
   }
 }
 
 function next() {
   const qs = visibleQuestions(answers);
-  if (i < qs.length - 1) { i++; track("quiz_step", { step: i }); renderQuestion(); }
-  else showResult();
+  if (i < qs.length - 1) { i++; track("quiz_step", { tool: "how-regular-are-you", step: i }); render(); }
+  else show();
 }
 
-function showResult() {
+function show() {
   const r = result(answers);
   const c = RESULT_COPY[r.pattern];
-  track("quiz_complete");
-  $("quiz").hidden = true;
-  $("result").hidden = false;
+  track("quiz_complete", { tool: "how-regular-are-you" });
+  $("qView").hidden = true; $("rView").hidden = false;
+  renderDots(visibleQuestions(answers).length, 99); $("stepTxt").textContent = "Your result";
   $("doctor").hidden = !r.leadWithDoctor;
   if (r.leadWithDoctor) {
     $("doctor").querySelector("h3").textContent = DOCTOR_CARD.headline;
-    $("doctor").querySelector("p").innerHTML = DOCTOR_CARD.body + " <span class=\"fine\">Sources: " + DOCTOR_CARD.cite.map((k) => `<a href="${SOURCES[k].url}">${SOURCES[k].label}</a>`).join(" · ") + "</span>";
+    $("doctor").querySelector("p").innerHTML = esc(DOCTOR_CARD.body) + ` <span class="cite" style="display:block;margin-top:8px">Sources: ${sourceLinks(DOCTOR_CARD.cite, SOURCES)}</span>`;
   }
-  $("band").textContent = r.band.label;
+  const bandClass = { regular: "ok", mostly: "ok", offtrack: "watch", struggling: "warn" }[r.band.key];
+  $("band").className = `tag ${bandClass}`; $("band").textContent = r.band.label;
   $("rhead").textContent = c.headline;
   $("rbody").textContent = c.body;
-  $("rcites").innerHTML = "Based on: " + c.cite.map((k) => `<a href="${SOURCES[k].url}">${SOURCES[k].label}</a>`).join(" · ");
-  $("try").innerHTML = "";
-  for (const t of c.tryThis) { const li = document.createElement("li"); li.textContent = t; $("try").appendChild(li); }
-  $("ctaText").textContent = `A quiz is a snapshot. Get Regular tracks ${c.track} day by day, so you can see what lines up, and bring a Doctor Report to your next appointment.`;
-  const a = $("appstore");
-  a.href = appStoreUrl(r, PPIDS);
-  a.onclick = () => track("app_store_click", { placement: "quiz_result" });
-  $("method").innerHTML = METHOD.map((m) => `<li>${m}</li>`).join("");
+  $("rcites").innerHTML = "Based on " + sourceLinks(c.cite, SOURCES);
+  $("try").innerHTML = c.tryThis.map((t) => `<li>${esc(t)}</li>`).join("");
+  $("ctaText").textContent = `Log ${c.track} for a week. Patterns show up that a quiz can't see.`;
+  $("resultStore").href = appStoreUrl({ cpp: r.cpp, ct: r.ct });
+  $("method").innerHTML = METHOD.map((m) => `<li>${esc(m)}</li>`).join("");
   $("answers").innerHTML = visibleQuestions(answers).map((q) => {
     const v = answers[q.id];
-    const labels = q.options.filter((o) => (Array.isArray(v) ? v.includes(o.v) : o.v === v)).map((o) => o.label).join(", ");
-    return `<li><strong>${q.title}</strong><br>${labels}</li>`;
+    return `<li><span class="muted">${esc(q.title)}</span><br>${esc(q.options.filter((o) => (Array.isArray(v) ? v.includes(o.v) : o.v === v)).map((o) => o.label).join(", "))}</li>`;
   }).join("");
   $("disclaimer").textContent = DISCLAIMER;
-  // Animate the dial
-  let n = 0; const target = r.score;
-  $("scoreSr").textContent = target;
+  const target = r.score; let n = 0;
   requestAnimationFrame(() => { $("arc").style.strokeDashoffset = String(326.7 * (1 - target / 100)); });
-  const tick = () => { n = Math.min(target, n + Math.max(1, Math.round(target / 30))); $("score").textContent = n; if (n < target) requestAnimationFrame(tick); };
+  const tick = () => { n = Math.min(target, n + Math.max(1, Math.round(target / 40))); $("score").textContent = n; if (n < target) requestAnimationFrame(tick); };
   tick();
-  $("result").scrollIntoView({ behavior: "smooth", block: "start" });
-  try { sessionStorage.setItem("hray", JSON.stringify(answers)); } catch {}
+  $("check").scrollIntoView({ behavior: "smooth", block: "start" });
+  $("rhead").focus({ preventScroll: true });
 }
 
-$("start").onclick = () => { $("intro").hidden = true; $("quiz").hidden = false; track("quiz_start"); renderQuestion(); };
+$("start").onclick = () => { track("quiz_start", { tool: "how-regular-are-you" }); $("check").scrollIntoView({ behavior: "smooth", block: "start" }); };
 $("next").onclick = next;
-$("back").onclick = () => { if (i > 0) { i--; renderQuestion(); } };
-$("retake").onclick = () => { for (const k in answers) delete answers[k]; i = 0; $("result").hidden = true; $("quiz").hidden = false; renderQuestion(); window.scrollTo({ top: 0 }); };
-
-$("mailForm").onsubmit = async (e) => {
-  e.preventDefault();
-  const email = $("email").value.trim();
-  const msg = $("mailMsg");
-  if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) { msg.textContent = "Please enter a valid email."; return; }
-  if (!$("consentHealth").checked) { msg.textContent = "Please tick the consent box so we can store your answers to send your results."; return; }
-  const r = result(answers);
-  const payload = { email, consent_health: true, consent_marketing: $("consentNews").checked,
-    score: r.score, pattern: r.pattern, red_flags: r.redFlags.length > 0, goal: r.goal, source: "tools/how-regular-are-you", consent_text_version: "2026-10-20" };
-  if (!EMAIL_ENDPOINT) { msg.textContent = "Prototype: no email endpoint configured. Payload logged to the console."; console.log(payload); return; }
-  try {
-    const res = await fetch(EMAIL_ENDPOINT, { method: "POST", headers: { "Content-Type": "application/json" }, body: JSON.stringify(payload) });
-    if (!res.ok) throw new Error(res.status);
-    msg.textContent = "Check your inbox to confirm, then your results are on the way.";
-    track("email_submit", { marketing_opt_in: payload.consent_marketing });
-  } catch { msg.textContent = "Something went wrong. Please try again."; }
-};
+$("back").onclick = () => { if (i > 0) { i--; render(); } };
+$("retake").onclick = () => { for (const k in answers) delete answers[k]; i = 0; $("rView").hidden = true; $("qView").hidden = false; render(); $("check").scrollIntoView({ behavior: "smooth" }); };
+wireEmail($("mailForm"), { tool: "how-regular-are-you", getPayload: () => { const r = result(answers); return { score: r.score, pattern: r.pattern, red_flags: r.redFlags.length > 0, goal: r.goal }; } });
+render();
 </script>
 </body>
 </html>

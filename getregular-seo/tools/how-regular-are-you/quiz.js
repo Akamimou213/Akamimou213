@@ -247,14 +247,3 @@ export function result(a) {
     goal: a.goal,
   };
 }
-
-/* App Store link with the Custom Product Page and campaign tokens.
- * ppid values come from App Store Connect once the CPPs are approved. */
-export function appStoreUrl(r, ppids = {}) {
-  const u = new URL("https://apps.apple.com/us/app/get-regular-ai-gut-health/id6749188690");
-  if (ppids[r.cpp]) u.searchParams.set("ppid", ppids[r.cpp]);
-  u.searchParams.set("pt", "PROVIDER_TOKEN"); // [CONFIRM] App Store Connect provider token
-  u.searchParams.set("ct", r.ct);
-  u.searchParams.set("mt", "8");
-  return u.toString();
-}
