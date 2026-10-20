@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>How Regular Are You? Free 2-Minute Bowel Habits Quiz | Get Regular</title>
-<meta name="description" content="Free 2-minute self-check: answer about 10 questions about your poop, pain and bloating, and get your Regularity Score and pattern instantly. No email needed. Built on the Bristol Stool Scale.">
+<meta name="description" content="Free 2-minute self-check: answer about 10 questions about your poop, pain and bloating, and get your Regularity Score and pattern instantly. No email needed. Based on stool shape, frequency and symptom research.">
 <link rel="canonical" href="https://www.getregular.com/tools/how-regular-are-you">
 <meta name="robots" content="noindex"><!-- PROTOTYPE: remove when the reviewed version ships -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -24,7 +24,7 @@
       "isAccessibleForFree": true,
       "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" },
       "publisher": { "@id": "https://www.getregular.com/#org" },
-      "description": "A 10–11 question, non-diagnostic self-check of bowel habits based on the Bristol Stool Form Scale, usual bowel frequency and Rome IV symptom-frequency reference points."
+      "description": "A 10–11 question, non-diagnostic self-check of bowel habits using stool shape, usual bowel frequency and Rome symptom-frequency reference points."
     },
     {
       "@type": "MedicalWebPage",
@@ -38,7 +38,8 @@
       ],
       "citation": [
         { "@type": "ScholarlyArticle", "name": "Stool form scale as a useful guide to intestinal transit time", "sameAs": "https://pubmed.ncbi.nlm.nih.gov/9299672/" },
-        { "@type": "ScholarlyArticle", "name": "Bowel Disorders", "sameAs": "https://pubmed.ncbi.nlm.nih.gov/27144627/" }
+        { "@type": "ScholarlyArticle", "name": "Characterizing Normal Bowel Frequency and Consistency in a Representative Sample of Adults in the United States (NHANES)", "sameAs": "https://pubmed.ncbi.nlm.nih.gov/28762379/" },
+        { "@type": "ScholarlyArticle", "name": "Bowel Disorders (Rome V)", "sameAs": "https://pubmed.ncbi.nlm.nih.gov/41713703/" }
       ],
       "lastReviewed": "[SET AT PUBLISH]",
       "reviewedBy": "[CONFIRM: clinician Person @id, only with consent]"
@@ -153,7 +154,7 @@
     <div class="eyebrow">2-minute self-check</div>
     <h1 class="serif">How regular<br>are you?</h1>
     <p class="lede">Answer about 10 quick questions about your poop, pain and bloating. See your Regularity Score and pattern straight away.</p>
-    <ul class="facts"><li>About 10 questions</li><li>Results instantly</li><li>No email needed</li><li>Based on the Bristol Stool Scale</li></ul>
+    <ul class="facts"><li>About 10 questions</li><li>Results instantly</li><li>No email needed</li><li>Backed by published research</li></ul>
     <button class="btn" id="start">Start the check <span aria-hidden="true">→</span></button>
   </section>
 
@@ -200,7 +201,7 @@
 
       <div class="mail">
         <h3>Email me my results and a 7-day plan</h3>
-        <p class="fine">You'll get your score and pattern, a printable Bristol Stool Chart and a 7-day tracking plan. Optional.</p>
+        <p class="fine">You'll get your score and pattern, a printable stool-type chart and a 7-day tracking plan. Optional.</p>
         <form id="mailForm" novalidate>
           <input type="email" id="email" required autocomplete="email" placeholder="you@example.com" aria-label="Email address">
           <label class="consent"><input type="checkbox" id="consentHealth" required> <span>I consent to Get Regular storing my quiz answers with my email to send my results. This is health information; I can withdraw consent and ask for deletion at any time. <a href="/legal/privacy-policy">Privacy policy</a>.</span></label>
@@ -220,17 +221,17 @@
   <!-- 4. SEO / AEO content: in the server HTML, answer-first, sourced -->
   <article class="content" id="content">
     <h2>What does "regular" actually mean?</h2>
-    <p class="answer"><strong>Short answer:</strong> there's no single "right" number. Most adults poop somewhere between three times a day and three times a week, and stool that's soft but formed (Bristol types 3–4) passed without straining is the usual target <a href="https://pubmed.ncbi.nlm.nih.gov/1624166/">[1]</a><a href="https://pubmed.ncbi.nlm.nih.gov/9299672/">[2]</a>. A change from <em>your</em> normal matters more than matching someone else's.</p>
+    <p class="answer"><strong>Short answer:</strong> there's no single "right" number. In a US national survey, 96% of adults with normal bowel habits went between three times a day and three times a week <a href="https://pubmed.ncbi.nlm.nih.gov/28762379/">[1]</a>. Soft, formed stool passed without straining is common; Bristol types 3–4 are often considered ideal, but stool shape varies from day to day even in healthy people <a href="https://pubmed.ncbi.nlm.nih.gov/1624166/">[5]</a>. A change from <em>your</em> normal matters more than matching someone else's.</p>
 
     <h2>What this check looks at</h2>
     <div class="table-wrap"><table>
       <thead><tr><th>Question</th><th>Why it's asked</th><th>Reference point</th></tr></thead>
       <tbody>
-        <tr><td>Stool type</td><td>Stool form tracks how fast stool moves through the gut</td><td>Bristol Stool Form Scale <a href="https://pubmed.ncbi.nlm.nih.gov/9299672/">[2]</a></td></tr>
-        <tr><td>How often you go</td><td>Fewer than 3 a week or more than 3 a day is outside the usual range</td><td>Population bowel-habit studies <a href="https://pubmed.ncbi.nlm.nih.gov/1624166/">[1]</a></td></tr>
-        <tr><td>Straining, unfinished feeling, urgency</td><td>"1 in 4 times or more" is the threshold doctors use</td><td>Rome IV <a href="https://pubmed.ncbi.nlm.nih.gov/27144627/">[3]</a></td></tr>
-        <tr><td>Pain linked to pooping, and how long</td><td>Weekly pain linked to bowel movements for months is the IBS-type pattern</td><td>Rome IV <a href="https://pubmed.ncbi.nlm.nih.gov/27144627/">[3]</a>, ACG <a href="https://pubmed.ncbi.nlm.nih.gov/33315591/">[4]</a></td></tr>
-        <tr><td>Warning signs</td><td>Some symptoms need a doctor, whatever the score</td><td>Clinical guidelines [CONFIRM source]</td></tr>
+        <tr><td>Stool shape</td><td>Stool shape tracks how fast stool moves through the gut</td><td>Lewis &amp; Heaton, the study behind the Bristol scale <a href="https://pubmed.ncbi.nlm.nih.gov/9299672/">[2]</a></td></tr>
+        <tr><td>How often you go</td><td>Fewer than 3 a week or more than 3 a day is outside the usual range</td><td>US national survey (NHANES) <a href="https://pubmed.ncbi.nlm.nih.gov/28762379/">[1]</a></td></tr>
+        <tr><td>Straining, unfinished feeling, urgency</td><td>"1 in 4 times or more" is the threshold in the Rome criteria</td><td>Rome IV <a href="https://pubmed.ncbi.nlm.nih.gov/27144627/">[3]</a>, Rome V <a href="https://pubmed.ncbi.nlm.nih.gov/41713703/">[6]</a> [CONFIRM]</td></tr>
+        <tr><td>Pain linked to pooping, and how long</td><td>Weekly pain linked to bowel movements for months is the IBS-type pattern</td><td>Rome V <a href="https://pubmed.ncbi.nlm.nih.gov/41713703/">[6]</a>, ACG <a href="https://pubmed.ncbi.nlm.nih.gov/33315591/">[4]</a></td></tr>
+        <tr><td>Warning signs</td><td>Some symptoms need a doctor, whatever the score</td><td>NIDDK <a href="https://www.niddk.nih.gov/health-information/digestive-diseases/constipation/symptoms-causes">[7]</a>, ACG <a href="https://pubmed.ncbi.nlm.nih.gov/33315591/">[4]</a></td></tr>
       </tbody>
     </table></div>
 
@@ -246,11 +247,11 @@
     <details><summary>Is my score a medical result?</summary><p>No. The score is a summary of your answers with editorial weights that haven't been validated in a study. Use it to compare yourself over time.</p></details>
     <details><summary>Who made this?</summary><p>Get Regular, a gut-health tracking app for iPhone and iPad. [CONFIRM: reviewed by …, with consent.] See <a href="/science/how-our-ai-works">how our AI works</a> and <a href="/science/evidence">the evidence we use</a>.</p></details>
 
-    <p class="byline">Sources: [1] Heaton KW et al. Gut 1992 · [2] Lewis SJ, Heaton KW. Scand J Gastroenterol 1997 · [3] Mearin F et al. (Rome IV) Gastroenterology 2016 · [4] Lacy BE et al. ACG IBS guideline, Am J Gastroenterol 2021. Last reviewed: [SET AT PUBLISH].</p>
+    <p class="byline">Sources: [1] Mitsuhashi S et al. Am J Gastroenterol 2018 · [2] Lewis SJ, Heaton KW. Scand J Gastroenterol 1997 · [3] Mearin F et al. (Rome IV) Gastroenterology 2016 · [4] Lacy BE et al. ACG IBS guideline, Am J Gastroenterol 2021 · [5] Heaton KW et al. Gut 1992 · [6] Corsetti M et al. (Rome V) Gastroenterology 2026 · [7] NIDDK, Constipation. Stool drawings and wording are Get Regular's own. Last reviewed: [SET AT PUBLISH].</p>
   </article>
 </main>
 
-<footer><div class="wrap">© Get Regular Health, Inc. This tool is for general information and doesn't replace medical advice. Prototype build — not for publication until clinical and legal review.</div></footer>
+<footer><div class="wrap"><a href="/legal/consumer-health-data-privacy">Consumer Health Data Privacy Policy</a> · <a href="/legal/privacy-policy">Privacy policy</a><br>© Get Regular Health, Inc. This tool is for general information and doesn't replace medical advice. Prototype build — not for publication until clinical and legal review.</div></footer>
 
 <script>
 (() => {
@@ -261,26 +262,33 @@
  * the Next.js port and the Node tests (quiz.test.mjs).
  *
  * This is an original, non-validated self-check. It borrows *reference points*
- * from published sources (Bristol Stool Form Scale; normal frequency range;
- * Rome IV symptom thresholds; NICE/ACG alarm features) but it is not a
- * diagnostic instrument and its score has no clinical cut-offs. Every
+ * from published sources (the stool-form concept of Lewis & Heaton 1997; the
+ * NHANES normal frequency range; Rome symptom-frequency thresholds; NIDDK/ACG/
+ * NICE alarm features) but it is not a diagnostic instrument and its score has
+ * no clinical cut-offs.
+ *
+ * Licensing: the Rome Foundation lists the Bristol Stool Form Scale as
+ * "available by license", and the common chart artwork is Norgine's. So the
+ * form question uses our own wording and our own drawings, not the BSFS text
+ * or chart. Counsel decides whether a Rome Foundation license is needed for
+ * the 7-type structure itself (site/ARCHITECTURE.md §12). Every
  * threshold below names its source so the clinical reviewer can check it.
  */
 
 const QUESTIONS = [
   {
     id: "form",
-    title: "Which type looks most like your usual poop over the last 2 weeks?",
-    help: "This is the Bristol Stool Form Scale, the chart doctors use to describe stool.",
+    title: "Which picture looks most like your usual poop over the last 2 weeks?",
+    help: "Stool shape is a rough guide to how fast food moves through your gut. Doctors use a similar 7-type scale.",
     kind: "bristol",
     options: [
-      { v: 1, label: "Type 1", desc: "Separate hard lumps, like nuts" },
-      { v: 2, label: "Type 2", desc: "Sausage-shaped but lumpy" },
-      { v: 3, label: "Type 3", desc: "Sausage-shaped with cracks on the surface" },
-      { v: 4, label: "Type 4", desc: "Smooth and soft, like a sausage or snake" },
-      { v: 5, label: "Type 5", desc: "Soft blobs with clear-cut edges" },
-      { v: 6, label: "Type 6", desc: "Fluffy pieces with ragged edges, mushy" },
-      { v: 7, label: "Type 7", desc: "Watery, no solid pieces" },
+      { v: 1, label: "Type 1", desc: "Small hard pellets, difficult to pass" },
+      { v: 2, label: "Type 2", desc: "A hard, lumpy log" },
+      { v: 3, label: "Type 3", desc: "A firm log with a few cracks" },
+      { v: 4, label: "Type 4", desc: "A smooth, soft log, easy to pass" },
+      { v: 5, label: "Type 5", desc: "Soft pieces that hold their shape" },
+      { v: 6, label: "Type 6", desc: "Mushy, with ragged edges" },
+      { v: 7, label: "Type 7", desc: "Liquid, no solid pieces" },
       { v: "mixed", label: "It changes a lot", desc: "Hard some days, loose on others" },
     ],
   },
@@ -353,11 +361,15 @@ const QUESTIONS = [
     help: "Select all that apply. These are signs doctors want to check in person.",
     multi: true,
     options: [
+      // Sources: NIDDK constipation "see a doctor right away" list; ACG IBS
+      // guideline 2021 alarm features (PMID 33315591); NICE NG12 1.3 (2026).
+      // [CONFIRM reviewer] wording and the age threshold.
       { v: "blood", label: "Blood in your poop, or black, tarry poop" },
-      { v: "weight", label: "Weight loss you can't explain" },
+      { v: "weight", label: "Losing weight without trying" },
+      { v: "pain", label: "Belly pain that's constant or severe" },
+      { v: "vomit", label: "Vomiting, fever, or not being able to pass gas" },
       { v: "night", label: "Waking up at night to poop" },
       { v: "anemia", label: "Low iron or anemia found on a blood test" },
-      { v: "fever", label: "Fever or vomiting that won't stop" },
       { v: "family", label: "A parent, sibling or child with bowel cancer, IBD or celiac disease" },
       { v: "newOver50", label: "I'm 50 or older and this change is new" },
       { v: "none", label: "None of these", exclusive: true },
@@ -378,7 +390,7 @@ const QUESTIONS = [
 
 function freqScale() {
   // Rome IV uses "more than one-fourth (25%) of defecations" for straining,
-  // incomplete evacuation and similar items (Mearin 2016, Rome IV "Bowel Disorders", PMID 27144627).
+  // incomplete evacuation and similar items (Rome IV: Mearin 2016, PMID 27144627; Rome V: Corsetti 2026, PMID 41713703 [CONFIRM reviewer: Rome V thresholds]).
   return [
     { v: "rarely", label: "Rarely or never" },
     { v: "sometimes", label: "Sometimes", desc: "Less than 1 in 4 times" },
@@ -393,9 +405,11 @@ function visibleQuestions(answers) {
 /* ---------- Scoring ---------- */
 
 // Penalties, out of 100. Form and frequency carry the most weight because
-// they are the two things the Bristol scale and population bowel-habit
-// studies anchor (Lewis & Heaton 1997, PMID 9299672; Heaton 1992, PMID 1624166;
-// Walter 2002, PMID 12229965). Weights are editorial, not validated.
+// they are what stool-form and population bowel-habit studies anchor
+// (Lewis & Heaton 1997, PMID 9299672; Heaton 1992, PMID 1624166; NHANES:
+// 95.9% of adults with normal habits go 3-21 times a week, Mitsuhashi 2018,
+// PMID 28762379). Type 5 is penalized lightly: Blake 2016 (PMID 27492648)
+// groups types 3-5 as normal. Weights are editorial, not validated.
 const FORM_PENALTY = { 1: 30, 2: 22, 3: 4, 4: 0, 5: 8, 6: 22, 7: 30, mixed: 24 };
 const FREQ_PENALTY = { lt3wk: 22, "3to6wk": 4, "1to3day": 0, gt3day: 18 };
 const OFTEN = { rarely: 0, sometimes: 4, often: 10 };
@@ -430,7 +444,7 @@ const loose = (a) => a.form === 6 || a.form === 7;
 
 /*
  * Pattern = which way the answers lean. Uses Rome IV *reference points*
- * (Mearin 2016, Rome IV "Bowel Disorders", PMID 27144627): two or more constipation features, or
+ * (Rome IV: Mearin 2016, PMID 27144627; Rome V: Corsetti 2026, PMID 41713703 [CONFIRM reviewer: Rome V thresholds]): two or more constipation features, or
  * recurrent pain linked to bowel movements on >= 1 day/week.
  * The result copy never says "you have"; it says "your answers look like".
  */
@@ -513,7 +527,10 @@ function appStoreUrl(r, ppids = {}) {
 
 const SOURCES = {
   bristol: { label: "Lewis & Heaton 1997, Scand J Gastroenterol", url: "https://pubmed.ncbi.nlm.nih.gov/9299672/" },
-  freq: { label: "Heaton et al. 1992, Gut", url: "https://pubmed.ncbi.nlm.nih.gov/1624166/" },
+  freq: { label: "Mitsuhashi et al. 2018 (NHANES), Am J Gastroenterol", url: "https://pubmed.ncbi.nlm.nih.gov/28762379/" },
+  variation: { label: "Heaton et al. 1992, Gut", url: "https://pubmed.ncbi.nlm.nih.gov/1624166/" },
+  rome5: { label: "Corsetti et al. 2026 (Rome V), Gastroenterology", url: "https://pubmed.ncbi.nlm.nih.gov/41713703/" },
+  niddk: { label: "NIDDK: Constipation symptoms & causes", url: "https://www.niddk.nih.gov/health-information/digestive-diseases/constipation/symptoms-causes" },
   rome: { label: "Mearin et al. 2016 (Rome IV), Gastroenterology", url: "https://pubmed.ncbi.nlm.nih.gov/27144627/" },
   cic: { label: "AGA–ACG chronic constipation guideline 2023", url: "https://pubmed.ncbi.nlm.nih.gov/37204227/" },
   ibs: { label: "ACG IBS guideline 2021", url: "https://pubmed.ncbi.nlm.nih.gov/33315591/" },
@@ -523,8 +540,8 @@ const SOURCES = {
 const RESULT_COPY = {
   regular: {
     headline: "Your answers look regular",
-    body: "Soft, formed stool (Bristol types 3–4) passed without much straining, between three times a day and three times a week, is the range most adults fall in.",
-    cite: ["bristol", "freq"],
+    body: "Most adults go between three times a day and three times a week, and soft, formed stool passed without much straining is common. Types 3–4 are often considered ideal, but some day-to-day variation is normal.",
+    cite: ["freq", "variation"],
     tryThis: [
       "Keep doing what works: regular meals, fiber from plants, enough fluids, and movement.",
       "Notice what changes when you travel, sleep badly or are stressed. That's when most people go off track.",
@@ -546,7 +563,7 @@ const RESULT_COPY = {
   constipation: {
     headline: "Your answers lean toward constipation",
     body: "Two or more of the signs doctors use to describe constipation showed up: hard or lumpy stool, fewer than three a week, frequent straining or feeling you haven't finished.",
-    cite: ["rome", "cic"],
+    cite: ["rome5", "cic"],
     tryThis: [
       "Increase fiber gradually; the 2023 AGA–ACG guideline supports fiber as a first step for chronic constipation.",
       "Keep a regular toilet routine and don't ignore the urge.",
@@ -568,7 +585,7 @@ const RESULT_COPY = {
   alternating: {
     headline: "Your answers swing between hard and loose",
     body: "Switching between harder and looser stool is common and has many causes. Tracking it is the fastest way to see whether food, routine, stress or your cycle lines up with the swings.",
-    cite: ["bristol", "rome"],
+    cite: ["bristol", "rome5"],
     tryThis: [
       "Log every bowel movement for 2 weeks, including the 'normal' ones, so the pattern is clear.",
       "Note sleep, stress and, if it applies, your cycle. They often explain swings food doesn't.",
@@ -596,19 +613,20 @@ function ibs(side) {
   return {
     headline: "Your answers look like an IBS-type pattern",
     body: `Belly pain linked to bowel movements at least once a week for months, ${side}, is the pattern doctors look at when they consider irritable bowel syndrome (IBS). Only a clinician can diagnose IBS, often after ruling out other causes.`,
-    cite: ["rome", "ibs"],
+    cite: ["rome5", "ibs"],
     tryThis: [
       "Book a visit with a doctor if you haven't been assessed. Bring 2 weeks of logs: it makes the conversation faster.",
       "Diet changes such as low-FODMAP work best with a dietitian, as the ACG guideline recommends, not alone.",
       "Track symptoms against meals, stress and sleep so you and your clinician can test one change at a time.",
     ],
-    track: "pain days, stool type, meals and stress, ready to share as a Doctor Report",
+    track: "pain days, stool type, meals and stress",
   };
 }
 
 const DOCTOR_CARD = {
   headline: "Talk to a doctor about what you selected",
   body: "Some of what you selected is on the list of signs clinicians want to check in person. It doesn't mean something serious is wrong, but please don't wait on an app or a quiz. Contact your doctor soon. For heavy bleeding, severe pain or feeling faint, seek urgent care.",
+  cite: ["niddk", "ibs"],
   // [CONFIRM with reviewer] alarm-feature list and age threshold.
 };
 
@@ -616,8 +634,8 @@ const DISCLAIMER =
   "This self-check summarizes your answers. It isn't a medical test, it can't diagnose any condition, and its score has no clinical cut-offs. If you're worried about your symptoms, talk to a clinician.";
 
 const METHOD = [
-  "Questions use reference points doctors use: the Bristol Stool Form Scale, the usual range of bowel frequency, and Rome IV thresholds for how often symptoms happen.",
-  "The score starts at 100 and drops for stool form outside types 3–4, frequency outside the usual range, frequent straining, unfinished feelings or urgency, weekly pain and frequent bloating.",
+  "Questions use reference points doctors use: stool shape as a guide to gut transit, the usual range of bowel frequency (3 a day to 3 a week), and Rome criteria thresholds for how often symptoms happen. The wording and drawings are our own.",
+  "The score starts at 100 and drops for stool shape outside types 3–5 (type 5 only slightly), frequency outside the usual range, frequent straining, unfinished feelings or urgency, weekly pain and frequent bloating.",
   "The weights are our editorial choice and haven't been validated in a study. Use the score to compare yourself with yourself over time, not with other people.",
 ];
 
@@ -631,8 +649,10 @@ const $ = (id) => document.getElementById(id);
 const answers = {};
 let i = 0;
 
-// Analytics: event names and step index only. Never send answers, score or
-// pattern to ad pixels (FTC Health Breach Notification Rule; GoodRx/BetterHelp).
+// Analytics: event names and step index only, to first-party analytics.
+// Never send answers, score or pattern anywhere. No Meta/TikTok/Google ad
+// pixels on this page at all: the URL itself reveals a bowel-health interest
+// (FTC Health Breach Notification Rule; GoodRx and BetterHelp orders 2023).
 function track(name, props = {}) {
   (window.dataLayer = window.dataLayer || []).push({ event: name, tool: "how-regular-are-you", ...props });
 }
@@ -709,7 +729,7 @@ function showResult() {
   $("doctor").hidden = !r.leadWithDoctor;
   if (r.leadWithDoctor) {
     $("doctor").querySelector("h3").textContent = DOCTOR_CARD.headline;
-    $("doctor").querySelector("p").textContent = DOCTOR_CARD.body;
+    $("doctor").querySelector("p").innerHTML = DOCTOR_CARD.body + " <span class=\"fine\">Sources: " + DOCTOR_CARD.cite.map((k) => `<a href="${SOURCES[k].url}">${SOURCES[k].label}</a>`).join(" · ") + "</span>";
   }
   $("band").textContent = r.band.label;
   $("rhead").textContent = c.headline;

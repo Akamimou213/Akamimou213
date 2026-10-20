@@ -9,7 +9,10 @@
 
 export const SOURCES = {
   bristol: { label: "Lewis & Heaton 1997, Scand J Gastroenterol", url: "https://pubmed.ncbi.nlm.nih.gov/9299672/" },
-  freq: { label: "Heaton et al. 1992, Gut", url: "https://pubmed.ncbi.nlm.nih.gov/1624166/" },
+  freq: { label: "Mitsuhashi et al. 2018 (NHANES), Am J Gastroenterol", url: "https://pubmed.ncbi.nlm.nih.gov/28762379/" },
+  variation: { label: "Heaton et al. 1992, Gut", url: "https://pubmed.ncbi.nlm.nih.gov/1624166/" },
+  rome5: { label: "Corsetti et al. 2026 (Rome V), Gastroenterology", url: "https://pubmed.ncbi.nlm.nih.gov/41713703/" },
+  niddk: { label: "NIDDK: Constipation symptoms & causes", url: "https://www.niddk.nih.gov/health-information/digestive-diseases/constipation/symptoms-causes" },
   rome: { label: "Mearin et al. 2016 (Rome IV), Gastroenterology", url: "https://pubmed.ncbi.nlm.nih.gov/27144627/" },
   cic: { label: "AGA–ACG chronic constipation guideline 2023", url: "https://pubmed.ncbi.nlm.nih.gov/37204227/" },
   ibs: { label: "ACG IBS guideline 2021", url: "https://pubmed.ncbi.nlm.nih.gov/33315591/" },
@@ -19,8 +22,8 @@ export const SOURCES = {
 export const RESULT_COPY = {
   regular: {
     headline: "Your answers look regular",
-    body: "Soft, formed stool (Bristol types 3–4) passed without much straining, between three times a day and three times a week, is the range most adults fall in.",
-    cite: ["bristol", "freq"],
+    body: "Most adults go between three times a day and three times a week, and soft, formed stool passed without much straining is common. Types 3–4 are often considered ideal, but some day-to-day variation is normal.",
+    cite: ["freq", "variation"],
     tryThis: [
       "Keep doing what works: regular meals, fiber from plants, enough fluids, and movement.",
       "Notice what changes when you travel, sleep badly or are stressed. That's when most people go off track.",
@@ -42,7 +45,7 @@ export const RESULT_COPY = {
   constipation: {
     headline: "Your answers lean toward constipation",
     body: "Two or more of the signs doctors use to describe constipation showed up: hard or lumpy stool, fewer than three a week, frequent straining or feeling you haven't finished.",
-    cite: ["rome", "cic"],
+    cite: ["rome5", "cic"],
     tryThis: [
       "Increase fiber gradually; the 2023 AGA–ACG guideline supports fiber as a first step for chronic constipation.",
       "Keep a regular toilet routine and don't ignore the urge.",
@@ -64,7 +67,7 @@ export const RESULT_COPY = {
   alternating: {
     headline: "Your answers swing between hard and loose",
     body: "Switching between harder and looser stool is common and has many causes. Tracking it is the fastest way to see whether food, routine, stress or your cycle lines up with the swings.",
-    cite: ["bristol", "rome"],
+    cite: ["bristol", "rome5"],
     tryThis: [
       "Log every bowel movement for 2 weeks, including the 'normal' ones, so the pattern is clear.",
       "Note sleep, stress and, if it applies, your cycle. They often explain swings food doesn't.",
@@ -92,19 +95,20 @@ function ibs(side) {
   return {
     headline: "Your answers look like an IBS-type pattern",
     body: `Belly pain linked to bowel movements at least once a week for months, ${side}, is the pattern doctors look at when they consider irritable bowel syndrome (IBS). Only a clinician can diagnose IBS, often after ruling out other causes.`,
-    cite: ["rome", "ibs"],
+    cite: ["rome5", "ibs"],
     tryThis: [
       "Book a visit with a doctor if you haven't been assessed. Bring 2 weeks of logs: it makes the conversation faster.",
       "Diet changes such as low-FODMAP work best with a dietitian, as the ACG guideline recommends, not alone.",
       "Track symptoms against meals, stress and sleep so you and your clinician can test one change at a time.",
     ],
-    track: "pain days, stool type, meals and stress, ready to share as a Doctor Report",
+    track: "pain days, stool type, meals and stress",
   };
 }
 
 export const DOCTOR_CARD = {
   headline: "Talk to a doctor about what you selected",
   body: "Some of what you selected is on the list of signs clinicians want to check in person. It doesn't mean something serious is wrong, but please don't wait on an app or a quiz. Contact your doctor soon. For heavy bleeding, severe pain or feeling faint, seek urgent care.",
+  cite: ["niddk", "ibs"],
   // [CONFIRM with reviewer] alarm-feature list and age threshold.
 };
 
@@ -112,7 +116,7 @@ export const DISCLAIMER =
   "This self-check summarizes your answers. It isn't a medical test, it can't diagnose any condition, and its score has no clinical cut-offs. If you're worried about your symptoms, talk to a clinician.";
 
 export const METHOD = [
-  "Questions use reference points doctors use: the Bristol Stool Form Scale, the usual range of bowel frequency, and Rome IV thresholds for how often symptoms happen.",
-  "The score starts at 100 and drops for stool form outside types 3–4, frequency outside the usual range, frequent straining, unfinished feelings or urgency, weekly pain and frequent bloating.",
+  "Questions use reference points doctors use: stool shape as a guide to gut transit, the usual range of bowel frequency (3 a day to 3 a week), and Rome criteria thresholds for how often symptoms happen. The wording and drawings are our own.",
+  "The score starts at 100 and drops for stool shape outside types 3–5 (type 5 only slightly), frequency outside the usual range, frequent straining, unfinished feelings or urgency, weekly pain and frequent bloating.",
   "The weights are our editorial choice and haven't been validated in a study. Use the score to compare yourself with yourself over time, not with other people.",
 ];

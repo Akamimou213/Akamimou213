@@ -289,9 +289,23 @@
   "doi": "10.1111/apt.13746",
   "publication_types": "Journal Article;Validation Study",
   "evidence_tier": "Clinical study",
-  "cited_in": "onpage;stool-bristol",
-  "times_cited_by_us": 2,
+  "cited_in": "onpage;poop;stool-bristol",
+  "times_cited_by_us": 3,
   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/27492648/"
+ },
+ {
+  "pmid": "41138916",
+  "title": "Customized multimodal Diabot-GPT-4o enhances accuracy of image-based dietary assessments in dietetic trainees in Taiwan: validation against weighed food records",
+  "first_author": "Chen YJ",
+  "authors_short": "Chen YJ et al.",
+  "journal": "Am J Clin Nutr",
+  "year": "2025",
+  "doi": "10.1016/j.ajcnut.2025.10.013",
+  "publication_types": "Journal Article;Validation Study",
+  "evidence_tier": "Clinical study",
+  "cited_in": "gut-health-apps",
+  "times_cited_by_us": 1,
+  "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/41138916/"
  },
  {
   "pmid": "30394943",
@@ -334,6 +348,20 @@
   "cited_in": "bloating-gas",
   "times_cited_by_us": 1,
   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/11254489/"
+ },
+ {
+  "pmid": "3023168",
+  "title": "Simplified assessment of segmental colonic transit",
+  "first_author": "Metcalf AM",
+  "authors_short": "Metcalf AM et al.",
+  "journal": "Gastroenterology",
+  "year": "1987",
+  "doi": "10.1016/0016-5085(87)90837-7",
+  "publication_types": "Comparative Study;Journal Article;Research Support, U.S. Gov't, P.H.S.",
+  "evidence_tier": "Clinical study",
+  "cited_in": "poop",
+  "times_cited_by_us": 1,
+  "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/3023168/"
  },
  {
   "pmid": "23545709",
@@ -546,6 +574,34 @@
   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/40004936/"
  },
  {
+  "pmid": "39486001",
+  "title": "Long-term, automated stool monitoring using a novel smart toilet: A feasibility study",
+  "first_author": "Zhou J",
+  "authors_short": "Zhou J et al.",
+  "journal": "Neurogastroenterol Motil",
+  "year": "2025",
+  "doi": "10.1111/nmo.14954",
+  "publication_types": "Journal Article",
+  "evidence_tier": "Study",
+  "cited_in": "gut-health-apps",
+  "times_cited_by_us": 1,
+  "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/39486001/"
+ },
+ {
+  "pmid": "41081011",
+  "title": "Performance Evaluation of 3 Large Language Models for Nutritional Content Estimation from Food Images",
+  "first_author": "Fridolfsson J",
+  "authors_short": "Fridolfsson J et al.",
+  "journal": "Curr Dev Nutr",
+  "year": "2025",
+  "doi": "10.1016/j.cdnut.2025.107556",
+  "publication_types": "Journal Article",
+  "evidence_tier": "Study",
+  "cited_in": "gut-health-apps",
+  "times_cited_by_us": 1,
+  "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/41081011/"
+ },
+ {
   "pmid": "39546777",
   "title": "Advancements in Using AI for Dietary Assessment Based on Food Images: Scoping Review",
   "first_author": "Chotwanvirat P",
@@ -558,6 +614,20 @@
   "cited_in": "apps-comparisons",
   "times_cited_by_us": 1,
   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/39546777/"
+ },
+ {
+  "pmid": "38153339",
+  "title": "Artificial Intelligence Evaluation of Stool Quality Guides Management of Hepatic Encephalopathy Using a Smartphone App",
+  "first_author": "Fagan A",
+  "authors_short": "Fagan A et al.",
+  "journal": "Am J Gastroenterol",
+  "year": "2024",
+  "doi": "10.14309/ajg.0000000000002646",
+  "publication_types": "Journal Article;Research Support, Non-U.S. Gov't;Research Support, U.S. Gov't, Non-P.H.S.",
+  "evidence_tier": "Study",
+  "cited_in": "gut-health-apps",
+  "times_cited_by_us": 1,
+  "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/38153339/"
  },
  {
   "pmid": "36396061",
@@ -588,6 +658,20 @@
   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/36602836/"
  },
  {
+  "pmid": "37595647",
+  "title": "Prevalence and Burden of Illness of Rome IV Irritable Bowel Syndrome in the United States: Results From a Nationwide Cross-Sectional Study",
+  "first_author": "Almario CV",
+  "authors_short": "Almario CV et al.",
+  "journal": "Gastroenterology",
+  "year": "2023",
+  "doi": "10.1053/j.gastro.2023.08.010",
+  "publication_types": "Journal Article;Research Support, Non-U.S. Gov't",
+  "evidence_tier": "Study",
+  "cited_in": "ibs",
+  "times_cited_by_us": 1,
+  "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/37595647/"
+ },
+ {
   "pmid": "33220527",
   "title": "Fishing for Irritable Bowel Syndrome: Which Alarm Features Weave the Best Net?",
   "first_author": "Brandler J",
@@ -616,6 +700,20 @@
   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/32294476/"
  },
  {
+  "pmid": "33722860",
+  "title": "Blue poo: impact of gut transit time on the gut microbiome using a novel marker",
+  "first_author": "Asnicar F",
+  "authors_short": "Asnicar F et al.",
+  "journal": "Gut",
+  "year": "2021",
+  "doi": "10.1136/gutjnl-2020-323877",
+  "publication_types": "Journal Article;Research Support, N.I.H., Extramural;Research Support, Non-U.S. Gov't",
+  "evidence_tier": "Study",
+  "cited_in": "poop",
+  "times_cited_by_us": 1,
+  "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/33722860/"
+ },
+ {
   "pmid": "31565841",
   "title": "Normative values for region-specific colonic and gastrointestinal transit times in 111 healthy volunteers using the 3D-Transit electromagnet tracking system: Influence of age, gender, and body mass index",
   "first_author": "Nandhra GK",
@@ -628,6 +726,48 @@
   "cited_in": "stool-bristol",
   "times_cited_by_us": 1,
   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/31565841/"
+ },
+ {
+  "pmid": "31917991",
+  "title": "Prevalence of Rome IV Functional Bowel Disorders Among Adults in the United States, Canada, and the United Kingdom",
+  "first_author": "Palsson OS",
+  "authors_short": "Palsson OS et al.",
+  "journal": "Gastroenterology",
+  "year": "2020",
+  "doi": "10.1053/j.gastro.2019.12.021",
+  "publication_types": "Journal Article;Research Support, Non-U.S. Gov't",
+  "evidence_tier": "Study",
+  "cited_in": "ibs",
+  "times_cited_by_us": 1,
+  "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/31917991/"
+ },
+ {
+  "pmid": "32324606",
+  "title": "Chronic Constipation in the United States: Results From a Population-Based Survey Assessing Healthcare Seeking and Use of Pharmacotherapy",
+  "first_author": "Oh SJ",
+  "authors_short": "Oh SJ et al.",
+  "journal": "Am J Gastroenterol",
+  "year": "2020",
+  "doi": "10.14309/ajg.0000000000000614",
+  "publication_types": "Journal Article;Research Support, N.I.H., Extramural;Research Support, Non-U.S. Gov't",
+  "evidence_tier": "Study",
+  "cited_in": "constipation",
+  "times_cited_by_us": 1,
+  "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/32324606/"
+ },
+ {
+  "pmid": "28762379",
+  "title": "Characterizing Normal Bowel Frequency and Consistency in a Representative Sample of Adults in the United States (NHANES)",
+  "first_author": "Mitsuhashi S",
+  "authors_short": "Mitsuhashi S et al.",
+  "journal": "Am J Gastroenterol",
+  "year": "2018",
+  "doi": "10.1038/ajg.2017.213",
+  "publication_types": "Journal Article;Research Support, N.I.H., Extramural",
+  "evidence_tier": "Study",
+  "cited_in": "poop",
+  "times_cited_by_us": 1,
+  "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/28762379/"
  },
  {
   "pmid": "23766444",
@@ -838,5 +978,19 @@
   "cited_in": "stool-bristol",
   "times_cited_by_us": 1,
   "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/5015442/"
+ },
+ {
+  "pmid": "5838411",
+  "title": "Variation of bowel habit in two population samples",
+  "first_author": "Connell AM",
+  "authors_short": "Connell AM et al.",
+  "journal": "Br Med J",
+  "year": "1965",
+  "doi": "10.1136/bmj.2.5470.1095",
+  "publication_types": "Journal Article",
+  "evidence_tier": "Study",
+  "cited_in": "poop",
+  "times_cited_by_us": 1,
+  "pubmed_url": "https://pubmed.ncbi.nlm.nih.gov/5838411/"
  }
 ]

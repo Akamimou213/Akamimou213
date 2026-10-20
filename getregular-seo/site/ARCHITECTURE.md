@@ -112,7 +112,17 @@ ZOE's science section works because ZOE runs studies (PREDICT, 60+ papers) and v
 | gut-microbiome-tests | do gut microbiome tests work | 39647502 (international consensus 2025) | gut-health-apps |
 | ai-stool-and-meal-photos | can AI read a poop photo, how accurate are AI food trackers | 35288511, 40004936, 39546777, 27938425 | gut-health-apps |
 
-**Rome V note:** the library already includes 2026 Rome V papers (41713703, 42753081). Every page and tool that cites Rome IV thresholds (including `/tools/how-regular-are-you`) must be checked by the clinical reviewer against Rome V before publishing.
+**Rome V note:** Rome V is live (Corsetti et al., *Gastroenterology* 2026, PMID 41713703; criteria at theromefoundation.org/rome-v-criteria). Cite Rome V from now on. The quiz cites Rome V, but its symptom-frequency thresholds still need the clinical reviewer's check against the Rome V text.
+
+**Added 20 Oct (verified on NCBI, in `science/extra_pmids.txt`):**
+- **Normal ranges:** Mitsuhashi 2018 (NHANES, 95.9% of adults with normal habits go 3–21 times a week), Connell 1965 (origin of "3 and 3"), Blake 2016 (types 3–5 grouped as normal).
+- **Transit:** Asnicar 2021 (median 28.7 h, ZOE-funded), Metcalf 1987.
+- **Prevalence:** Palsson 2020 (Rome IV IBS 4.4–4.8%, functional constipation 7.9–8.6%), Almario 2023, Oh 2020.
+- **AI evidence:**
+  - Stool images: Fagan 2024 and Zhou 2025.
+  - Meal photos: Fridolfsson 2025 (GPT-4o/Claude 3.5 energy error, MAPE ~36%) and Chen 2025.
+  - The three Dieta stool-AI papers share an author, so check their conflict-of-interest statements before calling them independent.
+  - Under Apple Guideline 1.4.1, **don't publish accuracy figures for our own model until it's validated.** Cite these studies as context, not as evidence that Get Regular is accurate.
 
 ## 3. /learn: where the traffic is
 
@@ -154,7 +164,7 @@ The publish gate is unchanged: an article ships only after a named clinician app
 
 | # | Tool | Main queries (US/mo, Semrush 6 Oct; "AC" = autocomplete only) | Why build it | Lead capture |
 |---|---|---|---|---|
-| T1 | **Bristol Stool Chart: what's my type?** | bristol stool chart 74,000 · poop chart 33,100 · bristol stool scale 5,400 · bowel movement chart 2,400 · type 6 1,000 … (40+ variants) | The single biggest owned-intent term in the category. Today's SERP is clinic PDFs and static images; an interactive, cited, mobile-first chart is a clear upgrade. KD 50–68, so it's a 6–12 month play built on links | Printable PDF (optional email), "track your type for 7 days" → App Store |
+| T1 | **Bristol Stool Chart: what's my type?** (depends on the licensing decision in §12) | bristol stool chart 74,000 · poop chart 33,100 · bristol stool scale 5,400 · bowel movement chart 2,400 · type 6 1,000 … (40+ variants) | The single biggest owned-intent term in the category. Today's SERP is clinic PDFs and static images; an interactive, cited, mobile-first chart is a clear upgrade. KD 50–68, so it's a 6–12 month play built on links | Printable PDF (optional email), "track your type for 7 days" → App Store |
 | T2 | **How regular are you?** (built: `tools/how-regular-are-you/`) | AC: "am i constipated quiz", "do i have ibs quiz", "ibs quiz free", "**ibs quiz no email**", "gut health quiz free", "bowel health quiz" | Long-tail quiz demand, plus the best destination for **paid social and creators** (MenoScale's traffic is press- and podcast-led, not SEO) | Result first, email optional (see §6) |
 | T3 | **Poop color chart** | bowel movement color chart 1,900 · green poop (C1 draft) · yellow diarrhea (C6) | High intent, strong red-flag duty (black, red, pale stool) | Optional email |
 | T4 | **Why am I bloated?** | why am i so bloated i look pregnant 18,100 · why am i so bloated 8,100 · why am i always bloated 4,400 · why am i bloated after eating 320 | Huge question cluster. A 6-question timing check (after meals vs end of day, with which foods, with cycle, with stool changes) maps to the C4 articles | Optional email |
@@ -202,7 +212,16 @@ Each printable gets an indexable HTML landing page (what it is, how to use it, a
 **Guardrails.** The pending compliance research is in §11. These apply regardless:
 - **Results never require an email.** This follows the "ibs quiz no email" search demand, Google's helpful-content expectations and trust for a health brand. ZOE gates its result behind email; we deliberately don't. If capture rates disappoint, A/B test gating the *extended plan*, never the result.
 - **Separate, unticked consent** for (a) storing quiz answers to send results and (b) marketing email. ZOE's US flow defaults to marketing-on; don't copy that.
-- **No quiz answers, scores, patterns or warning-sign data to ad platforms.** Meta and TikTok pixels on tool pages may receive only page views, or nothing. Fire `Lead` server-side without health fields, or not at all. This follows the FTC GoodRx (2023) and BetterHelp (2023) actions and the Health Breach Notification Rule.
+- **No ad pixels on health pages at all** (`/tools/*`, `/learn/*`, `/science/evidence/*`). The URL itself reveals a bowel-health interest. In BetterHelp (FTC, Mar 2023, $7.8M), the shared data included health questionnaire answers; GoodRx (Feb 2023, $1.5M) was the first Health Breach Notification Rule case. The amended rule (effective 29 Jul 2024) treats unauthorized sharing with advertisers as a breach. For paid-social optimization, send a server-side `Lead` with no page path, answers, score or pattern, and only after legal sign-off.
+- **Washington My Health My Data Act:** the WA Attorney General names "an app that tracks someone's digestion" as collecting consumer health data. The law requires:
+  - consent **before** collecting;
+  - a **separate** consent for any sharing;
+  - each consent naming the data categories, purposes, recipients and how to withdraw;
+  - a separate **Consumer Health Data Privacy Policy** linked from the homepage.
+
+  The prototype keeps answers in the browser until the user opts in to email (collection happens only then, after the consent tick), and the footer links `/legal/consumer-health-data-privacy`, which **doesn't exist yet**.
+- **Retention:** set a schedule (e.g. delete quiz answers 12 months after the last email interaction) and a deletion path. Store `consent_text_version` with each record.
+- **CAN-SPAM:** postal address, working unsubscribe, opt-outs honored within 10 business days.
 - The ESP (Kit is already a listed processor in the privacy policy) stores the pattern as a tag only under the health-data consent. Washington's My Health My Data Act and similar state laws treat bowel-symptom answers as consumer health data. Legal must approve the consent text (versioned in the payload as `consent_text_version`).
 - The App Store `ct` tokens (`quiz-ibs-c` …) reveal a pattern to Apple's aggregate analytics only. If legal prefers, switch to neutral codes (`q1`…`q9`) with the mapping kept internally.
 
@@ -251,10 +270,25 @@ Added to `geo/ai-prompt-panel.csv` (54 prompts now; clusters `tool-quiz`, `tool-
 
 ZOE's reach comes from its podcast (reported to touch ~40% of sales), press and a famous scientist; organic search is about a third of its traffic (Semrush estimate). **The tools won't bring traffic by themselves.** Plan T2 as the destination for paid social, creators and email, and T1 and the Learn hubs as the organic engine.
 
+## 12. Licensing: the Bristol scale and validated questionnaires
+
+The research on 20 Oct 2026 found **no validated GI questionnaire that a commercial consumer site can reuse freely**. This is not legal advice; counsel decides.
+
+| Instrument | Status | What we do |
+|---|---|---|
+| Bristol Stool Form Scale | Rome Foundation lists it as "available by license". The widespread chart artwork is © Norgine | The quiz uses **our own wording and our own drawings**, cites Lewis & Heaton 1997, and never copies the Norgine chart. **Counsel to decide:** whether the 7-type structure or the name needs a license for (a) the quiz, (b) the T1 Bristol chart tool, and (c) the app itself and its App Store copy, which already say "Bristol Stool Scale". Ask the Rome Foundation for a license quote; it may be cheap relative to the risk |
+| Rome IV/V diagnostic questionnaires | License with fees; can't be altered without permission | Paraphrase thresholds with a citation; never reproduce the questionnaire |
+| IBS-SSS | © Rome Foundation, licensed via ePROVIDE | Possible upgrade: a licensed IBS-SSS gives a *validated* severity score (bands 75/175/300). Get a quote |
+| PAC-SYM / PAC-QOL / GSRS / PROMIS GI | Mapi / AstraZeneca / HealthMeasures; commercial use needs permission | Don't use |
+| Wexner constipation score | Copyright terms not found | Don't use without counsel |
+| NHANES Bowel Health Questionnaire wording | US government work (public domain), but its stool item is the BSFS | Frequency and urgency phrasing can follow it; no BSFS images |
+
+**The ZOE lesson that matters most:** MenoScale is credible because ZOE validated it in a published paper. Get Regular's equivalent path is to license IBS-SSS (validated today), or to collect consented quiz and app data under the research program (`/science/research`) and publish a validation of the Regularity Score later. Until then, label it "not validated" everywhere.
+
 ## 11. Open decisions and [CONFIRM] items
 
 1. **Clinical reviewer** for the tools and science pages (named, consenting). Also: the Rome V check on T2 thresholds.
-2. **Legal:** consent text, ESP data handling, pixel policy on tool pages, `ct` token style.
+2. **Legal:** consent text, ESP data handling, no-pixel policy on health pages, `ct` token style, a Consumer Health Data Privacy Policy page, a retention schedule, and **the Bristol scale licensing question (§12)**, which also affects the app and its App Store copy.
 3. **Product:** Gut Health Score weights for `/science/gut-health-score`; what the in-app research consent covers.
 4. **Email endpoint:** a Kit form, or a first-party API route that double-opts-in and stores consent records.
 5. **App Store Custom Product Page IDs** once approved, so the tools deep-link to the right page.

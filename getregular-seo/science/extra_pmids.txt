@@ -1,0 +1,14 @@
+# PMIDs added from the 20 Oct 2026 questionnaire/evidence research (verified on NCBI). Format: PMID # topic
+28762379 # poop  Mitsuhashi 2018, NHANES normal bowel frequency
+5838411 # poop  Connell 1965, origin of the 3-a-day to 3-a-week range
+27492648 # poop  Blake 2016, BSFS validity and reliability
+41713703 # ibs  Rome V Bowel Disorders, Corsetti 2026
+33722860 # poop  Asnicar 2021, blue-dye gut transit (ZOE-funded)
+3023168 # poop  Metcalf 1987, colonic transit markers
+31917991 # ibs  Palsson 2020, Rome IV prevalence US/CA/UK
+37595647 # ibs  Almario 2023, Rome IV IBS prevalence US
+32324606 # constipation  Oh 2020, chronic constipation in the US
+38153339 # gut-health-apps  Fagan 2024, AI stool quality (Dieta)
+39486001 # gut-health-apps  Zhou 2025, smart toilet stool monitoring
+41081011 # gut-health-apps  Fridolfsson 2025, LLM nutrient estimation from photos
+41138916 # gut-health-apps  Chen 2025, customized GPT-4o dietary assessment

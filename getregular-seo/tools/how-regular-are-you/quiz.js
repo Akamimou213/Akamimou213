@@ -5,26 +5,33 @@
  * the Next.js port and the Node tests (quiz.test.mjs).
  *
  * This is an original, non-validated self-check. It borrows *reference points*
- * from published sources (Bristol Stool Form Scale; normal frequency range;
- * Rome IV symptom thresholds; NICE/ACG alarm features) but it is not a
- * diagnostic instrument and its score has no clinical cut-offs. Every
+ * from published sources (the stool-form concept of Lewis & Heaton 1997; the
+ * NHANES normal frequency range; Rome symptom-frequency thresholds; NIDDK/ACG/
+ * NICE alarm features) but it is not a diagnostic instrument and its score has
+ * no clinical cut-offs.
+ *
+ * Licensing: the Rome Foundation lists the Bristol Stool Form Scale as
+ * "available by license", and the common chart artwork is Norgine's. So the
+ * form question uses our own wording and our own drawings, not the BSFS text
+ * or chart. Counsel decides whether a Rome Foundation license is needed for
+ * the 7-type structure itself (site/ARCHITECTURE.md §12). Every
  * threshold below names its source so the clinical reviewer can check it.
  */
 
 export const QUESTIONS = [
   {
     id: "form",
-    title: "Which type looks most like your usual poop over the last 2 weeks?",
-    help: "This is the Bristol Stool Form Scale, the chart doctors use to describe stool.",
+    title: "Which picture looks most like your usual poop over the last 2 weeks?",
+    help: "Stool shape is a rough guide to how fast food moves through your gut. Doctors use a similar 7-type scale.",
     kind: "bristol",
     options: [
-      { v: 1, label: "Type 1", desc: "Separate hard lumps, like nuts" },
-      { v: 2, label: "Type 2", desc: "Sausage-shaped but lumpy" },
-      { v: 3, label: "Type 3", desc: "Sausage-shaped with cracks on the surface" },
-      { v: 4, label: "Type 4", desc: "Smooth and soft, like a sausage or snake" },
-      { v: 5, label: "Type 5", desc: "Soft blobs with clear-cut edges" },
-      { v: 6, label: "Type 6", desc: "Fluffy pieces with ragged edges, mushy" },
-      { v: 7, label: "Type 7", desc: "Watery, no solid pieces" },
+      { v: 1, label: "Type 1", desc: "Small hard pellets, difficult to pass" },
+      { v: 2, label: "Type 2", desc: "A hard, lumpy log" },
+      { v: 3, label: "Type 3", desc: "A firm log with a few cracks" },
+      { v: 4, label: "Type 4", desc: "A smooth, soft log, easy to pass" },
+      { v: 5, label: "Type 5", desc: "Soft pieces that hold their shape" },
+      { v: 6, label: "Type 6", desc: "Mushy, with ragged edges" },
+      { v: 7, label: "Type 7", desc: "Liquid, no solid pieces" },
       { v: "mixed", label: "It changes a lot", desc: "Hard some days, loose on others" },
     ],
   },
@@ -97,11 +104,15 @@ export const QUESTIONS = [
     help: "Select all that apply. These are signs doctors want to check in person.",
     multi: true,
     options: [
+      // Sources: NIDDK constipation "see a doctor right away" list; ACG IBS
+      // guideline 2021 alarm features (PMID 33315591); NICE NG12 1.3 (2026).
+      // [CONFIRM reviewer] wording and the age threshold.
       { v: "blood", label: "Blood in your poop, or black, tarry poop" },
-      { v: "weight", label: "Weight loss you can't explain" },
+      { v: "weight", label: "Losing weight without trying" },
+      { v: "pain", label: "Belly pain that's constant or severe" },
+      { v: "vomit", label: "Vomiting, fever, or not being able to pass gas" },
       { v: "night", label: "Waking up at night to poop" },
       { v: "anemia", label: "Low iron or anemia found on a blood test" },
-      { v: "fever", label: "Fever or vomiting that won't stop" },
       { v: "family", label: "A parent, sibling or child with bowel cancer, IBD or celiac disease" },
       { v: "newOver50", label: "I'm 50 or older and this change is new" },
       { v: "none", label: "None of these", exclusive: true },
@@ -122,7 +133,7 @@ export const QUESTIONS = [
 
 function freqScale() {
   // Rome IV uses "more than one-fourth (25%) of defecations" for straining,
-  // incomplete evacuation and similar items (Mearin 2016, Rome IV "Bowel Disorders", PMID 27144627).
+  // incomplete evacuation and similar items (Rome IV: Mearin 2016, PMID 27144627; Rome V: Corsetti 2026, PMID 41713703 [CONFIRM reviewer: Rome V thresholds]).
   return [
     { v: "rarely", label: "Rarely or never" },
     { v: "sometimes", label: "Sometimes", desc: "Less than 1 in 4 times" },
@@ -137,9 +148,11 @@ export function visibleQuestions(answers) {
 /* ---------- Scoring ---------- */
 
 // Penalties, out of 100. Form and frequency carry the most weight because
-// they are the two things the Bristol scale and population bowel-habit
-// studies anchor (Lewis & Heaton 1997, PMID 9299672; Heaton 1992, PMID 1624166;
-// Walter 2002, PMID 12229965). Weights are editorial, not validated.
+// they are what stool-form and population bowel-habit studies anchor
+// (Lewis & Heaton 1997, PMID 9299672; Heaton 1992, PMID 1624166; NHANES:
+// 95.9% of adults with normal habits go 3-21 times a week, Mitsuhashi 2018,
+// PMID 28762379). Type 5 is penalized lightly: Blake 2016 (PMID 27492648)
+// groups types 3-5 as normal. Weights are editorial, not validated.
 const FORM_PENALTY = { 1: 30, 2: 22, 3: 4, 4: 0, 5: 8, 6: 22, 7: 30, mixed: 24 };
 const FREQ_PENALTY = { lt3wk: 22, "3to6wk": 4, "1to3day": 0, gt3day: 18 };
 const OFTEN = { rarely: 0, sometimes: 4, often: 10 };
@@ -174,7 +187,7 @@ const loose = (a) => a.form === 6 || a.form === 7;
 
 /*
  * Pattern = which way the answers lean. Uses Rome IV *reference points*
- * (Mearin 2016, Rome IV "Bowel Disorders", PMID 27144627): two or more constipation features, or
+ * (Rome IV: Mearin 2016, PMID 27144627; Rome V: Corsetti 2026, PMID 41713703 [CONFIRM reviewer: Rome V thresholds]): two or more constipation features, or
  * recurrent pain linked to bowel movements on >= 1 day/week.
  * The result copy never says "you have"; it says "your answers look like".
  */
