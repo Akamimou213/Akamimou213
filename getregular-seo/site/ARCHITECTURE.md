@@ -209,7 +209,7 @@ Each printable gets an indexable HTML landing page (what it is, how to use it, a
 | 7 | "Your 7 days: what to look for" + Doctor Report sample | App Store |
 | 14 | Monthly newsletter, **only with marketing consent** | — |
 
-**Guardrails.** The pending compliance research is in §11. These apply regardless:
+**Guardrails** (compliance research, 20 Oct 2026; not legal advice):
 - **Results never require an email.** This follows the "ibs quiz no email" search demand, Google's helpful-content expectations and trust for a health brand. ZOE gates its result behind email; we deliberately don't. If capture rates disappoint, A/B test gating the *extended plan*, never the result.
 - **Separate, unticked consent** for (a) storing quiz answers to send results and (b) marketing email. ZOE's US flow defaults to marketing-on; don't copy that.
 - **No ad pixels on health pages at all** (`/tools/*`, `/learn/*`, `/science/evidence/*`). The URL itself reveals a bowel-health interest. In BetterHelp (FTC, Mar 2023, $7.8M), the shared data included health questionnaire answers; GoodRx (Feb 2023, $1.5M) was the first Health Breach Notification Rule case. The amended rule (effective 29 Jul 2024) treats unauthorized sharing with advertisers as a breach. For paid-social optimization, send a server-side `Lead` with no page path, answers, score or pattern, and only after legal sign-off.
