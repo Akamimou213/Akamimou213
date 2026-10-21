@@ -59,7 +59,7 @@ Use every data source that's connected (Search Console, Bing Webmaster Tools, Po
    - main content missing from the server HTML (`curl -s URL | grep -c "<h1"`);
    - future `datePublished` or `lastmod`.
 
-   Run `scripts/seo-check.sh` (T21).
+   Run `scripts/seo_check.py` (T21).
 2. **Fact check.** Read the commits since the last run and the App Store "What's New". If a price, plan, feature, platform or data practice changed, correct every page that states the old fact today.
 3. **Ship one thing from the top of the backlog.** One finished, reviewed page beats three drafts.
 4. Add a line to `log.md`.

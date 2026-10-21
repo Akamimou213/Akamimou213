@@ -115,7 +115,7 @@ Detail: `geo/geo-aeo-strategy.md`.
 
 | Layer | Metric | Tool | Day-90 target (directional, not a forecast) |
 |---|---|---|---|
-| Eligibility | Indexed priority URLs, CWV, crawl errors | GSC, Bing WMT, `scripts/seo-check.sh` | All pillars and published posts indexed. Mobile LCP < 2.5 s (lab) |
+| Eligibility | Indexed priority URLs, CWV, crawl errors | GSC, Bing WMT, `scripts/seo_check.py` | All pillars and published posts indexed. Mobile LCP < 2.5 s (lab) |
 | Search | Non-brand impressions and clicks by cluster | GSC | Impressions on ≥ 30 non-brand queries per published cluster |
 | AI | Mention, citation and accuracy on the 47-prompt panel | Manual panel + GSC/Bing AI reports | Named in ≥ 3 prompts, 0 factual errors |
 | Store | `app_store_click` by page and CTA. Downloads by `ct=` | PostHog, App Store Connect | Baseline established per page |

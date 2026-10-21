@@ -314,7 +314,7 @@ Detail: `geo/geo-aeo-strategy.md`.
 
 | Layer | Metric | Tool | Day-90 target (directional, not a forecast) |
 |---|---|---|---|
-| Eligibility | Indexed priority URLs, CWV, crawl errors | GSC, Bing WMT, `scripts/seo-check.sh` | All pillars and published posts indexed. Mobile LCP < 2.5 s (lab) |
+| Eligibility | Indexed priority URLs, CWV, crawl errors | GSC, Bing WMT, `scripts/seo_check.py` | All pillars and published posts indexed. Mobile LCP < 2.5 s (lab) |
 | Search | Non-brand impressions and clicks by cluster | GSC | Impressions on ≥ 30 non-brand queries per published cluster |
 | AI | Mention, citation and accuracy on the 47-prompt panel | Manual panel + GSC/Bing AI reports | Named in ≥ 3 prompts, 0 factual errors |
 | Store | `app_store_click` by page and CTA. Downloads by `ct=` | PostHog, App Store Connect | Baseline established per page |
@@ -417,7 +417,7 @@ Use every data source that's connected (Search Console, Bing Webmaster Tools, Po
    - main content missing from the server HTML (`curl -s URL | grep -c "<h1"`);
    - future `datePublished` or `lastmod`.
 
-   Run `scripts/seo-check.sh` (T21).
+   Run `scripts/seo_check.py` (T21).
 2. **Fact check.** Read the commits since the last run and the App Store "What's New". If a price, plan, feature, platform or data practice changed, correct every page that states the old fact today.
 3. **Ship one thing from the top of the backlog.** One finished, reviewed page beats three drafts.
 4. Add a line to `log.md`.
@@ -498,7 +498,7 @@ Use every data source that's connected (Search Console, Bing Webmaster Tools, Po
 2. Keep the visual design, copy (except T15, which needs approval), fonts, colors, and CTA behavior.
 3. **Never invent facts.** That means no ratings, review counts, prices, people, credentials, dates or statistics. Every fact in metadata or JSON-LD must match visible page content or a verified source listed in `lib/site.ts`.
 4. Use one shared site config (T1). Do not hard-code the origin anywhere else.
-5. After each task, run its **Verify** command against a Vercel preview, using `BASE=https://<preview-url>`. After production deploy, run it with `BASE=https://www.getregular.com`. `scripts/seo-check.sh` (T21) runs all of them.
+5. After each task, run its **Verify** command against a Vercel preview, using `BASE=https://<preview-url>`. After production deploy, run it with `BASE=https://www.getregular.com`. `scripts/seo_check.py` (T21) runs all of them.
 
 **Order:** T1 → T2 → T3 → T4 → T9 → T10 → T12 → T11 → T13 → T14 → T7 → T6 → T8 → T16 → T17 → T18 → T19. T15 and T20 are owner tasks, not Codex tasks.
 
@@ -1594,7 +1594,7 @@ export async function GET() {
 
 ---
 
-### T21: Regression script (add as `scripts/seo-check.sh`; run in CI against preview and production)
+### T21: Regression script (add as `scripts/seo_check.py`; run in CI against preview and production)
 
 ```bash
 #!/usr/bin/env bash
@@ -1619,7 +1619,7 @@ exit $fail
 ```
 
 **Definition of done**
-- `scripts/seo-check.sh https://www.getregular.com` exits 0.
+- `scripts/seo_check.py https://www.getregular.com` exits 0.
 - Lighthouse mobile median of 3 runs on `/`: LCP < 4.0 s, TBT < 300 ms, CLS < 0.1, transfer < 1.5 MB.
 - The Rich Results Test is clean for `/` and the article.
 - GSC shows the sitemap as processed. This is owner-dependent.

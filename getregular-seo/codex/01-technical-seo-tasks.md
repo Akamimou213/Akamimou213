@@ -10,7 +10,7 @@
 2. Keep the visual design, copy (except T15, which needs approval), fonts, colors, and CTA behavior.
 3. **Never invent facts.** That means no ratings, review counts, prices, people, credentials, dates or statistics. Every fact in metadata or JSON-LD must match visible page content or a verified source listed in `lib/site.ts`.
 4. Use one shared site config (T1). Do not hard-code the origin anywhere else.
-5. After each task, run its **Verify** command against a Vercel preview, using `BASE=https://<preview-url>`. After production deploy, run it with `BASE=https://www.getregular.com`. `scripts/seo-check.sh` (T21) runs all of them.
+5. After each task, run its **Verify** command against a Vercel preview, using `BASE=https://<preview-url>`. After production deploy, run it with `BASE=https://www.getregular.com`. `scripts/seo_check.py` (T21) runs all of them.
 
 **Order:** T1 → T2 → T3 → T4 → T9 → T10 → T12 → T11 → T13 → T14 → T7 → T6 → T8 → T16 → T17 → T18 → T19. T15 and T20 are owner tasks, not Codex tasks.
 
@@ -1106,7 +1106,7 @@ export async function GET() {
 
 ---
 
-## T21: Regression script (add as `scripts/seo-check.sh`; run in CI against preview and production)
+## T21: Regression script (add as `scripts/seo_check.py`; run in CI against preview and production)
 
 ```bash
 #!/usr/bin/env bash
@@ -1131,7 +1131,7 @@ exit $fail
 ```
 
 **Definition of done**
-- `scripts/seo-check.sh https://www.getregular.com` exits 0.
+- `scripts/seo_check.py https://www.getregular.com` exits 0.
 - Lighthouse mobile median of 3 runs on `/`: LCP < 4.0 s, TBT < 300 ms, CLS < 0.1, transfer < 1.5 MB.
 - The Rich Results Test is clean for `/` and the article.
 - GSC shows the sitemap as processed. This is owner-dependent.
