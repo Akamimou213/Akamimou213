@@ -1,0 +1,290 @@
+{
+ "url": "https://www.getregular.com/",
+ "title": "Get Regular — Trust Your Gut Again",
+ "description": "AI-powered gut health tracking. Analyze your stool, meals, and biomarkers for personalized insights — built with a board-certified gastroenterologist.",
+ "h1": [
+  "Your gut is talking. Are you listening?"
+ ],
+ "h2": [
+  "You've been flushing your most powerful biomarker.",
+  "We turn gut feelings into gut data.",
+  "The community is talking.",
+  "Gut feelings. Confirmed.",
+  "Built with a gastroenterologist, not just an algorithm.",
+  "Fresh reads for a happier gut.",
+  "It's time to Get Regular."
+ ],
+ "h3": [
+  "Snap it.",
+  "We analyze it.",
+  "See your scores.",
+  "Get your plan.",
+  "Watch it work.",
+  "What Your Poop Is Trying to Tell You"
+ ],
+ "buttons": [],
+ "nav": [
+  "THE PROBLEM",
+  "HOW IT WORKS",
+  "COMMUNITY",
+  "SCIENCE",
+  "BLOG",
+  "DOWNLOAD"
+ ],
+ "paragraphs": [
+  "AI-POWERED · CLINICALLY VALIDATED · AVAILABLE ON IOS",
+  "Get Regular analyzes your stool, meals, symptoms and biomarkers to give you personalized insights.",
+  "Photo your food, stool, and symptoms. Ten seconds, done.",
+  "AI cross-references everything against clinical GI guidance to find your patterns.",
+  "Your daily Gut and Nutrition scores update in real time with every input.",
+  "Personalized dietary and supplement recommendations built from your data. Not anyone else’s.",
+  "Track what’s moving the needle. Your plan evolves as your gut does.",
+  "Thousands of people are already tracking, learning, and feeling better. Here's what they're saying.",
+  "Not to be dramatic, it’s only been 2 days — but I feel like it’s kind of life changing. Love having something to help keep me accountable to my own gut health and actually think about it on a daily basis. So cool and always such a fan of women’s health innovation.",
+  "As someone with celiac disease, it’s so refreshing to use an app that doesn’t reduce every bit of discomfort to your autoimmune condition. It feels really validating and thoughtful.",
+  "Just downloaded and have been using this app for a few days now. This is exactly what I’ve been looking for. From a girl with chronic constipation — thank you!!!",
+  "I just downloaded it and this is EXACTLY what I have been needing. I’ve been trying to track my gut health for a little bit but never had anything streamlined. I already started using it and it’s amazing! The way it gives you information immediately. This is mindblowing — they’ve created something spectacular.",
+  "Developed with a board-certified gastroenterologist, we bring the best of clinical expertise and holistic insight into one easy, daily app experience.",
+  "The app's internal analysis and outputs underwent extensive scrutiny and tweaking to ensure it correctly follows all current major gastroenterology guidelines as it relates to gut health — reliably demonstrating that the app provides users with a convenient, evidence-based interpretation of their personal digestive wellbeing.",
+  "OCTOBER 20, 2026",
+  "A friendly guide to the Bristol Stool Scale, the 7-type chart doctors actually use to talk about poop.",
+  "Questions, comments, or poop photos at hello@getregular.com"
+ ],
+ "tokens": {
+  "vars": {},
+  "color": [
+   [
+    "#111111",
+    145
+   ],
+   [
+    "#8C7E6E",
+    27
+   ],
+   [
+    "#9E7E58",
+    19
+   ],
+   [
+    "#B5A898 @0.70",
+    14
+   ],
+   [
+    "#C4A882",
+    9
+   ],
+   [
+    "#FFFFFF",
+    6
+   ],
+   [
+    "#FFFFFF @0.28",
+    6
+   ],
+   [
+    "#C4A780 @0.10",
+    4
+   ],
+   [
+    "#111111 @0.80",
+    4
+   ],
+   [
+    "#9D7E58 @0.50",
+    4
+   ],
+   [
+    "#FFFFFF @0.70",
+    3
+   ],
+   [
+    "#FFFFFF @0.40",
+    2
+   ]
+  ],
+  "background": [
+   [
+    "#FFFFFF @0.12",
+    14
+   ],
+   [
+    "#111111",
+    12
+   ],
+   [
+    "#FFFFFF @0.08",
+    9
+   ],
+   [
+    "#FFFFFF @0.03",
+    3
+   ],
+   [
+    "#F0EEEB",
+    3
+   ],
+   [
+    "#000000",
+    2
+   ],
+   [
+    "#111111 @0.95",
+    2
+   ],
+   [
+    "#8B7E6D @0.30",
+    2
+   ],
+   [
+    "#FFFFFF @0.10",
+    2
+   ],
+   [
+    "#EEEEEB @0.30",
+    1
+   ],
+   [
+    "#F5F4F2",
+    1
+   ],
+   [
+    "#E6E3DE",
+    1
+   ]
+  ],
+  "fontFamily": [
+   [
+    "\"DM Sans\", \"DM Sans Fallback\", sans-serif",
+    193
+   ],
+   [
+    "ableLead, \"ableLead Fallback\"",
+    35
+   ],
+   [
+    "\"DM Sans\", \"DM Sans Fallback\"",
+    15
+   ],
+   [
+    "Inter, \"Inter Fallback\"",
+    10
+   ]
+  ],
+  "radius": [
+   [
+    "pill (9999px)",
+    28
+   ],
+   [
+    "16px",
+    12
+   ],
+   [
+    "38px",
+    1
+   ],
+   [
+    "34px",
+    1
+   ],
+   [
+    "22px",
+    1
+   ]
+  ],
+  "shadow": [
+   [
+    "rgba(0, 0, 0, 0.02) 0px 2px 16px 0px, rgba(0, 0, 0, 0.03) 0px 8px 32px 0px, rgba(255, 255, 255, 0.25) 0px 1px 0px 0px inset",
+    9
+   ],
+   [
+    "rgba(0, 0, 0, 0.03) 0px 4px 24px 0px, rgba(0, 0, 0, 0.05) 0px 12px 48px 0px, rgba(255, 255, 255, 0.3) 0px 1px 0px 0px inset",
+    2
+   ],
+   [
+    "rgba(0, 0, 0, 0.2) 0px 4px 24px 0px, rgba(0, 0, 0, 0.25) 0px 16px 56px 0px, rgba(255, 255, 255, 0.08) 0px 1px 0px 0px inset, rgba(255, 255, 255, 0.03) 0px -1px 0px 0px inset",
+    1
+   ]
+  ],
+  "gradient": [
+   [
+    "linear-gradient(in oklab, rgb(42, 37, 32) 0%, rgb(26, 23, 20) 100%)",
+    1
+   ]
+  ],
+  "h1": {
+   "size": "86.4px",
+   "weight": "300",
+   "lh": "56.16px",
+   "ls": "-2.16px",
+   "family": "ableLead, \"ableLead Fallback\""
+  },
+  "h2": {
+   "size": "72px",
+   "weight": "300",
+   "lh": "46.8px",
+   "ls": "-1.8px",
+   "family": "ableLead, \"ableLead Fallback\""
+  },
+  "body": {
+   "size": "11px",
+   "weight": "300",
+   "lh": "13.2px",
+   "ls": "2.75px",
+   "family": "\"DM Sans\", \"DM Sans Fallback\", sans-serif"
+  },
+  "button": {
+   "size": "16px",
+   "weight": "300",
+   "lh": "19.2px",
+   "ls": "normal",
+   "family": "\"DM Sans\", \"DM Sans Fallback\", sans-serif"
+  }
+ },
+ "logos": [
+  {
+   "src": "https://www.getregular.com/logo-black.svg",
+   "alt": "Get Regular"
+  },
+  {
+   "src": "https://www.getregular.com/logo-white.svg",
+   "alt": "Get Regular"
+  }
+ ],
+ "images": [
+  {
+   "src": "https://www.getregular.com/logo-black.svg",
+   "alt": "Get Regular",
+   "w": 143,
+   "h": 49
+  },
+  {
+   "src": "https://www.getregular.com/images/home.png",
+   "alt": "Get Regular home screen",
+   "w": 684,
+   "h": 1410
+  },
+  {
+   "src": "https://www.getregular.com/images/schopis-cropped.png",
+   "alt": "Dr. Michael Schopis",
+   "w": 1406,
+   "h": 1368
+  },
+  {
+   "src": "https://www.getregular.com/logo-white.svg",
+   "alt": "Get Regular",
+   "w": 242,
+   "h": 84
+  }
+ ],
+ "capturedAt": "2026-10-21T08:27:21.046Z",
+ "fonts": [
+  "https://www.getregular.com/_next/static/media/able_lead_otf_webfont-s.p.01wlb24.u76aq.woff",
+  "https://www.getregular.com/_next/static/media/5c285b27cdda1fe8-s.p.0yo6-5yoeeudq.woff2",
+  "https://www.getregular.com/_next/static/media/83afe278b6a6bb3c-s.p.0q-301v4kxxnr.woff2",
+  "https://www.getregular.com/_next/static/media/able_lead_otf_webfont-s.p.0w8ywo8k_gs5u.woff2",
+  "https://fonts.gstatic.com/s/roboto/v48/KFO7CnqEu92Fr1ME7kSn66aGLdTylUAMa3yUBA.woff2",
+  "https://lf16-tiktok-common.tiktokcdn-us.com/obj/tiktok-web-common-tx/tiktok_fonts/TikTokSans-VF.woff2?_default_font=1&v=2",
+  "https://lf16-tiktok-common.tiktokcdn-us.com/obj/tiktok-web-common-tx/tiktok_fonts/TikTokSans16pt-Regular.woff2?_default_font=1&v=2"
+ ]
+}
