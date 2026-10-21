@@ -133,7 +133,7 @@ function sPlate() {
 }
 
 // ---- 4. one day vs three weeks: the gold line; Get Regular lines them up
-const GRID = { x0: 60, y0: 650, w: 112, h: 150, gx: 120, gy: 164 };
+const GRID = { x0: 60, y0: 566, w: 112, h: 196, gx: 120, gy: 210 };
 const TRIG = [1, 4, 8, 12, 15, 18], SYMP = [2, 5, 6, 9, 13, 16, 19], ROLL = [0, 1, 2, 3, 4, 6, 7, 8, 10, 11, 12, 14, 15, 16, 17, 18, 19, 20];
 const HERO = 9;
 const slot = (i) => ({ x: GRID.x0 + (i % 7) * GRID.gx, y: GRID.y0 + Math.floor(i / 7) * GRID.gy, w: GRID.w, h: GRID.h });
@@ -169,12 +169,16 @@ function sDays() {
   dayCard(hero.x, hero.y, hero.w, hero.h, { key: 'dHero', titleSize: lerp(64, 1, hero.u) });
   if (hero.u < 0.3) { serif('Tuesday', hero.x + hero.w / 2, hero.y + hero.h * 0.32 - 40, 64, GR.ink, { key: 'tue' }); food('salmon', hero.x + hero.w * 0.5, hero.y + hero.h * 0.5, 1.3 * (1 - hero.u * 3), { key: 'hs' }); cloudy(hero.x + hero.w * 0.5, hero.y + hero.h * 0.78, 1.1 * (1 - hero.u * 3), { key: 'hc', mood: 'sad' }); }
   else { sans(String(HERO + 1), hero.x + 16, hero.y + 20, 22, GR.paper, { weight: 700, align: 'left' }); cardContent(HERO, hero, 'dH'); }
-  // THE PAYOFF: the gold line connects each trigger to the next day's symptom
+  // THE PAYOFF: the rest of the grid steps back, the gold line connects each trigger to the next day's symptom
+  const veil = 0.5 * EZ.o2(ev(CU.hit - 0.08, 0.25)) * (1 - EZ.o2(ev(CU.meals - 0.2, 0.5)));
+  if (veil > 0.01) { ctx.fillStyle = `rgba(236,229,218,${veil})`; ctx.fillRect(40, GRID.y0 - 60, 860, 3 * GRID.gy + 40); }
   const pulse = 1 + 0.5 * Math.sin(Math.PI * ev(CU.pattern, 0.5));
-  TRIG.forEach((d, j) => { if (!SYMP.includes(d + 1)) return; const A = d + 1 === HERO ? hero : slot(d + 1); goldLink(trigPt(d, slot(d)), sympPt(d + 1, A), EZ.o2(ev(CU.hit + j * 0.07, 0.35)), { key: 'gl' + d, w: 7 * pulse }); });
+  TRIG.forEach((d, j) => { if (!SYMP.includes(d + 1)) return; const A = d + 1 === HERO ? hero : slot(d + 1); goldLink(trigPt(d, slot(d)), sympPt(d + 1, A), EZ.o2(ev(CU.hit + j * 0.07, 0.35)), { key: 'gl' + d, w: 10 * pulse, lift: 58 }); });
+  const nd = popS(CU.hit + 0.45) * (1 - EZ.i2(ev(CU.logo - 0.1, 0.25)));
+  if (nd > 0.01) { const a = trigPt(HERO - 1, slot(HERO - 1)), S = slot(HERO); label('next day', (a[0] + S.x + S.w * 0.42) / 2, S.y + S.h * 0.86, 38, { s: nd, rot: -0.04 }); }
   // "a few weeks"
   const wk = popS(CU.weeks) * (1 - EZ.i2(ev(CU.logo - 0.1, 0.25)));
-  if (wk > 0.01) label('3 weeks', 540, 1238, 64, { s: wk, rot: -0.02 });
+  if (wk > 0.01) label('3 weeks', 500, 1268, 64, { s: wk, rot: -0.02 });
   // Get Regular: the logo, then the legend on its words
   if (TT >= CU.logo) {
     const s = popS(CU.logo);
@@ -182,7 +186,7 @@ function sDays() {
     cut(rect(-250, -86, 500, 172, 8), GR.paper, { key: 'logoCard', sb: 10, sy: 6 });
     drawAsset('logo-black.svg', -200, -66, 400, 136, { fit: 'contain' });
     ctx.restore();
-    const chip = (t, x, w, txt, icon) => { const s2 = popS(t); if (s2 <= 0) return; ctx.save(); ctx.translate(x, 1238); ctx.scale(s2, s2); cut(rect(-w / 2, -40, w, 80, 40), GR.paper, { key: 'chip' + txt, sb: 6, sy: 4 }); icon(-w / 2 + 44, 0); sans(txt, -w / 2 + 80, 14, 36, GR.ink, { align: 'left', weight: 500 }); ctx.restore(); };
+    const chip = (t, x, w, txt, icon) => { const s2 = popS(t); if (s2 <= 0) return; ctx.save(); ctx.translate(x, 1262); ctx.scale(s2, s2); cut(rect(-w / 2, -40, w, 80, 40), GR.paper, { key: 'chip' + txt, sb: 6, sy: 4 }); icon(-w / 2 + 44, 0); sans(txt, -w / 2 + 80, 14, 36, GR.ink, { align: 'left', weight: 500 }); ctx.restore(); };
     chip(CU.meals, 200, 230, 'meals', (x, y) => cut(ellipsePts(x, y, 16, 16, 0, 14), GR.sage, { key: 'chM', sb: 3, sy: 2 }));
     chip(CU.symptoms, 470, 280, 'symptoms', (x, y) => cloudy(x + 4, y - 4, 0.3, { key: 'chS', face: false }));
     chip(CU.bathroom, 760, 270, 'bathroom', (x, y) => roll(x, y, 0.42, { key: 'chR' }));
