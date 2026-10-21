@@ -4,3 +4,4 @@ scipy==1.18.1
 soundfile==0.14.0
 librosa==1.0.0
 faster-whisper==1.2.1   # local word timings; the model downloads from Hugging Face on first use
+kokoro-onnx==0.6.1     # local Kokoro-82M voice for scratch/draft narration (hyperframes tts); the model downloads on first use
