@@ -109,3 +109,33 @@ a licence). "Tool" says where the skill enforces or measures the rule.
 - A canvas you read pixels back from: create it with `{ willReadFrequently: true }`, or Chrome switches raster mode mid-render
   and frames differ.
 - Load fonts before the first `draw`, or frame 0 renders in a fallback face.
+
+## Educational explainers (top of funnel)
+
+For viewers who don't yet know they have a problem, or that it can be understood. Teach one true thing; sell nothing until the
+last few seconds. Sources: the 2026-10-21 vet (`vetting-2026-10-21.md`: charlie947 `vox-explainer`, the awesome-opus5-5-videos
+prompts, whaleyxbt) and four measured references (narrated cut paper and sketchbook explainers).
+
+- **Brief in one line:** question + visual turn + metaphor ("Why does X? And then [the unexpected thing on screen]. [What
+  the idea looks like]."). One metaphor sentence carries the whole film.
+- **Script:** 8–14 shots, one sentence each. Shot 1 asks the question in the viewer's own words (taken from real forums,
+  reviews, search questions, not marketing copy); each shot answers what the last one raised; the takeaway is ≤ 5 words.
+  Approve the numbered script before building.
+- **Narration pace:** measured references run 2.0–2.5 words/s (cap 3.5). A 45–55 s piece holds 100–125 spoken words.
+  The first surprise lands by 5 s. A title that undersells the film loses people.
+- **Mechanism = argument:** every on-screen action is one step of the cause-and-effect chain, shown, not labelled. Compare
+  states on the same input (same meal, two guts). Zoom in log space from body → organ → cell when scale is the point.
+- **Shot vocabulary:** kinetic statement (≤ 3 short lines), cards, before/after on one card, label call-out (a marker circle
+  draws itself, then the label), counter (computed, sourced), grid with one tile that breaks the pattern. Never repeat the
+  "heading over three cards" layout; vary scale (wide, close, full-frame type).
+- **Captions:** ≤ 7 words per card, one text layer at a time, each word lights on its own timestamp. One accent word per line.
+- **Hedge like a scientist:** "one reason", "can", "for many people", never "the cause", "will", "cures". Every claim on screen
+  has a source in the fact bank; contested science is said to be contested. End card or caption: not medical advice, and when
+  to see a doctor if the topic has alarm signs.
+- **The brand enters last and as a tool for noticing** (a diary, a tracker, a pattern finder), never as the cure. ≤ 20 % of the
+  runtime. The CTA invites ("start noticing"), it doesn't pressure (no scarcity, no fear).
+- **Platform health rules:** never assert or imply the viewer has a condition ("Do you have IBS?", "Your bloating means…");
+  talk about people in general or the body in general. Check the platform's current personal-health policy before delivery.
+- **Craft notes borrowed:** a critically damped settle `1 − (1 + ωt)e^(−ωt)` (ω 12–40) for big type; moves start ~0.05 s before
+  their word; hold ≥ 0.4 s of stillness once before the resolution; flowing-path pulses draw their connector as they travel
+  and each node answers on arrival; rough annotations (circle, underline, highlight) drawn on by a progress value.

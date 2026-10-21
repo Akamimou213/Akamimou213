@@ -8,7 +8,8 @@
 #     motion-reel's house rules win) and the post-render feedback section removed from hyperframes-cli
 #   - student-kit editing skills: the paid ElevenLabs transcriber replaced by local words.py; script paths made local
 #   - animate: its tools launch Chromium at $CHROMIUM_PATH when set (cloud containers ship a browser Playwright can't find)
-# Re-run to update after bumping a commit below; it refuses to overwrite skills it didn't install.
+#   - charlie947 explainer skills: a project-policy header (no `npx skills add`, render with our engines, house rules win)
+# Re-run to update after bumping a commit below (ONLY=owner/repo installs just that repo); it refuses to overwrite skills it didn't install.
 set -euo pipefail
 root="$(cd "$(dirname "$0")/.." && pwd)"
 target="${1:-$root/.claude/skills}"; mkdir -p "$target"
@@ -23,6 +24,7 @@ SOURCES=(
   "nateherkai/hyperframes-student-kit|0d30152a82b9|LICENSE|.claude/skills/short-form-edit .claude/skills/video-storytelling .claude/skills/cut-silences .claude/skills/cut-mistakes"
   "greensock/gsap-skills|aed9cfd32777|LICENSE|skills/gsap-core skills/gsap-timeline skills/gsap-plugins skills/gsap-utils skills/gsap-performance skills/gsap-scrolltrigger skills/gsap-react skills/gsap-frameworks"
   "iart-ai/motion-design-skills|3c129f769d90|LICENSE|skills/animation-principles skills/beat-sync-editing skills/color-motion skills/shot-composition skills/logo-animation skills/motion-art-direction"
+  "charlie947/motion-graphics-skills|229022ebca76972e119e36ada23a1648d51665ab|LICENSE|skills/vox-explainer skills/motion-effects"
 )
 
 ledger="$target/VENDORED.md"
@@ -30,6 +32,7 @@ ledger="$target/VENDORED.md"
 
 for entry in "${SOURCES[@]}"; do
   IFS='|' read -r repo commit lic dirs <<<"$entry"
+  [ -n "${ONLY:-}" ] && [ "$repo" != "$ONLY" ] && continue
   src="$work/${repo//\//_}"
   git init -q "$src" && git -C "$src" fetch -q --depth 1 "https://github.com/$repo.git" "$commit" 2>/dev/null \
     || { rm -rf "$src"; git clone -q "https://github.com/$repo.git" "$src"; }
@@ -44,6 +47,7 @@ for entry in "${SOURCES[@]}"; do
     patched=no
     case "$repo" in
       heygen-com/hyperframes) patched=policy ;;
+      charlie947/motion-graphics-skills) patched=policy-lite ;;
       nateherkai/hyperframes-student-kit)
         [ "$name" = cut-mistakes ] && cp "$src/scripts/build-edl-review.mjs" "$dest/scripts/"
         [ "$name" = cut-silences ] && cp "$src/scripts/validate-beat-sync.mjs" "$dest/scripts/"
@@ -76,6 +80,14 @@ if patch == 'policy':
             "data, original or supplied music, no HUDs or corner labels), the house rules win.\n")
     body = re.sub(r'\n(After verifying a successful render, send one feedback report.*?)(?=\n## |\Z)', '\n', body, flags=re.S)
     body = re.sub(r'\n[^\n]*npx hyperframes feedback[^\n]*', '', body)
+    s = head + note + body
+elif patch == 'policy-lite':
+    m = re.match(r'(---\n.*?\n---\n)', s, re.S); head, body = (m.group(1), s[m.end():]) if m else ('', s)
+    note = (f"\n> **Project policy (vendored copy, {os.environ['REPO']} @ {os.environ['COMMIT'][:12]}):** only this skill and its "
+            "sibling were vendored (`brand-intake` was left out because it edits CLAUDE.md); don't run `npx skills add` or install "
+            "anything it names; render with motion-reel, animate or the pinned HyperFrames CLI. Where it conflicts with motion-reel's "
+            "house rules (verbatim copy, no invented data, sourced claims, original or supplied music, no HUDs or corner labels), "
+            "the house rules win.\n")
     s = head + note + body
 elif patch == 'local-transcriber':
     s = re.sub(r'node scripts/transcribe-elevenlabs\.mjs (\S+?)(\.\w+)?(\s+#[^\n]*)?\n',

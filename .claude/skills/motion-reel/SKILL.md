@@ -32,6 +32,7 @@ exports every format, language and variant from one timeline. It works for any s
 | Explainer / data story | sourced datasets (official stats, the client's dashboards), public-domain maps (Natural Earth) | scenes | question → mechanism in 3 steps → the number with its source on screen → takeaway |
 | Event / launch promo | the organiser's assets, date, venue, verbatim | scenes | date hook → what happens → who → where/when → CTA |
 | Narrated launch / explainer (VO-led) | the client's VO or a scratch TTS, plus any source above | scenes + captions | VO first: scene times come from its words (`words.py`); captions burned in |
+| Educational explainer (top of funnel, illustrated) | sourced facts (`research/` fact bank), real audience language (forums, reviews, search questions), the brand's palette and logo for the end only | `animate` style kit (cut paper, sketchbook…) + VO | hook question in the viewer's words → one true mechanism shown as cause and effect → the "aha" pattern → what to notice in your own body → the brand as a way to see it, no cure claims (`reference/craft.md` § Educational explainers) |
 | Talking head / UGC with B-roll | the creator's footage + SRT | out of scope here: use a companion (`reference/repos.md`) or render overlays with a transparent background | no cutaway in the hook's first second, ≥ 2 s of face between cutaways |
 
 Morph (`templates/engine-morph.html`) = one shape that never cuts and changes size, radius and ink while content swaps
@@ -40,7 +41,9 @@ number and an end card, joined by hard cuts or iris transitions. Both share the 
 
 **Companion skills** (installed in `.claude/skills/`, listed in `VENDORED.md`; this skill's house rules win over theirs):
 HTML/GSAP or Lottie pieces → `hyperframes` (+ `gsap-*`), with the CLI pinned in `motion-studio/`; narrated launch films in
-HTML → `product-launch-motion`; illustrated explainers with no product UI → `animate`; editing real talking-head/UGC footage →
+HTML → `product-launch-motion`; illustrated explainers with no product UI → `animate` (its style kits, VO timing and review),
+with `vox-explainer` for the script/shot vocabulary and `motion-effects` for diagram moves (flowing paths, chart morph,
+perspective shift, masked/elastic type); editing real talking-head/UGC footage →
 `cut-silences`, `cut-mistakes`, `short-form-edit`, `talking-head-recut`, `embedded-captions`; B-roll over a creator's video →
 `motion-broll`; craft references for any engine → `motion-doctrine`, `cut-the-curve`, `seam-craft`, `beat-sync-editing`,
 `shot-composition`, `color-motion`, `logo-animation`. Product films, UA ads and multi-format variants stay here.
@@ -59,7 +62,7 @@ HTML → `product-launch-motion`; illustrated explainers with no product UI → 
 | Music | original, synthesized at 120 BPM, or the client's track unchanged and measured |
 | Voice-over | none; if supplied (or wanted), it sets the length and drives cues and captions (`reference/craft.md` § Voice-over) |
 | Captions | burned in for paid social (sound off), plus a clean master and an `.srt`; skipped for brand films unless asked |
-| Character / mascot | only from a supplied asset; otherwise a real brand element becomes the recurring "character" |
+| Character / mascot | only from a supplied asset; otherwise a real brand element becomes the recurring "character". Exception: illustrated explainers may draw one simple **original** character in code (a person, an organ, a microbe) that never poses as the brand's mascot, a real person or a patient testimonial |
 
 ## 3. Pipeline with gates (don't skip gates)
 

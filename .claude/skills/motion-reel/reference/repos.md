@@ -80,3 +80,18 @@ Ideas adapted (rewritten, not copied) from: howseen-ai/claude-motion-design, cth
 checks), heygen-com/hyperframes (caption grouping, voice carve, motion doctrine; Apache-2.0), AbubakrChan/product-launch-motion,
 nateherkai/hyperframes-student-kit, iart-ai/motion-design-skills, whaleyxbt/claude-motion, charlie947/motion-graphics-skills,
 Barty-Bart/motion-graphics, remotion-dev/skills, and, as uncopyrighted ideas only, t3knobox/klik-anim-skill-creation.
+
+## Re-vet, 2026-10-21 (full notes: `vetting-2026-10-21.md`)
+
+Requested again for educational explainers; re-cloned and read, nothing executed. Changes since 2026-10-10:
+- **charlie947/motion-graphics-skills** (MIT, `229022ebca76`): now a **companion**: `vox-explainer` (30–60 s documentary
+  explainer, sourced facts, script approved before build, 9:16) and `motion-effects` (16 "A becomes B" recipes). Installed with a
+  policy header; `brand-intake` (edits CLAUDE.md) and `apple-launch-film` (unpinned `npx skills add`) left out.
+- **howseen-ai, whaleyxbt, haidrrrry, LottieFiles, 199-biotechnologies:** unchanged since the last vet; verdicts stand
+  (borrow / skip). **remotion-dev/skills:** new commits, still no licence file: borrow ideas only.
+- **yihui-dev/awesome-opus5-5-videos** (list MIT; each prompt belongs to its creator): 703 prompts, 116 explainers, no skills.
+  Ideas borrowed into `craft.md` § Educational explainers; don't copy prompt text.
+- **MengTo/threeui** (MIT): ~50 real-time WebGL website heroes, not a video tool (wall clock, unseeded randomness, CDN and
+  analytics calls). Use as metaphor ideas redrawn in `draw(t)`; only its shader-only backgrounds could be seeked via `u_time = f(t)`.
+- **remotion / motion / motion-dev skill:** engines or web-UI libraries, not video skills; Remotion's company licence applies
+  above 3 people.
