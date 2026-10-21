@@ -2,7 +2,7 @@
 """Post-deploy SEO check for getregular.com. Run after every deploy:
 
     python3 scripts/seo_check.py                       # live site
-    python3 scripts/seo_check.py --base https://preview-url.vercel.app
+    python3 scripts/seo_check.py https://preview-url.vercel.app   (or --base URL)
 
 Checks the crawl basics Google, Bing and AI answer engines depend on:
 redirects, robots.txt, the sitemap, and for every sitemap URL: status,
@@ -131,9 +131,10 @@ def check_page(url, titles):
 
 def main():
     ap = argparse.ArgumentParser()
+    ap.add_argument("base_pos", nargs="?", help="site URL (same as --base)")
     ap.add_argument("--base", default="https://www.getregular.com")
     a = ap.parse_args()
-    www = a.base.rstrip("/")
+    www = (a.base_pos or a.base).rstrip("/")
     print(f"SEO check for {www} on {date.today()}\n")
     if "://www." in www: check_redirects(www)
     check_robots(www)
