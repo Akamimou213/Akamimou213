@@ -1,0 +1,15 @@
+{
+  "name": "wrong-suspect",
+  "title": "The Wrong Suspect · Get Regular",
+  "format": { "width": 1080, "height": 1920, "fps": 24, "duration": 51.25 },
+  "storyFormat": "token through stations, voice-led, morph-joined",
+  "style": "cut-paper",
+  "scenes": ["src/lib.js", "src/scenes.js"],
+  "fonts": [
+    { "family": "DM Sans", "file": "assets/fonts/dm-sans-latin-500-normal.woff2", "weight": "500" },
+    { "family": "DM Sans", "file": "assets/fonts/dm-sans-latin-700-normal.woff2", "weight": "700" },
+    { "family": "Instrument Serif", "file": "assets/fonts/instrument-serif-latin-400-italic.woff2", "weight": "400", "style": "italic" }
+  ],
+  "voice": { "file": "voice/voice.wav", "music": -20 },
+  "review": { "safe": { "top": 240, "bottom": 420, "right": 140 }, "refs": {} }
+}

@@ -1,0 +1,114 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Wrong Suspect · Get Regular</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #1b1714; overflow: hidden; }
+  body { display: flex; align-items: center; justify-content: center; }
+  canvas { height: min(100vh, calc(100vw * 16 / 9)); width: auto; aspect-ratio: 9 / 16; display: block; cursor: pointer; }
+</style>
+</head>
+<body>
+<canvas id="c" width="1080" height="1920"></canvas>
+<script>
+"use strict";
+// =====================================================================
+//  THE WRONG SUSPECT — Get Regular, "How your gut keeps time" #1. 9:16, ~48.6s, 24fps, voice-led (VOICE is the clock).
+//  Device: every meal is a paper carriage on one slow train through the body; the carriage at the station gets blamed
+//  for what an earlier carriage did. Cut paper in the brand palette, window-light shadows.
+//  Colour means one thing: GOLD = the true pattern (the line that connects the days), RED = blame (the suspect stamp).
+//  Facts (research/science-fact-bank.md): median whole-gut transit 28.7 h (Asnicar 2021); eating moves earlier meals
+//  along, so the wrong food gets blamed (Monash, Timing of symptoms); restriction risk (ACG 2021; Staudacher 2012).
+// =====================================================================
+const FPS = 24, W = 1080, H = 1920;
+const BPM = 120, BEAT = 60 / BPM, E8 = BEAT / 2, E16 = BEAT / 4;
+const DURATION = typeof VOICE !== 'undefined' ? Math.round(VOICE.duration * FPS) / FPS : 48.6;
+const NFRAMES = Math.round(DURATION * FPS);
+const LOOP_T = NFRAMES / FPS;
+const SAFE = { top: 240, bottom: 420, right: 140 };          // 9:16 platform UI; keep content in x 60–940, y 250–1500
+const HAND = '"DM Sans", Inter, "Helvetica Neue", Arial, sans-serif';   // the brand's UI face (OFL), embedded via piece.json fonts
+const SERIF = '"Instrument Serif", "Times New Roman", serif';           // italic accent face (OFL), stands in for the site's display serif
+const CX = 500;                                               // caption centre (left of the right-hand action rail)
+
+// ---- the voice is the clock: VL(id) = a line {t0, t1, words}; VW(id, word, n) = when the n-th `word` of that line starts
+const VLINES = typeof VOICE !== 'undefined' ? VOICE.lines : [];
+const VL = (id) => VLINES.find((l) => l.id === id) || { t0: 0, t1: 0, words: [] };
+const norm = (s) => s.toLowerCase().replace(/[^a-z0-9']/g, '');
+function VW(id, word, n = 0) {
+  const L = VL(id), hits = (L.words || []).filter((w) => norm(w.w) === norm(word));
+  return hits.length ? hits[Math.min(n, hits.length - 1)].t0 : L.t0;
+}
+const AFTER = (id, pad = 0.3) => VL(id).t1 + pad;           // a beat starts ~0.3s after the previous sentence ends
+
+// eras: [t0, t1, scene]. Every boundary is a shape morph (src/bridges.js); the picture changes in the pauses.
+const snap = (t) => Math.round(t * FPS) / FPS;
+const TB = {
+  track: snap(AFTER('delay', 0.32)), plate: snap(AFTER('real', 0.36)),
+  days: snap((VL('cut').t1 + VL('oneday').t0) / 2), end: snap(AFTER('app', 0.36)),
+};
+const ERA_LIST = [
+  [0, TB.track, () => sDinner()],
+  [TB.track, TB.plate, () => sTrack()],
+  [TB.plate, TB.days, () => sPlate()],
+  [TB.days, TB.end, () => sDays()],
+  [TB.end, DURATION, () => sEnd()],
+];
+const SHOTS = [
+  //  key       era  t0         t1         title
+  ['dinner',    0,   0,         TB.track,  'dinner: everyone blames the last thing they ate; the plate gets a suspect tag'],
+  ['track',     1,   TB.track,  TB.plate,  'the train through the gut: ~29 h, a new meal pushes the rest along, the spotlight moves back'],
+  ['plate',     2,   TB.plate,  TB.days,   'cut the wrong food: the cloud stays, the plate shrinks'],
+  ['days',      3,   TB.days,   TB.end,    'one day vs three weeks: the gold line connects the days; Get Regular lines them up'],
+  ['end',       4,   TB.end,    DURATION,  'end card: understand your gut'],
+];
+const HIT = snap(VL('oneday').t1 + 0.45);                     // the payoff: the gold line connects (in the pause before "A few weeks can")
+const TIMELINE = {
+  width: W, height: H, fps: FPS, bpm: BPM, duration: DURATION, frames: NFRAMES, loop: LOOP_T, safe: SAFE,
+  format: 'morph-chain',
+  shots: SHOTS.map(([key, era, t0, t1, title], i) => ({ id: i + 1, key, era, t0, t1, title })),
+  cuts: [],
+  morphs: [TB.track, TB.plate, TB.days, TB.end],
+  cues: {
+    point: VW('blame', 'blame'), stamp: VW('blame', 'last'), clock: VW('delay', 'delay'),
+    travel0: VW('hours', 'food'), travel1: VL('hours').t1 - 0.1,
+    train: VL('push').t0 - 0.1, newMeal: VW('push', 'new'), shove: VW('push', 'push'),
+    caught: VW('caught', 'caught'), lunch: VW('real', 'lunch'), yesterday: VW('real', 'yesterday'),
+    cut: VW('cut', 'cut'), nothing: VW('cut', 'nothing'), smaller: VW('cut', 'smaller'),
+    fan: VL('oneday').t1 + 0.1, hit: HIT, weeks: VW('few', 'weeks'),
+    logo: VW('app', 'regular'), meals: VW('app', 'meals'), symptoms: VW('app', 'symptoms'), bathroom: VW('app', 'bathroom'),
+    daybyday: VW('app', 'day'), pattern: VW('app', 'pattern'), close: VL('close').t0,
+  },
+  acts: [
+    { name: '1 Blame',    role: 'build',   t0: 0,        t1: TB.track },
+    { name: '2 Delay',    role: 'journey', t0: TB.track, t1: TB.plate },
+    { name: '3 Shrink',   role: 'peak',    t0: TB.plate, t1: VL('cut').t1 },
+    { name: '4 Hush',     role: 'silence', t0: VL('oneday').t1, t1: HIT },
+    { name: '5 Pattern',  role: 'gift',    t0: HIT,      t1: TB.end },
+    { name: '6 Notes',    role: 'goodbye', t0: TB.end,   t1: DURATION },
+  ],
+  narration: VLINES.map((l) => ({ id: l.id, t0: l.t0, t1: l.t1, text: l.text })),
+  board: [
+    { t: VL('blame').t1 + 0.3, title: 'most of us blame the last thing we ate', sound: 'room tone; a rubber-stamp thunk', next: 'the plate becomes a carriage' },
+    { t: VW('hours', 'average'), title: 'about 29 hours, all the way through', sound: 'a slow rail clack, a ticking counter', next: 'the train fills up' },
+    { t: VL('push').t1 - 0.3, title: 'something new pushes the rest along', sound: 'a coupling clunk', next: 'the spotlight' },
+    { t: VL('caught').t1 - 0.3, title: 'caught in the act', sound: 'the stamp again, softer', next: 'the light moves back down the train' },
+    { t: VL('real').t1 + 0.1, title: 'the real reason: lunch, or yesterday', sound: 'two marker squeaks', next: 'the carriage becomes the plate' },
+    { t: VL('cut').t1 - 0.2, title: 'cut the wrong food: the plate gets smaller', sound: 'paper tears; the music thins', next: 'the plate becomes one day' },
+    { t: VL('oneday').t1 - 0.3, title: 'one day can\'t show a delay', sound: 'near-silence', next: 'three weeks fan out' },
+    { t: VL('few').t1 + 0.2, title: 'a few weeks can: the gold line', sound: 'the loudest hit', next: 'Get Regular lines them up' },
+    { t: VL('app').t1 - 0.5, title: 'meals, symptoms, bathroom trips, day by day', sound: 'warm, flat chord; pops on each word', next: 'a day card becomes the end card' },
+    { t: VL('close').t1 + 0.6, title: 'understand your gut', sound: 'the opening motif, resolved', next: 'end' },
+  ],
+};
+window.TIMELINE = TIMELINE;
+
+// ---- the brand palette (sampled from getregular.com: #111111 ink, #F0EEEB ground, #9E7E58 / #C4A882 warm accents)
+const GR = {
+  wall: '#ECE5DA', wall2: '#E2D8C9', cream: '#F5F1EA', paper: '#FBF8F2', ink: '#1E1A17', inkSoft: '#6A5F55', taupe: '#8C7E6E',
+  sand: '#C9B596', gold: '#B0864C', goldL: '#E2C795', red: '#B4443A',
+  sage: '#A3B297', sageD: '#76896B', terra: '#C98463', blush: '#E7C6B6', dusk: '#556070', duskD: '#3A4250',
+  wood: '#BC8F66', woodD: '#946B4B', woodL: '#D6AE86', cloud: '#A7ACB4', cloudD: '#8A9099', butter: '#EDDDB0', dark: '#161311',
+  skin: '#D9A07C', hair: '#3A2A22',
+};

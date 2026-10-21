@@ -1,7 +1,7 @@
 {
   "lead": 1.0,
   "tail": 3.6,
-  "voice": "af_heart at 0.85x (Kokoro-82M, local) \u2014 draft; swap the takes for the final voice",
+  "voice": "af_heart (Kokoro-82M, local) at 0.85x, short lines at 0.74x \u2014 draft; swap the takes for the final voice",
   "lines": [
     {
       "id": "blame",
@@ -39,8 +39,13 @@
       "after": 1.6
     },
     {
-      "id": "weeks",
-      "text": "One day can't show you a delay. A few weeks can.",
+      "id": "oneday",
+      "text": "One day can't show you a delay.",
+      "after": 1.2
+    },
+    {
+      "id": "few",
+      "text": "A few weeks can.",
       "after": 1.0
     },
     {
