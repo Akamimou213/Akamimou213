@@ -7,6 +7,7 @@
 #   - HyperFrames skills: a project-policy header (pinned copy, no `skills update`, no feedback/telemetry reports,
 #     motion-reel's house rules win) and the post-render feedback section removed from hyperframes-cli
 #   - student-kit editing skills: the paid ElevenLabs transcriber replaced by local words.py; script paths made local
+#   - animate: its tools launch Chromium at $CHROMIUM_PATH when set (cloud containers ship a browser Playwright can't find)
 # Re-run to update after bumping a commit below; it refuses to overwrite skills it didn't install.
 set -euo pipefail
 root="$(cd "$(dirname "$0")/.." && pwd)"
@@ -47,6 +48,21 @@ for entry in "${SOURCES[@]}"; do
         [ "$name" = cut-mistakes ] && cp "$src/scripts/build-edl-review.mjs" "$dest/scripts/"
         [ "$name" = cut-silences ] && cp "$src/scripts/validate-beat-sync.mjs" "$dest/scripts/"
         patched=local-transcriber ;;
+      cth9191/animate)
+        python3 - "$dest/tools" <<'PY'
+import pathlib, sys
+EXE = '(process.env.CHROMIUM_PATH ? { executablePath: process.env.CHROMIUM_PATH } : {})'
+for f in pathlib.Path(sys.argv[1]).rglob('*.mjs'):
+    s = f.read_text(encoding='utf-8'); out = []; i = 0
+    while (j := s.find('chromium.launch(', i)) >= 0:
+        k = j + len('chromium.launch('); depth = 1; e = k
+        while depth:
+            depth += {'(': 1, ')': -1}.get(s[e], 0); e += 1
+        arg = s[k:e - 1].strip()
+        out.append(s[i:k] + (f'{{ ...{EXE}, ...{arg} }}' if arg else EXE) + ')'); i = e
+    if out: f.write_text(''.join(out) + s[i:], encoding='utf-8')
+PY
+        patched=chromium-path ;;
     esac
     REPO="$repo" COMMIT="$commit" PATCH="$patched" python3 - "$dest/SKILL.md" <<'PY'
 import os, re, sys

@@ -101,7 +101,7 @@ if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.me
   const fmtI = args.indexOf('--format'), format = fmtI >= 0 ? args.splice(fmtI, 2)[1] : null;
   if (!args[0]) { console.error('usage: node tools/textcheck.mjs <piece dir> [--every 6]'); process.exit(2); }
   const file = args[0].endsWith('.html') ? args[0] : path.join(args[0], 'index.html');
-  const browser = await chromium.launch(), page = await browser.newPage();
+  const browser = await chromium.launch((process.env.CHROMIUM_PATH ? { executablePath: process.env.CHROMIUM_PATH } : {})), page = await browser.newPage();
   page.on('pageerror', (e) => console.error('PAGE ERROR:', e.message));
   await page.goto(pathToFileURL(path.resolve(file)).href + '?export=1' + (format ? `&format=${encodeURIComponent(format)}` : ''));
   await page.waitForFunction(() => window.TIMELINE && window.renderFrame);

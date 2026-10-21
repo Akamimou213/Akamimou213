@@ -20,7 +20,7 @@ const width = Number(opt('--width', 1280)), height = Number(opt('--height', 800)
 const selector = opt('--selector', null), wait = Number(opt('--wait', 1500)), hide = opt('--hide', null), full = flag('--full'), dark = flag('--dark');
 const [url, out] = args;
 if (!url || !out) { console.error('usage: node tools/capture.mjs <url> <out.png> [--width 1280] [--height 800] [--scale 2] [--selector css] [--full] [--wait 1500] [--dark] [--hide css]'); process.exit(2); }
-const browser = await chromium.launch();
+const browser = await chromium.launch((process.env.CHROMIUM_PATH ? { executablePath: process.env.CHROMIUM_PATH } : {}));
 const page = await browser.newPage({ viewport: { width, height }, deviceScaleFactor: scale, colorScheme: dark ? 'dark' : 'light' });
 await page.goto(url, { waitUntil: 'networkidle', timeout: 60000 }).catch(() => page.goto(url, { waitUntil: 'load', timeout: 60000 }));
 await page.waitForTimeout(wait);

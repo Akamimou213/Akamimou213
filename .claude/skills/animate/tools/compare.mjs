@@ -22,7 +22,7 @@ if (!ref || !src || sec == null || !out) { console.error('usage: node tools/comp
 const file = src.endsWith('.html') ? src : path.join(src, 'index.html');
 const mime = /\.jpe?g$/i.test(ref) ? 'image/jpeg' : 'image/png';
 const refURL = `data:${mime};base64,` + fs.readFileSync(ref).toString('base64');   // tool-side only; never in a piece
-const browser = await chromium.launch(), page = await browser.newPage();
+const browser = await chromium.launch((process.env.CHROMIUM_PATH ? { executablePath: process.env.CHROMIUM_PATH } : {})), page = await browser.newPage();
 page.on('pageerror', (e) => { console.error('PAGE ERROR:', e.message); process.exitCode = 1; });
 await page.goto(pathToFileURL(path.resolve(file)).href + '?export=1');
 await page.waitForFunction(() => window.TIMELINE && window.renderFrame);

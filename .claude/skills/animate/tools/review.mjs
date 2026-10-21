@@ -58,14 +58,14 @@ const refPath = (n) => {
 
 // ---- read TIMELINE + frame->shot mapping straight from index.html
 const PAGE_URL = pathToFileURL(path.join(ROOT, 'index.html')).href + '?export=1' + (FORMAT ? `&format=${encodeURIComponent(FORMAT)}` : '');
-let browser = await chromium.launch();
+let browser = await chromium.launch((process.env.CHROMIUM_PATH ? { executablePath: process.env.CHROMIUM_PATH } : {}));
 let page = await browser.newPage();
 await page.goto(PAGE_URL);
 await page.waitForFunction(() => window.TIMELINE && window.renderFrame);
 // WebGL pieces (TIMELINE.gpu) re-open on the real GPU: the anchor pass renders hundreds of frames
 if (await page.evaluate(() => !!window.TIMELINE.gpu)) {
   await browser.close();
-  browser = await chromium.launch({ args: GPU_ARGS });
+  browser = await chromium.launch({ ...(process.env.CHROMIUM_PATH ? { executablePath: process.env.CHROMIUM_PATH } : {}), ...{ args: GPU_ARGS } });
   page = await browser.newPage();
   await gpuReport(page);
   await page.goto(PAGE_URL);

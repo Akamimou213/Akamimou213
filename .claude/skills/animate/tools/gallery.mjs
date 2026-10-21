@@ -24,7 +24,7 @@ for (const dir of [path.join(SKILL, 'styles'), ...extra.map((d) => path.resolve(
 }
 if (!items.length) { console.error('no styles/*/sample.png found'); process.exit(1); }
 if (!noCustom) items.push({ name: 'custom', custom: true });
-const browser = await chromium.launch(), page = await browser.newPage();
+const browser = await chromium.launch((process.env.CHROMIUM_PATH ? { executablePath: process.env.CHROMIUM_PATH } : {})), page = await browser.newPage();
 const png = await page.evaluate(async (items) => {
   const PW = 270, PH = 480, GAP = 24, LAB = 52, cols = Math.min(items.length, 4), rows = Math.ceil(items.length / cols);
   const c = document.createElement('canvas'); c.width = GAP + cols * (PW + GAP); c.height = GAP + rows * (PH + LAB + GAP);

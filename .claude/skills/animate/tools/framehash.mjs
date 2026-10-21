@@ -12,7 +12,7 @@ const { chromium } = (() => { try { return require('playwright'); } catch { retu
 const args = process.argv.slice(2);
 const files = args.filter((a) => /\.html?$/i.test(a)), frames = args.filter((a) => /^\d+$/.test(a)).map(Number);
 if (!files.length || !frames.length) { console.error('usage: node tools/framehash.mjs a.html [b.html] f0 f1 ...'); process.exit(2); }
-const browser = await chromium.launch();
+const browser = await chromium.launch((process.env.CHROMIUM_PATH ? { executablePath: process.env.CHROMIUM_PATH } : {}));
 async function hashes(file) {
   const page = await browser.newPage();
   page.on('pageerror', (e) => console.error('pageerror', file, e.message));

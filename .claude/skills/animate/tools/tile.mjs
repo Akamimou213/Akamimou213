@@ -17,7 +17,7 @@ const [out, ...fr] = argv;
 if (!piece || !out || !fr.length) { console.error('usage: node tools/tile.mjs <piece dir> out.png f0 f1 ...'); process.exit(2); }
 const frames = fr.map(Number);
 const URL = pathToFileURL(path.resolve(piece.endsWith('.html') ? piece : path.join(piece, 'index.html'))).href + '?export=1' + (format ? `&format=${encodeURIComponent(format)}` : '');
-const b = await chromium.launch();
+const b = await chromium.launch((process.env.CHROMIUM_PATH ? { executablePath: process.env.CHROMIUM_PATH } : {}));
 const p = await b.newPage({ viewport: { width: 1080, height: 1920 } });
 p.on('pageerror', (e) => console.error('PAGE ERROR:', e.message));
 p.on('console', (m) => console.error('console:', m.type(), m.text()));

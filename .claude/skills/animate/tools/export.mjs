@@ -62,7 +62,7 @@ const PIECE_JSON = fs.existsSync(path.join(ROOT, 'piece.json')) ? JSON.parse(fs.
 fs.mkdirSync(RENDERS, { recursive: true });
 const BASE_ARGS = ['--autoplay-policy=no-user-gesture-required'];
 // WebGL pieces (TIMELINE.gpu or --gpu) render on the real GPU (tools/gpu.mjs: ANGLE/D3D11 on Windows); without one Chromium falls back to software
-let browser = await chromium.launch({ args: BASE_ARGS });
+let browser = await chromium.launch({ ...(process.env.CHROMIUM_PATH ? { executablePath: process.env.CHROMIUM_PATH } : {}), ...{ args: BASE_ARGS } });
 
 // read the frame size before sizing the real viewport
 const probe = await browser.newPage();
@@ -75,7 +75,7 @@ const meta = await probe.evaluate(() => {
 await probe.close();
 if (meta.gpu || flag('gpu')) {
   await browser.close();
-  browser = await chromium.launch({ args: [...BASE_ARGS, ...GPU_ARGS] });
+  browser = await chromium.launch({ ...(process.env.CHROMIUM_PATH ? { executablePath: process.env.CHROMIUM_PATH } : {}), ...{ args: [...BASE_ARGS, ...GPU_ARGS] } });
   const gp = await browser.newPage(); await gpuReport(gp); await gp.close();
 }
 

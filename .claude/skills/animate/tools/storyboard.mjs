@@ -12,7 +12,7 @@ if (!src) { console.error('usage: node tools/storyboard.mjs <piece dir | index.h
 const file = src.endsWith('.html') ? src : path.join(src, 'index.html');
 const out = args[0] && args[0].endsWith('.png') ? args.shift() : path.join(path.dirname(file), 'storyboard.png');
 const panels = args;
-const browser = await chromium.launch(); const page = await browser.newPage();
+const browser = await chromium.launch((process.env.CHROMIUM_PATH ? { executablePath: process.env.CHROMIUM_PATH } : {})); const page = await browser.newPage();
 page.on('pageerror', (e) => console.error('pageerror:', e.message));
 await page.goto(pathToFileURL(path.resolve(file)).href + '?export=1' + (format ? `&format=${encodeURIComponent(format)}` : ''));
 await page.waitForFunction(() => window.TIMELINE && window.renderFrame);

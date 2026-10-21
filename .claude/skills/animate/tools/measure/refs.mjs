@@ -20,7 +20,7 @@ const top = Number(opt('--top', 10)), points = (opt('--points', '') || '').split
 const files = args.flatMap((a) => (fs.existsSync(a) && fs.statSync(a).isDirectory()
   ? fs.readdirSync(a).filter((n) => /\.(png|jpe?g|webp)$/i.test(n) && !/\.trim\.png$|^cmp-/i.test(n)).map((n) => path.join(a, n)) : [a]));
 if (!files.length) { console.error('usage: node tools/measure/refs.mjs <image | folder> [more...] [--top 10] [--points x,y;x,y]'); process.exit(2); }
-const browser = await chromium.launch(), page = await browser.newPage();
+const browser = await chromium.launch((process.env.CHROMIUM_PATH ? { executablePath: process.env.CHROMIUM_PATH } : {})), page = await browser.newPage();
 for (const f of files) {
   const mime = /\.jpe?g$/i.test(f) ? 'image/jpeg' : /\.webp$/i.test(f) ? 'image/webp' : 'image/png';
   const r = await page.evaluate(async ([url, top, points, accent]) => {
