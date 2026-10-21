@@ -8,6 +8,7 @@ Research and content were done by Claude. Implementation is done by Codex in `av
 2. **`codex/00-SEO-AUTOPILOT-LOOP.md`**: paste this into Codex `/loop`.
 3. **`codex/01-technical-seo-tasks.md`**: technical fixes T1–T21, with code and acceptance tests.
 4. **`codex/02-content-import-and-pages.md`**: how to import the blogs and build the product and resource pages.
+5. **`_BRAND_VOICE.md`** and **`research/product-walkthrough.md`**: how Get Regular sounds, and what the app really does screen by screen. Read both before writing any copy.
 
 ## Folders
 

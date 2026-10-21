@@ -56,6 +56,8 @@ feature_dependencies: []                      # app features this article claims
 
 ## 4. Voice
 
+Full guide, with real product lines and before/after examples: `../_BRAND_VOICE.md`. When an article mentions the app, describe what people actually do in it (`../research/product-walkthrough.md`), e.g. "tap your poop type", "try one change for 7 days", "the Doctor Report for the last 30 days", not "AI-powered insights".
+
 - Calm, candid, a little warm, occasionally lightly playful about poop — never gross, never cutesy, never fear-mongering.
 - Use the words people use: "poop" and "bowel movement" both; "bloated", "flare", "trigger foods". Define clinical terms once.
 - Second person ("you"). Concrete numbers with sources. No filler intros ("In today's fast-paced world…"). No "In conclusion".
@@ -64,7 +66,7 @@ feature_dependencies: []                      # app features this article claims
 
 ## 5. Product claims — hard rules
 
-- Only claim features listed as VERIFIED in `research/product-fact-sheet.md`. Anything marked unverified → don't mention, or phrase generically ("log it in any diary or an app like Get Regular").
+- Only claim features listed as VERIFIED in `research/product-fact-sheet.md` or seen in `research/product-walkthrough.md`. Anything marked unverified → don't mention, or phrase generically ("log it in any diary or an app like Get Regular").
 - Never: "clinically validated", "diagnoses", "cures", "finds your triggers", "FDA", invented ratings/user counts/testimonials.
 - Never claim competitors lack a feature. Comparison articles state facts with a "checked on <date>" note and disclose that Get Regular publishes the article.
 - Mention Get Regular naturally 2–4 times max per article; the article must be genuinely useful even if the reader never downloads.

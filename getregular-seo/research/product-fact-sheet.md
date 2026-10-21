@@ -3,6 +3,8 @@
 **Observed:** 19 October 2026 (UTC). **Market:** US English, with GB, CA and AU storefront prices also checked.
 **Owner:** SEO/GEO workstream. Other writers should take facts from this file rather than from memory or older drafts. Re-check the live sources before publishing anything about prices, ratings, versions or features.
 
+> **Update 21 Oct 2026:** `product-walkthrough.md` documents the app screen by screen (App Store screenshots plus an in-app recording) and resolves several §11 questions: a 7-day trial on the paywall, what the Regular Score is, Apple Health reading Sleep and Steps, the free vs premium split, the Weekly Digest's 4-day threshold and the Doctor Report options. It also raises new issues for the team (§9 there). Where the two files differ, the walkthrough is newer.
+
 **Status labels used below**
 - **VERIFIED**: read directly from a primary source on the date shown.
 - **COMPANY CLAIM**: published by Get Regular, but no independent evidence was found. Quote it as the company's claim or not at all.

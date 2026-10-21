@@ -1,11 +1,12 @@
 # Directory and profile listings
 
-Use the same wording everywhere (from `product-kit.md`), so search engines and AI models see one consistent description of Get Regular. Links always go to `https://www.getregular.com` and the US App Store URL.
+Use the same wording everywhere (from `product-kit.md`), so search engines and AI models see one consistent description of Get Regular. Voice: `_BRAND_VOICE.md`. Links always go to `https://www.getregular.com` and the US App Store URL.
 
 Shared values:
 - **Name:** Get Regular
-- **Tagline (≤60):** Food, stool & symptom tracker with AI gut insights (iOS)
-- **Short (40 words) / long (120 words):** `product-kit.md` §2–3
+- **Tagline (≤60):** Your gut-health diary: food, poop & how you feel
+- **One line:** A gut-health diary for iPhone that connects what you eat, how you go and how you feel, and shows you what lines up.
+- **40 / 120 words:** `product-kit.md`, "In 40 words" and "In 120 words"
 - **App Store:** https://apps.apple.com/us/app/get-regular-ai-gut-health/id6749188690
 - **Website:** https://www.getregular.com
 - **Company:** Get Regular Health, Inc. · New York, NY [CONFIRM] · founded 2025 [CONFIRM launch date]
@@ -20,7 +21,7 @@ Create the app listing once, then add it as an alternative on each competitor pa
 | Field | Value |
 |---|---|
 | Name | Get Regular |
-| Short description | Food, stool & symptom tracker with AI gut insights (iOS) |
+| Short description | Your gut-health diary: food, poop & how you feel |
 | Description | The 120-word description |
 | Platforms | iPhone, iPad, Mac (Apple silicon) |
 | License | Freemium [CONFIRM: what's free without a subscription; if nothing useful is free, choose "Paid"] |
@@ -61,8 +62,8 @@ Launch once, when there's news, for example when the free tools go live or the D
 | Field | Value (limits as of our last check; confirm in the form) |
 |---|---|
 | Name | Get Regular |
-| Tagline (≤60) | Food, stool & symptom tracker with AI gut insights |
-| Description (≤260) | Log meals, poop (Bristol scale, photo or manual) and symptoms on your iPhone. Get Regular finds patterns across them, runs one-change experiments and builds a PDF report for your doctor. |
+| Tagline (≤60) | Your gut-health diary: food, poop & how you feel |
+| Description (≤260) | Snap a meal, tap your poop type, add how you feel. Get Regular shows what lines up, helps you test one change at a time, and builds the report your doctor wishes everyone brought. iPhone. |
 | Topics | Health & Fitness, Artificial Intelligence, iOS |
 | Gallery | 5 screenshots + the 45–60 s video |
 | Pricing | Free with paid options [CONFIRM] |
@@ -70,9 +71,9 @@ Launch once, when there's news, for example when the free tools go live or the D
 **Maker's first comment (draft):**
 > Hi Product Hunt! I built Get Regular after [CONFIRM founder story, e.g. years of dealing with my own constipation]. Every doctor asked the same questions: how often, what does it look like, what did you eat? I never had good answers.
 >
-> Get Regular keeps that record for you: log a meal or a bowel movement in seconds (photo or manual, using the Bristol Stool Scale), add symptoms, and the app shows patterns week by week. When you see a doctor, the Doctor Report puts it all in one PDF.
+> Get Regular keeps that record for you. Snap a meal, tap your poop type on the Bristol scale, add how you feel (bloated, slept badly, on your period, clear skin), and the app shows what lines up week by week. Try one change for 7 days and see what actually happens; sometimes the answer is "you can have the cheese". When you see a doctor, the Doctor Report covers any 14–90 days in one PDF.
 >
-> It's iOS only for now. I'd love feedback, especially on what you'd want in the report.
+> It's iPhone only for now. I'd love feedback, especially from anyone who's tried to keep a food and symptom diary and given up.
 
 Rules: no paid upvotes and no "upvote us" mass messages; tell your own community it's live and ask for honest feedback.
 

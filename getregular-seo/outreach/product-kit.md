@@ -1,86 +1,79 @@
-# Get Regular: product kit for editors and directories
+# Get Regular: press and product kit
 
-Facts from `research/product-fact-sheet.md` (checked 19 Oct 2026). **[CONFIRM]** items need team sign-off before this goes out. Re-check prices and version on the App Store the day you send.
+For editors, reviewers and directories. Facts from `research/product-walkthrough.md` and `research/product-fact-sheet.md` (checked 21 Oct 2026). Items marked **[CONFIRM]** need team sign-off before this goes out. Re-check prices on the US App Store the day you send.
 
-## 1. In one line
-Food, stool & symptom tracker with AI gut insights (iOS)
+---
 
-## 2. Short description (40 words)
-Get Regular is an iOS gut-health tracking app from Get Regular Health, Inc. Log meals, bowel movements (Bristol Stool Scale, photo or manual) and symptoms to see daily Gut Health and Nutrition Scores, weekly AI pattern insights and doctor-ready reports.
+## In one line
+A gut-health diary for iPhone that connects what you eat, how you go and how you feel, and shows you what lines up.
 
-## 3. Long description (120 words)
-Get Regular is a gut-health tracking app for iPhone and iPad, made by Get Regular Health, Inc. in New York [CONFIRM city]. You log meals by photo or text, bowel movements on the Bristol Stool Scale (from a photo or by manual entry, no photo required) and digestive symptoms. The app turns these logs into daily Gut Health and Nutrition Scores and a Weekly Digest of patterns. With a subscription you get Gut Check, an AI chat that answers questions using your own history, plus guided food experiments and a PDF Doctor Report to share with your clinician. Get Regular was built with input from a board-certified gastroenterologist [CONFIRM wording]. It supports wellness tracking and does not diagnose or treat any condition.
+## In 40 words
+Get Regular is an iPhone app for people who feel "off" and want to know why. Log meals, poop (Bristol type, photo or tap) and how you feel; it scores each day, spots patterns weekly, tests one change at a time and builds a doctor-ready report.
 
-## 4. Key facts
+## In 120 words
+Most people with gut trouble are told it's stress, or "just IBS", and left to guess. Get Regular replaces guessing with a record. You snap or describe a meal, tap your stool type on the Bristol scale (with color, texture and more if you want), and add how you feel, from bloating to brain fog to clear skin. The app gives you daily Gut Health, Nutrition and Regular scores, and a Weekly Digest of what's shifting, such as "fiber averaged 5 g against 25–30 g". With premium, you can ask Gut Check about your own logs, run week-long experiments ("two green kiwis each morning"), and generate a Doctor Report for any 14–90-day period. It finds patterns; it doesn't diagnose.
+
+---
+
+## How it works (what an editor will see when they test it)
+
+**1. It learns you first.** A 12-step "digestive profile" covers:
+- your goals (Digestive Health; Energy, Mood & Focus; Skin, Hair & Appearance; Relationship With Food…);
+- symptoms and conditions, from bloating and reflux to brain fog, eczema and PCOS;
+- how often you go, shown on a curve of how Americans compare (from the NHANES study), and how long you sit.
+
+It gives a first insight before you've logged anything. Calorie tracking is optional and off by default: "Counting calories helps some people and stresses others out."
+
+**2. Logging takes seconds.**
+- **Poop:** tap one of 7 Bristol types, or take a photo. Optionally add color, surface texture, whether it floats, water clarity and time on the toilet. "No go" days count too, and don't break your streak.
+- **Meals:** photo or a typed description. "I'm considering" scores a food *before* you eat it.
+- **Drinks:** one tap for water, coffee, tea, kombucha and more, against a daily water goal.
+- **How you feel:** tags for the bad days (Bloating, Heartburn, Slept Poorly, On Period, Stressed, Acne…) and the good ones (Easy Bowel Movement, No Bloating, Clear Skin, Mentally Clear).
+- Sleep and steps can come in from Apple Health.
+
+**3. It gives back something specific.**
+- **Three scores:** daily Gut Health and Nutrition, and the Regular score as the bigger picture over time. Each stool and meal explains its score: form, color and texture for a stool; digestive support, inflammation impact, microbiome fuel and food integrity for a meal, plus "how to improve this meal".
+- **Weekly Digest** (after 4 days of logging): nutrient gaps and links, e.g. "magnesium averaged 30 mg a day, 7.5% of target" or "meals with salmon have been linked to positive symptom days".
+- **Backlog:** a month heatmap; highlight any symptom to see when it shows up.
+
+**4. Premium turns patterns into action.**
+- **Gut Check:** an AI chat that reads your logs. "What caused my symptoms today?" "Analyze my last 7 days."
+- **Try This:** one-change experiments with 7 tap-to-complete days and an outcome, e.g. *Add kiwi to your mornings* or *Dairy Elimination*. Experiments can clear a food, too: the app's own example ends "No change · *I think I can have cheese*".
+- **Doctor Report:** a PDF for the last 14, 30, 60 or 90 days (or custom), with up to 10 symptoms, bowel patterns, Bristol tracking, diet quality, food–symptom links, nutrients and cycle dates.
+- **Recipes** matched to your symptoms and goals.
+
+**5. It's social, if you want it.** "TMI Friends": share scores with the friends you overshare with, and see who's most regular.
+
+## Key facts
 
 | | |
 |---|---|
-| App Store name | Get Regular: AI Gut Health |
-| Link | https://apps.apple.com/us/app/get-regular-ai-gut-health/id6749188690 |
-| Website | https://www.getregular.com |
-| Company | Get Regular Health, Inc., New York [CONFIRM] |
-| Platforms | iPhone and iPad (iOS 15.1+); runs on Apple-silicon Macs as an iPad app. **No Android, no web app** |
-| Language | English |
-| Price (US) | Free to download. Subscriptions: $12.99/month or $99.99/year [CONFIRM whether "Founding Yearly" $79.99 is still offered, and what's free without a subscription] |
-| Current version | 2.0.1 (18 Aug 2026) |
-| Contact | hello@getregular.com · press: [CONFIRM founder email] |
+| App Store | Get Regular: AI Gut Health · https://apps.apple.com/us/app/get-regular-ai-gut-health/id6749188690 |
+| Platforms | iPhone and iPad (iOS 15.1+); Apple-silicon Macs. **No Android or web app** |
+| Price (US) | Free to download; the free account includes logging, scores, the Weekly Digest and Backlog. Premium: $12.99/month or $99.99/year [CONFIRM Founding rate $79.99]; 7-day free trial on the paywall [CONFIRM US] |
+| Company | Get Regular Health, Inc., New York [CONFIRM] · hello@getregular.com |
+| Version | 2.0.1 (18 Aug 2026) |
+| Ratings | 4.9 from 13 US ratings (21 Oct 2026). Small sample; don't quote it as "highly rated" |
 
-## 5. What it does
+## Privacy, plainly
+- AI analysis runs through OpenAI's API without names, emails or account IDs; per the policy, OpenAI doesn't train on that data. Photos aren't kept, only the results. Every stool can be logged by tap instead of photo.
+- Data is stored encrypted (Supabase). Health data is never sold or shared with advertisers. Delete your account in the app; data is gone within 30 days.
+- Research sharing is a separate, optional opt-in during setup.
+- Policy: https://www.getregular.com/legal/privacy-policy
+- **[FIX BEFORE SENDING]** The App Store privacy label lists Precise Location; the policy doesn't mention it.
 
-**Logging**
-- Stool: photo, with AI classification on the Bristol Stool Scale, or manual Bristol entry without a photo. An enhanced privacy mode for stool photos. "No-go" days, time on the toilet, notes.
-- Meals: photo or text, editable ingredients, one-tap re-log. Optional calorie tracking (off by default).
-- Symptoms, drinks and hydration, supplements and medications, period dates. Backdating up to 7 days.
+## What it isn't
+- Not a diagnosis tool and not a medical device. It finds patterns and tells you when to see a doctor.
+- Not a calorie counter (it's optional and off by default).
+- Not for Android, yet [CONFIRM plans].
 
-**Insights**
-- Daily Gut Health Score (weighted 7-day), Nutrition Score, and a streak of days in the Bristol 3–4 range.
-- Weekly Digest: AI pattern insights across food, stool and symptoms.
-- History charts with tag filters and a month heatmap.
+## People [CONFIRM all]
+- **Athina Vandame, Founder.** [CONFIRM title and whether to use the founder story.]
+- **Dr. Michael Schopis, MD, Clinical Advisor.** Board-certified gastroenterologist, Manhattan Gastroenterology. [CONFIRM written OK; what he reviewed and when; disclosure of any compensation.]
 
-**With a subscription**
-- **Gut Check:** an AI chat that answers questions using your own logs.
-- **Experiments:** guided self-tests (e.g. pause dairy for a week) with daily tracking.
-- **Doctor Report:** a PDF with bowel patterns, Bristol tracking, symptom frequency, diet quality, food–symptom correlations, nutrient patterns and cycle data, to share with a clinician.
-- Personalized recipes.
-
-## 6. What's different (and what isn't)
-
-Say this plainly; editors compare apps feature by feature.
-
-| Get Regular does | Compared with |
-|---|---|
-| Stool, meals and symptoms in one app, with AI stool-photo classification **and** a manual option | Many poop trackers log stool only; many food diaries skip stool |
-| A Doctor Report PDF built for a GI visit | Most trackers export raw lists or nothing |
-| Period tracking in the same timeline (cycle-related bloating and bowel changes) | Usually a separate app |
-| Guided Experiments: test one change for a week | Most apps log but don't structure a test |
-
-**Limits to state up front:** iOS only; English only; Gut Check, Experiments and the Doctor Report need a subscription; no CSV export documented [CONFIRM]; small but growing user base [CONFIRM a dated number, or leave it out].
-
-## 7. Privacy, in plain words
-- AI analysis runs through OpenAI's API. Per the privacy policy, only content without names, emails or account IDs is sent, and OpenAI doesn't train on API inputs. Photos aren't stored permanently; only the analysis result is saved. Stool can be logged manually with no photo.
-- Data is stored with Supabase, encrypted in transit and at rest. Health data isn't sold or shared with advertisers.
-- Account deletion in the app; data removed within 30 days.
-- Full policy: https://www.getregular.com/legal/privacy-policy
-- [FIX BEFORE SENDING: the App Store privacy label declares Precise Location, which the policy doesn't mention.]
-
-## 8. People [CONFIRM all before sending]
-- **Athina Vandame, Founder & CEO.** [CONFIRM title, and whether the founder story ("14 years of chronic constipation") can be used.]
-- **Dr. Michael Schopis, MD, Clinical Advisor.** Board-certified gastroenterologist, Manhattan Gastroenterology. [CONFIRM his written OK for name, role and quote; what he reviewed and when; any compensation or equity disclosure.]
-
-## 9. Assets to prepare (link from every pitch)
-
-| Asset | Spec |
-|---|---|
-| Screenshots | 6 current iPhone screens: home with scores, stool log (photo + manual Bristol picker), meal log, Weekly Digest, Gut Check chat, Doctor Report preview. PNG, 1290×2796, from a demo account |
-| Sample Doctor Report | PDF from a demo account with 2–3 weeks of realistic made-up logs. Never real user data |
-| Screen recording | 45–60 s: log a stool, log a meal, see the Weekly Digest, open the Doctor Report |
-| Logo | SVG + PNG, light and dark |
-| Founder photo | Optional; only with consent |
-| Reviewer access | App Store Connect subscription offer code: 3 months free premium, one per editor, tracked in `tracker.csv` |
-
-Put them in one shared folder (or `/press` on the site) and use that single link everywhere.
-
-## 10. Words to use and avoid
-- Use: "gut-health tracking app", "food, stool and symptom tracker", "patterns", "share with your doctor".
-- Avoid: "clinically validated", "diagnose", "detect", "cure", "FDA", "the best", causal claims ("find what's causing your symptoms"). Prefer "patterns linked to your symptoms".
-- Brand: "Get Regular" (two words). AI chat: "Gut Check". Summary: "Weekly Digest". Report: "Doctor Report".
+## Assets (one shared folder; this is the `[KIT]` link)
+- **Screenshots:** the 8 current App Store screens (Today, Log Stool, Nutrition, Log Symptoms, Gut Check, the Digest, Try This, Regular trend), plus Reports for your Doctor.
+- **A sample Doctor Report PDF** from a demo account with 30 days of made-up logs. Never real user data.
+- **A 45–60 s screen recording:** tap a stool type, log a meal with "I'm considering", open the Weekly Digest, generate a report. Cut it from a demo account. Don't use recordings that show personal emails or names.
+- **Logo** (SVG and PNG, light and dark) and the brand creatives.
+- **Reviewer access (`[CODE]`):** an App Store Connect subscription offer code, 3 months of premium, one per editor.
