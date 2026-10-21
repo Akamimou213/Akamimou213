@@ -24,7 +24,7 @@ Telemetry stays off (`HYPERFRAMES_NO_TELEMETRY=1`, `DO_NOT_TRACK=1`).
 | motion-doctrine | [heygen-com/hyperframes](https://github.com/heygen-com/hyperframes) | `0ae223773ac2` | Apache License | policy |
 | seam-craft | [heygen-com/hyperframes](https://github.com/heygen-com/hyperframes) | `0ae223773ac2` | Apache License | policy |
 | product-launch-motion | [AbubakrChan/product-launch-motion](https://github.com/AbubakrChan/product-launch-motion) | `951d6149d274` | MIT License | no |
-| animate | [cth9191/animate](https://github.com/cth9191/animate) | `7e5eb56feb2d` | MIT License | chromium-path |
+| animate | [cth9191/animate](https://github.com/cth9191/animate) | `7e5eb56feb2d` | MIT License | chromium-path+fonts+librosa |
 | motion-broll | [Barty-Bart/motion-graphics](https://github.com/Barty-Bart/motion-graphics) | `83355bb58f78` | MIT License | no |
 | object-separation | [Barty-Bart/motion-graphics](https://github.com/Barty-Bart/motion-graphics) | `83355bb58f78` | MIT License | no |
 | short-form-edit | [nateherkai/hyperframes-student-kit](https://github.com/nateherkai/hyperframes-student-kit) | `0d30152a82b9` | MIT License | local-transcriber |

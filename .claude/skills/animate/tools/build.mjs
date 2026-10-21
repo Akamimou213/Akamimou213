@@ -80,14 +80,20 @@ if (assetFiles.length) {
   for (const n of assetFiles) { const b = fs.readFileSync(path.join(ASSET_DIR, n)); assetBytes += b.length; src[n] = `data:${MIME[n.split('.').pop().toLowerCase()]};base64,` + b.toString('base64'); }
   inject.push(`// ---- assets/ (embedded by tools/build.mjs): ${assetFiles.join(', ')}\nconst ASSETS = {};\nwindow.ASSETS_READY = Promise.all(Object.entries(${JSON.stringify(src)}).map(([k, u]) => { const i = new Image(); i.src = u; ASSETS[k] = i; return i.decode(); }));`);
 }
+// fonts named in piece.json "fonts" ([{ family, file, weight, style }], licence permitting): embedded as FontFace, loaded before the first frame
+const fontList = (meta.fonts || []).filter((f) => fs.existsSync(path.join(ROOT, f.file)) || console.warn(`font not found: ${f.file} (drafts fall back to system fonts)`));
+if (fontList.length) {
+  const ff = fontList.map((f) => ({ family: f.family, weight: String(f.weight ?? '400'), style: f.style ?? 'normal', src: `data:font/${f.file.split('.').pop()};base64,` + fs.readFileSync(path.join(ROOT, f.file)).toString('base64') }));
+  inject.push(`// ---- piece.json fonts (embedded by tools/build.mjs): ${fontList.map((f) => `${f.family} ${f.weight ?? 400} ${f.style ?? 'normal'}`).join(', ')}\nwindow.FONTS_READY = Promise.all(${JSON.stringify(ff)}.map((f) => new FontFace(f.family, 'url(' + f.src + ')', { weight: f.weight, style: f.style }).load().then((x) => document.fonts.add(x))));`);
+}
 if (inject.length) {
   const at = out.indexOf('"use strict";') >= 0 ? out.indexOf('"use strict";') + '"use strict";'.length : out.indexOf('<script>') + '<script>'.length;
   out = out.slice(0, at) + '\n' + inject.join('\n') + out.slice(at);
 }
 // with assets, tools wait until the images are decoded: window.renderFrame appears only then
-if (assetFiles.length) {
+if (assetFiles.length || fontList.length) {
   const end = out.lastIndexOf('</script>');
-  out = out.slice(0, end) + `// ---- hold renderFrame until the assets are decoded (export, review and tile wait for it)\n{ const rf = window.renderFrame; window.renderFrame = undefined; window.ASSETS_READY.then(() => { window.renderFrame = rf; }); }\n` + out.slice(end);
+  out = out.slice(0, end) + `// ---- hold renderFrame until the assets and fonts are ready (export, review and tile wait for it)\n{ const rf = window.renderFrame; window.renderFrame = undefined; Promise.all([window.ASSETS_READY, window.FONTS_READY]).then(() => { window.renderFrame = rf; }); }\n` + out.slice(end);
 }
 const m2 = out.match(/<script>([\s\S]*)<\/script>/);
 try { new vm.Script(m2[1], { filename: 'index.html' }); } catch (e) { console.error('syntax error:', e.message); process.exit(1); }

@@ -8,6 +8,8 @@
 #     motion-reel's house rules win) and the post-render feedback section removed from hyperframes-cli
 #   - student-kit editing skills: the paid ElevenLabs transcriber replaced by local words.py; script paths made local
 #   - animate: its tools launch Chromium at $CHROMIUM_PATH when set (cloud containers ship a browser Playwright can't find)
+#     and its build embeds the fonts a piece lists in piece.json "fonts" (OFL or client-licensed files) as FontFace;
+#     its word timer decodes audio with librosa (faster-whisper's PyAV path breaks on av 19)
 #   - charlie947 explainer skills: a project-policy header (no `npx skills add`, render with our engines, house rules win)
 # Re-run to update after bumping a commit below (ONLY=owner/repo installs just that repo); it refuses to overwrite skills it didn't install.
 set -euo pipefail
@@ -66,7 +68,36 @@ for f in pathlib.Path(sys.argv[1]).rglob('*.mjs'):
         out.append(s[i:k] + (f'{{ ...{EXE}, ...{arg} }}' if arg else EXE) + ')'); i = e
     if out: f.write_text(''.join(out) + s[i:], encoding='utf-8')
 PY
-        patched=chromium-path ;;
+        python3 - "$dest/tools/build.mjs" <<'PY'
+import sys
+p = sys.argv[1]; s = open(p, encoding='utf-8').read()
+FONTS = '''// fonts named in piece.json "fonts" ([{ family, file, weight, style }], licence permitting): embedded as FontFace, loaded before the first frame
+const fontList = (meta.fonts || []).filter((f) => fs.existsSync(path.join(ROOT, f.file)) || console.warn(`font not found: ${f.file} (drafts fall back to system fonts)`));
+if (fontList.length) {
+  const ff = fontList.map((f) => ({ family: f.family, weight: String(f.weight ?? '400'), style: f.style ?? 'normal', src: `data:font/${f.file.split('.').pop()};base64,` + fs.readFileSync(path.join(ROOT, f.file)).toString('base64') }));
+  inject.push(`// ---- piece.json fonts (embedded by tools/build.mjs): ${fontList.map((f) => `${f.family} ${f.weight ?? 400} ${f.style ?? 'normal'}`).join(', ')}\\nwindow.FONTS_READY = Promise.all(${JSON.stringify(ff)}.map((f) => new FontFace(f.family, 'url(' + f.src + ')', { weight: f.weight, style: f.style }).load().then((x) => document.fonts.add(x))));`);
+}
+if (inject.length) {'''
+s = s.replace('if (inject.length) {', FONTS, 1)
+s = s.replace('''if (assetFiles.length) {
+  const end = out.lastIndexOf('</script>');
+  out = out.slice(0, end) + `// ---- hold renderFrame until the assets are decoded (export, review and tile wait for it)\\n{ const rf = window.renderFrame; window.renderFrame = undefined; window.ASSETS_READY.then(() => { window.renderFrame = rf; }); }\\n` + out.slice(end);''', '''if (assetFiles.length || fontList.length) {
+  const end = out.lastIndexOf('</script>');
+  out = out.slice(0, end) + `// ---- hold renderFrame until the assets and fonts are ready (export, review and tile wait for it)\\n{ const rf = window.renderFrame; window.renderFrame = undefined; Promise.all([window.ASSETS_READY, window.FONTS_READY]).then(() => { window.renderFrame = rf; }); }\\n` + out.slice(end);''', 1)
+assert 'FONTS_READY]).then' in s and 'fontList.length) {' in s, 'build.mjs patch anchors moved'
+open(p, 'w', encoding='utf-8').write(s)
+PY
+        python3 - "$dest/tools/voice_words.py" <<'PY'
+import sys
+p = sys.argv[1]; s = open(p, encoding='utf-8').read()
+old = "    segs, _ = m.transcribe(args[0], "
+new = ("    import librosa  # decode here: faster-whisper's own PyAV path breaks across av releases (motion-reel words.py)\n"
+       "    audio, _ = librosa.load(args[0], sr=16000, mono=True)\n"
+       "    segs, _ = m.transcribe(audio, ")
+assert old in s, 'voice_words.py patch anchor moved'
+open(p, 'w', encoding='utf-8').write(s.replace(old, new, 1))
+PY
+        patched=chromium-path+fonts ;;
     esac
     REPO="$repo" COMMIT="$commit" PATCH="$patched" python3 - "$dest/SKILL.md" <<'PY'
 import os, re, sys

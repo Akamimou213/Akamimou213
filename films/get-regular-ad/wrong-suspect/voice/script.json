@@ -1,0 +1,57 @@
+{
+  "lead": 1.0,
+  "tail": 3.6,
+  "voice": "af_heart at 0.85x (Kokoro-82M, local) \u2014 draft; swap the takes for the final voice",
+  "lines": [
+    {
+      "id": "blame",
+      "text": "Most of us blame the last thing we ate.",
+      "after": 0.9
+    },
+    {
+      "id": "delay",
+      "text": "But your gut runs on a delay.",
+      "after": 0.7
+    },
+    {
+      "id": "hours",
+      "text": "Food takes about twenty-nine hours, on average, to travel all the way through.",
+      "after": 0.8
+    },
+    {
+      "id": "push",
+      "text": "And eating something new can push along what you ate before.",
+      "after": 0.6
+    },
+    {
+      "id": "caught",
+      "text": "So the meal on your plate gets caught in the act,",
+      "after": 0.25
+    },
+    {
+      "id": "real",
+      "text": "while the real reason may be lunch. Or yesterday.",
+      "after": 1.0
+    },
+    {
+      "id": "cut",
+      "text": "Cut the wrong food, and often nothing changes. Except your plate gets smaller.",
+      "after": 1.6
+    },
+    {
+      "id": "weeks",
+      "text": "One day can't show you a delay. A few weeks can.",
+      "after": 1.0
+    },
+    {
+      "id": "app",
+      "text": "Get Regular lines up your meals, symptoms and bathroom trips, day by day, so your pattern can show itself.",
+      "after": 0.7
+    },
+    {
+      "id": "close",
+      "text": "Your gut's been keeping time. Start keeping notes.",
+      "after": 0
+    }
+  ]
+}

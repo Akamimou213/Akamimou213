@@ -15,3 +15,10 @@ films/*/assets/capture/fonts/
 # Growth Plan: lead data and renders stay out of git
 appfound/growth-plan/reports/
 appfound/growth-plan/out/
+
+# animate pieces inside films/: renders, review sheets, built index.html and draft voice takes are regenerated
+films/*/*/renders/
+films/*/*/review/
+films/*/*/frames/
+films/*/*/index.html
+films/*/*/voice/*.wav
