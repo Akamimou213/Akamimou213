@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Caffeine Receipt · RYZE</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #1b1714; overflow: hidden; }
+  body { display: flex; align-items: center; justify-content: center; }
+  canvas { height: min(100vh, calc(100vw * 16 / 9)); width: auto; aspect-ratio: 9 / 16; display: block; cursor: pointer; }
+</style>
+</head>
+<body>
+<canvas id="c" width="1080" height="1920"></canvas>
+<script>
+"use strict";
+// =====================================================================
+//  THE CAFFEINE RECEIPT — RYZE Mushroom Coffee, a top-of-funnel explainer. 9:16, ~48.6s, 24fps, voice-led (VOICE is the clock).
+//  Device: a paper receipt prints a normal coffee day. The total is fine (FDA: 400 mg/day for most adults); the 4 p.m.
+//  time stamp is the problem (Drake et al., J Clin Sleep Med 2013: caffeine 6 h before bed still disrupted sleep).
+//  The fix lightens one line: RYZE, about 48 mg per cup ("less than half the amount in a regular cup of coffee", RYZE).
+//  Colour: TERRACOTTA = RYZE / the lighter cup; BROWN marker = the problem time stamp.
+// =====================================================================
+const FPS = 24, W = 1080, H = 1920;
+const BPM = 120, BEAT = 60 / BPM, E8 = BEAT / 2, E16 = BEAT / 4;
+const DURATION = typeof VOICE !== "undefined" ? Math.round(VOICE.duration * FPS) / FPS : 49.2;
+const NFRAMES = Math.round(DURATION * FPS);
+const LOOP_T = NFRAMES / FPS;
+const SAFE = { top: 240, bottom: 420, right: 140 };          // 9:16 platform UI; keep content in x 60–940, y 250–1500
+const HAND = '"DM Sans", Inter, "Helvetica Neue", Arial, sans-serif';   // the brand's UI face (OFL), embedded via piece.json fonts
+const SERIF = '"Instrument Serif", "Times New Roman", serif';           // italic accent face (OFL), stands in for the site's display serif
+const CX = 500;                                               // caption centre (left of the right-hand action rail)
+
+// ---- the voice is the clock: VL(id) = a line {t0, t1, words}; VW(id, word, n) = when the n-th `word` of that line starts
+const VLINES = typeof VOICE !== 'undefined' ? VOICE.lines : [];
+const VL = (id) => VLINES.find((l) => l.id === id) || { t0: 0, t1: 0, words: [] };
+const norm = (s) => s.toLowerCase().replace(/[^a-z0-9']/g, '');
+function VW(id, word, n = 0) {
+  const L = VL(id), hits = (L.words || []).filter((w) => norm(w.w) === norm(word));
+  return hits.length ? hits[Math.min(n, hits.length - 1)].t0 : L.t0;
+}
+const AFTER = (id, pad = 0.3) => VL(id).t1 + pad;           // a beat starts ~0.3s after the previous sentence ends
+
+// eras: [t0, t1, scene]. Each era change is a shape morph in a pause of the voice.
+const snap = (t) => Math.round(t * FPS) / FPS;
+const HIT = snap(VL('turn').t1 + 0.3);                          // the turn: the 4 p.m. line is stamped, in the pause after "The time stamp is."
+const TB = { clock: snap(AFTER('turn', 0.85)), again: snap(AFTER('study', 0.32)), fix: snap(AFTER('again', 0.36)), end: snap(AFTER('cta2', 0.3)) };
+const ERA_LIST = [
+  [0, TB.clock, () => sReceipt()],
+  [TB.clock, TB.again, () => sClock()],
+  [TB.again, TB.fix, () => sAgain()],
+  [TB.fix, TB.end, () => sFix()],
+  [TB.end, DURATION, () => sEnd()],
+];
+const SHOTS = [
+  ['receipt', 0, 0, TB.clock, 'the receipt prints a normal coffee day; the total is fine; the 4 p.m. time stamp is the problem'],
+  ['clock', 1, TB.clock, TB.again, '4 p.m. to a 10 p.m. bedtime is six hours; sleep gets cut'],
+  ['again', 2, TB.again, TB.fix, 'less sleep, more coffee: the receipt prints again'],
+  ['fix', 3, TB.fix, TB.end, 'lighten the late cup: RYZE, about 48 mg'],
+  ['end', 4, TB.end, DURATION, 'same ritual, lighter receipt'],
+];
+const TIMELINE = {
+  width: W, height: H, fps: FPS, bpm: BPM, duration: DURATION, frames: NFRAMES, loop: LOOP_T, safe: SAFE,
+  format: 'morph-chain',
+  shots: SHOTS.map(([key, era, t0, t1, title], i) => ({ id: i + 1, key, era, t0, t1, title })),
+  cuts: [],
+  morphs: [TB.clock, TB.again, TB.fix, TB.end],
+  cues: {
+    print: VW('hook', 'print'), r1: VL('c1').t0, r2: VW('c23', 'two'), r3: VW('c23', 'three'),
+    total: VW('total', 'total'), fda: VW('total', 'four'), amount: VW('turn', 'amount'), stamp: VW('turn', 'stamp'), hit: HIT,
+    four: VL('six').t0, six: VW('six', 'six'), bed: VW('six', 'bedtime'), study: VW('study', 'study'), cut: VW('study', 'cut'),
+    less: VL('again').t0, prints: VW('again', 'prints'),
+    quit: VW('cta1', 'quit'), lighten: VW('cta1', 'lighten'), ryze: VL('cta2').t0, fortyeight: VW('cta2', 'forty'), mush: VW('cta2', 'mushrooms'),
+    close: VL('close').t0,
+  },
+  acts: [
+    { name: '1 Receipt', role: 'build',   t0: 0,        t1: VL('turn').t1 },
+    { name: '2 Hush',    role: 'silence', t0: VL('turn').t1, t1: HIT },
+    { name: '3 Stamp',   role: 'gift',    t0: HIT,      t1: TB.clock },
+    { name: '4 Clock',   role: 'journey', t0: TB.clock, t1: TB.fix },
+    { name: '5 Lighter', role: 'goodbye', t0: TB.fix,   t1: DURATION },
+  ],
+  narration: VLINES.map((l) => ({ id: l.id, t0: l.t0, t1: l.t1, text: l.text })),
+  board: [
+    { t: VL('total').t1, title: 'the receipt and its total', sound: 'printer chatter', next: 'the time stamp' },
+    { t: HIT + 0.6, title: 'the time stamp is the problem', sound: 'the loudest hit', next: 'the clock' },
+    { t: VL('study').t1, title: 'six hours before bed', sound: 'ticks', next: 'the receipts pile up' },
+    { t: VL('again').t1, title: 'the receipt prints again', sound: 'printer, faster', next: 'the late cup is lightened' },
+    { t: VL('cta2').t1, title: 'RYZE, about 48 mg', sound: 'warm chord', next: 'end card' },
+    { t: DURATION - 1, title: 'same ritual, lighter receipt', sound: 'the motif, resolved', next: 'end' },
+  ],
+};
+window.TIMELINE = TIMELINE;
+
+// ---- the brand palette (sampled from ryzesuperfoods.com: brown #533A2D, terracotta #CA5839, cream #FCFBF3 / #F9F1E9)
+const GR = {
+  wall: '#F9F1E9', wall2: '#F3E6D8', cream: '#FCFBF3', paper: '#FFFDF8', ink: '#3A2620', inkSoft: '#7A6658', taupe: '#9B8577',
+  sand: '#E8D3BF', gold: '#B0864C', goldL: '#E2C795', red: '#8E3A2C',
+  sage: '#A3B297', sageD: '#76896B', terra: '#CA5839', blush: '#F3D7C9', dusk: '#556070', duskD: '#3A4250',
+  wood: '#BC8F66', woodD: '#946B4B', woodL: '#D6AE86', cloud: '#A7ACB4', cloudD: '#8A9099', butter: '#EDDDB0', dark: '#4D1C1A',
+  brown: '#533A2D', skin: '#D9A07C', hair: '#3A2A22',
+};
+const PMONO = '"IBM Plex Mono", "Courier New", monospace';

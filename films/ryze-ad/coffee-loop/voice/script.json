@@ -1,0 +1,62 @@
+{
+  "lead": 0.5,
+  "tail": 3.6,
+  "lines": [
+    {
+      "id": "hook",
+      "text": "Let's print the receipt for a very normal coffee day.",
+      "after": 0.3
+    },
+    {
+      "id": "c1",
+      "text": "Seven a.m. Cup one. Roughly a hundred milligrams of caffeine.",
+      "after": 0.3
+    },
+    {
+      "id": "c23",
+      "text": "Eleven a.m. Cup two. Four p.m. Cup three.",
+      "after": 0.3
+    },
+    {
+      "id": "total",
+      "text": "Total: about three hundred. Under the FDA's four hundred a day for most adults.",
+      "after": 0.6
+    },
+    {
+      "id": "turn",
+      "text": "So the amount isn't the problem. The time stamp is.",
+      "after": 1.3
+    },
+    {
+      "id": "six",
+      "text": "Four p.m. is six hours before a ten p.m. bedtime.",
+      "after": 0.3
+    },
+    {
+      "id": "study",
+      "text": "And in one sleep study, a strong dose of caffeine six hours before bed still cut into sleep.",
+      "after": 0.45
+    },
+    {
+      "id": "again",
+      "text": "Less sleep tonight, more coffee tomorrow. The receipt prints again.",
+      "after": 0.55
+    },
+    {
+      "id": "cta1",
+      "text": "You don't have to quit coffee. Just lighten the late cup.",
+      "after": 0.3
+    },
+    {
+      "id": "cta2",
+      "text": "RYZE Mushroom Coffee has about forty-eight milligrams of caffeine, less than half a regular cup, with six functional mushrooms.",
+      "after": 0.45
+    },
+    {
+      "id": "close",
+      "text": "Same ritual. Lighter receipt.",
+      "after": 0
+    }
+  ],
+  "voice": "ElevenLabs \"Savvy - Warm, Grounded, Natural\" (PVC), Eleven v4, stability 50, similarity 75; one take split per line"
+}
