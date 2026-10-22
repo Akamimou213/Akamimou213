@@ -52,5 +52,6 @@
       "text": "Notice what fills your cup.",
       "after": 0
     }
-  ]
+  ],
+  "voice": "ElevenLabs \"Jessica\" (PVC), Eleven v4, stability 50, similarity 75; one take split per line at the gaps (voice/elevenlabs/take.mp3)"
 }

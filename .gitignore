@@ -22,3 +22,4 @@ films/*/*/review/
 films/*/*/frames/
 films/*/*/index.html
 films/*/*/voice/*.wav
+films/*/*/voice/elevenlabs/*.wav

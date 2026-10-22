@@ -9,7 +9,7 @@ function sDays() {
   sketchPage({ grid: 'dots' });
   [[90, 470, 0], [980, 540, 1], [100, 1220, 2]].forEach(([x, y, i]) => doodleStar(x, y, 20 + 6 * ((B + i) % 3 === 0), 'st' + i, { w: 3 }));
   const card = (x, y, day, mood, t, key) => {
-    const k = ev(t - 0.2, 0.5); if (k <= 0) return;
+    const k = 1;   // on the page from frame 0 (the thumbnail); the day name writes on with the voice
     const P = sketchBox(x, y, 400, 560, 14, 0.03);
     gfill(P, SK.sheet, { a: 0.95, off: [6, 7], key: key + 'f' }); gline(P, { w: 4, key: key + 'o', closed: true, part: k });
     handLetter(day, x + 200, y + 86, 76, { weight: 700, reveal: ev(t, 0.3), key: key + 'd' });
