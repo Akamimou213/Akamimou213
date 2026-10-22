@@ -28,7 +28,7 @@ function sDinner() {
   plant(960, 1080, 0.75, GR.terra, 'plantD');
   // the diner, behind the table
   const pointing = TT >= CU.point;
-  person(540, 1090, 1.42, { key: 'diner', shirt: GR.sage, skin: GR.skin, hair: GR.hair, mood: pointing ? 'sad' : 'smile', shirtPat: pat.stripes('rgba(255,255,255,0.18)', 8, 30) });
+  woman(540, 1090, 1.42, { key: 'diner', shirt: GR.sage, skin: GR.skin, hair: GR.hair, mood: pointing ? 'sad' : 'smile', shirtPat: pat.stripes('rgba(255,255,255,0.18)', 8, 30) });
   // the table, a runner, the plate
   cut(rect(-40, 1128, W + 80, 900, 0), GR.wood, { key: 'tableD', tear: 0, pat: pat.grainWood('rgba(110,70,40,0.16)'), sy: -6 });
   cut(rect(-40, 1150, W + 80, 210, 0), GR.cream, { key: 'runnerD', tear: 1.2, shadow: false, pat: pat.gingham('rgba(118,137,107,0.16)', 14) });

@@ -1,0 +1,51 @@
+{
+  "lead": 0.9,
+  "tail": 4.2,
+  "lines": [
+    {
+      "id": "open",
+      "text": "How often should you poop?",
+      "after": 1.0
+    },
+    {
+      "id": "guess",
+      "text": "A lot of us think the answer is once a day.",
+      "after": 0.8
+    },
+    {
+      "id": "survey",
+      "text": "But in a large U.S. health survey, for most people, normal ran from three times a day to three times a week.",
+      "after": 1.0
+    },
+    {
+      "id": "magic",
+      "text": "There's no magic number.",
+      "after": 0.9
+    },
+    {
+      "id": "yours",
+      "text": "What matters more is your normal, and when it changes.",
+      "after": 0.7
+    },
+    {
+      "id": "two",
+      "text": "Three times a week can be normal for one person, and a big change for someone else.",
+      "after": 0.9
+    },
+    {
+      "id": "seen",
+      "text": "But you can't spot a change in a pattern you've never seen.",
+      "after": 1.5
+    },
+    {
+      "id": "app",
+      "text": "Get Regular tracks your rhythm from your own logs, so a change stands out.",
+      "after": 0.8
+    },
+    {
+      "id": "close",
+      "text": "Know your normal. Then notice what moves.",
+      "after": 0
+    }
+  ]
+}

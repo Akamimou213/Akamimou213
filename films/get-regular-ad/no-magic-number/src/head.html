@@ -1,0 +1,103 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>No Magic Number · Get Regular</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #1b1714; overflow: hidden; }
+  body { display: flex; align-items: center; justify-content: center; }
+  canvas { height: min(100vh, calc(100vw * 16 / 9)); width: auto; aspect-ratio: 9 / 16; display: block; cursor: pointer; }
+</style>
+</head>
+<body>
+<canvas id="c" width="1080" height="1920"></canvas>
+<script>
+"use strict";
+// =====================================================================
+//  NO MAGIC NUMBER — Get Regular, "How your gut keeps time" #2. 9:16, ~48.6s, 24fps, voice-led (VOICE is the clock).
+//  Device: "once a day" is a sticky note that tears; normal is a wide range; YOUR normal is a gold band, and a change
+//  is a dot that leaves it. Colour means one thing: GOLD = your normal.
+//  Facts: 95.9% of US adults with normal bowel habits report 3-21 BMs a week (NHANES 2009-10, Mitsuhashi et al.,
+//  Am J Gastroenterol 2018); "know your normal" (AGA 2022). The 12-week chart and the crowd are illustration.
+// =====================================================================
+const FPS = 24, W = 1080, H = 1920;
+const BPM = 120, BEAT = 60 / BPM, E8 = BEAT / 2, E16 = BEAT / 4;
+const DURATION = typeof VOICE !== "undefined" ? Math.round(VOICE.duration * FPS) / FPS : 49.2;
+const NFRAMES = Math.round(DURATION * FPS);
+const LOOP_T = NFRAMES / FPS;
+const SAFE = { top: 240, bottom: 420, right: 140 };          // 9:16 platform UI; keep content in x 60–940, y 250–1500
+const HAND = '"DM Sans", Inter, "Helvetica Neue", Arial, sans-serif';   // the brand's UI face (OFL), embedded via piece.json fonts
+const SERIF = '"Instrument Serif", "Times New Roman", serif';           // italic accent face (OFL), stands in for the site's display serif
+const CX = 500;                                               // caption centre (left of the right-hand action rail)
+
+// ---- the voice is the clock: VL(id) = a line {t0, t1, words}; VW(id, word, n) = when the n-th `word` of that line starts
+const VLINES = typeof VOICE !== 'undefined' ? VOICE.lines : [];
+const VL = (id) => VLINES.find((l) => l.id === id) || { t0: 0, t1: 0, words: [] };
+const norm = (s) => s.toLowerCase().replace(/[^a-z0-9']/g, '');
+function VW(id, word, n = 0) {
+  const L = VL(id), hits = (L.words || []).filter((w) => norm(w.w) === norm(word));
+  return hits.length ? hits[Math.min(n, hits.length - 1)].t0 : L.t0;
+}
+const AFTER = (id, pad = 0.3) => VL(id).t1 + pad;           // a beat starts ~0.3s after the previous sentence ends
+
+// eras: [t0, t1, scene]. Every boundary is a shape morph in a pause of the voice.
+const snap = (t) => Math.round(t * FPS) / FPS;
+const TB = { range: snap(AFTER('guess', 0.32)), two: snap(AFTER('magic', 0.34)), weeks: snap(AFTER('two', 0.34)), end: snap(AFTER('app', 0.36)) };
+const ERA_LIST = [
+  [0, TB.range, () => sMorning()],
+  [TB.range, TB.two, () => sRange()],
+  [TB.two, TB.weeks, () => sTwo()],
+  [TB.weeks, TB.end, () => sWeeks()],
+  [TB.end, DURATION, () => sEnd()],
+];
+const SHOTS = [
+  ['morning', 0, 0, TB.range, 'how often should you poop? once a day?'],
+  ['range', 1, TB.range, TB.two, 'the survey: normal runs from 3 a week to 3 a day; the once-a-day note tears'],
+  ['two', 2, TB.two, TB.weeks, 'your normal: the same week of 3 is normal for one person, a change for another'],
+  ['weeks', 3, TB.weeks, TB.end, 'twelve weeks of dots; the gold band of your normal; the change stands out; Get Regular'],
+  ['end', 4, TB.end, DURATION, 'end card: know your normal'],
+];
+const HIT = snap(VL('seen').t1 + 0.5);
+const TIMELINE = {
+  width: W, height: H, fps: FPS, bpm: BPM, duration: DURATION, frames: NFRAMES, loop: LOOP_T, safe: SAFE,
+  format: 'morph-chain',
+  shots: SHOTS.map(([key, era, t0, t1, title], i) => ({ id: i + 1, key, era, t0, t1, title })),
+  cuts: [],
+  morphs: [TB.range, TB.two, TB.weeks, TB.end],
+  cues: {
+    often: VW('open', 'often'), once: VW('guess', 'once'),
+    crowd: VW('survey', 'survey'), most: VW('survey', 'most'), aday: VW('survey', 'day'), aweek: VW('survey', 'week'),
+    magic: VW('magic', 'magic'), yours: VW('yours', 'your'), changes: VW('yours', 'changes'),
+    three: VW('two', 'three'), normal: VW('two', 'normal'), change: VW('two', 'change'),
+    dots: VL('seen').t0, hit: HIT, logo: VW('app', 'regular'), logs: VW('app', 'logs'), stands: VW('app', 'stands'), close: VL('close').t0,
+  },
+  acts: [
+    { name: '1 Question', role: 'build',   t0: 0,        t1: TB.range },
+    { name: '2 Range',    role: 'journey', t0: TB.range, t1: TB.two },
+    { name: '3 Yours',    role: 'peak',    t0: TB.two,   t1: VL('two').t1 },
+    { name: '4 Hush',     role: 'silence', t0: VL('seen').t1, t1: HIT },
+    { name: '5 Normal',   role: 'gift',    t0: HIT,      t1: TB.end },
+    { name: '6 Notice',   role: 'goodbye', t0: TB.end,   t1: DURATION },
+  ],
+  narration: VLINES.map((l) => ({ id: l.id, t0: l.t0, t1: l.t1, text: l.text })),
+  board: [
+    { t: VL('guess').t1, title: 'once a day?', sound: 'morning room; a sticky-note pop', next: 'the note becomes the number line' },
+    { t: VL('survey').t1, title: '3 a week to 3 a day', sound: 'pops as the crowd arrives', next: 'the note tears' },
+    { t: VL('magic').t1, title: 'no magic number', sound: 'paper tear', next: 'two people' },
+    { t: VL('two').t1, title: 'normal for one, a change for another', sound: 'two dots drop', next: 'twelve weeks' },
+    { t: HIT + 0.8, title: 'your normal: the gold band', sound: 'the loudest hit', next: 'Get Regular' },
+    { t: VL('app').t1, title: 'a change stands out', sound: 'warm chord', next: 'end card' },
+    { t: VL('close').t1 + 1, title: 'know your normal', sound: 'the motif, resolved', next: 'end' },
+  ],
+};
+window.TIMELINE = TIMELINE;
+
+// ---- the brand palette (sampled from getregular.com: #111111 ink, #F0EEEB ground, #9E7E58 / #C4A882 warm accents)
+const GR = {
+  wall: '#ECE5DA', wall2: '#E2D8C9', cream: '#F5F1EA', paper: '#FBF8F2', ink: '#1E1A17', inkSoft: '#6A5F55', taupe: '#8C7E6E',
+  sand: '#C9B596', gold: '#B0864C', goldL: '#E2C795', red: '#B4443A',
+  sage: '#A3B297', sageD: '#76896B', terra: '#C98463', blush: '#E7C6B6', dusk: '#556070', duskD: '#3A4250',
+  wood: '#BC8F66', woodD: '#946B4B', woodL: '#D6AE86', cloud: '#A7ACB4', cloudD: '#8A9099', butter: '#EDDDB0', dark: '#161311',
+  skin: '#D9A07C', hair: '#3A2A22',
+};

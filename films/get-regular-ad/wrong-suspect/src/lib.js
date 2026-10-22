@@ -258,3 +258,12 @@ function captionRail() {
 // the caption rail draws after every frame, outside the camera and the morph windows, then the paper grain
 { const kitPost = STYLE.post; STYLE.post = () => { captionRail(); kitPost(); }; }
 const CAPTIONS_OFF = typeof location !== 'undefined' && /[?&]captions=0/.test(location.search);
+
+// ---- the series' lead: a woman (the audience). The kit's bust with shoulder-length hair, a side fringe, small earrings
+function woman(x, y, s, o = {}) {
+  const hair = o.hair ?? GR.hair, key = o.key ?? 'wm';
+  cut([[x - 94 * s, y - 150 * s], [x - 104 * s, y - 70 * s], [x - 100 * s, y + 30 * s], [x - 66 * s, y + 60 * s], [x + 66 * s, y + 60 * s], [x + 100 * s, y + 30 * s], [x + 104 * s, y - 70 * s], [x + 94 * s, y - 150 * s], [x + 62 * s, y - 214 * s], [x - 62 * s, y - 214 * s]], hair, { key: key + 'lh', sb: 6, sy: 4 });
+  person(x, y, s, { ...o, hair });
+  cut([[x - 84 * s, y - 146 * s], [x - 64 * s, y - 204 * s], [x + 6 * s, y - 220 * s], [x + 72 * s, y - 192 * s], [x + 86 * s, y - 136 * s], [x + 40 * s, y - 172 * s], [x - 30 * s, y - 166 * s]], hair, { key: key + 'fr', sb: 4, sy: 3 });
+  dot(x - 77 * s, y - 88 * s, 6 * s, GR.cream); dot(x + 77 * s, y - 88 * s, 6 * s, GR.cream);
+}
