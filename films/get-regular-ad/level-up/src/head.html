@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Level Up · Get Regular</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #1b1714; overflow: hidden; }
+  body { display: flex; align-items: center; justify-content: center; }
+  canvas { height: min(100vh, calc(100vw * 16 / 9)); width: auto; aspect-ratio: 9 / 16; display: block; cursor: pointer; }
+</style>
+</head>
+<body>
+<canvas id="c" width="1080" height="1920"></canvas>
+<script>
+"use strict";
+// =====================================================================
+//  LEVEL UP — Get Regular, "How your gut keeps time" #3. 9:16, ~48.6s, 24fps, voice-led (VOICE is the clock).
+//  Device (grammar from a game-style reference): LV.1 gut guesser -> blank at the doctor -> LEVEL UP -> four tools,
+//  +1 each into an inventory -> back at the doctor, every question answered -> from guessing to knowing.
+//  Colour: GOLD = the pattern (tool three), as in the series. Pain point: being dismissed for lack of details
+//  (KFF 2022: 29% of women vs 21% of men felt dismissed; AGA 2022: 1 in 3 only raise bowel symptoms if asked).
+// =====================================================================
+const FPS = 24, W = 1080, H = 1920;
+const BPM = 120, BEAT = 60 / BPM, E8 = BEAT / 2, E16 = BEAT / 4;
+const DURATION = typeof VOICE !== "undefined" ? Math.round(VOICE.duration * FPS) / FPS : 49.2;
+const NFRAMES = Math.round(DURATION * FPS);
+const LOOP_T = NFRAMES / FPS;
+const SAFE = { top: 240, bottom: 420, right: 140 };          // 9:16 platform UI; keep content in x 60–940, y 250–1500
+const HAND = '"DM Sans", Inter, "Helvetica Neue", Arial, sans-serif';   // the brand's UI face (OFL), embedded via piece.json fonts
+const SERIF = '"Instrument Serif", "Times New Roman", serif';           // italic accent face (OFL), stands in for the site's display serif
+const CX = 500;                                               // caption centre (left of the right-hand action rail)
+
+// ---- the voice is the clock: VL(id) = a line {t0, t1, words}; VW(id, word, n) = when the n-th `word` of that line starts
+const VLINES = typeof VOICE !== 'undefined' ? VOICE.lines : [];
+const VL = (id) => VLINES.find((l) => l.id === id) || { t0: 0, t1: 0, words: [] };
+const norm = (s) => s.toLowerCase().replace(/[^a-z0-9']/g, '');
+function VW(id, word, n = 0) {
+  const L = VL(id), hits = (L.words || []).filter((w) => norm(w.w) === norm(word));
+  return hits.length ? hits[Math.min(n, hits.length - 1)].t0 : L.t0;
+}
+const AFTER = (id, pad = 0.3) => VL(id).t1 + pad;           // a beat starts ~0.3s after the previous sentence ends
+
+// eras: [t0, t1, scene]. Hard cuts in the pauses (the reference's game grammar); one morph into the end card.
+const snap = (t) => Math.round(t * FPS) / FPS;
+const HIT = snap(VL('level').t0 - 0.28);                       // LEVEL UP: the turn, the loudest hit, in the pause before "Time to level up"
+const TB = { doc: snap(AFTER('off', 0.3)), level: HIT - 0.04, tools: snap(AFTER('level', 0.3)), boss: snap(AFTER('four', 0.28)), from: snap(AFTER('back', 0.4)), end: snap(AFTER('from', 0.36)) };
+const ERA_LIST = [
+  [0, TB.doc, () => sIntro()],
+  [TB.doc, TB.level, () => sDoctor()],
+  [TB.level, TB.tools, () => sLevel()],
+  [TB.tools, TB.boss, () => sTools()],
+  [TB.boss, TB.from, () => sBoss()],
+  [TB.from, TB.end, () => sFromTo()],
+  [TB.end, DURATION, () => sEnd()],
+];
+const SHOTS = [
+  ['intro', 0, 0, TB.doc, 'meet Maya, LV.1 gut guesser: bloating, weird bathroom days, low energy'],
+  ['doctor', 1, TB.doc, TB.level, 'the questions come fast; her mind goes blank; could be stress'],
+  ['level', 2, TB.level, TB.tools, 'LEVEL UP'],
+  ['tools', 3, TB.tools, TB.boss, 'four tools, +1 each: log it, what came before, a few weeks, a summary'],
+  ['boss', 4, TB.boss, TB.from, 'back at the doctor: every question has an answer'],
+  ['fromto', 5, TB.from, TB.end, 'from guessing to knowing'],
+  ['end', 6, TB.end, DURATION, 'Get Regular: a report you can bring to your doctor; download'],
+];
+const TIMELINE = {
+  width: W, height: H, fps: FPS, bpm: BPM, duration: DURATION, frames: NFRAMES, loop: LOOP_T, safe: SAFE,
+  format: 'morph-chain',
+  shots: SHOTS.map(([key, era, t0, t1, title], i) => ({ id: i + 1, key, era, t0, t1, title })),
+  cuts: [TB.doc, TB.level, TB.tools, TB.boss, TB.from],
+  morphs: [TB.end],
+  cues: {
+    maya: VW('open', 'maya'), lv: VW('open', 'level'), bloat: VW('off', 'bloating'), bath: VW('off', 'bathroom'), energy: VW('off', 'energy'),
+    since: VW('doc', 'since'), often: VW('doc', 'often'), after: VW('doc', 'after'), blank: VW('blank', 'blank'), stress: VW('stress', 'stress'),
+    hit: HIT,
+    s1: VL('one').t0, happens: VW('one', 'happens'), memory: VW('one', 'memory'),
+    s2: VL('two').t0, meals: VW('two', 'meals'), sleep: VW('two', 'sleep'), stress2: VW('two', 'stress'), cycle: VW('two', 'cycle'),
+    s3: VL('three').t0, weeks: VW('three', 'weeks'), pattern: VW('three', 'pattern'),
+    s4: VL('four').t0, summary: VW('four', 'summary'), story: VW('four', 'story'),
+    answers: VW('back', 'answers'), guessing: VW('from', 'guessing'), knowing: VW('from', 'knowing'),
+    app: VL('app').t0, report: VW('app', 'report'),
+  },
+  acts: [
+    { name: '1 Guesser', role: 'build',   t0: 0,         t1: TB.doc },
+    { name: '2 Blank',   role: 'peak',    t0: TB.doc,    t1: VL('stress').t1 },
+    { name: '3 Hush',    role: 'silence', t0: VL('stress').t1, t1: HIT },
+    { name: '4 Level up', role: 'gift',   t0: HIT,       t1: TB.tools },
+    { name: '5 Tools',   role: 'journey', t0: TB.tools,  t1: TB.from },
+    { name: '6 Knowing', role: 'goodbye', t0: TB.from,   t1: DURATION },
+  ],
+  narration: VLINES.map((l) => ({ id: l.id, t0: l.t0, t1: l.t1, text: l.text })),
+  board: [
+    { t: VL('off').t1, title: 'LV.1 gut guesser', sound: 'game pops', next: 'cut to the doctor' },
+    { t: VL('blank').t1, title: 'her mind goes blank', sound: 'the music drops out', next: 'filed: could be stress' },
+    { t: HIT + 0.6, title: 'LEVEL UP', sound: 'the loudest hit, a rising arpeggio', next: 'the tools' },
+    { t: VL('two').t1 - 0.2, title: '+1 context', sound: 'coin blips', next: 'three' },
+    { t: VL('three').t1, title: '+1 pattern (gold)', sound: 'chime', next: 'four' },
+    { t: VL('back').t1, title: 'every question answered', sound: 'three checks', next: 'from guessing to knowing' },
+    { t: VL('from').t1, title: 'from guessing to knowing', sound: 'a pen strike', next: 'end card' },
+    { t: DURATION - 1, title: 'download Get Regular', sound: 'the motif, resolved', next: 'end' },
+  ],
+};
+window.TIMELINE = TIMELINE;
+
+// ---- the brand palette (sampled from getregular.com: #111111 ink, #F0EEEB ground, #9E7E58 / #C4A882 warm accents)
+const GR = {
+  wall: '#ECE5DA', wall2: '#E2D8C9', cream: '#F5F1EA', paper: '#FBF8F2', ink: '#1E1A17', inkSoft: '#6A5F55', taupe: '#8C7E6E',
+  sand: '#C9B596', gold: '#B0864C', goldL: '#E2C795', red: '#B4443A',
+  sage: '#A3B297', sageD: '#76896B', terra: '#C98463', blush: '#E7C6B6', dusk: '#556070', duskD: '#3A4250',
+  wood: '#BC8F66', woodD: '#946B4B', woodL: '#D6AE86', cloud: '#A7ACB4', cloudD: '#8A9099', butter: '#EDDDB0', dark: '#161311',
+  skin: '#D9A07C', hair: '#3A2A22',
+};

@@ -1,0 +1,71 @@
+{
+  "lead": 0.6,
+  "tail": 3.6,
+  "lines": [
+    {
+      "id": "open",
+      "text": "Meet Maya. Level one: gut guesser.",
+      "after": 0.6
+    },
+    {
+      "id": "off",
+      "text": "Something's felt off for months. Bloating. Weird bathroom days. Low energy.",
+      "after": 0.7
+    },
+    {
+      "id": "doc",
+      "text": "At the doctor, the questions come fast. Since when? How often? After what?",
+      "after": 0.5
+    },
+    {
+      "id": "blank",
+      "text": "And her mind goes blank.",
+      "after": 0.6
+    },
+    {
+      "id": "stress",
+      "text": "So it ends with: could be stress, let's keep an eye on it.",
+      "after": 0.8
+    },
+    {
+      "id": "level",
+      "text": "Time to level up.",
+      "after": 0.8
+    },
+    {
+      "id": "one",
+      "text": "One. Log it when it happens, not from memory.",
+      "after": 0.6
+    },
+    {
+      "id": "two",
+      "text": "Two. Note what came before: meals, sleep, stress, your cycle.",
+      "after": 0.6
+    },
+    {
+      "id": "three",
+      "text": "Three. Give it a few weeks, so a pattern can repeat.",
+      "after": 0.6
+    },
+    {
+      "id": "four",
+      "text": "Four. Bring a summary, not a story.",
+      "after": 0.7
+    },
+    {
+      "id": "back",
+      "text": "Back at the doctor, the questions have answers.",
+      "after": 0.9
+    },
+    {
+      "id": "from",
+      "text": "From guessing, to knowing.",
+      "after": 0.8
+    },
+    {
+      "id": "app",
+      "text": "Get Regular turns your daily logs into a report you can bring to your doctor.",
+      "after": 0
+    }
+  ]
+}
