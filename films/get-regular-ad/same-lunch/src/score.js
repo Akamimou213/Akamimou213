@@ -33,6 +33,6 @@
   // the lunch falls into the hush, then the spill
   sweep(cu.hit - 0.32, cu.hit - 0.01, 0.015, 3000, 900, 0);
   each(cu.hit + 0.05, cu.hit + 0.7, 0.09, (t, k) => blip(t, 500 - k * 30, 300 - k * 20, 0.08, 0.04 * (1 - k / 8), k % 2 ? 0.4 : -0.4));
-  [cu.meals, cu.sleep, cu.stress2, cu.cycle].forEach((t, i) => scratch(t - 0.2, t + 0.15, 0.016));
+  [cu.meals, cu.symptoms, cu.bathroom, cu.mood].forEach((t, i) => scratch(t - 0.2, t + 0.15, 0.016));
   chime(cu.yours - 0.25, [nz('D6'), nz('A6')], 0.04, 0.2);
   T.morphs.forEach((tc) => sweep(tc - 0.42, tc + 0.02, 0.012, 450, 2600, 0));

@@ -72,8 +72,8 @@ function sCup() {
   handLetter('Monash FODMAP · "Stack Cup"', CUP.cx, CUP.bot + 70, 36, { reveal: ev(CU.cup + 0.6, 0.6), key: 'src', col: SK.graph });
 }
 
-// ---- 3. Get Regular: meals, sleep, stress, cycle side by side
-const ROWSL = [['meals', 'plate', 'meals'], ['sleep', 'moon', 'sleep'], ['stress2', 'stress', 'stress'], ['cycle', 'cycle', 'cycle']];
+// ---- 3. Get Regular: meals, symptoms, bathroom trips and mood, day by day
+const ROWSL = [['meals', 'plate', 'meals'], ['symptoms', 'storm', 'symptoms'], ['bathroom', 'roll', 'bathroom'], ['mood', 'mood', 'mood']];
 const DAYS = 'MTWTFSS';
 function sLog() {
   sketchPage({ grid: 'dots' });
@@ -83,7 +83,7 @@ function sLog() {
   const hl = ev(CU.yours - 0.3, 0.5); if (hl > 0) highlight(g.x + 3 * g.cw + 8, g.x + 4 * g.cw - 8, g.y + 2 * g.rh, 4 * g.rh, hl, { key: 'thuCol', a: 0.45 });
   ROWSL.forEach(([cue, icon, name], r) => {
     const y = g.y + r * g.rh + g.rh / 2, t = CU[cue];
-    doodle(icon, 140, y, 0.8, { key: 'row' + r, part: ev(t - 0.2, 0.4) });
+    doodle(icon, 140, y, icon === 'storm' ? 0.55 : 0.8, { key: 'row' + r, part: ev(t - 0.2, 0.4) });
     for (let c = 0; c < 7; c++) {
       const k = ev(t + c * 0.05, 0.25); if (k <= 0) continue;
       const R = RNG('mark', r, c), amt = [[0.4, 0.5, 0.3, 0.9, 0.4, 0.5, 0.4], [0.3, 0.3, 0.5, 0.9, 0.2, 0.3, 0.3], [0.2, 0.4, 0.6, 0.9, 0.5, 0.2, 0.2], [0.1, 0.1, 0.4, 0.9, 0.3, 0.1, 0.1]][r][c];
