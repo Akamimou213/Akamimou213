@@ -1,0 +1,50 @@
+{
+  "name": "same-lunch",
+  "title": "Same Lunch, Different Day \u00b7 Get Regular",
+  "format": {
+    "width": 1080,
+    "height": 1920,
+    "fps": 24,
+    "duration": 50
+  },
+  "storyFormat": "voice-led, one page, camera across it",
+  "style": "sketchbook",
+  "fonts": [
+    {
+      "family": "Caveat",
+      "file": "assets/fonts/caveat-latin-500-normal.woff2",
+      "weight": "500"
+    },
+    {
+      "family": "Caveat",
+      "file": "assets/fonts/caveat-latin-700-normal.woff2",
+      "weight": "700"
+    },
+    {
+      "family": "DM Sans",
+      "file": "assets/fonts/dm-sans-latin-500-normal.woff2",
+      "weight": "500"
+    },
+    {
+      "family": "DM Sans",
+      "file": "assets/fonts/dm-sans-latin-700-normal.woff2",
+      "weight": "700"
+    }
+  ],
+  "voice": {
+    "file": "voice/voice.wav",
+    "music": -20
+  },
+  "review": {
+    "safe": {
+      "top": 240,
+      "bottom": 420,
+      "right": 140
+    },
+    "refs": {}
+  },
+  "scenes": [
+    "src/sk.js",
+    "src/scenes.js"
+  ]
+}

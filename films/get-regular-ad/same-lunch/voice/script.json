@@ -1,0 +1,16 @@
+{
+  "lead": 0.7,
+  "tail": 3.8,
+  "lines": [
+    { "id": "same",   "text": "Same lunch. Fine on Monday. Rough on Thursday.", "after": 0.6 },
+    { "id": "lunch",  "text": "So is it the lunch?", "after": 0.7 },
+    { "id": "cup",    "text": "Gut researchers at Monash University describe it more like a cup than a switch.", "after": 0.6 },
+    { "id": "stack",  "text": "Each food adds a little. Eat a few close together, and they stack up.", "after": 0.6 },
+    { "id": "other",  "text": "And other things can add to it too.", "after": 0.4 },
+    { "id": "three",  "text": "A short night. A stressful week. The days around your period.", "after": 0.6 },
+    { "id": "spill",  "text": "So on Thursday, the same lunch is the drop that spills it.", "after": 1.3 },
+    { "id": "never",  "text": "It was never just the lunch. It was everything in the cup.", "after": 0.7 },
+    { "id": "app",    "text": "Get Regular logs your meals, sleep, stress and cycle side by side, so you can see what fills yours.", "after": 0.6 },
+    { "id": "close",  "text": "Notice what fills your cup.", "after": 0 }
+  ]
+}

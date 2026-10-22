@@ -1,0 +1,101 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Same Lunch, Different Day · Get Regular</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #1b1714; overflow: hidden; }
+  body { display: flex; align-items: center; justify-content: center; }
+  canvas { height: min(100vh, calc(100vw * 16 / 9)); width: auto; aspect-ratio: 9 / 16; display: block; cursor: pointer; }
+</style>
+</head>
+<body>
+<canvas id="c" width="1080" height="1920"></canvas>
+<script>
+"use strict";
+// =====================================================================
+//  SAME LUNCH, DIFFERENT DAY — Get Regular, "How your gut keeps time" #4. Sketchbook style. 9:16, ~48.6s, 24fps, voice-led (VOICE is the clock).
+//  Device: tolerance is a cup, not a switch (Monash FODMAP "Stack Cup", 2022; FODMAP stacking, 2019). Foods stack; a short
+//  night, stress and the days around a period add too (GI symptoms rise around menses: PMC4527267, PMC7883586; gut-brain:
+//  Koloski 2012/2016). On Thursday the same lunch spills it. TERRACOTTA = what's in the cup (the one accent).
+// =====================================================================
+const FPS = 24, W = 1080, H = 1920;
+const BPM = 120, BEAT = 60 / BPM, E8 = BEAT / 2, E16 = BEAT / 4;
+const DURATION = typeof VOICE !== "undefined" ? Math.round(VOICE.duration * FPS) / FPS : 49.2;
+const NFRAMES = Math.round(DURATION * FPS);
+const LOOP_T = NFRAMES / FPS;
+const SAFE = { top: 240, bottom: 420, right: 140 };          // 9:16 platform UI; keep content in x 60–940, y 250–1500
+const HAND = '"Caveat", "Comic Sans MS", cursive';                   // hand lettering (OFL), embedded via piece.json fonts
+const SANS = '"DM Sans", Inter, Arial, sans-serif';                     // the brand's face, for the CTA only   // the brand's UI face (OFL), embedded via piece.json fonts
+const SERIF = '"Instrument Serif", "Times New Roman", serif';           // italic accent face (OFL), stands in for the site's display serif
+const CX = 500;                                               // caption centre (left of the right-hand action rail)
+
+// ---- the voice is the clock: VL(id) = a line {t0, t1, words}; VW(id, word, n) = when the n-th `word` of that line starts
+const VLINES = typeof VOICE !== 'undefined' ? VOICE.lines : [];
+const VL = (id) => VLINES.find((l) => l.id === id) || { t0: 0, t1: 0, words: [] };
+const norm = (s) => s.toLowerCase().replace(/[^a-z0-9']/g, '');
+function VW(id, word, n = 0) {
+  const L = VL(id), hits = (L.words || []).filter((w) => norm(w.w) === norm(word));
+  return hits.length ? hits[Math.min(n, hits.length - 1)].t0 : L.t0;
+}
+const AFTER = (id, pad = 0.3) => VL(id).t1 + pad;           // a beat starts ~0.3s after the previous sentence ends
+
+// eras: [t0, t1, scene]. One sketchbook page; each era change is a graphite-window morph in a pause of the voice.
+const snap = (t) => Math.round(t * FPS) / FPS;
+const HIT = snap(VL('spill').t1 + 0.3);                        // the cup spills: the turn, the loudest hit, in the pause after "spills it"
+const TB = { cup: snap(AFTER('lunch', 0.3)), app: snap(AFTER('never', 0.34)), end: snap(AFTER('app', 0.34)) };
+const ERA_LIST = [
+  [0, TB.cup, () => sDays()],
+  [TB.cup, TB.app, () => sCup()],
+  [TB.app, TB.end, () => sLog()],
+  [TB.end, DURATION, () => sEnd()],
+];
+const SHOTS = [
+  ['days', 0, 0, TB.cup, 'same lunch: fine Monday, rough Thursday; is it the lunch?'],
+  ['cup', 1, TB.cup, TB.app, 'a cup, not a switch: foods stack, a short night, stress, the cycle; the same lunch spills it'],
+  ['log', 2, TB.app, TB.end, 'Get Regular logs meals, sleep, stress and cycle side by side'],
+  ['end', 3, TB.end, DURATION, 'notice what fills your cup; download'],
+];
+const TIMELINE = {
+  width: W, height: H, fps: FPS, bpm: BPM, duration: DURATION, frames: NFRAMES, loop: LOOP_T, safe: SAFE,
+  format: 'morph-chain',
+  shots: SHOTS.map(([key, era, t0, t1, title], i) => ({ id: i + 1, key, era, t0, t1, title })),
+  cuts: [],
+  morphs: [TB.cup, TB.app, TB.end],
+  cues: {
+    mon: VW('same', 'monday'), thu: VW('same', 'thursday'), q: VW('lunch', 'lunch'),
+    cup: VW('cup', 'cup'), sw: VW('cup', 'switch'),
+    f1: VW('stack', 'each'), f2: VW('stack', 'little'), f3: VW('stack', 'few'), f4: VW('stack', 'together'), stack: VW('stack', 'stack'),
+    night: VW('three', 'night'), stress: VW('three', 'stressful'), period: VW('three', 'period'),
+    lunchDrop: VW('spill', 'lunch'), hit: HIT, everything: VW('never', 'everything'),
+    logo: VW('app', 'regular'), meals: VW('app', 'meals'), sleep: VW('app', 'sleep'), stress2: VW('app', 'stress'), cycle: VW('app', 'cycle'), yours: VW('app', 'yours'),
+    close: VL('close').t0,
+  },
+  acts: [
+    { name: '1 Same lunch', role: 'build',   t0: 0,      t1: TB.cup },
+    { name: '2 The cup',    role: 'journey', t0: TB.cup, t1: VL('three').t1 },
+    { name: '3 Hush',       role: 'silence', t0: VL('spill').t1 - 0.1, t1: HIT },
+    { name: '4 Spill',      role: 'gift',    t0: HIT,    t1: TB.app },
+    { name: '5 Notice',     role: 'goodbye', t0: TB.app, t1: DURATION },
+  ],
+  narration: VLINES.map((l) => ({ id: l.id, t0: l.t0, t1: l.t1, text: l.text })),
+  board: [
+    { t: VL('lunch').t1, title: 'same lunch, different day', sound: 'pencil scratches', next: 'the sandwich becomes the cup' },
+    { t: VL('stack').t1, title: 'foods stack in the cup', sound: 'plops, rising', next: 'other things' },
+    { t: VL('three').t1, title: 'a short night, stress, the cycle', sound: 'three plops', next: 'the lunch' },
+    { t: HIT + 0.7, title: 'the same lunch spills it', sound: 'the loudest hit', next: 'everything in the cup' },
+    { t: VL('app').t1, title: 'side by side', sound: 'warm chord, ticks', next: 'end card' },
+    { t: DURATION - 1, title: 'notice what fills your cup', sound: 'the motif, resolved', next: 'end' },
+  ],
+};
+window.TIMELINE = TIMELINE;
+
+// ---- the brand palette (sampled from getregular.com: #111111 ink, #F0EEEB ground, #9E7E58 / #C4A882 warm accents)
+const GR = {
+  wall: '#ECE5DA', wall2: '#E2D8C9', cream: '#F5F1EA', paper: '#FBF8F2', ink: '#1E1A17', inkSoft: '#6A5F55', taupe: '#8C7E6E',
+  sand: '#C9B596', gold: '#B0864C', goldL: '#E2C795', red: '#B4443A',
+  sage: '#A3B297', sageD: '#76896B', terra: '#C98463', blush: '#E7C6B6', dusk: '#556070', duskD: '#3A4250',
+  wood: '#BC8F66', woodD: '#946B4B', woodL: '#D6AE86', cloud: '#A7ACB4', cloudD: '#8A9099', butter: '#EDDDB0', dark: '#161311',
+  skin: '#D9A07C', hair: '#3A2A22',
+};
