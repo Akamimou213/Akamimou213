@@ -204,5 +204,8 @@ function sEnd() {
   P.forEach(([x, y], i) => dayCard(x - 50, y - 60, 100, 120, { key: 'de' + i, s: popS(TB.end + 0.6 + i * 0.1) }));
   goldLink([P[0][0] + 20, P[0][1] - 10], [P[1][0] - 10, P[1][1]], EZ.o2(ev(CU.close + 0.3, 0.5)), { key: 'ge0', lift: 50 });
   goldLink([P[1][0] + 20, P[1][1] - 10], [P[2][0] - 10, P[2][1]], EZ.o2(ev(CU.close + 0.6, 0.5)), { key: 'ge1', lift: 50 });
-  sans('Educational only. Not medical advice.', 540, 1290, 28, '#9C9389', { weight: 500 });
+  // the CTA: a paper button
+  const cb = popS(VL('close').t1 + 0.7);
+  if (cb > 0) { ctx.save(); ctx.translate(540, 1330); ctx.scale(cb, cb); cut(rect(-300, -62, 600, 124, 62), GR.cream, { key: 'ctaBtn', sb: 12, sy: 6 }); sans('Download Get Regular', 0, -4, 44, GR.dark, { weight: 700 }); sans('Start logging today', 0, 38, 30, GR.inkSoft, { weight: 500 }); ctx.restore(); }
+  sans('Educational only. Not medical advice.', 540, 1440, 24, '#9C9389', { weight: 500 });
 }

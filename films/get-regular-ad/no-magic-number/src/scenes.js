@@ -137,6 +137,8 @@ function sEnd() {
   serif('Know your normal.', 540, 950, 88, GR.cream, { key: 'tagE', frac: EZ.o2(ev(TB.end + 0.3, 0.9)) });
   const g = EZ.o2(ev(CU.close + 0.4, 0.8));
   if (g > 0) { cut(rect(300, 1040, 480 * g, 60, 20), 'rgba(176,134,76,0.5)', { key: 'endBand', shadow: false, tear: 0.6, grain: 0.4 }); [0, 1, 2, 3, 4, 5].forEach((i) => { if (i / 6 < g) dot(330 + i * 82, 1070 + Math.sin(i * 1.7) * 10, 11, GR.cream); }); }
-  sans('Blood, black stool, weight loss or a lasting change? See a doctor.', 520, 1210, 26, '#B9AFA3', { weight: 500 });
-  sans('Educational only. Not medical advice.', 520, 1256, 26, '#9C9389', { weight: 500 });
+  // the CTA: a paper button
+  const cb = popS(CU.close + 1.2);
+  if (cb > 0) { ctx.save(); ctx.translate(520, 1235); ctx.scale(cb, cb); cut(rect(-300, -62, 600, 124, 62), GR.cream, { key: 'ctaBtn', sb: 12, sy: 6 }); sans('Download Get Regular', 0, -4, 44, GR.dark, { weight: 700 }); sans('Start logging today', 0, 38, 30, GR.inkSoft, { weight: 500 }); ctx.restore(); }
+  sans('Educational only. Not medical advice.', 520, 1340, 24, '#9C9389', { weight: 500 });
 }
