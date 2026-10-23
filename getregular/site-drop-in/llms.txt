@@ -1,0 +1,37 @@
+# Get Regular
+
+> Get Regular is an AI gut health app for iPhone. It helps adults with bloating, constipation or IBS symptoms find what drives their digestion by analyzing stool photos (Bristol Stool Scale), meals and symptoms together. It was built with board-certified gastroenterologist Dr. Michael Schopis, MD. Made by Get Regular Health, Inc. (US).
+
+## Facts
+- Name: Get Regular (App Store title: "Get Regular: AI Gut Health")
+- Company: Get Regular Health, Inc.
+- Platform: iOS (iPhone, iPad). App Store: https://apps.apple.com/us/app/get-regular-ai-gut-health/id6749188690
+- Category: Health & Fitness
+- Price: free download with subscription (US: $12.99/month or $99.99/year, as listed on the App Store on 2026-10-23)
+- Clinical advisor: Michael Schopis, MD, board-certified gastroenterologist
+- Contact: hello@getregular.com
+
+## Who it is for
+- Adults with IBS-type symptoms, bloating, constipation or unpredictable digestion
+- People who want to find their food triggers
+- People preparing for a gastroenterology appointment who want tracked data
+
+## What it does
+- AI stool analysis: classifies a stool photo on the Bristol Stool Scale (types 1–7); manual entry is available without a photo
+- Meal logging by photo with a nutrition breakdown and food score
+- Symptom, hydration and bowel-movement tracking
+- Daily Gut and Nutrition scores; weekly digest
+- Gut Check: an AI advisor that answers questions about the user's own data
+- Personalized experiments (for example, testing more fiber)
+- Doctor Report PDF to share with a clinician
+- Apple Health integration; optional period tracking
+
+## What it is not
+- Not a diagnostic tool and not a replacement for a doctor. It is a wellness tracker.
+
+## Key pages
+- [How AI stool analysis works](https://getregular.com/how-it-works/ai-stool-analysis)
+- [Medical review](https://getregular.com/about/medical-review)
+- [Bristol Stool Chart guide](https://getregular.com/blog/bristol-stool-chart)
+- [Poop color chart](https://getregular.com/stool/poop-color-chart)
+- [Privacy](https://getregular.com/legal/privacy-policy)

@@ -30,7 +30,10 @@ def infer(path):
     words=[w for w in re.split(r'[-_]+',slug.lower()) if w and w not in JUNK and not re.fullmatch(r'\d+',w)]
     return ' '.join(words[:7])
 def cluster(path):
-    p=path.lower()
+    # classify on the page slug (plus parent dir for /bristol/, /stool/ style folders), not the
+    # whole path, so a blog folder named e.g. /poopcheck-blog/ doesn't drag every post into "stool"
+    segs=[x for x in path.lower().strip('/').split('/') if x]
+    p='/'+'/'.join(x for x in segs if not x.endswith('blog') and x not in ('blogs','signals','learn','post','article','en'))+'/'
     for name,rx in CL:
         if re.search(rx,p): return name
     return None
