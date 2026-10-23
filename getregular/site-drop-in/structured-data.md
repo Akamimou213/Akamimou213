@@ -1,6 +1,6 @@
 # Structured data for getregular.com
 
-Ahrefs' test found schema alone barely moves AI citations (claim under verification; see the strategy doc). We still ship it. It is cheap, it makes the entity unambiguous (who the company is, who reviews the content, which app it is), and Google uses it for rich results. Drop these into the Next.js layouts as `<script type="application/ld+json">`.
+Ahrefs tracked 1,885 pages that added schema and found no measurable lift in AI citations ([May 2026](https://ahrefs.com/blog/schema-ai-citations/)). Google says no special markup is needed for AI features ([AI optimization guide](https://developers.google.com/search/docs/fundamentals/ai-optimization-guide)). So treat this as hygiene, not a growth lever. It takes about an hour, it makes the entity unambiguous (who the company is, who reviews the content, which app it is), and Google still uses Article, Breadcrumb and Organization markup. Drop these into the Next.js layouts as `<script type="application/ld+json">`.
 
 Rules:
 - Use one canonical host everywhere (see the technical fixes in `../STRATEGY.md`). The examples use `https://getregular.com`.
@@ -95,7 +95,7 @@ Show the same facts on the page itself ("Medically reviewed by Michael Schopis, 
 
 ## 4. FAQ blocks
 
-Google limits FAQ rich results to authoritative government and health sites, so don't expect a SERP feature. Still write the Q&A as real `<h2>`/`<h3>` question headings with a 40–60-word answer directly underneath. AI systems retrieve sections like that cleanly. Add `FAQPage` markup only where the Q&A is visible on the page.
+Google retired FAQ rich results on May 7, 2026 ([Search Central updates](https://developers.google.com/search/updates)), so `FAQPage` markup no longer earns a SERP feature. Keep the Q&A anyway, as real `<h2>`/`<h3>` question headings with a 40–60-word answer directly underneath, because readers skim pages that way and other engines (Bing, ChatGPT search) still read them. Whether to keep `FAQPage` JSON-LD is optional and low priority.
 
 ## 5. BreadcrumbList on articles, compare pages and programmatic pages
 
