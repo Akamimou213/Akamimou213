@@ -77,7 +77,7 @@ function sReceipt() {
   if (TT >= CU.amount) ink([[RC.x + RC.w - 200, YT + 14], [lerp(RC.x + RC.w - 200, RC.x + RC.w - 30, ev(CU.amount, 0.3)), YT + 10]], { w: 6, color: GR.sageD, amt: 0.6, key: 'ulT' });
   markerCircle(RC.x + 92, RLY(2) - 12, 100, 50, EZ.o2(ev(CU.stamp - 0.1, 0.45)), 'mc4');
   stamp('6 HRS BEFORE BED', RC.x + RC.w / 2, YT + RC.lh + 100, 46, { s: slam(CU.hit), rot: -0.08 });
-  sans('FDA: 400 mg a day for most adults', 500, 1250, 24, GR.inkSoft, { weight: 500 });
+  if (TT >= CU.fda) { ctx.save(); ctx.globalAlpha = ev(CU.fda, 0.4); sans('FDA: 400 mg a day for most adults', 500, 1250, 24, GR.inkSoft, { weight: 500 }); ctx.restore(); }
 }
 function camReceipt() {
   const t = XT(), [x16, y16] = T16();
