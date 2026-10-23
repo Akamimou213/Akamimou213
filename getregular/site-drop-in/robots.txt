@@ -1,0 +1,46 @@
+# getregular.com — drop into the Next.js app as public/robots.txt
+# (or generate it from app/robots.ts). Today the URL returns 404.
+#
+# Search engines and AI assistants are allowed on purpose: being retrieved
+# is the precondition for being cited. Only private/app routes are closed.
+
+User-agent: *
+Allow: /
+Disallow: /api/
+
+# AI search and user-triggered fetchers: these decide whether ChatGPT,
+# Claude, Perplexity can read and cite the site in answers.
+User-agent: OAI-SearchBot
+Allow: /
+
+User-agent: ChatGPT-User
+Allow: /
+
+User-agent: Claude-SearchBot
+Allow: /
+
+User-agent: Claude-User
+Allow: /
+
+User-agent: PerplexityBot
+Allow: /
+
+User-agent: Perplexity-User
+Allow: /
+
+# Training crawlers. Allowing them helps future model knowledge of the brand
+# (the "no source cited" share of AI answers). Switch to Disallow only if
+# legal/privacy decides otherwise; it does not affect Google Search ranking.
+User-agent: GPTBot
+Allow: /
+
+User-agent: ClaudeBot
+Allow: /
+
+User-agent: Google-Extended
+Allow: /
+
+User-agent: Applebot-Extended
+Allow: /
+
+Sitemap: https://getregular.com/sitemap.xml
