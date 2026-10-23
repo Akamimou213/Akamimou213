@@ -43,8 +43,8 @@ const AFTER = (id, pad = 0.3) => VL(id).t1 + pad;           // a beat starts ~0.
 
 // eras: [t0, t1, scene]. Each era change is a shape morph in a pause of the voice.
 const snap = (t) => Math.round(t * FPS) / FPS;
-const HIT = snap(VL('turn').t1 + 0.3);                          // the turn: the 4 p.m. line is stamped, in the pause after "The time stamp is."
-const TB = { clock: snap(AFTER('turn', 0.85)), again: snap(AFTER('study', 0.32)), fix: snap(AFTER('again', 0.36)), end: snap(AFTER('cta2', 0.3)) };
+const HIT = snap(VL('turn').t1 + 0.22);                          // the turn: the 4 p.m. line is stamped, in the pause after "The time stamp is."
+const TB = { clock: snap(AFTER('turn', 1.05)), again: snap(AFTER('study', 0.32)), fix: snap(AFTER('again', 0.36)), end: snap(AFTER('cta2', 0.3)) };
 const ERA_LIST = [
   [0, TB.clock, () => sReceipt()],
   [TB.clock, TB.again, () => sClock()],
@@ -61,10 +61,10 @@ const SHOTS = [
 ];
 const TIMELINE = {
   width: W, height: H, fps: FPS, bpm: BPM, duration: DURATION, frames: NFRAMES, loop: LOOP_T, safe: SAFE,
-  format: 'morph-chain',
+  format: 'morph-chain',   // v2: hard cuts mid-motion with matched vectors (see src/bridges.js)
   shots: SHOTS.map(([key, era, t0, t1, title], i) => ({ id: i + 1, key, era, t0, t1, title })),
-  cuts: [],
-  morphs: [TB.clock, TB.again, TB.fix, TB.end],
+  cuts: [TB.clock, TB.again, TB.fix, TB.end],
+  morphs: [],
   cues: {
     print: VW('hook', 'print'), r1: VL('c1').t0, r2: VW('c23', 'two'), r3: VW('c23', 'three'),
     total: VW('total', 'total'), fda: VW('total', 'four'), amount: VW('turn', 'amount'), stamp: VW('turn', 'stamp'), hit: HIT,

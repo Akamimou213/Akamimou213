@@ -1,17 +1,66 @@
 {
   "name": "caffeine-receipt",
-  "title": "The Caffeine Receipt · RYZE",
-  "format": { "width": 1080, "height": 1920, "fps": 24, "duration": 52 },
+  "title": "The Caffeine Receipt \u00b7 RYZE",
+  "format": {
+    "width": 1080,
+    "height": 1920,
+    "fps": 24,
+    "duration": 52
+  },
   "storyFormat": "voice-led, one prop (a receipt), morph-joined",
   "style": "cut-paper",
-  "scenes": ["src/lib.js", "src/scenes.js"],
   "fonts": [
-    { "family": "DM Sans", "file": "assets/fonts/dm-sans-latin-500-normal.woff2", "weight": "500" },
-    { "family": "DM Sans", "file": "assets/fonts/dm-sans-latin-700-normal.woff2", "weight": "700" },
-    { "family": "Instrument Serif", "file": "assets/fonts/instrument-serif-latin-400-italic.woff2", "weight": "400", "style": "italic" },
-    { "family": "IBM Plex Mono", "file": "assets/fonts/plex-mono-400.woff2", "weight": "400" },
-    { "family": "IBM Plex Mono", "file": "assets/fonts/plex-mono-600.woff2", "weight": "600" }
+    {
+      "family": "DM Sans",
+      "file": "assets/fonts/dm-sans-latin-500-normal.woff2",
+      "weight": "500"
+    },
+    {
+      "family": "DM Sans",
+      "file": "assets/fonts/dm-sans-latin-700-normal.woff2",
+      "weight": "700"
+    },
+    {
+      "family": "Instrument Serif",
+      "file": "assets/fonts/instrument-serif-latin-400-italic.woff2",
+      "weight": "400",
+      "style": "italic"
+    },
+    {
+      "family": "IBM Plex Mono",
+      "file": "assets/fonts/plex-mono-400.woff2",
+      "weight": "400"
+    },
+    {
+      "family": "IBM Plex Mono",
+      "file": "assets/fonts/plex-mono-600.woff2",
+      "weight": "600"
+    }
   ],
-  "voice": { "file": "voice/voice.wav", "music": -20 },
-  "review": { "safe": { "top": 240, "bottom": 420, "right": 140 }, "refs": {} }
+  "voice": {
+    "file": "voice/voice.wav",
+    "music": -20
+  },
+  "review": {
+    "safe": {
+      "top": 240,
+      "bottom": 420,
+      "right": 140
+    },
+    "refs": {}
+  },
+  "build": [
+    "src/head.html",
+    "kit/core.js",
+    "style",
+    "src/lib.js",
+    "src/scenes.js",
+    "src/bridges.js",
+    "kit/morph.js",
+    "src/post.js",
+    "kit/board.js",
+    "kit/score-head.js",
+    "src/score.js",
+    "kit/score-tail.js"
+  ]
 }
