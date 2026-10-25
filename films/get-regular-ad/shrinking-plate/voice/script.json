@@ -1,16 +1,56 @@
 {
   "lead": 0.5,
-  "tail": 3.4,
+  "tail": 3.2,
   "lines": [
-    { "id": "gluten", "text": "First, Nora cut gluten.", "after": 0.3 },
-    { "id": "then", "text": "Then dairy. Then onions. Then garlic.", "after": 0.5 },
-    { "id": "worry", "text": "Her plate got smaller. The worry didn't.", "after": 0.6 },
-    { "id": "menu", "text": "Every dinner out starts with one quiet question: what's safe here?", "after": 0.5 },
-    { "id": "twenty", "text": "Up to twenty in a hundred people say a food upsets them.", "after": 0.3 },
-    { "id": "retest", "text": "When foods are carefully tested again, it's closer to two or three.", "after": 0.5 },
-    { "id": "fodmap", "text": "Even the low FODMAP diet is built to end: a few weeks out, then foods come back, one group at a time.", "after": 0.6 },
-    { "id": "surer", "text": "The goal isn't a smaller plate. It's a surer one.", "after": 0.6 },
-    { "id": "app", "text": "Get Regular lets you log meals and symptoms side by side, so you and your dietitian can spot possible patterns, and bring foods back.", "after": 0.4 },
-    { "id": "close", "text": "Download Get Regular. Start with tonight's plate.", "after": 0 }
+    {
+      "id": "gluten",
+      "text": "First, Nora cut gluten.",
+      "after": 0.3
+    },
+    {
+      "id": "then",
+      "text": "Then dairy. Then onions. Then garlic.",
+      "after": 0.3
+    },
+    {
+      "id": "worry",
+      "text": "Her plate got smaller. The worry didn't.",
+      "after": 0.6
+    },
+    {
+      "id": "menu",
+      "text": "Every dinner out starts with one quiet question: what's safe here?",
+      "after": 0.3
+    },
+    {
+      "id": "twenty",
+      "text": "Up to twenty in a hundred people say a food upsets them.",
+      "after": 0.3
+    },
+    {
+      "id": "retest",
+      "text": "When foods are carefully tested again, it's closer to two or three.",
+      "after": 0.3
+    },
+    {
+      "id": "fodmap",
+      "text": "Even the low FODMAP diet is built to end: a few weeks out, then foods come back, one group at a time.",
+      "after": 0.6
+    },
+    {
+      "id": "surer",
+      "text": "The goal isn't a smaller plate. It's a surer one.",
+      "after": 0.6
+    },
+    {
+      "id": "app",
+      "text": "Get Regular lets you log meals and symptoms side by side, so you and your dietitian can spot possible patterns, and bring foods back.",
+      "after": 0.3
+    },
+    {
+      "id": "close",
+      "text": "Download Get Regular. Start with tonight's plate.",
+      "after": 0
+    }
   ]
 }
