@@ -1,0 +1,120 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Shrinking Plate · Get Regular</title>
+<style>
+  html, body { margin: 0; height: 100%; background: #1b1714; overflow: hidden; }
+  body { display: flex; align-items: center; justify-content: center; }
+  canvas { height: min(100vh, calc(100vw * 16 / 9)); width: auto; aspect-ratio: 9 / 16; display: block; cursor: pointer; }
+</style>
+</head>
+<body>
+<canvas id="c" width="1080" height="1920"></canvas>
+<script>
+"use strict";
+// =====================================================================
+//  THE SHRINKING PLATE — Get Regular, a top-of-funnel character film. 9:16, ~47.5s, 24fps, voice-led (VOICE is the clock).
+//  Illustrations: ChatGPT images (gouache / risograph, Nora). Motion, captions, the 100-plates chart, the app screen and the
+//  score are code. Claims: ACG Clinical Guideline IBS 2021 (up to 20% report food reactions; 2-3% on rechallenge);
+//  Monash University (low-FODMAP elimination 2-6 weeks, then reintroduction). Nora is spoken about, never "you".
+// =====================================================================
+const FPS = 24, W = 1080, H = 1920;
+const BPM = 84, BEAT = 60 / BPM, E8 = BEAT / 2, E16 = BEAT / 4;
+const DURATION = typeof VOICE !== "undefined" ? Math.round(VOICE.duration * FPS) / FPS : 47.5;
+const NFRAMES = Math.round(DURATION * FPS);
+const LOOP_T = NFRAMES / FPS;
+const SAFE = { top: 240, bottom: 420, right: 140 };
+const HAND = '"DM Sans", Inter, "Helvetica Neue", Arial, sans-serif';
+const SERIF = '"EB Garamond", Garamond, "Times New Roman", serif';
+const CX = 540;
+
+const VLINES = typeof VOICE !== 'undefined' ? VOICE.lines : [];
+const VL = (id) => VLINES.find((l) => l.id === id) || { t0: 0, t1: 0, words: [] };
+const norm = (s) => s.toLowerCase().replace(/[^a-z0-9']/g, '');
+function VW(id, word, n = 0) {
+  const L = VL(id), hits = (L.words || []).filter((w) => norm(w.w) === norm(word));
+  return hits.length ? hits[Math.min(n, hits.length - 1)].t0 : L.t0;
+}
+const AFTER = (id, pad = 0.3) => VL(id).t1 + pad;
+const snap = (t) => Math.round(t * FPS) / FPS;
+
+// cues: every picture change lands on a word
+const CU = {
+  bread: VW('gluten', 'gluten'), cheese: VW('then', 'dairy'), onion: VW('then', 'onions'), garlic: VW('then', 'garlic'),
+  smaller: VW('worry', 'smaller'), worry: VW('worry', 'worry'),
+  menu: VL('menu').t0, what: VW('menu', "what's"), safe: VW('menu', 'safe'),
+  twenty: VW('twenty', 'twenty'), people: VW('twenty', 'people'), food: VW('twenty', 'food'),
+  carefully: VW('retest', 'carefully'), closer: VW('retest', 'closer'), two: VW('retest', 'two'),
+  fodmap: VW('fodmap', 'fodmap'), end: VW('fodmap', 'end'), weeks: VW('fodmap', 'weeks'), back: VW('fodmap', 'back'), group: VW('fodmap', 'group'), time: VW('fodmap', 'time'),
+  goal: VW('surer', 'goal'), surer: VW('surer', 'surer'),
+  log: VW('app', 'log'), meals: VW('app', 'meals'), symptoms: VW('app', 'symptoms'), side: VW('app', 'side', 1), dietitian: VW('app', 'dietitian'),
+  patterns: VW('app', 'patterns'), bring: VW('app', 'bring'),
+  download: VL('close').t0, start: VW('close', 'start'),
+};
+// shot boundaries (hard cuts, a beat before the word that names the picture)
+const TB = {
+  table: snap(VL('worry').t0 - 0.06), menu: snap(CU.menu - 0.1), pov: snap(CU.what - 0.1), grid: snap(VL('twenty').t0 - 0.1),
+  onion: snap(CU.carefully - 0.12), grid2: snap(CU.closer - 0.12), shelf: snap(VL('fodmap').t0 - 0.1),
+  kitchen: snap(VL('surer').t0 - 0.12), phone: snap(VL('app').t0 - 0.1), friends: snap(CU.download - 0.1),
+};
+const ERA_LIST = [
+  [0, TB.table, () => sPlate()],
+  [TB.table, TB.menu, () => sTable()],
+  [TB.menu, TB.pov, () => sMenu()],
+  [TB.pov, TB.grid, () => sPov()],
+  [TB.grid, TB.onion, () => sGrid(false)],
+  [TB.onion, TB.grid2, () => sOnion()],
+  [TB.grid2, TB.shelf, () => sGrid(true)],
+  [TB.shelf, TB.kitchen, () => sShelf()],
+  [TB.kitchen, TB.phone, () => sKitchen()],
+  [TB.phone, TB.friends, () => sPhone()],
+  [TB.friends, DURATION, () => sFriends()],
+];
+const SHOTS = [
+  ['plate', 0, 0, TB.table, 'gluten, dairy, onions, garlic leave the plate'],
+  ['table', 1, TB.table, TB.menu, 'the plate got smaller; the worry did not'],
+  ['menu', 2, TB.menu, TB.pov, 'every dinner out starts with a question'],
+  ['pov', 3, TB.pov, TB.grid, "what's safe here?"],
+  ['grid', 4, TB.grid, TB.onion, 'up to 20 in 100 say a food upsets them'],
+  ['onion', 5, TB.onion, TB.grid2, 'carefully tested again'],
+  ['grid2', 6, TB.grid2, TB.shelf, 'closer to 2 or 3'],
+  ['shelf', 7, TB.shelf, TB.kitchen, 'low FODMAP is built to end: foods come back'],
+  ['kitchen', 8, TB.kitchen, TB.phone, 'a surer plate'],
+  ['phone', 9, TB.phone, TB.friends, 'Get Regular: meals and symptoms side by side'],
+  ['friends', 10, TB.friends, DURATION, 'download; start with tonight\'s plate'],
+];
+const TIMELINE = {
+  width: W, height: H, fps: FPS, bpm: BPM, duration: DURATION, frames: NFRAMES, loop: LOOP_T, safe: SAFE,
+  format: 'illustrated-character',
+  shots: SHOTS.map(([key, era, t0, t1, title], i) => ({ id: i + 1, key, era, t0, t1, title })),
+  cuts: Object.values(TB),
+  morphs: [],
+  cues: CU,
+  acts: [
+    { name: '1 Plate', role: 'build', t0: 0, t1: TB.menu },
+    { name: '2 Doubt', role: 'journey', t0: TB.menu, t1: TB.grid },
+    { name: '3 Turn', role: 'gift', t0: TB.grid, t1: TB.kitchen },
+    { name: '4 Surer', role: 'goodbye', t0: TB.kitchen, t1: DURATION },
+  ],
+  narration: VLINES.map((l) => ({ id: l.id, t0: l.t0, t1: l.t1, text: l.text })),
+  board: [
+    { t: 0.6, title: 'the full plate', sound: 'a soft room', next: 'foods leave' },
+    { t: CU.garlic + 0.7, title: 'rice and cucumber', sound: 'four lifts', next: 'Nora' },
+    { t: CU.worry + 0.9, title: 'the worry stays', sound: 'low swell', next: 'dinner out' },
+    { t: CU.safe + 0.4, title: "what's safe here?", sound: 'pen scratch', next: 'the plates' },
+    { t: CU.food, title: '20 in 100', sound: 'plate ticks', next: 'the test' },
+    { t: CU.two + 0.6, title: '2 or 3', sound: 'gold chime', next: 'the shelf' },
+    { t: CU.time + 0.5, title: 'foods come back', sound: 'jar clinks', next: 'kitchen' },
+    { t: CU.patterns + 0.6, title: 'the pattern', sound: 'taps', next: 'end card' },
+    { t: DURATION - 1, title: 'end card', sound: 'motif', next: 'end' },
+  ],
+};
+window.TIMELINE = TIMELINE;
+
+// palette: sampled from the illustrations (ink, bone, gold) + Get Regular's own gold (getregular.com: #9E7E58 / #C4A882)
+const GR = {
+  ink: '#1C140F', ink2: '#2A1E16', bone: '#F1E9DB', bone2: '#E9E1D3', wall: '#ECE6DC', gold: '#C4A882', goldD: '#9E7E58', ochre: '#C98A3A',
+  glow: '#F2C97A', cream: '#FFF6E6', terra: '#B8643A', taupe: '#8C7E6E',
+};

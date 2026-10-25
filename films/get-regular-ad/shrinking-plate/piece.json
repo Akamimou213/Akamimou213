@@ -1,0 +1,16 @@
+{
+  "name": "shrinking-plate",
+  "title": "The Shrinking Plate · Get Regular",
+  "format": { "width": 1080, "height": 1920, "fps": 24, "duration": 47.5 },
+  "storyFormat": "voice-led, illustrated character (ChatGPT stills), hard cuts on words",
+  "style": "cut-paper",
+  "fonts": [
+    { "family": "DM Sans", "file": "fonts/dm-sans-latin-500-normal.woff2", "weight": "500" },
+    { "family": "DM Sans", "file": "fonts/dm-sans-latin-700-normal.woff2", "weight": "700" },
+    { "family": "EB Garamond", "file": "fonts/eb-garamond-latin-500-normal.woff2", "weight": "500" },
+    { "family": "EB Garamond", "file": "fonts/eb-garamond-latin-500-italic.woff2", "weight": "500", "style": "italic" }
+  ],
+  "voice": { "file": "voice/voice.wav", "music": -20 },
+  "review": { "safe": { "top": 240, "bottom": 420, "right": 140 }, "refs": {} },
+  "build": ["src/head.html", "kit/core.js", "style", "src/scenes.js", "src/bridges.js", "kit/morph.js", "kit/board.js", "kit/score-head.js", "src/score.js", "kit/score-tail.js"]
+}
