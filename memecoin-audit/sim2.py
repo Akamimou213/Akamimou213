@@ -1,6 +1,6 @@
 import json, os, numpy as np, pandas as pd
 W = os.path.dirname(os.path.abspath(__file__))
-FEE = 0.03   # round-trip: ~1% launchpad/AMM fee each side + ~0.5-1% terminal fee + priority/slippage
+FEE = float(os.environ.get("FEE", "0.03"))
 recs = [json.loads(l) for l in open(f'{W}/ohlcv.jsonl')]
 def merged(rec, key):
     best = {}
@@ -68,7 +68,7 @@ for r in recs:
         row[key + '_tp2_sl0.5'] = run(path, entry, 2, .5) * (1 - FEE)
         row[key + '_tp1.5_sl0.6'] = run(path, entry, 1.5, .6) * (1 - FEE)
     rows.append(row)
-df = pd.DataFrame(rows); df.to_csv(f'{W}/sim2.csv', index=False)
+df = pd.DataFrame(rows); df.to_csv(f'{W}/sim2' + os.environ.get('SUFFIX', '') + '.csv', index=False)
 print('usable', len(df))
 def summ(c, sub=None):
     s = (sub if sub is not None else df)[c].dropna()
@@ -87,5 +87,5 @@ for name, mask in {'not_jl': ~jl, 'jl': jl, 'mcap_ge_50k': df.mcap_call >= 5e4, 
     out['F_' + name + '_d1_tp2_sl0.5'] = summ('d1_tp2_sl0.5', df[mask])
     out['F_' + name + '_d1_tp1.5_sl0.7'] = summ('d1_tp1.5_sl0.7', df[mask])
 out['claim_base_ratio_q'] = df.ratio_claim_base.quantile([.25, .5, .75]).round(2).tolist()
-json.dump(out, open(f'{W}/sim2_summary.json', 'w'), indent=1)
+json.dump(out, open(f'{W}/sim2_summary' + os.environ.get('SUFFIX', '') + '.json', 'w'), indent=1)
 for k, v in out.items(): print(k, v)
