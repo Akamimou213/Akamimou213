@@ -69,15 +69,19 @@ strategies = [
     ('Dip limit at 0.7× call price, TP 2x / SL −50%', 'dip0.7_tp2_sl0.5'),
     ('Dip limit at 0.7× call price, TP 1.5x / SL −40%', 'dip0.7_tp1.5_sl0.6'),
     ('Dip limit at 0.5× call price, TP 1.5x / SL −40%', 'dip0.5_tp1.5_sl0.6'),
+    ('Buy +1 min, TP 2x / SL −40% / 60-min time stop', 'd1_tp2_sl0.6_t60'),
+    ('Buy +2 min, TP 2x / SL −50%', 'd2_tp2_sl0.5'),
+    ('Buy +5 min, TP 2x / SL −50%', 'd5_tp2_sl0.5'),
+    ('00–08 UTC calls only: +1 min, TP 2x / SL −50%', 'F_utc0_8_d1_tp2_sl0.5'),
 ]
 strategies = [(a, k) for a, k in strategies if X.get(k)]
 def ev_svg():
-    lo_ax, hi_ax = -0.9, 0.5
+    lo_ax, hi_ax = -0.9, 0.7
     w, rh, lab_w, top = 700, 30, 300, 24
     h = top + rh * len(strategies) + 30
     x = lambda v: lab_w + (w - lab_w - 20) * (v - lo_ax) / (hi_ax - lo_ax)
     out = [f'<svg viewBox="0 0 {w} {h}" role="img" aria-label="Expected return per trade after fees, with 90% bootstrap interval">']
-    for g in [-0.8, -0.6, -0.4, -0.2, 0, 0.2, 0.4]:
+    for g in [-0.8, -0.6, -0.4, -0.2, 0, 0.2, 0.4, 0.6]:
         out.append(f'<line x1="{x(g):.1f}" x2="{x(g):.1f}" y1="{top-6}" y2="{h-26}" class="{"zero" if g == 0 else "grid"}"/>'
                    f'<text x="{x(g):.1f}" y="{h-8}" class="ax" text-anchor="middle">{"+" if g > 0 else ""}{int(round(g*100))}%</text>')
     for i, (lab, k) in enumerate(strategies):
@@ -115,7 +119,7 @@ def feat_svg():
 
 def kv(k): return X.get(k) or dict(ev=float('nan'), lo=float('nan'), hi=float('nan'), win=float('nan'), n=0)
 best_call = kv('d1_tp2_sl0.5'); dip = kv('dip0.7_tp2_sl0.5'); dip15 = kv('dip0.7_tp1.5_sl0.6'); hold = kv('d1_hold7d')
-moon = kv('d1_moonbag'); g50 = kv('F_mcap_ge_50k_d1_tp2_sl0.5'); l50 = kv('F_mcap_lt_50k_d1_tp2_sl0.5'); ts15 = kv('d1_tp2_sl0.6_t15')
+moon = kv('d1_moonbag'); u = kv('F_utc0_8_d1_tp2_sl0.5'); h16 = kv('d1_hold16h'); d5 = kv('d5_tp2_sl0.5'); t60 = kv('d1_tp2_sl0.6_t60'); dip5 = kv('dip0.5_tp2_sl0.5'); g50 = kv('F_mcap_ge_50k_d1_tp2_sl0.5'); l50 = kv('F_mcap_lt_50k_d1_tp2_sl0.5'); ts15 = kv('d1_tp2_sl0.6_t15')
 med = lambda c: float(sim[c].dropna().median())
 ratio_q = X['claim_base_ratio_q']
 
@@ -134,6 +138,7 @@ ctx = dict(
     DIP_EV=sgn(dip['ev']), DIP_LO=sgn(dip['lo']), DIP_HI=sgn(dip['hi']), DIP_WIN=pct(dip['win']), DIP_N=dip['n'], DIP_FILL=pct(X.get('dip0.7_fillrate', 0)),
     DIP15_EV=sgn(dip15['ev']), DIP15_LO=sgn(dip15['lo']), DIP15_HI=sgn(dip15['hi']),
     G50_EV=sgn(g50['ev']), G50_LO=sgn(g50['lo']), G50_HI=sgn(g50['hi']), G50_N=g50['n'], L50_EV=sgn(l50['ev']), L50_LO=sgn(l50['lo']), L50_HI=sgn(l50['hi']), L50_N=l50['n'],
+    U_EV=sgn(u['ev']), U_LO=sgn(u['lo']), U_HI=sgn(u['hi']), U_N=u['n'], H16_EV=sgn(h16['ev']), D5_EV=sgn(d5['ev']), T60_EV=sgn(t60['ev']), DIP5_EV=sgn(dip5['ev']),
     HOLD_EV=sgn(hold['ev']), MOON_EV=sgn(moon['ev']), TS15_EV=sgn(ts15['ev']),
     L23=pct(S['ladder']['2->3']), L510=pct(S['ladder']['5->10']), L1020=pct(S['ladder']['10->20']),
     F_FUNNEL=funnel_svg(), F_PEAK=peak_svg(), F_EV=ev_svg(), F_FEAT=feat_svg(),
