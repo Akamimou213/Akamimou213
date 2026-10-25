@@ -1,0 +1,319 @@
+<title>Gambles Channel Audit</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@500;700;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: one reading column (~68ch) with charts and tables breaking out to a wider measure; a trading-desk memo, not a landing page. */
+:root {
+  --paper: #f5f6f2;
+  --surface: #ffffff;
+  --ink: #1b1f1d;
+  --ink-2: #4a524e;
+  --rule: #d9ddd6;
+  --accent: #1f5c66;
+  --gain: #2c7a4b;
+  --loss: #b8432f;
+  --mid: #a07a1c;
+  --muted: #9aa39e;
+  --claim: #c9a227;
+  --chain: #1f5c66;
+  --follow: #7fb3b9;
+  --f-display: "Schibsted Grotesk", "Helvetica Neue", Arial, sans-serif;
+  --f-body: "Source Serif 4", Georgia, "Times New Roman", serif;
+  --f-data: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --paper: #121614; --surface: #1a1f1c; --ink: #e6e9e4; --ink-2: #a9b2ac; --rule: #2e3531;
+    --accent: #7cc3cc; --gain: #5cc48a; --loss: #f0806b; --mid: #e0b54c; --muted: #66706a;
+    --claim: #e0b54c; --chain: #7cc3cc; --follow: #3d6d73;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --paper: #121614; --surface: #1a1f1c; --ink: #e6e9e4; --ink-2: #a9b2ac; --rule: #2e3531;
+  --accent: #7cc3cc; --gain: #5cc48a; --loss: #f0806b; --mid: #e0b54c; --muted: #66706a;
+  --claim: #e0b54c; --chain: #7cc3cc; --follow: #3d6d73;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--paper); color: var(--ink); font-family: var(--f-body); font-size: 17px; line-height: 1.6;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+main { max-width: 1000px; margin: 0 auto; padding-block: 48px 96px; display: grid; gap: 56px; }
+section { display: grid; gap: 16px; }
+.col { max-width: 68ch; }
+h1, h2, h3 { font-family: var(--f-display); text-wrap: balance; margin: 0; line-height: 1.15; }
+h1 { font-size: clamp(2.1rem, 5vw, 3.2rem); font-weight: 800; letter-spacing: -0.02em; }
+h2 { font-size: 1.6rem; font-weight: 700; letter-spacing: -0.01em; }
+h3 { font-size: 1.1rem; font-weight: 700; }
+p, ul, ol { margin: 0; }
+ul, ol { padding-left: 1.2em; display: grid; gap: 6px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+.eyebrow { font-family: var(--f-data); font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-2); }
+.lede { font-size: 1.2rem; color: var(--ink); max-width: 62ch; }
+.verdict { border-top: 3px solid var(--ink); padding-top: 18px; display: grid; gap: 12px; }
+.verdict li { padding-left: 4px; }
+.num { font-family: var(--f-data); font-variant-numeric: tabular-nums; font-size: 0.92em; }
+.strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
+.strip div { background: var(--surface); padding: 14px 16px; display: grid; gap: 2px; }
+.strip b { font-family: var(--f-data); font-size: 1.45rem; font-weight: 500; font-variant-numeric: tabular-nums; }
+.strip span { font-family: var(--f-display); font-size: 0.82rem; color: var(--ink-2); }
+figure { margin: 0; background: var(--surface); border: 1px solid var(--rule); padding: 18px 18px 12px; display: grid; gap: 10px; }
+figure .scroll { overflow-x: auto; }
+figure svg { display: block; width: 100%; min-width: 560px; height: auto; }
+figcaption { font-family: var(--f-display); font-size: 0.85rem; color: var(--ink-2); line-height: 1.45; }
+.legend { display: flex; flex-wrap: wrap; gap: 14px; font-family: var(--f-display); font-size: 0.82rem; color: var(--ink-2); }
+.legend i { display: inline-block; width: 10px; height: 10px; margin-right: 6px; vertical-align: -1px; }
+svg .grid { stroke: var(--rule); stroke-width: 1; }
+svg .zero { stroke: var(--ink-2); stroke-width: 1.2; stroke-dasharray: 3 3; }
+svg .ax { fill: var(--ink-2); font: 12px var(--f-data); }
+svg .lab { fill: var(--ink); font: 13px var(--f-display); }
+svg .val { fill: var(--ink); font: 12px var(--f-data); }
+svg .c-claim { fill: var(--claim); } svg .c-chain { fill: var(--chain); } svg .c-follow { fill: var(--follow); }
+svg .c-gain { fill: var(--gain); } svg .c-loss { fill: var(--loss); } svg .c-mid { fill: var(--mid); } svg .c-muted { fill: var(--muted); }
+svg .ci, svg .stem { stroke-width: 3; stroke-linecap: round; }
+svg .c-gains { stroke: var(--gain); } svg .c-losss { stroke: var(--loss); } svg .c-mids { stroke: var(--mid); } svg .c-muteds { stroke: var(--muted); }
+.tablewrap { overflow-x: auto; border: 1px solid var(--rule); background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: 0.92rem; }
+th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+th { font-family: var(--f-display); font-weight: 700; font-size: 0.8rem; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ink-2); }
+td.n { font-family: var(--f-data); font-variant-numeric: tabular-nums; white-space: nowrap; }
+tr:last-child td { border-bottom: 0; }
+.rules { counter-reset: r; list-style: none; padding: 0; display: grid; gap: 14px; }
+.rules li { counter-increment: r; display: grid; grid-template-columns: 2.2rem 1fr; gap: 10px; }
+.rules li::before { content: counter(r); font-family: var(--f-data); font-size: 1.1rem; color: var(--accent); padding-top: 1px; }
+.note { font-family: var(--f-display); font-size: 0.9rem; color: var(--ink-2); max-width: 68ch; }
+.two { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr)); gap: 20px; }
+.card { background: var(--surface); border: 1px solid var(--rule); padding: 16px 18px; display: grid; gap: 8px; align-content: start; }
+.tag { font-family: var(--f-data); font-size: 0.75rem; letter-spacing: 0.06em; text-transform: uppercase; }
+.tag.loss { color: var(--loss); } .tag.gain { color: var(--gain); } .tag.mid { color: var(--mid); }
+.src { font-family: var(--f-display); font-size: 0.8rem; color: var(--ink-2); }
+.sources { font-family: var(--f-display); font-size: 0.85rem; color: var(--ink-2); display: grid; gap: 4px; padding-left: 1.2em; }
+.sources a { word-break: break-word; }
+@media (prefers-reduced-motion: reduce) { * { scroll-behavior: auto; } }
+</style>
+
+<main>
+<header class="col" style="display:grid;gap:14px">
+  <div class="eyebrow">MadApes · Gambles 🎲 · Telegram export · 1 Jan – 25 Oct 2026</div>
+  <h1>Gambles Channel Audit</h1>
+  <p class="lede">I checked {{NFRESH}} fresh calls from the channel against on-chain prices. The channel finds coins that move. Following its calls mechanically doesn't make money: the post itself causes most of the move, the published multiples are measured from a price you cannot get, and 98% of called coins are worth less today than at the call.</p>
+</header>
+
+<section class="verdict col">
+  <div class="eyebrow">Bottom line</div>
+  <ul>
+    <li><b>Do not copy-trade the calls.</b> No buy-at-the-call rule I simulated was reliably profitable after fees, and most lost money. That covers entries at +1, +2 and +5 minutes, take-profits from 1.5x to 5x, and holding. The most-used setup, buying 1 minute in with TP 2x and SL −50%, averaged <span class="num">{{BC_EV}}</span> per trade (90% interval <span class="num">{{BC_LO}}</span> to <span class="num">{{BC_HI}}</span>). Holding 7 days averaged <span class="num">{{HOLD_EV}}</span>.</li>
+    <li><b>The channel's scoreboard is inflated.</b> Its "Nx" figures start from a mcap below the real price at the moment of posting, typically <span class="num">{{RQ}}×</span> of it. Measured from the real post-time price, the median sampled coin peaked at <span class="num">{{M7D}}</span> over 7 days. The channel reported <span class="num">{{CLM}}</span> for the same coins.</li>
+    <li><b>Two things moved the average above zero: skipping micro-caps and waiting for the dump.</b> Buying 1 minute in at TP 2x / SL −50% only on calls at ≥$50k mcap averaged <span class="num">{{G50_EV}}</span> (n={{G50_N}}). The same rule on sub-$50k calls averaged <span class="num">{{L50_EV}}</span> (n={{L50_N}}). A limit buy at 0.7× the call price averaged <span class="num">{{DIP15_EV}}</span> with TP 1.5x / SL −40%, and <span class="num">{{DIP_EV}}</span> with TP 2x / SL −50%. Every one of these intervals still includes zero, so they are leads to trade small and keep measuring.</li>
+    <li><b>Some call attributes predict outcomes and the narrative mostly does not.</b> Dog, cat, Elon and "viral" labels barely change the odds. Calls on fresh micro-caps ("just launched", "low cap") reach 5x far less often than calls on coins that already hold a market. That holds in every month.</li>
+  </ul>
+</section>
+
+<section>
+  <div class="col" style="display:grid;gap:12px">
+    <div class="eyebrow">01 · The data</div>
+    <h2>What the channel posts</h2>
+    <p>The export holds {{NMSG}} messages. There are three types. A <b>call</b> has the chain, name, a one-line thesis, links and the contract address. A <b>follow-up</b> replies to a call with "7x plus, 500k 🔥 now 270k", meaning the multiple, the peak mcap and the current mcap. A <b>daily digest</b> lists the best performers and says "nothing under 3x counted". I linked every follow-up back to its call through Telegram's reply chain. Only calls with ≥3 days of follow-up time count toward hit rates.</p>
+  </div>
+  <div class="strip">
+    <div><b>{{NMSG}}</b><span>messages</span></div>
+    <div><b>{{NCALLS}}</b><span>calls (all types)</span></div>
+    <div><b>{{NFRESH}}</b><span>fresh calls analysed</span></div>
+    <div><b>{{NUPD}}</b><span>follow-up updates</span></div>
+    <div><b>{{CPD}}</b><span>calls per day</span></div>
+    <div><b>{{MISSING}}</b><span>message IDs deleted</span></div>
+  </div>
+  <p class="note col">Call types: "🔥 fresh" calls, "Update … pinned in chat earlier" re-posts, "Prelaunch" and presale calls. Chains: Solana (79%), Robinhood Chain, Ethereum, BNB and Base. 3,422 message IDs are missing from the sequence, and not one surviving follow-up replies to a missing ID. That fits failed calls being deleted, but deleted duplicates would leave the same trace. The export cannot tell which, so read every hit rate below as an upper bound.</p>
+</section>
+
+<section>
+  <div class="col" style="display:grid;gap:12px">
+    <div class="eyebrow">02 · Claimed vs real</div>
+    <h2>The scoreboard starts from a price you can't buy</h2>
+    <p>Taken at face value, the channel's own follow-ups say {{C2}} of fresh calls hit 2x, {{C5}} hit 5x and {{C10}} hit 10x. To test that, I pulled 1-minute candles from GeckoTerminal for a random sample of {{NS}} Solana calls from May to October 2026. The public API serves only the last 180 days. I then measured each coin's peak from the price at the second the call was posted, and again from a realistic follower entry.</p>
+  </div>
+  <figure>
+    <div class="legend"><span><i style="background:var(--claim)"></i>Channel's own follow-ups (all {{NFRESH}} calls)</span><span><i style="background:var(--chain)"></i>On-chain, from price at post time (sample)</span><span><i style="background:var(--follow)"></i>On-chain, from a buy 1 minute after the post (sample)</span></div>
+    <div class="scroll">{{F_FUNNEL}}</div>
+    <figcaption>Share of calls whose 7-day peak reached each multiple. The follower entry is the midpoint of the open and high of the first candle after the 1-minute delay, which builds in the chase. On-chain bars cover the {{NS}}-call sample.</figcaption>
+  </figure>
+  <div class="col" style="display:grid;gap:12px">
+    <p>The peaks are reported accurately: the channel's peak mcaps line up with the chain. The gap comes from the starting point. The channel's implied entry mcap (peak ÷ multiple) was a median <span class="num">{{RQ}}×</span> the real mcap at posting time (interquartile <span class="num">{{RQ25}}–{{RQ75}}×</span>). Most likely it is the caller's own earlier entry, or the price when the coin was "pinned in chat earlier". Either way it is a price the channel's readers never had.</p>
+    <p>From the real post-time price, the median coin peaked at <span class="num">{{M15}}</span> within 15 minutes, <span class="num">{{M1H}}</span> within an hour, <span class="num">{{M16}}</span> within 16 hours and <span class="num">{{M7D}}</span> within 7 days.</p>
+  </div>
+</section>
+
+<section>
+  <div class="col" style="display:grid;gap:12px">
+    <div class="eyebrow">03 · Timing</div>
+    <h2>The call is the catalyst, and often the top</h2>
+    <p>Half of all peak updates arrive within an hour of the call. The median "2x" is posted {{T2X}} minutes after the call, and a quarter land inside {{T2X25}} minutes. That speed is the channel's own audience buying, alongside snipers who watch the channel and front-run it. After the peak, the lowest "now" figure the channel itself reports is a median {{RETR}} of the peak.</p>
+  </div>
+  <figure>
+    <div class="scroll">{{F_PEAK}}</div>
+    <figcaption>Time from call to the follow-up that reported the highest multiple, fresh calls. {{PK15}} peak within 15 minutes and {{PK60}} within the hour. Gold bars mark the first hour.</figcaption>
+  </figure>
+  <p class="col">How fast a coin hits 2x does not predict how far it runs: calls that doubled in under 5 minutes and calls that took 4+ hours reached 10x at similar rates (16–21%). Once a call is running, the channel's own data gives these odds of reaching the next rung: 2x→3x {{L23}}, 5x→10x {{L510}}, 10x→20x {{L1020}}. The tail is real, but the channel measures it from its own low reference price.</p>
+</section>
+
+<section>
+  <div class="col" style="display:grid;gap:12px">
+    <div class="eyebrow">04 · Where they end up</div>
+    <h2>Almost every called coin is dead today</h2>
+    <p>On 25 October I queried DexScreener for every contract address in {{NOWN}} fresh calls from January to September (Solana, ETH, BNB, Base).</p>
+  </div>
+  <div class="strip">
+    <div><b>{{LISTED}}</b><span>still listed on DexScreener</span></div>
+    <div><b>{{VOL1K}}</b><span>trade ≥ $1k a day</span></div>
+    <div><b>{{MC100}}</b><span>mcap ≥ $100k</span></div>
+    <div><b>{{MC1M}}</b><span>mcap ≥ $1M</span></div>
+    <div><b>{{ABOVE}}</b><span>worth more than the channel's own entry</span></div>
+  </div>
+  <p class="col">Even the channel's "10x+" winners are mostly gone: only 10% trade above the entry the channel published. This matches the market-wide base rate, where 80% of pump.fun tokens stop trading by day one and fewer than 5% trade past 90 days (CoinGecko, June 2026). Every one of these coins is a trade with a short lifespan, and none is an investment.</p>
+</section>
+
+<section>
+  <div class="col" style="display:grid;gap:12px">
+    <div class="eyebrow">05 · Patterns</div>
+    <h2>What separates the 5x calls from the rest</h2>
+    <p>I tagged each fresh call by its text, launchpad suffix, links and posting time, then compared the share reaching 5x against all other calls. Dozens of tags were tested, so a few will clear the bar by chance. Treat |z| ≥ 2.6 as the threshold for something real; those are coloured.</p>
+  </div>
+  <figure>
+    <div class="scroll">{{F_FEAT}}</div>
+    <figcaption>Share of fresh calls that reached 5x (channel's own measurement), by attribute. z compares the tagged calls with all other calls. Grey means not significant once multiple testing is allowed for.</figcaption>
+  </figure>
+  <div class="two">
+    <div class="card"><span class="tag gain">Holds up</span><h3>Established coins beat fresh launches</h3><p>Calls tagged "just launched" or "low cap" had a median entry of {{JL}}, against {{NJL}} for the rest, and reached 5x much less often (z −8.4). The gap shows up inside every month from January to September, so it is not a seasonal artefact. Calls that include a DexScreener link show the same pattern (z −8.3). Those calls skew young: median entry $30k, and 65% are tagged "just launched". A coin that has already survived to $50–150k has buyers. A coin that launched ten minutes earlier mostly has its dev and the snipers.</p></div>
+    <div class="card"><span class="tag gain">Holds up</span><h3>Late-night UTC and Friday/Saturday</h3><p>Calls posted 00–04 UTC (z +3.1) and on Fri/Sat (z +4.2) reached 5x more often. A plausible reason is thinner competition from other callers while the US is offline, plus weekend retail flow. This is weaker evidence: it is a timing effect and could fade.</p></div>
+    <div class="card"><span class="tag loss">Avoid</span><h3>CTO, political and re-posted calls</h3><p>Community-takeover calls (z −2.9 at 5x) and Trump-themed calls did worse. "Update … pinned in chat earlier" re-posts reached 10x at about half the rate of fresh calls (6.5% vs 13.3%). Presale and Pinksale calls were the worst bucket of all: 14% reached 2x.</p></div>
+    <div class="card"><span class="tag mid">Noise</span><h3>Narrative labels</h3><p>Dog, cat, Elon, AI and "viral/TikTok" sit inside the noise band. The channel's "good branding and ticker" line appears on more than half of all calls and predicts nothing. Narrative decides whether a coin gets called in the first place. It does not help you choose among calls.</p></div>
+  </div>
+</section>
+
+<section>
+  <div class="col" style="display:grid;gap:12px">
+    <div class="eyebrow">06 · Backtest</div>
+    <h2>Trading the calls with real fills</h2>
+    <p>Each rule ran on the {{NS}}-call on-chain sample using 1-minute candles for the first 16 hours and hourly candles out to 7 days. Every trade pays a 3% round-trip haircut for launchpad and AMM fees (about 1% a side), terminal fees and slippage. When a candle hits both stop and target, the stop is assumed to fill first. A stop that gaps through fills at the candle's open. Intervals are 90% bootstrap ranges. With a sample this size, read them as directional.</p>
+  </div>
+  <figure>
+    <div class="scroll">{{F_EV}}</div>
+    <figcaption>Average return per trade after costs. Dot is the mean and the bar is the 90% interval. Green means the whole interval is above zero, red means it is entirely below, amber means it straddles zero.</figcaption>
+  </figure>
+  <div class="col" style="display:grid;gap:12px">
+    <p><b>What the chart says.</b> Buying the call and waiting for a big multiple loses money: the further the target, the worse the result, because few coins reach it before collapsing. Holding is the worst option ({{HOLD_EV}}). A moonbag (75% sold at 2x, the rest trailed) came out at {{MOON_EV}} and the 15-minute time-stop at {{TS15_EV}}. Neither rescues an entry made at the top of the post-call spike.</p>
+    <p><b>What works better</b> is to stop competing with the snipers. A resting limit order at 0.7× the call price filled on {{DIP_FILL}} of calls within 6 hours, because most calls dump after the initial spike. Taking 2x from that lower entry produced {{DIP_EV}} per trade (TP 1.5x / SL −40% variant: {{DIP15_EV}}). The edge comes entirely from the entry price, which is the same mechanism the channel's scoreboard relies on.</p>
+    <p><b>Filtering matters as much as timing.</b> With the plain 1-minute entry and TP 2x / SL −50%, calls on coins at ≥$50k mcap averaged {{G50_EV}} (interval {{G50_LO}} to {{G50_HI}}, n={{G50_N}}). Calls below $50k averaged {{L50_EV}} (interval {{L50_LO}} to {{L50_HI}}, n={{L50_N}}). This is the on-chain version of the pattern in section 05.</p>
+  </div>
+</section>
+
+<section>
+  <div class="col" style="display:grid;gap:12px">
+    <div class="eyebrow">07 · Mechanics</div>
+    <h2>How the memecoin machine works in 2026</h2>
+    <p>Every number in this section comes from the linked source. I checked the CoinGecko, Bitquery and Indiana University figures against the originals myself.</p>
+  </div>
+  <div class="two">
+    <div class="card">
+      <h3>Launchpads and bonding curves</h3>
+      <p><b>pump.fun:</b> every token has 1B supply, with 793M sold along a bonding curve seeded by virtual reserves of 30 SOL. About 85 SOL of buying completes the curve, and the liquidity then migrates to PumpSwap, pump.fun's own DEX since March 2025. Creator fees are tiered by mcap, from 0.95% under about $300k down to 0.05% above $20M. "Holder Rewards" coins, launched September 2026, pay that fee to holders instead.</p>
+      <p><b>Address suffixes tell you the launchpad:</b> <span class="num">…pump</span> is pump.fun, <span class="num">…bonk</span> is Bonk.fun (Raydium LaunchLab), <span class="num">…4444</span> is four.meme on BNB, and <span class="num">…7777 / 8888</span> are Flap tax and standard tokens. They are vanity suffixes anyone can grind, so confirm the program that created the token.</p>
+      <p><b>Robinhood Chain</b> (RBH): an Arbitrum L2, mainnet since 1 July 2026. Launchpads include Pons, which graduates at 4.2 ETH to a locked Uniswap v4 pool and allows up to a 10% creator tax, and pools.trade. Pons had 1,362 of 124,016 tokens graduate.</p>
+      <p class="src">pump.fun public docs (GitHub); Blockworks; The Block; Bitquery docs; Robinhood newsroom.</p>
+    </div>
+    <div class="card">
+      <h3>Base rates</h3>
+      <p>Of 18.67M pump.fun tokens, about 1% graduated. 68.7% traded for the last time on launch day, 80.4% were dead by day one, and 4.55% were still trading after 90 days.</p>
+      <p>On pump.fun, 98.6% of 7M+ tokens fell below $1k liquidity (Solidus Labs, May 2025). Across chains, 3.6% of tokens launched in 2024 showed pump-and-dump patterns (Chainalysis).</p>
+      <p>As of April 2026, 73% of pump.fun wallets showed some realised profit, but 65% made only $1–500 and 5.4% made more than $1k. Realised PnL leaves out bags still held, so it understates losses.</p>
+      <p class="src">CoinGecko Research (Jun 2026, May 2026); Solidus Labs; Chainalysis.</p>
+    </div>
+    <div class="card">
+      <h3>Who actually makes the money</h3>
+      <p><b>Devs and bundles:</b> across 8.2M pump.fun launches (Oct 2025 – Oct 2026), dev wallets bought in the first block on 21% of coins, taking a median 10% of supply. The dev's first sale came within a minute on 65% of coins. Devs and their bundles made at least $579M, against $31.5M for sniper bots.</p>
+      <p><b>MEV:</b> 6.85M sandwich attacks took about $29.7M, 96% of it on the pump.fun curve or PumpSwap. Swaps allowing 20–50% slippage were sandwiched about 14 times as often as swaps under 3%.</p>
+      <p><b>Wash trading:</b> 82.8% of meme tokens that rose more than 100% showed artificial growth (34,988 tokens across 4 chains).</p>
+      <p class="src">Bitquery investigations (Oct 2026); arXiv 2507.01963.</p>
+    </div>
+    <div class="card">
+      <h3>How callers get paid</h3>
+      <p><b>Paid posts:</b> a September 2025 leak showed 160+ KOLs charging $50–60k per post, and fewer than 5 disclosed it. This channel also runs sponsored posts, including recurring MetaWin casino promotions, Pinksale/Cheesepad presales and giveaways.</p>
+      <p><b>Front-running:</b> Bubblemaps alleges that wallets linked to one pump.fun caller bought about 20 seconds before 61% of 534 calls and sold about 4 minutes later. That is an allegation, not a ruling.</p>
+      <p><b>Platform rewards:</b> pump.fun Callout Rewards (August 2026) pay callers daily in USDC. From October they are scored on whether followers profit.</p>
+      <p><b>Track record:</b> no peer-reviewed study finds that followers of call channels profit. Crypto-KOL tweets led to −7.9% over 30 days for small tokens (180 KOLs, 36k tweets), and the effect was worst for self-described experts.</p>
+      <p class="src">ZachXBT leak via CCN; Bubblemaps via TechFlow; Crypto Briefing; Merkley et al., Review of Accounting Studies 2024.</p>
+    </div>
+  </div>
+  <p class="note col">Legal context: in February 2025 SEC staff said typical meme coins are not securities, which means buyers get no securities-law protection. A RICO class action against pump.fun (Aguilar v. Baton Corp) is moving toward discovery, and the Solana defendants were dismissed on 31 August 2026.</p>
+</section>
+
+<section>
+  <div class="col" style="display:grid;gap:12px">
+    <div class="eyebrow">08 · Playbook</div>
+    <h2>How to use this channel without being its exit liquidity</h2>
+    <p>Treat the channel as a <b>deal-flow feed</b>, not a signal. It surfaces about {{FPD}} fresh coins a day that are about to get attention. Your edge has to come from price, filtering and exits, because the channel's readers are the liquidity that its insiders and the snipers sell into.</p>
+  </div>
+  <ol class="rules col">
+    <li><div><b>Never market-buy into the first 5 minutes.</b> That window holds the spike the snipers and front-runners created. Place a <b>limit buy at 0.6–0.7× the price at the call</b> and let it expire after 6 hours. It filled on {{DIP_FILL}} of calls, and filled calls carry the only positive expectancy in the sample.</div></li>
+    <li><div><b>Prefer calls on coins already at $50k–$300k mcap</b> with a few hours of history. Skip "just launched / low cap" calls, presales, prelaunches, CTOs and "pinned in chat earlier" re-posts unless you have your own reason to want the coin.</div></li>
+    <li><div><b>Exit by rule, decided before entry.</b> Sell 75–100% at 2x from your entry. Stop out at −40 to −50% from entry, or at −30% if you used the tighter 1.5x target. Never hold overnight on hope: after 7 days, the average sampled call had lost about {{HOLD_EV}} from a follower's entry.</div></li>
+    <li><div><b>Run the 60-second safety check</b> (GMGN or Axiom holder tab, RugCheck, Bubblemaps). Skip the coin if any of these hit: dev still holds more than 5% or has a history of rugs; bundled supply above 10–15%; the top 10 wallets excluding the pool hold more than 30%; Bubblemaps shows a cluster of fresh, co-funded wallets; on EVM, mint or freeze authority is live, sell tax is above 5%, or a simulated sell fails. On RBH and Base, check the creator tax.</div></li>
+    <li><div><b>Keep slippage at 10% or less and use MEV protection.</b> Wide-slippage swaps get sandwiched about 14 times as often.</div></li>
+    <li><div><b>Size as if each trade goes to zero.</b> Risk 0.5–1% of your trading bankroll per call, with no more than 5 open at once. Set a hard monthly loss limit; 15% is a sensible ceiling. Even the best setup here has a win rate around {{DIP_WIN}}, so you will see long losing streaks.</div></li>
+    <li><div><b>Keep your own ledger.</b> Log the time, the price at the call, your fill, exit and fees for every trade. Review after 50 trades. If your average return after fees is below zero, stop: the edge isn't there for you at your speed.</div></li>
+  </ol>
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th>Tool</th><th>Use it for</th><th>Note</th></tr></thead>
+      <tbody>
+        <tr><td>Axiom / Fomo / pump.fun Terminal</td><td>Fast Solana execution, limit orders, holder tabs</td><td>Axiom held about 45% of Solana terminal volume in June 2026; Fomo passed it in August</td></tr>
+        <tr><td>GMGN</td><td>Dev, sniper, bundler, insider and fresh-wallet tags; BNB and EVM coverage</td><td>Cross-check its tags against the bubble map</td></tr>
+        <tr><td>RugCheck</td><td>Mint and freeze authority, LP status, top-holder concentration</td><td>Solana</td></tr>
+        <tr><td>Bubblemaps</td><td>Linked-wallet clusters, insider and bundle filters</td><td>Added insider filters in September 2026</td></tr>
+        <tr><td>DexScreener / GeckoTerminal</td><td>Charts and pool history</td><td>Paid "Enhanced Token Info" and boosts are advertising. A trending spot is not a signal.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section class="col">
+  <div class="eyebrow">09 · Method and limits</div>
+  <h2>What this analysis can and can't tell you</h2>
+  <ul>
+    <li>Hit rates use the channel's own follow-up posts, which are survivorship-biased. Losers get no follow-up, and deleted messages cannot be inspected.</li>
+    <li>The on-chain sample is {{NS}} randomly drawn Solana fresh calls from May to October 2026. Solana is 79% of calls, and GeckoTerminal's public API stops at 180 days. RBH, ETH and BNB calls were not backtested. Strategy intervals are wide, and a positive result at this sample size is a lead to keep testing, not proof.</li>
+    <li>Fills are modelled from 1-minute candles. Real fills on a coin with a $20k mcap can be worse, through priority-fee wars and failed transactions. The 3% cost haircut is a central estimate, not a worst case.</li>
+    <li>"Dead" means no DexScreener listing or a near-zero mcap on 25 October 2026. A few coins may still trade on venues DexScreener doesn't index.</li>
+    <li>Nothing here is financial advice. Most money in memecoins ends up with devs, bundlers and snipers, and this analysis cannot change that.</li>
+  </ul>
+</section>
+
+<section class="col">
+  <div class="eyebrow">Sources</div>
+  <ol class="sources">
+    <li><a href="https://raw.githubusercontent.com/pump-fun/pump-public-docs/main/docs/PUMP_PROGRAM_README.md">pump.fun program docs (GitHub)</a></li>
+    <li><a href="https://blockworks.com/news/pumpdotfun-fee-model">Blockworks: pump.fun dynamic fees</a></li>
+    <li><a href="https://www.theblock.co/post/347360/pump-fun-launches-dex-called-pumpswap-to-instantly-migrate-graduated-tokens">The Block: PumpSwap launch</a></li>
+    <li><a href="https://cryptobriefing.com/pumpfun-holder-rewards-cashback-deprecated/">Crypto Briefing: Holder Rewards</a> · <a href="https://cryptobriefing.com/pump-fun-callout-rewards-follower-profits/">Callout Rewards</a></li>
+    <li><a href="https://www.coingecko.com/research/publications/average-lifespan-of-pumpfun-tokens">CoinGecko: lifespan of pump.fun tokens (Jun 2026)</a></li>
+    <li><a href="https://www.coingecko.com/research/publications/pump-fun-traders-are-making-a-comeback">CoinGecko: pump.fun trader profitability (May 2026)</a></li>
+    <li><a href="https://bitquery.io/investigations/pump-fun-snipers-bundles">Bitquery: snipers and bundles</a> · <a href="https://bitquery.io/investigations/solana-sandwich-attacks">sandwich attacks</a></li>
+    <li><a href="https://docs.bitquery.io/docs/blockchain/robinhood/pons-api/">Bitquery: Pons on Robinhood Chain</a> · <a href="https://docs.bitquery.io/docs/blockchain/BSC/flap-sh/">Flap.sh</a></li>
+    <li><a href="https://robinhood.com/newsroom/robinhood-accelerates-global-expansion-robinhood-chain-mainnet-stock-tokens-agentic-trading/">Robinhood: Robinhood Chain mainnet</a></li>
+    <li><a href="https://www.soliduslabs.com/reports/solana-rug-pulls-pump-dumps-crypto-compliance">Solidus Labs: Solana rug pulls</a></li>
+    <li><a href="https://www.chainalysis.com/blog/crypto-market-manipulation-wash-trading-pump-and-dump-2025/">Chainalysis: market manipulation</a></li>
+    <li><a href="https://arxiv.org/abs/2507.01963">arXiv 2507.01963: artificial growth in meme tokens</a></li>
+    <li><a href="https://news.iu.edu/kelley/live/news/53137-research-be-cautious-in-following">Indiana University: crypto influencer study</a> (Merkley et al., 2024)</li>
+    <li><a href="https://www.ccn.com/news/crypto/zachxbt-leak-crypto-influencers-paid-promotions/">CCN: ZachXBT KOL payment leak</a></li>
+    <li><a href="https://www.techflowpost.com/en-US/article/34592">TechFlow: Bubblemaps caller allegation</a></li>
+    <li><a href="https://www.sec.gov/newsroom/speeches-statements/staff-statement-meme-coins">SEC staff statement on meme coins</a></li>
+    <li><a href="https://www.burwick.law/active-cases/pump-fun-and-solana-rico-lawsuit-aguilar-v-baton-corporation">Aguilar v. Baton Corp case page</a></li>
+    <li>Price data: GeckoTerminal public API (1-minute and hourly OHLCV); DexScreener API (current state, 25 Oct 2026).</li>
+  </ol>
+</section>
+</main>
