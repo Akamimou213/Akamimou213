@@ -129,7 +129,7 @@ function sIntro() {
 function sDoctor() {
   bgArt('bg-clinic.webp');
   clock(220, 420, 70, 10, 15 + TT * 1.5, 'of1ck');
-  figure('maya', QPOS.maya, QPOS.feet, QPOS.h, [[0, 'smile'], [CU.since, 'worried'], [CU.blank, 'unsure'], [CU.stress + 0.3, 'down']]);
+  figure('maya', QPOS.maya, QPOS.feet, QPOS.h, [[0, 'smile'], [CU.since, 'worried'], [CU.blank, 'unsure'], [CU.stress + 0.3, 'worried']]);
   figure('doc', QPOS.doc, QPOS.feet, QPOS.h, [[0, 'focus'], [CU.stress, 'smile']]);
   // "could be stress": the three questions fold away and one answer takes their place
   const gone = 1 - EZ.i2(ev(CU.stress - 0.2, 0.22));
