@@ -568,3 +568,16 @@ Key FTC principles (section numbers from the guidance) **[VERIFIED]**:
 - Sweetcorn transit test validity: no validation study found.
 - Rome V minimum duration of 8 weeks (Medscape): unconfirmed against Rome text.
 - Exact fiber grams in DGA 2025–2030: not confirmed; use 2020–2025 figures.
+
+---
+
+## 9. Menstrual cycle and the gut (verified 2026-10-26, for "Her Gut Keeps a Calendar")
+
+- Of 156 healthy premenopausal women (outpatient gynecology clinic), **73%** reported at least one primary GI symptom before or during menses. Abdominal pain: 58% before, 55% during; diarrhea: 24% before, 28% during. **[VERIFIED]**
+  - Source: Bernstein MT, Graff LA, Avery L, et al. "Gastrointestinal symptoms before and during menses in healthy women." *BMC Womens Health* 2014;14:14. PMID 24450290; PMCID PMC3901893.
+  - Caveat: one clinic sample, self-report. Say "in one study", not "most women".
+- Healthy women show slower GI transit in the luteal phase. Elevated prostaglandins at menses are proposed to raise visceral sensitivity (bloating, pain). **[VERIFIED]** (abstract)
+  - Source: Bharadwaj S, Barber MD, Graff LA, Shen B. *Gastroenterol Rep* 2015;3(3):185–193. PMID 25788484.
+- Gastroenterologist (UW Medicine): "It is thought that the decreases in progesterone levels and increases in prostaglandin levels during a menstrual period cause increased bowel contractions, which in turn cause diarrhea." **[VERIFIED-SECONDARY]** https://rightasrain.uwmedicine.org/well/health/period-poops
+- Safe on-screen wording: "Hormones that shift across the month can slow the gut down, then speed it up."
+- Get Regular's site does **not** mention cycle tracking ("Photo your food, stool, and symptoms. Ten seconds, done."). Never claim the app tracks periods.

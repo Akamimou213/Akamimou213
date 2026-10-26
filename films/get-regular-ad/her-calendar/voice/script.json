@@ -1,0 +1,16 @@
+{
+  "lead": 0.5,
+  "tail": 3.6,
+  "lines": [
+    { "id": "month", "text": "Every month, the same week, Nora's gut changes.", "after": 0.6 },
+    { "id": "bloat", "text": "Bloated. Then running to the bathroom.", "after": 0.7 },
+    { "id": "her", "text": "She thought it was just her.", "after": 1.0 },
+    { "id": "study", "text": "It isn't. In one study, three in four women had gut symptoms around their period.", "after": 0.7 },
+    { "id": "hormones", "text": "Hormones that shift across her month can slow her gut down, then speed it up.", "after": 1.0 },
+    { "id": "listen", "text": "Her gut was talking. So she started listening.", "after": 0.6 },
+    { "id": "log", "text": "Her meals. Her bathroom trips. How she felt. Day by day.", "after": 0.8 },
+    { "id": "shape", "text": "Two months in, her month started to have a shape.", "after": 0.6 },
+    { "id": "plan", "text": "Something she could plan for, and show her doctor.", "after": 0.8 },
+    { "id": "close", "text": "Download Get Regular. Trust your gut again.", "after": 0 }
+  ]
+}
