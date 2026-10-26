@@ -7,15 +7,42 @@ const MAYA = { skin: '#C98E6B', hair: '#2A211C', shirt: GR.dusk };
 // ---- Maya: busts cut from the character sheet (ChatGPT), one per expression; head anchored (hair top, hair centre) so a
 //      change of expression doesn't jump. Each change pops (a quick squash) — the face reacts to the line, not on a loop.
 const MAYA_SPR = { smile: ['mayaA.png', 148], worried: ['mayaB.png', 144], unsure: ['mayaC.png', 137], down: ['mayaD.png', 175], content: ['mayaE.png', 157], happy: ['mayaF.png', 152] };
-function maya(x, y, s, moods) {   // moods: [[t, mood], ...] sorted; (x, y, s) as woman(): hair top at y - 200s, desk hides the cut
+function maya(x, y, s, moods) { bust(MAYA_SPR, x, y, s, moods); }
+function bust(SPR, x, y, s, moods) {   // moods: [[t, mood], ...] sorted; hair top at y - 200s, the table hides the cut
   let cur = moods[0], k = 0; moods.forEach((m, i) => { if (TT >= m[0]) { cur = m; k = i; } });
-  const [file, cx] = MAYA_SPR[cur[1]], img = asset(file); if (!img) return;
+  const [file, cx] = SPR[cur[1]], img = asset(file); if (!img) return;
   const pop = k > 0 ? 1 + 0.05 * Math.sin(Math.PI * clamp((TT - cur[0]) / 0.22)) * (1 - clamp((TT - cur[0]) / 0.22)) : 1;
   const sq = k > 0 ? 1 - 0.035 * Math.sin(Math.PI * clamp((TT - cur[0]) / 0.18)) : 1;
   const z = 1.05 * s, top = y - 200 * s;
   ctx.save(); ctx.translate(x, top + img.height * z); ctx.scale(pop / sq, sq * pop); ctx.translate(-x, -(top + img.height * z));
   ctx.shadowColor = 'rgba(60,40,20,0.28)'; ctx.shadowBlur = 14 * s; ctx.shadowOffsetY = 6 * s;
   ctx.drawImage(img, x - cx * z, top - 2 * z, img.width * z, img.height * z); ctx.restore();
+}
+const DOC_SPR = { focus: ['docA.png', 163], smile: ['docB.png', 153], happy: ['docC.png', 147] };
+function doc(x, y, s, moods) { bust(DOC_SPR, x, y, s, moods); }
+// ---- the painted world (ChatGPT plates, 1024×1536): drawn in world coords at cover size, so the era cameras still work
+const IW = 1024, IH = 1536, BK = H / IH, tableY = (iy) => H / 2 + (iy - IH / 2) * BK;   // an image row → world y
+const T_HOME = tableY(1095), T_CLINIC = tableY(1056);
+function bgArt(name, clipY) {
+  const img = asset(name); if (!img) return;
+  ctx.save(); if (clipY != null) { ctx.beginPath(); ctx.rect(-200, clipY, W + 400, H - clipY + 200); ctx.clip(); }
+  ctx.drawImage(img, W / 2 - IW * BK / 2, 0, IW * BK, H); ctx.restore();
+}
+function slab(y) {   // a travertine table edge cut from the clinic plate
+  const img = asset('bg-clinic.webp'); if (!img) return;
+  ctx.save(); ctx.shadowColor = 'rgba(70,50,30,0.25)'; ctx.shadowBlur = 18; ctx.shadowOffsetY = -4;
+  ctx.drawImage(img, 0, 1058, IW, IH - 1058, W / 2 - IW * BK / 2, y, IW * BK, H - y + 40); ctx.restore();
+}
+function leaves(t0) {   // LEVEL UP confetti, in the brand's nature: olive leaves drifting and turning
+  const R = RNG('leaves');
+  for (let i = 0; i < 22; i++) {
+    const x = R.r(40, 1040) + Math.sin(TT * R.r(1, 2) + i) * 30, y = mod(R.r(-200, 1900) + (TT - t0) * R.r(160, 320), 2100) - 100, a = TT * R.r(0.8, 2) + i;
+    const c = ['#8F9A6A', '#E8DCC4', '#B86A45', '#A9B07E'][i % 4], L = R.r(26, 40);
+    ctx.save(); ctx.translate(x, y); ctx.rotate(a); ctx.scale(1, 0.45 + 0.55 * Math.abs(Math.cos(a * 1.3)));
+    ctx.beginPath(); ctx.moveTo(-L, 0); ctx.quadraticCurveTo(0, -L * 0.42, L, 0); ctx.quadraticCurveTo(0, L * 0.42, -L, 0); ctx.fillStyle = c; ctx.shadowColor = 'rgba(20,25,10,0.3)'; ctx.shadowBlur = 6; ctx.shadowOffsetY = 3; ctx.fill();
+    ctx.shadowColor = 'transparent'; ctx.strokeStyle = 'rgba(60,50,30,0.35)'; ctx.lineWidth = 1.5; ctx.beginPath(); ctx.moveTo(-L * 0.8, 0); ctx.lineTo(L * 0.8, 0); ctx.stroke();
+    ctx.restore();
+  }
 }
 function mayaBody(x, feetY, h, rot = 0, o = {}) {   // the full figure (front), feet at (x, feetY), h tall
   const img = asset('mayaBody.png'); if (!img) return;
@@ -72,13 +99,12 @@ const report = (x, y, s, key) => {   // a one-page summary: a title bar, a few b
 
 // ---- 1. intro: meet Maya, LV.1 gut guesser
 function sIntro() {
-  gridPaper('#F2EEE6', 'gridI');
-  windowLight({ a: 0.14, vig: 0.12 });
-  maya(520, 1170, 1.35, [[0, 'smile'], [CU.bloat, 'worried']]);
-  desk(1290, 'deskI');
+  bgArt('bg-home.webp');
+  maya(520, T_HOME - 100 * 1.35, 1.35, [[0, 'smile'], [CU.bloat, 'worried']]);
+  bgArt('bg-home.webp', T_HOME);
   gameTag('LV.1  GUT GUESSER', 500, 430, 46, { s: popS(CU.lv - 0.05), rot: -0.02 });
   const nm = popS(CU.maya - 0.05);
-  if (nm > 0) { label('Maya', 820, 820, 60, { s: nm, rot: 0.05 }); ink([[760, 860], [700, 920], [650, 950]], { w: 5, color: GR.ink, amt: 0.8, key: 'arrowM', frac: ev(CU.maya, 0.3) }); }
+  if (nm > 0) { label('Maya', 820, 880, 60, { s: nm, rot: 0.05 }); ink([[760, 920], [700, 980], [650, 1010]], { w: 5, color: GR.ink, amt: 0.8, key: 'arrowM', frac: ev(CU.maya, 0.3) }); }
   const b1 = popS(CU.bloat), b2 = popS(CU.bath), b3 = popS(CU.energy);
   if (b1 > 0) { ctx.save(); ctx.translate(210, 760 + Math.sin(TT * 2) * 8); ctx.scale(b1, b1); balloon(0, 0, 1, 'balI'); ctx.restore(); }
   if (b2 > 0) { ctx.save(); ctx.translate(840, 640); ctx.scale(b2, b2); roll(0, 0, 1.3, { key: 'rollI' }); serif('?', 90, -10, 90, GR.ink, { key: 'rq' }); ctx.restore(); }
@@ -87,24 +113,25 @@ function sIntro() {
 
 // ---- 2. the doctor: the questions come fast, her mind goes blank, could be stress
 function sDoctor() {
-  office('of1');
-  maya(290, 1130, 1.1, [[0, 'smile'], [CU.since, 'worried'], [CU.blank, 'unsure'], [CU.stress + 0.3, 'down']]);
-  doctor(780, 1130, 1.1, TT >= CU.stress ? 'smile' : 'focus');
-  desk(1250, 'deskD');
+  bgArt('bg-clinic.webp');
+  clock(220, 420, 70, 10, 15 + TT * 1.5, 'of1ck');
+  maya(290, T_CLINIC - 110, 1.1, [[0, 'smile'], [CU.since, 'worried'], [CU.blank, 'unsure'], [CU.stress + 0.3, 'down']]);
+  doc(780, T_CLINIC - 110, 1.1, [[0, 'focus'], [CU.stress, 'smile']]);
+  bgArt('bg-clinic.webp', T_CLINIC);
   bubble('Since when?', 690, 540, 50, { s: popS(CU.since - 0.1), tail: 1 });
   bubble('How often?', 740, 680, 50, { s: popS(CU.often - 0.1), tail: 1 });
   bubble('After what?', 640, 820, 50, { s: popS(CU.after - 0.1), tail: 1 });
   const bl = popS(CU.blank - 0.1);   // her thought bubble: empty
   if (bl > 0) { ctx.save(); ctx.translate(250, 640); ctx.scale(bl, bl); cloudy(0, 0, 1.5, { key: 'thought', c: GR.paper, face: false }); [[-40, 150, 16], [-70, 200, 10]].forEach(([a, b, r], i) => cut(ellipsePts(a, b, r, r, 0, 12), GR.paper, { key: 'td' + i, sb: 4, sy: 2 })); serif('…', 4, 34, 90, GR.taupe, { key: 'dots' }); ctx.restore(); }
   const f = springEase(TT - CU.stress, 150, 16);   // a folder lands on the desk
-  if (TT >= CU.stress - 0.2) { ctx.save(); ctx.translate(540, lerp(900, 1222, f)); ctx.rotate(-0.06); cut(rect(-220, -70, 440, 150, 8), GR.sand, { key: 'folder', sb: 10, sy: 6 }); cut(rect(-220, -100, 140, 40, 8), GR.sand, { key: 'folderTab', sb: 4, sy: 2 }); serif('could be stress', 0, 22, 54, GR.ink, { key: 'fl' }); ctx.restore(); }
+  if (TT >= CU.stress - 0.2) { ctx.save(); ctx.translate(540, lerp(980, 1330, f)); ctx.rotate(-0.06); cut(rect(-220, -70, 440, 150, 8), GR.sand, { key: 'folder', sb: 10, sy: 6 }); cut(rect(-220, -100, 140, 40, 8), GR.sand, { key: 'folderTab', sb: 4, sy: 2 }); serif('could be stress', 0, 22, 54, GR.ink, { key: 'fl' }); ctx.restore(); }
 }
 
 // ---- 3. LEVEL UP
 function sLevel() {
-  cut(rect(-40, -40, W + 80, H + 80, 0), GR.butter, { key: 'lvbg', shadow: false, tear: 0, grain: 0.6 });
-  ctx.save(); ctx.translate(540, 900); ctx.rotate(TT * 0.25); ctx.fillStyle = 'rgba(255,248,230,0.75)'; for (let i = 0; i < 18; i++) { ctx.rotate(TAU / 18); ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(1400, -120); ctx.lineTo(1400, 120); ctx.closePath(); ctx.fill(); } ctx.restore();
-  const R = RNG('conf'); for (let i = 0; i < 26; i++) { const x = R.r(60, 1020), y = mod(R.r(0, 1900) + (TT - TB.level) * R.r(300, 600), 1900), c = [GR.terra, GR.sage, GR.dusk, GR.blush][i % 4]; cut(rot(rect(x, y, 22, 12, 2), x, y, TT * 3 + i), c, { key: 'cf' + i, sb: 3, sy: 2, grain: false }); }
+  { const k = 1 + 0.05 * clamp((TT - TB.level) / (TB.tools - TB.level)) + 0.04 * Math.sin(Math.PI * clamp((TT - CU.hit) / 0.35)), sy = tableY(545);   // the sun swells as she levels up
+    ctx.save(); ctx.translate(540, sy); ctx.scale(k, k); ctx.translate(-540, -sy); bgArt('bg-sun.webp'); ctx.restore(); }
+  leaves(TB.level);
   { const j = springEase(TT - CU.hit, 210, 11), lift = Math.sin(Math.PI * clamp((TT - CU.hit) / 0.42)) * 120;   // she jumps on LEVEL UP, lands with a squash
     const land = TT > CU.hit + 0.42 ? 1 - 0.07 * Math.sin(Math.PI * clamp((TT - CU.hit - 0.42) / 0.2)) : 1; void j;
     mayaBody(540, 1690 - lift, 820, 0, { sx: 2 - land, sy: land }); }
@@ -132,11 +159,10 @@ function inventory() {
   SLOTS.forEach((p, i) => { cut(rect(p.x - 64, p.y - 64, 128, 128, 14), 'rgba(251,248,242,0.75)', { key: 'slot' + i, sb: 4, sy: 3, grain: 0.3 }); ink(rrectPts(p.x - 64, p.y - 64, 128, 128, 14), { closed: true, w: 3, color: GR.taupe, amt: 0.4, key: 'slotO' + i }); });
 }
 function sTools() {
-  gridPaper('#F2EEE6', 'gridT');
-  windowLight({ a: 0.14, vig: 0.12 });
+  bgArt('bg-linen.webp');
   inventory();
   maya(190, 1250, 0.8, [[0, 'smile'], [CU.s3, 'content']]);
-  desk(1330, 'deskT');
+  slab(1330);
   gameTag('LV.2', 190, 960, 30, { fill: GR.dusk, color: GR.paper, rot: -0.04 });
   const cur = TOOLS.findIndex((t, i) => TT >= t.t0() - 0.3 && (i === 3 || TT < TOOLS[i + 1].t0() - 0.3));
   // the big number for the current tool
@@ -191,22 +217,21 @@ function hardHat(x, y, s) {   // the level-2 hat (the reference's grammar: the h
 
 // ---- 5. back at the doctor: the questions have answers
 function sBoss() {
-  office('of2', true);
+  bgArt('bg-clinic.webp');
   inventory(); [0, 1, 2, 3].forEach((i) => toolIcon(i, SLOTS[i].x, SLOTS[i].y, 1));
   gameTag('FULLY EQUIPPED', 540, 500, 40, { s: popS(TB.boss + 0.1) * (1 - EZ.i2(ev(CU.answers - 0.3, 0.3))), fill: GR.sageD, color: GR.paper });
-  maya(290, 1130, 1.1, [[0, 'content'], [CU.answers, 'happy']]);
-  doctor(780, 1130, 1.1, TT >= CU.answers + 0.4 ? 'happy' : 'smile');
-  desk(1250, 'deskB');
-  gameTag('LV.2', 290, 840, 30, { fill: GR.dusk, color: GR.paper, rot: -0.04 });
+  maya(290, T_CLINIC - 110, 1.1, [[0, 'content'], [CU.answers, 'happy']]);
+  doc(780, T_CLINIC - 110, 1.1, [[0, 'smile'], [CU.answers + 0.4, 'happy']]);
+  bgArt('bg-clinic.webp', T_CLINIC);
+  gameTag('LV.2', 290, 930, 30, { fill: GR.dusk, color: GR.paper, rot: -0.04 });
   const slide = springEase(TT - (TB.boss + 0.2), 120, 18);
-  report(lerp(330, 560, slide), 1170, 0.6, 'repB');
+  report(lerp(330, 560, slide), 1290, 0.6, 'repB');
   ['Since when?', 'How often?', 'After what?'].forEach((q, k) => bubble(q, [690, 740, 640][k], [540, 680, 820][k], 50, { s: 1, tail: 1, check: CU.answers + k * 0.22 }));
 }
 
 // ---- 6. from guessing, to knowing
 function sFromTo() {
-  gridPaper('#F2EEE6', 'gridF');
-  windowLight({ a: 0.14, vig: 0.12 });
+  bgArt('bg-linen.webp');
   serif('from', 250, 700, 64, GR.inkSoft, { align: 'left', key: 'from', frac: ev(TB.from, 0.3) });
   serif('guessing', 250, 840, 150, GR.ink, { align: 'left', key: 'guess', frac: ev(CU.guessing - 0.15, 0.4) });
   const st = ev(CU.guessing + 0.55, 0.35); if (st > 0) ink([[240, 800], [440, 776], [640, 812], [860, 784]], { w: 12, color: GR.terra, amt: 1.2, key: 'strike', frac: st });
