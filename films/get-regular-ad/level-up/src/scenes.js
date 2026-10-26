@@ -4,6 +4,27 @@
 // =====================================================================
 const CU = TIMELINE.cues;
 const MAYA = { skin: '#C98E6B', hair: '#2A211C', shirt: GR.dusk };
+// ---- Maya: busts cut from the character sheet (ChatGPT), one per expression; head anchored (hair top, hair centre) so a
+//      change of expression doesn't jump. Each change pops (a quick squash) — the face reacts to the line, not on a loop.
+const MAYA_SPR = { smile: ['mayaA.png', 148], worried: ['mayaB.png', 144], unsure: ['mayaC.png', 137], down: ['mayaD.png', 175], content: ['mayaE.png', 157], happy: ['mayaF.png', 152] };
+function maya(x, y, s, moods) {   // moods: [[t, mood], ...] sorted; (x, y, s) as woman(): hair top at y - 200s, desk hides the cut
+  let cur = moods[0], k = 0; moods.forEach((m, i) => { if (TT >= m[0]) { cur = m; k = i; } });
+  const [file, cx] = MAYA_SPR[cur[1]], img = asset(file); if (!img) return;
+  const pop = k > 0 ? 1 + 0.05 * Math.sin(Math.PI * clamp((TT - cur[0]) / 0.22)) * (1 - clamp((TT - cur[0]) / 0.22)) : 1;
+  const sq = k > 0 ? 1 - 0.035 * Math.sin(Math.PI * clamp((TT - cur[0]) / 0.18)) : 1;
+  const z = 1.05 * s, top = y - 200 * s;
+  ctx.save(); ctx.translate(x, top + img.height * z); ctx.scale(pop / sq, sq * pop); ctx.translate(-x, -(top + img.height * z));
+  ctx.shadowColor = 'rgba(60,40,20,0.28)'; ctx.shadowBlur = 14 * s; ctx.shadowOffsetY = 6 * s;
+  ctx.drawImage(img, x - cx * z, top - 2 * z, img.width * z, img.height * z); ctx.restore();
+}
+function mayaBody(x, feetY, h, rot = 0, o = {}) {   // the full figure (front), feet at (x, feetY), h tall
+  const img = asset('mayaBody.png'); if (!img) return;
+  const z = h / img.height;
+  ctx.save(); ctx.translate(x, feetY); ctx.rotate(rot); if (o.sx) ctx.scale(o.sx, o.sy ?? 1);
+  ctx.shadowColor = 'rgba(60,40,20,0.3)'; ctx.shadowBlur = 16; ctx.shadowOffsetY = 8;
+  ctx.drawImage(img, -102 * z, -img.height * z, img.width * z, img.height * z); ctx.restore();
+}
+
 
 function gridPaper(c = '#F2EEE6', key = 'grid') {
   wall(c, { key, pat: (bb) => { ctx.strokeStyle = 'rgba(120,140,160,0.16)'; ctx.lineWidth = 2; ctx.beginPath(); for (let x = bb.x0; x < bb.x1; x += 48) { ctx.moveTo(x, bb.y0); ctx.lineTo(x, bb.y1); } for (let y = bb.y0; y < bb.y1; y += 48) { ctx.moveTo(bb.x0, y); ctx.lineTo(bb.x1, y); } ctx.stroke(); } });
@@ -53,7 +74,7 @@ const report = (x, y, s, key) => {   // a one-page summary: a title bar, a few b
 function sIntro() {
   gridPaper('#F2EEE6', 'gridI');
   windowLight({ a: 0.14, vig: 0.12 });
-  woman(520, 1170, 1.35, { key: 'maya', shirt: MAYA.shirt, skin: MAYA.skin, hair: MAYA.hair, mood: TT >= CU.bloat ? 'sad' : 'smile' });
+  maya(520, 1170, 1.35, [[0, 'smile'], [CU.bloat, 'worried']]);
   desk(1290, 'deskI');
   gameTag('LV.1  GUT GUESSER', 500, 430, 46, { s: popS(CU.lv - 0.05), rot: -0.02 });
   const nm = popS(CU.maya - 0.05);
@@ -67,7 +88,7 @@ function sIntro() {
 // ---- 2. the doctor: the questions come fast, her mind goes blank, could be stress
 function sDoctor() {
   office('of1');
-  woman(290, 1130, 1.1, { key: 'mayaD', shirt: MAYA.shirt, skin: MAYA.skin, hair: MAYA.hair, mood: TT >= CU.blank ? 'wow' : 'smile' });
+  maya(290, 1130, 1.1, [[0, 'smile'], [CU.since, 'worried'], [CU.blank, 'unsure'], [CU.stress + 0.3, 'down']]);
   doctor(780, 1130, 1.1, TT >= CU.stress ? 'smile' : 'focus');
   desk(1250, 'deskD');
   bubble('Since when?', 690, 540, 50, { s: popS(CU.since - 0.1), tail: 1 });
@@ -84,7 +105,9 @@ function sLevel() {
   cut(rect(-40, -40, W + 80, H + 80, 0), GR.butter, { key: 'lvbg', shadow: false, tear: 0, grain: 0.6 });
   ctx.save(); ctx.translate(540, 900); ctx.rotate(TT * 0.25); ctx.fillStyle = 'rgba(255,248,230,0.75)'; for (let i = 0; i < 18; i++) { ctx.rotate(TAU / 18); ctx.beginPath(); ctx.moveTo(0, 0); ctx.lineTo(1400, -120); ctx.lineTo(1400, 120); ctx.closePath(); ctx.fill(); } ctx.restore();
   const R = RNG('conf'); for (let i = 0; i < 26; i++) { const x = R.r(60, 1020), y = mod(R.r(0, 1900) + (TT - TB.level) * R.r(300, 600), 1900), c = [GR.terra, GR.sage, GR.dusk, GR.blush][i % 4]; cut(rot(rect(x, y, 22, 12, 2), x, y, TT * 3 + i), c, { key: 'cf' + i, sb: 3, sy: 2, grain: false }); }
-  woman(540, 1290, 1.35, { key: 'mayaL', shirt: MAYA.shirt, skin: MAYA.skin, hair: MAYA.hair, mood: 'happy' });
+  { const j = springEase(TT - CU.hit, 210, 11), lift = Math.sin(Math.PI * clamp((TT - CU.hit) / 0.42)) * 120;   // she jumps on LEVEL UP, lands with a squash
+    const land = TT > CU.hit + 0.42 ? 1 - 0.07 * Math.sin(Math.PI * clamp((TT - CU.hit - 0.42) / 0.2)) : 1; void j;
+    mayaBody(540, 1690 - lift, 820, 0, { sx: 2 - land, sy: land }); }
   gameTag('LEVEL UP!', 540, 560, 104, { s: slam(CU.hit), rot: -0.03 });
   gameTag('LV.1  →  LV.2', 540, 720, 40, { s: popS(CU.hit + 0.35), fill: GR.dusk, color: GR.paper });
 }
@@ -112,7 +135,7 @@ function sTools() {
   gridPaper('#F2EEE6', 'gridT');
   windowLight({ a: 0.14, vig: 0.12 });
   inventory();
-  woman(190, 1250, 0.8, { key: 'mayaT', shirt: MAYA.shirt, skin: MAYA.skin, hair: MAYA.hair, mood: 'smile' });
+  maya(190, 1250, 0.8, [[0, 'smile'], [CU.s3, 'content']]);
   desk(1330, 'deskT');
   gameTag('LV.2', 190, 960, 30, { fill: GR.dusk, color: GR.paper, rot: -0.04 });
   const cur = TOOLS.findIndex((t, i) => TT >= t.t0() - 0.3 && (i === 3 || TT < TOOLS[i + 1].t0() - 0.3));
@@ -171,7 +194,7 @@ function sBoss() {
   office('of2', true);
   inventory(); [0, 1, 2, 3].forEach((i) => toolIcon(i, SLOTS[i].x, SLOTS[i].y, 1));
   gameTag('FULLY EQUIPPED', 540, 500, 40, { s: popS(TB.boss + 0.1) * (1 - EZ.i2(ev(CU.answers - 0.3, 0.3))), fill: GR.sageD, color: GR.paper });
-  woman(290, 1130, 1.1, { key: 'mayaB', shirt: MAYA.shirt, skin: MAYA.skin, hair: MAYA.hair, mood: 'happy' });
+  maya(290, 1130, 1.1, [[0, 'content'], [CU.answers, 'happy']]);
   doctor(780, 1130, 1.1, TT >= CU.answers + 0.4 ? 'happy' : 'smile');
   desk(1250, 'deskB');
   gameTag('LV.2', 290, 840, 30, { fill: GR.dusk, color: GR.paper, rot: -0.04 });
@@ -190,7 +213,7 @@ function sFromTo() {
   serif('to', 250, 1000, 64, GR.inkSoft, { align: 'left', key: 'to', frac: ev(CU.knowing - 0.35, 0.25) });
   serif('knowing', 250, 1140, 150, GR.dusk, { align: 'left', key: 'know', frac: ev(CU.knowing - 0.1, 0.5) });
   const ul = ev(CU.knowing + 0.45, 0.4); if (ul > 0) ink([[250, 1170], [500, 1180], [760, 1166]], { w: 9, color: GR.gold, amt: 0.8, key: 'ul', frac: ul });
-  const pk = springEase(TT - (CU.knowing + 0.3), 150, 16); if (TT > CU.knowing + 0.3) { ctx.save(); ctx.translate(lerp(1200, 900, pk), 1420); ctx.rotate(-0.2); woman(0, 0, 0.7, { key: 'mayaF', shirt: MAYA.shirt, skin: MAYA.skin, hair: MAYA.hair, mood: 'happy' }); ctx.restore(); }
+  const pk = springEase(TT - (CU.knowing + 0.3), 150, 16); if (TT > CU.knowing + 0.3) { mayaBody(lerp(1260, 900, pk), 1760, 560, lerp(-0.25, -0.08, pk)); }
 }
 
 // ---- 7. end card: the report, understand your gut, download
