@@ -1,0 +1,267 @@
+{
+ "js https://www.getregular.com/": {
+  "h1": "Your gut is talking.\nAre you listening?",
+  "h1vis": true,
+  "iframes": [],
+  "consent": false,
+  "hiddenText": 0,
+  "ptotal": 44,
+  "overflowX": false,
+  "videos": [
+   {
+    "src": "/www.getregular.com/videos/onboarding-afd142c5.mp4",
+    "poster": true,
+    "autoplay": false,
+    "preload": "none"
+   }
+  ],
+  "smallTap": 1,
+  "errs": [],
+  "failed": [
+   "https://www.youtube-nocookie.com/s/player/cbcfbf2f/player_embed_es6.vflset/en_US/base.js net::ERR_ABORTED",
+   "https://www.youtube-nocookie.com/s/_/ytembeds/_/js/k=ytembeds.base.en_US.IkWErumI3ck.2021.O/am=AAAAQABj/d=1/excm=base,ro net::ERR_ABORTED",
+   "https://fonts.gstatic.com/s/roboto/v48/KFO7CnqEu92Fr1ME7kSn66aGLdTylUAMa3yUBHMdazQ.woff2 net::ERR_ABORTED",
+   "https://www.youtube-nocookie.com/s/_/ytembeds/_/ss/k=ytembeds.base.SKK5Z7LAK_Y.L.W.O/am=AAAAQABj/d=1/br=1/rs=AGKMywE71Io net::ERR_ABORTED"
+  ],
+  "hosts": {
+   "www.getregular.com": 44,
+   "us-assets.i.posthog.com": 3,
+   "www.youtube-nocookie.com": 2
+  }
+ },
+ "js https://www.getregular.com/learn/bowel-health/bristol-stool-scale": {
+  "h1": "Bristol Stool Scale: how to describe and track stool form",
+  "h1vis": true,
+  "iframes": [],
+  "consent": false,
+  "hiddenText": 1,
+  "ptotal": 57,
+  "overflowX": false,
+  "videos": [],
+  "smallTap": 1,
+  "errs": [],
+  "failed": [],
+  "hosts": {
+   "www.getregular.com": 67,
+   "us-assets.i.posthog.com": 3
+  }
+ },
+ "js https://www.getregular.com/explore/bristol-stool-chart": {
+  "h1": "What does your stool look like?",
+  "h1vis": true,
+  "iframes": [],
+  "consent": false,
+  "hiddenText": 0,
+  "ptotal": 40,
+  "overflowX": false,
+  "videos": [],
+  "smallTap": 1,
+  "errs": [],
+  "failed": [],
+  "hosts": {
+   "www.getregular.com": 68,
+   "us-assets.i.posthog.com": 3
+  }
+ },
+ "js https://www.getregular.com/explore/why-am-i-bloated": {
+  "h1": "Why am I bloated?",
+  "h1vis": true,
+  "iframes": [],
+  "consent": false,
+  "hiddenText": 3,
+  "ptotal": 35,
+  "overflowX": false,
+  "videos": [],
+  "smallTap": 1,
+  "errs": [],
+  "failed": [],
+  "hosts": {
+   "www.getregular.com": 64,
+   "us-assets.i.posthog.com": 3
+  }
+ },
+ "js https://www.getregular.com/app/poop-tracker": {
+  "h1": "Your poop.\nA little less\nguesswork.",
+  "h1vis": true,
+  "iframes": [],
+  "consent": false,
+  "hiddenText": 0,
+  "ptotal": 57,
+  "overflowX": false,
+  "videos": [],
+  "smallTap": 2,
+  "errs": [],
+  "failed": [],
+  "hosts": {
+   "www.getregular.com": 71,
+   "us-assets.i.posthog.com": 3
+  }
+ },
+ "js https://www.getregular.com/science/evidence": {
+  "h1": "The research. With the limits in view.",
+  "h1vis": true,
+  "iframes": [],
+  "consent": false,
+  "hiddenText": 0,
+  "ptotal": 291,
+  "overflowX": false,
+  "videos": [],
+  "smallTap": 1,
+  "errs": [],
+  "failed": [],
+  "hosts": {
+   "www.getregular.com": 43,
+   "us-assets.i.posthog.com": 3
+  }
+ },
+ "js https://www.getregular.com/faq": {
+  "h1": "Get Regular, explained.",
+  "h1vis": true,
+  "iframes": [],
+  "consent": false,
+  "hiddenText": 0,
+  "ptotal": 34,
+  "overflowX": false,
+  "videos": [],
+  "smallTap": 1,
+  "errs": [],
+  "failed": [],
+  "hosts": {
+   "www.getregular.com": 64,
+   "us-assets.i.posthog.com": 3
+  }
+ },
+ "nojs https://www.getregular.com/": {
+  "h1": "Your gut is talking.\nAre you listening?",
+  "h1vis": true,
+  "iframes": [],
+  "consent": false,
+  "hiddenText": 0,
+  "ptotal": 45,
+  "overflowX": false,
+  "videos": [
+   {
+    "src": "/www.getregular.com/videos/onboarding-afd142c5.mp4",
+    "poster": true,
+    "autoplay": false,
+    "preload": "none"
+   }
+  ],
+  "smallTap": 1,
+  "errs": [],
+  "failed": [
+   "https://www.getregular.com/_next/static/chunks/0puhxl45.xki-.js?dpl=dpl_CD5h6hMQ74SG1ZsSrLz46mKENEji csp"
+  ],
+  "hosts": {
+   "www.getregular.com": 12
+  }
+ },
+ "nojs https://www.getregular.com/learn/bowel-health/bristol-stool-scale": {
+  "h1": "Bristol Stool Scale: how to describe and track stool form",
+  "h1vis": true,
+  "iframes": [],
+  "consent": false,
+  "hiddenText": 1,
+  "ptotal": 57,
+  "overflowX": false,
+  "videos": [],
+  "smallTap": 1,
+  "errs": [],
+  "failed": [
+   "https://www.getregular.com/_next/static/chunks/0puhxl45.xki-.js?dpl=dpl_CD5h6hMQ74SG1ZsSrLz46mKENEji csp"
+  ],
+  "hosts": {
+   "www.getregular.com": 8
+  }
+ },
+ "nojs https://www.getregular.com/explore/bristol-stool-chart": {
+  "h1": "What does your stool look like?",
+  "h1vis": true,
+  "iframes": [],
+  "consent": false,
+  "hiddenText": 0,
+  "ptotal": 41,
+  "overflowX": false,
+  "videos": [],
+  "smallTap": 1,
+  "errs": [],
+  "failed": [
+   "https://www.getregular.com/_next/static/chunks/0puhxl45.xki-.js?dpl=dpl_CD5h6hMQ74SG1ZsSrLz46mKENEji csp"
+  ],
+  "hosts": {
+   "www.getregular.com": 10
+  }
+ },
+ "nojs https://www.getregular.com/explore/why-am-i-bloated": {
+  "h1": "Why am I bloated?",
+  "h1vis": true,
+  "iframes": [],
+  "consent": false,
+  "hiddenText": 3,
+  "ptotal": 35,
+  "overflowX": false,
+  "videos": [],
+  "smallTap": 1,
+  "errs": [],
+  "failed": [
+   "https://www.getregular.com/_next/static/chunks/0puhxl45.xki-.js?dpl=dpl_CD5h6hMQ74SG1ZsSrLz46mKENEji csp"
+  ],
+  "hosts": {
+   "www.getregular.com": 10
+  }
+ },
+ "nojs https://www.getregular.com/app/poop-tracker": {
+  "h1": "Your poop.\nA little less\nguesswork.",
+  "h1vis": true,
+  "iframes": [],
+  "consent": false,
+  "hiddenText": 0,
+  "ptotal": 57,
+  "overflowX": false,
+  "videos": [],
+  "smallTap": 2,
+  "errs": [],
+  "failed": [
+   "https://www.getregular.com/_next/static/chunks/0puhxl45.xki-.js?dpl=dpl_CD5h6hMQ74SG1ZsSrLz46mKENEji csp"
+  ],
+  "hosts": {
+   "www.getregular.com": 11
+  }
+ },
+ "nojs https://www.getregular.com/science/evidence": {
+  "h1": "The research. With the limits in view.",
+  "h1vis": true,
+  "iframes": [],
+  "consent": false,
+  "hiddenText": 0,
+  "ptotal": 292,
+  "overflowX": false,
+  "videos": [],
+  "smallTap": 1,
+  "errs": [],
+  "failed": [
+   "https://www.getregular.com/_next/static/chunks/0puhxl45.xki-.js?dpl=dpl_CD5h6hMQ74SG1ZsSrLz46mKENEji csp"
+  ],
+  "hosts": {
+   "www.getregular.com": 8
+  }
+ },
+ "nojs https://www.getregular.com/faq": {
+  "h1": "Get Regular, explained.",
+  "h1vis": true,
+  "iframes": [],
+  "consent": false,
+  "hiddenText": 0,
+  "ptotal": 34,
+  "overflowX": false,
+  "videos": [],
+  "smallTap": 1,
+  "errs": [],
+  "failed": [
+   "https://www.getregular.com/_next/static/chunks/0puhxl45.xki-.js?dpl=dpl_CD5h6hMQ74SG1ZsSrLz46mKENEji csp"
+  ],
+  "hosts": {
+   "www.getregular.com": 8
+  }
+ }
+}

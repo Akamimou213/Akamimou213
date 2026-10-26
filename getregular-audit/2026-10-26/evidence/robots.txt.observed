@@ -1,0 +1,15 @@
+User-Agent: *
+Allow: /
+Disallow: /invite/
+
+User-Agent: Googlebot
+User-Agent: Bingbot
+User-Agent: Applebot
+User-Agent: OAI-SearchBot
+User-Agent: Claude-SearchBot
+User-Agent: PerplexityBot
+Allow: /
+Disallow: /invite/
+
+Host: https://www.getregular.com
+Sitemap: https://www.getregular.com/sitemap.xml
