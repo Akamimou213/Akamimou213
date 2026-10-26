@@ -106,25 +106,24 @@ function sIntro() {
   const nm = popS(CU.maya - 0.05);
   if (nm > 0) { label('Maya', 820, 880, 60, { s: nm, rot: 0.05 }); ink([[760, 920], [700, 980], [650, 1010]], { w: 5, color: GR.ink, amt: 0.8, key: 'arrowM', frac: ev(CU.maya, 0.3) }); }
   const b1 = popS(CU.bloat), b2 = popS(CU.bath), b3 = popS(CU.energy);
-  if (b1 > 0) { ctx.save(); ctx.translate(210, 760 + Math.sin(TT * 2) * 8); ctx.scale(b1, b1); balloon(0, 0, 1, 'balI'); ctx.restore(); }
+  if (b1 > 0) { ctx.save(); ctx.translate(430, 700 + Math.sin(TT * 2) * 8); ctx.scale(b1, b1); balloon(0, 0, 1, 'balI'); ctx.restore(); }
   if (b2 > 0) { ctx.save(); ctx.translate(840, 640); ctx.scale(b2, b2); roll(0, 0, 1.3, { key: 'rollI' }); serif('?', 90, -10, 90, GR.ink, { key: 'rq' }); ctx.restore(); }
-  if (b3 > 0) { ctx.save(); ctx.translate(250, 560); ctx.scale(b3, b3); battery(0, 0, 0.9, 'batI'); ctx.restore(); }
+  if (b3 > 0) { ctx.save(); ctx.translate(650, 560); ctx.scale(b3, b3); battery(0, 0, 0.9, 'batI'); ctx.restore(); }
 }
 
 // ---- 2. the doctor: the questions come fast, her mind goes blank, could be stress
 function sDoctor() {
   bgArt('bg-clinic.webp');
   clock(220, 420, 70, 10, 15 + TT * 1.5, 'of1ck');
-  maya(290, T_CLINIC - 110, 1.1, [[0, 'smile'], [CU.since, 'worried'], [CU.blank, 'unsure'], [CU.stress + 0.3, 'down']]);
-  doc(780, T_CLINIC - 110, 1.1, [[0, 'focus'], [CU.stress, 'smile']]);
+  maya(QPOS.maya, T_CLINIC - 110, 1.1, [[0, 'smile'], [CU.since, 'worried'], [CU.blank, 'unsure'], [CU.stress + 0.3, 'down']]);
+  doc(QPOS.doc, T_CLINIC - 110, 1.1, [[0, 'focus'], [CU.stress, 'smile']]);
   bgArt('bg-clinic.webp', T_CLINIC);
-  bubble('Since when?', 690, 540, 50, { s: popS(CU.since - 0.1), tail: 1 });
-  bubble('How often?', 740, 680, 50, { s: popS(CU.often - 0.1), tail: 1 });
-  bubble('After what?', 640, 820, 50, { s: popS(CU.after - 0.1), tail: 1 });
+  // "could be stress": the three questions fold away and one answer takes their place
+  const gone = 1 - EZ.i2(ev(CU.stress - 0.2, 0.22));
+  QBUB.forEach(([q, x, y], k) => bubble(q, x, y, 50, { s: popS([CU.since, CU.often, CU.after][k] - 0.1) * gone, tail: 1 }));
+  bubble('could be stress', 740, 740, 62, { s: popS(CU.stress + 0.08), tail: 1 });
   const bl = popS(CU.blank - 0.1);   // her thought bubble: empty
-  if (bl > 0) { ctx.save(); ctx.translate(250, 640); ctx.scale(bl, bl); cloudy(0, 0, 1.5, { key: 'thought', c: GR.paper, face: false }); [[-40, 150, 16], [-70, 200, 10]].forEach(([a, b, r], i) => cut(ellipsePts(a, b, r, r, 0, 12), GR.paper, { key: 'td' + i, sb: 4, sy: 2 })); serif('…', 4, 34, 90, GR.taupe, { key: 'dots' }); ctx.restore(); }
-  const f = springEase(TT - CU.stress, 150, 16);   // a folder lands on the desk
-  if (TT >= CU.stress - 0.2) { ctx.save(); ctx.translate(540, lerp(980, 1330, f)); ctx.rotate(-0.06); cut(rect(-220, -70, 440, 150, 8), GR.sand, { key: 'folder', sb: 10, sy: 6 }); cut(rect(-220, -100, 140, 40, 8), GR.sand, { key: 'folderTab', sb: 4, sy: 2 }); serif('could be stress', 0, 22, 54, GR.ink, { key: 'fl' }); ctx.restore(); }
+  if (bl > 0) { ctx.save(); ctx.translate(165, 640); ctx.scale(bl * 0.9, bl * 0.9); cloudy(0, 0, 1.5, { key: 'thought', c: GR.paper, face: false }); [[50, 150, 16], [80, 205, 10]].forEach(([a, b, r], i) => cut(ellipsePts(a, b, r, r, 0, 12), GR.paper, { key: 'td' + i, sb: 4, sy: 2 })); serif('…', 4, 34, 90, GR.taupe, { key: 'dots' }); ctx.restore(); }
 }
 
 // ---- 3. LEVEL UP
@@ -216,17 +215,20 @@ function hardHat(x, y, s) {   // the level-2 hat (the reference's grammar: the h
 }
 
 // ---- 5. back at the doctor: the questions have answers
+// one layout for both doctor scenes: who sits where, and where the three questions hang (clear of the tags and faces)
+const QPOS = { maya: 250, doc: 830, rep: 535 };
+const QBUB = [['Since when?', 720, 600], ['How often?', 770, 740], ['After what?', 680, 880]];
 function sBoss() {
   bgArt('bg-clinic.webp');
   inventory(); [0, 1, 2, 3].forEach((i) => toolIcon(i, SLOTS[i].x, SLOTS[i].y, 1));
-  gameTag('FULLY EQUIPPED', 540, 500, 40, { s: popS(TB.boss + 0.1) * (1 - EZ.i2(ev(CU.answers - 0.3, 0.3))), fill: GR.sageD, color: GR.paper });
-  maya(290, T_CLINIC - 110, 1.1, [[0, 'content'], [CU.answers, 'happy']]);
-  doc(780, T_CLINIC - 110, 1.1, [[0, 'smile'], [CU.answers + 0.4, 'happy']]);
+  gameTag('FULLY EQUIPPED', 540, 478, 36, { s: popS(TB.boss + 0.1) * (1 - EZ.i2(ev(CU.answers - 0.3, 0.3))), fill: GR.sageD, color: GR.paper });
+  maya(QPOS.maya, T_CLINIC - 110, 1.1, [[0, 'content'], [CU.answers, 'happy']]);
+  doc(QPOS.doc, T_CLINIC - 110, 1.1, [[0, 'smile'], [CU.answers + 0.4, 'happy']]);
+  { const up = springEase(TT - (TB.boss + 0.25), 130, 15);   // the report rises from behind the table, between them
+    report(QPOS.rep, lerp(1480, 1232, up), 0.46, 'repB'); }
   bgArt('bg-clinic.webp', T_CLINIC);
-  gameTag('LV.2', 290, 930, 30, { fill: GR.dusk, color: GR.paper, rot: -0.04 });
-  const slide = springEase(TT - (TB.boss + 0.2), 120, 18);
-  report(lerp(330, 560, slide), 1290, 0.6, 'repB');
-  ['Since when?', 'How often?', 'After what?'].forEach((q, k) => bubble(q, [690, 740, 640][k], [540, 680, 820][k], 50, { s: 1, tail: 1, check: CU.answers + k * 0.22 }));
+  gameTag('LV.2', QPOS.maya, 930, 30, { fill: GR.dusk, color: GR.paper, rot: -0.04 });
+  QBUB.forEach(([q, x, y], k) => bubble(q, x, y, 50, { s: 1, tail: 1, check: CU.answers + k * 0.22 }));
 }
 
 // ---- 6. from guessing, to knowing
@@ -245,10 +247,10 @@ function sFromTo() {
 function sEnd() {
   cut(rect(-40, -40, W + 80, H + 80, 0), GR.dark, { key: 'wallE', shadow: false, tear: 0, shade: false, grain: 0.5 });
   windowLight({ a: 0.06, vig: 0.3 });
-  drawAsset('logo-white.svg', 540 - 250, 520, 500, 170, { fit: 'contain' });
-  serif('Understand your gut.', 540, 790, 80, GR.cream, { key: 'tagE', frac: EZ.o2(ev(TB.end + 0.3, 0.9)) });
-  const r = popS(CU.report - 0.15); if (r > 0) report(540, 1010, 0.62 * r, 'repE');
+  drawAsset('logo-white.svg', 540 - 250, 420, 500, 170, { fit: 'contain' });
+  serif('Understand your gut.', 540, 690, 80, GR.cream, { key: 'tagE', frac: EZ.o2(ev(TB.end + 0.3, 0.9)) });
+  const r = popS(CU.report - 0.15); if (r > 0) report(540, 910, 0.62 * r, 'repE');
   const cb = popS(VL('app').t1 + 0.3);
-  if (cb > 0) { ctx.save(); ctx.translate(540, 1270); ctx.scale(cb, cb); cut(rect(-300, -62, 600, 124, 62), GR.cream, { key: 'ctaBtn', sb: 12, sy: 6 }); sans('Download Get Regular', 0, -4, 44, GR.dark, { weight: 700 }); sans('Start logging today', 0, 38, 30, GR.inkSoft, { weight: 500 }); ctx.restore(); }
-  sans('Educational only. Not medical advice.', 540, 1380, 24, '#9C9389', { weight: 500 });
+  if (cb > 0) { ctx.save(); ctx.translate(540, 1170); ctx.scale(cb, cb); cut(rect(-300, -62, 600, 124, 62), GR.cream, { key: 'ctaBtn', sb: 12, sy: 6 }); sans('Download Get Regular', 0, -4, 44, GR.dark, { weight: 700 }); sans('Start logging today', 0, 38, 30, GR.inkSoft, { weight: 500 }); ctx.restore(); }
+  sans('Educational only. Not medical advice.', 540, 1275, 24, '#9C9389', { weight: 500 });
 }
