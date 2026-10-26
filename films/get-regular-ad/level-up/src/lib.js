@@ -263,9 +263,9 @@ function captionRail() {
 const GRADE = (() => { const c = document.createElement('canvas'); c.width = W; c.height = H; return c; })();
 function grade() {
   const g = GRADE.getContext('2d'); g.setTransform(1, 0, 0, 1, 0, 0); g.clearRect(0, 0, W, H); g.drawImage(ctx.canvas, 0, 0);
-  ctx.save(); ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.filter = 'saturate(1.32) brightness(1.06) contrast(1.05)'; ctx.drawImage(GRADE, 0, 0); ctx.restore();
+  ctx.save(); ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.filter = 'saturate(1.55) brightness(1.1) contrast(1.06)'; ctx.drawImage(GRADE, 0, 0); ctx.restore();
 }
-{ const kitPost = STYLE.post; STYLE.post = () => { grade(); captionRail(); kitPost(); }; }
+STYLE.post = () => { grade(); captionRail(); grain({ n: 900 }); };   // lighter grain than the kit: a cleaner, more modern finish
 const CAPTIONS_OFF = typeof location !== 'undefined' && /[?&]captions=0/.test(location.search);
 
 // ---- the series' lead: a woman (the audience). The kit's bust with shoulder-length hair, a side fringe, small earrings

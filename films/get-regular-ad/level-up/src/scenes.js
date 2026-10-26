@@ -23,10 +23,15 @@ function doc(x, y, s, moods) { bust(DOC_SPR, x, y, s, moods); }
 // ---- the painted world (ChatGPT plates, 1024×1536): drawn in world coords at cover size, so the era cameras still work
 const IW = 1024, IH = 1536, BK = H / IH, tableY = (iy) => H / 2 + (iy - IH / 2) * BK;   // an image row → world y
 const T_HOME = tableY(1095), T_CLINIC = tableY(1056);
+// the rooms sit a step back: a soft focus (characters and type stay sharp) and an airy top light, for a cleaner, editorial feel
+const SOFT = { 'bg-home.webp': 1, 'bg-clinic.webp': 1, 'bg-linen.webp': 1 };
 function bgArt(name, clipY) {
   const img = asset(name); if (!img) return;
   ctx.save(); if (clipY != null) { ctx.beginPath(); ctx.rect(-200, clipY, W + 400, H - clipY + 200); ctx.clip(); }
-  ctx.drawImage(img, W / 2 - IW * BK / 2, 0, IW * BK, H); ctx.restore();
+  if (SOFT[name]) { ctx.filter = 'blur(5px) brightness(1.05)'; const k = 1.04; ctx.drawImage(img, W / 2 - IW * BK * k / 2, -H * (k - 1) / 2, IW * BK * k, H * k); }
+  else ctx.drawImage(img, W / 2 - IW * BK / 2, 0, IW * BK, H);
+  ctx.restore();
+  if (SOFT[name]) { const g = ctx.createRadialGradient(540, 120, 40, 540, 300, 1300); g.addColorStop(0, 'rgba(255,252,244,0.34)'); g.addColorStop(1, 'rgba(255,252,244,0)'); ctx.save(); ctx.fillStyle = g; ctx.fillRect(0, 0, W, H); ctx.restore(); }
 }
 function slab(y) {   // a travertine table edge cut from the clinic plate
   const img = asset('bg-clinic.webp'); if (!img) return;
@@ -250,13 +255,15 @@ function sFromTo() {
 }
 
 // ---- 7. end card: the report, understand your gut, download
+const END_BG = '#3D452C', P4o = (u) => 1 - (1 - clamp(u)) ** 4;
 function sEnd() {
-  cut(rect(-40, -40, W + 80, H + 80, 0), GR.dark, { key: 'wallE', shadow: false, tear: 0, shade: false, grain: 0.5 });
-  windowLight({ a: 0.06, vig: 0.3 });
-  drawAsset('logo-white.svg', 540 - 250, 420, 500, 170, { fit: 'contain' });
-  serif('Understand your gut.', 540, 690, 80, GR.cream, { key: 'tagE', frac: EZ.o2(ev(TB.end + 0.3, 0.9)) });
-  const r = popS(CU.report - 0.15); if (r > 0) report(540, 910, 0.62 * r, 'repE');
+  // minimal: one flat olive field, the logo, one line, one button, the small print
+  ctx.save(); ctx.fillStyle = END_BG; ctx.fillRect(-40, -40, W + 80, H + 80); ctx.restore();
+  const lu = P4o(ev(TB.end + 0.15, 0.7));
+  ctx.save(); ctx.globalAlpha = lu; drawAsset('logo-white.svg', 540 - 210, 560 + 20 * (1 - lu), 420, 146, { fit: 'contain' }); ctx.restore();
+  ctx.save(); ctx.globalAlpha = P4o(ev(TB.end + 0.6, 0.7)); ctx.font = `italic 400 66px ${SERIF}`; ctx.fillStyle = '#F4EEE2'; ctx.textAlign = 'center'; ctx.fillText('Understand your gut.', 540, 820); ctx.restore();
   const cb = popS(VL('app').t1 + 0.3);
-  if (cb > 0) { ctx.save(); ctx.translate(540, 1170); ctx.scale(cb, cb); cut(rect(-300, -62, 600, 124, 62), GR.cream, { key: 'ctaBtn', sb: 12, sy: 6 }); sans('Download Get Regular', 0, -4, 44, GR.dark, { weight: 700 }); sans('Start logging today', 0, 38, 30, GR.inkSoft, { weight: 500 }); ctx.restore(); }
-  sans('Educational only. Not medical advice.', 540, 1275, 24, '#9C9389', { weight: 500 });
+  if (cb > 0) { ctx.save(); ctx.translate(540, 1010); ctx.scale(cb, cb); ctx.fillStyle = '#F4EEE2'; ctx.beginPath(); ctx.roundRect(-270, -52, 540, 104, 52); ctx.fill();
+    ctx.font = `700 40px ${HAND}`; ctx.fillStyle = END_BG; ctx.textAlign = 'center'; ctx.textBaseline = 'middle'; ctx.fillText('Download Get Regular', 0, 2); ctx.restore(); }
+  ctx.save(); ctx.font = `500 22px ${HAND}`; ctx.fillStyle = 'rgba(244,238,226,0.5)'; ctx.textAlign = 'center'; ctx.fillText('Educational only. Not medical advice.', 540, 1120); ctx.restore();
 }
