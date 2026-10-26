@@ -239,7 +239,7 @@ function captionRail() {
   if (typeof CAPTIONS_OFF !== 'undefined' && CAPTIONS_OFF) return;
   const c = CARDS.find((k) => TT >= k.t0 && TT < k.t1); if (!c) return;
   ctx.save(); screen();
-  const font = `500 ${CAP.size}px ${HAND}`, sp = fontW(' ', font);
+  const font = `700 ${CAP.size}px ${HAND}`, sp = fontW(' ', font);
   const ws = c.words.map((w) => ({ ...w, wd: fontW(w.w, font) }));
   const total = ws.reduce((a, w) => a + w.wd, 0) + sp * (ws.length - 1);
   let rows = [ws];
@@ -247,16 +247,25 @@ function captionRail() {
   const rowW = rows.map((r) => r.reduce((a, w) => a + w.wd, 0) + sp * (r.length - 1)), bw = Math.max(...rowW) + 70, lh = CAP.size * 1.28, bh = rows.length * lh + 38;
   const pop = EZ.back(clamp((TT - c.t0) / 0.18)), y0 = CAP.y - bh / 2;
   ctx.translate(CX, CAP.y); ctx.scale(0.94 + 0.06 * pop, 0.94 + 0.06 * pop); ctx.rotate(((c.t0 * 7) % 2 - 1) * 0.012); ctx.translate(-CX, -CAP.y);
-  cut(rect(CX - bw / 2, y0, bw, bh, 4), GR.paper, { key: 'cap' + c.t0.toFixed(2), tear: 1.5, sb: 10, sy: 5, grain: 0.5 });
+  // white words, no card: two soft shadows (wide + tight) keep them legible on the light walls
   ctx.font = font; ctx.textBaseline = 'alphabetic'; ctx.textAlign = 'left';
-  rows.forEach((r, ri) => {
-    let x = CX - rowW[ri] / 2; const y = y0 + 19 + lh * ri + CAP.size * 0.98;
-    for (const w of r) { ctx.fillStyle = TT >= w.t0 ? GR.ink : 'rgba(30,26,23,0.30)'; ctx.fillText(w.w, x, y); x += w.wd + sp; }
+  [[34, 'rgba(35,20,8,0.85)', 0], [34, 'rgba(35,20,8,0.85)', 0], [12, 'rgba(35,20,8,0.8)', 2], [3, 'rgba(35,20,8,0.9)', 1], [0, 'transparent', 0]].forEach(([blur, col, oy]) => {
+    ctx.shadowBlur = blur; ctx.shadowColor = col; ctx.shadowOffsetY = oy;
+    rows.forEach((r, ri) => {
+      let x = CX - rowW[ri] / 2; const y = y0 + 19 + lh * ri + CAP.size * 0.98;
+      for (const w of r) { ctx.fillStyle = TT >= w.t0 ? '#FFFFFF' : 'rgba(255,255,255,0.68)'; ctx.fillText(w.w, x, y); x += w.wd + sp; }
+    });
   });
   ctx.restore();
 }
 // the caption rail draws after every frame, outside the camera and the morph windows, then the paper grain
-{ const kitPost = STYLE.post; STYLE.post = () => { captionRail(); kitPost(); }; }
+// a colour grade first (brighter, livelier), then the captions on top, then the paper grain
+const GRADE = (() => { const c = document.createElement('canvas'); c.width = W; c.height = H; return c; })();
+function grade() {
+  const g = GRADE.getContext('2d'); g.setTransform(1, 0, 0, 1, 0, 0); g.clearRect(0, 0, W, H); g.drawImage(ctx.canvas, 0, 0);
+  ctx.save(); ctx.setTransform(1, 0, 0, 1, 0, 0); ctx.filter = 'saturate(1.32) brightness(1.06) contrast(1.05)'; ctx.drawImage(GRADE, 0, 0); ctx.restore();
+}
+{ const kitPost = STYLE.post; STYLE.post = () => { grade(); captionRail(); kitPost(); }; }
 const CAPTIONS_OFF = typeof location !== 'undefined' && /[?&]captions=0/.test(location.search);
 
 // ---- the series' lead: a woman (the audience). The kit's bust with shoulder-length hair, a side fringe, small earrings

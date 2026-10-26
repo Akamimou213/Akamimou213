@@ -44,8 +44,18 @@ function leaves(t0) {   // LEVEL UP confetti, in the brand's nature: olive leave
     ctx.restore();
   }
 }
+const FIG = { maya: { pre: 'mayaFull_', cx: 102 }, doc: { pre: 'docFull_', cx: 113 } };
+function figure(who, x, feetY, h, moods) {   // full body, standing; the face changes on cue with a small squash
+  let cur = moods[0], k = 0; moods.forEach((m, i) => { if (TT >= m[0]) { cur = m; k = i; } });
+  const F = FIG[who], img = asset(F.pre + cur[1] + '.png'); if (!img) return;
+  const z = h / img.height, u = clamp((TT - cur[0]) / 0.2), sq = k > 0 ? 1 - 0.025 * Math.sin(Math.PI * u) : 1;
+  ctx.save(); ctx.fillStyle = 'rgba(80,55,30,0.22)'; ctx.beginPath(); ctx.ellipse(x, feetY - 4, img.width * z * 0.55, 18, 0, 0, TAU); ctx.filter = 'blur(6px)'; ctx.fill(); ctx.restore();   // contact shadow
+  ctx.save(); ctx.translate(x, feetY); ctx.scale(1 / sq, sq);
+  ctx.shadowColor = 'rgba(60,40,20,0.22)'; ctx.shadowBlur = 16; ctx.shadowOffsetY = 6;
+  ctx.drawImage(img, -F.cx * z, -img.height * z, img.width * z, img.height * z); ctx.restore();
+}
 function mayaBody(x, feetY, h, rot = 0, o = {}) {   // the full figure (front), feet at (x, feetY), h tall
-  const img = asset('mayaBody.png'); if (!img) return;
+  const img = asset(o.file || 'mayaFull_happy.png'); if (!img) return;
   const z = h / img.height;
   ctx.save(); ctx.translate(x, feetY); ctx.rotate(rot); if (o.sx) ctx.scale(o.sx, o.sy ?? 1);
   ctx.shadowColor = 'rgba(60,40,20,0.3)'; ctx.shadowBlur = 16; ctx.shadowOffsetY = 8;
@@ -100,24 +110,22 @@ const report = (x, y, s, key) => {   // a one-page summary: a title bar, a few b
 // ---- 1. intro: meet Maya, LV.1 gut guesser
 function sIntro() {
   bgArt('bg-home.webp');
-  maya(520, T_HOME - 100 * 1.35, 1.35, [[0, 'smile'], [CU.bloat, 'worried']]);
-  bgArt('bg-home.webp', T_HOME);
+  figure('maya', 540, 1790, 1100, [[0, 'smile'], [CU.bloat, 'worried']]);
   gameTag('LV.1  GUT GUESSER', 500, 430, 46, { s: popS(CU.lv - 0.05), rot: -0.02 });
   const nm = popS(CU.maya - 0.05);
-  if (nm > 0) { label('Maya', 820, 880, 60, { s: nm, rot: 0.05 }); ink([[760, 920], [700, 980], [650, 1010]], { w: 5, color: GR.ink, amt: 0.8, key: 'arrowM', frac: ev(CU.maya, 0.3) }); }
+  if (nm > 0) { label('Maya', 820, 600, 60, { s: nm, rot: 0.05 }); ink([[760, 640], [700, 690], [655, 725]], { w: 5, color: GR.ink, amt: 0.8, key: 'arrowM', frac: ev(CU.maya, 0.3) }); }
   const b1 = popS(CU.bloat), b2 = popS(CU.bath), b3 = popS(CU.energy);
-  if (b1 > 0) { ctx.save(); ctx.translate(430, 700 + Math.sin(TT * 2) * 8); ctx.scale(b1, b1); balloon(0, 0, 1, 'balI'); ctx.restore(); }
-  if (b2 > 0) { ctx.save(); ctx.translate(840, 640); ctx.scale(b2, b2); roll(0, 0, 1.3, { key: 'rollI' }); serif('?', 90, -10, 90, GR.ink, { key: 'rq' }); ctx.restore(); }
-  if (b3 > 0) { ctx.save(); ctx.translate(650, 560); ctx.scale(b3, b3); battery(0, 0, 0.9, 'batI'); ctx.restore(); }
+  if (b1 > 0) { ctx.save(); ctx.translate(875, 735 + Math.sin(TT * 2) * 8); ctx.scale(b1, b1); balloon(0, 0, 1, 'balI'); ctx.restore(); }
+  if (b2 > 0) { ctx.save(); ctx.translate(775, 1030); ctx.scale(b2, b2); roll(0, 0, 1.3, { key: 'rollI' }); serif('?', 80, -10, 90, GR.ink, { key: 'rq' }); ctx.restore(); }
+  if (b3 > 0) { ctx.save(); ctx.translate(840, 1250); ctx.scale(b3, b3); battery(0, 0, 0.9, 'batI'); ctx.restore(); }
 }
 
 // ---- 2. the doctor: the questions come fast, her mind goes blank, could be stress
 function sDoctor() {
   bgArt('bg-clinic.webp');
   clock(220, 420, 70, 10, 15 + TT * 1.5, 'of1ck');
-  maya(QPOS.maya, T_CLINIC - 110, 1.1, [[0, 'smile'], [CU.since, 'worried'], [CU.blank, 'unsure'], [CU.stress + 0.3, 'down']]);
-  doc(QPOS.doc, T_CLINIC - 110, 1.1, [[0, 'focus'], [CU.stress, 'smile']]);
-  bgArt('bg-clinic.webp', T_CLINIC);
+  figure('maya', QPOS.maya, QPOS.feet, QPOS.h, [[0, 'smile'], [CU.since, 'worried'], [CU.blank, 'unsure'], [CU.stress + 0.3, 'down']]);
+  figure('doc', QPOS.doc, QPOS.feet, QPOS.h, [[0, 'focus'], [CU.stress, 'smile']]);
   // "could be stress": the three questions fold away and one answer takes their place
   const gone = 1 - EZ.i2(ev(CU.stress - 0.2, 0.22));
   QBUB.forEach(([q, x, y], k) => bubble(q, x, y, 50, { s: popS([CU.since, CU.often, CU.after][k] - 0.1) * gone, tail: 1 }));
@@ -133,7 +141,7 @@ function sLevel() {
   leaves(TB.level);
   { const j = springEase(TT - CU.hit, 210, 11), lift = Math.sin(Math.PI * clamp((TT - CU.hit) / 0.42)) * 120;   // she jumps on LEVEL UP, lands with a squash
     const land = TT > CU.hit + 0.42 ? 1 - 0.07 * Math.sin(Math.PI * clamp((TT - CU.hit - 0.42) / 0.2)) : 1; void j;
-    mayaBody(540, 1690 - lift, 820, 0, { sx: 2 - land, sy: land }); }
+    mayaBody(540, 1690 - lift, 820, 0, { sx: 2 - land, sy: land, file: 'mayaFull_happy.png' }); }
   gameTag('LEVEL UP!', 540, 560, 104, { s: slam(CU.hit), rot: -0.03 });
   gameTag('LV.1  →  LV.2', 540, 720, 40, { s: popS(CU.hit + 0.35), fill: GR.dusk, color: GR.paper });
 }
@@ -160,9 +168,8 @@ function inventory() {
 function sTools() {
   bgArt('bg-linen.webp');
   inventory();
-  maya(190, 1250, 0.8, [[0, 'smile'], [CU.s3, 'content']]);
-  slab(1330);
-  gameTag('LV.2', 190, 960, 30, { fill: GR.dusk, color: GR.paper, rot: -0.04 });
+  figure('maya', 150, 1790, 620, [[0, 'smile'], [CU.s3, 'content']]);
+  gameTag('LV.2', 150, 1125, 30, { fill: GR.dusk, color: GR.paper, rot: -0.04 });
   const cur = TOOLS.findIndex((t, i) => TT >= t.t0() - 0.3 && (i === 3 || TT < TOOLS[i + 1].t0() - 0.3));
   // the big number for the current tool
   if (cur >= 0) gameTag(String(cur + 1), 140, 560, 70, { s: popS(TOOLS[cur].t0() - 0.25), fill: GR.dusk, color: GR.paper });
@@ -216,18 +223,17 @@ function hardHat(x, y, s) {   // the level-2 hat (the reference's grammar: the h
 
 // ---- 5. back at the doctor: the questions have answers
 // one layout for both doctor scenes: who sits where, and where the three questions hang (clear of the tags and faces)
-const QPOS = { maya: 250, doc: 830, rep: 535 };
-const QBUB = [['Since when?', 720, 600], ['How often?', 770, 740], ['After what?', 680, 880]];
+const QPOS = { maya: 270, doc: 810, rep: 540, feet: 1800, h: 940 };
+const QBUB = [['Since when?', 720, 565], ['How often?', 770, 660], ['After what?', 690, 755]];
 function sBoss() {
   bgArt('bg-clinic.webp');
   inventory(); [0, 1, 2, 3].forEach((i) => toolIcon(i, SLOTS[i].x, SLOTS[i].y, 1));
   gameTag('FULLY EQUIPPED', 540, 478, 36, { s: popS(TB.boss + 0.1) * (1 - EZ.i2(ev(CU.answers - 0.3, 0.3))), fill: GR.sageD, color: GR.paper });
-  maya(QPOS.maya, T_CLINIC - 110, 1.1, [[0, 'content'], [CU.answers, 'happy']]);
-  doc(QPOS.doc, T_CLINIC - 110, 1.1, [[0, 'smile'], [CU.answers + 0.4, 'happy']]);
+  figure('maya', QPOS.maya, QPOS.feet, QPOS.h, [[0, 'content'], [CU.answers, 'happy']]);
+  figure('doc', QPOS.doc, QPOS.feet, QPOS.h, [[0, 'smile'], [CU.answers + 0.4, 'happy']]);
   { const up = springEase(TT - (TB.boss + 0.25), 130, 15);   // the report rises from behind the table, between them
-    report(QPOS.rep, lerp(1480, 1232, up), 0.46, 'repB'); }
-  bgArt('bg-clinic.webp', T_CLINIC);
-  gameTag('LV.2', QPOS.maya, 930, 30, { fill: GR.dusk, color: GR.paper, rot: -0.04 });
+    report(QPOS.rep, 1230, 0.5 * popS(TB.boss + 0.3), 'repB'); void up; }
+  gameTag('LV.2', QPOS.maya, 815, 30, { fill: GR.dusk, color: GR.paper, rot: -0.04 });
   QBUB.forEach(([q, x, y], k) => bubble(q, x, y, 50, { s: 1, tail: 1, check: CU.answers + k * 0.22 }));
 }
 
