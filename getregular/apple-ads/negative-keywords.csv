@@ -1,0 +1,367 @@
+scope,text,matchType,reason
+ALL,game,BROAD,Games & novelty
+ALL,games,BROAD,Games & novelty
+ALL,gaming,BROAD,Games & novelty
+ALL,puzzle,BROAD,Games & novelty
+ALL,simulator,BROAD,Games & novelty
+ALL,tycoon,BROAD,Games & novelty
+ALL,escape room,BROAD,Games & novelty
+ALL,arcade,BROAD,Games & novelty
+ALL,minecraft,BROAD,Games & novelty
+ALL,mcpe,BROAD,Games & novelty
+ALL,roblox,BROAD,Games & novelty
+ALL,mod,BROAD,Games & novelty
+ALL,mods,BROAD,Games & novelty
+ALL,prank,BROAD,Games & novelty
+ALL,spoof,BROAD,Games & novelty
+ALL,troll,BROAD,Games & novelty
+ALL,sticker,BROAD,Games & novelty
+ALL,stickers,BROAD,Games & novelty
+ALL,emoji,BROAD,Games & novelty
+ALL,meme,BROAD,Games & novelty
+ALL,wallpaper,BROAD,Games & novelty
+ALL,soundboard,BROAD,Games & novelty
+ALL,coloring,BROAD,Games & novelty
+ALL,slime,BROAD,Games & novelty
+ALL,clicker,BROAD,Games & novelty
+ALL,idle,BROAD,Games & novelty
+ALL,dog,BROAD,"Pets & animals (dog poop scanners, scat identifiers)"
+ALL,dogs,BROAD,"Pets & animals (dog poop scanners, scat identifiers)"
+ALL,puppy,BROAD,"Pets & animals (dog poop scanners, scat identifiers)"
+ALL,cat,BROAD,"Pets & animals (dog poop scanners, scat identifiers)"
+ALL,cats,BROAD,"Pets & animals (dog poop scanners, scat identifiers)"
+ALL,kitten,BROAD,"Pets & animals (dog poop scanners, scat identifiers)"
+ALL,pet,BROAD,"Pets & animals (dog poop scanners, scat identifiers)"
+ALL,pets,BROAD,"Pets & animals (dog poop scanners, scat identifiers)"
+ALL,animal,BROAD,"Pets & animals (dog poop scanners, scat identifiers)"
+ALL,animals,BROAD,"Pets & animals (dog poop scanners, scat identifiers)"
+ALL,horse,BROAD,"Pets & animals (dog poop scanners, scat identifiers)"
+ALL,cow,BROAD,"Pets & animals (dog poop scanners, scat identifiers)"
+ALL,bird,BROAD,"Pets & animals (dog poop scanners, scat identifiers)"
+ALL,pigeon,BROAD,"Pets & animals (dog poop scanners, scat identifiers)"
+ALL,scat,BROAD,"Pets & animals (dog poop scanners, scat identifiers)"
+ALL,droppings,BROAD,"Pets & animals (dog poop scanners, scat identifiers)"
+ALL,wildlife,BROAD,"Pets & animals (dog poop scanners, scat identifiers)"
+ALL,hunting,BROAD,"Pets & animals (dog poop scanners, scat identifiers)"
+ALL,baby,BROAD,Babies & kids (diaper / potty-training apps)
+ALL,babies,BROAD,Babies & kids (diaper / potty-training apps)
+ALL,infant,BROAD,Babies & kids (diaper / potty-training apps)
+ALL,newborn,BROAD,Babies & kids (diaper / potty-training apps)
+ALL,toddler,BROAD,Babies & kids (diaper / potty-training apps)
+ALL,kids,BROAD,Babies & kids (diaper / potty-training apps)
+ALL,child,BROAD,Babies & kids (diaper / potty-training apps)
+ALL,children,BROAD,Babies & kids (diaper / potty-training apps)
+ALL,diaper,BROAD,Babies & kids (diaper / potty-training apps)
+ALL,diapers,BROAD,Babies & kids (diaper / potty-training apps)
+ALL,nappy,BROAD,Babies & kids (diaper / potty-training apps)
+ALL,potty training,BROAD,Babies & kids (diaper / potty-training apps)
+ALL,breastfeeding,BROAD,Babies & kids (diaper / potty-training apps)
+ALL,face,BROAD,Face de-bloating & beauty
+ALL,facial,BROAD,Face de-bloating & beauty
+ALL,depuff,BROAD,Face de-bloating & beauty
+ALL,depuffing,BROAD,Face de-bloating & beauty
+ALL,jawline,BROAD,Face de-bloating & beauty
+ALL,selfie,BROAD,Face de-bloating & beauty
+ALL,makeup,BROAD,Face de-bloating & beauty
+ALL,skincare,BROAD,Face de-bloating & beauty
+ALL,face shape,BROAD,Face de-bloating & beauty
+ALL,hairstyle,BROAD,Face de-bloating & beauty
+ALL,remodel,BROAD,"Home, bathroom design & furniture"
+ALL,remodeling,BROAD,"Home, bathroom design & furniture"
+ALL,renovation,BROAD,"Home, bathroom design & furniture"
+ALL,interior design,BROAD,"Home, bathroom design & furniture"
+ALL,decor,BROAD,"Home, bathroom design & furniture"
+ALL,plumber,BROAD,"Home, bathroom design & furniture"
+ALL,plumbing,BROAD,"Home, bathroom design & furniture"
+ALL,furniture,BROAD,"Home, bathroom design & furniture"
+ALL,toilet paper,BROAD,"Home, bathroom design & furniture"
+ALL,tile,BROAD,"Home, bathroom design & furniture"
+ALL,bar stool,EXACT,Multi-word phrases that share our words: exact so they cannot block real targets
+ALL,barstool,EXACT,Multi-word phrases that share our words: exact so they cannot block real targets
+ALL,barstool sports,EXACT,Multi-word phrases that share our words: exact so they cannot block real targets
+ALL,period tracker,EXACT,Multi-word phrases that share our words: exact so they cannot block real targets
+ALL,cycle tracker,EXACT,Multi-word phrases that share our words: exact so they cannot block real targets
+ALL,step counter,EXACT,Multi-word phrases that share our words: exact so they cannot block real targets
+ALL,calorie counter,EXACT,Multi-word phrases that share our words: exact so they cannot block real targets
+ALL,calorie tracker,EXACT,Multi-word phrases that share our words: exact so they cannot block real targets
+ALL,water tracker,EXACT,Multi-word phrases that share our words: exact so they cannot block real targets
+ALL,habit tracker,EXACT,Multi-word phrases that share our words: exact so they cannot block real targets
+ALL,pill tracker,EXACT,Multi-word phrases that share our words: exact so they cannot block real targets
+ALL,medication tracker,EXACT,Multi-word phrases that share our words: exact so they cannot block real targets
+ALL,blood pressure tracker,EXACT,Multi-word phrases that share our words: exact so they cannot block real targets
+ALL,glucose tracker,EXACT,Multi-word phrases that share our words: exact so they cannot block real targets
+ALL,baby tracker,EXACT,Multi-word phrases that share our words: exact so they cannot block real targets
+ALL,pet tracker,EXACT,Multi-word phrases that share our words: exact so they cannot block real targets
+ALL,toilet finder,BROAD,Toilet & restroom finders
+ALL,bathroom finder,BROAD,Toilet & restroom finders
+ALL,restroom finder,BROAD,Toilet & restroom finders
+ALL,restroom,BROAD,Toilet & restroom finders
+ALL,near me,BROAD,Toilet & restroom finders
+ALL,toilet map,BROAD,Toilet & restroom finders
+ALL,bathroom map,BROAD,Toilet & restroom finders
+ALL,public toilet,BROAD,Toilet & restroom finders
+ALL,wifi,BROAD,Internet / fiber broadband
+ALL,wi-fi,BROAD,Internet / fiber broadband
+ALL,broadband,BROAD,Internet / fiber broadband
+ALL,internet,BROAD,Internet / fiber broadband
+ALL,fiber optic,BROAD,Internet / fiber broadband
+ALL,router,BROAD,Internet / fiber broadband
+ALL,telecom,BROAD,Internet / fiber broadband
+ALL,speed test,BROAD,Internet / fiber broadband
+ALL,fibernet,BROAD,Internet / fiber broadband
+ALL,gas station,BROAD,Gas stations & fuel
+ALL,gas prices,BROAD,Gas stations & fuel
+ALL,gasbuddy,BROAD,Gas stations & fuel
+ALL,gas buddy,BROAD,Gas stations & fuel
+ALL,fuel,BROAD,Gas stations & fuel
+ALL,mileage,BROAD,Gas stations & fuel
+ALL,diesel,BROAD,Gas stations & fuel
+ALL,gasoline,BROAD,Gas stations & fuel
+ALL,gasolina,BROAD,Gas stations & fuel
+ALL,stock,BROAD,"Finance, stocks & insurance (IBD = Investor's Business Daily)"
+ALL,stocks,BROAD,"Finance, stocks & insurance (IBD = Investor's Business Daily)"
+ALL,trading,BROAD,"Finance, stocks & insurance (IBD = Investor's Business Daily)"
+ALL,trader,BROAD,"Finance, stocks & insurance (IBD = Investor's Business Daily)"
+ALL,investor,BROAD,"Finance, stocks & insurance (IBD = Investor's Business Daily)"
+ALL,investors,BROAD,"Finance, stocks & insurance (IBD = Investor's Business Daily)"
+ALL,crypto,BROAD,"Finance, stocks & insurance (IBD = Investor's Business Daily)"
+ALL,bank,BROAD,"Finance, stocks & insurance (IBD = Investor's Business Daily)"
+ALL,banking,BROAD,"Finance, stocks & insurance (IBD = Investor's Business Daily)"
+ALL,credit union,BROAD,"Finance, stocks & insurance (IBD = Investor's Business Daily)"
+ALL,insurance,BROAD,"Finance, stocks & insurance (IBD = Investor's Business Daily)"
+ALL,salary,BROAD,"Finance, stocks & insurance (IBD = Investor's Business Daily)"
+ALL,wage,BROAD,"Finance, stocks & insurance (IBD = Investor's Business Daily)"
+ALL,paycheck,BROAD,"Finance, stocks & insurance (IBD = Investor's Business Daily)"
+ALL,airport,BROAD,Places & institutions (Bristol city/schools/speedway)
+ALL,taxi,BROAD,Places & institutions (Bristol city/schools/speedway)
+ALL,school,BROAD,Places & institutions (Bristol city/schools/speedway)
+ALL,schools,BROAD,Places & institutions (Bristol city/schools/speedway)
+ALL,school district,BROAD,Places & institutions (Bristol city/schools/speedway)
+ALL,college,BROAD,Places & institutions (Bristol city/schools/speedway)
+ALL,university,BROAD,Places & institutions (Bristol city/schools/speedway)
+ALL,church,BROAD,Places & institutions (Bristol city/schools/speedway)
+ALL,police,BROAD,Places & institutions (Bristol city/schools/speedway)
+ALL,sheriff,BROAD,Places & institutions (Bristol city/schools/speedway)
+ALL,speedway,BROAD,Places & institutions (Bristol city/schools/speedway)
+ALL,football,BROAD,Places & institutions (Bristol city/schools/speedway)
+ALL,soccer,BROAD,Places & institutions (Bristol city/schools/speedway)
+ALL,theatre,BROAD,Places & institutions (Bristol city/schools/speedway)
+ALL,theater,BROAD,Places & institutions (Bristol city/schools/speedway)
+ALL,travel guide,BROAD,Places & institutions (Bristol city/schools/speedway)
+ALL,hotel,BROAD,Places & institutions (Bristol city/schools/speedway)
+ALL,quiz,BROAD,Education & exam prep (digestive system quizzes)
+ALL,trivia,BROAD,Education & exam prep (digestive system quizzes)
+ALL,flashcards,BROAD,Education & exam prep (digestive system quizzes)
+ALL,exam,BROAD,Education & exam prep (digestive system quizzes)
+ALL,test prep,BROAD,Education & exam prep (digestive system quizzes)
+ALL,anatomy,BROAD,Education & exam prep (digestive system quizzes)
+ALL,nursing,BROAD,Education & exam prep (digestive system quizzes)
+ALL,textbook,BROAD,Education & exam prep (digestive system quizzes)
+ALL,study guide,BROAD,Education & exam prep (digestive system quizzes)
+ALL,calorie,BROAD,"Calorie counting, weight loss & fitness"
+ALL,calories,BROAD,"Calorie counting, weight loss & fitness"
+ALL,macros,BROAD,"Calorie counting, weight loss & fitness"
+ALL,weight loss,BROAD,"Calorie counting, weight loss & fitness"
+ALL,lose weight,BROAD,"Calorie counting, weight loss & fitness"
+ALL,intermittent fasting,BROAD,"Calorie counting, weight loss & fitness"
+ALL,keto,BROAD,"Calorie counting, weight loss & fitness"
+ALL,workout,BROAD,"Calorie counting, weight loss & fitness"
+ALL,gym,BROAD,"Calorie counting, weight loss & fitness"
+ALL,pedometer,BROAD,"Calorie counting, weight loss & fitness"
+ALL,kettlebell,BROAD,"Calorie counting, weight loss & fitness"
+ALL,bodybuilding,BROAD,"Calorie counting, weight loss & fitness"
+ALL,ovulation,BROAD,"Period, fertility & pregnancy"
+ALL,fertility,BROAD,"Period, fertility & pregnancy"
+ALL,pregnancy,BROAD,"Period, fertility & pregnancy"
+ALL,menstrual,BROAD,"Period, fertility & pregnancy"
+ALL,dating,BROAD,"Dating & relationships (""gut feeling"" apps)"
+ALL,relationship,BROAD,"Dating & relationships (""gut feeling"" apps)"
+ALL,couples,BROAD,"Dating & relationships (""gut feeling"" apps)"
+ALL,red flags,BROAD,"Dating & relationships (""gut feeling"" apps)"
+ALL,text decoder,BROAD,"Dating & relationships (""gut feeling"" apps)"
+ALL,ebook,BROAD,"Books, readers & media"
+ALL,ebooks,BROAD,"Books, readers & media"
+ALL,gutenberg,BROAD,"Books, readers & media"
+ALL,audiobook,BROAD,"Books, readers & media"
+ALL,radio,BROAD,"Books, readers & media"
+ALL,news,BROAD,"Books, readers & media"
+ALL,magazine,BROAD,"Books, readers & media"
+ALL,ibis,BROAD,Drawing apps (ibis Paint typo traffic)
+ALL,ibispaint,BROAD,Drawing apps (ibis Paint typo traffic)
+ALL,ibis paint,BROAD,Drawing apps (ibis Paint typo traffic)
+ALL,ibspaint,BROAD,Drawing apps (ibis Paint typo traffic)
+ALL,drawing,BROAD,Drawing apps (ibis Paint typo traffic)
+ALL,paint,BROAD,Drawing apps (ibis Paint typo traffic)
+NON_COMPETITOR,poop map,EXACT,Social / novelty poop apps
+NON_COMPETITOR,poopmap,EXACT,Social / novelty poop apps
+NON_COMPETITOR,poomap,EXACT,Social / novelty poop apps
+NON_COMPETITOR,poop maps,EXACT,Social / novelty poop apps
+NON_COMPETITOR,poop counter,EXACT,Social / novelty poop apps
+NON_COMPETITOR,poop counter with friends,EXACT,Social / novelty poop apps
+NON_COMPETITOR,poop tracker with friends,EXACT,Social / novelty poop apps
+NON_COMPETITOR,poop tracker with friend,EXACT,Social / novelty poop apps
+NON_COMPETITOR,poop tracker friends,EXACT,Social / novelty poop apps
+NON_COMPETITOR,poop friends,EXACT,Social / novelty poop apps
+NON_COMPETITOR,poop buddies,EXACT,Social / novelty poop apps
+NON_COMPETITOR,poop pals,EXACT,Social / novelty poop apps
+NON_COMPETITOR,poo pals,EXACT,Social / novelty poop apps
+NON_COMPETITOR,poop challenge,EXACT,Social / novelty poop apps
+NON_COMPETITOR,poop tracker widget,EXACT,Social / novelty poop apps
+NON_COMPETITOR,widgetable,EXACT,Social / novelty poop apps
+NON_COMPETITOR,poop salary,EXACT,Social / novelty poop apps
+NON_COMPETITOR,poop at work,EXACT,Social / novelty poop apps
+NON_COMPETITOR,poop at work terms,EXACT,Social / novelty poop apps
+NON_COMPETITOR,poopsy,EXACT,Social / novelty poop apps
+NON_COMPETITOR,poop hunter,EXACT,Social / novelty poop apps
+NON_COMPETITOR,places i've pooped,EXACT,Social / novelty poop apps
+NON_COMPETITOR,poop emoji,EXACT,Social / novelty poop apps
+NON_COMPETITOR,poop game,EXACT,Social / novelty poop apps
+NON_COMPETITOR,poop jump,EXACT,Social / novelty poop apps
+NON_COMPETITOR,poo jump,EXACT,Social / novelty poop apps
+NON_COMPETITOR,poopie,EXACT,Social / novelty poop apps
+NON_COMPETITOR,pooping,EXACT,Social / novelty poop apps
+NON_COMPETITOR,pooped,EXACT,Social / novelty poop apps
+NON_COMPETITOR,who poo,EXACT,Social / novelty poop apps
+NON_COMPETITOR,poop loop,EXACT,Social / novelty poop apps
+NON_COMPETITOR,poop boom,EXACT,Social / novelty poop apps
+NON_COMPETITOR,poop crusher,EXACT,Social / novelty poop apps
+NON_COMPETITOR,poop identifier,EXACT,Animal scat identifiers
+NON_COMPETITOR,animal poop identifier,EXACT,Animal scat identifiers
+NON_COMPETITOR,animal poo identifier,EXACT,Animal scat identifiers
+NON_COMPETITOR,dog poop,EXACT,Animal scat identifiers
+NON_COMPETITOR,dog poo,EXACT,Animal scat identifiers
+NON_COMPETITOR,dog poop health check,EXACT,Animal scat identifiers
+NON_COMPETITOR,cow poop analyzer,EXACT,Animal scat identifiers
+NON_COMPETITOR,puppy poo log,EXACT,Animal scat identifiers
+NON_COMPETITOR,bloat,EXACT,Face de-bloating apps
+NON_COMPETITOR,debloat,EXACT,Face de-bloating apps
+NON_COMPETITOR,de bloat,EXACT,Face de-bloating apps
+NON_COMPETITOR,bloat down,EXACT,Face de-bloating apps
+NON_COMPETITOR,bloatdown,EXACT,Face de-bloating apps
+NON_COMPETITOR,face bloat,EXACT,Face de-bloating apps
+NON_COMPETITOR,bloated face,EXACT,Face de-bloating apps
+NON_COMPETITOR,bloat your face down,EXACT,Face de-bloating apps
+NON_COMPETITOR,depuff,EXACT,Face de-bloating apps
+NON_COMPETITOR,ibs,EXACT,Ambiguous one-word / typo queries
+NON_COMPETITOR,ibd,EXACT,Ambiguous one-word / typo queries
+NON_COMPETITOR,gas,EXACT,Ambiguous one-word / typo queries
+NON_COMPETITOR,gassy app,EXACT,Ambiguous one-word / typo queries
+NON_COMPETITOR,gut,EXACT,Ambiguous one-word / typo queries
+NON_COMPETITOR,guts,EXACT,Ambiguous one-word / typo queries
+NON_COMPETITOR,stool,EXACT,Ambiguous one-word / typo queries
+NON_COMPETITOR,bristol,EXACT,Ambiguous one-word / typo queries
+NON_COMPETITOR,colon,EXACT,Ambiguous one-word / typo queries
+NON_COMPETITOR,toilet,EXACT,Ambiguous one-word / typo queries
+NON_COMPETITOR,bathroom,EXACT,Ambiguous one-word / typo queries
+NON_COMPETITOR,fiber,EXACT,Ambiguous one-word / typo queries
+NON_COMPETITOR,digestion,EXACT,Ambiguous one-word / typo queries
+NON_COMPETITOR,probiotic,EXACT,Ambiguous one-word / typo queries
+NON_COMPETITOR,probiotics,EXACT,Ambiguous one-word / typo queries
+NON_COMPETITOR,ibis paint x,EXACT,Unrelated brands that share our prefixes
+NON_COMPETITOR,ibspaint x,EXACT,Unrelated brands that share our prefixes
+NON_COMPETITOR,ibd digital,EXACT,Unrelated brands that share our prefixes
+NON_COMPETITOR,ibd leaderboard,EXACT,Unrelated brands that share our prefixes
+NON_COMPETITOR,ibd swing trader,EXACT,Unrelated brands that share our prefixes
+NON_COMPETITOR,investor's business daily,EXACT,Unrelated brands that share our prefixes
+NON_COMPETITOR,investors business daily,EXACT,Unrelated brands that share our prefixes
+NON_COMPETITOR,guthrie's,EXACT,Unrelated brands that share our prefixes
+NON_COMPETITOR,guthries,EXACT,Unrelated brands that share our prefixes
+NON_COMPETITOR,guthrie mychart,EXACT,Unrelated brands that share our prefixes
+NON_COMPETITOR,gutka sahib,EXACT,Unrelated brands that share our prefixes
+NON_COMPETITOR,gutbusters,EXACT,Unrelated brands that share our prefixes
+NON_COMPETITOR,gut busters,EXACT,Unrelated brands that share our prefixes
+NON_COMPETITOR,gutter,EXACT,Unrelated brands that share our prefixes
+NON_COMPETITOR,gut feel,EXACT,Unrelated brands that share our prefixes
+NON_COMPETITOR,gutenberg,EXACT,Unrelated brands that share our prefixes
+NON_COMPETITOR,colonial life,EXACT,Unrelated brands that share our prefixes
+NON_COMPETITOR,colonbroom,EXACT,Unrelated brands that share our prefixes
+NON_COMPETITOR,colon broom,EXACT,Unrelated brands that share our prefixes
+NON_COMPETITOR,food tracker,EXACT,Different job: calorie / food scanners
+NON_COMPETITOR,food scanner,EXACT,Different job: calorie / food scanners
+NON_COMPETITOR,food tracker app,EXACT,Different job: calorie / food scanners
+NON_COMPETITOR,food tracker free,EXACT,Different job: calorie / food scanners
+NON_COMPETITOR,calorie counter,EXACT,Different job: calorie / food scanners
+NON_COMPETITOR,calorie tracker,EXACT,Different job: calorie / food scanners
+NON_COMPETITOR,cal ai,EXACT,Different job: calorie / food scanners
+NON_COMPETITOR,myfitnesspal,EXACT,Different job: calorie / food scanners
+NON_COMPETITOR,yuka,EXACT,Different job: calorie / food scanners
+NON_COMPETITOR,food diary app,EXACT,Different job: calorie / food scanners
+NON_COMPETITOR,food diary,EXACT,Different job: calorie / food scanners
+NON_COMPETITOR,ozempic tracker,EXACT,Different job: GLP-1 dose trackers
+NON_COMPETITOR,glp-1 tracker,EXACT,Different job: GLP-1 dose trackers
+NON_COMPETITOR,glp1 tracker,EXACT,Different job: GLP-1 dose trackers
+NON_COMPETITOR,glp 1 tracker,EXACT,Different job: GLP-1 dose trackers
+NON_COMPETITOR,mounjaro tracker,EXACT,Different job: GLP-1 dose trackers
+NON_COMPETITOR,wegovy tracker,EXACT,Different job: GLP-1 dose trackers
+NON_COMPETITOR,zepbound tracker,EXACT,Different job: GLP-1 dose trackers
+NON_COMPETITOR,shot tracker,EXACT,Different job: GLP-1 dose trackers
+NON_COMPETITOR,injection tracker,EXACT,Different job: GLP-1 dose trackers
+NON_COMPETITOR,celiac,EXACT,Different job: other conditions / trackers
+NON_COMPETITOR,gluten free,EXACT,Different job: other conditions / trackers
+NON_COMPETITOR,gluten free scanner,EXACT,Different job: other conditions / trackers
+NON_COMPETITOR,ostomy,EXACT,Different job: other conditions / trackers
+NON_COMPETITOR,hemorrhoid,EXACT,Different job: other conditions / trackers
+NON_COMPETITOR,colonoscopy prep,EXACT,Different job: other conditions / trackers
+NON_COMPETITOR,colonoscopy prep reminder,EXACT,Different job: other conditions / trackers
+NON_COMPETITOR,colonoscopy helper,EXACT,Different job: other conditions / trackers
+NON_COMPETITOR,lupus symptom tracker,EXACT,Different job: other conditions / trackers
+NON_COMPETITOR,menopause symptom tracker,EXACT,Different job: other conditions / trackers
+NON_COMPETITOR,migraine tracker,EXACT,Different job: other conditions / trackers
+NON_COMPETITOR,headache tracker,EXACT,Different job: other conditions / trackers
+NON_COMPETITOR,mood tracker,EXACT,Different job: other conditions / trackers
+NON_COMPETITOR,sleep tracker,EXACT,Different job: other conditions / trackers
+NON_COMPETITOR,pain tracker,EXACT,Different job: other conditions / trackers
+NON_COMPETITOR,symptom tracker,EXACT,Different job: other conditions / trackers
+NON_COMPETITOR,health symptom tracker,EXACT,Different job: other conditions / trackers
+NON_COMPETITOR,pee tracker,EXACT,Different job: bladder / hydration
+NON_COMPETITOR,pee,EXACT,Different job: bladder / hydration
+NON_COMPETITOR,bladder diary,EXACT,Different job: bladder / hydration
+NON_COMPETITOR,water tracker,EXACT,Different job: bladder / hydration
+NON_COMPETITOR,water reminder,EXACT,Different job: bladder / hydration
+NON_COMPETITOR,drink water,EXACT,Different job: bladder / hydration
+NON_COMPETITOR,hydration tracker,EXACT,Different job: bladder / hydration
+NON_COMPETITOR,toilet timer,EXACT,Different job: bladder / hydration
+NON_COMPETITOR,toilet alarm,EXACT,Different job: bladder / hydration
+NON_COMPETITOR,happy poop,EXACT,Competitor name: route to Competitor campaign only
+NON_COMPETITOR,cara care,EXACT,Competitor name: route to Competitor campaign only
+NON_COMPETITOR,bowelle,EXACT,Competitor name: route to Competitor campaign only
+NON_COMPETITOR,mysymptoms,EXACT,Competitor name: route to Competitor campaign only
+NON_COMPETITOR,nerva,EXACT,Competitor name: route to Competitor campaign only
+NON_COMPETITOR,nerva app,EXACT,Competitor name: route to Competitor campaign only
+NON_COMPETITOR,monash fodmap,EXACT,Competitor name: route to Competitor campaign only
+NON_COMPETITOR,monash,EXACT,Competitor name: route to Competitor campaign only
+NON_COMPETITOR,plop,EXACT,Competitor name: route to Competitor campaign only
+NON_COMPETITOR,plop poop tracker,EXACT,Competitor name: route to Competitor campaign only
+NON_COMPETITOR,balloon poop tracker,EXACT,Competitor name: route to Competitor campaign only
+NON_COMPETITOR,poopcheck,EXACT,Competitor name: route to Competitor campaign only
+NON_COMPETITOR,flush poop,EXACT,Competitor name: route to Competitor campaign only
+NON_COMPETITOR,poopid,EXACT,Competitor name: route to Competitor campaign only
+NON_COMPETITOR,zoe health,EXACT,Competitor name: route to Competitor campaign only
+NON_COMPETITOR,zoe app,EXACT,Competitor name: route to Competitor campaign only
+NON_COMPETITOR,fig app,EXACT,Competitor name: route to Competitor campaign only
+NON_COMPETITOR,flarecare,EXACT,Competitor name: route to Competitor campaign only
+NON_COMPETITOR,unbloated,EXACT,Competitor name: route to Competitor campaign only
+NON_COMPETITOR,gutly,EXACT,Competitor name: route to Competitor campaign only
+NON_COMPETITOR,poop analyzer app,EXACT,Competitor name: route to Competitor campaign only
+NON_COMPETITOR,pcal,EXACT,Competitor name: route to Competitor campaign only
+NON_COMPETITOR,bearable,EXACT,Competitor name: route to Competitor campaign only
+NON_COMPETITOR,fast fodmap,EXACT,Competitor name: route to Competitor campaign only
+NON_BRAND,get regular,EXACT,Brand term: route to Brand campaign only
+NON_BRAND,getregular,EXACT,Brand term: route to Brand campaign only
+NON_BRAND,get regular app,EXACT,Brand term: route to Brand campaign only
+NON_BRAND,get regular gut health,EXACT,Brand term: route to Brand campaign only
+DISCOVERY,poop tracker,EXACT,Already targeted in an exact ad group
+DISCOVERY,stool tracker,EXACT,Already targeted in an exact ad group
+DISCOVERY,bowel movement tracker,EXACT,Already targeted in an exact ad group
+DISCOVERY,poop log,EXACT,Already targeted in an exact ad group
+DISCOVERY,bowel tracker,EXACT,Already targeted in an exact ad group
+DISCOVERY,poop diary,EXACT,Already targeted in an exact ad group
+DISCOVERY,poop journal,EXACT,Already targeted in an exact ad group
+DISCOVERY,bristol stool chart,EXACT,Already targeted in an exact ad group
+DISCOVERY,poop tracker free,EXACT,Already targeted in an exact ad group
+DISCOVERY,poop scanner,EXACT,Already targeted in an exact ad group
+DISCOVERY,poop analyzer,EXACT,Already targeted in an exact ad group
+DISCOVERY,poop check,EXACT,Already targeted in an exact ad group
+DISCOVERY,stool checker,EXACT,Already targeted in an exact ad group
+DISCOVERY,get regular,EXACT,Already targeted in an exact ad group
+DISCOVERY,getregular,EXACT,Already targeted in an exact ad group

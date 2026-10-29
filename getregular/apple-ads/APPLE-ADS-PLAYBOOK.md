@@ -115,6 +115,12 @@ This is a relative proxy, not search volume. Replace it with Apple's 0–100 sco
 
 ### Off-intent traps: add as exact negatives in every campaign (especially Discovery)
 
+The full list is `negative-keywords.csv`: 366 negatives built from about 1,400 off-topic App Store autocomplete searches around our keywords. Each one is scoped to the campaigns it belongs in. Add them with `../scripts/apply_negatives.py`, or paste the files in `negatives-paste/` into the Apple Ads UI.
+
+Use broad negatives only for words with no link to gut health. Apple's broad negatives also block "misspellings, synonyms, and related terms", so anything close to a target keyword is exact.
+
+The core traps:
+
 poop map · poop counter · poop counter with friends · poop tracker with friends · poop tracker widget · poop identifier · bloat · debloat · face bloat · ibs (alone) · ibis · ibis paint · ibd · food tracker · food scanner · calorie counter · period tracker · ozempic tracker · glp-1 tracker · probiotic · celiac · dog poop · animal poop · toilet finder · bathroom near me
 
 ---
