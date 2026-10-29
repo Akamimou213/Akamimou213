@@ -1,5 +1,5 @@
 {
-  "_doc": "Get Regular 30 s film, rebuilt in the reference's gouache-editorial grammar (docs/style_guide.md). The VO (audio/vo-en.wav, cut from the brand's own 51 s film) sets every time: scene cuts sit on word starts. scenes[].t = cut times (all hard cuts, like the reference). captions[] = the VO lines, timed to words (out/words.en.json). events drive the SFX (cues.py). Edit here first.",
+  "_doc": "Get Regular 30 s film: an illustrated story in the brand's own look (near-black with moss glows, cream paper, clay accents, Inter Tight), with the reference's grammar (docs/style_guide.md). Maya and the doctor are drawn in code from the first film's designs. The VO (audio/vo-en.wav, cut from the brand's own 51 s film) sets every time: scene cuts sit on word starts. captions[] = the VO lines. events drive the SFX (cues.py). Edit here first.",
   "name": "get-regular",
   "bpm": 120,
   "duration": 30.0,
@@ -14,22 +14,22 @@
   },
   "fonts": [
     {
-      "family": "Garamond",
-      "file": "assets/fonts/EBGaramond-Regular.ttf",
+      "family": "Inter Tight",
+      "file": "assets/fonts/InterTight-Light.ttf",
+      "style": "normal",
+      "weight": "300"
+    },
+    {
+      "family": "Inter Tight",
+      "file": "assets/fonts/InterTight-Regular.ttf",
       "style": "normal",
       "weight": "400"
     },
     {
-      "family": "Garamond",
-      "file": "assets/fonts/EBGaramond-Medium.ttf",
-      "style": "normal",
-      "weight": "500"
-    },
-    {
-      "family": "Garamond",
-      "file": "assets/fonts/EBGaramond-Italic.ttf",
+      "family": "Inter Tight",
+      "file": "assets/fonts/InterTight-LightItalic.ttf",
       "style": "italic",
-      "weight": "400"
+      "weight": "300"
     },
     {
       "family": "DM Sans",
@@ -39,16 +39,29 @@
     }
   ],
   "palette": {
-    "paper": "#F6F4EE",
-    "cream": "#EADFD0",
-    "cobalt": "#1A44B8",
-    "cobaltDeep": "#0E36A0",
-    "navy": "#0B0E2E",
-    "peach": "#DEB49C",
-    "tan": "#D99A72",
-    "orange": "#D9682E",
-    "olive": "#727242",
-    "white": "#FBFAF6"
+    "ink": "#0E0C08",
+    "cream": "#F3EEE4",
+    "sand": "#E6DAC4",
+    "sandDeep": "#DCCDB2",
+    "white": "#FBF9F4",
+    "moss": "#555F2D",
+    "mossDeep": "#374119",
+    "sage": "#9AA77A",
+    "teal": "#2D4A47",
+    "ring": "#5E8A55",
+    "clay": "#A0532E",
+    "clayDeep": "#6E3B23",
+    "clayLight": "#D98A5A",
+    "ochre": "#C98B2E",
+    "ochreDeep": "#9C6420",
+    "skin": "#E9B996",
+    "skinShade": "#D49C78",
+    "hairDark": "#2B1D15",
+    "silver": "#CFCAC0",
+    "coat": "#F4F1EA",
+    "coatShade": "#C9C3B5",
+    "black": "#1C1A17",
+    "tan": "#C9A57A"
   },
   "images": {
     "phone": "assets/app/home.png",
@@ -62,17 +75,15 @@
     {
       "id": "hook",
       "t": 0.0,
-      "kind": "figure",
-      "mood": "knot",
-      "bg": "cobalt",
+      "kind": "maya",
+      "mood": "worried",
       "cap": "light",
-      "capY": 0.74
+      "capY": 0.82
     },
     {
       "id": "days",
       "t": 2.38,
       "kind": "calendar",
-      "bg": "cobalt",
       "cap": "light",
       "capY": 0.76,
       "marks": [
@@ -85,10 +96,9 @@
     {
       "id": "doctor",
       "t": 4.3,
-      "kind": "clipboard",
-      "bg": "paper",
+      "kind": "doctor",
       "cap": "dark",
-      "capY": 0.78,
+      "capY": 0.8,
       "qs": [
         4.48,
         5.16,
@@ -100,26 +110,27 @@
       "id": "questions",
       "t": 6.38,
       "kind": "triptych",
-      "bg": "paper",
       "cap": "dark",
       "capY": 0.78,
       "in": [
         6.42,
         7.28,
         8.02
-      ],
-      "blank": [
-        8.92,
-        9.75
       ]
+    },
+    {
+      "id": "blank",
+      "t": 8.88,
+      "kind": "blank",
+      "cap": "light",
+      "capY": 0.8
     },
     {
       "id": "stress",
       "t": 10.42,
       "kind": "verdict",
-      "bg": "paper",
       "cap": "dark",
-      "capY": 0.76,
+      "capY": 0.8,
       "write": [
         10.5,
         10.95
@@ -130,7 +141,6 @@
       "id": "log",
       "t": 12.68,
       "kind": "phone",
-      "bg": "cobalt",
       "cap": "light",
       "capY": 0.83,
       "tap": 13.32,
@@ -140,8 +150,7 @@
       "id": "context",
       "t": 15.02,
       "kind": "grid",
-      "bg": "paper",
-      "cap": "dark",
+      "cap": "light",
       "capY": 0.8,
       "in": [
         15.08,
@@ -154,7 +163,6 @@
       "id": "summary",
       "t": 17.65,
       "kind": "summary",
-      "bg": "paper",
       "cap": "dark",
       "capY": 0.8,
       "card": 17.7,
@@ -163,16 +171,10 @@
     {
       "id": "answers",
       "t": 19.8,
-      "kind": "triptych",
+      "kind": "doctor",
       "answered": true,
-      "bg": "paper",
       "cap": "dark",
-      "capY": 0.78,
-      "fill": [
-        19.84,
-        20.2,
-        20.56
-      ],
+      "capY": 0.8,
       "ticks": [
         21.64,
         21.76,
@@ -183,7 +185,6 @@
       "id": "report",
       "t": 22.38,
       "kind": "flow",
-      "bg": "cobalt",
       "cap": "light",
       "capY": 0.76,
       "flow": [
@@ -194,17 +195,15 @@
     {
       "id": "calm",
       "t": 24.02,
-      "kind": "figure",
+      "kind": "maya",
       "mood": "calm",
-      "bg": "paper",
-      "cap": "light",
-      "capY": 0.72
+      "cap": "dark",
+      "capY": 0.82
     },
     {
       "id": "end",
       "t": 26.4,
       "kind": "endcard",
-      "bg": "cobalt",
       "cap": "light",
       "tag": 26.95,
       "cta": 27.35,
@@ -359,7 +358,6 @@
       23.6
     ],
     "whooshes": [
-      9.3,
       11.55,
       18.66
     ],
@@ -399,5 +397,28 @@
       30.0,
       "end card: logo, tagline and CTA hold for the viewer to act; the gut line keeps moving"
     ]
-  ]
+  ],
+  "textures": {
+    "ink": 0.25,
+    "cream": 0.025,
+    "sand": 0.04,
+    "sandDeep": 0.05,
+    "white": 0.03,
+    "moss": 0.1,
+    "mossDeep": 0.12,
+    "sage": 0.08,
+    "teal": 0.12,
+    "clay": 0.1,
+    "clayDeep": 0.12,
+    "ochre": 0.08,
+    "ochreDeep": 0.08,
+    "skin": 0.04,
+    "skinShade": 0.05,
+    "hairDark": 0.3,
+    "silver": 0.06,
+    "coat": 0.03,
+    "coatShade": 0.05,
+    "black": 0.35,
+    "tan": 0.06
+  }
 }

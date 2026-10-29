@@ -1,19 +1,21 @@
 # Get Regular film, 30 s (restart)
 
-A from-scratch rebuild of the 51 s Maya film (`share_9_1.mp4`) in the grammar of the gouache-illustrated reference
-(`Video-96789_1.mp4`). Made with `.claude/skills/motion-reel`: one canvas, a pure `draw(t)`, headless Chromium and ffmpeg.
+A from-scratch rebuild of the 51 s Maya film (`share_9_1.mp4`). It tells the story with the grammar of the illustrated reference
+(`Video-96789_1.mp4`) in Get Regular's own look: near-black with moss glows, cream paper, clay accents and Inter Tight, with Maya
+and the doctor redrawn in code from the first film. Made with `.claude/skills/motion-reel`: one canvas, a pure `draw(t)`,
+headless Chromium and ffmpeg.
 
-Story, 12 shots and about 2.5 s per shot: something's off → the calendar of bad days → the doctor's questions → her mind goes
-blank → "could be stress" → log it when it happens (the real app) → meals, sleep, stress, cycle → a summary, not a story →
-the same questions, answered → logs become a report → Maya, calm → end card.
+Story, 13 shots and about 2.3 s per shot: Maya, something's off → the calendar of bad days → at the doctor, the questions fly →
+since when, how often, after what → her mind goes blank → "could be stress" → log it when it happens (the real app) →
+meals, sleep, stress, cycle → a summary, not a story → back at the doctor, answered → logs become a report → Maya, calm → end card.
 
 | File | What |
 |---|---|
 | `timeline.json` | every cut, caption, event, palette and copy string, with sources (edit here first) |
-| `index.html` | the engine: seeded gouache textures, the silhouette and gut line, 11 shot kinds |
+| `index.html` | the engine: seeded paper textures, the brand grounds, Maya and the doctor (rigs with moods, blinks, breath), the gut line, 12 shot kinds |
 | `sound/vocut.py` | cuts the 26 s VO out of the first film's soundtrack (the lines kept are listed in it) |
 | `docs/` | brief, style guide (reference grammar → ours), shot list, review log |
-| `assets/` | EB Garamond (OFL), DM Sans (OFL, from the site), `app/` real logo SVG + app home screen, `capture/` site capture |
+| `assets/` | Inter Tight and DM Sans (OFL, the site's faces), `app/` real logo SVG + app home screen, `capture/` site capture |
 
 ## Rebuild
 ```bash
@@ -36,18 +38,19 @@ bash $S/scripts/qa.sh $P/out/get-regular-en-V.mp4 $P/timeline.json
   from getregular.com (captured 2026-10-29); "Educational only. Not medical advice." comes from the first film's end card.
 - **App screen: real.** The home screen the site publishes (`/images/home.png`). The thumb taps "Yes" on "Did you go?", which
   is a real control; nothing on the screen is redrawn.
-- **Illustrations: ours.** The silhouette, gut line, calendar, clipboard, triptych, grid, scroll and report are illustrations of
-  the story. The report is generic: it is not the app's real report screen.
+- **Characters:** Maya and the doctor follow the first film's designs, redrawn in code.
+- **Illustrations: ours.** The gut line, calendar, clipboard, triptych, circles, scroll and report illustrate the story. The report is
+  generic: it is not the app's real report screen.
 - **Claim to check:** "Get Regular turns your daily logs into a report you can bring to your doctor" comes from the first film.
-  The site talks about "AI-assisted summaries" and "bring digestive concerns to a clinician", but doesn't name a doctor report
+  The site mentions "AI-assisted summaries", "Weekly digest reports" and "Ask better questions", but doesn't name a doctor report
   in those words. Confirm the feature exists before paid spend.
 - **Music and SFX:** original, synthesized in numpy.
 
 ## What was tested
-- Text check (`render.cjs text`) in 9:16 and 4:5. Two flags are accepted: "stress?" while the clipboard slides off, and the
-  decorative "?" marks where they cross the cobalt clipboard.
+- Text check (`render.cjs text`) in 9:16 and 4:5. Accepted flags: "stress?" while the clipboard slides off, and in 4:5 the
+  decorative "?" marks near the top edge.
 - Determinism at three frames; static lint clean.
 - Loudness −14.2 LUFS integrated, −1.7 dBFS peak; audio sync median 31 ms.
-- QA "jumps" are the 11 intended hard cuts. The busy "corners" at 24–26.5 s are the framed panel of the calm shot.
+- QA "jumps" are the intended hard cuts.
 - Not tested: a listen by a human. Check the VO joins at 2.4 s, 4.3 s, 10.4 s and 12.7 s (the old music bed under the voice
   is cut there too, masked by the new score) and the score's level under the voice.
