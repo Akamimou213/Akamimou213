@@ -1,0 +1,24 @@
+brand,app_id,us_ratings,release,current_version,hf_free_top100,hf_grossing_top100,medical_charts,autocomplete_min_prefix,autocomplete_rank,gtrends_index_vs_monash_fodmap_100,mwm_downloads_est,public_claim,ambiguity,tier
+Poop Map,1303269455,64194,2017-10-31,2026-10-26,no (Entertainment),no,no,poo,4,31 ("poop map"),5M+,4.25M registered users (Outside 2022),low,High
+Nerva,1467398796,15127,2019-06-18,2026-10-29,no,no,n/a,ner,3,37 ("nerva" polluted); 1 ("nerva app"),250k+,300k+ users (App Store desc),medium (Roman emperor),Med-High
+Fig,1564434726,16720,2021-11-22,2026-10-28,no,no,n/a,fig (app title rank 4),4,35 ("fig app"); "fig" ~4300 polluted,2.5M+,1M+ members / 900k patients,high,Med
+ZOE,1471632228,7075,2019-08-19,2026-10-26,no,no,n/a,zoe ("zoe health"),3,29 ("zoe health"); 19 ("zoe app"),500k+,100k+ paid members 2024; $118M raised,high,Med
+Monash FODMAP,586149216,2587,2012-12-17,2026-10-22,n/a,n/a,#1 Medical top paid; #44 Medical top grossing,mona,4,100 (anchor),1M+,1.75M downloads worldwide (Monash 2025),low,Med
+Cara Care,1133687886,4669,2016-12-12,2020-10-27,n/a,n/a,no,cara,7,41 ("cara care" partly polluted); 0 ("cara care app"),500k+,~1M downloads (2022-23),low-medium,Med-Low
+mySymptoms,405231632,4051,2010-11-30,2026-10-28,no,no,n/a,mysy,3,0,100k+,800k+ users (store desc),low,Med-Low
+Happy Poop,1586000388,2749,2021-10-23,2026-10-24,no,no,n/a,happy p,2,18,100k+,Google Play 500K+,low,Med-Low
+Bowelle,1436064640,2248,2018-09-21,2026-10-24,no,no,n/a,bowe,2,0,250k+,none,low,Low
+plop,1505427265,1505,2020-04-02,2026-10-07,no,no,n/a,plo ("plop" generic),7,~0 ("plop app"),75k+,none,high,Low
+Balloon,6471620319,1137,2024-01-08,2026-10-23,no,no,n/a,balloo ("balloon poop tracker"),5,"balloon" ~7500 polluted,n/a,100k+ users (self),very high,Low
+Flush,6748068252,356,2025-07-24,2026-05-09,no,no,n/a,never (app-specific),-,"flush app" 58 polluted,10k+,none,very high,Negligible as brand
+FlareCare,6739485719,128,2025-01-24,2026-10-05,no,no,n/a,flar,8,0,n/a,25k+ users (store desc); ~$5.9k MRR (TrustMRR),low,Low
+Unbloated,6755308388,68,2026-01-22,2026-05-11,no,no,n/a,unb,10,6,n/a,none,medium (debloat),Low/Negl
+Tract,6759877270,53,2026-06-16,2026-10-05,n/a,n/a,no,never,-,"tract" ~2550 polluted,1k+,none,very high,Negligible
+PoopCheck,6737857695,38,2024-11-26,2026-10-27,no,no,n/a,poopc,2,0,n/a,28K+ users (self),low,Low/Negl
+Bellyweather,6762104610,32,2026-04-21,2026-10-02,no,no,n/a,bellyw,1,0,n/a,none,low,Negligible
+GERDBuddy,6756620910,31,2026-01-06,2026-10-23,no,no,n/a,gerd,6,0,n/a,none,low,Negligible
+Aloe,6761032424,23,2026-06-16,2026-08-19,no,no,n/a,never (app-specific),-,"aloe" ~3900 polluted,n/a,none,very high,Negligible
+Gutly,1441942351,9,2019-09-08,2026-08-31,no,no,n/a,gutl,1,0,75k+ (mostly non-US),none,low,Negligible (US)
+TON AI,6775464748,4,2026-06-25,2026-10-16,no,no,n/a,ton a,1,35 polluted (TON crypto),n/a,none,very high,Negligible
+Dieta,6744622435,3,2025-05-01,2026-09-28,n/a,n/a,no,dieta (app title rank 6),6,"dieta" ~420 polluted (Spanish),n/a,Cylinder acquired Dieta 03/2025,very high,Negligible
+PoopID,6765519694,0,2026-05-05,2026-09-10,no,no,n/a,poopid,1,0,n/a,none,low,Negligible
