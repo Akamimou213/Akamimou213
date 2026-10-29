@@ -1,0 +1,434 @@
+{
+ "url": "https://www.getregular.com/",
+ "title": "Gut Health App for Food, Stool & Symptom Tracking | Get Regular",
+ "description": "Meet Get Regular, the iPhone app for logging meals, bowel movements, and digestive symptoms and reviewing possible patterns over time.",
+ "h1": [
+  "Your gut is talking. Are you listening?"
+ ],
+ "h2": [
+  "You’ve been flushing your most powerful biomarker.",
+  "We turn gut feelings into gut data.",
+  "Gut feelings. Confirmed.",
+  "Built with a gastroenterologist, not just an algorithm.",
+  "Fresh reads for a happier gut.",
+  "It's time to Get Regular.",
+  "Product",
+  "Science",
+  "Learn",
+  "Company"
+ ],
+ "h3": [
+  "Snap it.",
+  "We analyze it.",
+  "See your scores.",
+  "Get your plan.",
+  "Watch it work.",
+  "What is gut health? A practical guide to your daily signals",
+  "Bristol Stool Scale: how to describe and track stool form",
+  "How to keep a constipation diary that helps explain the problem"
+ ],
+ "buttons": [
+  "DOWNLOAD",
+  "Download on the App Store"
+ ],
+ "nav": [
+  "App",
+  "Science",
+  "Learn",
+  "Explore Your Gut",
+  "TMI",
+  "DOWNLOAD",
+  "Get Regular app",
+  "Food & symptom tracker",
+  "Poop tracker",
+  "Gut Check AI",
+  "Doctor report",
+  "Our approach",
+  "How our AI works",
+  "Understanding scores",
+  "Clinical review",
+  "Data & privacy",
+  "Editorial policy",
+  "The evidence library",
+  "The learning library",
+  "Gut Health",
+  "Food & Digestion",
+  "Bowel Health",
+  "Symptoms & Conditions",
+  "Tracking & Insights",
+  "Doctor Prep",
+  "About Get Regular",
+  "FAQ",
+  "Share your TMI story",
+  "Explore Your Gut",
+  "Bristol stool chart"
+ ],
+ "paragraphs": [
+  "MEALS · STOOL · SYMPTOMS · DAILY INSIGHTS",
+  "Get Regular is a gut health app that analyzes your stool, meals and symptoms to give you personalized insights.",
+  "Read the population study",
+  "Stool form and changes in your routine can be useful observations about digestion. A photo is not a lab test, and an app insight is not a diagnosis.",
+  "Log meals with photos or text, record symptoms, and choose a Bristol stool type.",
+  "AI-assisted summaries help you review what you have logged, with limits and uncertainty.",
+  "Review your Gut, Nutrition, and Regular scores alongside the entries behind them.",
+  "Explore the app’s suggestions and experiments alongside what you have logged. Choose changes with appropriate professional guidance.",
+  "Keep logging and look back at what changes. Your own record helps you ask more specific questions over time.",
+  "Not to be dramatic, it’s only been 2 days — but I feel like it’s kind of life changing. Love having something to help keep me accountable to my own gut health and actually think about it on a daily basis. So cool and always such a fan of women’s health innovation.",
+  "As someone with celiac disease, it’s so refreshing to use an app that doesn’t reduce every bit of discomfort to your autoimmune condition. It feels really validating and thoughtful.",
+  "Just downloaded and have been using this app for a few days now. This is exactly what I’ve been looking for. From a girl with chronic constipation — thank you!!!",
+  "I just downloaded it and this is EXACTLY what I have been needing. I’ve been trying to track my gut health for a little bit but never had anything streamlined. I already started using it and it’s amazing! The way it gives you information immediately. This is mindblowing — they’ve created something spectacular.",
+  "User testimonials. Individual experiences — not typical results or medical advice.",
+  "Developed with a board-certified gastroenterologist, we bring the best of clinical expertise and holistic insight into one easy, daily app experience.",
+  "The app's internal analysis and outputs underwent extensive scrutiny and tweaking to ensure it correctly follows all current major gastroenterology guidelines as it relates to gut health — reliably demonstrating that the app provides users with a convenient, evidence-based interpretation of their personal digestive wellbeing.",
+  "Original advisor statement published by Get Regular. Advisory review is distinct from a clinical validation study or medical review of every article.",
+  "4 MINUTE READ",
+  "Understand what gut health means, which daily signals are useful to record, and how to bring digestive concerns to a clinician.",
+  "6 MINUTE READ",
+  "Learn the seven Bristol stool types, how to record a bowel movement, and why stool form alone cannot diagnose a digestive condition.",
+  "7 MINUTE READ",
+  "Record bowel movements, stool form, straining, and days without a bowel movement in a practical constipation diary for your next medical visit.",
+  "Questions or feedback? Reach us at hello@getregular.com"
+ ],
+ "tokens": {
+  "vars": {},
+  "color": [
+   [
+    "#FFFFFF",
+    174
+   ],
+   [
+    "#000000",
+    150
+   ],
+   [
+    "#DFDFDF",
+    33
+   ],
+   [
+    "#FFFFFF @0.30",
+    5
+   ],
+   [
+    "#FFFFFF @0.70",
+    4
+   ],
+   [
+    "#FFFFFF @0.60",
+    2
+   ],
+   [
+    "#FFFFFF @0.55",
+    1
+   ],
+   [
+    "#FFFFFF @0.90",
+    1
+   ]
+  ],
+  "background": [
+   [
+    "#FFFFFF @0.12",
+    14
+   ],
+   [
+    "#000000",
+    10
+   ],
+   [
+    "#FFFFFF @0.08",
+    6
+   ],
+   [
+    "#FFFFFF",
+    5
+   ],
+   [
+    "#FFFFFF @0.10",
+    4
+   ],
+   [
+    "#FFFFFF @0.03",
+    3
+   ],
+   [
+    "#161511 @0.80",
+    2
+   ],
+   [
+    "#FFFFFF @0.13",
+    1
+   ],
+   [
+    "#5C5C5C @0.20",
+    1
+   ],
+   [
+    "#000000 @0.25",
+    1
+   ],
+   [
+    "#000000 @0.95",
+    1
+   ],
+   [
+    "#000000 @0.35",
+    1
+   ]
+  ],
+  "fontFamily": [
+   [
+    "dmSans, \"dmSans Fallback\", sans-serif",
+    258
+   ],
+   [
+    "interTight, \"interTight Fallback\", sans-serif",
+    82
+   ],
+   [
+    "inter, \"inter Fallback\"",
+    26
+   ],
+   [
+    "dmSans, \"dmSans Fallback\"",
+    15
+   ],
+   [
+    "quoteFont, \"quoteFont Fallback\", serif",
+    5
+   ],
+   [
+    "inter, \"inter Fallback\", sans-serif",
+    1
+   ]
+  ],
+  "radius": [
+   [
+    "pill (9999px)",
+    25
+   ],
+   [
+    "50%",
+    3
+   ],
+   [
+    "99px",
+    2
+   ],
+   [
+    "999px",
+    2
+   ],
+   [
+    "38px",
+    1
+   ],
+   [
+    "34px",
+    1
+   ]
+  ],
+  "shadow": [
+   [
+    "rgba(0, 0, 0, 0.02) 0px 2px 16px 0px, rgba(0, 0, 0, 0.03) 0px 8px 32px 0px, rgba(255, 255, 255, 0.25) 0px 1px 0px 0px inset",
+    5
+   ],
+   [
+    "rgba(0, 0, 0, 0.03) 0px 4px 24px 0px, rgba(0, 0, 0, 0.05) 0px 12px 48px 0px, rgba(255, 255, 255, 0.3) 0px 1px 0px 0px inset",
+    4
+   ],
+   [
+    "rgba(0, 0, 0, 0.2) 0px 4px 24px 0px, rgba(0, 0, 0, 0.25) 0px 16px 56px 0px, rgba(255, 255, 255, 0.08) 0px 1px 0px 0px inset, rgba(255, 255, 255, 0.03) 0px -1px 0px 0px inset",
+    1
+   ]
+  ],
+  "gradient": [
+   [
+    "linear-gradient(rgb(255, 255, 255), rgb(255, 255, 255))",
+    28
+   ],
+   [
+    "linear-gradient(rgb(223, 223, 223), rgb(223, 223, 223))",
+    5
+   ],
+   [
+    "linear-gradient(160deg, rgba(255, 255, 255, 0.18) 0%, rgba(255, 255, 255, 0) 45%), none",
+    2
+   ],
+   [
+    "linear-gradient(rgb(255, 255, 255), rgb(255, 255, 255)), linear-gradient(color(srgb 1 1 1 / 0.3), color(srgb 1 1 1 / 0.3))",
+    2
+   ],
+   [
+    "linear-gradient(in oklab, rgb(42, 42, 42) 0%, rgb(26, 26, 26) 100%)",
+    1
+   ],
+   [
+    "linear-gradient(rgb(0, 0, 0), rgb(0, 0, 0)), linear-gradient(color(srgb 0 0 0 / 0.3), color(srgb 0 0 0 / 0.3))",
+    1
+   ],
+   [
+    "linear-gradient(rgb(0, 0, 0), rgb(0, 0, 0))",
+    1
+   ]
+  ],
+  "h1": {
+   "size": "86.4px",
+   "weight": "300",
+   "lh": "103.68px",
+   "ls": "-2.16px",
+   "family": "interTight, \"interTight Fallback\", sans-serif"
+  },
+  "h2": {
+   "size": "72px",
+   "weight": "300",
+   "lh": "86.4px",
+   "ls": "-1.8px",
+   "family": "interTight, \"interTight Fallback\", sans-serif"
+  },
+  "body": {
+   "size": "11px",
+   "weight": "300",
+   "lh": "13.2px",
+   "ls": "2.75px",
+   "family": "dmSans, \"dmSans Fallback\", sans-serif"
+  },
+  "button": {
+   "size": "16px",
+   "weight": "400",
+   "lh": "19.2px",
+   "ls": "normal",
+   "family": "interTight, \"interTight Fallback\", sans-serif"
+  }
+ },
+ "logos": [
+  {
+   "src": "https://www.getregular.com/logo-white.svg?dpl=dpl_B4JMGW47oPuVnUYk7sx6ZeZbQT6t",
+   "alt": "Get Regular"
+  },
+  {
+   "svg": "<svg width=\"12\" height=\"12\" viewBox=\"0 0 12 12\" fill=\"none\" aria-hidden=\"true\"><path d=\"m3 4.5 3 3 3-3\" stroke=\"currentColor\" stroke-width=\"1.3\"></path></svg>"
+  },
+  {
+   "svg": "<svg width=\"12\" height=\"12\" viewBox=\"0 0 12 12\" fill=\"none\" aria-hidden=\"true\"><path d=\"m3 4.5 3 3 3-3\" stroke=\"currentColor\" stroke-width=\"1.3\"></path></svg>"
+  },
+  {
+   "svg": "<svg width=\"12\" height=\"12\" viewBox=\"0 0 12 12\" fill=\"none\" aria-hidden=\"true\"><path d=\"m3 4.5 3 3 3-3\" stroke=\"currentColor\" stroke-width=\"1.3\"></path></svg>"
+  },
+  {
+   "svg": "<svg width=\"12\" height=\"12\" viewBox=\"0 0 12 12\" fill=\"none\" aria-hidden=\"true\"><path d=\"m3 4.5 3 3 3-3\" stroke=\"currentColor\" stroke-width=\"1.3\"></path></svg>"
+  }
+ ],
+ "images": [
+  {
+   "src": "https://www.getregular.com/logo-white.svg?dpl=dpl_B4JMGW47oPuVnUYk7sx6ZeZbQT6t",
+   "alt": "Get Regular",
+   "w": 176,
+   "h": 60
+  },
+  {
+   "src": "https://www.getregular.com/images/hero-bg.jpg?dpl=dpl_B4JMGW47oPuVnUYk7sx6ZeZbQT6t",
+   "alt": "",
+   "w": 1200,
+   "h": 1375
+  },
+  {
+   "src": "https://www.getregular.com/_next/image?url=%2Fimages%2Fproblem-1.jpg&w=1080&q=75&dpl=dpl_B4JMGW47oPuVnUYk7sx6ZeZbQT6t",
+   "alt": "",
+   "w": 309,
+   "h": 550
+  },
+  {
+   "src": "https://www.getregular.com/_next/image?url=%2Fimages%2Fproblem-guesswork.jpg&w=1080&q=75&dpl=dpl_B4JMGW47oPuVnUYk7sx6ZeZbQT6t",
+   "alt": "",
+   "w": 220,
+   "h": 440
+  },
+  {
+   "src": "https://www.getregular.com/_next/image?url=%2Fimages%2Fproblem-waiting.jpg&w=1080&q=75&dpl=dpl_B4JMGW47oPuVnUYk7sx6ZeZbQT6t",
+   "alt": "",
+   "w": 299,
+   "h": 450
+  },
+  {
+   "src": "https://www.getregular.com/_next/image?url=%2Fimages%2Fhero-circle-1.jpg&w=256&q=75&dpl=dpl_B4JMGW47oPuVnUYk7sx6ZeZbQT6t",
+   "alt": "",
+   "w": 128,
+   "h": 227
+  },
+  {
+   "src": "https://www.getregular.com/_next/image?url=%2Fimages%2Fhero-circle-2.jpg&w=256&q=75&dpl=dpl_B4JMGW47oPuVnUYk7sx6ZeZbQT6t",
+   "alt": "",
+   "w": 128,
+   "h": 160
+  },
+  {
+   "src": "https://www.getregular.com/_next/image?url=%2Fimages%2Fhero-circle-3.jpg&w=256&q=75&dpl=dpl_B4JMGW47oPuVnUYk7sx6ZeZbQT6t",
+   "alt": "",
+   "w": 128,
+   "h": 161
+  },
+  {
+   "src": "https://www.getregular.com/_next/image?url=%2Fimages%2Fhome.png&w=640&q=75&dpl=dpl_B4JMGW47oPuVnUYk7sx6ZeZbQT6t",
+   "alt": "Get Regular home screen",
+   "w": 259,
+   "h": 536
+  },
+  {
+   "src": "https://www.getregular.com/_next/image?url=%2Fimages%2Freview-card-1.jpg&w=828&q=75&dpl=dpl_B4JMGW47oPuVnUYk7sx6ZeZbQT6t",
+   "alt": "",
+   "w": 355,
+   "h": 473
+  },
+  {
+   "src": "https://www.getregular.com/_next/image?url=%2Fimages%2Freview-card-2.jpg&w=828&q=75&dpl=dpl_B4JMGW47oPuVnUYk7sx6ZeZbQT6t",
+   "alt": "",
+   "w": 260,
+   "h": 521
+  },
+  {
+   "src": "https://www.getregular.com/_next/image?url=%2Fimages%2Freview-card-3.jpg&w=828&q=75&dpl=dpl_B4JMGW47oPuVnUYk7sx6ZeZbQT6t",
+   "alt": "",
+   "w": 380,
+   "h": 676
+  },
+  {
+   "src": "https://www.getregular.com/_next/image?url=%2Fimages%2Freview-card-4.jpg&w=828&q=75&dpl=dpl_B4JMGW47oPuVnUYk7sx6ZeZbQT6t",
+   "alt": "",
+   "w": 380,
+   "h": 676
+  },
+  {
+   "src": "https://www.getregular.com/_next/image?url=%2Fimages%2Fscience-bg-hq.jpg&w=3840&q=75&dpl=dpl_B4JMGW47oPuVnUYk7sx6ZeZbQT6t",
+   "alt": "",
+   "w": 398,
+   "h": 750
+  },
+  {
+   "src": "https://www.getregular.com/_next/image?url=%2Fimages%2Fschopis-cropped.png&w=256&q=75&dpl=dpl_B4JMGW47oPuVnUYk7sx6ZeZbQT6t",
+   "alt": "Dr. Michael Schopis",
+   "w": 128,
+   "h": 124
+  },
+  {
+   "src": "https://www.getregular.com/_next/image?url=%2Fimages%2Fcta-water-soft.jpg&w=3840&q=75&dpl=dpl_B4JMGW47oPuVnUYk7sx6ZeZbQT6t",
+   "alt": "",
+   "w": 253,
+   "h": 421
+  },
+  {
+   "src": "https://www.getregular.com/images/footer.png?dpl=dpl_B4JMGW47oPuVnUYk7sx6ZeZbQT6t",
+   "alt": "",
+   "w": 621,
+   "h": 621
+  }
+ ],
+ "capturedAt": "2026-10-29T06:09:13.684Z",
+ "fonts": [
+  "https://www.getregular.com/_next/static/media/inter_tight_latin-s.p.0.xyi-bdzzdcz.woff2?dpl=dpl_B4JMGW47oPuVnUYk7sx6ZeZbQT6t",
+  "https://www.getregular.com/_next/static/media/inter_latin-s.p.0q-301v4kxxnr.woff2?dpl=dpl_B4JMGW47oPuVnUYk7sx6ZeZbQT6t",
+  "https://www.getregular.com/_next/static/media/amadi_regular_webfont-s.p.0hwm5p8~hl59-.woff2?dpl=dpl_B4JMGW47oPuVnUYk7sx6ZeZbQT6t",
+  "https://www.getregular.com/_next/static/media/inter_tight_latin_italic-s.p.0jzvojnmvq1ls.woff2?dpl=dpl_B4JMGW47oPuVnUYk7sx6ZeZbQT6t",
+  "https://www.getregular.com/_next/static/media/dm_sans_latin-s.p.0yo6-5yoeeudq.woff2?dpl=dpl_B4JMGW47oPuVnUYk7sx6ZeZbQT6t",
+  "https://fonts.gstatic.com/s/roboto/v48/KFO7CnqEu92Fr1ME7kSn66aGLdTylUAMa3yUBA.woff2"
+ ]
+}
