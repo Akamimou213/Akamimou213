@@ -1,0 +1,289 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>html,body{margin:0;overflow:hidden;background:#000}canvas{display:block}</style>
+</head><body><canvas id="c"></canvas>
+<script>
+// TOMSO « Le 1er » — Meta motion ad. The month's 1st swells with the work (cheques, bank portals, payments, NSF) until it
+// buries the month; TOMSO's line (software ○—— TOMSO ——○ banks) runs through it and clears it, only the exception stays;
+// the 1st shrinks back to the size of every other day; the line closes into the wordmark.
+// Contract (motion-reel): render.cjs injects window.TL / Motion / FONTS; URL ?size=WxH&lang=fr; pure draw(t); renderFrame(i).
+// Rules: no timers, no Math.random, no state between frames. Every time and string comes from timeline.json.
+const { clamp, lerp, inv, E, spring, track, release, approach, irisR, logTrack, hash, subframeTimes } = window.Motion;
+const Q = new URLSearchParams(location.search);
+const [W, H] = (Q.get('size') || '1080x1920').split('x').map(Number);
+const cv = document.getElementById('c'); cv.width = W; cv.height = H;
+let g = cv.getContext('2d');
+const TL = window.TL, DUR = TL.duration, P = TL.palette, C = TL.copy[Q.get('lang') || 'fr'], T = TL.acts;
+
+// ---------------------------------------------------------------- layout: a function of the format
+const FMT = W / H < .7 ? 'V' : W / H < .95 ? 'P' : 'S';
+const U = W / 1080;
+const [sl, st, sr, sb] = TL.safe[FMT];
+window.SAFEBOX = { x0: W * sl, y0: H * st, x1: W * (1 - sr), y1: H * (1 - sb) };
+const BOX = { x: W * sl, y: H * st, w: W * (1 - sl - sr), h: H * (1 - st - sb) };
+const LOGO = { h: (FMT === 'V' ? 46 : 40) * U }; LOGO.w = LOGO.h * TL.logoSize[0] / TL.logoSize[1];
+const HEAD = { x: BOX.x, y: BOX.y + LOGO.h + (FMT === 'V' ? 64 : 40) * U, w: BOX.w, size: (FMT === 'V' ? 94 : FMT === 'P' ? 70 : 62) * U, lines: FMT === 'V' ? 4 : 3 };
+HEAD.lh = HEAD.size * 1.06; HEAD.h = HEAD.lh * HEAD.lines;
+// the stage below the headline holds the calendar (and the 1st's card when it swells)
+const STAGE = { x: BOX.x, y: HEAD.y + HEAD.h + (FMT === 'V' ? 70 : 34) * U }; STAGE.w = BOX.w; STAGE.h = BOX.y + BOX.h - STAGE.y;
+const COLS = 7, ROWS = Math.ceil((TL.month.firstCol + TL.month.days) / 7);
+const WDH = 46 * U;                                                   // weekday header row
+const CELL = Math.min(STAGE.w / COLS, (STAGE.h - WDH) / ROWS);
+const GRID = { w: CELL * COLS, h: CELL * ROWS }; GRID.x = STAGE.x + (STAGE.w - GRID.w) / 2; GRID.y = STAGE.y + WDH + (STAGE.h - WDH - GRID.h) / 2;
+const cellOf = d => { const k = TL.month.firstCol + d - 1; return { x: GRID.x + (k % 7) * CELL, y: GRID.y + Math.floor(k / 7) * CELL, w: CELL, h: CELL }; };
+const ONE = cellOf(1);
+const CARD = { x: GRID.x, y: GRID.y - WDH, w: GRID.w, h: GRID.h + WDH };     // the 1st once TOMSO arrives: the month's footprint
+const CARD_FULL = { x: GRID.x, y: HEAD.y - 10 * U, w: GRID.w, h: GRID.y + GRID.h - HEAD.y + 10 * U };   // at full swell it takes the whole page
+const mixR = (a, b, k) => ({ x: lerp(a.x, b.x, k), y: lerp(a.y, b.y, k), w: lerp(a.w, b.w, k), h: lerp(a.h, b.h, k) });
+const LW = 2.4 * U, NODE = 7.5 * U;
+
+// ---------------------------------------------------------------- type
+const FAM = { head: 'Faculty Glyphic', sans: 'Geist', mono: 'Geist Mono' };
+function font(fam, size, w = 400) { g.font = `${w} ${size}px "${FAM[fam]}", sans-serif`; g.letterSpacing = fam === 'head' ? `${-.01 * size}px` : '0px'; }
+function tw(s, fam, size, w = 400) { font(fam, size, w); const r = g.measureText(s).width; g.letterSpacing = '0px'; return r; }
+function txt(s, x, y, fam, size, color, { w = 400, align = 'left', base = 'alphabetic' } = {}) {
+  font(fam, size, w); g.textAlign = align; g.textBaseline = base; g.fillStyle = color; g.fillText(s, x, y); g.letterSpacing = '0px';
+}
+function wrap(s, fam, size, maxW, w = 400) {
+  const out = []; let line = '';
+  for (const wd of s.split(' ')) { const tr = line ? line + ' ' + wd : wd; if (line && tw(tr, fam, size, w) > maxW) { out.push(line); line = wd; } else line = tr; }
+  if (line) out.push(line); return out;
+}
+// a headline: lines rise through a mask line on entry, leave upwards on exit. parts = [[text, color], ...] kept as separate sentences
+function layoutHead(parts) {
+  let size = HEAD.size, lines;
+  for (;;) { lines = parts.flatMap(([s, c]) => wrap(s, 'head', size, HEAD.w * .95).map(l => [l, c])); if (lines.length <= HEAD.lines || size < 40 * U) break; size *= .95; }
+  return { size, lh: size * 1.06, lines };
+}
+const HL = {};
+function headline(key, parts, tIn, tOut, t) {
+  const L = HL[key] || (HL[key] = layoutHead(parts));
+  L.lines.forEach(([s, c], i) => {
+    const y = HEAD.y + (i + 1) * L.lh - L.lh * .2;
+    const pin = tIn < 0 ? 1 : spring(t - tIn - i * .07, 210, 24), pout = E.inOutCubic(clamp((t - (tOut - .32) - i * .04) / .28));
+    const dy = (1 - pin) * L.lh * .9 - pout * L.lh * .9;
+    if (pin <= 0 || pout >= 1) return;
+    g.save(); g.beginPath(); g.rect(HEAD.x - 10 * U, y - L.lh * .95, W, L.lh * 1.12); g.clip();
+    font('head', L.size); const ov = Math.max(0, g.measureText(s).actualBoundingBoxLeft); g.letterSpacing = '0px';   // optical: ink starts at the margin (Faculty Glyphic's J hangs left)
+    txt(s, HEAD.x + ov, y + dy, 'head', L.size, c); g.restore();
+  });
+}
+
+// ---------------------------------------------------------------- drawing helpers
+function rrect(x, y, w, h, r) { g.beginPath(); g.roundRect(x, y, w, h, Math.max(0, Math.min(r, w / 2, h / 2))); }
+function line(x0, y0, x1, y1, c, lw = LW) { g.strokeStyle = c; g.lineWidth = lw; g.lineCap = 'round'; g.beginPath(); g.moveTo(x0, y0); g.lineTo(x1, y1); g.stroke(); }
+function node(x, y, c, bg, r = NODE) { g.fillStyle = bg; g.strokeStyle = c; g.lineWidth = LW; g.beginPath(); g.arc(x, y, r, 0, Math.PI * 2); g.fill(); g.stroke(); }
+function alpha(a, fn) { if (a <= .002) return; g.save(); g.globalAlpha *= clamp(a); fn(); g.restore(); }
+const LOGO_P = new Path2D(TL.logoPath);
+function logo(x, y, h, c) { const s = h / TL.logoSize[1]; g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = c; g.fill(LOGO_P, 'evenodd'); g.restore(); }
+
+// pictograms, drawn in the statics' line style; (x, y) = centre, s = size
+function picto(id, x, y, s, c, bg, k = 1) {
+  g.save(); g.translate(x, y); g.strokeStyle = c; g.fillStyle = bg; g.lineWidth = LW; g.lineJoin = 'round'; g.lineCap = 'round';
+  if (id === 'cheque') {
+    rrect(-s * .62, -s * .32, s * 1.24, s * .64, 5 * U); g.fill(); g.stroke();
+    line(-s * .48, -s * .14, -s * .05, -s * .14, c); rrect(s * .18, -s * .2, s * .32, s * .14, 3 * U); g.stroke();
+    g.beginPath(); g.moveTo(s * .05, s * .17); for (let i = 0; i <= 12; i++) g.lineTo(s * .05 + i * s * .035, s * .17 + Math.sin(i * 1.7) * s * .045 * (i % 3 ? 1 : -1)); g.stroke();
+    line(-s * .48, s * .2, -s * .12, s * .2, c);
+  } else if (id === 'portails') {
+    for (let i = 2; i >= 0; i--) {
+      const o = i * s * .14; rrect(-s * .55 + o, -s * .42 + o, s * .9, s * .62, 5 * U); g.fill(); g.stroke();
+      line(-s * .55 + o, -s * .27 + o, s * .35 + o, -s * .27 + o, c);
+      for (let j = 0; j < 3; j++) { g.beginPath(); g.arc(-s * .46 + o + j * s * .07, -s * .345 + o, s * .02, 0, Math.PI * 2); g.stroke(); }
+    }
+  } else if (id === 'paiements') {
+    rrect(-s * .5, -s * .45, s, s * .9, 6 * U); g.fill(); g.stroke();
+    for (let i = 0; i < 3; i++) {
+      const yy = -s * .22 + i * s * .24; rrect(-s * .36, yy - s * .07, s * .14, s * .14, 2 * U); g.stroke(); line(-s * .12, yy, s * .34, yy, c);
+      if (k * 3 > i + .3) { g.beginPath(); g.moveTo(-s * .33, yy); g.lineTo(-s * .29, yy + s * .045); g.lineTo(-s * .2, yy - s * .06); g.stroke(); }
+    }
+  } else if (id === 'nsf') {
+    rrect(-s * .55, -s * .26, s * 1.1, s * .52, s * .26); g.fill(); g.stroke();
+    txt(C.nsfTag, 0, s * .1, 'mono', Math.max(s * .3, 24 * U), c, { w: 600, align: 'center' });
+  } else if (id === 'building') {
+    rrect(-s * .22, -s * .32, s * .44, s * .62, 3 * U); g.stroke(); line(-s * .34, s * .3, s * .34, s * .3, c);
+    line(-s * .1, -s * .16, -s * .04, -s * .16, c); line(s * .04, -s * .16, s * .1, -s * .16, c); line(-s * .1, -s * .04, -s * .04, -s * .04, c); line(s * .04, -s * .04, s * .1, -s * .04, c);
+    rrect(-s * .06, s * .1, s * .12, s * .2, 2 * U); g.stroke();
+  } else if (id === 'bank') {
+    g.beginPath(); g.moveTo(-s * .34, -s * .12); g.lineTo(0, -s * .34); g.lineTo(s * .34, -s * .12); g.closePath(); g.stroke();
+    for (let i = 0; i < 4; i++) line(-s * .2 + i * s * .133, -s * .04, -s * .2 + i * s * .133, s * .2, c);
+    line(-s * .34, s * .3, s * .34, s * .3, c);
+  }
+  g.restore();
+}
+function disc(x, y, r, bg, c) { g.fillStyle = bg; g.beginPath(); g.arc(x, y, r, 0, Math.PI * 2); g.fill(); }
+
+// ---------------------------------------------------------------- the month
+function calendar(t, ink, bg, aGrid, lineP = 1) {
+  alpha(aGrid, () => {
+    C.weekdays.forEach((d, i) => txt(d, GRID.x + (i + .5) * CELL, GRID.y - 16 * U, 'mono', 28 * U, ink, { w: 500, align: 'center' }));
+    g.strokeStyle = ink; g.lineWidth = LW * .7; g.lineCap = 'round';
+    // grid lines draw from the top-left (lineP 0..1)
+    for (let r = 0; r <= ROWS; r++) { const y = GRID.y + r * CELL; g.beginPath(); g.moveTo(GRID.x, y); g.lineTo(GRID.x + GRID.w * clamp(lineP * 1.4 - r * .08), y); g.stroke(); }
+    for (let c = 0; c <= COLS; c++) { const x = GRID.x + c * CELL; g.beginPath(); g.moveTo(x, GRID.y); g.lineTo(x, GRID.y + GRID.h * clamp(lineP * 1.4 - c * .06)); g.stroke(); }
+    for (let d = 2; d <= TL.month.days; d++) { const c = cellOf(d); txt(String(d), c.x + 12 * U, c.y + 34 * U, 'mono', 26 * U, ink, { w: 500 }); }
+  });
+}
+
+// ---------------------------------------------------------------- scenes
+const GROUND = [[T.hook, P.mint], [T.tomso, P.slate], [T.relief, P.lavender], [T.end, P.mint]];
+function ground(t) {
+  let i = 0; GROUND.forEach(([t0], j) => { if (t >= t0) i = j; });
+  const [t0, col] = GROUND[i], prev = i ? GROUND[i - 1][1] : col;
+  g.fillStyle = prev; g.fillRect(0, 0, W, H);
+  if (i) { const o = IRIS[i](), R = Math.hypot(Math.max(o.x, W - o.x), Math.max(o.y, H - o.y)); g.fillStyle = col; g.beginPath(); g.arc(o.x, o.y, irisR(E.inOutCubic(clamp((t - t0 + .15) / .55)), R), 0, Math.PI * 2); g.fill(); }
+}
+const ITEMS = TL.items;
+const NOTE = { w: CARD.w * .84, h: (FMT === 'V' ? 132 : 104) * U };
+// where each item sits in the swollen card, slightly crooked: the pile gets messier as it grows
+function itemPose(j, CARD) {
+  const top = CARD.y + (FMT === 'V' ? 190 : 140) * U, step = (CARD.y + CARD.h - top - NOTE.h * .55) / 4;
+  return { x: CARD.x + CARD.w / 2 + (j % 2 ? 1 : -1) * 8 * U * (1 + j * .5), y: top + j * step + NOTE.h / 2, rot: (j % 2 ? 1 : -1) * (.014 + j * .012) };
+}
+const LINE = () => ({ y: CARD.y + CARD.h * .36, x0: CARD.x + CARD.w * .14, x1: CARD.x + CARD.w * .86 });
+const IRIS = [null, () => ({ x: CARD.x + CARD.w - 30 * U, y: CARD.y + 30 * U }), () => ({ x: LINE().x1, y: LINE().y }), () => ({ x: ONE.x + ONE.w / 2, y: ONE.y + ONE.h / 2 })];
+
+function draw(T0) {
+  const t = clamp(T0, 0, DUR - 1e-4);
+  g.setTransform(1, 0, 0, 1, 0, 0); g.globalAlpha = 1; g.filter = 'none';
+  ground(t);
+  const onSlate = t >= T.tomso + .2 && t < T.relief + .2, ink = onSlate ? P.white : P.ink;
+  const bgNow = t < T.tomso + .2 ? P.mint : t < T.relief + .2 ? P.slate : t < T.end + .2 ? P.lavender : P.mint;
+
+  // the 1st: cell → card (swell) → cell (relief)
+  const sw = track(t, [[0, 0], [T.pain, 1], [T.relief, 0]], 120, 17);
+  const beatPulse = t < T.pain ? .06 * Math.max(0, 1 - ((t * 2) % 1) * 3) * (t / T.pain) : 0;
+  const up = track(t, [[0, 0], [T.pain + .15, 1], [T.tomso - .05, 0]], 110, 18);
+  const CARDX = mixR(CARD, CARD_FULL, up), R1 = mixR(ONE, CARDX, sw);
+  const grow = 1 + beatPulse + (t < T.pain ? .08 * E.inOutCubic(t / T.pain) : 0);
+
+  // logo top-left (the statics' layout), not on the end card
+  const endP = spring(t - T.end, 140, 22);
+  alpha(1 - endP, () => logo(BOX.x, BOX.y, LOGO.h, ink));
+
+  // slow push-in on the stage during the hook and the relief, so a calm frame still breathes
+  const win = (a, b) => E.inOutCubic(clamp((t - a) / (b - a - .6))) * (1 - E.inOutCubic(clamp((t - b + .6) / .6)));
+  const push = 1 + .045 * win(0, T.pain) + .03 * win(T.relief, T.end);
+  const PCX = W / 2, PCY = GRID.y + GRID.h / 2;
+  g.save(); g.translate(PCX, PCY); g.scale(push, push); g.translate(-PCX, -PCY);
+  // calendar: present from frame 0; hidden under the card; back for the relief; folds away at the end
+  const gridA = (1 - clamp((sw - .55) / .3)) * (1 - endP);
+  calendar(t, ink, bgNow, gridA, 1);
+
+  // the 1st's cell / card
+  g.save(); g.translate(R1.x + R1.w / 2, R1.y + R1.h / 2); g.scale(grow, grow); g.translate(-(R1.x + R1.w / 2), -(R1.y + R1.h / 2));
+  alpha(1 - endP, () => {
+    g.fillStyle = bgNow; rrect(R1.x, R1.y, R1.w, R1.h, lerp(4, 22, sw) * U); g.fill();
+    g.strokeStyle = ink; g.lineWidth = LW * lerp(1.2, 1, sw); g.stroke();
+    const n = (FMT === 'V' ? 150 : 110) * U * clamp((sw - .3) / .7);
+    if (sw > .3) { txt('1', R1.x + 34 * U, R1.y + 34 * U + n * .78, 'sans', n, ink, { w: 600 }); txt('er', R1.x + 34 * U + tw('1', 'sans', n, 600) + 4 * U, R1.y + 34 * U + n * .42, 'sans', n * .38, ink, { w: 600 }); }
+    else txt('1', R1.x + 12 * U, R1.y + 34 * U, 'mono', 26 * U, ink, { w: 600 });
+    node(R1.x + R1.w, R1.y, ink, bgNow, NODE * lerp(.8, 1, sw));
+    const nm = Math.min(9, Math.floor(t * 2) + 1);                  // the work arriving: one mark per beat
+    alpha(1 - clamp(sw * 3), () => { for (let i = 0; i < nm; i++) { const p = spring(t - i * .5, 260, 20), mx = R1.x + R1.w * (.2 + (i % 3) * .26), my = R1.y + R1.h * (.48 + Math.floor(i / 3) * .17); line(mx, my, mx + R1.w * .16 * p, my - R1.w * .05 * p, ink, LW * .8); } });
+  });
+  g.restore();
+
+  // the pile: four items land on the beats while the card is swollen
+  const Ln = LINE(), lineP = spring(t - T.tomso - .35, 90, 18);
+  ITEMS.forEach((it, j) => {
+    const p = spring(t - it.at, 230, 19); if (p <= 0) return;
+    const pose = itemPose(j, CARDX), s = NOTE.h * .62;
+    const isN = it.id === 'nsf';
+    // TOMSO: everything but the NSF rides the line to the banks; the NSF stays, lime, with its details
+    const go = isN ? 0 : clamp((t - T.tomso - .7 - j * .28) / .9);
+    const onLine = E.inOutCubic(clamp(go * 2.2)), travel = E.inOutCubic(clamp(go * 1.6 - .5));
+    const cmp = spring(t - T.tomso, 160, 22);      // TOMSO arrives: the pile packs into the lower half, under the line
+    let x = pose.x, y = lerp(pose.y, CARDX.y + CARDX.h * (.66 + j * .085), cmp), rot = pose.rot * (1 - onLine), sc = lerp(1, .82, cmp);
+    x = lerp(x, lerp(Ln.x0, Ln.x1, travel), onLine); y = lerp(y, Ln.y, onLine); sc = 1 - clamp(travel * 1.4 - .4);
+    const out = clamp((t - T.relief + .2) / .3);
+    let nx = x, ny = y;
+    if (isN) { const k = E.inOutCubic(clamp((t - T.tomso - 1.6) / .8)); nx = lerp(x, (Ln.x0 + Ln.x1) / 2, k); ny = lerp(y, Ln.y + CARD.h * .42, k); rot *= 1 - k; }
+    alpha(Math.min(clamp(p * 3), 1 - out) * (1 - endP), () => {
+      g.save(); g.translate(nx, ny); g.rotate(rot); const ss = Math.max(.01, sc * (.85 + .15 * p)); g.scale(ss, ss); g.translate(-nx, -ny);
+      const lp = isN ? spring(t - T.tomso - 1.6, 220, 21) : 0, lime = lp > 0;
+      if (isN && lime) {                                    // the exception: the note grows into a lime tag + who / where / how much
+        const k = spring(t - T.tomso - 1.9, 200, 20), w = lerp(NOTE.w * .82, CARD.w * .74, clamp(lp)), h = lerp(NOTE.h * .82, NOTE.h * 1.15, clamp(lp));
+        alpha(1 - clamp(lp * 2), () => { g.fillStyle = bgNow; g.strokeStyle = ink; g.lineWidth = LW; rrect(nx - NOTE.w * .41, ny - NOTE.h * .41, NOTE.w * .82, NOTE.h * .82, 14 * U); g.fill(); g.stroke(); });
+        g.globalAlpha *= clamp(lp * 2);
+        g.fillStyle = P.lime; rrect(nx - w / 2, ny - h / 2, w, h, h / 2); g.fill();
+        txt(C.items.nsf, nx, ny - h * .02, 'mono', (FMT === 'V' ? 40 : 32) * U, P.ink, { w: 600, align: 'center' });
+        alpha(k, () => txt(C.nsfDetail.join('  ·  '), nx, ny + h * .3, 'mono', (FMT === 'V' ? 28 : 24) * U, P.ink, { w: 500, align: 'center' }));
+      } else {
+        const nw = NOTE.w, shrink = clamp(onLine * 1.6);
+        alpha(1 - shrink, () => {
+          g.save(); g.translate(nx, ny); g.scale(lerp(1, .2, shrink), lerp(1, .2, shrink)); g.translate(-nx, -ny);
+          g.fillStyle = bgNow; g.strokeStyle = ink; g.lineWidth = LW; rrect(nx - nw / 2, ny - NOTE.h / 2, nw, NOTE.h, 14 * U); g.fill(); g.stroke();
+          picto(it.id, nx - nw / 2 + NOTE.h * .62, ny, s, ink, bgNow, clamp((t - it.at - .2) / 1.2));
+          const lab = C.items[it.id], fs = (FMT === 'V' ? 38 : 30) * U;
+          txt(lab, nx - nw / 2 + NOTE.h * 1.25, ny + fs * .35, 'mono', Math.min(fs, (nw - NOTE.h * 1.45) / Math.max(1, tw(lab, 'mono', fs, 500)) * fs), ink, { w: 500 });
+          g.restore();
+        });
+        alpha(clamp(onLine * 1.6 - .4), () => node(nx, ny, ink, P.lime, NODE * 1.6 / Math.max(.3, ss)));
+      }
+      g.restore();
+    });
+  });
+
+  // TOMSO's line through the card: software ○—— TOMSO ——○ banks
+  alpha((1 - clamp((t - T.relief) / .4)) * (t >= T.tomso ? 1 : 0), () => {
+    const xm = (Ln.x0 + Ln.x1) / 2, r = (FMT === 'V' ? 64 : 52) * U, lx = lerp(Ln.x0, Ln.x1, lineP);
+    line(Ln.x0 + r, Ln.y, Math.max(Ln.x0 + r, lx - r), Ln.y, ink);
+    const ap = q => clamp((lineP - q * .75) * 5);
+    alpha(ap(0), () => { disc(Ln.x0, Ln.y, r, P.white); picto('building', Ln.x0, Ln.y, r * 1.5, P.ink, P.white); wrap(C.software, 'sans', 28 * U, 240 * U).forEach((l, i) => txt(l, Ln.x0, Ln.y + r + 44 * U + i * 34 * U, 'sans', 28 * U, ink, { align: 'center' })); });
+    alpha(ap(.45), () => { const lw = LOGO.h * 1.5, ww = lw * TL.logoSize[0] / TL.logoSize[1]; g.fillStyle = bgNow; g.fillRect(xm - ww / 2 - 18 * U, Ln.y - lw, ww + 36 * U, lw * 2); logo(xm - ww / 2, Ln.y - lw / 2, lw, ink); node(xm - ww / 2 - 18 * U, Ln.y, ink, bgNow); node(xm + ww / 2 + 18 * U, Ln.y, ink, bgNow); });
+    alpha(ap(.9), () => { disc(Ln.x1, Ln.y, r, P.white); picto('bank', Ln.x1, Ln.y, r * 1.5, P.ink, P.white); wrap(C.banks, 'sans', 28 * U, 240 * U).forEach((l, i) => txt(l, Ln.x1, Ln.y + r + 44 * U + i * 34 * U, 'sans', 28 * U, ink, { align: 'center' })); });
+  });
+
+  // relief: the line keeps flowing along the bottom of the month
+  alpha(clamp((t - T.relief - .6) / .5) * (1 - endP), () => {
+    const y = GRID.y + GRID.h + 46 * U; line(GRID.x, y, GRID.x + GRID.w, y, ink);
+    node(GRID.x, y, ink, bgNow); node(GRID.x + GRID.w, y, ink, bgNow);
+    const u = ((t - T.relief) * .35) % 1; node(GRID.x + GRID.w * u, y, ink, P.lime, NODE * .9);
+    node(ONE.x + ONE.w, ONE.y, ink, P.lime, NODE * 1.1);
+  });
+
+  g.restore();
+  // headlines
+  headline('hook', [[C.hook, ink]], -1, T.pain, t);
+  if (t >= T.tomso) headline('exc', [[C.exceptions[0], P.white], [C.exceptions[1], P.lime]], T.tomso + .35, T.relief, t);
+  if (t >= T.relief) headline('rel', [[C.relief, P.ink]], T.relief + .35, T.end, t);
+
+  // end card: wordmark, the line, the line, CTA
+  if (t >= T.end - .1) {
+    const k = endP, lw = (FMT === 'V' ? 150 : 110) * U, ww = lw * TL.logoSize[0] / TL.logoSize[1];
+    const cy = FMT === 'V' ? BOX.y + BOX.h * .44 : BOX.y + BOX.h * .42;
+    alpha(clamp(k * 1.4), () => { g.save(); const s = lerp(.86, 1, k); g.translate(W / 2, cy); g.scale(s, s); logo(-ww / 2, -lw / 2, lw, P.ink); g.restore(); });
+    // the line draws out of the wordmark, ring nodes at both ends
+    const lp = spring(t - T.end - .35, 120, 20), y = cy + lw * .9, half = ww / 2 * lp;
+    alpha(lp, () => { line(W / 2 - half, y, W / 2 + half, y, P.ink); node(W / 2 - half, y, P.ink, P.mint); node(W / 2 + half, y, P.ink, P.mint); });
+    // message
+    const L = HL.end || (HL.end = (() => { const lines = C.end.split(/(?<=\.)\s+/); let size = (FMT === 'V' ? 84 : 66) * U; while (Math.max(...lines.map(l => tw(l, 'head', size))) > BOX.w * .96) size *= .97; return { size, lines }; })());
+    L.lines.forEach((s, i) => { const p = spring(t - T.end - .6 - i * .08, 200, 24); alpha(clamp(p * 2), () => txt(s, W / 2, y + 90 * U + L.size + i * L.size * 1.08 + (1 - p) * 30 * U, 'head', L.size, P.ink, { align: 'center' })); });
+    // CTA pill, presses in on the beat
+    const cp = spring(t - T.end - 1.5, 220, 18), press = Math.max(0, 1 - Math.abs(t - (T.end + 2.5)) / .12) * .06;
+    const by = y + 90 * U + L.lines.length * L.size * 1.08 + 60 * U, bw = tw(C.cta, 'mono', 46 * U, 500) + 130 * U, bh = 112 * U;
+    alpha(clamp(cp * 2), () => { g.save(); g.translate(W / 2, by + bh / 2); const s = (.9 + .1 * cp) * (1 - press); g.scale(s, s); g.fillStyle = P.lime; rrect(-bw / 2, -bh / 2, bw, bh, bh / 2); g.fill(); txt(C.cta, 0, 16 * U, 'mono', 46 * U, P.ink, { w: 500, align: 'center' }); g.restore(); });
+  }
+}
+window.draw = window.seek = draw;
+
+// ---------------------------------------------------------------- frame composer: average N subframes (motion blur)
+let FRAME_T = null;
+const acc = document.createElement('canvas'); acc.width = W; acc.height = H; const ag = acc.getContext('2d');
+window.renderFrame = (i, opts = {}) => {
+  const times = subframeTimes(i, { fps: TL.fps || 30, sub: 6, shutter: .6, fast: TL.fast || [], hardCuts: TL.hardCuts || [], dur: DUR, ...opts });
+  FRAME_T = i / (TL.fps || 30);
+  times.forEach((ts, k) => { draw(ts); ag.globalAlpha = 1 / (k + 1); ag.drawImage(cv, 0, 0); });
+  FRAME_T = null;
+  g.setTransform(1, 0, 0, 1, 0, 0); g.globalAlpha = 1; g.filter = 'none'; g.drawImage(acc, 0, 0);
+};
+(async () => {
+  for (const f of window.FONTS || []) {
+    const ff = new FontFace(f.family, `url(data:font/ttf;base64,${f.b64})`, { weight: f.weight || '400', style: f.style || 'normal' });
+    await ff.load(); document.fonts.add(ff);
+  }
+  window.MISSING = [];
+  draw(0); window.ready = true;
+})();
+</script></body></html>
