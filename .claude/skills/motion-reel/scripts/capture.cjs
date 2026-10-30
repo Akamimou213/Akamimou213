@@ -79,7 +79,13 @@ const box = async (page, sel) => { const r = await page.locator(sel).first().bou
     site.capturedAt = new Date().toISOString(); site.fonts = [...FONT_URLS];
     site.logos.forEach((l, i) => l.svg && fs.writeFileSync(path.join(out, 'brand', `logo-${i}.svg`), l.svg.includes('xmlns') ? l.svg : l.svg.replace('<svg', '<svg xmlns="http://www.w3.org/2000/svg"')));
     for (const u of [...new Set([...site.fonts, ...site.logos.filter(l => l.src).map(l => l.src)])]) {
-      try { const r = await page.request.get(u); if (r.ok()) fs.writeFileSync(path.join(out, u.match(/\.(woff2?|ttf|otf)(\?|$)/) ? 'fonts' : 'brand', decodeURIComponent(path.basename(new URL(u).pathname))), await r.body()); } catch (e) { console.error('skip', u, e.message); }
+      if (u.startsWith('data:')) continue;
+      // page.request bypasses an HTTPS proxy (ENOTFOUND in proxied containers); the page's own fetch goes through it
+      const viaPage = () => page.evaluate(async x => { const r = await fetch(x); if (!r.ok) throw new Error(`HTTP ${r.status}`); const b = new Uint8Array(await r.arrayBuffer()); let s = ''; for (let i = 0; i < b.length; i += 32768) s += String.fromCharCode(...b.subarray(i, i + 32768)); return btoa(s); }, u).then(b => Buffer.from(b, 'base64'));
+      try {
+        let body; try { const r = await page.request.get(u); if (!r.ok()) throw new Error(`HTTP ${r.status()}`); body = await r.body(); } catch { body = await viaPage(); }
+        fs.writeFileSync(path.join(out, u.match(/\.(woff2?|ttf|otf)(\?|$)/) ? 'fonts' : 'brand', decodeURIComponent(path.basename(new URL(u).pathname))), body);
+      } catch (e) { console.error('skip', u, e.message); }
     }
     fs.writeFileSync(path.join(out, opt.lang ? `site-${opt.lang.toLowerCase()}.json` : 'site.json'), JSON.stringify(site, null, 1));
     // 3. mobile

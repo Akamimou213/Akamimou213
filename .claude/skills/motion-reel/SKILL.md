@@ -156,6 +156,7 @@ during swaps.
 ## 9. Gotchas already paid for
 
 - `element.screenshot()` waits for "stable" and times out on animated pages → use `page.screenshot({clip})`.
+- Behind an HTTPS proxy, Playwright's `page.request` can't resolve hosts; `capture.cjs` falls back to the page's own `fetch`.
 - Dismiss cookie banners first. Scroll-driven sections need per-scroll-step captures.
 - Probe the DOM before capturing: the "animation" may be a `<canvas>`, and the obvious selector may hit a marquee.
 - Modern CSS returns `lab()`/`oklab()` colours; `capture.cjs` converts them to hex via canvas.
