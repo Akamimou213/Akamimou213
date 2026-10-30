@@ -51,6 +51,14 @@
     return target + Math.exp(-z * w0 * s) * (e * Math.cos(wd * s) + ((v0 + z * w0 * e) / wd) * Math.sin(wd * s));
   }
 
+  // Rubber band past a limit (iOS overscroll): the further past the bound, the less it follows. over = px past the
+  // bound (signed), dim = the element's size along the drag. For "the slider stretches when dragged past max".
+  const rubber = (over, dim, c = .55) => (over * dim * c) / (dim + c * Math.abs(over));
+
+  // Where a flick would coast to (exponential decay, as iOS scrolling): v in units/s, rate .998 normal, .99 snappy.
+  // Snap to the target nearest position + project(v), then release() toward it with v.
+  const project = (v, rate = .998) => (v / 1000) * rate / (1 - rate);
+
   // "Arrive fast, land soft": covers `rate` of the remaining distance per frame (0.12-0.19 at 30 fps), as a closed form
   // of t. 0 -> 1 from t0; never overshoots. For slams and stamps that should feel heavy, not springy.
   const approach = (t, t0, rate = .15, fps = 30) => (t <= t0 ? 0 : 1 - Math.pow(1 - rate, (t - t0) * fps));
@@ -122,7 +130,7 @@
   // Per-character stagger helper: progress of character j of a word entering at t0.
   const stagger = (t, t0, j, gap = .03, k = 260, d = 24) => spring(t - t0 - j * gap, k, d);
 
-  const api = { clamp, lerp, inv, E, spring, track, release, approach, irisR, logTrack, indicator, swapAlpha, loopT, segOf, rng, hash, mixHex, mixOklab, subframeTimes, stagger };
+  const api = { clamp, lerp, inv, E, spring, track, release, rubber, project, approach, irisR, logTrack, indicator, swapAlpha, loopT, segOf, rng, hash, mixHex, mixOklab, subframeTimes, stagger };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   root.Motion = api;
 })(typeof globalThis !== 'undefined' ? globalThis : this);

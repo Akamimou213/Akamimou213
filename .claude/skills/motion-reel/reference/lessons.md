@@ -62,5 +62,6 @@ fresh critic per round.
 ## Ideas adopted from open-design (2026-10-30)
 `refcompare.sh` (reference vs our render, paired at the same times, SSIM to rank where to look), measure-don't-estimate for
 reference timelines, track retiming limits (`atempo` 0.8–1.25× music, 0.95–1.05× voice), constant speed only for mechanical
-motion, seeded textures, chart axes before values. Its motion-measuring scripts (`ui-animation`) await approval (`repos.md`).
+motion, seeded textures, chart axes before values. Then, approved: `ui-animation`'s motion-measuring scripts (`scripts/measure/`), `rubber` and `project` in `motion.js`,
+choreography offsets and measured open/close springs, odometer digits.
 

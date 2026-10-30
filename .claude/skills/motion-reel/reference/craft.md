@@ -47,6 +47,11 @@ a licence). "Tool" says where the skill enforces or measures the rule.
   log space (`Motion.logTrack`); a linear scale track reads as slowing down. Framings are exact windows, not scale factors.
   Merge sequential moves into one gesture. Footage pans use in-out easing (front-loaded ease-outs make them crawl).
 - One element at full brightness at a time; the accent colour sits on one element at a time.
+- **Choreography lives in offsets between properties:** blur or dim leads, the move follows ~100 ms later; one axis
+  over-stretches (scaleY ~1.06) and each axis settles on its own spring, not one uniform scale. Measured on a production
+  container morph (60 fps): open k 155 / d 11 (ζ 0.44, 121 % of travel at 284 ms, rest at 584 ms); close k 620 / d 36
+  (ζ ~0.75, 185 ms, rest at 300 ms). Bounce belongs to the open; the close is faster, stiffer and flat. Never replay the
+  open reversed. Measure a client's own motion with `scripts/measure/`.
 - **Camera settles slower than its subject:** shape damping ratio ~0.72, settling in ~0.35 s; camera ~1.0, ~0.6 s.
 - **Never zoom into an off-centre dot:** the camera swings sideways and spikes. Render the inside world to a layer and open
   it through the dot as an iris mask. Ease an iris by area, not radius (`Motion.irisR`): a radius-eased iris closing from
@@ -72,6 +77,8 @@ a licence). "Tool" says where the skill enforces or measures the rule.
 - Judge type size from full-resolution stills; contact sheets make everything look smaller.
 - **Counters read the frame's time, not the subframe's** (engine `frameT`), or motion blur stacks several values into a
   smear. A counter that keeps running through a cutaway runs on the global clock; a frozen counter reads as a broken render.
+- A number the cursor drives (stepper, slider, scrubber) rolls like an odometer: only the digits that changed, upward when
+  the value rises and downward when it falls, in tabular figures. A number that arrives on its own counts or pops in.
 - Readable things stay on screen for ≥ 8 clean frames. A glitch lasts 1–2 frames, only on a real cut, and always with a sound.
 - Word swaps roll vertically through a mask line. A draw-on starts after its blur-in finishes.
 
@@ -166,6 +173,8 @@ a licence). "Tool" says where the skill enforces or measures the rule.
   frame (65 px/frame at 1440 px, 60 fps).
 - Drags are direct manipulation: while held, the value follows the cursor and the tip stays locked to the handle. On release,
   spring from the cursor's position and speed (`Motion.release`), never restart from rest.
+- Past a limit, the dragged thing rubber-bands (`Motion.rubber`): it follows less the further it goes, then springs back.
+  A flick coasts: pick the snap target nearest `position + Motion.project(v)`, then `release` toward it with v.
 - Typing derives from t: characters shown = floor(progress × length), on an uneven, seeded keystroke rhythm. The caret blinks
   only while idle.
 - Loops: the seam matches cursor position **and velocity**, camera and content. Render frames [0, dur): a frame at t = dur

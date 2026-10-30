@@ -46,13 +46,13 @@ listed in `lessons.md`. The motion repos it links were shallow-cloned and read, 
 ## nexu-io/open-design (vetted 2026-10-30)
 
 [nexu-io/open-design](https://github.com/nexu-io/open-design) is a design-agent workspace (Apache-2.0, commit `12d970e`,
-2026-10-30) with 171 skills, mostly web/UI design; its motion pieces target its own app and CLI (`od media …`). Read, not
-installed. Taken: the reference-compare step (rewritten as our `refcompare.sh`, ffmpeg only), track-retiming numbers, measure
+2026-10-30) with 171 skills, mostly web/UI design; its motion pieces target its own app and CLI (`od media …`). Read; only
+`ui-animation`'s scripts were vendored. Taken: the reference-compare step (rewritten as our `refcompare.sh`, ffmpeg only), track-retiming numbers, measure
 reference timelines, seeded textures, chart axes before values (`craft.md`).
 
 | Skill | What it is | Licence | Verdict |
 |---|---|---|---|
-| `skills/ui-animation` (from [mblode/agent-skills](https://github.com/mblode/agent-skills/tree/5a781a88ed60c1033767b6b6a966887cd93dd912/skills/ui-animation)) | Measures motion in a recording: `extract_frames.py` → `track_motion.py` (OpenCV, per-frame box, centroid, opacity/blur/radius proxies) → `fit_curves.py` (scipy; spring k/d with mass 1, i.e. our `spring(t, k, d)`, plus a cubic-bezier, with fit error) | MIT | **Candidate to vendor, awaiting approval.** Read in full: local only, no network. One test on a synthetic clip with the card already on screen in frame 0 came back biased (true k 170 / d 20 → 235 / 25; true 300 / 14 → 370 / 15) because the tracker takes frame 0 as empty background: trim recordings to start on an empty frame. Needs `opencv-python-headless` |
+| `skills/ui-animation` (from [mblode/agent-skills](https://github.com/mblode/agent-skills/tree/5a781a88ed60c1033767b6b6a966887cd93dd912/skills/ui-animation)) | Measures motion in a recording: `extract_frames.py` → `track_motion.py` (OpenCV) → `fit_curves.py` (scipy; spring k/d at mass 1, i.e. our `spring(t, k, d)`, plus a cubic-bezier, with fit error) | MIT | **Vendored** (approved 2026-10-30) into `scripts/measure/` unchanged, with three of its reference notes. Tested on a synthetic clip: exact (170.4 / 20.04 for 170 / 20) when the window starts on an empty frame, biased (235 / 25) when the element is on screen in frame 0. Also **borrowed**: choreography offsets, measured open/close springs, rubber band, momentum projection, odometer digits |
 | `skills/motion-design` | Video craft + Open Design's HyperFrames film contract | Apache-2.0 | **borrow** (above). Its contract and `od` CLI are app-specific |
 | `skills/review-animations`, `craft/animation-discipline.md` | UI motion review standards (durations, reduced motion, interruptibility) | MIT (Matt Pocock) / Apache-2.0 | **skip** for video: web/app UI rules; the video equivalents are already in `craft.md` |
 | `skills/huashu-art-motion`, `skills/motion-lab` | Art-style recipes for canvas explainers; 160 web-animation cases (Chinese) | MIT | **skip** for now: `animate` covers illustrated explainers; motion-lab is web interactions |

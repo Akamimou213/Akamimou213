@@ -67,7 +67,7 @@ HTML → `product-launch-motion`; illustrated explainers with no product UI → 
 |---|---|---|
 | G0 Brief | Fill `templates/director-brief.md` (logline, refs, look, beat sheet, deliverables) | `docs/brief.md` |
 | G1 Assets | Collect real assets for the film type (§1). For sites, `capture.cjs site / clip / record`. List what you found and what you won't use. | `assets/ASSETS.md` |
-| G2 Reference | `scripts/refscan.sh ref.mp4 docs/ref`: cuts, 4 fps sheets, transition strips, loudness, tempo. Name the grammar. | `docs/style_guide.md` |
+| G2 Reference | `scripts/refscan.sh ref.mp4 docs/ref`: cuts, 4 fps sheets, transition strips, loudness, tempo. Name the grammar. To match how something moves (the client's own UI recording, a reference's signature move), measure it: `scripts/measure/` → spring k/d per property (`measure/README.md`). | `docs/style_guide.md` |
 | G3 Music | Synthesize (`music.py`) or measure (`beats.py`). Put every cut and accent on the grid. | `timeline.json` |
 | G4 Story | Shot list on the grid (`templates/shotlist.md`) with a reading hold per line; the holds must fit the duration. If the direction is open, offer 3 storyboard variants (`prompts/storyboard-variants.md`). Ads: the hook gate (§6). VO films: words → `captions.py`. | `docs/shotlist.md` |
 | G5 Stills | One still per scene → contact sheet → critique (`prompts/critique-pass.md`) → fix. Then one frame per beat, and `render.cjs text` for every language × variant × format (clipped, unsafe, overlapping, too small, low contrast). Repeat until every score is 8+ and the text check is clean. | contact sheets, `docs/review_log.md` |
@@ -99,7 +99,7 @@ For long films, write `templates/ANIMATION_GUIDE.md` into `docs/` first, then sp
   `subframeTimes` clamps them, otherwise you get a grey ghost frame.
 - Anything that must stay sharp under motion blur (counters, digits) reads the frame's time (`frameT(t)` in the scenes
   engine), not the subframe's, or the averaged samples stack into a smear.
-- Drags are direct manipulation; on release, spring from the cursor's position and speed (`release`). Slams and stamps
+- Drags are direct manipulation; on release, spring from the cursor's position and speed (`release`); past a limit, `rubber`; a flick snaps to the target nearest `pos + project(v)`. Slams and stamps
   use `approach` (fast in, soft landing); irises ease by area (`irisR`). Cursor rules: `reference/craft.md` § Cursor.
 - To blur a transition, render it to a layer and blur the layer once. `ctx.filter` on every draw call is ~100× slower.
 - Batch big dot fields into a few `Path2D`s by quantized tone. For image sequences, decode lazily and evict old frames.
@@ -183,8 +183,9 @@ during swaps.
 | `templates/engine-scenes.html` + `timeline.scenes.json` | cut-based starter: kinetic type, capture cards with per-format crop, counted stat with source, end card, cursor passes, variants |
 | `templates/engine-morph.html` + `timeline.morph.json` | one-shape starter: morphing container, camera zoom per format, layer blur, loop |
 | `templates/ANIMATION_GUIDE.md` | rules for subagents writing chapters of a long film |
-| `lib/motion.js` | `spring` `track` `release` `approach` `irisR` `logTrack` `indicator` `swapAlpha` `loopT` `segOf` `rng` `hash` `mixHex` `mixOklab` `subframeTimes` `stagger` `E` |
+| `lib/motion.js` | `spring` `track` `release` `rubber` `project` `approach` `irisR` `logTrack` `indicator` `swapAlpha` `loopT` `segOf` `rng` `hash` `mixHex` `mixOklab` `subframeTimes` `stagger` `E` |
 | `scripts/capture.cjs` | `site` / `clip` / `record` |
+| `scripts/measure/` | recording → per-frame metrics → fitted spring k/d and cubic-bezier (vendored, MIT) |
 | `scripts/refscan.sh` · `refcompare.sh` | reference breakdown; reference vs our render, paired at the same times with SSIM |
 | `scripts/render.cjs` · `render-all.sh` | `sheet` / `stills` / `video` / `det` / `text`; all formats in parallel → concat → mux (`CAPTIONS=0`, `AUDIO_ONLY=1`) |
 | `scripts/words.py` · `captions.py` | word timings (local Whisper or SRT) → caption cards in the timeline + `.srt` |
