@@ -148,7 +148,7 @@ function calendar(t, ink, bg, aGrid, lineP = 1) {
 // ---------------------------------------------------------------- scenes
 const GROUND = [[T.hook, P.mint], [T.tomso, P.slate], [T.relief, P.lavender], [T.end, P.mint]];
 function ground(t) {
-  let i = 0; GROUND.forEach(([t0], j) => { if (t >= t0) i = j; });
+  let i = 0; GROUND.forEach(([t0], j) => { if (t >= t0 - .15) i = j; });
   const [t0, col] = GROUND[i], prev = i ? GROUND[i - 1][1] : col;
   g.fillStyle = prev; g.fillRect(0, 0, W, H);
   if (i) { const o = IRIS[i](), R = Math.hypot(Math.max(o.x, W - o.x), Math.max(o.y, H - o.y)); g.fillStyle = col; g.beginPath(); g.arc(o.x, o.y, irisR(E.inOutCubic(clamp((t - t0 + .15) / .55)), R), 0, Math.PI * 2); g.fill(); }
@@ -167,8 +167,10 @@ function draw(T0) {
   const t = clamp(T0, 0, DUR - 1e-4);
   g.setTransform(1, 0, 0, 1, 0, 0); g.globalAlpha = 1; g.filter = 'none';
   ground(t);
-  const onSlate = t >= T.tomso + .2 && t < T.relief + .2, ink = onSlate ? P.white : P.ink;
-  const bgNow = t < T.tomso + .2 ? P.mint : t < T.relief + .2 ? P.slate : t < T.end + .2 ? P.lavender : P.mint;
+  // ink and fill follow the ground's iris (OKLab mix over the same progress), so nothing flips in one frame
+  let gi = 0; GROUND.forEach(([t0], j) => { if (t >= t0 - .15) gi = j; });
+  const gp = gi ? E.inOutCubic(clamp((t - GROUND[gi][0] + .15) / .55)) : 1, INK = [P.ink, P.white, P.ink, P.ink];
+  const ink = gi ? Motion.mixOklab(INK[gi - 1], INK[gi], gp) : INK[0], bgNow = gi ? Motion.mixOklab(GROUND[gi - 1][1], GROUND[gi][1], gp) : GROUND[0][1];
 
   // the 1st: cell → card (swell) → cell (relief)
   const sw = track(t, [[0, 0], [T.pain, 1], [T.relief, 0]], 120, 17);
