@@ -30,3 +30,11 @@ Round 4 — after draft 1 (« use more of the skill »): VO-led re-edit + doctri
   text-only mix −14.1 LUFS, −1.1 dBTP (SFX lowered after a −0.5 dBTP peak).
 - Checks: text clean in 3 formats (grid narrowed 6 % after the push-in pushed day numbers out of the safe box);
   determinism and static lint clean.
+
+Round 5 — client: « the music competes with the voice; focus on the voice; align the transition sounds with the VO »
+- Measured: VO stem −22.7 LUFS, music −19.2 LUFS (music was louder than the voice).
+- Fix: VO ×2.16 (−16 LUFS), music ×0.257 (−31 LUFS), bed −8 dB duck and −10 dB speech-band carve under the voice
+  → voice ~23 LU above the music while speaking. SFX stem ×0.39; whooshes sit in VO gaps (2.65, 9.30, 16.85 s);
+  note pops stay on their spoken words, quieter; node ticks under « chaque paiement » ×0.18; exception hit ×0.5;
+  cursor click ×0.5. Master −14.1 LUFS, −2.0 dBTP. Voiced V/P/S re-muxed (picture unchanged), QA clean.
+

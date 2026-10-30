@@ -112,6 +112,11 @@ a licence). "Tool" says where the skill enforces or measures the rule.
 - Word timings (`words.py`) drive cues: a reveal lands on its word's start (within 2 frames; 200 ms late reads as lag).
   `hold = VO line + pad`. Next beat starts ~0.3 s after the previous line ends.
 - ≤ 3.5 words/s. Put the payoff hit in the pause before the line that names it, not under speech.
+- **The voice leads the mix.** Normalise the VO stem first (~−16 LUFS), then set the music ≥ 15 LU under it while it
+  speaks (here ~23 LU: music −31 LUFS before an 8 dB duck and a 10 dB speech-band carve). Measure the stems with
+  `ebur128` before mastering; mastering the sum to −14 LUFS hides a bed that's louder than the voice.
+- Transition sounds go in the voice's gaps (whooshes between phrases); accents on words stay quiet; ticks under speech
+  nearly mute.
 - Carve, don't duck: cut the bed's speech band under the voice and keep its body between lines (`master.py --vo`).
 - TTS: spell numbers out in the TTS text and write digits in the captions. Transcribe every generated line back
   (`words.py`) and regenerate on a mismatch. Compress the voice before balancing; it sits ~10 dB over the music by RMS.

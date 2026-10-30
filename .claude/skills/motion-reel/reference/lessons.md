@@ -42,6 +42,7 @@
 | Brand-blue caption highlight read at 2:1 on its black outline | lift the accent toward white in OKLab until 4.5:1; judge outlined text against its outline |
 | VO carve produced NaN and broke the limiter (+1 dBTP) | clamp the smoothed square before `sqrt` |
 | Counting stat smeared into stacked digits under motion blur (found via the motion library below) | counters read the frame's time, not the subframe's (`frameT`) |
+| Client: « the music is as loud as the voice ». VO stem was −22.7 LUFS, music −19.2: mastered at −14 the bed still won | normalise the VO stem first, bed ≥ 15 LU under it while speaking, measure stems before mastering (`craft.md` § Voice-over) |
 | Downbeat landed on beat 3: kicks on 1 and 3 were equal | add chord-change (chroma) novelty; warn, don't shift, on off-beat low end |
 
 ## Ideas adopted from other skills (2026-10-10)
