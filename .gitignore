@@ -18,3 +18,5 @@ appfound/growth-plan/out/
 films/*/assets/brand/
 films/*/assets/site/
 films/*/assets/capture/brand/
+films/*/audio/*.wav
+films/*/audio/*.mp3
