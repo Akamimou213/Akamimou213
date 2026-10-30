@@ -97,6 +97,10 @@ For long films, write `templates/ANIMATION_GUIDE.md` into `docs/` first, then sp
 - Loops: `loopT(t, dur)`. The last frame must equal the first (SSIM ≥ 0.99).
 - Motion blur averages N subframes, raised to 10–24 on fast moves (`fast`). **Never let subframes straddle a hard cut**:
   `subframeTimes` clamps them, otherwise you get a grey ghost frame.
+- Anything that must stay sharp under motion blur (counters, digits) reads the frame's time (`frameT(t)` in the scenes
+  engine), not the subframe's, or the averaged samples stack into a smear.
+- Drags are direct manipulation; on release, spring from the cursor's position and speed (`release`). Slams and stamps
+  use `approach` (fast in, soft landing); irises ease by area (`irisR`). Cursor rules: `reference/craft.md` § Cursor.
 - To blur a transition, render it to a layer and blur the layer once. `ctx.filter` on every draw call is ~100× slower.
 - Batch big dot fields into a few `Path2D`s by quantized tone. For image sequences, decode lazily and evict old frames.
   Inject fonts as base64 `FontFace`, because file:// blocks font CORS.
@@ -160,6 +164,10 @@ during swaps.
 - `pkill -f "<pattern>"` from a shell whose command line contains the pattern kills that shell.
 - In contact sheets, sample ~0.3 s into each beat. Late samples catch content mid-exit and look empty.
 - Concat lists use paths relative to the list file.
+- Not sure of a parameter (dot density, blur, speed)? Render 5–6 settings side by side as one sheet and pick, instead of
+  guessing one at a time.
+- A font without a glyph you need (another script, ₹, arrows) silently falls back to a system face and changes text widths.
+  Check every character of every language in the font before layout.
 - Generate-then-trace (a video model makes base motion, code redraws on top) needs a video-generation API key and budget.
 - Containers with a preinstalled browser: set `CHROMIUM_PATH` (e.g. `/opt/pw-browsers/chromium`) and don't run `playwright install`.
 - Untagged H.264 is guessed as BT.601 and shifts brand colours: `render.cjs` encodes and tags BT.709 limited range.
@@ -175,7 +183,7 @@ during swaps.
 | `templates/engine-scenes.html` + `timeline.scenes.json` | cut-based starter: kinetic type, capture cards with per-format crop, counted stat with source, end card, cursor passes, variants |
 | `templates/engine-morph.html` + `timeline.morph.json` | one-shape starter: morphing container, camera zoom per format, layer blur, loop |
 | `templates/ANIMATION_GUIDE.md` | rules for subagents writing chapters of a long film |
-| `lib/motion.js` | `spring` `track` `logTrack` `indicator` `swapAlpha` `loopT` `segOf` `rng` `hash` `mixHex` `mixOklab` `subframeTimes` `stagger` `E` |
+| `lib/motion.js` | `spring` `track` `release` `approach` `irisR` `logTrack` `indicator` `swapAlpha` `loopT` `segOf` `rng` `hash` `mixHex` `mixOklab` `subframeTimes` `stagger` `E` |
 | `scripts/capture.cjs` | `site` / `clip` / `record` |
 | `scripts/refscan.sh` | reference breakdown |
 | `scripts/render.cjs` · `render-all.sh` | `sheet` / `stills` / `video` / `det` / `text`; all formats in parallel → concat → mux (`CAPTIONS=0`, `AUDIO_ONLY=1`) |

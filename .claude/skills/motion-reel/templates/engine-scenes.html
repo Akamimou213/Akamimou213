@@ -117,7 +117,7 @@ const KIND = {
     }
   },
   stat: (t, s, lt) => {                                              // one verified number, counted up, with its source
-    const v = lerp(s.from || 0, s.to, E.outExpo(clamp((lt - .1) / 1.1)));
+    const v = lerp(s.from || 0, s.to, E.outExpo(clamp((frameT(t) - s.t - .1) / 1.1)));   // digits read the frame's time, so they don't smear
     const nf = new Intl.NumberFormat(LANG, { minimumFractionDigits: s.decimals || 0, maximumFractionDigits: s.decimals || 0 });   // 1,250,000 / 1 250 000
     const fmt = x => `${s.prefix || ''}${nf.format(x)}${s.suffix || ''}`;
     const n = typeof s.to === 'number' ? fmt(v) : '[number]', ends = typeof s.to === 'number' ? [fmt(s.from || 0), fmt(s.to)] : [n];
@@ -197,6 +197,9 @@ const CAP_ACTIVE = (() => {
 })();
 
 // ---------------------------------------------------------------- draw(t): the only entry point
+// Motion blur averages subframes; anything that must stay sharp (counters, digits) reads the frame's time instead.
+let FRAME_T = null;
+const frameT = t => (FRAME_T === null ? t : TL.loop ? loopT(FRAME_T, DUR) : Math.min(FRAME_T, DUR - 1e-4));
 function draw(T) {
   const t = TL.loop ? loopT(T, DUR) : Math.min(T, DUR - 1e-4);
   g.setTransform(1, 0, 0, 1, 0, 0); g.globalAlpha = 1; g.filter = 'none';
@@ -219,7 +222,9 @@ window.draw = window.seek = draw;
 const acc = document.createElement('canvas'); acc.width = W; acc.height = H; const ag = acc.getContext('2d');
 window.renderFrame = (i, opts = {}) => {
   const times = subframeTimes(i, { fps: TL.fps || 60, sub: 6, shutter: .75, fast: TL.fast || [], hardCuts: HARD, dur: TL.loop ? Infinity : DUR, ...opts });
+  FRAME_T = i / (TL.fps || 60);
   times.forEach((ts, k) => { draw(ts); ag.globalAlpha = 1 / (k + 1); ag.drawImage(cv, 0, 0); });
+  FRAME_T = null;
   g.setTransform(1, 0, 0, 1, 0, 0); g.globalAlpha = 1; g.filter = 'none'; g.drawImage(acc, 0, 0);
 };
 (async () => {

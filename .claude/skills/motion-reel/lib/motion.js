@@ -37,6 +37,28 @@
     return v;
   }
 
+  // Spring from a released drag: starts at x0 moving at v0 (units/s) and settles on target. Use it when a cursor lets go
+  // of a slider or knob: while held, the value follows the cursor; from t0 on, release() takes over with the cursor's
+  // position and speed at t0, so there's no velocity jump. Critically damped when d >= 2*sqrt(k).
+  function release(t, t0, x0, v0, target, k = 170, d = 20) {
+    const s = Math.max(0, t - t0), e = x0 - target, w0 = Math.sqrt(k), z = d / (2 * w0);
+    if (z > 1) {
+      const q = w0 * Math.sqrt(z * z - 1), r1 = -z * w0 + q, r2 = -z * w0 - q, A = (v0 - r2 * e) / (r1 - r2);
+      return target + A * Math.exp(r1 * s) + (e - A) * Math.exp(r2 * s);
+    }
+    if (z === 1) return target + Math.exp(-w0 * s) * (e + (v0 + w0 * e) * s);
+    const wd = w0 * Math.sqrt(1 - z * z);
+    return target + Math.exp(-z * w0 * s) * (e * Math.cos(wd * s) + ((v0 + z * w0 * e) / wd) * Math.sin(wd * s));
+  }
+
+  // "Arrive fast, land soft": covers `rate` of the remaining distance per frame (0.12-0.19 at 30 fps), as a closed form
+  // of t. 0 -> 1 from t0; never overshoots. For slams and stamps that should feel heavy, not springy.
+  const approach = (t, t0, rate = .15, fps = 30) => (t <= t0 ? 0 : 1 - Math.pow(1 - rate, (t - t0) * fps));
+
+  // Iris radius eased by area, not radius: p = eased 0..1 coverage, R = radius that covers the frame. A radius-eased
+  // iris closing from full frame changes nothing visible for its first frames, then jumps.
+  const irisR = (p, R) => R * Math.sqrt(clamp(p));
+
   // Zoom / scale targets: spring in log space. A linear scale track reads as slowing down as it grows.
   const logTrack = (t, keys, k = 90, d = 19) => Math.exp(track(t, keys.map(([t0, v]) => [t0, Math.log(v)]), k, d));
 
@@ -100,7 +122,7 @@
   // Per-character stagger helper: progress of character j of a word entering at t0.
   const stagger = (t, t0, j, gap = .03, k = 260, d = 24) => spring(t - t0 - j * gap, k, d);
 
-  const api = { clamp, lerp, inv, E, spring, track, logTrack, indicator, swapAlpha, loopT, segOf, rng, hash, mixHex, mixOklab, subframeTimes, stagger };
+  const api = { clamp, lerp, inv, E, spring, track, release, approach, irisR, logTrack, indicator, swapAlpha, loopT, segOf, rng, hash, mixHex, mixOklab, subframeTimes, stagger };
   if (typeof module !== 'undefined' && module.exports) module.exports = api;
   root.Motion = api;
 })(typeof globalThis !== 'undefined' ? globalThis : this);

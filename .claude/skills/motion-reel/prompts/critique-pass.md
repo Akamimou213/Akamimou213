@@ -22,7 +22,10 @@ the film's message from the frames alone; if it can't, that's the top problem.
 - blurry scaled text or upscaled captures
 - a dead beat with nothing happening
 - ghost/grey frames at hard cuts (subframes straddling a cut)
-- a stutter at the loop seam (first vs last frame SSIM < 0.99)
+- a stutter at the loop seam (first vs last frame SSIM < 0.99), or a cursor whose speed jumps at the wrap
+- counters or digits smeared by motion blur; a counter that freezes mid-count
+- a camera zoom into an off-centre point (swings sideways); an object that jumps as it crosses a scene boundary
+- a move that starts on the beat and lands late (arrivals sit on the beat); a pattern that rotates one notch per beat
 - invented data, placeholder text, a cursor doing something the real UI can't do
 - a line that leaves before its reading hold (`max(0.7 s, 0.25 s + chars/17)`), a payoff held < 1 s, an ad end card < 3 s
 - a frozen stretch > 2.2 s with no reason; a black or empty frame 0 (it's the thumbnail)
@@ -40,4 +43,5 @@ Worst 3:
 2. [t=9.90s] <problem> → <fix>
 3. [t=13.5s] <problem> → <fix>
 ```
-Fix them, re-render only the affected seconds, show the new contact sheet and new scores. Stop at all 8+.
+Fix them, re-render only the affected seconds, show the new contact sheet and new scores. Each new round goes to a fresh
+critic that first checks the previous worst-3 item by item, then judges. Stop at all 8+, or when the fixes turn cosmetic.

@@ -28,6 +28,21 @@ the case named; **skip** = nothing we lack, or conflicts with the house rules.
 | [remotion-dev/skills](https://github.com/remotion-dev/skills) | Official Remotion agent skills (12) | no licence file; generated from the Remotion monorepo (Remotion licence applies) · 2026-10-07 | **borrow** (type ladder, log-space scale, fixed map plate, VO sets scene length). Companion if the team is on Remotion and licensed. Its SFX docs stream meme sounds from URLs: don't |
 | [heygen-com/hyperframes](https://github.com/heygen-com/hyperframes) skills | 21 published + internal doctrine skills for HyperFrames | Apache-2.0 · 2026-10-10 | **borrow** heavily (caption grouping/rail, voice carve, vector law, stillness before climax, persistence-based QA severity, static determinism lint). Companion for captioning/recutting existing footage — install pinned with `HYPERFRAMES_NO_TELEMETRY=1` and tell the agent not to send its post-render feedback reports |
 
+## From the Beyond Media motion library (vetted 2026-10-30)
+
+[beyond-media.ai/motion-library](https://beyond-media.ai/motion-library) is a curated feed of ~2,300 X posts of things built
+with Claude (~920 motion, animation and explainer pieces; ~500 with full prompts). Prompts were read as data; ideas adopted are
+listed in `lessons.md`. The motion repos it links were shallow-cloned and read, not installed or run:
+
+| Repo | What it is | Licence · last commit | Verdict |
+|---|---|---|---|
+| [lemomo-ai/lemo-opuscar](https://github.com/lemomo-ai/lemo-opuscar) | 66 film styles made in code (watercolour, ink wash, cel, CRT, paper pop-up, brick toy…), each with a demo, plus a render/voice/score/foley core | MIT code, CC BY 4.0 demos · 2026-10-29 | **borrow** (grain in ffmpeg not the page, TTS read-back, bass balance, stepped poses with a smooth camera, one world→screen function). Candidate **companion** for stylised films with no product UI; not installed: its setup downloads sample packs and models, and Chinese TTS needs an online service |
+| [Mort1d/motion-graphics-skills](https://github.com/Mort1d/motion-graphics-skills) | One large skill with the same architecture as ours (HTML scenes, headless Chrome, subframe blur, scored per film) | MIT · 2026-09-30 | **borrow** (counter on frame time, AAC peak re-measure, default-score sameness, glyph fallback). Skip install: overlaps this skill |
+| [echris6/motion-video-kit](https://github.com/echris6/motion-video-kit) | Business commercials with AI-generated footage, GSAP and Three.js, judged by an independent-critic loop | MIT · 2026-10-14 | **borrow** (fresh critic each round verifying the last list; carried objects at exact pixels). Skip install: built on generated footage, against our real-assets rule |
+| [diffusionstudio/lottie](https://github.com/diffusionstudio/lottie) | `text-to-lottie` skill: writes and fixes Lottie JSON for a Skia player | MIT · 2026-07-25 | **companion candidate** only when the deliverable is a Lottie file (web/app loaders, icons); not needed for video |
+| [misbahsy/claude-horizon-animation](https://github.com/misbahsy/claude-horizon-animation) | 3 skills: reels, lab explainers, sketch-to-simulation | **no licence** · 2026-09-23 | **skip** (unlicensed; nothing we lack) |
+| [JohnHeibel/PDoomVideo](https://github.com/JohnHeibel/PDoomVideo) | Source of a code-drawn music video, often used as a style reference in the library | **no licence** · 2026-09-25 | **skip** (reference to watch, not code to copy) |
+
 ## Engines
 
 | Engine | Licence and commercial terms | Latest (checked) | Fit for this skill |

@@ -41,10 +41,21 @@
 | Caption words crowded: measured with negative tracking, drawn without | measure with the exact font state you draw with |
 | Brand-blue caption highlight read at 2:1 on its black outline | lift the accent toward white in OKLab until 4.5:1; judge outlined text against its outline |
 | VO carve produced NaN and broke the limiter (+1 dBTP) | clamp the smoothed square before `sqrt` |
+| Counting stat smeared into stacked digits under motion blur (found via the motion library below) | counters read the frame's time, not the subframe's (`frameT`) |
 | Downbeat landed on beat 3: kicks on 1 and 3 were equal | add chord-change (chroma) novelty; warn, don't shift, on off-beat low end |
 
 ## Ideas adopted from other skills (2026-10-10)
 Vetted 16 motion-skill repos and 5 engines (`repos.md`); the numbers we adopted are in `craft.md`: reading holds, duration
 bands, vector law, captions and VO rules, voice carve, hook gate, frame-0 thumbnail rule, BT.709, OKLab, text/contrast probe,
 dead-stretch and flash detectors.
+
+## Ideas adopted from the Beyond Media motion library (2026-10-30)
+Read the ~450 motion, animation and explainer prompts in [beyond-media.ai/motion-library](https://beyond-media.ai/motion-library)
+(a curated set of X posts) and the motion repos it links (`repos.md`). Its most-shared prompt closely matches this skill's
+morph method, and most entries confirmed rules we already had. New, and now in `craft.md` / `motion.js`: counters on frame time,
+drag release with velocity (`release`), fast-in soft-landing (`approach`), area-eased iris (`irisR`), land-on-the-beat,
+hit hierarchy, camera settling slower than its subject, no zoom into an off-centre dot, carried objects, continuous
+patterns, cursor speed and aim, loop seam velocity and `[0, dur)`, film finish in post, misregistration on impacts,
+bass balance, TTS read-back, back-timed music, stepped styles, `will-change` and swiftshader gotchas, parameter ladders,
+fresh critic per round.
 
