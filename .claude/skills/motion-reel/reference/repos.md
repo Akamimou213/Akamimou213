@@ -43,6 +43,20 @@ listed in `lessons.md`. The motion repos it links were shallow-cloned and read, 
 | [misbahsy/claude-horizon-animation](https://github.com/misbahsy/claude-horizon-animation) | 3 skills: reels, lab explainers, sketch-to-simulation | **no licence** · 2026-09-23 | **skip** (unlicensed; nothing we lack) |
 | [JohnHeibel/PDoomVideo](https://github.com/JohnHeibel/PDoomVideo) | Source of a code-drawn music video, often used as a style reference in the library | **no licence** · 2026-09-25 | **skip** (reference to watch, not code to copy) |
 
+## nexu-io/open-design (vetted 2026-10-30)
+
+[nexu-io/open-design](https://github.com/nexu-io/open-design) is a design-agent workspace (Apache-2.0, commit `12d970e`,
+2026-10-30) with 171 skills, mostly web/UI design; its motion pieces target its own app and CLI (`od media …`). Read, not
+installed. Taken: the reference-compare step (rewritten as our `refcompare.sh`, ffmpeg only), track-retiming numbers, measure
+reference timelines, seeded textures, chart axes before values (`craft.md`).
+
+| Skill | What it is | Licence | Verdict |
+|---|---|---|---|
+| `skills/ui-animation` (from [mblode/agent-skills](https://github.com/mblode/agent-skills/tree/5a781a88ed60c1033767b6b6a966887cd93dd912/skills/ui-animation)) | Measures motion in a recording: `extract_frames.py` → `track_motion.py` (OpenCV, per-frame box, centroid, opacity/blur/radius proxies) → `fit_curves.py` (scipy; spring k/d with mass 1, i.e. our `spring(t, k, d)`, plus a cubic-bezier, with fit error) | MIT | **Candidate to vendor, awaiting approval.** Read in full: local only, no network. One test on a synthetic clip with the card already on screen in frame 0 came back biased (true k 170 / d 20 → 235 / 25; true 300 / 14 → 370 / 15) because the tracker takes frame 0 as empty background: trim recordings to start on an empty frame. Needs `opencv-python-headless` |
+| `skills/motion-design` | Video craft + Open Design's HyperFrames film contract | Apache-2.0 | **borrow** (above). Its contract and `od` CLI are app-specific |
+| `skills/review-animations`, `craft/animation-discipline.md` | UI motion review standards (durations, reduced motion, interruptibility) | MIT (Matt Pocock) / Apache-2.0 | **skip** for video: web/app UI rules; the video equivalents are already in `craft.md` |
+| `skills/huashu-art-motion`, `skills/motion-lab` | Art-style recipes for canvas explainers; 160 web-animation cases (Chinese) | MIT | **skip** for now: `animate` covers illustrated explainers; motion-lab is web interactions |
+
 ## Engines
 
 | Engine | Licence and commercial terms | Latest (checked) | Fit for this skill |

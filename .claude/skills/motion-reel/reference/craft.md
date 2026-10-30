@@ -23,6 +23,9 @@ a licence). "Tool" says where the skill enforces or measures the rule.
   0.10–0.25 s after its target is fully visible.
 - **No frozen frames** except the final hold. A stretch with nothing moving longer than 2.2 s needs a reason in timeline
   `holds: [[t0, t1, "reason"]]`. Tool: `qa.py motion`. Holds still keep something small alive.
+- **Measure a reference's timeline; never estimate it.** Beat boundaries eyeballed from a contact sheet have been off by
+  more than a second in a 15 s film. Take times from `refscan.sh` cuts and frames.
+- Constant speed is right for mechanical things (conveyors, clocks, scans, tickers); everything else eases.
 - Overlap scenes: a hard gap reads as loading. The next shot enters already moving in the exit's direction.
 - **Land on the beat:** the arrival (contact, settle, stamp) sits on the beat, so the move starts its travel time earlier
   (~0.05 s for a snap, the whole travel for a slide). The sound marks the landing.
@@ -62,6 +65,8 @@ a licence). "Tool" says where the skill enforces or measures the rule.
 
 - Floors at 1080 short side: 22 px absolute minimum (tool: `render.cjs text`), supporting text ≥ 44 px, headlines ≥ 84 px.
 - Key text sits ≥ 80 px from the sides and ≥ 100 px from top and bottom, and inside the platform safe box (below).
+- Charts: show the axes and units before the values when scale matters, and keep axes, units and values correct on every
+  frame of the animation, not just the last.
 - Counters: tabular figures, integer snapping, locale grouping (1,250,000 / 1 250 000), finished before the next word lands.
 - Crossfading two overlaid words dims the letters they share: hold shared letters solid or swap on a cut.
 - Judge type size from full-resolution stills; contact sheets make everything look smaller.
@@ -75,6 +80,8 @@ a licence). "Tool" says where the skill enforces or measures the rule.
 - Mix colours in OKLab (`Motion.mixOklab`); sRGB lerps dip through grey (blue → yellow = rgb(128,128,128)).
 - Encode BT.709, limited range, tagged (`render.cjs` does it; `qa.sh` checks). Untagged files are guessed as BT.601 and brand
   hex values drift.
+- Procedural textures (paint, paper, hatching) are seeded once and move as a field; regenerating every mark per frame
+  flickers.
 - Large gradients: 3–5 % grain stops banding after compression. Never fade black into the accent colour.
 - **Film finish goes in post** (ffmpeg or numpy on the frames), not in the page: fresh grain per frame, halation on bright
   edges, a soft vignette, a 1 px chroma fringe with edge-clamped shifts. Grain drawn in the page makes every frame slow to
@@ -118,6 +125,10 @@ a licence). "Tool" says where the skill enforces or measures the rule.
   report: +5 dB at 192k). Master to −2 dBTP if the encode pushes past −1.
 - The default score every model writes is house at 120–128 BPM in A minor with a kick on every beat; two films scored that
   way sound alike. Pick genre, groove and key for the brief on purpose, and say why in the brief.
+- Fitting a supplied track to a new length: cut at the scene boundaries, each cut moved to the nearest quiet point so no
+  word or note splits; change each piece's tempo with `atempo` within 0.8–1.25× for music, 0.95–1.05× under a voice; join
+  with 20–50 ms crossfades, fade in 0.15 s, out over the last second. A piece that needs more keeps its tempo and is trimmed,
+  and we say which scenes no longer line up.
 - A supplied track that's longer than the film: back-time it so its own ending lands on the end card, as one continuous piece.
 
 ## Ads and UA creative

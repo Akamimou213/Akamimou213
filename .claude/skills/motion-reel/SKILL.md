@@ -73,7 +73,7 @@ HTML → `product-launch-motion`; illustrated explainers with no product UI → 
 | G5 Stills | One still per scene → contact sheet → critique (`prompts/critique-pass.md`) → fix. Then one frame per beat, and `render.cjs text` for every language × variant × format (clipped, unsafe, overlapping, too small, low contrast). Repeat until every score is 8+ and the text check is clean. | contact sheets, `docs/review_log.md` |
 | G6 Draft | `SUB=1` render of one format to judge pacing; send it. | draft MP4 |
 | G7 Final | All formats in parallel, per language and variant; SFX cues from timeline events + music; master to −14 LUFS (`--vo` carves the bed under a voice); mux. Captioned films also render `CAPTIONS=0`. | `out/<name>-<lang>[-<variant>][-nocap]-<fmt>.mp4`, `.srt` |
-| G8 QA + ship | `scripts/qa.sh`: colour tags, audio track, decode, LUFS, contact, phone, strips, poster, loop seam, motion (frame 0, flashes, jumps, dead stretches), static determinism lint, corners, sync. Commit source; git-ignore media. | README, contact, poster |
+| G8 QA + ship | Remakes of a reference: `scripts/refcompare.sh ref.mp4 out/<file>.mp4 docs/compare docs/ref/cuts.txt`, read the pairs, fix the largest difference. `scripts/qa.sh`: colour tags, audio track, decode, LUFS, contact, phone, strips, poster, loop seam, motion (frame 0, flashes, jumps, dead stretches), static determinism lint, corners, sync. Commit source; git-ignore media. | README, contact, poster |
 
 For long films, write `templates/ANIMATION_GUIDE.md` into `docs/` first, then split chapters across subagents.
 
@@ -185,7 +185,7 @@ during swaps.
 | `templates/ANIMATION_GUIDE.md` | rules for subagents writing chapters of a long film |
 | `lib/motion.js` | `spring` `track` `release` `approach` `irisR` `logTrack` `indicator` `swapAlpha` `loopT` `segOf` `rng` `hash` `mixHex` `mixOklab` `subframeTimes` `stagger` `E` |
 | `scripts/capture.cjs` | `site` / `clip` / `record` |
-| `scripts/refscan.sh` | reference breakdown |
+| `scripts/refscan.sh` · `refcompare.sh` | reference breakdown; reference vs our render, paired at the same times with SSIM |
 | `scripts/render.cjs` · `render-all.sh` | `sheet` / `stills` / `video` / `det` / `text`; all formats in parallel → concat → mux (`CAPTIONS=0`, `AUDIO_ONLY=1`) |
 | `scripts/words.py` · `captions.py` | word timings (local Whisper or SRT) → caption cards in the timeline + `.srt` |
 | `scripts/music.py` · `cues.py` · `sfx.mjs` · `master.py` · `beats.py` | score, cues, SFX, mix + limiter + voice carve, beat grid |

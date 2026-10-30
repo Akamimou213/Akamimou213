@@ -59,3 +59,8 @@ patterns, cursor speed and aim, loop seam velocity and `[0, dur)`, film finish i
 bass balance, TTS read-back, back-timed music, stepped styles, `will-change` and swiftshader gotchas, parameter ladders,
 fresh critic per round.
 
+## Ideas adopted from open-design (2026-10-30)
+`refcompare.sh` (reference vs our render, paired at the same times, SSIM to rank where to look), measure-don't-estimate for
+reference timelines, track retiming limits (`atempo` 0.8–1.25× music, 0.95–1.05× voice), constant speed only for mechanical
+motion, seeded textures, chart axes before values. Its motion-measuring scripts (`ui-animation`) await approval (`repos.md`).
+
