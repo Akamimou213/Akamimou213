@@ -28,7 +28,7 @@ HEAD.lh = HEAD.size * 1.06; HEAD.h = HEAD.lh * HEAD.lines;
 const STAGE = { x: BOX.x, y: HEAD.y + HEAD.h + (FMT === 'V' ? 70 : 34) * U }; STAGE.w = BOX.w; STAGE.h = BOX.y + BOX.h - STAGE.y;
 const COLS = 7, ROWS = Math.ceil((TL.month.firstCol + TL.month.days) / 7);
 const WDH = 46 * U;                                                   // weekday header row
-const CELL = Math.min(STAGE.w / COLS, (STAGE.h - WDH) / ROWS);
+const CELL = Math.min(STAGE.w * .94 / COLS, (STAGE.h - WDH) / ROWS);   // room for the hook's push-in inside the safe box
 const GRID = { w: CELL * COLS, h: CELL * ROWS }; GRID.x = STAGE.x + (STAGE.w - GRID.w) / 2; GRID.y = STAGE.y + WDH + (STAGE.h - WDH - GRID.h) / 2;
 const cellOf = d => { const k = TL.month.firstCol + d - 1; return { x: GRID.x + (k % 7) * CELL, y: GRID.y + Math.floor(k / 7) * CELL, w: CELL, h: CELL }; };
 const ONE = cellOf(1);
@@ -56,16 +56,36 @@ function layoutHead(parts) {
   return { size, lh: size * 1.06, lines };
 }
 const HL = {};
-function headline(key, parts, tIn, tOut, t) {
-  const L = HL[key] || (HL[key] = layoutHead(parts));
-  L.lines.forEach(([s, c], i) => {
-    const y = HEAD.y + (i + 1) * L.lh - L.lh * .2;
-    const pin = tIn < 0 ? 1 : spring(t - tIn - i * .07, 210, 24), pout = E.inOutCubic(clamp((t - (tOut - .32) - i * .04) / .28));
-    const dy = (1 - pin) * L.lh * .9 - pout * L.lh * .9;
+// word-level layout: lines of {s, x, w} so each word can enter (or be highlighted) on its spoken word
+function layWords(parts, size0, maxW, maxLines) {
+  let size = size0, lines;
+  for (;;) { lines = parts.flatMap(([s, c]) => wrap(s, 'head', size, maxW).map(l => [l, c])); if (lines.length <= maxLines || size < 40 * U) break; size *= .95; }
+  const sp = tw(' ', 'head', size);
+  return { size, lh: size * 1.06, lines: lines.map(([l, c]) => { let x = 0; const words = l.split(' ').map(w => { const o = { s: w, x, w: tw(w, 'head', size) }; x += o.w + sp; return o; }); return { c, words, w: x - sp }; }) };
+}
+// mode 'mark': all words on screen from frame 0 (the thumbnail), a lime marker slides to each word as it's spoken
+// mode 'cascade': each word rises through the line's mask on its spoken word. Lines leave upwards before tOut.
+function headline(key, parts, times, mode, tOut, t, { x0 = HEAD.x, y0 = HEAD.y, align = 'left', size = HEAD.size, maxW = HEAD.w * .95, maxLines = HEAD.lines } = {}) {
+  const L = HL[key] || (HL[key] = layWords(parts, size, maxW, maxLines));
+  const pos = []; let k = 0;
+  L.lines.forEach((ln, i) => {
+    font('head', L.size); const ov = align === 'left' ? Math.max(0, g.measureText(ln.words[0].s).actualBoundingBoxLeft) : 0; g.letterSpacing = '0px';
+    const lx = align === 'center' ? x0 - ln.w / 2 : x0 + ov, y = y0 + (i + 1) * L.lh - L.lh * .2;
+    ln.words.forEach(w => pos.push({ x: lx + w.x, y, w: w.w, t: times[k++] ?? 0, s: w.s, c: ln.c, i }));
+  });
+  if (mode === 'mark' && t < tOut) {                                  // the marker: leading edge stiff, trailing edge soft
+    const keysL = pos.map(p => [p.t, p.x - 8 * U]), keysR = pos.map(p => [p.t, p.x + p.w + 8 * U]), keysY = pos.map(p => [p.t, p.y]);
+    const xl = track(t, [[0, pos[0].x - 8 * U], ...keysL], 320, 30), xr = track(t, [[0, pos[0].x - 8 * U], ...keysR], 150, 21), yy = track(t, [[0, pos[0].y], ...keysY], 320, 30);
+    const a = clamp((t - pos[0].t + .05) / .1) * (1 - clamp((t - tOut + .45) / .2));
+    alpha(a, () => { g.fillStyle = P.lime; rrect(Math.min(xl, xr), yy - L.size * .8, Math.abs(xr - xl), L.size * .98, 6 * U); g.fill(); });
+  }
+  pos.forEach(p => {
+    const pout = E.inOutCubic(clamp((t - (tOut - .32) - p.i * .04) / .28));
+    const pin = mode === 'mark' ? 1 : t < p.t - .06 ? 0 : spring(t - p.t + .06, 300, 24);
     if (pin <= 0 || pout >= 1) return;
-    g.save(); g.beginPath(); g.rect(HEAD.x - 10 * U, y - L.lh * .95, W, L.lh * 1.12); g.clip();
-    font('head', L.size); const ov = Math.max(0, g.measureText(s).actualBoundingBoxLeft); g.letterSpacing = '0px';   // optical: ink starts at the margin (Faculty Glyphic's J hangs left)
-    txt(s, HEAD.x + ov, y + dy, 'head', L.size, c); g.restore();
+    const dy = (1 - pin) * L.lh * .6 - pout * L.lh * .9;
+    g.save(); g.beginPath(); g.rect(0, p.y - L.lh * .95, W, L.lh * 1.12); g.clip();
+    txt(p.s, p.x, p.y + dy, 'head', L.size, p.c); g.restore();
   });
 }
 
@@ -141,7 +161,7 @@ function itemPose(j, CARD) {
   return { x: CARD.x + CARD.w / 2 + (j % 2 ? 1 : -1) * 8 * U * (1 + j * .5), y: top + j * step + NOTE.h / 2, rot: (j % 2 ? 1 : -1) * (.014 + j * .012) };
 }
 const LINE = () => ({ y: CARD.y + CARD.h * .36, x0: CARD.x + CARD.w * .14, x1: CARD.x + CARD.w * .86 });
-const IRIS = [null, () => ({ x: CARD.x + CARD.w - 30 * U, y: CARD.y + 30 * U }), () => ({ x: LINE().x1, y: LINE().y }), () => ({ x: ONE.x + ONE.w / 2, y: ONE.y + ONE.h / 2 })];
+const IRIS = [null, () => ({ x: CARD.x + CARD.w - 30 * U, y: CARD.y + 30 * U }), () => ({ x: ONE.x + ONE.w, y: ONE.y }), () => ({ x: ONE.x + ONE.w / 2, y: ONE.y + ONE.h / 2 })];
 
 function draw(T0) {
   const t = clamp(T0, 0, DUR - 1e-4);
@@ -163,7 +183,8 @@ function draw(T0) {
 
   // slow push-in on the stage during the hook and the relief, so a calm frame still breathes
   const win = (a, b) => E.inOutCubic(clamp((t - a) / (b - a - .6))) * (1 - E.inOutCubic(clamp((t - b + .6) / .6)));
-  const push = 1 + .045 * win(0, T.pain) + .03 * win(T.relief, T.end);
+  const imp = x => x > 0 ? Math.exp(-x * 9) * Math.sin(x * 22) : 0;
+  const push = 1 + .045 * win(0, T.pain) + .03 * win(T.relief, T.end) + ITEMS.reduce((a, it) => a + .012 * imp(t - it.at), 0) + .03 * imp(t - TL.exceptionAt);
   const PCX = W / 2, PCY = GRID.y + GRID.h / 2;
   g.save(); g.translate(PCX, PCY); g.scale(push, push); g.translate(-PCX, -PCY);
   // calendar: present from frame 0; hidden under the card; back for the relief; folds away at the end
@@ -180,7 +201,7 @@ function draw(T0) {
     else txt('1', R1.x + 12 * U, R1.y + 34 * U, 'mono', 26 * U, ink, { w: 600 });
     node(R1.x + R1.w, R1.y, ink, bgNow, NODE * lerp(.8, 1, sw));
     const nm = Math.min(9, Math.floor(t * 2) + 1);                  // the work arriving: one mark per beat
-    alpha(1 - clamp(sw * 3), () => { for (let i = 0; i < nm; i++) { const p = spring(t - i * .5, 260, 20), mx = R1.x + R1.w * (.2 + (i % 3) * .26), my = R1.y + R1.h * (.48 + Math.floor(i / 3) * .17); line(mx, my, mx + R1.w * .16 * p, my - R1.w * .05 * p, ink, LW * .8); } });
+    alpha((1 - clamp(sw * 3)) * (t < T.pain ? 1 : 0), () => { for (let i = 0; i < nm; i++) { const p = spring(t - i * .5, 260, 20), mx = R1.x + R1.w * (.2 + (i % 3) * .26), my = R1.y + R1.h * (.48 + Math.floor(i / 3) * .17); line(mx, my, mx + R1.w * .16 * p, my - R1.w * .05 * p, ink, LW * .8); } });
   });
   g.restore();
 
@@ -191,23 +212,26 @@ function draw(T0) {
     const pose = itemPose(j, CARDX), s = NOTE.h * .62;
     const isN = it.id === 'nsf';
     // TOMSO: everything but the NSF rides the line to the banks; the NSF stays, lime, with its details
-    const go = isN ? 0 : clamp((t - T.tomso - .7 - j * .28) / .9);
+    const go = isN ? 0 : clamp((t - T.tomso - 1.1 - j * .3) / .9);
     const onLine = E.inOutCubic(clamp(go * 2.2)), travel = E.inOutCubic(clamp(go * 1.6 - .5));
     const cmp = spring(t - T.tomso, 160, 22);      // TOMSO arrives: the pile packs into the lower half, under the line
     let x = pose.x, y = lerp(pose.y, CARDX.y + CARDX.h * (.66 + j * .085), cmp), rot = pose.rot * (1 - onLine), sc = lerp(1, .82, cmp);
     x = lerp(x, lerp(Ln.x0, Ln.x1, travel), onLine); y = lerp(y, Ln.y, onLine); sc = 1 - clamp(travel * 1.4 - .4);
-    const out = clamp((t - T.relief + .2) / .3);
-    let nx = x, ny = y;
-    if (isN) { const k = E.inOutCubic(clamp((t - T.tomso - 1.6) / .8)); nx = lerp(x, (Ln.x0 + Ln.x1) / 2, k); ny = lerp(y, Ln.y + CARD.h * .42, k); rot *= 1 - k; }
+    const out = isN ? 0 : clamp((t - T.relief + .2) / .3);
+    let nx = x, ny = y - (1 - spring(t - it.at, 260, 14)) * 70 * U;
+    if (isN) { const k = E.inOutCubic(clamp((t - TL.exceptionAt + .9) / .7)); nx = lerp(x, (Ln.x0 + Ln.x1) / 2, k); ny = lerp(y, Ln.y + CARD.h * .42, k); rot *= 1 - k;
+      const k3 = E.inOutCubic(clamp((t - T.relief - .1) / .7));     // carrier: the exception flies into the 1st's corner and stays there as its lime node
+      nx = lerp(nx, R1.x + R1.w, k3); ny = lerp(ny, R1.y, k3); }
     alpha(Math.min(clamp(p * 3), 1 - out) * (1 - endP), () => {
       g.save(); g.translate(nx, ny); g.rotate(rot); const ss = Math.max(.01, sc * (.85 + .15 * p)); g.scale(ss, ss); g.translate(-nx, -ny);
-      const lp = isN ? spring(t - T.tomso - 1.6, 220, 21) : 0, lime = lp > 0;
+      const lp = isN ? spring(t - TL.exceptionAt + .02, 220, 21) : 0, lime = lp > 0, k3 = isN ? E.inOutCubic(clamp((t - T.relief - .1) / .7)) : 0;
       if (isN && lime) {                                    // the exception: the note grows into a lime tag + who / where / how much
-        const k = spring(t - T.tomso - 1.9, 200, 20), w = lerp(NOTE.w * .82, CARD.w * .74, clamp(lp)), h = lerp(NOTE.h * .82, NOTE.h * 1.15, clamp(lp));
+        const k = spring(t - TL.exceptionAt - .3, 200, 20) * (1 - clamp(k3 * 4)), w = lerp(lerp(NOTE.w * .82, CARD.w * .74, clamp(lp)), NODE * 2.2, k3), h = lerp(lerp(NOTE.h * .82, NOTE.h * 1.15, clamp(lp)), NODE * 2.2, k3);
         alpha(1 - clamp(lp * 2), () => { g.fillStyle = bgNow; g.strokeStyle = ink; g.lineWidth = LW; rrect(nx - NOTE.w * .41, ny - NOTE.h * .41, NOTE.w * .82, NOTE.h * .82, 14 * U); g.fill(); g.stroke(); });
         g.globalAlpha *= clamp(lp * 2);
         g.fillStyle = P.lime; rrect(nx - w / 2, ny - h / 2, w, h, h / 2); g.fill();
-        txt(C.items.nsf, nx, ny - h * .02, 'mono', (FMT === 'V' ? 40 : 32) * U, P.ink, { w: 600, align: 'center' });
+        alpha(1 - clamp(k3 * 4), () => txt(C.items.nsf, nx, ny - h * .02, 'mono', (FMT === 'V' ? 40 : 32) * U, P.ink, { w: 600, align: 'center' }));
+        if (k3 > .5) { g.strokeStyle = ink; g.lineWidth = LW; rrect(nx - w / 2, ny - h / 2, w, h, h / 2); g.stroke(); }
         alpha(k, () => txt(C.nsfDetail.join('  ·  '), nx, ny + h * .3, 'mono', (FMT === 'V' ? 28 : 24) * U, P.ink, { w: 500, align: 'center' }));
       } else {
         const nw = NOTE.w, shrink = clamp(onLine * 1.6);
@@ -229,42 +253,62 @@ function draw(T0) {
   alpha((1 - clamp((t - T.relief) / .4)) * (t >= T.tomso ? 1 : 0), () => {
     const xm = (Ln.x0 + Ln.x1) / 2, r = (FMT === 'V' ? 64 : 52) * U, lx = lerp(Ln.x0, Ln.x1, lineP);
     line(Ln.x0 + r, Ln.y, Math.max(Ln.x0 + r, lx - r), Ln.y, ink);
+    alpha(1 - clamp((lineP - .92) * 12), () => node(Math.max(Ln.x0 + r, lx - r), Ln.y, ink, P.lime, NODE * 1.2));
     const ap = q => clamp((lineP - q * .75) * 5);
     alpha(ap(0), () => { disc(Ln.x0, Ln.y, r, P.white); picto('building', Ln.x0, Ln.y, r * 1.5, P.ink, P.white); wrap(C.software, 'sans', 28 * U, 240 * U).forEach((l, i) => txt(l, Ln.x0, Ln.y + r + 44 * U + i * 34 * U, 'sans', 28 * U, ink, { align: 'center' })); });
     alpha(ap(.45), () => { const lw = LOGO.h * 1.5, ww = lw * TL.logoSize[0] / TL.logoSize[1]; g.fillStyle = bgNow; g.fillRect(xm - ww / 2 - 18 * U, Ln.y - lw, ww + 36 * U, lw * 2); logo(xm - ww / 2, Ln.y - lw / 2, lw, ink); node(xm - ww / 2 - 18 * U, Ln.y, ink, bgNow); node(xm + ww / 2 + 18 * U, Ln.y, ink, bgNow); });
     alpha(ap(.9), () => { disc(Ln.x1, Ln.y, r, P.white); picto('bank', Ln.x1, Ln.y, r * 1.5, P.ink, P.white); wrap(C.banks, 'sans', 28 * U, 240 * U).forEach((l, i) => txt(l, Ln.x1, Ln.y + r + 44 * U + i * 34 * U, 'sans', 28 * U, ink, { align: 'center' })); });
   });
 
-  // relief: the line keeps flowing along the bottom of the month
-  alpha(clamp((t - T.relief - .6) / .5) * (1 - endP), () => {
-    const y = GRID.y + GRID.h + 46 * U; line(GRID.x, y, GRID.x + GRID.w, y, ink);
-    node(GRID.x, y, ink, bgNow); node(GRID.x + GRID.w, y, ink, bgNow);
-    const u = ((t - T.relief) * .35) % 1; node(GRID.x + GRID.w * u, y, ink, P.lime, NODE * .9);
-    node(ONE.x + ONE.w, ONE.y, ink, P.lime, NODE * 1.1);
-  });
-
   g.restore();
-  // headlines
-  headline('hook', [[C.hook, ink]], -1, T.pain, t);
-  if (t >= T.tomso) headline('exc', [[C.exceptions[0], P.white], [C.exceptions[1], P.lime]], T.tomso + .35, T.relief, t);
-  if (t >= T.relief) headline('rel', [[C.relief, P.ink]], T.relief + .35, T.end, t);
+  // headlines, word by word on the voice-over
+  headline('hook', [[C.hook, ink]], TL.words.hook, 'mark', T.pain, t);
+  if (t >= T.tomso) headline('exc', [[C.exceptions[0], P.white], [C.exceptions[1], P.lime]], TL.words.exc, 'cascade', T.relief, t);
+  if (t >= T.relief) headline('rel', [[C.relief, P.ink]], TL.words.relief, 'cascade', T.end, t);
 
-  // end card: wordmark, the line, the line, CTA
-  if (t >= T.end - .1) {
-    const k = endP, lw = (FMT === 'V' ? 150 : 110) * U, ww = lw * TL.logoSize[0] / TL.logoSize[1];
-    const cy = FMT === 'V' ? BOX.y + BOX.h * .44 : BOX.y + BOX.h * .42;
-    alpha(clamp(k * 1.4), () => { g.save(); const s = lerp(.86, 1, k); g.translate(W / 2, cy); g.scale(s, s); logo(-ww / 2, -lw / 2, lw, P.ink); g.restore(); });
-    // the line draws out of the wordmark, ring nodes at both ends
-    const lp = spring(t - T.end - .35, 120, 20), y = cy + lw * .9, half = ww / 2 * lp;
-    alpha(lp, () => { line(W / 2 - half, y, W / 2 + half, y, P.ink); node(W / 2 - half, y, P.ink, P.mint); node(W / 2 + half, y, P.ink, P.mint); });
-    // message
-    const L = HL.end || (HL.end = (() => { const lines = C.end.split(/(?<=\.)\s+/); let size = (FMT === 'V' ? 84 : 66) * U; while (Math.max(...lines.map(l => tw(l, 'head', size))) > BOX.w * .96) size *= .97; return { size, lines }; })());
-    L.lines.forEach((s, i) => { const p = spring(t - T.end - .6 - i * .08, 200, 24); alpha(clamp(p * 2), () => txt(s, W / 2, y + 90 * U + L.size + i * L.size * 1.08 + (1 - p) * 30 * U, 'head', L.size, P.ink, { align: 'center' })); });
-    // CTA pill, presses in on the beat
-    const cp = spring(t - T.end - 1.5, 220, 18), press = Math.max(0, 1 - Math.abs(t - (T.end + 2.5)) / .12) * .06;
-    const by = y + 90 * U + L.lines.length * L.size * 1.08 + 60 * U, bw = tw(C.cta, 'mono', 46 * U, 500) + 130 * U, bh = 112 * U;
-    alpha(clamp(cp * 2), () => { g.save(); g.translate(W / 2, by + bh / 2); const s = (.9 + .1 * cp) * (1 - press); g.scale(s, s); g.fillStyle = P.lime; rrect(-bw / 2, -bh / 2, bw, bh, bh / 2); g.fill(); txt(C.cta, 0, 16 * U, 'mono', 46 * U, P.ink, { w: 500, align: 'center' }); g.restore(); });
+  // end-card geometry (the relief line carries into it)
+  const lw = (FMT === 'V' ? 150 : 110) * U, ww = lw * TL.logoSize[0] / TL.logoSize[1];
+  const cy = FMT === 'V' ? BOX.y + BOX.h * .4 : BOX.y + BOX.h * .36, ly = cy + lw * .9;
+  const pp = (x, y) => [PCX + (x - PCX) * push, PCY + (y - PCY) * push];
+  // relief: a line flows along the bottom of the month; at the end card it rises under the wordmark and its node reveals it
+  if (t >= T.relief + .5) {
+    const a = clamp((t - T.relief - .6) / .5), k = E.inOutCubic(clamp((t - T.end) / .55));
+    const [ax, ay] = pp(GRID.x, GRID.y + GRID.h + 46 * U), [bx] = pp(GRID.x + GRID.w, 0);
+    const x0 = lerp(ax, W / 2 - ww / 2, k), x1 = lerp(bx, W / 2 + ww / 2, k), y = lerp(ay, ly, k), lc = t < T.end + .2 ? ink : P.ink, bg = t < T.end + .2 ? bgNow : P.mint;
+    const rev = E.inOutCubic(clamp((t - T.end - .3) / .6));
+    const u = t < T.end ? ((t - T.relief) * .35) % 1 : lerp(((T.end - T.relief) * .35) % 1, 0, k);
+    alpha(a, () => {
+      line(x0, y, x1, y, lc); node(x0, y, lc, bg); node(x1, y, lc, bg);
+      node(t < T.end + .3 ? lerp(x0, x1, u) : lerp(x0, x1, rev), y, lc, P.lime, NODE * (t < T.end + .3 ? .9 : 1.2));
+    });
+    if (rev > 0) {                                                     // the wordmark revealed left to right by the travelling node
+      g.save(); g.beginPath(); g.rect(0, 0, W / 2 - ww / 2 + ww * rev, H); g.clip();
+      const s = lerp(1.04, 1, spring(t - T.end - 1.5, 160, 22)); g.translate(W / 2, cy); g.scale(s, s); logo(-ww / 2, -lw / 2, lw, P.ink); g.restore();
+    }
   }
+
+  // end card: message on the voice, CTA on « Planifiez », a cursor clicks it on « démo »
+  if (t >= T.end - .1) {
+    const size = (FMT === 'V' ? 84 : 66) * U, sent = C.end.split(/(?<=\.)\s+/);
+    if (!HL.end) { let z = size; while (Math.max(...sent.map(l => tw(l, 'head', z))) > BOX.w * .96) z *= .97; HL.end = layWords(sent.map(x => [x, P.ink]), z, BOX.w * 2, 4); }
+    const L = HL.end;
+    headline('end', null, TL.words.end, 'cascade', DUR + 1, t, { x0: W / 2, y0: ly + 70 * U, align: 'center' });
+    const cp = spring(t - TL.ctaAt + .1, 220, 18), press = Math.max(0, 1 - Math.abs(t - TL.pressAt) / .12) * .07;
+    const by = ly + 70 * U + L.lines.length * L.lh + 60 * U, bw = tw(C.cta, 'mono', 46 * U, 500) + 130 * U, bh = 112 * U;
+    alpha(clamp(cp * 2), () => { g.save(); g.translate(W / 2, by + bh / 2); const s = (.9 + .1 * cp) * (1 - press); g.scale(s, s); g.fillStyle = P.lime; rrect(-bw / 2, -bh / 2, bw, bh, bh / 2); g.fill(); txt(C.cta, 0, 16 * U, 'mono', 46 * U, P.ink, { w: 500, align: 'center' }); g.restore(); });
+    // the cursor: arrives on a curve, clicks on « démo »
+    const ca = clamp((t - TL.ctaAt - .15) / .2);
+    if (ca > 0) {
+      const arr = E.outCubic(clamp((t - TL.ctaAt - .15) / (TL.pressAt - TL.ctaAt - .25))), tx = W / 2 + bw * .43, ty = by + bh * .55;
+      const sx = W * .92, sy = H * .9, cx = lerp(sx, tx, arr) + Math.sin(arr * Math.PI) * 60 * U, cy2 = lerp(sy, ty, arr) - Math.sin(arr * Math.PI) * 40 * U;
+      const down = Math.max(0, 1 - Math.abs(t - TL.pressAt) / .1);
+      alpha(ca, () => cursor(cx, cy2, 3.4 * U * (1 - .12 * down), P.ink));
+    }
+  }
+}
+function cursor(x, y, s, c) {
+  const p = new Path2D('M0 0 L0 22 L6 16.5 L10.5 26 L14 24.5 L9.6 15.4 L17 15.4 Z');
+  g.save(); g.translate(x, y); g.scale(s, s); g.fillStyle = '#FFFFFF'; g.strokeStyle = c; g.lineWidth = 1.4; g.lineJoin = 'round'; g.fill(p); g.stroke(p); g.restore();
 }
 window.draw = window.seek = draw;
 

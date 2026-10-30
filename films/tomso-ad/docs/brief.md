@@ -33,7 +33,10 @@ Ground colours change by an iris from a ring node, never a fade: mint `#B6D4C8` 
 - **B — the outcome:** opens on the lime exception: « NE GÉREZ PLUS CHAQUE PAIEMENT. GÉREZ SEULEMENT LES EXCEPTIONS. »
 - **C — the bridge:** two disconnected lines, software and bank, that don't meet: « VOS SYSTÈMES NE COMMUNIQUENT PAS. » (first half of the site's line)
 
-## Voice test
+## Voice test (produced 2026-10-30)
+Voice: ElevenLabs « Mathieu – Warm French Canadian Narrator » (Québécois), eleven_v4, take 1 of 2. The voice sets the
+edit: 23.5 s, every reveal on its spoken word (`timeline.json` → `words`); `out/tomso-le-1er-voix-fr.srt` ships with it.
+
 - **T:** text only, music and SFX (main).
 - **V:** same picture with a calm Québec-French voice reading the lines below, captions burned in (we write « Avec TOMSO, »
   in front of the exceptions line; the rest is verbatim). 44 words ≈ 12.6 s at 3.5 words/s, so it fits with pauses.

@@ -2,8 +2,8 @@
  "_doc": "TOMSO « Le 1er » — Meta motion ad. Brief: docs/brief.md. All copy verbatim from tomso.ca unless marked adapted.",
  "name": "tomso-le-1er",
  "bpm": 120,
- "duration": 22.5,
- "fps": 30,
+ "duration": 23.5,
+ "fps": 60,
  "loop": false,
  "langs": [
   "fr"
@@ -62,19 +62,19 @@
  "items": [
   {
    "id": "cheque",
-   "at": 5.0
+   "at": 2.93
   },
   {
    "id": "portails",
-   "at": 6.0
+   "at": 4.15
   },
   {
    "id": "paiements",
-   "at": 7.0
+   "at": 5.99
   },
   {
    "id": "nsf",
-   "at": 8.0
+   "at": 7.55
   }
  ],
  "month": {
@@ -107,7 +107,7 @@
     "NE GÉREZ PLUS CHAQUE PAIEMENT.",
     "GÉREZ SEULEMENT LES EXCEPTIONS."
    ],
-   "relief": "AVEC TOMSO, C’EST JUSTE UNE JOURNÉE COMME TOUTES LES AUTRES.",
+   "relief": "C’EST JUSTE UNE JOURNÉE COMME TOUTES LES AUTRES.",
    "end": "LE 1ER DU MOIS ARRIVE. LA CRISE, NON.",
    "cta": "Planifier une démo",
    "weekdays": [
@@ -125,7 +125,7 @@
   "hook": "tomso.ca/solution-pour-locatif « Le 1er du mois mobilise toute votre équipe »",
   "items": "tomso.ca/solution-pour-locatif « Chèques à traiter, portails bancaires à consulter, paiements à vérifier et NSF à suivre »",
   "exceptions": "tomso.ca/solution-pour-locatif « Ne gérez plus chaque paiement, gérez seulement les exceptions. » (split in two lines as static 2)",
-  "relief": "tomso.ca/solution-pour-locatif « Avec Tomso, c’est juste une journée comme toutes les autres »",
+  "relief": "tomso.ca/solution-pour-locatif « Avec Tomso, c’est juste une journée comme toutes les autres » (on screen without « Avec Tomso, », spoken by the VO)",
   "end": "tomso.ca/solution-pour-locatif « Le 1er du mois arrive. La crise, non. »",
   "nsfDetail": "tomso.ca/solution-pour-locatif « le locataire, l’immeuble et le montant concernés »",
   "software/banks": "static 4 labels « Logiciel de gestion immobilière » (shortened) / « Vos comptes bancaires »",
@@ -136,10 +136,10 @@
  "holds": [],
  "acts": {
   "hook": 0,
-  "pain": 4.5,
-  "tomso": 10.0,
-  "relief": 14.0,
-  "end": 18.0
+  "pain": 2.75,
+  "tomso": 9.3,
+  "relief": 13.85,
+  "end": 16.9
  },
  "music": {
   "sections": [
@@ -148,58 +148,116 @@
     "intro"
    ],
    [
-    4.5,
+    2.75,
     "build"
    ],
    [
-    7.0,
+    6.0,
     "full"
    ],
    [
-    10.0,
+    9.3,
     "break"
    ],
    [
-    14.0,
+    13.85,
     "build"
    ],
    [
-    18.0,
+    16.9,
     "outro"
    ]
   ],
   "rests": [
    [
-    17.6,
-    18.0
+    16.4,
+    16.9
+   ],
+   [
+    12.7,
+    13.05
    ]
   ]
  },
  "events": {
   "pops": [
-   5.0,
-   6.0,
-   7.0,
-   8.0,
-   18.35
+   2.93,
+   4.15,
+   5.99,
+   7.55
   ],
   "whooshes": [
-   4.5,
-   10.35,
-   14.0
+   2.7,
+   9.35,
+   16.9
   ],
   "ticks": [
-   11.0,
-   11.3,
-   11.6,
-   11.9,
-   12.2
+   10.9,
+   11.2,
+   11.5,
+   11.8,
+   12.1
   ],
   "thumps": [
-   11.6
+   13.09
   ],
   "clicks": [
-   20.5
+   20.76
+  ]
+ },
+ "exceptionAt": 13.09,
+ "ctaAt": 20.19,
+ "pressAt": 20.76,
+ "words": {
+  "hook": [
+   0.25,
+   0.39,
+   0.65,
+   0.85,
+   1.05,
+   1.63,
+   1.87,
+   2.11
+  ],
+  "exc": [
+   10.45,
+   10.57,
+   10.81,
+   11.07,
+   11.33,
+   12.11,
+   12.41,
+   12.83,
+   13.09
+  ],
+  "relief": [
+   14.11,
+   14.37,
+   14.57,
+   14.77,
+   15.05,
+   15.25,
+   15.41,
+   15.61
+  ],
+  "end": [
+   17.15,
+   17.23,
+   17.51,
+   17.65,
+   17.87,
+   18.73,
+   18.87,
+   19.63
+  ]
+ },
+ "vo": {
+  "file": "audio/vo-fr.wav",
+  "voice": "ElevenLabs « Mathieu – Warm French Canadian Narrator » (ea8mX8XjQt6IYaKiIshC), eleven_v4, take 1",
+  "offset": 0.25,
+  "pauseAdded": [
+   15.95,
+   0.6
   ]
  }
 }
