@@ -31,7 +31,7 @@ a { color: var(--accent); text-underline-offset: 2px; }
 .clock { font-family: var(--f-data); font-size: .85rem; }
 .clock b { font-weight: 500; }
 .pill { display: inline-block; font: .72rem var(--f-data); letter-spacing: .06em; text-transform: uppercase; padding: 2px 8px; border: 1px solid currentColor; }
-.tabs { display: flex; gap: 2px; }
+.tabs { display: flex; flex-wrap: wrap; gap: 2px; }
 .tabs button { font: inherit; font-weight: 600; background: none; border: 0; border-bottom: 2px solid transparent; padding: 6px 12px; color: var(--ink-2); cursor: pointer; }
 .tabs button[aria-selected="true"] { color: var(--ink); border-color: var(--accent); }
 form.scan { display: grid; grid-template-columns: minmax(0, 1fr) auto auto auto auto; gap: 8px; align-items: end; }
@@ -126,6 +126,8 @@ footer { font-size: .8rem; color: var(--muted); border-top: 1px solid var(--rule
   <div class="tabs" role="tablist">
     <button role="tab" id="tab-scan" aria-selected="true" aria-controls="p-scan">Scan a coin</button>
     <button role="tab" id="tab-trend" aria-selected="false" aria-controls="p-trend">Trending screener</button>
+    <button role="tab" id="tab-live" aria-selected="false" aria-controls="p-live">Live alerts</button>
+    <button role="tab" id="tab-proof" aria-selected="false" aria-controls="p-proof">Proof</button>
   </div>
 
   <!-- Scan -->
@@ -162,6 +164,29 @@ footer { font-size: .8rem; color: var(--muted); border-top: 1px solid var(--rule
     </div>
   </section>
 
+  <!-- Live -->
+  <section id="p-live" role="tabpanel" aria-labelledby="tab-live" style="display:grid;gap:16px" hidden>
+    <div id="lStatus" class="muted small">Loading…</div>
+    <div class="strip" id="lStrip"></div>
+    <h2>Paper trades</h2>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Status</th><th>Token</th><th style="text-align:right">Signal</th><th style="text-align:right">Entry</th><th style="text-align:right">Now / exit</th><th style="text-align:right">Return</th><th style="text-align:right">P&amp;L</th><th>Exit</th><th>Opened</th></tr></thead>
+      <tbody id="lTrades"></tbody></table></div>
+    <h2>Alerts</h2>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Time</th><th>Verdict</th><th>Token</th><th style="text-align:right">Vol 30m</th><th style="text-align:right">Off high</th><th style="text-align:right">Liq</th><th style="text-align:right">Mcap</th><th>Why / note</th></tr></thead>
+      <tbody id="lAlerts"></tbody></table></div>
+  </section>
+
+  <!-- Proof -->
+  <section id="p-proof" role="tabpanel" aria-labelledby="tab-proof" style="display:grid;gap:14px" hidden>
+    <p class="muted small" style="max-width:75ch">Trades marked +N are still open and not counted yet. Replays every rule on everything the collector recorded: every coin it watched, minute by minute, not just the coins it alerted on. Same mechanics as the paper trades: entry 1 minute late, 4.5% fees, the stop fills at the real price. A rule <b>holds</b> only with 50+ trades, a 90% range above zero, and a profit in both halves of the period.</p>
+    <div class="toolbar"><button class="go" id="pBtn">Recompute</button><span id="pStatus" class="muted small"></span></div>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Rule</th><th style="text-align:right">Trades</th><th style="text-align:right">Avg</th><th style="text-align:right">Win</th><th style="text-align:right">90% range</th><th style="text-align:right">1st half</th><th style="text-align:right">2nd half</th><th>Verdict</th></tr></thead>
+      <tbody id="pBody"></tbody></table></div>
+  </section>
+
   <footer>Read-only research tool: no wallet, no keys, no orders. The rules come from one channel's in-sample backtest (148 calls, May–Oct 2026). Treat them as hypotheses to test with small size. This is not financial advice.</footer>
 </main>
 
@@ -196,13 +221,19 @@ function tick() {
 tick(); setInterval(tick, 20000);
 
 // --- tabs
+let liveTimer = null;
 function tab(which) {
-  for (const [b, p] of [["#tab-scan", "#p-scan"], ["#tab-trend", "#p-trend"]]) {
+  for (const [b, p] of [["#tab-scan", "#p-scan"], ["#tab-trend", "#p-trend"], ["#tab-live", "#p-live"], ["#tab-proof", "#p-proof"]]) {
     const on = b === which; $(b).setAttribute("aria-selected", on); $(p).hidden = !on;
   }
+  clearInterval(liveTimer);
+  if (which === "#tab-live") { loadLive(); liveTimer = setInterval(loadLive, 30000); }
+  if (which === "#tab-proof") loadProof(false);
 }
 $("#tab-scan").onclick = () => tab("#tab-scan");
 $("#tab-trend").onclick = () => tab("#tab-trend");
+$("#tab-live").onclick = () => tab("#tab-live");
+$("#tab-proof").onclick = () => tab("#tab-proof");
 
 // --- scan
 async function runScan(address, chain) {
@@ -333,6 +364,63 @@ $("#tAuto").onchange = (e) => { clearInterval(autoTimer); if (e.target.checked) 
 function openRow(tr) { if (!tr) return; $("#addr").value = tr.dataset.a; $("#chain").value = tr.dataset.c; tab("#tab-scan"); runScan(tr.dataset.a, tr.dataset.c); }
 $("#tBody").onclick = (e) => openRow(e.target.closest("tr[data-a]"));
 $("#tBody").onkeydown = (e) => { if (e.key === "Enter") openRow(e.target.closest("tr[data-a]")); };
+
+// --- live alerts + paper journal
+const hhmm = (t) => t ? new Date(t * 1000).toISOString().slice(5, 16).replace("T", " ") : "–";
+const sp = (x) => x == null ? "–" : (x >= 0 ? "+" : "") + (x * 100).toFixed(1) + "%";
+const tone = (x) => x == null ? "" : x > 0 ? "color:var(--gain)" : x < 0 ? "color:var(--loss)" : "";
+async function loadLive() {
+  try {
+    const d = await (await fetch("/api/live")).json();
+    const st = d.status, age = st ? d.now - st.ts : null;
+    $("#lStatus").innerHTML = !st ? "The collector has not run yet. Start it with <code>python3 collector.py</code>."
+      : age > 180 ? `<span style="color:var(--loss)">Collector last ran ${Math.round(age / 60)} min ago, so it's probably stopped.</span>`
+      : `Collector running: watching ${st.watching} coins on ${esc(st.chains.join(", "))}, paper bankroll ${usd(st.bankroll)} at ${st.risk}% risk. Updated ${age}s ago.`;
+    const j = d.journal;
+    $("#lStrip").innerHTML = `<div><b>${j.n}</b><span>Closed paper trades</span></div><div><b>${j.open}</b><span>Open</span></div>
+      <div><b style="${tone(j.mean)}">${j.n ? sp(j.mean) : "–"}</b><span>Avg return after fees</span></div>
+      <div><b>${j.n ? Math.round(j.win * 100) + "%" : "–"}</b><span>Win rate (break-even ≈ 36%)</span></div>
+      <div><b style="${tone(j.pnl)}">${j.n ? usd(j.pnl) : "–"}</b><span>Paper P&amp;L</span></div>
+      <div><b>${j.n >= 50 ? (j.mean > 0 ? "OK" : "STOP") : (50 - j.n) + " to go"}</b><span>Kill switch: 50-trade check</span></div>`;
+    $("#lTrades").innerHTML = d.trades.map(t => {
+      const cur = t.status === "closed" ? t.exit_price : t.last_price;
+      const r = t.status === "closed" ? t.ret : (t.entry_price && cur ? cur / t.entry_price * (1 - 0.045) - 1 : null);
+      return `<tr data-a="${esc(t.address)}" data-c="${esc(t.chain)}" tabindex="0"><td>${esc(t.status)}</td><td><b>${esc(t.symbol || "?")}</b></td>
+        <td class="n">${px(t.signal_price)}</td><td class="n">${px(t.entry_price)}</td><td class="n">${px(cur)}</td>
+        <td class="n" style="${tone(r)}">${sp(r)}${t.status !== "closed" && r != null ? " *" : ""}</td>
+        <td class="n" style="${tone(t.pnl)}">${t.pnl == null ? "–" : usd(t.pnl)}</td><td>${esc(t.exit_reason || "")}</td><td class="muted small">${hhmm(t.signal_ts)}</td></tr>`;
+    }).join("") || `<tr><td colspan="9" class="muted">No paper trades yet.</td></tr>`;
+    $("#lAlerts").innerHTML = d.alerts.map(a => `<tr data-a="${esc(a.address)}" data-c="${esc(a.chain)}" tabindex="0">
+      <td class="muted small">${hhmm(a.ts)}</td><td><span class="chip ${vclass(a.verdict)}">${esc(a.verdict)}</span></td>
+      <td><b>${esc(a.symbol || "?")}</b></td><td class="n">${usd(a.vol30)}</td><td class="n">${a.off_high == null ? "–" : (a.off_high * 100).toFixed(0) + "%"}</td>
+      <td class="n">${usd(a.liq)}</td><td class="n">${usd(a.mcap)}</td>
+      <td class="reason">${esc(a.skipped === "dossier" ? a.reason : (a.skipped ? "Paper trade skipped: " + a.skipped : a.reason))}</td></tr>`).join("")
+      || `<tr><td colspan="8" class="muted">No coin has passed the gate yet.</td></tr>`;
+  } catch (e) { $("#lStatus").textContent = "Couldn't load live data: " + e.message; }
+}
+for (const id of ["#lTrades", "#lAlerts"]) {
+  $(id).onclick = (e) => openRow(e.target.closest("tr[data-a]"));
+  $(id).onkeydown = (e) => { if (e.key === "Enter") openRow(e.target.closest("tr[data-a]")); };
+}
+
+// --- proof (validation)
+async function loadProof(force) {
+  $("#pStatus").innerHTML = '<span class="spin"></span> Replaying…'; $("#pBtn").disabled = true;
+  try {
+    const d = await (await fetch("/api/validate" + (force ? "?refresh=1" : ""))).json();
+    const hrs = d.span_to ? ((d.span_to - d.span_from) / 3600).toFixed(1) : 0;
+    $("#pStatus").textContent = `${d.coins || 0} coins, ${hrs} h of data. Computed ${new Date(d.generated * 1000).toISOString().slice(11, 16)} UTC.`;
+    $("#pBody").innerHTML = d.variants.map(v => {
+      const col = v.verdict.startsWith("holds") ? "var(--gain)" : v.verdict.startsWith("fails") ? "var(--loss)" : "var(--ink-2)";
+      return `<tr><td><b>${esc(v.name)}</b><div class="muted small">${esc(v.desc)}</div></td><td class="n">${v.n}${v.pending ? ` <span class="muted">+${v.pending}</span>` : ""}</td>
+        <td class="n" style="${tone(v.mean)}">${v.n ? sp(v.mean) : "–"}</td><td class="n">${v.n ? Math.round(v.win * 100) + "%" : "–"}</td>
+        <td class="n">${v.n > 1 ? sp(v.lo) + " … " + sp(v.hi) : "–"}</td><td class="n">${sp(v.first_half)}</td><td class="n">${sp(v.second_half)}</td>
+        <td class="reason" style="color:${col}">${esc(v.verdict)}</td></tr>`;
+    }).join("");
+  } catch (e) { $("#pStatus").textContent = "Couldn't compute: " + e.message; }
+  finally { $("#pBtn").disabled = false; }
+}
+$("#pBtn").onclick = () => loadProof(true);
 
 // deep link: /#<address>
 if (location.hash.length > 30) { $("#addr").value = decodeURIComponent(location.hash.slice(1)); runScan($("#addr").value, ""); }

@@ -80,6 +80,20 @@ def main_pair(pairs, address):
     return max(own, key=lambda p: (_f((p.get("liquidity") or {}).get("usd"), 0), _f((p.get("volume") or {}).get("h24"), 0)))
 
 
+def total_liquidity(pairs, address, chain, floor=1_000):
+    """Liquidity summed over every pool where the token is the base asset (pools under $1k ignored)."""
+    tot = 0.0
+    for p in pairs:
+        if (p.get("baseToken") or {}).get("address", "").lower() != address.lower():
+            continue
+        if chain and p.get("chainId") not in (None, chain):
+            continue
+        v = _f((p.get("liquidity") or {}).get("usd"), 0)
+        if v >= floor:
+            tot += v
+    return tot or None
+
+
 def launchpad_from_suffix(address):
     a = address.lower()
     for suf, name in SUFFIX_PAD:
@@ -123,6 +137,9 @@ def _gate(raw, pair, now):
     price = _f(pair.get("priceUsd"))
     g = gate_metrics(raw.get("candles"), now, price)
     est = False
+    sg = raw.get("gate")  # gate computed by series.py from our own 1-minute snapshots
+    if (g is None or g.get("off_high") is None) and sg and sg.get("vol30") is not None:
+        g, est = dict(vol30=sg["vol30"], high60=sg.get("high60"), off_high=sg.get("off_high")), bool(sg.get("vol_est"))
     if g is None or g.get("vol30") is None:
         h1 = _f((pair.get("volume") or {}).get("h1"))
         m30 = _f(raw.get("gt_vol_m30"))
@@ -290,11 +307,14 @@ def _liquidity(raw, pair, chain, size_usd):
         else:
             out.append(_chk("liquidity", "lp", "LP", "unknown", dex or "–", "burned / locked", "source",
                             "No LP holder data (v4 hooks / launchpad pools). Check the locker or launchpad terms."))
-    if liq is not None and mcap:
-        r = liq / mcap
+    total = total_liquidity(raw.get("pairs") or [], raw["address"], chain) or liq
+    if total is not None and mcap:
+        r = total / mcap
+        many = total and liq and total > liq * 1.02
         out.append(_chk("liquidity", "liqmcap", "Liquidity / mcap", "pass" if r >= LIQ_TO_MCAP_MIN else "fail",
-                        f"{usd(liq)} / {usd(mcap)} = {r * 100:.0f}%", "≥ 10%", "thumb",
-                        "" if r >= LIQ_TO_MCAP_MIN else "Exit will cost more than entry."))
+                        f"{usd(total)} / {usd(mcap)} = {r * 100:.0f}%" + (" (all pools)" if many else ""), "≥ 10%", "thumb",
+                        ("" if r >= LIQ_TO_MCAP_MIN else "Exit will cost more than entry. ")
+                        + (f"Main pool alone {usd(liq)}; side pools can be withdrawn by their owners." if many else "")))
     else:
         out.append(_chk("liquidity", "liqmcap", "Liquidity / mcap", "unknown", usd(liq), "≥ 10%", "thumb"))
     if liq and size_usd:
