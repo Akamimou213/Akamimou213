@@ -1,0 +1,216 @@
+<!doctype html>
+<html><head><meta charset="utf-8">
+<style>html,body{margin:0;overflow:hidden;background:#000}canvas{display:block}</style>
+</head><body><canvas id="c"></canvas>
+<script>
+// Get Regular « From guessing to knowing » — living illustration over 13 gouache keyframes (no image-to-video).
+// Each shot: a camera move, one story effect drawn in the plate's own language, an 8 fps paper boil, VO-timed subtitles;
+// hard cuts on the voice (as the reference); brand end card (getregular.com: near-black, leaf green, Inter Tight, pill CTA).
+// Contract (motion-reel): render.cjs injects window.TL / Motion / FONTS; URL ?size=WxH; pure draw(t); renderFrame(i).
+const { clamp, lerp, E, spring, hash, subframeTimes } = window.Motion;
+const Q = new URLSearchParams(location.search);
+const [W, H] = (Q.get('size') || '1080x1920').split('x').map(Number);
+const cv = document.getElementById('c'); cv.width = W; cv.height = H;
+const g = cv.getContext('2d');
+const TL = window.TL, DUR = TL.duration, P = TL.palette, C = TL.copy.en, SH = TL.shots, CU = TL.cues;
+const U = W / 1080, FMT = W / H < .7 ? 'V' : W / H < .95 ? 'P' : 'S';
+window.SAFEBOX = FMT === 'V' ? { x0: W * .08, y0: H * .14, x1: W * .88, y1: H * .8 } : { x0: W * .07, y0: H * .07, x1: W * .93, y1: H * .93 };
+const IM = {}; window.MISSING = [];
+const load = (k, src) => new Promise(r => { const im = new Image(); im.onload = () => { IM[k] = im; r(); }; im.onerror = () => { window.MISSING.push(`image ${k}: ${src}`); r(); }; im.src = src; });
+
+// ---------------------------------------------------------------- helpers
+const imp = x => x > 0 ? Math.exp(-x * 7) * Math.sin(x * 18) : 0;      // a hit that settles
+const pulse = (x, w = .35) => x > 0 ? Math.exp(-x / w) * (1 - Math.exp(-x * 30)) : 0;
+const smooth = x => x * x * (3 - 2 * x);
+function glow(x, y, r, a, col = '229,138,78') {
+  if (a <= .003) return;
+  const gr = g.createRadialGradient(x, y, 0, x, y, r);
+  gr.addColorStop(0, `rgba(${col},${a})`); gr.addColorStop(.45, `rgba(${col},${a * .45})`); gr.addColorStop(1, `rgba(${col},0)`);
+  g.save(); g.globalCompositeOperation = 'screen'; g.fillStyle = gr; g.fillRect(x - r, y - r, 2 * r, 2 * r); g.restore();
+}
+function font(size, w = 400, it = false) { g.font = `${it ? 'italic ' : ''}${w} ${size}px "Inter Tight", sans-serif`; }
+
+// paper grain: three seeded tiles swapped at 8 fps
+const GR = [0, 1, 2].map(k => { const c = document.createElement('canvas'); c.width = c.height = 256; const x = c.getContext('2d'); const d = x.createImageData(256, 256);
+  for (let i = 0; i < d.data.length; i += 4) { const v = 128 + (hash(i + k * 99991, 7) - .5) * 160; d.data[i] = d.data[i + 1] = d.data[i + 2] = v; d.data[i + 3] = 255; } x.putImageData(d, 0, 0); return c; });
+
+// ---------------------------------------------------------------- plate placement (cover, keeping the shot's focal point in frame)
+function plateRect(fy) {
+  const pw = W, ph = W * 1536 / 864;                                   // plates are 9:16; 4:5 and 1:1 crop vertically
+  const oy = clamp(H / 2 - fy * ph, H - ph, 0);
+  return { x: 0, y: oy, w: pw, h: ph };
+}
+
+// ---------------------------------------------------------------- per-shot story effects (coordinates in plate units 0..1)
+const FX = {
+  sea(lt, R) {                                                          // slow cream wave strokes drifting on the olive sea
+    g.save(); g.strokeStyle = '#F2EEDF'; g.lineCap = 'round';
+    for (let i = 0; i < 12; i++) {
+      const x = .5 + hash(i, 1) * .5, y = .45 + hash(i, 2) * .5, len = (.03 + hash(i, 3) * .05) * R.w;
+      const ph = (lt * (.25 + hash(i, 4) * .3) + hash(i, 5)) % 1, a = Math.sin(ph * Math.PI) * .55;
+      g.globalAlpha = a; g.lineWidth = (2 + hash(i, 6) * 3) * U;
+      const X = R.x + (x - ph * .05) * R.w, Y = R.y + y * R.h; g.beginPath(); g.moveTo(X, Y); g.lineTo(X + len, Y + 1); g.stroke();
+    }
+    g.restore();
+  },
+  glowHand(lt, R) { glow(R.x + .66 * R.w, R.y + .88 * R.h, .42 * R.w, .12 + .38 * spring(lt - .2, 40, 9)); },
+  glowBelly(lt, R) { const a = .14 + .32 * (pulse(lt - .5) + pulse(lt - 1.6) + .6 * pulse(lt - 2.6)); glow(R.x + .48 * R.w, R.y + .62 * R.h, .3 * R.w, a); },
+  exhale() {},
+  calendar(lt, R) {                                                     // the calendar's own top page (cut from the plate) flips up, again and again
+    const im = IM['k05-bathroom']; if (!im) return;
+    const sx = .69 * 864, sy = .085 * 1536, sw = .23 * 864, sh = .3 * 1536;
+    const x0 = R.x + .69 * R.w, y0 = R.y + .085 * R.h, w = .23 * R.w, h = .3 * R.h;
+    for (let k = 0; k < 4; k++) {
+      const q = clamp((lt - .25 - k * .34) / .42); if (q <= 0 || q >= 1) continue;
+      const s = Math.cos(smooth(q) * Math.PI);
+      g.save(); g.translate(x0, y0); g.scale(1, s); g.globalAlpha = 1 - smooth(clamp((q - .75) / .25));
+      g.shadowColor = 'rgba(0,0,0,.25)'; g.shadowBlur = 18 * U; g.shadowOffsetY = 8 * U * s;
+      g.drawImage(im, sx, sy, sw, sh, 0, 0, w, h);
+      if (s < 0) { g.shadowColor = 'transparent'; g.fillStyle = 'rgba(40,40,30,.18)'; g.fillRect(0, 0, w, h); }
+      g.restore();
+    }
+  },
+  papers(lt, R) {                                                       // sheets fly from the doctor at Maya like birds
+    for (let i = 0; i < 8; i++) {
+      const st = i * .2, q = clamp((lt - st) / 1.15); if (q <= 0) continue;
+      const sx = .18 + hash(i, 1) * .1, sy = .28 + hash(i, 2) * .18, tx = .58 + hash(i, 3) * .22, ty = .08 + hash(i, 4) * .3;
+      const e = E.outCubic(q), x = lerp(sx, tx, e), y = lerp(sy, ty, e) - Math.sin(e * Math.PI) * .09;
+      const w = (.1 + hash(i, 5) * .05) * R.w, flap = Math.abs(Math.cos(lt * 9 + i)) * .65 + .35;
+      g.save(); g.translate(R.x + x * R.w, R.y + y * R.h); g.rotate((hash(i, 6) - .5) * 1.2 + e * .5); g.scale(1, flap);
+      g.globalAlpha = q < .9 ? 1 : (1 - q) / .1;
+      g.shadowColor = 'rgba(0,0,0,.22)'; g.shadowBlur = 12 * U; g.shadowOffsetY = 6 * U;
+      g.fillStyle = '#F1ECDC'; g.beginPath(); g.moveTo(-w / 2, -w * .32); g.lineTo(w / 2, -w * .42); g.lineTo(w * .46, w * .36); g.lineTo(-w / 2, w * .4); g.closePath(); g.fill();
+      g.shadowColor = 'transparent'; g.fillStyle = 'rgba(120,110,90,.18)'; g.beginPath(); g.moveTo(0, -w * .37); g.lineTo(w * .46, w * .36); g.lineTo(w / 2, -w * .42); g.closePath(); g.fill();
+      g.restore();
+    }
+  },
+  punches() {},
+  birds(lt, R) {                                                        // paper birds leave the blank mind
+    for (let i = 0; i < 6; i++) {
+      const st = .2 + i * .22, q = clamp((lt - st) / 1.6); if (q <= 0 || q >= 1) continue;
+      const sx = .66 + hash(i, 1) * .12, sy = .1 + hash(i, 2) * .1;
+      const x = sx + q * (.25 + hash(i, 3) * .3), y = sy - q * (.22 + hash(i, 4) * .1), s = (.035 + hash(i, 5) * .015) * R.w;
+      const f = Math.sin(lt * 14 + i * 2) * .9;
+      g.save(); g.translate(R.x + x * R.w, R.y + y * R.h); g.fillStyle = '#F4F0E3'; g.globalAlpha = 1 - smooth(clamp((q - .8) / .2));
+      g.beginPath(); g.moveTo(0, 0); g.quadraticCurveTo(-s, -s * f, -2 * s, -s * .2 * f); g.quadraticCurveTo(-s, s * .25, 0, s * .2);
+      g.quadraticCurveTo(s, s * .25, 2 * s, -s * .2 * f); g.quadraticCurveTo(s, -s * f, 0, 0); g.fill(); g.restore();
+    }
+  },
+  stream(lt, R) {                                                       // the gut's signal flows into the phone
+    const pts = [[.25, .66], [.33, .61], [.43, .56], [.55, .52], [.67, .47], [.77, .41], [.82, .35]];
+    const at = u => { const f = u * (pts.length - 1), k = Math.min(pts.length - 2, Math.floor(f)), r = f - k; return [lerp(pts[k][0], pts[k + 1][0], r), lerp(pts[k][1], pts[k + 1][1], r)]; };
+    for (let i = 0; i < 22; i++) {
+      const u = ((lt * .42 + i / 22) % 1); const [x, y] = at(u); const a = Math.sin(u * Math.PI);
+      g.save(); g.globalAlpha = a; g.fillStyle = '#F6A971'; g.beginPath(); g.arc(R.x + x * R.w, R.y + y * R.h, (5 + 3 * hash(i, 9)) * U, 0, Math.PI * 2); g.fill(); g.restore();
+      glow(R.x + x * R.w, R.y + y * R.h, 30 * U, .3 * a);
+    }
+    glow(R.x + .8 * R.w, R.y + .32 * R.h, .1 * R.w, .18 + .1 * Math.sin(lt * 5));
+  },
+  triptych(lt, R, t) {                                                  // each panel lights on its word
+    glow(R.x + .18 * R.w, R.y + .62 * R.h, .16 * R.w, .1 + .55 * pulse(t - CU.meals, .5));
+    glow(R.x + .53 * R.w, R.y + .58 * R.h, .14 * R.w, .1 + .55 * pulse(t - CU.sleep, .5));
+    glow(R.x + .87 * R.w, R.y + .39 * R.h, .14 * R.w, .1 + .55 * pulse(t - CU.stress, .5));
+  },
+  trail(lt, R, t, dur) {                                                // a light runs up the trail: the pattern shows up
+    const pts = [[.42, .53], [.46, .47], [.52, .41], [.57, .35], [.6, .29], [.58, .23], [.61, .16], [.66, .08], [.71, .01]];
+    const head = clamp(lt / (dur * .8)) * 1.15;
+    for (let k = 0; k < 40; k++) {
+      const u = k / 39, f = u * (pts.length - 1), j = Math.min(pts.length - 2, Math.floor(f)), r = f - j;
+      const x = lerp(pts[j][0], pts[j + 1][0], r), y = lerp(pts[j][1], pts[j + 1][1], r);
+      const lit = clamp((head - u) * 6), a = lit * (.25 + .2 * Math.sin(lt * 3 + k));
+      glow(R.x + x * R.w, R.y + y * R.h, 22 * U, a);
+    }
+  },
+  report(lt, R) { glow(R.x + .36 * R.w, R.y + .6 * R.h, .2 * R.w, .1 + .2 * spring(lt - .4, 40, 9)); glow(R.x + .92 * R.w, R.y + .14 * R.h, .3 * R.w, .08 + .12 * smooth(clamp(lt / 2)), '255,240,210'); },
+  sun(lt, R, t, dur) {                                                  // morning: the sun's bloom grows, the sky warms
+    const k = smooth(clamp(lt / dur));
+    glow(R.x + .58 * R.w, R.y + .55 * R.h, (.22 + .3 * k) * R.w, .25 + .3 * k);
+    g.save(); g.globalCompositeOperation = 'soft-light'; g.globalAlpha = .25 * k; g.fillStyle = '#F2A36B'; g.fillRect(R.x, R.y, R.w, R.h * .55); g.restore();
+  },
+};
+
+// ---------------------------------------------------------------- subtitles (brand type: Inter Tight, white, soft shadow)
+function subtitles(t, sy = .64) {
+  const s = TL.subs.find(x => t >= x.t0 && t < x.t1); if (!s) return;
+  const a = Math.min(clamp((t - s.t0) / .08), clamp((s.t1 - t) / .08));
+  const size = (FMT === 'V' ? 56 : 46) * U, y = H * (FMT === 'V' ? sy : clamp(sy, .2, .82));
+  font(size, 450); const tw = g.measureText(s.text).width;                 // a soft dark halo under the line, no box
+  g.save(); g.globalAlpha = a * .55; g.translate(W / 2, y); g.scale(tw * .62 + 60 * U, size * 1.25);
+  const hg = g.createRadialGradient(0, 0, 0, 0, 0, 1); hg.addColorStop(0, 'rgba(10,12,4,.85)'); hg.addColorStop(1, 'rgba(10,12,4,0)');
+  g.fillStyle = hg; g.beginPath(); g.arc(0, 0, 1, 0, Math.PI * 2); g.fill(); g.restore();
+  g.save(); g.globalAlpha = a; font(size, 450); g.textAlign = 'center'; g.textBaseline = 'middle';
+  g.shadowColor = 'rgba(0,0,0,.6)'; g.shadowBlur = 16 * U; g.shadowOffsetY = 2 * U; g.fillStyle = '#FFFFFF';
+  g.fillText(s.text, W / 2, y); g.restore();
+}
+
+// ---------------------------------------------------------------- end card (getregular.com look)
+function endCard(t) {
+  const lt = t - TL.end;
+  g.fillStyle = P.black; g.fillRect(0, 0, W, H);
+  [[.3, .35, P.leaf, .55], [.75, .6, P.leaf2, .45], [.45, .85, P.leaf3, .3]].forEach(([x, y, c, a], i) => {
+    const X = (x + .04 * Math.sin(lt * .3 + i)) * W, Y = (y + .03 * Math.cos(lt * .25 + i)) * H, r = .7 * Math.max(W, H) * .6;
+    const gr = g.createRadialGradient(X, Y, 0, X, Y, r); gr.addColorStop(0, c); gr.addColorStop(1, 'rgba(8,8,0,0)');
+    g.save(); g.globalAlpha = a * clamp(lt / .5); g.fillStyle = gr; g.fillRect(0, 0, W, H); g.restore();
+  });
+  // headline on the voice, « talking. » in italic as on the site
+  const size = (FMT === 'V' ? 92 : 76) * U, cy = H * (FMT === 'V' ? .44 : .42), ew = CU.endWords;
+  const L1 = [[C.end1.split(' ')[0], false, ew[0]], [C.end1.split(' ')[1], false, ew[1]], [C.end1.split(' ')[2], false, ew[2]], [C.end1i, true, ew[3]]];
+  const L2 = C.end2.split(' ').map((w, i) => [w, false, ew[4 + i]]);
+  [[L1, cy - size * .62], [L2, cy + size * .62]].forEach(([words, y]) => {
+    const sp = size * .26; let tot = -sp; words.forEach(([w, it]) => { font(size, 300, it); tot += g.measureText(w).width + sp; });
+    let x = W / 2 - tot / 2;
+    words.forEach(([w, it, tw0]) => {
+      font(size, 300, it); const ww = g.measureText(w).width, p = spring(t - tw0 + .04, 260, 24);
+      if (p > 0) { g.save(); g.globalAlpha = clamp(p * 2); g.fillStyle = '#FFFFFF'; g.textBaseline = 'middle'; g.fillText(w, x, y + (1 - p) * 22 * U); g.restore(); }
+      x += ww + sp;
+    });
+  });
+  // wordmark on « Get Regular », then the pill, then the legal line
+  const lg = IM.logo, lp = spring(t - CU.getregular + .1, 200, 22);
+  if (lg && lp > 0) { const lw = (FMT === 'V' ? .44 : .36) * W, lh = lw * 60 / 176; g.save(); g.globalAlpha = clamp(lp * 2); g.drawImage(lg, W / 2 - lw / 2, H * (FMT === 'V' ? .2 : .14) + (1 - lp) * 20 * U, lw, lh); g.restore(); }
+  const pp = spring(t - CU.getregular - .35, 220, 20);
+  if (pp > 0) {
+    font(44 * U, 500); const bw = g.measureText(C.cta).width + 120 * U, bh = 112 * U, by = H * (FMT === 'V' ? .62 : .66);
+    g.save(); g.globalAlpha = clamp(pp * 2); g.translate(W / 2, by); g.scale(.92 + .08 * pp, .92 + .08 * pp);
+    g.fillStyle = '#FFFFFF'; g.beginPath(); g.roundRect(-bw / 2, -bh / 2, bw, bh, bh / 2); g.fill();
+    g.fillStyle = '#080800'; g.textAlign = 'center'; g.textBaseline = 'middle'; g.fillText(C.cta, 0, 2 * U); g.restore();
+    g.save(); g.globalAlpha = .6 * clamp(pp * 2); font(28 * U, 400); g.fillStyle = '#FFFFFF'; g.textAlign = 'center'; g.fillText(C.legal, W / 2, H * (FMT === 'V' ? .76 : .86)); g.restore();
+  }
+}
+
+// ---------------------------------------------------------------- draw(t)
+function draw(T0) {
+  const t = clamp(T0, 0, DUR - 1e-4);
+  g.setTransform(1, 0, 0, 1, 0, 0); g.globalAlpha = 1; g.filter = 'none'; g.globalCompositeOperation = 'source-over';
+  if (t >= TL.end) { endCard(t); return; }
+  let i = 0; SH.forEach((s, j) => { if (t >= s.t) i = j; });
+  const s = SH[i], t1 = i + 1 < SH.length ? SH[i + 1].t : TL.end, lt = t - s.t, dur = t1 - s.t, p = clamp(lt / dur);
+  const [s0, s1, fx, fy] = s.cam, R = plateRect(fy);
+  let sc = lerp(s0, s1, smooth(p));
+  if (s.fx === 'punches') sc += .025 * (imp(t - CU.since) + imp(t - CU.often) + imp(t - CU.what));
+  if (s.fx === 'exhale') sc += .015 * imp(t - CU.lunch);
+  const step = Math.floor(t * 8), bx = (hash(step, 11) - .5) * 1.6 * U, by = (hash(step, 13) - .5) * 1.6 * U;   // paper boil
+  const px = R.x + fx * R.w, py = R.y + fy * R.h;
+  g.fillStyle = '#1E1E1C'; g.fillRect(0, 0, W, H);
+  g.save(); g.translate(px, py); g.scale(sc, sc); g.translate(-px + bx, -py + by);
+  const im = IM[s.plate]; if (im) g.drawImage(im, R.x, R.y, R.w, R.h);
+  FX[s.fx] && FX[s.fx](lt, R, t, dur);
+  g.restore();
+  g.save(); g.globalCompositeOperation = 'overlay'; g.globalAlpha = .07; g.fillStyle = g.createPattern(GR[step % 3], 'repeat'); g.fillRect(0, 0, W, H); g.restore();
+  subtitles(t, s.sy);
+}
+window.draw = window.seek = draw;
+
+// ---------------------------------------------------------------- frame composer
+const acc = document.createElement('canvas'); acc.width = W; acc.height = H; const ag = acc.getContext('2d');
+window.renderFrame = (i, opts = {}) => {
+  const times = subframeTimes(i, { fps: TL.fps || 30, sub: 4, shutter: .5, hardCuts: TL.hardCuts || [], dur: DUR, ...opts });
+  times.forEach((ts, k) => { draw(ts); ag.globalAlpha = 1 / (k + 1); ag.drawImage(cv, 0, 0); });
+  g.setTransform(1, 0, 0, 1, 0, 0); g.globalAlpha = 1; g.drawImage(acc, 0, 0);
+};
+(async () => {
+  for (const f of window.FONTS || []) { const ff = new FontFace(f.family, `url(data:font/ttf;base64,${f.b64})`, { weight: f.weight || '400', style: f.style || 'normal' }); await ff.load(); document.fonts.add(ff); }
+  await Promise.all([...new Set(SH.map(s => s.plate))].map(k => load(k, `plates/${k}.png`)).concat([load('logo', 'assets/brand/logo-white.svg')]));
+  draw(0); window.ready = true;
+})();
+</script></body></html>
