@@ -29,3 +29,24 @@ glancing down over her shoulder towards the viewer's lower left with a worried l
 stomach at the bottom edge of the frame. [Maya] Behind her: a deep olive-green sea as a wide flat horizontal band with
 a few short cream brush strokes for waves, a pale cream sky above, and a flat apricot sun circle half hidden behind her
 hair at the top right. [palette]
+
+## Figma asset URLs (expire 7 days after 2026-11-02; PNGs saved in plates/)
+- k01-guess-v2 https://www.figma.com/api/mcp/asset/4b6f0e2b-565d-4304-9f3f-59e9f83c4b98.png
+- k02-pattern https://www.figma.com/api/mcp/asset/ed2a9801-686f-4735-b35a-25e8ed6ad6be.png
+- k03-talking https://www.figma.com/api/mcp/asset/7f15faee-b3da-4e34-9dd8-98a5a6ec4a43.png
+- k04-bloating https://www.figma.com/api/mcp/asset/10e713cd-8eb2-430c-87d9-461128d614d2.png
+- k05-bathroom https://www.figma.com/api/mcp/asset/9e62fd22-1855-412b-a18c-6e0a9bac3a08.png
+
+## Doctor block (shots 6, 7, 12)
+The doctor: a woman in her late 50s, short silver-grey hair, round dark glasses, kind lined face, light skin, white
+coat over an olive-green top.
+- k06-questions https://www.figma.com/api/mcp/asset/4a9c33e2-e595-4fac-a048-a33138d173d1.png
+- k07-doctor https://www.figma.com/api/mcp/asset/16bb95cc-57f8-4ff8-97f4-7484a1e02b03.png
+- k08-blank https://www.figma.com/api/mcp/asset/76161ae1-8b28-4a34-b6e3-3f174e4713d3.png
+- k09-listening https://www.figma.com/api/mcp/asset/ba3da4a0-f600-4fa7-9c5d-f80aacb3f234.png
+- k10-triptych-v1 https://www.figma.com/api/mcp/asset/ddd797a9-68d8-42d1-a8d6-dc47948e16e6.png
+- k11-pattern-v1 https://www.figma.com/api/mcp/asset/d7ead2ca-1941-4362-901f-7295cb32df37.png
+- k12-answers https://www.figma.com/api/mcp/asset/ef8ec339-b5f7-4318-818b-d1acfc990339.png
+- k13-sky https://www.figma.com/api/mcp/asset/60f82543-fc42-4b0d-993b-83a2683ecfb9.png
+- k10-triptych https://www.figma.com/api/mcp/asset/141897a7-b11e-41dc-a7d4-96cb2c612abb.png
+- k11-pattern https://www.figma.com/api/mcp/asset/414d2511-08d6-4aaf-a036-4564d37dc931.png
