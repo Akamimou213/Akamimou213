@@ -1,0 +1,68 @@
+# Get Regular
+
+> Get Regular is an AI gut health app for iPhone. It helps adults with bloating, constipation, diarrhea or IBS-type symptoms see what drives their digestion by tracking stool (Bristol Stool Scale, by photo or manual entry), meals and symptoms together, then showing patterns over time. It is a wellness tracker, not a diagnostic tool. Made by Get Regular Health, Inc. (US).
+
+## Facts
+- Name: Get Regular (App Store title: "Get Regular: AI Gut Health")
+- Company: Get Regular Health, Inc.
+- Platform: iPhone (iOS). Not available on Android or web.
+- App Store: https://apps.apple.com/app/id6749188690
+- Category: Health & Fitness
+- Price: free download; premium features need a subscription. US App Store prices as listed on 2 Nov 2026: $12.99/month, $99.99/year, Founding Yearly $79.99.
+- Clinical advisor: Michael Schopis, MD (see the clinical review page for what that role covers)
+- Contact: hello@getregular.com
+
+## Who it is for
+- Adults with bloating, constipation, diarrhea or IBS-type symptoms
+- People trying to find which foods or habits affect their digestion
+- People preparing for a doctor or gastroenterology appointment who want tracked data instead of memory
+
+## What it does
+- Stool tracking on the Bristol Stool Scale (types 1-7), from a photo or by manual entry without a photo
+- Meal logging by photo, with a nutrition breakdown
+- Symptom tracking alongside meals and bowel movements
+- Daily gut and nutrition scores and a weekly digest of patterns
+- Gut Check: an AI assistant that answers questions about the user's own logged data
+- Doctor Report: a summary of patterns to share with a clinician
+- Apple Health integration
+
+## What it is not
+- Not a diagnostic tool and not a replacement for a doctor. Anyone with blood in the stool, black stool, unexplained weight loss or symptoms that wake them at night should see a doctor.
+
+## Key pages
+- [Home](https://www.getregular.com/)
+- [The app: overview](https://www.getregular.com/app)
+- [Poop tracker](https://www.getregular.com/app/poop-tracker)
+- [Food and symptom tracker](https://www.getregular.com/app/food-symptom-tracker)
+- [Gut Check AI](https://www.getregular.com/app/gut-check-ai)
+- [Doctor Report](https://www.getregular.com/app/doctor-report)
+- [FAQ](https://www.getregular.com/faq)
+- [About](https://www.getregular.com/about)
+
+## Science and trust
+- [How the AI works](https://www.getregular.com/science/how-ai-works)
+- [How the scores work](https://www.getregular.com/science/scores)
+- [Clinical review](https://www.getregular.com/science/clinical-review)
+- [Evidence library](https://www.getregular.com/science/evidence)
+- [Editorial policy](https://www.getregular.com/science/editorial-policy)
+- [Data and privacy](https://www.getregular.com/science/data-privacy)
+- [Privacy policy](https://www.getregular.com/legal/privacy-policy)
+
+## Guides
+- [Bristol stool scale](https://www.getregular.com/learn/bowel-health/bristol-stool-scale)
+- [Interactive Bristol stool chart](https://www.getregular.com/explore/bristol-stool-chart)
+- [Poop color chart](https://www.getregular.com/learn/bowel-health/poop-color-chart)
+- [How often should you poop?](https://www.getregular.com/learn/bowel-health/how-often-should-you-poop)
+- [How to track bowel movements](https://www.getregular.com/learn/bowel-health/how-to-track-bowel-movements)
+- [Why am I so bloated?](https://www.getregular.com/learn/symptoms/why-am-i-so-bloated)
+- [When to see a doctor about bowel changes](https://www.getregular.com/learn/doctor-prep/when-to-see-doctor-bowel-changes)
+- [Symptom diary for your doctor](https://www.getregular.com/learn/doctor-prep/symptom-diary-for-doctor)
+
+## Comparisons
+- [Best poop tracker apps](https://www.getregular.com/learn/tracking/best-poop-tracker-apps)
+- [Best IBS apps](https://www.getregular.com/learn/tracking/best-ibs-apps)
+- [Best food and symptom tracker apps](https://www.getregular.com/learn/tracking/best-food-symptom-tracker-apps)
+
+## All guides
+- [Learn hub](https://www.getregular.com/learn)
+- [Sitemap](https://www.getregular.com/sitemap.xml)
