@@ -25,6 +25,7 @@ QUOTES = {"So11111111111111111111111111111111111111112", "EPjFWdd5AufqSSqeM2qN1x
 INIT_LOGS = ("Program log: Instruction: Initialize",)                       # CPMM, exact line
 INIT_PREFIX = "Program log: initialize2: InitializeInstruction2"            # AMM v4, params follow
 MAX_NEW_POOL_AGE_MIN = 120
+MAX_LEAD_AGE_MIN = 24 * 60     # launch feeds sometimes carry old mints; the desk trades young coins
 GT_DEXES = {"pump-fun", "pumpswap", "raydium", "raydium-clmm", "raydium-cp", "raydium-launchlab"}
 
 
@@ -203,7 +204,8 @@ class Search:
         tx1 = (p.get("txns") or {}).get("h1") or {}
         created = min((q.get("pairCreatedAt") or 1e15) for q in ps) / 1000
         age_min = (now - min(created, r["first_seen"])) / 60
-        if "Raydium pool" in (r["source"] or "") and age_min > MAX_NEW_POOL_AGE_MIN:
+        limit = MAX_NEW_POOL_AGE_MIN if "Raydium pool" in (r["source"] or "") else MAX_LEAD_AGE_MIN
+        if "whale" not in (r["source"] or "") and age_min > limit:
             st.x("UPDATE watch SET status='dropped', note=? WHERE mint=?", (f"not new: first pair {age_min / 60:.0f} h old", mint))
             return
         base = p.get("baseToken") or {}

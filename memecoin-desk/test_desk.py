@@ -26,8 +26,13 @@ class Clock:
         return self.t
 
 
-def make_desk():
+TRADER = dict(name="trader: stop -6%, trail 6% after +12%", sl=0.06, tp=None, partial=None, arm=0.12, trail=0.06, tmax=60)
+
+
+def make_desk(plan=None):
     cfg = load_config()
+    if plan:
+        cfg["exit"]["plan"] = plan
     st = Store(":memory:")
     st.set_cash(cfg["start_balance_usd"])
     d = Desk(cfg, st, clock=Clock())
@@ -169,6 +174,9 @@ def seed_lead(d, risk="pass", final="buy", p_buy=0.8):
 class SniperTests(unittest.TestCase):
     def setUp(self):
         self.d = make_desk()
+        if self._testMethodName in ("test_hard_stop_at_minus_6", "test_trail_only_after_12", "test_no_revenge_and_loss_streak_pause",
+                                    "test_shadow_plans_record_alternatives", "test_approve_fills_and_no_averaging_down"):
+            self.d = make_desk(TRADER)
         self.price = 0.001
         SN.ds_pairs_by_mint = lambda mints: {MINT: [pair(price=self.price, liq=200_000)]}
 
@@ -178,26 +186,33 @@ class SniperTests(unittest.TestCase):
             self.d.sniper.stage(lid)
             self.assertIsNone(self.d.store.one("SELECT id FROM orders WHERE lead_id=?", (lid,)), (risk, final))
 
-    def test_size_is_8pct_regardless_of_confidence(self):
+    def test_size_by_risk_regardless_of_confidence(self):
         sizes = []
         for p in (0.71, 0.92):
             d = make_desk()
             d.sniper.stage(seed_lead(d, p_buy=p))
             sizes.append(d.store.one("SELECT size_usd FROM orders")["size_usd"])
-        self.assertEqual(sizes[0], sizes[1])
-        self.assertAlmostEqual(sizes[0], 80.0)
+        self.assertEqual(sizes[0], sizes[1])                       # confidence never sizes
+        self.assertAlmostEqual(sizes[0], 1000 * 0.01 / 0.545, places=2)  # a full -50% stop + fees costs 1% of $1,000
+
+    def test_size_never_above_8pct(self):
+        cfg = load_config()
+        cfg["exit"]["plan"] = dict(cfg["exit"]["plan"], sl=0.06)
+        self.assertAlmostEqual(SN.position_fraction(cfg), 0.08)    # 1% / 10.5% would be 9.5%: capped
+        cfg["sniper"]["risk_per_trade_pct"] = None
+        self.assertAlmostEqual(SN.position_fraction(cfg), 0.08)
 
     def test_size_capped_by_pool(self):
-        SN.ds_pairs_by_mint = lambda mints: {MINT: [pair(price=self.price, liq=2_000)]}
+        SN.ds_pairs_by_mint = lambda mints: {MINT: [pair(price=self.price, liq=500)]}
         self.d.sniper.stage(seed_lead(self.d))
-        self.assertAlmostEqual(self.d.store.one("SELECT size_usd FROM orders")["size_usd"], 40.0)
+        self.assertAlmostEqual(self.d.store.one("SELECT size_usd FROM orders")["size_usd"], 10.0)
 
     def test_approve_fills_and_no_averaging_down(self):
         lid = seed_lead(self.d)
         self.d.sniper.stage(lid)
         self.d.sniper.approve(lid)
         self.assertEqual(len(self.d.store.open_positions()), 1)
-        self.assertAlmostEqual(self.d.store.cash(), 920.0)
+        self.assertAlmostEqual(self.d.store.cash(), 920.0)   # trader plan: 1% / 10.5% → capped at 8%
         lid2 = seed_lead(self.d)
         self.d.sniper.stage(lid2)
         self.assertIsNone(self.d.store.one("SELECT id FROM orders WHERE lead_id=?", (lid2,)))
@@ -227,7 +242,7 @@ class SniperTests(unittest.TestCase):
         e = p["entry_price"]
         self.assertIsNone(self.d.exit.tick(p, e * 0.95, 200_000))
         why = self.d.exit.tick(self.d.store.open_positions()[0], e * 0.939, 200_000)
-        self.assertIn("hard stop", why)
+        self.assertIn("stop -6%", why)
         closed = self.d.store.one("SELECT * FROM positions")
         self.assertLess(closed["ret"], -0.06)  # fees + impact make the real loss worse than -6%
 
@@ -246,6 +261,25 @@ class SniperTests(unittest.TestCase):
         why = self.d.exit.tick(p, e * 1.12, 200_000)
         self.assertIn("trailing", why)
         self.assertGreater(self.d.store.one("SELECT pnl_usd FROM positions")["pnl_usd"], 0)
+
+    def test_shadow_plans_record_alternatives(self):
+        p = self.open_position()
+        e = p["entry_price"]
+        self.d.exit.tick(p, e * 0.93, 200_000)                     # live plan stops out at -6%
+        rows = {r["plan"]: r for r in self.d.store.q("SELECT * FROM shadow_results")}
+        self.assertIn("trader: stop -6%, trail 6% after +12%", rows)
+        self.assertNotIn("playbook: TP 2x, stop -50%", rows)         # still running in the shadow
+        pos = self.d.store.one("SELECT * FROM positions")
+        self.assertEqual(pos["status"], "closed")
+        self.assertEqual(len(self.d.exit.shadow_only()), 1)
+        self.d.clock.t += 61 * 60                                     # shadows finish on their own clock
+        self.d.exit.tick_shadows(pos, e * 1.1, int(self.d.clock()))
+        rows = {r["plan"]: r for r in self.d.store.q("SELECT * FROM shadow_results")}
+        self.assertAlmostEqual(rows["playbook: TP 2x, stop -50%"]["ret"], 1.1 * 0.955 - 1, places=3)
+        self.assertEqual(len(self.d.exit.shadow_only()), 1)              # the 120-min plan is still running
+        self.d.clock.t += 60 * 60
+        self.d.exit.tick_shadows(self.d.store.one("SELECT * FROM positions"), e * 1.1, int(self.d.clock()))
+        self.assertEqual(self.d.exit.shadow_only(), [])
 
     def test_time_stop_and_liquidity_pull(self):
         p = self.open_position()
@@ -268,6 +302,30 @@ class SniperTests(unittest.TestCase):
         self.assertIn("paused", self.d.sniper.limits.check("OtherMint"))
 
 
+class ShadowBookTests(unittest.TestCase):
+    def test_every_judged_lead_gets_a_shadow_entry(self):
+        d = make_desk()
+        SN.ds_pairs_by_mint = lambda mints: {MINT: [pair(price=0.001, liq=200_000)]}
+        lid = seed_lead(d, final="pass")
+        d.store.set_lead(lid, dossier=dict(price=dict(usd=0.001, below_60m_high_pct=3), utc_hour=2))
+        SE.JudgeSeat(d).run(lid)
+        sh = d.store.one("SELECT * FROM positions WHERE status='shadow'")
+        self.assertIsNotNone(sh)
+        self.assertEqual(d.store.cash(), 1000)                      # no money moves
+        import json as _j
+        self.assertEqual(_j.loads(sh["tags"])["position"], "near high (<7%)")
+        # first tick sets the entry, later ticks run every plan
+        d.exit.loop_once = None
+        p = d.exit.shadow_only()[0]
+        d.store.x("UPDATE positions SET entry_price=?, entry_ts=? WHERE id=?", (0.001, int(d.clock()), p["id"]))
+        d.clock.t += 120
+        d.exit.tick_shadows(d.store.one("SELECT * FROM positions WHERE id=?", (p["id"],)), 0.0021, int(d.clock()))
+        rows = {r["plan"]: r["ret"] for r in d.store.q("SELECT * FROM shadow_results")}
+        self.assertAlmostEqual(rows["playbook: TP 2x, stop -50%"], 2 * 0.955 - 1, places=3)
+        import report as RP
+        self.assertIn("verdict = watch", RP.strategy(d))   # no holder history yet: "not yet"
+
+
 class DossierTests(unittest.TestCase):
     def test_gaps_are_written_missing(self):
         d = make_desk()
@@ -282,6 +340,17 @@ class DossierTests(unittest.TestCase):
         dos = SE.build_dossier(lead, [pair()], d.store, d.cfg, 1000, int(d.clock()))
         self.assertEqual(dos["holders"]["growth_1h_pct"], 50.0)
         self.assertEqual(dos["price"]["change_same_hour_pct"], 25.0)
+
+    def test_candles_fill_the_60m_high_for_new_leads(self):
+        d = make_desk()
+        lead = dict(id=8, mint=MINT, symbol="TEST", reason="r", risk=dict(status="pass", checks=[], facts={}), whale=None)
+        now = int(d.clock())
+        candles = [[now - 3600 + 60 * i, 0.001, 0.0013, 0.0009, 0.00125 if i == 20 else 0.001, 2000] for i in range(60)]
+        dos = SE.build_dossier(lead, [pair(price=0.001)], d.store, d.cfg, 1000, now, candles)
+        self.assertEqual(dos["price"]["below_60m_high_pct"], 20.0)   # body high 0.00125, not the 0.0013 wick
+        self.assertEqual(dos["price"]["vol_30m_usd"], 60000)
+        dos = SE.build_dossier(lead, [pair(price=0.001)], d.store, d.cfg, 1000, now, None)
+        self.assertEqual(dos["price"]["below_60m_high_pct"], "missing")
 
     def test_judge_seat_never_sees_dead(self):
         d = make_desk()

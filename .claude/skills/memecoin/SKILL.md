@@ -25,7 +25,8 @@ All three are Python 3.9+ standard library only. Run Python on fetched data with
 - **Paper first.** Default `config.json` mode is `paper`. Recommend 2–4 weeks of paper results and a calibrated Sunday table before real money.
 - **The gate belongs to the user.** Thresholds live in `memecoin-desk/config.json`. Change them only when the user asks, in writing, and say what changed.
 - **Unknown is a fail.** A safety check that can't run kills the lead. Never turn a missing value into a pass, and never fill a dossier gap with a guess; write `"missing"`.
-- **Confidence never sizes.** Size is 8% of equity, capped at 2% of pool liquidity, whatever the judge's probability.
+- **Confidence never sizes.** Size is set by risk: a full stop-out costs `sniper.risk_per_trade_pct` (1%) of the account, capped at 8% of equity and 2% of pool liquidity, whatever the judge's probability.
+- **Evidence before strategy changes.** `memecoin-desk/AUDIT.md` holds the current verdict. No edge is proven yet. The trader's −6% / +12% exit only worked with a momentum entry (near the 60-minute high) and lost with the pullback entry JUDGE prefers. Strategy A (pullback + 2x / −50% / 60 min) is live in paper; strategy B (near the high + trailing exit) runs in the shadow book. Switch only when `desk.py strategy` shows one side with 100+ shadow trades and a positive capped average and median in both halves, or when the user asks. If B wins, JUDGE's `late` gate must change too.
 - **Say what the evidence is.** The audit rules are in-sample (one channel, May–Oct 2026). Separate tested results ("data"), protocol facts ("source") and rules of thumb. This is not financial advice.
 
 ## Checking a coin the user pastes
@@ -41,6 +42,7 @@ All three are Python 3.9+ standard library only. Run Python on fetched data with
 - **Question wording:** the four JUDGE questions live only in `judge.QUESTIONS`. Changing wording breaks cross-day comparison, so do it only on request and note it in the thread.
 - **TypeSafe pattern:** the judge answers judgments and code decides. Use the installed `typesafe` skill when changing questions. Ask one observable thing per question, describe each level as a situation, and keep the gate in code. No Jev API key is used. The backends are `rules` (offline) and `claude` (Claude API, opt-in).
 - **Tests:** `cd memecoin-desk && python3 -m unittest test_desk -v` and `cd memecoin-scanner && python3 -m unittest test_rules test_series`. Add a test for any rule you touch: stop, trail, size, limits, gate, or a RISK kill.
+- **Backtest:** `python3 memecoin-desk/backtest.py fetch --pools 240`, then `run`. It uses the live exit engine (`exits.py`) and gates in `backtest.GATES`. Report capped averages and medians next to the plain average, and say the universe leans toward coins that ended up big.
 - **Live smoke run:** `python3 -I desk.py --db <scratch>/live.db run --headless --minutes 8`. Background jobs here stop after about 2 h; for 24/7 the user runs it on their own machine or a VPS.
 
 ## Tools (free unless noted, all reachable from this container)

@@ -77,6 +77,49 @@ def evening(desk, since=None, now=None):
     return "\n".join(lines)
 
 
+def strategy(desk, now=None, days=7):
+    """Shadow book: every exit plan on every lead RISK passed, split by JUDGE verdict and entry position.
+    This is the desk testing its own strategy on its own, unpicked leads."""
+    import json as _j
+    st = desk.store
+    now = int(now or desk.clock())
+    rows = st.q("SELECT r.plan, r.ret, p.tags, p.status FROM shadow_results r JOIN positions p ON p.id=r.position_id WHERE r.ts>=?",
+                (now - days * 86400,))
+    live = desk.cfg["exit"]["plan"]["name"]
+
+    def summ(rs):
+        if not rs:
+            return "–"
+        s = sorted(rs)
+        return (f"n {len(rs):>3} · avg {sum(rs) / len(rs) * 100:+6.1f}% · capped {sum(min(x, 2.0) for x in rs) / len(rs) * 100:+6.1f}% · "
+                f"median {s[len(s) // 2] * 100:+6.1f}% · win {sum(1 for x in rs if x > 0) / len(rs) * 100:3.0f}%")
+    plans = []
+    for r_ in rows:
+        if r_["plan"] not in plans:
+            plans.append(r_["plan"])
+    out = [f"STRATEGY · shadow book, last {days} days · every lead RISK passed, every exit plan, after fees · live plan: {live}"]
+    if not rows:
+        return out[0] + "\nNo shadow results yet."
+    out.append("HEAD TO HEAD (switch the live strategy only when one side has 100+ trades, a positive capped average,")
+    out.append("and a positive median in both halves of the period; see AUDIT.md)")
+    for c in desk.cfg["head"].get("compare") or []:
+        rs = [x["ret"] for x in rows if x["plan"] == c["plan"] and (_j.loads(x["tags"]) if x["tags"] else {}).get("position") == c["position"]]
+        out.append(f"  {c['name']:<44}{summ(rs)}")
+    out.append("")
+    for plan in plans:
+        rs = [x for x in rows if x["plan"] == plan]
+        tagged = [(x, _j.loads(x["tags"]) if x["tags"] else {}) for x in rs]
+        out.append(f"{'* ' if plan == live else '  '}{plan}")
+        out.append(f"    {'all leads':<30}{summ([x['ret'] for x in rs])}")
+        for key, vals in (("verdict", ("buy", "watch", "pass")),
+                          ("position", ("near high (<7%)", "pullback 7-30%", "dump (>30%)", "missing"))):
+            for v in vals:
+                sub = [x["ret"] for x, t in tagged if t.get(key) == v]
+                if sub:
+                    out.append(f"    {(key + ' = ' + v):<30}{summ(sub)}")
+    return "\n".join(out)
+
+
 BUCKETS = [(0.70, 0.80, "0.70-0.79"), (0.80, 0.90, "0.80-0.89"), (0.90, 1.01, "0.90+")]
 
 
@@ -153,7 +196,7 @@ class HeadClock:
         os.makedirs(REPORTS, exist_ok=True)
         text = evening(self.d)
         if now.weekday() == hc["calibration_weekday"]:
-            text += "\n\n" + calibration(self.d)
+            text += "\n\n" + calibration(self.d) + "\n\n" + strategy(self.d)
         open(os.path.join(REPORTS, f"{now.date()}.txt"), "w").write(text + "\n")
         self.d.say("HEAD", "report", f"evening report written (data/reports/{now.date()}.txt)")
         if self.notify:

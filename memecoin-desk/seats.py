@@ -68,7 +68,7 @@ class Whale:
 M = "missing"
 
 
-def build_dossier(lead, pairs, store, cfg, equity, now):
+def build_dossier(lead, pairs, store, cfg, equity, now, candles=None):
     """Facts only. No adjectives, no opinions from other seats. A gap is written as "missing"."""
     mint = lead["mint"]
     own = [p for p in pairs if (p.get("baseToken") or {}).get("address") == mint]
@@ -105,6 +105,15 @@ def build_dossier(lead, pairs, store, cfg, equity, now):
     hist = store.q("SELECT price FROM snaps WHERE mint=? AND ts>=? AND price IS NOT NULL", (mint, now - 3600))
     hi = max([r["price"] for r in hist] + ([price] if price else []), default=None)
     price_d["below_60m_high_pct"] = round((1 - price / hi) * 100, 1) if hi and price and len(hist) >= 10 else M
+    price_d["vol_30m_usd"] = M
+    recent = [c for c in candles or [] if c[0] >= now - 3600]
+    if recent and price:
+        # The desk's own snapshots are too short for a new lead: use the pool's 1-minute candles.
+        # Highs use candle bodies (open/close): thin-pool wicks can be bad prints.
+        hi_c = max([max(f(c[1], 0), f(c[4], 0)) for c in recent] + [price])
+        if price_d["below_60m_high_pct"] == M and len(recent) >= 30:
+            price_d["below_60m_high_pct"] = round((1 - price / hi_c) * 100, 1)
+        price_d["vol_30m_usd"] = round(sum(f(c[5], 0) for c in recent if c[0] >= now - 1800))
 
     # buys vs sells, last two 5-minute windows
     tx5 = (p.get("txns") or {}).get("m5") or {}
@@ -115,7 +124,8 @@ def build_dossier(lead, pairs, store, cfg, equity, now):
     vol1 = sum(f((q.get("volume") or {}).get("h1"), 0) for q in own)
     n1 = (tx1.get("buys") or 0) + (tx1.get("sells") or 0)
 
-    size = min(equity * cfg["sniper"]["max_pct_of_balance"], (liq or 0) * cfg["sniper"]["max_pct_of_pool_liquidity"])
+    from sniper import position_fraction
+    size = min(equity * position_fraction(cfg), (liq or 0) * cfg["sniper"]["max_pct_of_pool_liquidity"])
     whale = lead.get("whale") or {}
     return dict(
         lead_id=f"#{lead['id']:03d}", chain="solana", token=f"{lead.get('symbol')} ({mint})", dex=p.get("dexId", M),
@@ -157,7 +167,14 @@ class Head:
         st = self.d.store
         lead = st.lead(lead_id)
         pairs = ds_pairs_by_mint([lead["mint"]]).get(lead["mint"]) or []
-        dos = build_dossier(lead, pairs, st, self.d.cfg, st.equity_now(), int(self.d.clock()))
+        candles = None
+        p = main_pair(pairs, lead["mint"])
+        if p and p.get("pairAddress"):
+            try:
+                candles = S.gt_minute_candles("solana", p["pairAddress"], 60)
+            except S.SourceError:
+                candles = None   # the dossier then says "missing"; never a guess
+        dos = build_dossier(lead, pairs, st, self.d.cfg, st.equity_now(), int(self.d.clock()), candles)
         st.set_lead(lead_id, dossier=dos)
         missing = sum(1 for k, val in _walk(dos) if val == M)
         self.d.say(self.seat, "info", f"{tag(lead_id)} dossier → JUDGE ({missing} fields missing)", lead_id)
@@ -208,6 +225,14 @@ class JudgeSeat:
         verdict = dict(answers=answers, gate=g, error=err, ms=round(ms, 1), backend=self.d.cfg["judge"]["backend"],
                        config=self.d.cfg["_hash"], ts=int(self.d.clock()))
         kw = dict(verdict=verdict, verdict_ts=int(self.d.clock()), price_at_verdict=price)
+        if getattr(self.d, "exit", None):
+            dp = (lead["dossier"] or {}).get("price") or {}
+            below = dp.get("below_60m_high_pct")
+            self.d.exit.open_shadow(lead_id, lead["mint"], lead["symbol"], dict(
+                verdict=g["final"], p_buy=(answers or {}).get("action", {}).get("buy"),
+                position=("missing" if not isinstance(below, (int, float)) else "near high (<7%)" if below < 7
+                          else "pullback 7-30%" if below <= 30 else "dump (>30%)"),
+                utc_hour=(lead["dossier"] or {}).get("utc_hour")))
         if answers:
             a = answers
             probs = (f"organic {a['organic']['yes']:.2f} · late {a['late']['yes']:.2f} · exit_risk {g.get('exit_risk')} · "

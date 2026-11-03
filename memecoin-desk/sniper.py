@@ -16,9 +16,35 @@ Modes: "paper" fills at the live quote plus price impact and fees. "manual" also
 Jupiter link and amount so you sign the swap in your own wallet; correct the fill with FILL #id
 <price>. The desk never holds a private key and never signs.
 """
+import json
 import time
 
 from core import S, SR, ds_pairs_by_mint, f, main_pair, tag, utc
+from exits import ExitState
+
+
+def dump_state(s):
+    return dict(stop=s.stop, peak=s.peak, armed=s.armed, left=s.left, fills=s.fills, done=s.done)
+
+
+def load_state(plan, entry, t0, raw):
+    s = ExitState(plan, entry, t0)
+    if raw:
+        d = json.loads(raw) if isinstance(raw, str) else raw
+        s.stop, s.peak, s.armed, s.left, s.done = d["stop"], d["peak"], d["armed"], d["left"], d["done"]
+        s.fills = [tuple(x) for x in d["fills"]]
+    return s
+
+
+def position_fraction(cfg):
+    """Share of equity per trade. Sized so a full stop-out (stop + fees) costs risk_per_trade_pct of the
+    account, never more than max_pct_of_balance. Judge confidence never enters this."""
+    sc, plan = cfg["sniper"], cfg["exit"]["plan"]
+    risk = sc.get("risk_per_trade_pct")
+    if not risk:
+        return sc["max_pct_of_balance"]
+    loss_if_stopped = plan["sl"] + 2 * sc["fee_per_side"]
+    return min(sc["max_pct_of_balance"], risk / 100 / loss_if_stopped)
 
 
 def day_start(ts):
@@ -111,7 +137,7 @@ class Sniper:
         price, liq = f(p.get("priceUsd")), f((p.get("liquidity") or {}).get("usd"))
         if not price or not liq:
             return d.say(self.seat, "reject", f"{tag(lead_id)} not staged — no price or liquidity", lead_id)
-        size = min(st.equity_now() * sc["max_pct_of_balance"], liq * sc["max_pct_of_pool_liquidity"], st.cash())
+        size = min(st.equity_now() * position_fraction(d.cfg), liq * sc["max_pct_of_pool_liquidity"], st.cash())
         if size < sc["min_order_usd"]:
             return d.say(self.seat, "reject", f"{tag(lead_id)} not staged — size {SR.usd(size)} under minimum", lead_id)
         now = int(d.clock())
@@ -119,7 +145,7 @@ class Sniper:
                    "VALUES (?,?,?,?,?,?,?,?, 'staged')",
                    (lead_id, lead["mint"], lead["symbol"], now, now + sc["approve_ttl_sec"], price, size, liq))
         st.set_lead(lead_id, status="staged", stage="SNIPER")
-        stop = price * (1 + d.cfg["exit"]["hard_stop_pct"] / 100)
+        stop = price * (1 - d.cfg["exit"]["plan"]["sl"])
         d.say(self.seat, "staged",
               f"{tag(lead_id)} STAGED BUY {lead['symbol']} {SR.usd(size)} @ {SR.price_fmt(price)} "
               f"({size / liq * 100:.2f}% of pool) · stop {SR.price_fmt(stop)} · reply APPROVE {tag(lead_id)} "
@@ -166,10 +192,11 @@ class Sniper:
         fill = px * (1 + impact)
         cost = size
         st.set_cash(st.cash() - cost)
-        stop = fill * (1 + d.cfg["exit"]["hard_stop_pct"] / 100)
+        stop = fill * (1 - d.cfg["exit"]["plan"]["sl"])
         pid = st.x("INSERT INTO positions (order_id, lead_id, mint, symbol, entry_ts, entry_price, size_usd, cost_usd, peak_price, "
-                   "last_price, last_liq, stop_price, status) VALUES (?,?,?,?,?,?,?,?,?,?,?,?, 'open')",
-                   (o["id"], lead_id, o["mint"], o["symbol"], now, fill, size * (1 - sc["fee_per_side"]), cost, fill, fill, liq, stop))
+                   "last_price, last_liq, stop_price, status, plan) VALUES (?,?,?,?,?,?,?,?,?,?,?,?, 'open', ?)",
+                   (o["id"], lead_id, o["mint"], o["symbol"], now, fill, size * (1 - sc["fee_per_side"]), cost, fill, fill, liq, stop,
+                    json.dumps(d.cfg["exit"]["plan"])))
         st.x("UPDATE orders SET status='filled', decided_ts=?, note=? WHERE id=?", (now, f"approved via {origin}", o["id"]))
         st.set_lead(lead_id, status="traded", stage="EXIT")
         st.record_equity()
@@ -194,8 +221,9 @@ class Sniper:
         p = st.one("SELECT * FROM positions WHERE lead_id=? AND status='open'", (lead_id,))
         if not p:
             return self.d.say(self.seat, "warn", f"FILL {tag(lead_id)}: no open position")
-        stop = price * (1 + self.d.cfg["exit"]["hard_stop_pct"] / 100)
-        st.x("UPDATE positions SET entry_price=?, peak_price=MAX(peak_price, ?), stop_price=? WHERE id=?", (price, price, stop, p["id"]))
+        stop = price * (1 - self.d.cfg["exit"]["plan"]["sl"])
+        st.x("UPDATE positions SET entry_price=?, peak_price=MAX(peak_price, ?), stop_price=?, state=NULL, shadows=NULL WHERE id=?",
+             (price, price, stop, p["id"]))
         self.d.say(self.seat, "info", f"{tag(lead_id)} entry corrected to {SR.price_fmt(price)}; stop {SR.price_fmt(stop)}", lead_id)
 
 
@@ -208,54 +236,95 @@ class Exit:
     def loop(self):
         while not self.d.stop.is_set():
             ops = self.d.store.open_positions()
+            shadow = self.shadow_only()
             self.d.busy(self.seat, f"managing {len(ops)}" if ops else "idle")
-            if ops:
+            if ops or shadow:
                 try:
-                    pairs = ds_pairs_by_mint([p["mint"] for p in ops])
+                    pairs = ds_pairs_by_mint([p["mint"] for p in ops + shadow])
                     for p in ops:
                         q = main_pair(pairs.get(p["mint"]) or [], p["mint"]) or {}
                         self.tick(p, f(q.get("priceUsd")), f((q.get("liquidity") or {}).get("usd")))
+                    for p in shadow:
+                        q = main_pair(pairs.get(p["mint"]) or [], p["mint"]) or {}
+                        px = f(q.get("priceUsd"))
+                        if not px:
+                            continue
+                        if not p["entry_price"]:
+                            self.d.store.x("UPDATE positions SET entry_price=?, entry_ts=? WHERE id=?", (px, int(self.d.clock()), p["id"]))
+                            continue
+                        self.tick_shadows(p, px, int(self.d.clock()))
                 except S.SourceError as e:
                     self.d.say(self.seat, "warn", f"quote failed ({e}); stops still armed, retrying")
             self.d.stop.wait(self.d.cfg["exit"]["poll_sec"])
 
     def tick(self, p, px, liq, now=None):
-        """One price update for one position. Pure decision + store writes; testable offline."""
+        """One price update for one position: the live plan, then every shadow plan. Testable offline."""
         ec, st = self.d.cfg["exit"], self.d.store
         now = int(now or self.d.clock())
         if px is None:
             return None
-        entry = p["entry_price"]
-        peak = max(p["peak_price"] or entry, px)
-        stop = p["stop_price"]
-        trail = p["trail_active"]
-        gain_peak = (peak / entry - 1) * 100
-        if not trail and gain_peak >= ec["trail_activate_pct"]:
-            trail = 1
-            self.d.say(self.seat, "info", f"{tag(p['lead_id'])} +{gain_peak:.1f}%: trailing stop armed "
-                                          f"{ec['trail_distance_pct']}% under the peak", p["lead_id"])
-        if trail:
-            stop = max(stop, peak * (1 - ec["trail_distance_pct"] / 100))
-        st.x("UPDATE positions SET last_price=?, last_liq=?, peak_price=?, stop_price=?, trail_active=? WHERE id=?",
-             (px, liq, peak, stop, trail, p["id"]))
-        p = dict(p, last_price=px, peak_price=peak, stop_price=stop, trail_active=trail)
-        ret = (px / entry - 1) * 100
-        for pt in ec.get("partial_takes") or []:
-            key = f"partial:{p['id']}:{pt['at_pct']}"
-            if ret >= pt["at_pct"] and not st.meta(key):
-                st.set_meta(key, True)
-                self.sell(p, px, liq, pt["sell_frac"], f"partial take at +{pt['at_pct']}%", now)
-                p = st.one("SELECT * FROM positions WHERE id=?", (p["id"],))
-        start_liq = st.one("SELECT liquidity FROM orders WHERE id=?", (p["order_id"],)) or {}
-        if liq is not None and start_liq.get("liquidity") and liq < start_liq["liquidity"] * (1 - ec["liquidity_pull_exit_drop_pct"] / 100):
-            return self.sell(p, px if liq > 100 else 0.0, liq, 1.0, f"liquidity pulled ({SR.usd(liq)})", now)
-        if px <= stop:
-            why = (f"trailing stop ({(stop / entry - 1) * 100:+.1f}% level, peak +{gain_peak:.1f}%)" if trail
-                   else f"hard stop {ec['hard_stop_pct']}%")
-            return self.sell(p, px, liq, 1.0, why, now)
-        if now - p["entry_ts"] >= ec["time_stop_min"] * 60:
-            return self.sell(p, px, liq, 1.0, f"time stop {ec['time_stop_min']} min", now)
-        return None
+        plan = json.loads(p["plan"]) if p.get("plan") else ec["plan"]
+        state = load_state(plan, p["entry_price"], p["entry_ts"], p.get("state"))
+        was_armed = state.armed
+        shadows = self.tick_shadows(p, px, now)
+        fills = state.bar(now, px, px, px, px)
+        start_liq = (st.one("SELECT liquidity FROM orders WHERE id=?", (p["order_id"],)) or {}).get("liquidity")
+        if liq is not None and start_liq and liq < start_liq * (1 - ec["liquidity_pull_exit_drop_pct"] / 100) and not state.done:
+            fills = [state._sell(state.left, px if liq > 100 else 0.0, f"liquidity pulled ({SR.usd(liq)})")]
+        if state.armed and not was_armed:
+            self.d.say(self.seat, "info", f"{tag(p['lead_id'])} +{(state.peak / p['entry_price'] - 1) * 100:.1f}%: trailing stop armed "
+                                          f"{plan['trail'] * 100:.0f}% under the peak", p["lead_id"])
+        st.x("UPDATE positions SET last_price=?, last_liq=?, peak_price=?, stop_price=?, trail_active=?, state=?, shadows=? WHERE id=?",
+             (px, liq, state.peak, state.stop, int(state.armed), json.dumps(dump_state(state)), json.dumps(shadows), p["id"]))
+        why = None
+        for frac, fpx, reason in fills:
+            p = st.one("SELECT * FROM positions WHERE id=?", (p["id"],))
+            if reason == "stop":
+                reason = f"stop -{plan['sl'] * 100:.0f}%"
+            elif reason == "trailing stop":
+                reason = f"trailing stop ({(state.stop / p['entry_price'] - 1) * 100:+.1f}% level, peak {(state.peak / p['entry_price'] - 1) * 100:+.1f}%)"
+            elif reason == "take profit":
+                reason = f"take profit {plan['tp']:g}x"
+            elif reason == "time stop":
+                reason = f"time stop {plan['tmax']} min"
+            why = self.sell(p, fpx, liq, frac, reason, now)
+        return why
+
+    def tick_shadows(self, p, px, now):
+        """What the other plans would have done with this exact trade. Keeps running after the real close."""
+        st, ec = self.d.store, self.d.cfg["exit"]
+        shadows = json.loads(p["shadows"]) if p.get("shadows") else {}
+        for sp in ec.get("shadow_plans") or []:
+            ss = load_state(sp, p["entry_price"], p["entry_ts"], shadows.get(sp["name"]))
+            if not ss.done:
+                ss.bar(now, px, px, px, px)
+                if ss.done:
+                    net = ss.gross() * (1 - 2 * self.d.cfg["sniper"]["fee_per_side"]) - 1
+                    st.x("INSERT INTO shadow_results VALUES (?,?,?,?,?,?)",
+                         (p["id"], p["lead_id"], sp["name"], net, ss.fills[-1][2], now))
+            shadows[sp["name"]] = dump_state(ss)
+        if p["status"] != "open":
+            st.x("UPDATE positions SET shadows=? WHERE id=?", (json.dumps(shadows), p["id"]))
+        return shadows
+
+    def shadow_only(self):
+        """Closed trades and shadow-book entries whose shadow plans haven't all exited yet."""
+        out, now = [], int(self.d.clock())
+        for p in self.d.store.q("SELECT * FROM positions WHERE (status='closed' AND exit_ts>=?) OR (status='shadow' AND entry_ts>=?)",
+                                (now - 4 * 3600, now - 4 * 3600)):
+            sh = json.loads(p["shadows"]) if p["shadows"] else {}
+            fresh = p["status"] == "shadow" and (not p["entry_price"] or not sh)
+            if fresh or any(not v.get("done") for v in sh.values()):
+                out.append(p)
+        return out
+
+    def open_shadow(self, lead_id, mint, symbol, tags):
+        """Shadow book: a paper-only entry for a lead RISK passed, whatever JUDGE said. No cash moves.
+        Entry is the first price EXIT sees after this (you are never instant)."""
+        if not self.d.cfg["exit"].get("shadow_book", True):
+            return
+        self.d.store.x("INSERT INTO positions (lead_id, mint, symbol, entry_ts, size_usd, cost_usd, status, tags) "
+                       "VALUES (?,?,?,?,0,0,'shadow',?)", (lead_id, mint, symbol, int(self.d.clock()), json.dumps(tags)))
 
     def sell(self, p, px, liq, frac, why, now):
         st, sc = self.d.store, self.d.cfg["sniper"]

@@ -7,6 +7,7 @@ import curses
 import time
 
 from core import SEATS, SR, tag, utc
+from sniper import position_fraction
 
 BLOCKS = " ▁▂▃▄▅▆▇█"
 KIND_COLOR = {"lead": "cyan", "ok": "green", "buy": "green", "fill": "green", "dead": "red", "pass": "red",
@@ -64,7 +65,7 @@ def render(desk, width=120, height=40, cmd="", note=""):
         "title")
     add(f" Equity {money(eq)} ({(eq / start - 1) * 100:+.2f}%)   Cash {money(st.cash())}   Day {(eq / day_open - 1) * 100:+.2f}%   "
         f"Open {len(ops)}/{cfg['limits']['max_open_positions']}   Trades today {n_today}/{cfg['limits']['max_trades_per_day']}   "
-        f"Size cap {cfg['sniper']['max_pct_of_balance'] * 100:.0f}% = {money(eq * cfg['sniper']['max_pct_of_balance'])}",
+        f"Size {position_fraction(cfg) * 100:.1f}% = {money(eq * position_fraction(cfg))} (risk {cfg['sniper'].get('risk_per_trade_pct') or '–'}%/trade)",
         "green" if eq >= start else "red")
     add("")
 
@@ -102,7 +103,7 @@ def render(desk, width=120, height=40, cmd="", note=""):
         mins = int((now - p["entry_ts"]) / 60)
         add(f"   {tag(p['lead_id'])} {p['symbol']:<10} {money(p['size_usd'] * p['remaining']):>9}  {ret:+6.1f}%  "
             f"stop {stop_pct:+.1f}%{' (trailing)' if p['trail_active'] else ''}  peak {(p['peak_price'] / p['entry_price'] - 1) * 100:+.1f}%  "
-            f"{mins}/{cfg['exit']['time_stop_min']} min", "green" if ret >= 0 else "red")
+            f"{mins}/{cfg['exit']['plan']['tmax']} min", "green" if ret >= 0 else "red")
     if not ops:
         add("   none", "dim")
     add("")

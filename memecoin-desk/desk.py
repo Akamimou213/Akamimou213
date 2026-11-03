@@ -10,6 +10,7 @@
   python3 desk.py thread [-n 50]      last events with reasons
   python3 desk.py report              evening report now
   python3 desk.py calibrate           the Sunday judge-calibration table now
+  python3 desk.py strategy            shadow book: every exit plan on every lead RISK passed
   python3 desk.py lead 47             everything the desk knows about one lead (dossier, answers, gate)
 
 SEARCH -> RISK -> WHALE -> HEAD (dossier) -> JUDGE -> SNIPER -> APPROVE #id (you) -> EXIT
@@ -28,6 +29,7 @@ sys.path.insert(0, HERE)
 import report as R  # noqa: E402
 import telegram as TG  # noqa: E402
 from core import Desk, SR, load_config, tag, utc  # noqa: E402
+from exits import describe  # noqa: E402
 from risk import Risk  # noqa: E402
 from search import Search  # noqa: E402
 from seats import Head, JudgeSeat, Whale, load_whales  # noqa: E402
@@ -110,7 +112,7 @@ def start(desk):
         threading.Thread(target=t, daemon=True).start()
     cfg = desk.cfg
     desk.say("HEAD", "info", f"desk up · {cfg['mode']} · config {cfg['_hash']} · judge {cfg['judge']['backend']} · "
-                             f"stop {cfg['exit']['hard_stop_pct']}% · trail after +{cfg['exit']['trail_activate_pct']}% · "
+                             f"exit: {describe(cfg['exit']['plan'])} · "
                              f"size ≤ {cfg['sniper']['max_pct_of_balance'] * 100:.0f}% · "
                              f"{len(desk.search.whales)} tracked wallets · Telegram {'on' if TG.enabled() else 'off'}")
 
@@ -152,7 +154,7 @@ def main():
     fl = sub.add_parser("fill")
     fl.add_argument("lead", type=int)
     fl.add_argument("price", type=float)
-    for verb in ("pause", "resume", "status", "report", "calibrate"):
+    for verb in ("pause", "resume", "status", "report", "calibrate", "strategy"):
         sub.add_parser(verb)
     th = sub.add_parser("thread")
     th.add_argument("-n", type=int, default=50)
@@ -177,9 +179,11 @@ def main():
     elif args.cmd == "thread":
         for e in store.recent_events(args.n):
             print(f"{utc(e['ts'], '%m-%d %H:%M:%S')} {e['seat']:<6} {e['msg']}")
-    elif args.cmd in ("report", "calibrate", "status"):
+    elif args.cmd in ("report", "calibrate", "status", "strategy"):
         desk = Desk(cfg, store)
-        if args.cmd == "report":
+        if args.cmd == "strategy":
+            print(R.strategy(desk))
+        elif args.cmd == "report":
             print(R.evening(desk))
         elif args.cmd == "calibrate":
             print(R.calibration(desk))

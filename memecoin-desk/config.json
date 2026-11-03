@@ -60,6 +60,8 @@
   },
 
   "sniper": {
+    "_note": "Size = the share of balance where a full stop-out (stop + fees) costs risk_per_trade_pct of the account, never above max_pct_of_balance. Raise risk only after the Sunday strategy table shows an edge.",
+    "risk_per_trade_pct": 1.0,
     "max_pct_of_balance": 0.08,
     "max_pct_of_pool_liquidity": 0.02,
     "approve_ttl_sec": 180,
@@ -69,11 +71,20 @@
   },
 
   "exit": {
-    "hard_stop_pct": -6,
-    "trail_activate_pct": 12,
-    "trail_distance_pct": 6,
-    "time_stop_min": 60,
-    "partial_takes": [],
+    "_note": "plan = what EXIT does with your money. shadow_plans = what EXIT also simulates on every paper trade, for comparison (no money). Same engine as backtest.py.",
+    "plan": {"name": "playbook: TP 2x, stop -50%", "sl": 0.5, "tp": 2.0, "partial": null, "arm": null, "trail": null, "tmax": 60},
+    "shadow_book": true,
+    "shadow_plans": [
+      {"name": "trader: stop -6%, trail 6% after +12%", "sl": 0.06, "tp": null, "partial": null, "arm": 0.12, "trail": 0.06, "tmax": 60},
+      {"name": "playbook: TP 2x, stop -50%", "sl": 0.5, "tp": 2.0, "partial": null, "arm": null, "trail": null, "tmax": 60},
+      {"name": "TP 2x, stop -40%", "sl": 0.4, "tp": 2.0, "partial": null, "arm": null, "trail": null, "tmax": 60},
+      {"name": "TP 1.5x, stop -30%", "sl": 0.3, "tp": 1.5, "partial": null, "arm": null, "trail": null, "tmax": 60},
+      {"name": "stop -15%, trail 10% after +20%", "sl": 0.15, "tp": null, "partial": null, "arm": 0.2, "trail": 0.1, "tmax": 60},
+      {"name": "stop -20%, trail 15% after +30%", "sl": 0.2, "tp": null, "partial": null, "arm": 0.3, "trail": 0.15, "tmax": 60},
+      {"name": "stop -30%, trail 20% after +50%", "sl": 0.3, "tp": null, "partial": null, "arm": 0.5, "trail": 0.2, "tmax": 60},
+      {"name": "stop -40%, half at 2x, trail 25% on rest", "sl": 0.4, "tp": 2.0, "partial": 0.5, "arm": 1.0, "trail": 0.25, "tmax": 120},
+      {"name": "stop -10%, TP +30%, 30 min", "sl": 0.1, "tp": 1.3, "partial": null, "arm": null, "trail": null, "tmax": 30}
+    ],
     "liquidity_pull_exit_drop_pct": 50,
     "poll_sec": 5
   },
@@ -92,6 +103,11 @@
     "report_tz": "UTC",
     "calibration_weekday": 6,
     "followup_hours": 24,
-    "rug_mark_drop_pct": 90
+    "rug_mark_drop_pct": 90,
+    "compare": [
+      {"name": "A · pullback 7-30% + TP 2x / stop -50%", "position": "pullback 7-30%", "plan": "playbook: TP 2x, stop -50%"},
+      {"name": "B · near the high + stop -6% / trail after +12%", "position": "near high (<7%)", "plan": "trader: stop -6%, trail 6% after +12%"},
+      {"name": "B2 · near the high + stop -15% / trail after +20%", "position": "near high (<7%)", "plan": "stop -15%, trail 10% after +20%"}
+    ]
   }
 }

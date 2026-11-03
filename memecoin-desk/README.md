@@ -8,7 +8,7 @@ RISK    -> contract and rug check. one hard fail = dead      (Filter)
 WHALE   -> smart money confirm
 JUDGE   -> four closed questions, the gate: buy/watch/pass   (Analyst, score 0-1)
 SNIPER  -> stages the order, waits for APPROVE #id           (Executor)
-EXIT    -> -6% hard stop, trail after +12%, time stop        (Risk)
+EXIT    -> TP 2x, stop -50%, 60 min + 9 shadow plans          (Risk)
 HEAD    -> runs the thread, dossiers, reports, calibration   (Logger)
 ```
 
@@ -33,7 +33,7 @@ Sign from a second terminal, from the terminal's own command line, or from Teleg
 python3 desk.py approve 47
 ```
 
-Other commands: `reject 47`, `fill 47 0.000123` (correct the entry after a manual fill), `pause`, `resume`, `status`, `thread -n 80`, `report`, `calibrate`, `lead 47` (full dossier, answers and gate for one lead). In the terminal, type `APPROVE #047`, `REJECT #047`, `PAUSE`, `RESUME`, `REPORT` or `QUIT`.
+Other commands: `reject 47`, `fill 47 0.000123` (correct the entry after a manual fill), `pause`, `resume`, `status`, `thread -n 80`, `report`, `calibrate`, `lead 47` (full dossier, answers and gate for one lead), `strategy` (the shadow book). In the terminal, type `APPROVE #047`, `REJECT #047`, `PAUSE`, `RESUME`, `REPORT` or `QUIT`.
 
 Phone (optional): create a bot with @BotFather, then:
 
@@ -103,13 +103,14 @@ Code applies the gate in `config.json`. Buy only if all of these hold:
 A lead the desk has only just seen has no holder history yet. The rules judge answers that with "watch", not "pass": not yet, not no. A watch is asked once more after 30 minutes, starting again from RISK so every fact is fresh. A second watch is a pass. No answer is a pass. Every verdict is logged with every probability and the answer that killed it.
 
 **SNIPER (Executor).**
-- **Size:** 8% of current equity, never more. Also capped at 2% of pool liquidity and by available cash. Confidence never changes size: a 0.92 buy gets the same size as a 0.71 buy.
+- **Size:** by risk. Each trade is sized so a full stop-out (stop + fees) costs 1% of the account: with a −50% stop, that's about $18 on $1,000. It's never more than 8% of equity, 2% of pool liquidity, or the cash you have. Confidence never changes size: a 0.92 buy gets the same size as a 0.71 buy.
 - **Approval window:** an order waits 3 minutes for `APPROVE #id`. The approval is refused if price ran more than 5% above the staged quote, because that would be chasing.
 
 **EXIT (Risk).**
-- **Stops:** hard stop −6% from the fill. The trailing stop arms only after +12%, then follows 6% under the peak.
-- **Other exits:** 60-minute time stop. If the pool loses half its liquidity, EXIT sells at once.
-- **Fills:** stops fill at the price actually seen, never at the stop level.
+- **Live plan:** strategy A: sell 100% at 2x, stop −50%, out after 60 minutes (`exit.plan`). It matches JUDGE's pullback entry and is the only pairing backed by the 148-call data; see [AUDIT.md](AUDIT.md). The trader's −6% / +12% exit runs as a shadow plan (strategy B, paired with entries near the high).
+- **Other exits:** if the pool loses half its liquidity, EXIT sells at once. Stops fill at the price actually seen, never at the stop level.
+- **Shadow plans:** every trade, and every lead RISK passes (the shadow book), also runs all 9 exit plans in `exit.shadow_plans` with no money. `desk.py strategy` shows which plan, verdict and entry position actually made money.
+- **One engine:** live exits, shadow plans and `backtest.py` all use `exits.py`, so what was tested is exactly what runs.
 
 **Limits, enforced in code:**
 - **No averaging down:** never a second order on a token you hold.
@@ -140,16 +141,13 @@ The trader's design calls TypeSafe's Jev model. This desk doesn't use the Jev AP
 
 ## Read this before trusting it with money
 
-The fees change the math of your rules:
+[AUDIT.md](AUDIT.md) has the full audit and today's backtest (97 young pools). In short:
+- **No proven edge yet.** With only the volume filter as the entry, every exit plan loses once outliers are capped. The entry decides the money.
+- **The trader's −6% / +12% exit is a momentum exit.** Paired with buying young coins near their 60-minute high, it made +6.4% a trade. Paired with the pullback entry that JUDGE prefers, it lost −3.5% a trade, with the whole range below zero.
+- **The two datasets disagree on the entry.** The 148 calls favour the pullback; today's sample favours the high, but that sample leans toward coins that ended up big. The shadow book settles it on the desk's own leads: `desk.py strategy` shows A (pullback + 2x / −50%) against B (near the high + trailing exit).
+- **Live paper plan:** A, sized so a stop-out costs 1% of the account.
 
-- **The stop costs more than 6%.** At the playbook's 4.5% round-trip cost (2.25% each side) plus price impact, a −6% stop costs about **−10% to −11%** of the position. Fast dumps fill below the stop: in the earlier 3-hour live test, −50% stops filled at −55% and −57%.
-- **The smallest trailed win is tiny.** The trail arms at +12% and then trails 6% under the peak, so the smallest trailed exit is about +5% gross, or roughly **+0.5% net**.
-- **So it needs runners.** The system only makes money if enough winners run well past +12%. The 60-minute time stop cuts the slow ones.
-- **Per-trade risk is small.** A full stop-out at 8% size costs about 0.8% of equity, inside the playbook's 0.5–1% risk band.
-
-The pattern from the previous analysis (148 Gambles calls, `../memecoin-audit`) is in-sample. It found that coins with heavy volume that had pulled back 7–30% from their 60-minute high did best (+24.6% a trade, n = 41). Buying within 7% of the high lost −16.4%. The 00–08 UTC window did best. The rules judge uses all three. On the scanner's unbiased 3-hour live sample, buying any random active coin lost −21% a trade after fees.
-
-Run it in paper mode for 2–4 weeks and read the Sunday tables before signing anything real. Then set `"mode": "manual"`: APPROVE then prints the Jupiter link and the amount, you sign the swap in your own wallet, and `FILL #id <price>` records your real entry. This is not financial advice.
+Run it in paper mode for 2–4 weeks. Switch the live strategy only when the head-to-head shows one side with 100+ shadow trades and a positive capped average and median in both halves of the period. If B wins, also change JUDGE's `late` gate, since it vetoes buys near the high. Then set `"mode": "manual"`: APPROVE prints the Jupiter link and the amount, you sign in your own wallet, and `FILL #id <price>` records your real entry. This is not financial advice.
 
 ## Files
 
@@ -158,6 +156,9 @@ Run it in paper mode for 2–4 weeks and read the Sunday tables before signing a
 | `config.json` | every threshold. The desk reads it and never writes it; the thread logs its hash at each start |
 | `desk.py` | entry point, wiring, commands |
 | `search.py` · `risk.py` · `seats.py` · `judge.py` · `sniper.py` · `report.py` | the seats |
+| `exits.py` | the one exit engine (live, shadow plans, backtest) |
+| `backtest.py` | entry rules × exit plans on recent young pools (`fetch`, then `run`) |
+| `AUDIT.md` | the strategy audit and its evidence |
 | `tui.py` | the live terminal |
 | `wsclient.py` | standard-library websocket client (proxy-aware) |
 | `store.py` | SQLite: leads, thread, orders, positions, equity, snapshots, rug registry, whale trades |

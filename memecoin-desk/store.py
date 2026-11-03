@@ -29,7 +29,9 @@ CREATE TABLE IF NOT EXISTS positions (
   id INTEGER PRIMARY KEY AUTOINCREMENT, order_id INTEGER, lead_id INTEGER, mint TEXT, symbol TEXT,
   entry_ts INTEGER, entry_price REAL, size_usd REAL, cost_usd REAL, remaining REAL DEFAULT 1.0,
   peak_price REAL, last_price REAL, last_liq REAL, stop_price REAL, trail_active INTEGER DEFAULT 0,
-  status TEXT, exit_ts INTEGER, exit_price REAL, exit_reason TEXT, proceeds_usd REAL DEFAULT 0, pnl_usd REAL, ret REAL);
+  status TEXT, exit_ts INTEGER, exit_price REAL, exit_reason TEXT, proceeds_usd REAL DEFAULT 0, pnl_usd REAL, ret REAL,
+  plan TEXT, state TEXT, shadows TEXT, tags TEXT);
+CREATE TABLE IF NOT EXISTS shadow_results (position_id INTEGER, lead_id INTEGER, plan TEXT, ret REAL, reason TEXT, ts INTEGER);
 CREATE TABLE IF NOT EXISTS equity (ts INTEGER, cash REAL, equity REAL);
 CREATE TABLE IF NOT EXISTS watch (
   mint TEXT PRIMARY KEY, source TEXT, first_seen INTEGER, creator TEXT, pool TEXT, last_check INTEGER,
@@ -57,6 +59,10 @@ class Store:
         if path != ":memory:":
             self.db.execute("PRAGMA journal_mode=WAL")
         self.db.executescript(SCHEMA)
+        cols = {r[1] for r in self.db.execute("PRAGMA table_info(positions)")}
+        for c in ("plan", "state", "shadows", "tags"):          # databases made before shadow plans existed
+            if c not in cols:
+                self.db.execute(f"ALTER TABLE positions ADD COLUMN {c} TEXT")
         self.lock = threading.RLock()
 
     # ---------------------------------------------------------------- generic
