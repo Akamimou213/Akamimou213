@@ -3,18 +3,27 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Le's Apartment &amp; Coffee · Đà Nẵng</title>
-<meta name="description" content="Six apartments above a coffee house in An Hải Bắc, Đà Nẵng. 19 minutes' walk to My Khe Beach. Guests rate the host 9.9/10.">
-<meta name="theme-color" content="#0E4F54">
+<title>Le's Apartment &amp; Coffee · Between the river and the sea, Đà Nẵng</title>
+<meta name="description" content="Six apartments with kitchens above a coffee house in An Hải, Đà Nẵng. 19 minutes' walk to My Khe Beach, 15 to the Dragon Bridge. Rated 9.1 by 48 guests. Pay at the property.">
+<meta name="theme-color" content="#0A1F2B">
 <meta property="og:title" content="Le's Apartment & Coffee · Đà Nẵng">
+<meta property="og:description" content="Six apartments between the Han River and My Khe Beach, with coffee downstairs.">
 <meta property="og:image" content="img/p27.webp">
 <link rel="icon" href="logo.svg" type="image/svg+xml">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:ital,wght@0,400;0,500;0,600;0,800;0,900;1,500&display=swap">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@400;500;600;700;800&display=swap">
 <link rel="preload" as="image" href="img/p27.webp" fetchpriority="high">
 <link rel="stylesheet" href="styles.css">
-<script>document.documentElement.classList.add('js')</script>
+<script>
+  // Paint the hero sky for the current hour in Đà Nẵng before first render (?sky=dawn|day|gold|night to force one).
+  (() => {
+    const d = document.documentElement; d.classList.add('js');
+    const h = +new Intl.DateTimeFormat('en-GB', { hour: 'numeric', hourCycle: 'h23', timeZone: 'Asia/Ho_Chi_Minh' }).format(new Date());
+    const forced = new URLSearchParams(location.search).get('sky');
+    d.dataset.sky = forced || (h >= 5 && h < 7 ? 'dawn' : h >= 7 && h < 16 ? 'day' : h >= 16 && h < 19 ? 'gold' : 'night');
+  })();
+</script>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -26,6 +35,7 @@
   "checkoutTime": "12:00",
   "petsAllowed": false,
   "numberOfRooms": 6,
+  "priceRange": "From 690,000 VND per night",
   "availableLanguage": ["en", "fr", "ja", "ko", "ru", "vi", "zh"]
 }
 </script>
@@ -33,169 +43,228 @@
 <body>
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
-  <!-- Logo: one bông gió (breeze-block) tile, the pattern on the building's walls -->
-  <symbol id="mark" viewBox="0 0 40 40"><rect width="40" height="40" rx="9" fill="currentColor"/><g fill="none" stroke="var(--mark-cut, #fff)" stroke-width="3.2"><circle cx="13" cy="13" r="6"/><circle cx="27" cy="13" r="6"/><circle cx="13" cy="27" r="6"/><circle cx="27" cy="27" r="6"/></g></symbol>
-  <symbol id="i-home" viewBox="0 0 48 48"><path d="M8 42V18L24 6l16 12v24M8 42h32M19 42V30h10v12M15 22h4m10 0h4"/></symbol>
-  <symbol id="i-cup" viewBox="0 0 48 48"><path d="M9 18h26v8a13 13 0 0 1-26 0v-8Zm26 3h3a5 5 0 0 1 0 10h-4M15 6c-2 2-2 5 0 7m7-7c-2 2-2 5 0 7m7-7c-2 2-2 5 0 7M7 44h32"/></symbol>
-  <symbol id="i-star" viewBox="0 0 48 48"><path d="m24 5 5.6 11.8 13 1.7-9.5 9 2.4 12.9L24 34.2l-11.5 6.2 2.4-12.9-9.5-9 13-1.7Z"/></symbol>
-  <symbol id="i-wifi" viewBox="0 0 48 48"><path d="M4 18a28 28 0 0 1 40 0M10 25a19.5 19.5 0 0 1 28 0M16.5 32a10.5 10.5 0 0 1 15 0M24 40h.01"/></symbol>
-  <symbol id="i-wave" viewBox="0 0 48 48"><path d="M4 30c4 0 4-3 8-3s4 3 8 3 4-3 8-3 4 3 8 3 4-3 8-3M4 39c4 0 4-3 8-3s4 3 8 3 4-3 8-3 4 3 8 3 4-3 8-3M30 8a8 8 0 1 0 8 8"/></symbol>
-  <symbol id="i-talk" viewBox="0 0 48 48"><path d="M42 22a17 17 0 0 1-25.3 14.8L6 40l3.2-9.6A17 17 0 1 1 42 22ZM16 22h.01M24 22h.01M32 22h.01"/></symbol>
-  <symbol id="i-check" viewBox="0 0 24 24"><path d="m4.5 12.5 5 5 10-11"/></symbol>
+  <symbol id="mark" viewBox="0 0 40 40"><rect width="40" height="40" rx="10" fill="currentColor"/><g fill="none" stroke="var(--mark-cut, #fff)" stroke-width="3.2"><circle cx="13" cy="13" r="6"/><circle cx="27" cy="13" r="6"/><circle cx="13" cy="27" r="6"/><circle cx="27" cy="27" r="6"/></g></symbol>
+  <symbol id="i-star" viewBox="0 0 24 24"><path d="m12 2.8 2.8 5.8 6.3.9-4.6 4.4 1.1 6.3L12 17.2l-5.6 3 1.1-6.3-4.6-4.4 6.3-.9Z"/></symbol>
   <symbol id="i-arrow" viewBox="0 0 24 24"><path d="M5 12h14m-6-6 6 6-6 6"/></symbol>
-  <symbol id="i-pin" viewBox="0 0 24 24"><path d="M12 21.5s-7-6.1-7-11.5a7 7 0 0 1 14 0c0 5.4-7 11.5-7 11.5Z"/><circle cx="12" cy="10" r="2.5"/></symbol>
+  <symbol id="i-check" viewBox="0 0 24 24"><path d="m4.5 12.5 5 5 10-11"/></symbol>
+  <symbol id="i-chat" viewBox="0 0 24 24"><path d="M20.5 11.6a8.5 8.5 0 0 1-12.6 7.5L3 20.5l1.5-4.6a8.5 8.5 0 1 1 16-4.3Z"/></symbol>
+  <symbol id="i-plus" viewBox="0 0 24 24"><path d="M12 5v14M5 12h14"/></symbol>
 </svg>
 
 <header class="bar" id="bar">
-  <a class="logo" href="#top" aria-label="Le's Apartment and Coffee, home">
-    <svg class="logo__mark"><use href="#mark"/></svg>
-    <span class="logo__word">LE'S<small>Apartment &amp; Coffee</small></span>
-  </a>
-  <nav class="nav" aria-label="Sections"><a href="#rooms">Rooms</a><a href="#coffee">Coffee</a><a href="#area">Neighbourhood</a><a href="#reviews">Reviews</a><a href="#stay">Your stay</a></nav>
-  <a class="btn btn--accent btn--sm" href="#book">Book now</a>
+  <a class="logo" href="#top" aria-label="Le's Apartment and Coffee, home"><svg class="logo__mark"><use href="#mark"/></svg><span>Le's<small>Apartment &amp; Coffee</small></span></a>
+  <nav class="nav" aria-label="Sections"><a href="#rooms">Apartments</a><a href="#month">Long stays</a><a href="#coffee">Coffee</a><a href="#area">Neighbourhood</a><a href="#faq">FAQ</a></nav>
+  <a class="bar__rating" href="#reviews"><svg class="ic ic--fill"><use href="#i-star"/></svg>9.1 <span>· 48 reviews</span></a>
+  <a class="btn btn--sun btn--sm bar__cta" href="#book">Book</a>
 </header>
 
 <main id="top">
-  <!-- HERO -->
+  <!-- HERO: sky follows the clock in Đà Nẵng -->
   <section class="hero" aria-labelledby="hero-h">
-    <img class="hero__img" src="img/p27.webp" alt="Living room with oak furniture and glass doors open onto a sunny terrace" fetchpriority="high">
-    <div class="hero__shade"></div>
-    <div class="hero__in">
-      <p class="hero__place"><svg class="ic"><use href="#i-pin"/></svg>An Hải Bắc · Đà Nẵng</p>
-      <h1 id="hero-h" class="hero__h" data-split>Your flat in Đà Nẵng</h1>
-      <svg class="brush" viewBox="0 0 520 34" preserveAspectRatio="none" aria-hidden="true"><path d="M6 24C90 10 210 6 300 12s150 10 214 2"/></svg>
+    <div class="sky" aria-hidden="true"><i class="sky__sun"></i></div>
+    <div class="hero__grid wrap">
+      <div class="hero__text">
+        <p class="now" aria-live="off"><span class="now__dot"></span><span id="localTime">Đà Nẵng</span></p>
+        <h1 id="hero-h" data-split>Between the river and&nbsp;the&nbsp;sea.</h1>
+        <p class="hero__sub">Six apartments with kitchens above a neighbourhood coffee house in An Hải. The Han River is 10 minutes one way, My Khe Beach 19 minutes the other.</p>
+        <ul class="trust">
+          <li><b>9.1</b> Wonderful · 48 reviews</li>
+          <li><svg class="ic"><use href="#i-check"/></svg>Pay at the property</li>
+          <li><svg class="ic"><use href="#i-check"/></svg>No deposit</li>
+          <li><svg class="ic"><use href="#i-check"/></svg>Free parking</li>
+        </ul>
+      </div>
+
+      <div class="hero__visual">
+        <figure class="hero__photo" data-layer="photo"><img src="img/p27.webp" alt="Living room with oak furniture and glass doors open to a sunny terrace" fetchpriority="high"></figure>
+
+        <form class="book" id="book" data-layer="mockup" aria-label="Check availability">
+          <div class="book__top"><p class="book__price"><small>From</small> 690.000₫ <small>/ night</small></p><a class="book__rating" href="#reviews"><svg class="ic ic--fill"><use href="#i-star"/></svg>9.1</a></div>
+          <div class="book__dates">
+            <label><span>Check-in</span><input type="date" name="in" required></label>
+            <label><span>Check-out</span><input type="date" name="out" required></label>
+          </div>
+          <div class="book__row">
+            <div class="book__guests"><span>Guests</span><div class="step"><button type="button" data-step="-1" aria-label="Fewer guests">−</button><output name="guests">2</output><button type="button" data-step="1" aria-label="More guests">+</button></div></div>
+            <label class="book__room"><span>Apartment</span><select name="room"><option value="">Any</option></select></label>
+          </div>
+          <button class="btn btn--sun btn--block" value="booking" data-layer="button">Check availability <svg class="ic"><use href="#i-arrow"/></svg></button>
+          <div class="book__alt"><button class="btn btn--line" value="whatsapp">WhatsApp</button><button class="btn btn--line" value="zalo">Zalo</button></div>
+        </form>
+      </div>
     </div>
+    <!-- The Dragon Bridge's arches, drawn as you scroll -->
+    <svg class="dragon" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M0 96 H120 C170 96 180 30 240 30 S310 96 360 96 S430 22 500 22 S580 96 640 96 S720 26 790 26 S870 96 930 96 S1000 34 1060 34 S1130 96 1180 96 H1440"/></svg>
   </section>
 
-  <!-- BOOKING (overlaps the hero) -->
-  <form class="book" id="book" data-layer="mockup" aria-label="Check availability">
-    <label class="book__f"><span>Check-in</span><input type="date" name="in" required></label>
-    <label class="book__f"><span>Check-out</span><input type="date" name="out" required></label>
-    <div class="book__f book__guests"><span>Guests</span>
-      <div class="step"><button type="button" data-step="-1" aria-label="Fewer guests">−</button><output name="guests">2</output><button type="button" data-step="1" aria-label="More guests">+</button></div>
-    </div>
-    <label class="book__f"><span>Apartment</span><select name="room"><option value="">Any</option></select></label>
-    <div class="book__go">
-      <button class="btn btn--accent" value="booking" data-layer="button">Check rates</button>
-      <button class="btn btn--ghost" value="whatsapp" aria-label="Message the host on WhatsApp">WhatsApp</button>
-    </div>
-  </form>
-
-  <!-- INTRO + OVERLAP PHOTO -->
-  <section class="intro wrap">
-    <div class="intro__text" data-reveal>
-      <p class="kicker">Le's Apartment &amp; Coffee</p>
-      <h2 class="h2">Six apartments above a coffee house</h2>
-      <p>A quiet townhouse in the lanes of An Hải Bắc, between the Han River and My Khe Beach. Every apartment has oak, marble and its own bathroom. Most have a kitchen, a washer and a balcony. And the owner, rated 9.9 by guests, is always one message away.</p>
-      <a class="btn btn--ink" href="#rooms">See the apartments <svg class="ic"><use href="#i-arrow"/></svg></a>
-    </div>
-    <div class="intro__pics">
-      <img class="intro__a" data-layer="photo" data-reveal src="img/p01.webp" alt="Bedroom with a carved oak lattice screen and a balcony" loading="lazy">
-      <img class="intro__b" data-layer="photo" data-reveal style="--d:.12s" src="img/p28-sm.webp" alt="Marble dining table beside the balcony" loading="lazy">
-    </div>
+  <!-- PROOF STRIP -->
+  <section class="proof wrap" aria-label="Why guests choose Le's">
+    <div data-layer="chip" data-reveal><b>9.9</b><span>Staff, rated by guests</span></div>
+    <div data-layer="chip" data-reveal style="--d:.05s"><b>10</b><span>Wi-Fi, rated by guests</span></div>
+    <div data-layer="chip" data-reveal style="--d:.1s"><b>5 of 6</b><span>Apartments with a kitchen</span></div>
+    <div data-layer="chip" data-reveal style="--d:.15s"><b>1 floor</b><span>Down to the coffee</span></div>
   </section>
 
-  <!-- STATS -->
-  <section class="band band--sea stats-band" aria-label="At a glance">
-    <ul class="stats wrap">
-      <li data-layer="chip" data-reveal><svg class="draw"><use href="#i-home"/></svg><b>6</b><span>Apartments</span></li>
-      <li data-layer="chip" data-reveal style="--d:.06s"><svg class="draw"><use href="#i-cup"/></svg><b>1</b><span>Coffee house downstairs</span></li>
-      <li data-layer="chip" data-reveal style="--d:.12s"><svg class="draw"><use href="#i-star"/></svg><b>9.9</b><span>Staff rating</span></li>
-      <li data-layer="chip" data-reveal style="--d:.18s"><svg class="draw"><use href="#i-wifi"/></svg><b>10</b><span>Wi-Fi rating</span></li>
-      <li data-layer="chip" data-reveal style="--d:.24s"><svg class="draw"><use href="#i-wave"/></svg><b>19</b><span>Minutes to My Khe</span></li>
-      <li data-layer="chip" data-reveal style="--d:.30s"><svg class="draw"><use href="#i-talk"/></svg><b>7</b><span>Languages spoken</span></li>
-    </ul>
-  </section>
-
-  <!-- ROOMS -->
+  <!-- APARTMENTS -->
   <section class="rooms" id="rooms" aria-labelledby="rooms-h">
-    <div class="wrap head" data-reveal>
-      <p class="kicker">Apartments</p>
-      <h2 class="h2" id="rooms-h">Pick your floor</h2>
+    <div class="wrap sec-head" data-reveal>
+      <h2 id="rooms-h">Six apartments. One for every kind of trip.</h2>
+      <button class="link" data-photo="1">See all 30 photos <svg class="ic"><use href="#i-arrow"/></svg></button>
     </div>
-    <div class="rooms__rail">
+    <div class="rail">
       <article class="room" data-layer="card" data-reveal>
-        <div class="room__pics"><img src="img/p27-sm.webp" alt="Living room" loading="lazy"><img src="img/p03-sm.webp" alt="Kitchen and dining" loading="lazy"><img src="img/p26-sm.webp" alt="Bedroom" loading="lazy"></div>
-        <div class="room__body"><h3>One-Bedroom Apartment</h3><p class="room__spec"><b>90 m²</b> King + sofa bed · 3 guests</p><ul class="tags"><li>Terrace</li><li>Living room</li><li>Kitchen</li><li>Washer</li></ul><button class="room__book" data-book="One-Bedroom Apartment">Check dates <svg class="ic"><use href="#i-arrow"/></svg></button></div>
+        <div class="room__pics"><img src="img/p27-sm.webp" alt="Living room" loading="lazy"><img src="img/p03-sm.webp" alt="Kitchen and dining" loading="lazy"><img src="img/p26-sm.webp" alt="Bedroom" loading="lazy"><img src="img/p02-sm.webp" alt="Bedroom with wardrobe" loading="lazy"></div>
+        <p class="room__for">Best for families &amp; long stays</p>
+        <h3>One-Bedroom Apartment</h3>
+        <p class="room__spec">90 m² · King + sofa bed · Up to 3</p>
+        <ul class="tags"><li>Terrace</li><li>Living room</li><li>Kitchen</li><li>Washer</li></ul>
+        <button class="room__cta" data-book="One-Bedroom Apartment">Check dates <svg class="ic"><use href="#i-arrow"/></svg></button>
       </article>
-      <article class="room" data-layer="card" data-reveal style="--d:.06s">
+      <article class="room" data-layer="card" data-reveal style="--d:.05s">
         <div class="room__pics"><img src="img/p01-sm.webp" alt="Bedroom with balcony" loading="lazy"><img src="img/p16-sm.webp" alt="Dining by the window" loading="lazy"><img src="img/p15-sm.webp" alt="Kitchen" loading="lazy"></div>
-        <div class="room__body"><h3>Apartment with View</h3><p class="room__spec"><b>55 m²</b> Super king · 2 guests</p><ul class="tags"><li>Terrace</li><li>City view</li><li>Kitchen</li><li>Washer</li></ul><button class="room__book" data-book="Apartment with View">Check dates <svg class="ic"><use href="#i-arrow"/></svg></button></div>
+        <p class="room__for">Best for couples</p>
+        <h3>Apartment with View</h3>
+        <p class="room__spec">55 m² · Super king · Up to 2</p>
+        <ul class="tags"><li>Terrace</li><li>City view</li><li>Kitchen</li><li>Washer</li></ul>
+        <button class="room__cta" data-book="Apartment with View">Check dates <svg class="ic"><use href="#i-arrow"/></svg></button>
       </article>
-      <article class="room" data-layer="card" data-reveal style="--d:.12s">
+      <article class="room" data-layer="card" data-reveal style="--d:.1s">
         <div class="room__pics"><img src="img/p11-sm.webp" alt="Studio with round table" loading="lazy"><img src="img/p14-sm.webp" alt="Studio overview" loading="lazy"><img src="img/p29-sm.webp" alt="Kitchen and bed" loading="lazy"></div>
-        <div class="room__body"><h3>Deluxe King Studio</h3><p class="room__spec"><b>55 m²</b> King · 2 guests</p><ul class="tags"><li>Courtyard view</li><li>Kitchen</li><li>Washer</li></ul><button class="room__book" data-book="Deluxe King Studio">Check dates <svg class="ic"><use href="#i-arrow"/></svg></button></div>
+        <p class="room__for">Best for remote work</p>
+        <h3>Deluxe King Studio</h3>
+        <p class="room__spec">55 m² · King · Up to 2</p>
+        <ul class="tags"><li>Quiet courtyard side</li><li>Kitchen</li><li>Washer</li></ul>
+        <button class="room__cta" data-book="Deluxe King Studio">Check dates <svg class="ic"><use href="#i-arrow"/></svg></button>
       </article>
       <article class="room" data-layer="card" data-reveal>
         <div class="room__pics"><img src="img/p28-sm.webp" alt="Dining by the window" loading="lazy"><img src="img/p09-sm.webp" alt="Bedroom" loading="lazy"><img src="img/p21-sm.webp" alt="Shower" loading="lazy"></div>
-        <div class="room__body"><h3>Ground-Floor Apartment</h3><p class="room__spec"><b>55 m²</b> King · 2 guests</p><ul class="tags"><li>Courtyard view</li><li>Kitchen</li><li>Washer</li></ul><button class="room__book" data-book="Ground-Floor Apartment">Check dates <svg class="ic"><use href="#i-arrow"/></svg></button></div>
+        <p class="room__for">Best for easy coming &amp; going</p>
+        <h3>Ground-Floor Apartment</h3>
+        <p class="room__spec">55 m² · King · Up to 2</p>
+        <ul class="tags"><li>Courtyard view</li><li>Kitchen</li><li>Washer</li></ul>
+        <button class="room__cta" data-book="Ground-Floor Apartment">Check dates <svg class="ic"><use href="#i-arrow"/></svg></button>
       </article>
-      <article class="room" data-layer="card" data-reveal style="--d:.06s">
+      <article class="room" data-layer="card" data-reveal style="--d:.05s">
         <div class="room__pics"><img src="img/p07-sm.webp" alt="Studio with lattice screen" loading="lazy"><img src="img/p12-sm.webp" alt="Dining corner" loading="lazy"><img src="img/p08-sm.webp" alt="Kitchen" loading="lazy"></div>
-        <div class="room__body"><h3>Studio with Balcony</h3><p class="room__spec"><b>45 m²</b> King · 2 guests</p><ul class="tags"><li>Balcony</li><li>Kitchen</li><li>Soundproofed</li></ul><button class="room__book" data-book="Studio with Balcony">Check dates <svg class="ic"><use href="#i-arrow"/></svg></button></div>
+        <p class="room__for">Best for light sleepers</p>
+        <h3>Studio with Balcony</h3>
+        <p class="room__spec">45 m² · King · Up to 2</p>
+        <ul class="tags"><li>Balcony</li><li>Soundproofed</li><li>Kitchen</li></ul>
+        <button class="room__cta" data-book="Studio with Balcony">Check dates <svg class="ic"><use href="#i-arrow"/></svg></button>
       </article>
-      <article class="room" data-layer="card" data-reveal style="--d:.12s">
+      <article class="room" data-layer="card" data-reveal style="--d:.1s">
         <div class="room__pics"><img src="img/p04-sm.webp" alt="Desk, TV and minibar" loading="lazy"><img src="img/p19-sm.webp" alt="Bed and desk" loading="lazy"><img src="img/p30-sm.webp" alt="Bathroom" loading="lazy"></div>
-        <div class="room__body"><h3>Queen Room</h3><p class="room__spec"><b>27 m²</b> Double · 2 guests</p><ul class="tags"><li>Minibar</li><li>Kettle</li><li>Wardrobe</li></ul><button class="room__book" data-book="Queen Room">Check dates <svg class="ic"><use href="#i-arrow"/></svg></button></div>
+        <p class="room__for">Best for a short city break</p>
+        <h3>Queen Room</h3>
+        <p class="room__spec">27 m² · Double · Up to 2</p>
+        <ul class="tags"><li>Desk</li><li>Minibar</li><li>Kettle</li></ul>
+        <button class="room__cta" data-book="Queen Room">Check dates <svg class="ic"><use href="#i-arrow"/></svg></button>
       </article>
     </div>
-    <div class="wrap"><button class="btn btn--ink" data-photo="1">See all 30 photos</button></div>
+  </section>
+
+  <!-- LONG STAYS (An Hải is Đà Nẵng's nomad quarter) -->
+  <section class="month" id="month" aria-labelledby="month-h">
+    <div class="wrap month__grid">
+      <div data-reveal>
+        <h2 id="month-h">Staying a month? Live here.</h2>
+        <p>An Hải is where Đà Nẵng's remote workers settle in. Le's rents its apartments by the month, and guests describe the long-stay prices as affordable.</p>
+        <button class="btn btn--sun" data-chat="month"><svg class="ic"><use href="#i-chat"/></svg>Ask for a monthly rate</button>
+      </div>
+      <ul class="month__list" data-reveal style="--d:.08s">
+        <li data-layer="card"><b>10/10</b><span>Wi-Fi, as rated by guests</span></li>
+        <li data-layer="card"><b>Kitchen</b><span>Hob, fridge, microwave, cookware</span></li>
+        <li data-layer="card"><b>Washer</b><span>In most units, and a dryer on the roof</span></li>
+        <li data-layer="card"><b>Housekeeping</b><span>Daily, plus grocery delivery</span></li>
+      </ul>
+    </div>
   </section>
 
   <!-- COFFEE -->
-  <section class="band band--espresso coffee" id="coffee" aria-labelledby="coffee-h">
-    <div class="wrap coffee__in">
-      <div class="coffee__head" data-reveal>
-        <p class="kicker kicker--crema">The “&amp; Coffee”</p>
-        <h2 class="h2" id="coffee-h">Coffee is one floor down</h2>
-        <blockquote data-layer="card">“The coffee shop downstairs is nice, cozy and the coffee is great.”<cite>Guest review · Booking.com</cite></blockquote>
+  <section class="coffee" id="coffee" aria-labelledby="coffee-h">
+    <div class="wrap coffee__grid">
+      <div class="phin" aria-hidden="true">
+        <div class="phin__lid"></div><div class="phin__body"></div><div class="phin__plate"></div>
+        <div class="phin__drip"><i></i><i></i><i></i></div>
+        <div class="phin__glass"><div class="phin__milk"></div><div class="phin__coffee"></div><i></i><i></i><i></i></div>
       </div>
-      <ol class="brews">
-        <li data-layer="card" data-reveal><span>01</span><b>Cà phê sữa đá</b><p>Phin-dripped, condensed milk, lots of ice.</p></li>
-        <li data-layer="card" data-reveal style="--d:.06s"><span>02</span><b>Bạc xỉu</b><p>Mostly milk, a little coffee. The gentle one.</p></li>
-        <li data-layer="card" data-reveal style="--d:.12s"><span>03</span><b>Cà phê muối</b><p>Salted cream on dark coffee, born in nearby Huế.</p></li>
-        <li data-layer="card" data-reveal style="--d:.18s"><span>04</span><b>Cà phê dừa</b><p>Frozen coconut cream for a hot afternoon.</p></li>
+      <div data-reveal>
+        <h2 id="coffee-h">Your morning starts one floor down.</h2>
+        <blockquote data-layer="card">“The coffee shop downstairs is nice, cozy and the coffee is great.”<cite>Guest review, Booking.com</cite></blockquote>
+        <ol class="brews">
+          <li><b>Cà phê sữa đá</b><span>Phin-dripped with condensed milk, over ice</span></li>
+          <li><b>Bạc xỉu</b><span>Mostly milk, a little coffee</span></li>
+          <li><b>Cà phê muối</b><span>Salted cream on dark coffee</span></li>
+          <li><b>Cà phê dừa</b><span>With frozen coconut cream</span></li>
+        </ol>
+      </div>
+    </div>
+  </section>
+
+  <!-- NEIGHBOURHOOD: schematic map -->
+  <section class="area wrap" id="area" aria-labelledby="area-h">
+    <div class="sec-head" data-reveal>
+      <h2 id="area-h">Walk to the river. Walk to the sea.</h2>
+      <a class="link" href="https://www.google.com/maps/search/?api=1&amp;query=16.07087,108.23313" target="_blank" rel="noopener">Open in Google Maps <svg class="ic"><use href="#i-arrow"/></svg></a>
+    </div>
+    <div class="area__grid">
+      <figure class="map" data-layer="card" data-reveal>
+        <svg viewBox="0 0 640 520" role="img" aria-labelledby="map-t">
+          <title id="map-t">Schematic map: Le's sits in An Hải between the Han River to the west and My Khe Beach to the east</title>
+          <rect width="640" height="520" fill="var(--sand)"/>
+          <path d="M520 0 C500 120 540 260 520 400 C510 460 530 500 528 520 H640 V0Z" fill="var(--sea-soft)"/>
+          <path d="M520 0 C500 120 540 260 520 400 C510 460 530 500 528 520" fill="none" stroke="#E9D9BC" stroke-width="16"/>
+          <path d="M120 0 C150 90 90 170 130 260 C160 330 110 420 140 520" fill="none" stroke="var(--river)" stroke-width="54" stroke-linecap="round"/>
+          <g stroke="var(--gold)" stroke-width="7" stroke-linecap="round"><path d="M80 120 H180"/><path d="M95 330 H185"/></g>
+          <g class="map__routes" fill="none" stroke="var(--ink)" stroke-width="2.5" stroke-dasharray="2 9" stroke-linecap="round">
+            <path d="M300 220 C260 200 220 160 180 125"/><path d="M300 220 C380 210 450 220 516 230"/><path d="M300 220 C260 280 220 310 190 328"/><path d="M300 220 C280 180 270 160 262 150"/>
+          </g>
+          <g font-family="Be Vietnam Pro, sans-serif" font-size="20" font-weight="700" fill="var(--ink)">
+            <text x="40" y="34" fill="#fff" font-size="16" letter-spacing="2" transform="rotate(90 56 34)">HAN RIVER</text>
+            <text x="572" y="190" font-size="16" letter-spacing="2" fill="var(--sea)" transform="rotate(90 560 210)">MY KHE BEACH</text>
+            <text x="192" y="110">Han River Bridge</text><text x="196" y="352">Dragon Bridge</text>
+            <text x="274" y="146" font-weight="600" font-size="17" fill="var(--ink-2)">Vincom Plaza</text>
+            <text x="198" y="424" font-weight="600" font-size="17" fill="var(--ink-2)">Sơn Trà Night Market</text>
+          </g>
+          <g font-family="Be Vietnam Pro, sans-serif" font-size="17" font-weight="800" fill="var(--sun-ink)">
+            <text x="196" y="186">10 min</text><text x="392" y="204">19 min</text><text x="244" y="300">15 min</text>
+          </g>
+          <circle cx="262" cy="150" r="6" fill="var(--ink)"/><circle cx="300" cy="390" r="6" fill="var(--ink)"/>
+          <g class="map__pin" transform="translate(300 220)"><circle r="34" fill="var(--sun)" opacity=".18"/><circle r="17" fill="var(--sun)"/><circle r="6" fill="#fff"/></g>
+          <text x="322" y="252" font-family="Be Vietnam Pro, sans-serif" font-size="26" font-weight="800" fill="var(--ink)">Le's</text>
+        </svg>
+      </figure>
+      <ol class="walks" data-reveal>
+        <li><b>Vincom Plaza</b><span>6 min walk</span></li>
+        <li><b>Han River promenade</b><span>10 min walk</span></li>
+        <li><b>Love Lock Bridge</b><span>14 min walk</span></li>
+        <li><b>Dragon Bridge</b><em>Breathes fire Sat &amp; Sun at 21:00</em><span>15 min walk</span></li>
+        <li><b>Sơn Trà Night Market</b><span>15 min walk</span></li>
+        <li><b>My Khe Beach</b><em>East-facing: come for sunrise</em><span>19 min walk</span></li>
+        <li><b>Airport</b><span>15 min by Grab</span></li>
+        <li><b>Hội An</b><span>45 min by car</span></li>
       </ol>
     </div>
   </section>
 
-  <!-- NEIGHBOURHOOD -->
-  <section class="area wrap" id="area" aria-labelledby="area-h">
-    <div class="head" data-reveal>
-      <p class="kicker">Neighbourhood</p>
-      <h2 class="h2" id="area-h">Between the river and the sea</h2>
-    </div>
-    <div class="area__grid">
-      <div class="map" data-layer="card" data-reveal>
-        <iframe title="Map of 252 Dương Đình Nghệ, Đà Nẵng" loading="lazy" src="https://www.openstreetmap.org/export/embed.html?bbox=108.2140%2C16.0560%2C108.2520%2C16.0860&amp;layer=mapnik&amp;marker=16.07087%2C108.23313"></iframe>
-        <a class="btn btn--ink btn--sm" href="https://www.google.com/maps/search/?api=1&amp;query=16.07087,108.23313" target="_blank" rel="noopener">Directions</a>
-      </div>
-      <ol class="walks" data-reveal>
-        <li><b>Vincom Plaza</b><span>6 min walk</span></li>
-        <li><b>Han River Bridge</b><span>10 min walk</span></li>
-        <li><b>Love Lock Bridge</b><span>14 min walk</span></li>
-        <li><b>Dragon Bridge</b><em>Fire show Sat &amp; Sun 21:00</em><span>15 min walk</span></li>
-        <li><b>Sơn Trà Night Market</b><span>15 min walk</span></li>
-        <li><b>My Khe Beach</b><span>19 min walk</span></li>
-        <li><b>Airport</b><span>15 min drive</span></li>
-        <li><b>Hội An</b><span>45 min drive</span></li>
-      </ol>
-    </div>
+  <!-- EAT -->
+  <section class="eat" aria-labelledby="eat-h">
+    <div class="wrap sec-head" data-reveal><h2 id="eat-h">Eat what Đà Nẵng eats.</h2></div>
+    <ol class="rail eat__rail">
+      <li data-reveal><b>Mì Quảng</b><span>Turmeric noodles, a little broth, peanuts and rice crackers.</span></li>
+      <li data-reveal style="--d:.05s"><b>Bánh xèo</b><span>Crisp rice pancakes, wrapped in greens and dipped.</span></li>
+      <li data-reveal style="--d:.1s"><b>Bún chả cá</b><span>Fish-cake noodle soup, the city's breakfast.</span></li>
+      <li data-reveal style="--d:.15s"><b>Bánh tráng cuốn thịt heo</b><span>Rice-paper pork rolls with herbs.</span></li>
+      <li data-reveal style="--d:.2s"><b>Hải sản</b><span>Grilled seafood by the beach, picked from the tank.</span></li>
+    </ol>
   </section>
 
   <!-- REVIEWS -->
-  <section class="band band--sand reviews" id="reviews" aria-labelledby="rev-h">
-    <div class="wrap">
-      <div class="head" data-reveal>
-        <p class="kicker">Reviews</p>
-        <h2 class="h2" id="rev-h">Guests talk about the host</h2>
-      </div>
-      <div class="rev">
-        <figure class="testimonial" data-layer="testimonial" data-reveal>
-          <blockquote>“Nice hotel. Clean. Good price. Owner is very friendly and helpful.”</blockquote>
-          <figcaption><span class="score">9.1</span><span>Wonderful · 48 reviews on Booking.com</span></figcaption>
-        </figure>
-        <dl class="bars" data-reveal>
+  <section class="reviews wrap" id="reviews" aria-labelledby="rev-h">
+    <div class="rev">
+      <div class="rev__score" data-reveal>
+        <h2 id="rev-h">Guests rate the host 9.9.</h2>
+        <dl class="bars">
           <div><dt>Staff</dt><dd style="--v:.99">9.9</dd></div>
           <div><dt>Wi-Fi</dt><dd style="--v:1">10</dd></div>
           <div><dt>Value</dt><dd style="--v:.92">9.2</dd></div>
@@ -204,60 +273,55 @@
           <div><dt>Comfort</dt><dd style="--v:.91">9.1</dd></div>
           <div><dt>Location</dt><dd style="--v:.9">9.0</dd></div>
         </dl>
+        <p class="rev__src"><b>9.1</b> Wonderful · 48 reviews on Booking.com</p>
       </div>
-      <ul class="more-quotes">
-        <li data-reveal>“A beautiful cozy place, with big and clean apartments.”</li>
-        <li data-reveal style="--d:.08s">“The host is very kind and helpful.”</li>
-      </ul>
+      <div class="rev__quotes">
+        <figure class="testimonial" data-layer="testimonial" data-reveal><blockquote>“Nice hotel. Clean. Good price. Owner is very friendly and helpful.”</blockquote></figure>
+        <figure class="testimonial" data-reveal style="--d:.06s"><blockquote>“A beautiful cozy place, with big and clean apartments.”</blockquote></figure>
+        <figure class="testimonial" data-reveal style="--d:.12s"><blockquote>“The host is very kind and helpful.”</blockquote></figure>
+      </div>
     </div>
   </section>
 
-  <!-- YOUR STAY -->
-  <section class="stay wrap" id="stay" aria-labelledby="stay-h">
-    <div class="head" data-reveal>
-      <p class="kicker">Your stay</p>
-      <h2 class="h2" id="stay-h">Everything you need, nothing you don't</h2>
-    </div>
-    <div class="stay__grid">
-      <div class="times" data-layer="card" data-reveal>
-        <div><span>Check-in</span><b>14:00</b><small>until midnight</small></div>
-        <div><span>Check-out</span><b>12:00</b><small>noon</small></div>
+  <!-- FAQ -->
+  <section class="faq wrap" id="faq" aria-labelledby="faq-h">
+    <h2 id="faq-h" data-reveal>Good to know</h2>
+    <div class="faq__grid">
+      <div class="times" data-layer="card" data-reveal><div><span>Check-in</span><b>14:00</b><small>until midnight</small></div><div><span>Check-out</span><b>12:00</b><small>noon</small></div></div>
+      <div class="faq__list" data-reveal>
+        <details><summary>How do I get here from the airport?<svg class="ic"><use href="#i-plus"/></svg></summary><p>It's 6 km, about 15 minutes by Grab or taxi. Show the driver <b>252 Dương Đình Nghệ, An Hải Bắc, Sơn Trà</b>.</p></details>
+        <details><summary>How do I pay?<svg class="ic"><use href="#i-plus"/></svg></summary><p>At the property, by cash or card (including JCB and UnionPay). There's no damage deposit. Bring photo ID; the lead guest must be 18 or over.</p></details>
+        <details><summary>Can I stay for a month?<svg class="ic"><use href="#i-plus"/></svg></summary><p>Yes. The apartments are also rented long-term. Message the host on WhatsApp or Zalo with your dates for a monthly rate.</p></details>
+        <details><summary>Is breakfast included?<svg class="ic"><use href="#i-plus"/></svg></summary><p>No. The coffee house is downstairs, most apartments have a full kitchen, and grocery delivery is available.</p></details>
+        <details><summary>Is there parking and laundry?<svg class="ic"><use href="#i-plus"/></svg></summary><p>Parking is free. Most apartments have a washing machine, and there's a washer and dryer on the roof.</p></details>
+        <details><summary>Children, pets, smoking?<svg class="ic"><use href="#i-plus"/></svg></summary><p>Children of all ages are welcome. No pets and no parties. The building is non-smoking, with a designated smoking area.</p></details>
       </div>
-      <ul class="checks" data-reveal>
-        <li><svg class="ic"><use href="#i-check"/></svg>Free Wi-Fi &amp; parking</li>
-        <li><svg class="ic"><use href="#i-check"/></svg>Lift to every floor</li>
-        <li><svg class="ic"><use href="#i-check"/></svg>Sun terrace on the roof</li>
-        <li><svg class="ic"><use href="#i-check"/></svg>Washer &amp; dryer upstairs</li>
-        <li><svg class="ic"><use href="#i-check"/></svg>Daily housekeeping</li>
-        <li><svg class="ic"><use href="#i-check"/></svg>Luggage storage</li>
-        <li><svg class="ic"><use href="#i-check"/></svg>24-hour security</li>
-        <li><svg class="ic"><use href="#i-check"/></svg>Children welcome</li>
-        <li><svg class="ic"><use href="#i-check"/></svg>Cash or card at the desk</li>
-      </ul>
-      <p class="stay__no" data-reveal>No breakfast service, no pets, no parties. Non-smoking, with a designated smoking area.</p>
     </div>
   </section>
 
-  <!-- CLOSER -->
-  <section class="closer" aria-labelledby="closer-h">
-    <img src="img/p26.webp" alt="" loading="lazy">
-    <div class="closer__in wrap" data-reveal>
-      <h2 class="closer__h" id="closer-h">See you in Đà Nẵng</h2>
-      <a class="btn btn--accent" href="#book">Book your dates</a>
+  <!-- CLOSE: Han River at night -->
+  <section class="night" aria-labelledby="night-h">
+    <svg class="dragon dragon--night" viewBox="0 0 1440 120" preserveAspectRatio="none" aria-hidden="true"><path pathLength="1" d="M0 96 H120 C170 96 180 30 240 30 S310 96 360 96 S430 22 500 22 S580 96 640 96 S720 26 790 26 S870 96 930 96 S1000 34 1060 34 S1130 96 1180 96 H1440"/></svg>
+    <div class="wrap night__in" data-reveal>
+      <h2 id="night-h">See you in Đà Nẵng.</h2>
+      <div class="night__cta"><a class="btn btn--sun" href="#book">Check availability</a><button class="btn btn--glass" data-chat="hello"><svg class="ic"><use href="#i-chat"/></svg>Message the host</button></div>
     </div>
   </section>
 </main>
 
 <footer class="foot">
   <div class="wrap foot__in">
-    <a class="logo logo--light" href="#top"><svg class="logo__mark"><use href="#mark"/></svg><span class="logo__word">LE'S<small>Apartment &amp; Coffee</small></span></a>
-    <address>252 Dương Đình Nghệ, An Hải Bắc<br>Sơn Trà, Đà Nẵng, Việt Nam</address>
+    <a class="logo" href="#top"><svg class="logo__mark"><use href="#mark"/></svg><span>Le's<small>Apartment &amp; Coffee</small></span></a>
+    <address>252 Dương Đình Nghệ, An Hải Bắc, Sơn Trà, Đà Nẵng</address>
     <p class="foot__links"><a href="https://www.booking.com/hotel/vn/le-39-s-apartment-amp-coffee.html" target="_blank" rel="noopener">Booking.com</a><a href="https://www.agoda.com/le-s-apartment-coffee/hotel/da-nang-vn.html" target="_blank" rel="noopener">Agoda</a><a href="https://www.tripadvisor.com/Hotel_Review-g25197573-d34116506-Reviews-Le_s_Apartment_Coffee-An_Hai_Son_Tra_Peninsula_Da_Nang.html" target="_blank" rel="noopener">Tripadvisor</a></p>
     <p class="foot__note">Unofficial concept site. Not affiliated with the property.</p>
   </div>
 </footer>
 
-<div class="dock" id="dock"><a class="btn btn--accent btn--block" href="#book">Book now</a></div>
+<div class="dock" id="dock">
+  <div class="dock__info"><b>From 690.000₫</b><span><svg class="ic ic--fill"><use href="#i-star"/></svg>9.1 · Pay at the property</span></div>
+  <a class="btn btn--sun" href="#book">Book</a>
+</div>
 
 <dialog class="viewer" id="viewer" aria-label="Photos">
   <div class="viewer__track" id="viewerTrack"></div>

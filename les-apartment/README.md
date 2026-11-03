@@ -24,4 +24,7 @@ To deploy on Vercel, set the project root to `les-apartment/`, choose framework 
 - Content stays in HTML so search engines and agents can read it without running JS. JS only adds behaviour.
 - The booking sheet's room list is read from the room cards, so a new `<article class="room">` appears there with no other change.
 - Facts come from public listings (Booking.com, danang-hotels.com, bedandbreakfast.eu). Review quotes are verbatim excerpts. Walking and driving times are approximate.
+- The hero sky follows the hour in Đà Nẵng (dawn 5–7, day 7–16, gold 16–19, night). Force one with `?sky=dawn|day|gold|night`, which is useful for screenshots and the film capture.
+- "From 690.000₫ / night" comes from the Booking.com search you shared (4–5 Nov 2026, 2 adults). Update it in `index.html` when rates change.
+- WhatsApp and Zalo both use `CONFIG.phone`.
 - Before going live, confirm the WhatsApp number with the host, and check which photos belong to which room type.
