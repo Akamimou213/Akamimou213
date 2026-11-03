@@ -1,0 +1,3 @@
+# One wallet per line: address,label. Copy to data/whales.txt.
+# Pick wallets you have watched yourself; the desk only reports what they did.
+# <wallet address>,<label>
