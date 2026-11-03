@@ -135,6 +135,19 @@ class SafetyTests(unittest.TestCase):
         self.assertEqual(status(d, "lp"), "pass")
 
 
+class DataConsistency(unittest.TestCase):
+    def test_busy_pool_without_data_is_flagged(self):
+        real = pair(dexId="pumpswap", liquidity=None, volume=dict(h24=0, h1=0), txns=dict(h24=dict(buys=3000, sells=2000)))
+        dust = pair(dexId="meteora", pairAddress="Dust", liquidity=dict(usd=12), volume=dict(h24=5, h1=5),
+                    txns=dict(h24=dict(buys=4, sells=7), h1=dict(buys=1, sells=7)))
+        d = rules.evaluate(raw(pairs=[real, dust], candles=None), now=NOW)
+        self.assertEqual(status(d, "data"), "unknown")
+
+    def test_normal_token_not_flagged(self):
+        d = rules.evaluate(raw(), now=NOW)
+        self.assertFalse(any(c["id"] == "data" for c in d["checks"]))
+
+
 class HelperTests(unittest.TestCase):
     def test_bundle_cluster(self):
         self.assertEqual(rules.bundle_cluster([5, 3, 1.2, 0.9])[0], 0)

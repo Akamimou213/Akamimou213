@@ -80,6 +80,32 @@ def main_pair(pairs, address):
     return max(own, key=lambda p: (_f((p.get("liquidity") or {}).get("usd"), 0), _f((p.get("volume") or {}).get("h24"), 0)))
 
 
+def _tx24(p):
+    t = (p.get("txns") or {}).get("h24") or {}
+    return (t.get("buys") or 0) + (t.get("sells") or 0)
+
+
+def data_consistency(pairs, address, chosen):
+    """Flag when the busiest pool has no usable data, so the figures come from a minor pool.
+
+    DexScreener sometimes lists a token's real pool with liquidity null and volume 0 while it
+    still counts thousands of trades; the scanner would then fall back to a dust pool.
+    """
+    own = [p for p in pairs if (p.get("baseToken") or {}).get("address", "").lower() == address.lower()]
+    if not own or not chosen:
+        return None
+    busiest = max(own, key=_tx24)
+    if busiest is chosen or _tx24(busiest) < max(50, 5 * _tx24(chosen)):
+        return None
+    if _f((busiest.get("liquidity") or {}).get("usd")) and _f((busiest.get("volume") or {}).get("h24")):
+        return None
+    return _chk("liquidity", "data", "Data consistency", "unknown",
+                f"{busiest.get('dexId')} pool: {_tx24(busiest):,} trades/24h but no liquidity or volume reported",
+                "main pool fully reported", "source",
+                f"Figures here come from a minor {chosen.get('dexId')} pool. Read liquidity and volume on the chart or "
+                "RugCheck before trusting any number.")
+
+
 def total_liquidity(pairs, address, chain, floor=1_000):
     """Liquidity summed over every pool where the token is the base asset (pools under $1k ignored)."""
     tot = 0.0
@@ -449,6 +475,13 @@ def evaluate(raw, now=None, bankroll=None, risk_pct=1.0):
     liquidity, liq, mcap = _liquidity(raw, pair, chain, size)
     holders = _holders_sol(raw.get("rugcheck")) if chain == "solana" else _holders_evm(raw.get("goplus"))
     flow = _flow(pair, now)
+    dc = data_consistency(raw.get("pairs") or [], address, pair)
+    if dc:
+        liquidity.insert(0, dc)
+        # Market figures came from a minor pool: don't let them pass or fail the coin.
+        for c in gate + liquidity:
+            if c["id"] in ("vol30", "pullback", "liqmcap", "impact") and c["status"] in ("pass", "fail", "warn"):
+                c["status"], c["note"] = "unknown", "From a minor pool, not the coin's real one: " + (c["note"] or "verify by hand.")
     checks = gate + contract + liquidity + holders + flow
 
     fails = [c for c in checks if c["status"] == "fail"]
