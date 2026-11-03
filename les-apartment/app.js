@@ -1,5 +1,5 @@
 // Le's Apartment & Coffee: progressive enhancement only.
-// Content lives in index.html; this file adds the photo viewer and the booking hand-off.
+// Content lives in index.html. This file adds motion, the photo viewer and the booking hand-off.
 
 const CONFIG = {
   photos: 30, // img/p01.webp … img/p30.webp
@@ -12,19 +12,33 @@ const $ = (s, el = document) => el.querySelector(s);
 const $$ = (s, el = document) => [...el.querySelectorAll(s)];
 const pad = (n) => String(n).padStart(2, '0');
 
-// Close any dialog when its backdrop is clicked.
-$$('dialog').forEach((d) => d.addEventListener('click', (e) => { if (e.target === d) d.close(); }));
+// ---------- Motion ----------
+// Headline words rise out of a blur, one after another.
+$$('[data-split]').forEach((el) => {
+  el.innerHTML = el.textContent.trim().split(/\s+/).map((w, i) => `<span class="w" style="--i:${i}">${w}</span>`).join(' ');
+});
 
-// ---------- Gallery counter (phone swipe) ----------
-const gallery = $('#gallery');
-gallery.addEventListener('scroll', () => {
-  $('#galleryCount').textContent = Math.round(gallery.scrollLeft / gallery.clientWidth) + 1;
-}, { passive: true });
+// Reveal on scroll (spring). Stats icons draw themselves via CSS.
+const io = new IntersectionObserver((entries) => entries.forEach((e) => {
+  if (e.isIntersecting) { e.target.classList.add('in'); io.unobserve(e.target); }
+}), { rootMargin: '0px 0px -12% 0px' });
+$$('[data-reveal]').forEach((el) => io.observe(el));
+
+// Header turns solid after the hero; the phone dock appears once the booking form scrolls away.
+const bar = $('#bar');
+const dock = $('#dock');
+const book = $('#book');
+const solid = () => bar.classList.toggle('is-solid', scrollY > 24);
+addEventListener('scroll', solid, { passive: true }); solid();
+new IntersectionObserver(([e]) => dock.classList.toggle('is-on', !e.isIntersecting && e.boundingClientRect.top < 0))
+  .observe(book);
 
 // ---------- Photo viewer ----------
 const viewer = $('#viewer');
 const track = $('#viewerTrack');
 const count = $('#viewerCount');
+const current = () => Math.round(track.scrollLeft / track.clientWidth) + 1;
+const updateCount = () => { count.textContent = `${current()} / ${CONFIG.photos}`; };
 
 function openViewer(n) {
   if (!track.children.length) {
@@ -35,34 +49,27 @@ function openViewer(n) {
   track.scrollTo({ left: (n - 1) * track.clientWidth, behavior: 'instant' });
   updateCount();
 }
-const current = () => Math.round(track.scrollLeft / track.clientWidth) + 1;
-const updateCount = () => { count.textContent = `${current()} / ${CONFIG.photos}`; };
-const go = (d) => track.scrollTo({ left: (current() - 1 + d) * track.clientWidth, behavior: 'smooth' });
-
 track.addEventListener('scroll', updateCount, { passive: true });
 viewer.addEventListener('keydown', (e) => {
-  if (e.key === 'ArrowRight') go(1);
-  if (e.key === 'ArrowLeft') go(-1);
+  const d = { ArrowRight: 1, ArrowLeft: -1 }[e.key];
+  if (d) track.scrollTo({ left: (current() - 1 + d) * track.clientWidth, behavior: 'smooth' });
 });
+viewer.addEventListener('click', (e) => { if (e.target === viewer) viewer.close(); });
 $$('[data-photo]').forEach((b) => b.addEventListener('click', () => openViewer(+b.dataset.photo)));
 
 // ---------- Booking ----------
-const book = $('#book');
-const form = $('#bookForm');
-const f = form.elements;
+const f = book.elements;
 const today = new Date().toISOString().slice(0, 10);
-f.in.min = today;
-f.out.min = today;
+f.in.min = f.out.min = today;
 
-// Room options come straight from the room headings, so there is one source of truth.
-$$('.room [data-book]').forEach((b) => f.room.add(new Option(b.dataset.book, b.dataset.book)));
+// Apartment options come from the room cards, so there is one source of truth.
+$$('[data-book]').forEach((b) => f.room.add(new Option(b.dataset.book, b.dataset.book)));
 
-// Restore the last search (per-browser convenience only).
 try {
-  const saved = JSON.parse(localStorage.getItem('les-booking') || '{}');
-  if (saved.in >= today) f.in.value = saved.in;
-  if (saved.out > (saved.in || today)) f.out.value = saved.out;
-  if (saved.guests) f.guests.value = saved.guests;
+  const s = JSON.parse(localStorage.getItem('les-booking') || '{}');
+  if (s.in >= today) f.in.value = s.in;
+  if (s.out > (s.in || today)) f.out.value = s.out;
+  if (s.guests) f.guests.value = s.guests;
 } catch {}
 
 f.in.addEventListener('change', () => {
@@ -74,31 +81,28 @@ f.in.addEventListener('change', () => {
 });
 
 $$('[data-step]').forEach((b) => b.addEventListener('click', () => {
-  f.guests.value = Math.min(CONFIG.maxGuests, Math.max(1, +f.guests.value + +b.dataset.step));
+  const next = Math.min(CONFIG.maxGuests, Math.max(1, +f.guests.value + +b.dataset.step));
+  if (next === +f.guests.value) return;
+  f.guests.value = next;
+  f.guests.classList.remove('tick'); void f.guests.offsetWidth; f.guests.classList.add('tick');
 }));
 
+// "Check dates" on a room card: pick that room, scroll to the form, open the date picker.
 $$('[data-book]').forEach((b) => b.addEventListener('click', () => {
-  f.room.value = b.dataset.book || '';
-  book.showModal();
+  f.room.value = b.dataset.book;
+  book.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  setTimeout(() => f.in.value ? null : f.in.focus({ preventScroll: true }), 500);
 }));
 
-form.addEventListener('submit', (e) => {
-  const action = e.submitter?.value;
-  if (action === 'close') return;
-  if (!form.reportValidity()) { e.preventDefault(); return; }
-
-  const { value: checkin } = f.in;
-  const { value: checkout } = f.out;
-  const guests = f.guests.value;
+book.addEventListener('submit', (e) => {
+  e.preventDefault();
+  if (!book.reportValidity()) return;
+  const checkin = f.in.value, checkout = f.out.value, guests = f.guests.value;
   try { localStorage.setItem('les-booking', JSON.stringify({ in: checkin, out: checkout, guests })); } catch {}
 
-  let url;
-  if (action === 'booking') {
-    url = `${CONFIG.bookingUrl}?${new URLSearchParams({ checkin, checkout, group_adults: guests, group_children: 0, no_rooms: 1 })}`;
-  } else {
-    const room = f.room.value || 'any room';
-    const text = `Hello! I'd like to stay at Le's Apartment & Coffee from ${checkin} to ${checkout}, ${guests} guest${guests > 1 ? 's' : ''}, ${room}. Is it available?`;
-    url = `https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(text)}`;
-  }
+  const url = e.submitter?.value === 'whatsapp'
+    ? `https://wa.me/${CONFIG.whatsapp}?text=${encodeURIComponent(
+        `Hello! I'd like to stay at Le's Apartment & Coffee from ${checkin} to ${checkout}, ${guests} guest${guests > 1 ? 's' : ''}, ${f.room.value || 'any apartment'}. Is it available?`)}`
+    : `${CONFIG.bookingUrl}?${new URLSearchParams({ checkin, checkout, group_adults: guests, group_children: 0, no_rooms: 1 })}`;
   window.open(url, '_blank', 'noopener');
 });
