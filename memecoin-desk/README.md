@@ -45,6 +45,39 @@ Staged orders, fills, closes and the 21:00 report go to your phone, and replying
 
 Smart money: put wallets you trust in `data/whales.txt` (`address,label`; see `examples/whales.txt`). Known ruggers go in `data/rug_wallets.txt`. Tests: `python3 -m unittest test_desk -v`.
 
+## The cockpit
+
+The [Trench Cockpit](https://claude.ai/code/artifact/07137e3d-8557-44fc-aa7e-ddddbba4ccb5) is a page in Claude with everything in one place:
+- **Now:** the market pulse, today's read, the strategy head-to-head, trending pools
+- **Desk:** equity, staged orders, positions, kills, the thread
+- **How coins move:** the lifecycle study and the entry × exit backtest
+- **Calls check:** a channel's calls checked on-chain
+- **Playbook:** the rules, with the evidence behind each
+- **Ask Claude:** a chat that answers from the same numbers
+
+The numbers sit in the page's database. Ask Claude in Claude Code to refresh them; it runs:
+
+```bash
+python3 -I cockpit.py --pulse 10
+```
+
+That listens to the market for 10 minutes, rebuilds the snapshot from `data/` (desk database, channel check, research), and Claude writes it to the page. To check a channel, upload its Telegram export and run:
+
+```bash
+python3 -I channel.py <export.json>
+```
+
+The tools behind it:
+
+| Tool | What it does |
+|---|---|
+| `pulse.py` | Market pulse: launches and graduations an hour (PumpPortal), SOL, trending, boosts |
+| `lifecycle.py` | How young coins move: peaks, time to peak, shakeouts, the fall after the peak, volume timing |
+| `channel.py` | A Telegram call channel checked on-chain from a follower's entry |
+| `cockpit.py` | Builds the page snapshot; `cockpit_page.html` is the page |
+
+[BEST_PRACTICE.md](BEST_PRACTICE.md) is the full playbook.
+
 ## The terminal
 
 ![Trench Desk terminal: balance, equity curve, seats, a staged order waiting for APPROVE, and the thread](docs-terminal.png)
