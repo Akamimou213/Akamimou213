@@ -62,7 +62,8 @@ function initNav() {
   window.addEventListener('scroll', onScroll, { passive: true });
   onScroll();
 
-  const links = $$<HTMLAnchorElement>('.nav__links a');
+  // Only in-page links (#section) get a scroll-spy; external links such as Appfound are skipped.
+  const links = $$<HTMLAnchorElement>('.nav__links a[href^="#"]');
   links.forEach((a) => {
     const target = $(a.getAttribute('href')!);
     if (!target) return;
@@ -507,17 +508,17 @@ function initPrinciples() {
 /* ───────────── Offer, phases, about ───────────── */
 function initReveals() {
   if (reduced) return;
-  gsap.from('.offer__row .y', {
-    opacity: 0, scale: 0.6, duration: 0.5, ease: 'back.out(2.5)', stagger: 0.03,
-    scrollTrigger: { trigger: '.offer__table', start: 'top 75%', once: true },
-  });
   gsap.from('.phases li', {
     y: 24, opacity: 0, duration: 0.9, ease: 'expo.out', stagger: 0.1,
     scrollTrigger: { trigger: '.phases', start: 'top 85%', once: true },
   });
-  gsap.from('.xp__row', {
-    y: 18, opacity: 0, duration: 0.8, ease: 'expo.out', stagger: 0.06,
-    scrollTrigger: { trigger: '.xp', start: 'top 85%', once: true },
+  gsap.from('.pkgs > .pkg', {
+    y: 24, opacity: 0, duration: 0.9, ease: 'expo.out', stagger: 0.12,
+    scrollTrigger: { trigger: '.pkgs', start: 'top 80%', once: true },
+  });
+  gsap.from('.proof', {
+    y: 24, opacity: 0, duration: 0.9, ease: 'expo.out', stagger: 0.06,
+    scrollTrigger: { trigger: '.proofs', start: 'top 85%', once: true },
   });
   $$('.section-head, .system__intro, .about__intro, .faq__grid > div:first-child').forEach((el) => {
     gsap.from(el.children, {
