@@ -43,7 +43,8 @@ section:last-child { border-right: 0; }
 table { width: 100%; border-collapse: collapse; }
 th { position: sticky; top: 0; background: var(--panel); font: 600 10px var(--f-ui); letter-spacing: .07em; text-transform: uppercase; color: var(--dim); text-align: right; padding: 5px 6px; border-bottom: 1px solid var(--line); white-space: nowrap; cursor: default; }
 th:first-child, td:first-child { text-align: left; }
-td { padding: 5px 6px; border-bottom: 1px solid #1a222a; text-align: right; white-space: nowrap; font-family: var(--f-num); font-size: 12px; }
+td { padding: 5px 5px; border-bottom: 1px solid #1a222a; text-align: right; white-space: nowrap; font-family: var(--f-num); font-size: 12px; }
+#radar th { padding: 5px 5px; }
 tbody tr { cursor: pointer; }
 tbody tr:hover { background: var(--raise); }
 tbody tr.sel { background: var(--sel); }
@@ -68,6 +69,7 @@ tbody tr.sel { background: var(--sel); }
 .strip em { font-style: normal; }
 #chart { height: 340px; border-bottom: 1px solid var(--line); position: relative; }
 .chartbar { position: absolute; top: 6px; left: 8px; z-index: 3; }
+.chartmsg { position: absolute; inset: 0; z-index: 2; display: grid; place-items: center; color: var(--dim); font-size: 13px; pointer-events: none; }
 .lower { display: grid; grid-template-columns: 1.1fr 1fr 1.2fr; flex: 1; min-height: 0; }
 .lower > div { border-right: 1px solid var(--line); display: flex; flex-direction: column; min-height: 0; }
 .lower > div:last-child { border-right: 0; }
@@ -149,6 +151,7 @@ tbody tr.sel { background: var(--sel); }
       </div>
       <div class="strip" id="c-strip"></div>
       <div id="chart">
+        <div class="chartmsg" id="c-chartmsg" hidden></div>
         <div class="chartbar seg" role="group" aria-label="Timeframe">
           <button data-tf="1m" aria-pressed="false">1m</button><button data-tf="5m" aria-pressed="true">5m</button><button data-tf="15m" aria-pressed="false">15m</button><button data-tf="1h" aria-pressed="false">1h</button>
         </div>
@@ -315,15 +318,27 @@ async function loadCoin(fit) {
     if (op.tp) lines.push(candles.createPriceLine({ price: op.tp, color: "#2fbf71", lineWidth: 1, title: "target" })); }
   candles.setMarkers((d.calls || []).filter((x) => bars.length && x.ts >= bars[0].time).map((x) => ({ time: bars.reduce((a, b) => (b.time <= x.ts ? b.time : a), bars[0].time), position: "belowBar", color: "#5aa9ff", shape: "arrowUp", text: "call" })));
   if (fit) chart.timeScale().fitContent();
+  const cmsg = d.candles_error || (!bars.length ? "No candles for this coin yet" : "");
+  $("c-chartmsg").hidden = !cmsg; $("c-chartmsg").textContent = cmsg;
   $("c-call").hidden = !(d.calls || []).length;
   $("c-call").innerHTML = (d.calls || []).map((x) => `<b>${esc(x.channel)} · ${ago(x.ts)} ago</b>\n${esc(x.text)}`).join("\n\n");
-  $("c-checks").innerHTML = (c.checks || []).length ? c.checks.map((k) => `<div><span>${k.ok ? "✓" : "✗"} ${esc(k.label)}</span><span class="v ${k.ok ? "up" : "down"}">${esc(k.value)}</span></div>`).join("")
+  const checking = c.safety === "checking";
+  const status = c.safety === "pass" ? `<div><b class="up">SAFE</b><span class="v">every check passed</span></div>`
+    : c.safety === "dead" ? `<div><b class="down">FAILED</b><span class="v down">${esc(c.safety_why)}</span></div>`
+    : checking ? `<div><b style="color:var(--setup)">CHECKING</b><span class="v">tracing the dev's funding wallet…</span></div>` : "";
+  $("c-checks").innerHTML = (c.checks || []).length ? status + c.checks.map((k) => {
+      const pending = checking && k.id === "dev";
+      return `<div><span>${pending ? "…" : k.ok ? "✓" : "✗"} ${esc(k.label)}</span><span class="v ${pending ? "dim" : k.ok ? "up" : "down"}">${esc(k.value)}</span></div>`; }).join("")
     + `<div><span>Insider wallets</span><span class="v">${c.insiders ?? "–"}</span></div><div><span>Bundle</span><span class="v">${c.bundle == null ? "–" : c.bundle.toFixed(1) + "%"}</span></div><div><span>Dev holds</span><span class="v">${c.dev_pct == null ? "–" : c.dev_pct.toFixed(2) + "%"}</span></div>`
-    : `<div class="empty">${c.safety === "unknown" ? esc(c.safety_why) : "Checking…"}</div>`;
-  $("c-holders").innerHTML = (c.top_holders || []).map((h, i) => `<tr><td class="dim">${i + 1}</td><td><a class="dim" href="https://solscan.io/account/${esc(h.owner)}" target="_blank" rel="noopener">${short(h.owner)}</a></td><td>${(h.pct || 0).toFixed(2)}%</td></tr>`).join("") || `<tr><td class="empty">–</td></tr>`;
-  $("c-trades").innerHTML = (d.trades || []).map((t) => `<tr><td class="dim">${t.ts ? ago(Date.parse(t.ts) / 1000) : ""}</td><td class="${t.side === "buy" ? "up" : "down"}">${t.side === "buy" ? "BUY" : "SELL"}</td><td>${usd(t.usd)}</td><td class="dim">${short(t.wallet)}</td></tr>`).join("") || `<tr><td class="empty">–</td></tr>`;
+    : `<div class="empty">${c.safety === "unknown" ? esc(c.safety_why) + " · retrying" : "Checking contract, liquidity and holders…"}</div>`;
+  $("c-holders").innerHTML = (c.top_holders || []).map((h, i) => `<tr><td class="dim">${i + 1}</td><td><a class="dim" href="https://solscan.io/account/${esc(h.owner)}" target="_blank" rel="noopener">${short(h.owner)}</a></td><td>${(h.pct || 0).toFixed(2)}%</td></tr>`).join("")
+    || `<tr><td class="empty">${(c.checks || []).length ? "No holder data from RugCheck" : "Loading holders…"}</td></tr>`;
+  $("c-trades").innerHTML = (d.trades || []).map((t) => `<tr><td class="dim">${t.ts ? ago(Date.parse(t.ts) / 1000) : ""}</td><td class="${t.side === "buy" ? "up" : "down"}">${t.side === "buy" ? "BUY" : "SELL"}</td><td>${usd(t.usd)}</td><td class="dim">${short(t.wallet)}</td></tr>`).join("")
+    || `<tr><td class="empty">${esc(d.trades_error || "No trades in the last 24 h")}</td></tr>`;
   paintTicket();
-  if (!(c.checks || []).length) setTimeout(() => m === sel && loadCoin(false), 3000);   // safety still running
+  // keep asking while something is still on its way: safety running, or the chart was rate-limited
+  if (!(c.checks || []).length || c.safety === "checking" || c.safety === "unknown" || d.candles_error || d.trades_error)
+    setTimeout(() => m === sel && loadCoin(!bars.length), 4000);
 }
 function paintTicket() {
   const d = coinData; if (!d) return;

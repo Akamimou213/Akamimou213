@@ -22,9 +22,15 @@ MIN_INTERVAL = {
 }
 CACHE_TTL = 45  # seconds
 
-_lock = threading.Lock()
+_lock = threading.Lock()          # guards the per-host lock table only
+_host_locks = {}                  # one lock per host: waiting out one API's limit never blocks the others
 _last = {}
 _cache = {}
+
+
+def _host_lock(host):
+    with _lock:
+        return _host_locks.setdefault(host, threading.Lock())
 
 
 class SourceError(Exception):
@@ -39,7 +45,7 @@ def get_json(url, ttl=CACHE_TTL, retries=3):
     host = urllib.parse.urlparse(url).netloc
     err = None
     for attempt in range(retries):
-        with _lock:
+        with _host_lock(host):
             wait = MIN_INTERVAL.get(host, 0.3) - (time.time() - _last.get(host, 0))
             if wait > 0:
                 time.sleep(wait)

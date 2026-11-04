@@ -300,46 +300,83 @@ class App:
             now = time.time()
             with self.lock:
                 cand = [c for c in self.coins.values() if c.get("pair") and ((c.get("vol_h1") or 0) >= 20000 or "call" in c["sources"])
-                        and now - c["enriched"] > 300]
+                        and now - c["enriched"] > 300 and not c.get("enriching")]
                 cand.sort(key=lambda c: -((c.get("vol_h1") or 0) + (1e9 if "call" in c["sources"] else 0)))
-            for c in cand[:3]:          # GeckoTerminal allows ~30 calls a minute; leave room for what you click
-                self.enrich_one(c["mint"])
-            self.stop.wait(12)
+            # GeckoTerminal allows about 30 calls a minute and what you click comes first: the background
+            # takes the 24 h range for one coin a cycle, and the safety checks don't touch GeckoTerminal at all
+            for i, c in enumerate(cand[:3]):
+                self.enrich_one(c["mint"], with_range=(i == 0 and not c.get("high24")))
+            self.stop.wait(15)
 
-    def enrich_one(self, mint, force=False):
+    @staticmethod
+    def range_from(bars, now=None):
+        """24 h high and low from candle bodies (one bad wick on a thin pool would fake them)."""
+        now = now or time.time()
+        day = [b for b in bars if b[0] >= now - 86400 and b[1] and b[4]]
+        if not day:
+            return {}
+        return dict(high24=max(max(b[1], b[4]) for b in day), low24=min(min(b[1], b[4]) for b in day), range_ts=now)
+
+    class _RegistryOnly:
+        """Dev check without the slow funding trace: answers from the rug registry at once."""
+        def __init__(self, dev):
+            self.dev = dev
+
+        def check(self, creator):
+            if not creator:
+                return None, "creator unknown"
+            hit = self.dev.d.store.one("SELECT * FROM rug_registry WHERE wallet=?", (creator,))
+            if hit:
+                return False, f"creator is in the rug registry ({hit['note'] or hit['mint']})"
+            return True, "tracing the funding wallet…"
+
+    def _safety(self, mint, rc, pairs, dev):
+        _, checks, facts = RK.evaluate(mint, pairs, rc, dev, self.cfg)
+        fail = next((ch for ch in checks if not ch["ok"] and ch["id"] not in ACTIVITY_CHECKS), None)
+        return dict(safety="dead" if fail else "pass", safety_why=(f"{fail['label']}: {fail['value']}" if fail else None), checks=checks,
+                    top10=facts.get("top10_pct"), dev_pct=facts.get("dev_pct"), holders=facts.get("holders"),
+                    insiders=facts.get("insider_wallets"), bundle=facts.get("bundle_pct"), lp=facts.get("lp"),
+                    top_holders=[dict(owner=h.get("owner"), pct=f(h.get("pct"))) for h in RK.top_holders_excl(rc)[:10]] if rc else [])
+
+    def enrich_one(self, mint, with_range=True):
         with self.lock:
             c = self.coins.get(mint)
             if not c or not c.get("pair"):
                 return
             pair = c["pair"]
-        upd = dict(enriched=time.time())
-        try:
-            d = S.get_json(f"{GT}/pools/{pair}/ohlcv/minute?aggregate=15&limit=100&currency=usd&token={mint}", ttl=240)
-            bars = sorted(d["data"]["attributes"]["ohlcv_list"])
-            day = [b for b in bars if b[0] >= time.time() - 86400]
-            if day:
-                # candle bodies: a single bad wick on a thin pool would fake a 24 h high or low
-                upd.update(high24=max(max(b[1], b[4]) for b in day), low24=min(min(b[1], b[4]) for b in day))
-            self.feeds["geckoterminal"] = "live"
-        except Exception:
-            self.feeds["geckoterminal"] = "rate limited"
+        if with_range:
+            try:
+                d = S.get_json(f"{GT}/pools/{pair}/ohlcv/minute?aggregate=15&limit=100&currency=usd&token={mint}", ttl=240)
+                rng = self.range_from(d["data"]["attributes"]["ohlcv_list"])
+                with self.lock:
+                    if mint in self.coins:
+                        self.coins[mint].update(rng)
+                self.feeds["geckoterminal"] = "live"
+            except Exception:
+                self.feeds["geckoterminal"] = "rate limited"
         try:
             rc = S.rugcheck_report(mint)
             pairs = S.ds_tokens("solana", [mint])
-            _, checks, facts = RK.evaluate(mint, pairs, rc, self.dev, self.cfg)
-            fail = next((ch for ch in checks if not ch["ok"] and ch["id"] not in ACTIVITY_CHECKS), None)
-            status = "dead" if fail else "pass"
-            upd.update(safety=status, safety_why=(f"{fail['label']}: {fail['value']}" if fail else None), checks=checks,
-                       top10=facts.get("top10_pct"), dev_pct=facts.get("dev_pct"), holders=facts.get("holders"),
-                       insiders=facts.get("insider_wallets"), bundle=facts.get("bundle_pct"), lp=facts.get("lp"),
-                       top_holders=[dict(owner=h.get("owner"), pct=f(h.get("pct"))) for h in RK.top_holders_excl(rc)[:10]] if rc else [])
+            # step 1, a few seconds: contract, LP, holders, flags; the dev row waits for step 2
+            quick = self._safety(mint, rc, pairs, self._RegistryOnly(self.dev))
+            if quick["safety"] == "pass":
+                quick["safety"] = "checking"
+            with self.lock:
+                if mint in self.coins:
+                    self.coins[mint].update(quick, enriched=time.time())
             self.feeds["rugcheck"] = "live"
+            if quick["safety"] == "dead":
+                return
+            # step 2, can take a while on the public Solana RPC: trace the dev's funding wallet
+            full = self._safety(mint, rc, pairs, self.dev)
+            with self.lock:
+                if mint in self.coins:
+                    self.coins[mint].update(full, enriched=time.time())
         except Exception as e:
-            upd.update(safety="unknown", safety_why=f"check failed: {type(e).__name__}")
+            with self.lock:
+                if mint in self.coins:
+                    self.coins[mint].update(safety="unknown", safety_why=f"check failed: {type(e).__name__}", enriched=time.time())
             self.feeds["rugcheck"] = "error"
-        with self.lock:
-            if mint in self.coins:
-                self.coins[mint].update(upd)
 
     # ---------------------------------------------------------------- tags
     @staticmethod
@@ -389,6 +426,8 @@ class App:
             c = self.coins.get(mint) or {}
         if c.get("safety") == "dead":
             return "safety: " + (c.get("safety_why") or "failed")
+        if c.get("safety") == "checking":
+            return "safety: tracing the dev's funding wallet…"
         if c.get("safety") != "pass":
             return "safety check still running" if c.get("enriching") or not c.get("checks") else "safety check could not run"
         if self.q("SELECT id FROM pos WHERE mint=? AND status='open'", (mint,)):
@@ -565,14 +604,14 @@ class App:
                         c = dict(self.coins[mint])
             except Exception:
                 pass
-        if not c.get("checks") and not c.get("enriching") and c.get("pair"):
+        if (not c.get("checks") or c.get("safety") == "unknown") and not c.get("enriching") and c.get("pair"):
             # safety and the 24 h range take a few seconds (dev funding trace): run them in the background
             with self.lock:
                 self.coins[mint]["enriching"] = True
 
             def run():
                 try:
-                    self.enrich_one(mint)
+                    self.enrich_one(mint, with_range=False)   # the range comes from the candles this view loads
                 finally:
                     with self.lock:
                         if mint in self.coins:
@@ -589,16 +628,26 @@ class App:
                 d = S.get_json(f"{GT}/pools/{c['pair']}/ohlcv/{agg[0]}?aggregate={agg[1]}&limit={agg[2]}&currency=usd&token={mint}", ttl=20)
                 out["candles"] = sorted(b for b in d["data"]["attributes"]["ohlcv_list"]
                                         if len(b) >= 6 and all(v is not None for v in b[:6]))   # the chart rejects gaps
+                span = (out["candles"][-1][0] - out["candles"][0][0]) if len(out["candles"]) > 1 else 0
+                if span >= 20 * 3600:                     # these candles cover the day: refresh the 24 h range from them
+                    rng = self.range_from(out["candles"])
+                    with self.lock:
+                        if mint in self.coins:
+                            self.coins[mint].update(rng)
+                    c.update(rng)
+                    c["below_high"], c["above_low"] = self.live_range(c)
             except Exception as e:
-                out["candles_error"] = str(e)
+                out["candles_error"] = "GeckoTerminal is rate-limiting: retrying" if "429" in str(e) else f"chart data unavailable ({e})"
             try:
                 d = S.get_json(f"{GT}/pools/{c['pair']}/trades?trade_volume_in_usd_greater_than=0", ttl=10)
                 for t in (d.get("data") or [])[:40]:
                     a = t["attributes"]
                     out["trades"].append(dict(ts=a.get("block_timestamp"), side=a.get("kind"), usd=f(a.get("volume_in_usd")),
                                               wallet=a.get("tx_from_address"), price=f(a.get("price_to_in_usd") if a.get("kind") == "buy" else a.get("price_from_in_usd"))))
-            except Exception:
-                pass
+            except Exception as e:
+                out["trades_error"] = "GeckoTerminal is rate-limiting: retrying" if "429" in str(e) else "trades unavailable"
+        else:
+            out["candles_error"] = "no trading pool found on DexScreener yet"
         with self.lock:
             out["calls"] = [x for x in self.calls if x["mint"] == mint]
         tags, age_h = self.tag(c, time.time()) if c.get("price") else ([], None)
