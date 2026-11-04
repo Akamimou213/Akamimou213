@@ -10,6 +10,6 @@ export const config = {
    */
   formEndpoint: 'https://formspree.io/f/xgaorogn',
 
-  calendlyUrl: 'https://calendly.com/mohamed-getregular/30min',
+  calendlyUrl: 'https://calendly.com/mohamed-getregular/appfound',
   linkedinUrl: 'https://www.linkedin.com/in/mohamed-barkat-9b8278263/',
 };

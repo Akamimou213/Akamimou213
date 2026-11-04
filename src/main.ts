@@ -149,21 +149,21 @@ type Num = { v: number; prefix?: string; suffix?: string; decimals?: number };
 type Slide = { title: string; a: Num; aLabel: string; b: Num; bLabel: string; r: Num; rLabel: string; foot: string };
 
 const SLIDES: Slide[] = [
-  { title: 'Super app · North Africa · 2025',
-    a: { v: 211, prefix: '$', suffix: 'K' }, aLabel: 'acquisition spend',
-    b: { v: 116464 }, bLabel: 'first deliveries',
-    r: { v: 1.81, prefix: '$', decimals: 2 }, rLabel: 'per first delivery',
-    foot: 'Optimized to first orders, the event that pays.' },
   { title: 'D2C · wellness equipment · Meta',
     a: { v: 114150, prefix: '$' }, aLabel: 'purchase value',
     b: { v: 11462, prefix: '$' }, bLabel: 'ad spend',
     r: { v: 9.96, suffix: '×', decimals: 2 }, rLabel: 'ROAS (platform)',
     foot: 'Four Advantage+ campaigns, February 2026.' },
-  { title: 'Local · house painting · Google Ads',
-    a: { v: 207, prefix: 'CA$', suffix: 'K' }, aLabel: 'ad spend',
-    b: { v: 4460 }, bLabel: 'conversions',
-    r: { v: 46.44, prefix: 'CA$', decimals: 2 }, rLabel: 'per conversion',
-    foot: 'Search and Performance Max, free-estimate offers.' },
+  { title: 'D2C · watch accessories · Meta',
+    a: { v: 23016, prefix: '$' }, aLabel: 'ad spend',
+    b: { v: 1260 }, bLabel: 'purchases',
+    r: { v: 18.27, prefix: '$', decimals: 2 }, rLabel: 'per purchase',
+    foot: 'Top prospecting campaign, platform-attributed.' },
+  { title: 'Super app · North Africa · 2025',
+    a: { v: 211, prefix: '$', suffix: 'K' }, aLabel: 'acquisition spend',
+    b: { v: 116464 }, bLabel: 'first deliveries',
+    r: { v: 1.81, prefix: '$', decimals: 2 }, rLabel: 'per first delivery',
+    foot: 'Optimized to first orders, the event that pays.' },
 ];
 
 function setNum(el: HTMLElement, n: Num) {
