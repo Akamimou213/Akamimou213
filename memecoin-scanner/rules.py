@@ -132,12 +132,16 @@ def gate_metrics(candles, now, price=None):
     """vol30, high60 and % off the 60-min high from 1-minute candles."""
     if not candles:
         return None
+    # Candles that stop more than 5 min ago (e.g. only the bonding curve of a coin that just
+    # graduated) would understate both volume and the high: treat the gate as unknown.
+    if max(c[0] for c in candles) < now - 300:
+        return None
     v30 = sum(_f(c[5], 0) for c in candles if c[0] >= now - 1800)
     last60 = [c for c in candles if c[0] >= now - 3600]
     if not last60:
         return dict(vol30=v30, high60=None, off_high=None, price=price, candles=0)
-    hi = max(_f(c[2], 0) for c in last60)
     p = price if price else _f(candles[-1][4])
+    hi = max([_f(c[2], 0) for c in last60] + ([p] if p else []))  # the live price can be the high
     off = (p / hi - 1) if (hi and p) else None
     return dict(vol30=v30, high60=hi, off_high=off, price=p, candles=len(last60))
 

@@ -23,6 +23,30 @@ SOL_RE = re.compile(r"^[1-9A-HJ-NP-Za-km-z]{32,44}$")
 EVM_RE = re.compile(r"^0x[0-9a-fA-F]{40}$")
 
 
+def candles_with_curve(chain, pair, pairs, address):
+    """1-min candles for the main pool; for a coin that graduated within the hour, prepend the
+    pump.fun bonding-curve candles so the 60-min high and 30-min volume cover its whole life."""
+    main = []
+    try:
+        main = S.gt_minute_candles(chain, pair["pairAddress"], 60)
+    except S.SourceError:
+        pass
+    created = (pair.get("pairCreatedAt") or 0) / 1000
+    curves = [p for p in pairs if p.get("dexId") == "pumpfun"
+              and (p.get("baseToken") or {}).get("address", "").lower() == address.lower()]
+    if pair.get("dexId") != "pumpfun" and curves and time.time() - created < 3600:
+        curve = max(curves, key=lambda p: (((p.get("txns") or {}).get("h24") or {}).get("buys") or 0))
+        try:
+            old = S.gt_minute_candles(chain, curve["pairAddress"], 60)
+            seen = {c[0] for c in main}
+            main = sorted(main + [c for c in old if c[0] not in seen])
+        except S.SourceError:
+            pass
+    if not main:
+        raise S.SourceError("no 1-minute candles (rate-limited or pool too new)")
+    return main
+
+
 def collect(address, chain=None, candles=True):
     """Fetch everything the dossier needs. Failures are recorded, never raised."""
     address = address.strip()
@@ -41,7 +65,7 @@ def collect(address, chain=None, candles=True):
     jobs = {}
     with ThreadPoolExecutor(max_workers=3) as ex:
         if pair and candles:
-            jobs["candles"] = ex.submit(S.gt_minute_candles, chain, pair["pairAddress"], 60)
+            jobs["candles"] = ex.submit(candles_with_curve, chain, pair, raw["pairs"], address)
         if chain == "solana":
             jobs["rugcheck"] = ex.submit(S.rugcheck_report, address)
         elif chain:
