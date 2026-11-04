@@ -22,7 +22,7 @@ class Router(http.server.SimpleHTTPRequestHandler):
         path = self.path.split("?")[0]
         if path in HANDLERS:
             HANDLERS[path].do_GET(self)
-        elif path.startswith("/api/") or path.startswith("/lib/"):
+        elif path.startswith("/api/") or path.startswith("/api/_lib/"):
             self.send_error(404)
         else:
             super().do_GET()
