@@ -171,7 +171,7 @@ class Head:
         p = main_pair(pairs, lead["mint"])
         if p and p.get("pairAddress"):
             try:
-                candles = S.gt_minute_candles("solana", p["pairAddress"], 60)
+                candles = S.gt_minute_candles("solana", p["pairAddress"], 60, lead["mint"])
             except S.SourceError:
                 candles = None   # the dossier then says "missing"; never a guess
         dos = build_dossier(lead, pairs, st, self.d.cfg, st.equity_now(), int(self.d.clock()), candles)

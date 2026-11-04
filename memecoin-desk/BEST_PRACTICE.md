@@ -51,16 +51,27 @@ What follows from it:
 
 ## 4. Calls and channels: what they really are
 
-From the MadApes export (188 posts in 9 days):
-- **Mostly marketing.** 11 new calls against 149 brag updates, 7 daily recaps ("nothing under 3x counted") and casino referral ads. Most updates (133) brag about calls older than the export.
-- **The brags come late.** At the moment of a brag, the coin was already a median **−58%** below the peak it was bragging about.
-- **The brags count from the call price, not your price.** STONKLANA was bragged as "5x" six times; a follower who bought 15 minutes after the call saw at most **1.05x**.
-- **On-chain from a realistic entry:** 4 of 10 measurable calls ever reached 2x, 8 of 10 are below the entry now, and the median call is at **0.76x**. Following with sell-at-2x / stop −50% / out after 60 min came out at about **1.0x before fees**.
+From the MadApes export (188 posts, 27 Oct–4 Nov), measured from the price when each call went out (corrected 4 Nov; an earlier version measured too late and read one pool's price wrong):
+- **The posts:** 11 new calls against 149 brag updates, 7 daily recaps and casino referral ads. Most updates (133) brag about calls older than the export.
+- **The calls had real money in them.** 5 of 10 measurable calls doubled from the posting price: STONKLANA 5.1x ($173k → $876k), jeff 3.3x, IMAGINE 2.6x, KUIP 2.2x, CATPAD 2.1x. Most brags match the chain; some are inflated (CATPAD claimed 4x, HYPE 2x against 1.1x).
+- **The moves take hours, not minutes.** Peaks came 4–65 hours after the post.
+- **The sell rule is the strategy.** Buy at the post, sell at 2x, stop −50%:
+
+  | Hold up to | Result a call, after fees | Winners | 10% worse entry |
+  |---|---|---|---|
+  | 1 h | +4% | 3 of 10 | −4% |
+  | 6 h | +14% | 5 of 10 | +10% |
+  | 24 h | **+31%** | 6 of 10 | +21% |
+  | 48 h | +32% | 6 of 10 | +26% |
+
+  That's 10 calls in one good week. The 148-call Gambles audit of the same group found the same exit at about +4% a call over five months, so one week overstates it.
+- **Then they fade.** 8 of 10 calls are below the posting price now, and brags come at a median −58% below the peak they brag about. Holding without a sell rule gives it all back.
 
 Rules:
-- **A call is a lead, not a signal.** It goes through the same filters and the same judge as any coin the desk finds itself.
-- **Never buy because of a brag post.** It's posted after the move, by design.
-- **Measure any channel before trusting it.** `python3 channel.py <export.json>` checks every call on-chain. Judge a channel on what a follower got, not on what it claims.
+- **A call is a lead, not a signal.** It still goes through the safety filters.
+- **Calls need their own exit.** Use a 2x target, a −50% stop and up to 24 h, not the 60-minute time stop the desk uses for fresh pairs, which sells before most call moves happen. *data*
+- **Be at the post, not the brag.** Entering when the brag appears means buying about 58% below the peak, after the move. *data*
+- **Measure any channel before trusting it.** `python3 channel.py <export.json>` checks every call from the posting price and simulates the follow rule.
 
 ## 5. Entry rules
 

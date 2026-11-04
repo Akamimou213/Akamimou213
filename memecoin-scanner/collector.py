@@ -195,7 +195,7 @@ class Collector:
                 continue
             n += 1
             try:
-                cs = S.gt_minute_candles(r["chain"], mp["pairAddress"], 70)
+                cs = S.gt_minute_candles(r["chain"], mp["pairAddress"], 70, r["address"])
             except S.SourceError as e:
                 if "rate limited" in str(e):
                     self.seeded.discard(k)  # try again next cycle

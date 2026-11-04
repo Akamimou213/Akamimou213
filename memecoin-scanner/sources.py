@@ -101,12 +101,16 @@ GT_NETWORK = {"solana": "solana", "ethereum": "eth", "bsc": "bsc", "base": "base
               "arbitrum": "arbitrum", "polygon": "polygon_pos", "avalanche": "avax"}
 
 
-def gt_minute_candles(chain, pool, limit=60):
-    """Last `limit` 1-minute candles [ts, o, h, l, c, vol_usd], oldest first."""
+def gt_minute_candles(chain, pool, limit=60, token="base"):
+    """Last `limit` 1-minute candles [ts, o, h, l, c, vol_usd], oldest first.
+
+    Pass the coin's own address as `token`: GeckoTerminal's "base" side of a pool is not always the
+    coin DexScreener calls the base (some Raydium pools list SOL first), and then the candles are SOL's.
+    """
     net = GT_NETWORK.get(chain)
     if not net:
         raise SourceError(f"GeckoTerminal does not cover {chain}")
-    d = get_json(f"{GT}/networks/{net}/pools/{pool}/ohlcv/minute?aggregate=1&limit={limit}&currency=usd&token=base",
+    d = get_json(f"{GT}/networks/{net}/pools/{pool}/ohlcv/minute?aggregate=1&limit={limit}&currency=usd&token={token}",
                  ttl=30)
     rows = d.get("data", {}).get("attributes", {}).get("ohlcv_list") or []
     return sorted(rows)

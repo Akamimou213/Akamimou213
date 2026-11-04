@@ -210,7 +210,7 @@ aside.chat {
       </section>
       <section class="panel">
         <h2>Every call, on-chain</h2>
-        <p class="sub">Entry is the close of the first 15-minute candle after the post: what a follower could actually get. "Claimed" is what the channel later bragged.</p>
+        <p class="sub">Measured from the price when the call went out (first 15-minute candle), on the coin's busiest pool. "Follow 24 h" buys at the post and sells at 2x, at −50%, or after 24 hours, after 4.5% fees. "Claimed" is the channel's own brag.</p>
         <div class="scroll"><table id="calls"></table></div>
       </section>
     </div>
@@ -260,9 +260,10 @@ const RULES = [
     ["After the peak the median coin falls 89% (curve) to 98% (graduated). The peak is where you sell.", "data"]]],
   ["Calls and channels", [
     ["A call is a lead, not a signal: it goes through the same filters and judge as anything else.", "rule"],
-    ["Brags are posted after the move: MadApes bragged at a median 58% below the peak.", "data"],
-    ["Brags count from the call price. STONKLANA was bragged as 5x; a follower 15 minutes later saw 1.05x.", "data"],
-    ["Measure any channel with channel.py before trusting it.", "rule"]]],
+    ["MadApes calls had real money in them: 5 of 10 doubled from the posting price (STONKLANA 5.1x, jeff 3.3x), but they took 4 to 65 hours.", "data"],
+    ["Following them paid only with a patient exit: buy at the post, sell at 2x, stop -50%, hold up to 24 h made +31% a call (6 of 10 won); a 60-minute hold made +4%.", "data"],
+    ["Then they fade: 8 of 10 are below the posting price now, so the sell rule is the strategy.", "data"],
+    ["Some brags are inflated (CATPAD 4x claimed, 2.1x from the post). Measure any channel with channel.py.", "rule"]]],
   ["Entry", [
     ["One failed safety check kills the coin, and a check that can't run is a fail: mint and freeze revoked, LP locked 95%+, top 10 at most 20%, dev not linked to a rug.", "source"],
     ["1-hour volume of at least $50k on the coin's own pools. Necessary, not an edge on its own.", "data"],
@@ -388,7 +389,10 @@ function renderRead() {
     items.push(ready.length ? ["good", `${ready[0].name} has met the switch bar on the shadow book.`]
       : ["warn", `No strategy has met the switch bar yet (100+ shadow trades, positive capped average and median). ${h.reduce((a, r) => a + r.n, 0)} shadow trades so far.`]);
   }
-  if (c.measured) items.push(["bad", `${c.channel}: ${c.below_entry_now} of ${c.measured} recent calls are below a follower's entry; brags came at a median ${pct(c.fall_from_peak_when_bragged_median, 0)} from the peak.`]);
+  if (c.measured && c.follow) {
+    const f24 = c.follow["24"] || {}, f1 = c.follow["1"] || {};
+    items.push([f24.avg > 0 ? "good" : "bad", `${c.channel}: ${c.reached_2x} of ${c.measured} recent calls doubled from the posting price. Buying at the post with a 2x target, a −50% stop and up to 24 h made ${pct(f24.avg, 0)} a call (${f24.wins}/${c.measured} won; ${pct(f24.avg_slip10, 0)} with a 10% worse entry). A 1-hour hold made ${pct(f1.avg, 0)}. ${c.below_entry_now} of ${c.measured} are below the post now: the sell rule is what makes the money.`]);
+  }
   $("read").innerHTML = items.map(([tone, t]) => `<li><span class="tag ${tone}">${tone === "good" ? "for" : tone === "bad" ? "against" : "watch"}</span><span>${esc(t)}</span></li>`).join("");
 }
 
@@ -492,17 +496,18 @@ function renderCalls() {
   if (!c.rows) { $("calls-sub").textContent = "No channel export analysed yet. Upload a Telegram export and ask Claude to run channel.py."; return; }
   $("calls-title").textContent = `${c.channel}: calls check`;
   $("calls-sub").textContent = `${c.posts} posts from ${utc(c.from_ts, true)} to ${utc(c.to_ts, true)} UTC, checked ${ago(c.ts)}. ${c.source}.`;
+  const F = c.follow || {}, fx = (h) => F[h] || {};
   $("calls-kpis").innerHTML = [
     kpi("New calls", c.calls, `vs ${c.updates} brag updates`),
-    kpi("Reached 2x", `${c.reached_2x}/${c.measured}`, "from a follower's entry"),
-    kpi("Below entry now", `${c.below_entry_now}/${c.measured}`, "", "down"),
-    kpi("Median call now", (c.median_now_x ?? 0).toFixed(2) + "x", "of the entry price", (c.median_now_x || 0) < 1 ? "down" : "up"),
+    kpi("Doubled from the post", `${c.reached_2x}/${c.measured}`, `median peak ${(c.median_peak_x ?? 0).toFixed(2)}x`, "up"),
+    kpi("Follow, hold ≤ 24 h", pct(fx("24").avg, 0), `a call · ${fx("24").wins}/${c.measured} won · ${pct(fx("24").avg_slip10, 0)} with worse entry`, fx("24").avg > 0 ? "up" : "down"),
+    kpi("Follow, hold ≤ 1 h", pct(fx("1").avg, 0), `a call · ${fx("1").wins}/${c.measured} won`, fx("1").avg > 0 ? "up" : "down"),
+    kpi("Below the post now", `${c.below_entry_now}/${c.measured}`, `median ${(c.median_now_x ?? 0).toFixed(2)}x`, "down"),
     kpi("Brag posted at", pct(c.fall_from_peak_when_bragged_median, 0), "median, below the peak it brags", "down"),
-    kpi("2x / −50% / 60 min", (c.median_playbook_exit_x ?? 0).toFixed(2) + "x", "median result, before fees"),
   ].join("");
-  $("calls").innerHTML = `<thead><tr><th>Posted (UTC)</th><th>Token</th><th class="num">Peak</th><th class="num">Hours to peak</th><th class="num">Low first</th><th class="num">24 h</th><th class="num">Now</th><th>Claimed</th></tr></thead><tbody>` +
+  $("calls").innerHTML = `<thead><tr><th>Posted (UTC)</th><th>Token</th><th class="num">Mcap at post</th><th class="num">Peak</th><th class="num">Hours to peak</th><th class="num">Now</th><th class="num">Follow 24 h</th><th class="num">Claimed</th></tr></thead><tbody>` +
     c.rows.map((r) => r.status !== "ok" ? `<tr><td>${utc(r.ts, true)}</td><td>${esc(r.symbol || r.ticker)}</td><td colspan="6" class="dim">${esc(r.status)}</td></tr>`
-      : `<tr><td>${utc(r.ts, true)}</td><td>${esc(r.symbol || r.ticker)} <span class="dim">${esc(r.chain)}</span></td><td class="num">${r.peak_x.toFixed(2)}x</td><td class="num">${r.hours_to_peak}</td><td class="num">${r.low_before_peak_x.toFixed(2)}x</td><td class="num ${cls((r.x_24h || 1) - 1)}">${r.x_24h == null ? "–" : r.x_24h.toFixed(2) + "x"}</td><td class="num ${cls(r.now_x - 1)}">${r.now_x.toFixed(2)}x</td><td class="dim">${(r.claimed || []).length ? "up to " + Math.max(...r.claimed.map((x) => x.x)) + "x" : "–"}</td></tr>`).join("") + `</tbody>`;
+      : `<tr><td>${utc(r.ts, true)}</td><td>${esc(r.symbol || r.ticker)} <span class="dim">${esc(r.chain)}</span></td><td class="num">${usd(r.post_mcap)}</td><td class="num ${r.peak_x >= 2 ? "up" : ""}">${r.peak_x.toFixed(2)}x</td><td class="num">${r.hours_to_peak}</td><td class="num ${cls(r.now_x - 1)}">${r.now_x.toFixed(2)}x</td><td class="num ${cls((r.follow || {})["24"])}">${pct((r.follow || {})["24"], 0)}</td><td class="num dim">${(r.claimed || []).length ? Math.max(...r.claimed.map((x) => x.x)) + "x" : "–"}</td></tr>`).join("") + `</tbody>`;
 }
 
 function renderRules() {
@@ -524,7 +529,7 @@ renderRules(); renderAll();
 })();
 
 // ---------- chat
-const CHIPS = ["What is the market doing right now?", "Which strategy is ahead, and is it real yet?", "Why did the desk kill its last leads?", "Is MadApes worth following?", "Explain why a −6% stop fails on pullbacks"];
+const CHIPS = ["What is the market doing right now?", "Which strategy is ahead, and is it real yet?", "Why did the desk kill its last leads?", "How should I follow MadApes calls?", "Explain why a −6% stop fails on pullbacks"];
 const turns = [];
 let uid = null, dbRef = null, sampleFn = null, ctl = null;
 function addMsg(role, text) {

@@ -41,7 +41,7 @@ def collect(address, chain=None, candles=True):
     jobs = {}
     with ThreadPoolExecutor(max_workers=3) as ex:
         if pair and candles:
-            jobs["candles"] = ex.submit(S.gt_minute_candles, chain, pair["pairAddress"], 60)
+            jobs["candles"] = ex.submit(S.gt_minute_candles, chain, pair["pairAddress"], 60, address)
         if chain == "solana":
             jobs["rugcheck"] = ex.submit(S.rugcheck_report, address)
         elif chain:
@@ -126,7 +126,7 @@ def trending(chain="solana", limit=15, candles=False, bankroll=None, risk_pct=1.
         mp = rules.main_pair(c["pairs"], c["address"])
         try:
             if candles:
-                raw["candles"] = S.gt_minute_candles(c["chain"], mp["pairAddress"], 60)
+                raw["candles"] = S.gt_minute_candles(c["chain"], mp["pairAddress"], 60, c["address"])
         except S.SourceError as e:
             raw["errors"].append(f"candles: {e}")
         try:

@@ -98,8 +98,9 @@ def channel_doc():
         return dict(ts=None, source="channel.py has not run yet")
     keep = [k for k in c if k != "rows"]
     d = {k: c[k] for k in keep}
-    d["rows"] = [{k: x.get(k) for k in ("ts", "chain", "ticker", "symbol", "status", "peak_x", "hours_to_peak", "low_before_peak_x",
-                                         "x_24h", "now_x", "playbook_exit_x", "mcap_now", "claimed", "gamble")} for x in c["rows"]]
+    d["rows"] = [{k: x.get(k) for k in ("ts", "chain", "ticker", "symbol", "status", "post_mcap", "peak_mcap", "peak_x", "peak_x_body",
+                                         "hours_to_peak", "low_before_peak_x", "x_24h", "now_x", "follow", "follow_slip10", "mcap_now",
+                                         "claimed", "gamble")} for x in c["rows"]]
     d["ts"] = c.get("generated")
     d["source"] = f"Telegram export of {c.get('channel')} + DexScreener + GeckoTerminal 15-min candles"
     return d
