@@ -6,7 +6,7 @@
 <title>Trench</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap">
-<script src="https://unpkg.com/lightweight-charts@4.1.3/dist/lightweight-charts.standalone.production.js"></script>
+<script src="/static/lightweight-charts.js"></script>
 <style>
 /* Trading screen: radar | chart + coin | ticket + book. One dark palette, built for long sessions. */
 :root {
@@ -200,12 +200,15 @@ try { view = localStorage.getItem("trench-view") || view; sel = localStorage.get
 
 // ---------------- chart
 const chartEl = $("chart");
-const chart = LightweightCharts.createChart(chartEl, {
+const LWC = window.LightweightCharts;
+const stub = { setData() {}, setMarkers() {}, createPriceLine() { return {}; }, removePriceLine() {}, priceScale() { return { applyOptions() {} }; } };
+const chart = LWC ? LWC.createChart(chartEl, {
   layout: { background: { color: "#0f1419" }, textColor: "#7f8f9c", fontFamily: "IBM Plex Mono" },
   grid: { vertLines: { color: "#1a222a" }, horzLines: { color: "#1a222a" } },
   rightPriceScale: { borderColor: "#243039" }, timeScale: { borderColor: "#243039", timeVisible: true, secondsVisible: false },
   crosshair: { mode: 0 }, localization: { priceFormatter: (p) => px(p).slice(1) },
-});
+}) : { applyOptions() {}, timeScale() { return { fitContent() {} }; }, addCandlestickSeries() { return stub; }, addHistogramSeries() { return stub; } };
+if (!LWC) chartEl.insertAdjacentHTML("beforeend", '<div class="empty" style="padding-top:48px">Chart library did not load. Restart Trench.</div>');
 const candles = chart.addCandlestickSeries({ upColor: "#2fbf71", downColor: "#f0564a", borderVisible: false, wickUpColor: "#2fbf71", wickDownColor: "#f0564a" });
 const vols = chart.addHistogramSeries({ priceFormat: { type: "volume" }, priceScaleId: "", color: "#2a3844", lastValueVisible: false, priceLineVisible: false });
 vols.priceScale().applyOptions({ scaleMargins: { top: 0.82, bottom: 0 } });
@@ -233,7 +236,9 @@ function paintRows(s) {
       <td title="${esc(r.safety_why || r.safety || "not checked yet")}"><span class="saf ${r.safety || ""}"></span></td></tr>`;
   }).join("");
   $("rows-empty").hidden = rows.length > 0;
-  $("rows-empty").textContent = view === "setups" ? "No coin matches the setup right now: under 48h old, 20–60% below its 24h high, 2x+ above its 24h low, $50k+ 1h volume, safety pass." : view === "calls" ? "No calls with a Solana contract yet." : "Loading the market…";
+  $("rows-empty").textContent = q ? "Nothing matches the filter. Paste a full mint and press Enter to open any coin."
+    : view === "setups" ? "No setups right now: under 48h old, 20–60% below its 24h high, 2x+ above its 24h low, $50k+ 1h volume, safety pass."
+    : view === "calls" ? "No Solana calls from your channels yet." : view === "new" ? "No coin under an hour old with a live price yet." : "Loading the market…";
 }
 $("rows").addEventListener("click", (e) => { const tr = e.target.closest("tr"); if (tr) select(tr.dataset.m); });
 $("rows").addEventListener("keydown", (e) => { if (e.key === "Enter") { const tr = e.target.closest("tr"); if (tr) select(tr.dataset.m); } });
@@ -247,7 +252,7 @@ function paintTop(s) {
   $("h-launch").textContent = s.launches_h || "–"; $("h-grad").textContent = s.grads_h || "–"; $("h-track").textContent = s.tracked;
   $("h-mode").textContent = s.mode.toUpperCase();
   $("feeds").innerHTML = Object.entries(s.feeds).map(([k, v]) => `<span><i class="dot ${v === "live" ? "live" : v === "off" ? "" : "warn"}"></i>${k}</span>`).join("");
-  $("n-setups").textContent = "";
+  $("n-setups").textContent = s.n_setups ? `(${s.n_setups})` : "";
   $("positions").innerHTML = s.positions.length ? s.positions.map((p) => {
     const lo = p.stop, hi = p.tp || p.peak * 1.2, span = Math.max(1e-18, hi - lo), at = (x) => Math.max(0, Math.min(100, (x - lo) / span * 100));
     return `<div class="pos" data-m="${p.mint}"><div class="top"><b>${esc(p.symbol)}</b><span class="ret ${cl(p.ret)}">${fr(p.ret, 1)}</span></div>
@@ -284,7 +289,12 @@ async function loadCoin(fit) {
   const c = d.coin || {};
   $("c-sym").textContent = c.symbol || short(m);
   $("c-tags").innerHTML = chips(d.tags || []);
-  $("c-ca").hidden = false; $("c-ca").textContent = short(m); $("c-ca").onclick = () => navigator.clipboard && navigator.clipboard.writeText(m);
+  $("c-ca").hidden = false; $("c-ca").textContent = short(m);
+  $("c-ca").onclick = () => {
+    const done = () => { $("c-ca").textContent = "copied"; setTimeout(() => { $("c-ca").textContent = short(m); }, 1200); };
+    if (navigator.clipboard && window.isSecureContext) navigator.clipboard.writeText(m).then(done, () => prompt("Mint", m));
+    else prompt("Mint", m);
+  };
   $("c-links").innerHTML = [["DexScreener", c.url || `https://dexscreener.com/solana/${m}`], ["GMGN", `https://gmgn.ai/sol/token/${m}`], ["Bubblemaps", `https://app.bubblemaps.io/sol/token/${m}`], ["RugCheck", `https://rugcheck.xyz/tokens/${m}`], ["Solscan", `https://solscan.io/token/${m}`]]
     .map(([n, u]) => `<a href="${esc(u)}" target="_blank" rel="noopener">${n}</a>`).join("");
   const bs = c.buys_h1 != null && c.sells_h1 ? c.buys_h1 / c.sells_h1 : null;
@@ -325,7 +335,7 @@ function paintTicket() {
   $("t-kv").innerHTML = [["Size", usd(t.size, 2)], ["Entry ≈", px(p)], ["Target", t.tp ? px(p * t.tp) + ` (${t.tp}x)` : `trail ${t.trail * 100}% after +${t.arm * 100}%`],
     ["Stop", px(p * (1 - t.sl)) + ` (-${t.sl * 100}%)`], ["Time limit", t.tmax >= 120 ? t.tmax / 60 + "h" : t.tmax + "m"], ["Loss if stopped", usd(-t.size * (t.sl + 0.045), 2)]]
     .map(([k, v]) => `<span>${k}</span><b>${v}</b>`).join("");
-  const blockedWhy = d.blocked || (c.safety === "dead" ? "safety: " + (c.safety_why || "failed") : null);
+  const blockedWhy = d.blocked;
   $("t-buy").disabled = !!blockedWhy || !p || t.size < 5;
   $("t-msg").className = "msg" + (blockedWhy ? " err" : ""); $("t-msg").textContent = blockedWhy || "";
   $("t-jup").hidden = false; $("t-jup").href = `https://jup.ag/swap/SOL-${sel}`;
@@ -333,14 +343,16 @@ function paintTicket() {
 $("t-plans").addEventListener("change", (e) => { plan = e.target.value; paintTicket(); });
 $("t-buy").addEventListener("click", async () => {
   $("t-buy").disabled = true; $("t-msg").className = "msg"; $("t-msg").textContent = "Filling…";
-  const r = await api("/api/buy", { mint: sel, plan });
+  let r;
+  try { r = await api("/api/buy", { mint: sel, plan }); } catch (e) { r = { error: "Trench is not responding. Is it still running?" }; }
   $("t-msg").className = "msg " + (r.error ? "err" : "ok"); $("t-msg").textContent = r.error || `Filled ${usd(r.size, 2)} at ${px(r.fill)}`;
   await poll(); loadCoin(false);
 });
 
 // ---------------- loop
 async function poll() {
-  try { last = await api(`/api/state?view=${view}`); paintTop(last); paintRows(last); } catch (e) {}
+  try { last = await api(`/api/state?view=${view}`); paintTop(last); paintRows(last); }
+  catch (e) { $("feeds").innerHTML = `<span><i class="dot"></i>Trench is not responding</span>`; }
 }
 poll(); setInterval(poll, 3000);
 setInterval(() => loadCoin(false), 10000);

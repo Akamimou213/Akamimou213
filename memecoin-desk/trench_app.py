@@ -9,7 +9,9 @@ Live feeds: PumpPortal (every launch and graduation), DexScreener (profiles, boo
 exit plan runs on the server. No keys, no signing: for a real trade the ticket opens Jupiter.
 """
 import argparse
+import base64
 import calendar
+import ssl
 import html as H
 import json
 import os
@@ -35,6 +37,7 @@ QUOTES = {"So11111111111111111111111111111111111111112", "EPjFWdd5AufqSSqeM2qN1x
 GT = "https://api.geckoterminal.com/api/v2/networks/solana"
 CA_RE = re.compile(r"\b[1-9A-HJ-NP-Za-km-z]{32,44}\b")
 COST_SIDE = 0.0225
+ACTIVITY_CHECKS = {"vol"}     # volume is a trading filter, not a safety check: it never marks a coin dead
 
 PLANS = {
     "call": dict(name="Call · 2x / −50% / 24h", sl=0.5, tp=2.0, partial=None, arm=None, trail=None, tmax=24 * 60),
@@ -64,6 +67,7 @@ class App:
         self.db.row_factory = sqlite3.Row
         self.db.executescript(SCHEMA)
         self.dlock = threading.Lock()
+        self.tlock = threading.RLock()   # one trade at a time: buys, sells and exit ticks never interleave
         if self.kv("cash") is None:
             self.set_kv("cash", cfg["start_balance_usd"])
         self.desk = Desk(cfg, Store(os.path.join(HERE, "data", "trench_risk.db")))
@@ -245,7 +249,7 @@ class App:
                 held = {p["mint"] for p in self.q("SELECT mint FROM pos WHERE status='open'")}
                 for m in mints:
                     c = self.coins[m]
-                    if m in held or "call" in c["sources"]:
+                    if m in held or "call" in c["sources"] or "search" in c["sources"] or now - c.get("viewed", 0) < 3600:
                         continue
                     if now - c["first_seen"] > 1800 and (c.get("vol_h1") or 0) < 3000:
                         del self.coins[m]
@@ -313,17 +317,18 @@ class App:
             d = S.get_json(f"{GT}/pools/{pair}/ohlcv/minute?aggregate=15&limit=100&currency=usd&token={mint}", ttl=240)
             bars = sorted(d["data"]["attributes"]["ohlcv_list"])
             day = [b for b in bars if b[0] >= time.time() - 86400]
-            if day and c.get("price"):
-                hi, lo = max(b[2] for b in day), min(b[3] for b in day)
-                upd.update(high24=hi, low24=lo, below_high=1 - c["price"] / hi if hi else None, above_low=c["price"] / lo - 1 if lo else None)
+            if day:
+                # candle bodies: a single bad wick on a thin pool would fake a 24 h high or low
+                upd.update(high24=max(max(b[1], b[4]) for b in day), low24=min(min(b[1], b[4]) for b in day))
             self.feeds["geckoterminal"] = "live"
         except Exception:
             self.feeds["geckoterminal"] = "rate limited"
         try:
             rc = S.rugcheck_report(mint)
             pairs = S.ds_tokens("solana", [mint])
-            status, checks, facts = RK.evaluate(mint, pairs, rc, self.dev, self.cfg)
-            fail = next((ch for ch in checks if not ch["ok"]), None)
+            _, checks, facts = RK.evaluate(mint, pairs, rc, self.dev, self.cfg)
+            fail = next((ch for ch in checks if not ch["ok"] and ch["id"] not in ACTIVITY_CHECKS), None)
+            status = "dead" if fail else "pass"
             upd.update(safety=status, safety_why=(f"{fail['label']}: {fail['value']}" if fail else None), checks=checks,
                        top10=facts.get("top10_pct"), dev_pct=facts.get("dev_pct"), holders=facts.get("holders"),
                        insiders=facts.get("insider_wallets"), bundle=facts.get("bundle_pct"), lp=facts.get("lp"),
@@ -337,13 +342,23 @@ class App:
                 self.coins[mint].update(upd)
 
     # ---------------------------------------------------------------- tags
+    @staticmethod
+    def live_range(c):
+        """Distance from the 24 h high and low at the current price (the range itself refreshes every 5 min)."""
+        p, hi, lo = c.get("price"), c.get("high24"), c.get("low24")
+        if not (p and hi and lo):
+            return None, None
+        hi = max(hi, p)
+        lo = min(lo, p)
+        return 1 - p / hi, p / lo - 1
+
     def tag(self, c, now):
         age_h = (now - c["created"]) / 3600 if c.get("created") else None
-        b = c.get("below_high")
+        b, above = self.live_range(c)
         tags = []
         if c.get("safety") == "dead":
             return ["dead"], age_h
-        if age_h is not None and age_h < 48 and b is not None and 0.2 <= b <= 0.6 and (c.get("above_low") or 0) >= 1.0 \
+        if age_h is not None and age_h < 48 and b is not None and 0.2 <= b <= 0.6 and (above or 0) >= 1.0 \
                 and (c.get("vol_h1") or 0) >= 50000 and c.get("safety") == "pass":
             tags.append("setup")
         if b is not None and b < 0.07 and (c.get("chg_h6") or 0) > 50:
@@ -370,8 +385,18 @@ class App:
     def blocked(self, mint):
         L = self.cfg["limits"]
         now = time.time()
+        with self.lock:
+            c = self.coins.get(mint) or {}
+        if c.get("safety") == "dead":
+            return "safety: " + (c.get("safety_why") or "failed")
+        if c.get("safety") != "pass":
+            return "safety check still running" if c.get("enriching") or not c.get("checks") else "safety check could not run"
         if self.q("SELECT id FROM pos WHERE mint=? AND status='open'", (mint,)):
             return "already holding it: no averaging down"
+        stopped = self.q("SELECT exit_ts FROM pos WHERE mint=? AND status='closed' AND pnl<0 AND exit_ts>=?",
+                         (mint, now - L["no_reentry_after_stop_hours"] * 3600))
+        if stopped:
+            return f"lost on this coin {int((now - stopped[0]['exit_ts']) / 60)} min ago: no re-entry for {L['no_reentry_after_stop_hours']} h"
         if len(self.q("SELECT id FROM pos WHERE status='open'")) >= L["max_open_positions"]:
             return f"{L['max_open_positions']} positions open"
         last = self.q("SELECT exit_ts FROM pos WHERE status='closed' AND pnl<0 ORDER BY exit_ts DESC LIMIT 1")
@@ -384,6 +409,10 @@ class App:
         return None
 
     def buy(self, mint, plan_key):
+        with self.tlock:
+            return self._buy(mint, plan_key)
+
+    def _buy(self, mint, plan_key):
         plan = PLANS.get(plan_key)
         if not plan:
             return dict(error="unknown plan")
@@ -423,23 +452,39 @@ class App:
             if ops:
                 try:
                     pairs = S.ds_tokens("solana", list({p["mint"] for p in ops}))
-                    for p in ops:
+                except Exception:
+                    pairs = None
+                for p in ops:
+                    try:
+                        if pairs is None:
+                            continue
                         q = main_pair([x for x in pairs if (x.get("baseToken") or {}).get("address") == p["mint"]], p["mint"]) or {}
                         px, liq = f(q.get("priceUsd")), f((q.get("liquidity") or {}).get("usd"))
                         if px:
-                            self.tick(p, px, liq, manual=None)
-                except Exception:
-                    pass
+                            self.tick(p["id"], px, liq)
+                        elif time.time() - p["entry_ts"] > PLANS[p["plan"]]["tmax"] * 60 + 600:
+                            # no price for 10 min past the time limit: the coin stopped trading
+                            self.tick(p["id"], 0.0, 0.0, manual=1.0, why="no price after the time limit (counted as lost)")
+                    except Exception:
+                        pass
             self.stop.wait(4)
 
-    def tick(self, p, px, liq, manual=None):
+    def tick(self, pid, px, liq, manual=None, why="sold by you"):
+        with self.tlock:
+            rows = self.q("SELECT * FROM pos WHERE id=? AND status='open'", (pid,))   # fresh row: never act on a stale copy
+            if not rows:
+                return False
+            self._tick(rows[0], px, liq, manual, why)
+            return True
+
+    def _tick(self, p, px, liq, manual, manual_why):
         plan = PLANS[p["plan"]]
         raw = json.loads(p["state"])
         st = ExitState(plan, p["entry"], p["entry_ts"])
         st.stop, st.peak, st.armed, st.left, st.done = raw["stop"], raw["peak"], raw["armed"], raw["left"], raw["done"]
         st.fills = [tuple(x) for x in raw["fills"]]
         if manual:
-            fills = [st._sell(st.left * manual, px, "sold by you")]
+            fills = [st._sell(st.left * manual, px, manual_why)]
         else:
             fills = st.bar(int(time.time()), px, px, px, px)
             if liq is not None and p["liq"] and liq < p["liq"] * 0.5 and not st.done:
@@ -474,12 +519,15 @@ class App:
                     continue
                 if age_h is not None and age_h > 24 * 7 and "call" not in tags and "position" not in c["sources"]:
                     continue
+                below, _ = self.live_range(c)
                 rows.append(dict(mint=c["mint"], symbol=c.get("symbol"), image=c.get("image"), age_h=age_h, mcap=c.get("mcap"),
                                  liq=c.get("liq"), vol_h1=c.get("vol_h1"), vol_m5=c.get("vol_m5"), chg_m5=c.get("chg_m5"),
                                  chg_h1=c.get("chg_h1"), buys_h1=c.get("buys_h1"), sells_h1=c.get("sells_h1"),
-                                 below_high=c.get("below_high"), safety=c.get("safety"), safety_why=c.get("safety_why"),
+                                 below_high=below, safety=c.get("safety"), safety_why=c.get("safety_why"),
                                  tags=tags, call_ts=c.get("call_ts"), sources=c["sources"]))
         rows.sort(key=lambda r: ("setup" not in r["tags"], "call" not in r["tags"], -(r["vol_h1"] or 0)))
+        with self.lock:
+            n_setups = sum(1 for c in self.coins.values() if c.get("price") and "setup" in self.tag(c, now)[0])
         launches = sum(1 for t, k in self.flow if k == "launch" and t > now - 900)
         grads = sum(1 for t, k in self.flow if k == "graduation" and t > now - 900)
         ops = []
@@ -493,7 +541,7 @@ class App:
         for c in closed:
             c["plan"] = PLANS.get(c["plan"], {}).get("name", c["plan"])
         stats = self.q("SELECT COUNT(*) n, SUM(pnl>0) w, SUM(pnl) s FROM pos WHERE status='closed'")[0]
-        return dict(ts=now, feeds=self.feeds, sol=self.sol, launches_h=launches * 4, grads_h=grads * 4,
+        return dict(ts=now, feeds=self.feeds, sol=self.sol, launches_h=launches * 4, grads_h=grads * 4, n_setups=n_setups,
                     tracked=len(self.coins), coins=rows[:150], calls=self.calls[:25], cash=self.kv("cash"), equity=self.equity(),
                     start=self.cfg["start_balance_usd"], positions=ops, closed=closed, stats=stats,
                     plans={k: v["name"] for k, v in PLANS.items()}, mode=self.cfg["mode"])
@@ -530,12 +578,17 @@ class App:
                         if mint in self.coins:
                             self.coins[mint]["enriching"] = False
             threading.Thread(target=run, daemon=True).start()
+        with self.lock:
+            if mint in self.coins:
+                self.coins[mint]["viewed"] = time.time()
+        c["below_high"], c["above_low"] = self.live_range(c)
         out = dict(coin=c, candles=[], trades=[], pools=[])
         if c.get("pair"):
             agg = {"1m": ("minute", 1, 240), "5m": ("minute", 5, 288), "15m": ("minute", 15, 200), "1h": ("hour", 1, 168)}[tf]
             try:
                 d = S.get_json(f"{GT}/pools/{c['pair']}/ohlcv/{agg[0]}?aggregate={agg[1]}&limit={agg[2]}&currency=usd&token={mint}", ttl=20)
-                out["candles"] = sorted(d["data"]["attributes"]["ohlcv_list"])
+                out["candles"] = sorted(b for b in d["data"]["attributes"]["ohlcv_list"]
+                                        if len(b) >= 6 and all(v is not None for v in b[:6]))   # the chart rejects gaps
             except Exception as e:
                 out["candles_error"] = str(e)
             try:
@@ -559,10 +612,21 @@ class App:
 
 
 # ---------------------------------------------------------------- HTTP
-def make_handler(app, page):
+def make_handler(app, page, password=None):
+    static = os.path.join(HERE, "static")
+    want = "Basic " + base64.b64encode(f"trench:{password}".encode()).decode() if password else None
+
     class Handler(BaseHTTPRequestHandler):
         def log_message(self, *a):
             pass
+
+        def authorized(self):
+            if not want or self.headers.get("Authorization") == want:
+                return True
+            self.send_response(401)
+            self.send_header("WWW-Authenticate", 'Basic realm="Trench"')
+            self.end_headers()
+            return False
 
         def send(self, code, body, ctype="application/json"):
             data = body if isinstance(body, bytes) else json.dumps(body, default=str).encode()
@@ -573,11 +637,15 @@ def make_handler(app, page):
             self.wfile.write(data)
 
         def do_GET(self):
+            if not self.authorized():
+                return
             u = urllib.parse.urlparse(self.path)
             qs = urllib.parse.parse_qs(u.query)
             try:
                 if u.path in ("/", "/index.html"):
                     return self.send(200, open(page, "rb").read(), "text/html; charset=utf-8")
+                if u.path == "/static/lightweight-charts.js":
+                    return self.send(200, open(os.path.join(static, "lightweight-charts.js"), "rb").read(), "text/javascript")
                 if u.path == "/api/state":
                     return self.send(200, app.state(qs.get("view", ["all"])[0]))
                 if u.path == "/api/coin":
@@ -590,9 +658,16 @@ def make_handler(app, page):
                 return self.send(500, dict(error=f"{type(e).__name__}: {e}"))
 
         def do_POST(self):
+            if not self.authorized():
+                return
             u = urllib.parse.urlparse(self.path)
-            n = int(self.headers.get("Content-Length") or 0)
-            body = json.loads(self.rfile.read(n) or b"{}")
+            try:
+                n = min(int(self.headers.get("Content-Length") or 0), 10000)
+                body = json.loads(self.rfile.read(n) or b"{}")
+                if not isinstance(body, dict):
+                    raise ValueError("body must be a JSON object")
+            except Exception:
+                return self.send(400, dict(error="bad request"))
             try:
                 if u.path == "/api/buy":
                     return self.send(200, app.buy(str(body.get("mint", "")), str(body.get("plan", ""))))
@@ -605,8 +680,8 @@ def make_handler(app, page):
                     px = f(q.get("priceUsd"))
                     if not px:
                         return self.send(200, dict(error="no live price"))
-                    app.tick(p[0], px, f((q.get("liquidity") or {}).get("usd")), manual=min(1.0, max(0.1, float(body.get("frac", 1)))))
-                    return self.send(200, dict(ok=True))
+                    done = app.tick(p[0]["id"], px, f((q.get("liquidity") or {}).get("usd")), manual=min(1.0, max(0.1, float(body.get("frac", 1)))))
+                    return self.send(200, dict(ok=True) if done else dict(error="position already closed"))
                 return self.send(404, dict(error="not found"))
             except Exception as e:
                 return self.send(500, dict(error=f"{type(e).__name__}: {e}"))
@@ -617,7 +692,19 @@ def main():
     ap = argparse.ArgumentParser()
     ap.add_argument("--port", type=int, default=8790)
     ap.add_argument("--host", default="127.0.0.1")
+    ap.add_argument("--password", default=os.environ.get("TRENCH_PASSWORD"),
+                    help="ask for this password (user name: trench); use it with --host 0.0.0.0")
     a = ap.parse_args()
+    try:
+        req = urllib.request.Request("https://api.dexscreener.com/token-profiles/latest/v1", headers=S.UA)
+        urllib.request.urlopen(req, timeout=15).read(1)
+    except Exception as e:
+        if isinstance(getattr(e, "reason", None), ssl.SSLCertVerificationError) or "CERTIFICATE_VERIFY_FAILED" in str(e):
+            sys.exit("Python can't verify HTTPS certificates on this computer.\n"
+                     "On a Mac: open Applications > Python 3.x and double-click 'Install Certificates.command', then start Trench again.")
+        print(f"Warning: can't reach DexScreener yet ({e}). Check the internet connection; Trench keeps trying.", flush=True)
+    if a.host not in ("127.0.0.1", "localhost") and not a.password:
+        print("Warning: Trench is open to your network with no password. Add --password <something>.", flush=True)
     cfg = load_config()
     if cfg["mode"] not in ("paper", "manual"):
         sys.exit("mode must be paper or manual")
@@ -625,8 +712,8 @@ def main():
     app = App(cfg)
     for t in (app.pumpportal, app.discovery, app.telegram, app.refresh, app.enrich, app.manage):
         threading.Thread(target=t, daemon=True).start()
-    srv = ThreadingHTTPServer((a.host, a.port), make_handler(app, os.path.join(HERE, "trench_app.html")))
-    print(f"Trench on http://{a.host}:{a.port}", flush=True)
+    srv = ThreadingHTTPServer((a.host, a.port), make_handler(app, os.path.join(HERE, "trench_app.html"), a.password))
+    print(f"Trench on http://{'127.0.0.1' if a.host in ('0.0.0.0', '') else a.host}:{a.port}  (Ctrl+C to stop)", flush=True)
     try:
         srv.serve_forever()
     except KeyboardInterrupt:

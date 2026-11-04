@@ -49,14 +49,23 @@ Smart money: put wallets you trust in `data/whales.txt` (`address,label`; see `e
 
 One screen with everything live: a radar of every new coin and every channel call, a live chart, safety checks, top holders, the trade tape, an order ticket, positions and a journal.
 
-```bash
-cd memecoin-desk
-python3 trench_app.py            # then open http://127.0.0.1:8790
-```
+Start it from the `memecoin-desk` folder. On Windows the command is `python`, on Mac and Linux `python3`:
 
 ```bash
-python3 trench_app.py --host 0.0.0.0 --port 8790    # on a server, to open it from your phone
+python trench_app.py
 ```
+
+Then open http://127.0.0.1:8790 in your browser. Keep the window open: closing it stops Trench. The radar fills in about a minute; safety checks follow over the next few minutes.
+
+To open it from your phone, run it on a computer or server that stays on, with a password (the user name is `trench`):
+
+```bash
+python trench_app.py --host 0.0.0.0 --password choose-one
+```
+
+If it stops with "can't verify HTTPS certificates" on a Mac: open Applications → Python 3.x, double-click **Install Certificates.command**, and start it again.
+
+Tests: `python -m unittest test_trench test_desk`.
 
 | Part | What you get |
 |---|---|
