@@ -40,4 +40,4 @@ No environment variables or keys are needed. Every push to the repository redepl
 python3 dev.py        # http://127.0.0.1:3000, same files and endpoints as Vercel
 ```
 
-`lib/` holds copies of the shared modules. After changing them in `memecoin-scanner/` or `memecoin-desk/`, run `./sync_lib.sh` and commit.
+`api/_lib/` holds copies of the shared modules. After changing them in `memecoin-scanner/` or `memecoin-desk/`, run `./sync_lib.sh` and commit.
