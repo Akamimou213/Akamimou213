@@ -135,6 +135,18 @@ class SafetyTests(unittest.TestCase):
         self.assertEqual(status(d, "lp"), "pass")
 
 
+class StaleCandles(unittest.TestCase):
+    def test_stale_candles_make_gate_unknown(self):
+        old = [[c[0] - 1200] + c[1:] for c in candles()]   # series ends 20 min ago
+        d = rules.evaluate(raw(candles=old), now=NOW)
+        self.assertEqual(status(d, "pullback"), "unknown")
+
+    def test_price_above_candle_high_counts_as_high(self):
+        d = rules.evaluate(raw(pairs=[pair(priceUsd="0.0015")]), now=NOW)  # above the 0.001 candle high
+        self.assertEqual(status(d, "pullback"), "fail")
+        self.assertAlmostEqual(d["off_high"], 0.0)
+
+
 class DataConsistency(unittest.TestCase):
     def test_busy_pool_without_data_is_flagged(self):
         real = pair(dexId="pumpswap", liquidity=None, volume=dict(h24=0, h1=0), txns=dict(h24=dict(buys=3000, sells=2000)))
