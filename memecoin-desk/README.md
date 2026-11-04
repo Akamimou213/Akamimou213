@@ -45,6 +45,30 @@ Staged orders, fills, closes and the 21:00 report go to your phone, and replying
 
 Smart money: put wallets you trust in `data/whales.txt` (`address,label`; see `examples/whales.txt`). Known ruggers go in `data/rug_wallets.txt`. Tests: `python3 -m unittest test_desk -v`.
 
+## Trench: the trading screen
+
+One screen with everything live: a radar of every new coin and every channel call, a live chart, safety checks, top holders, the trade tape, an order ticket, positions and a journal.
+
+```bash
+cd memecoin-desk
+python3 trench_app.py            # then open http://127.0.0.1:8790
+```
+
+```bash
+python3 trench_app.py --host 0.0.0.0 --port 8790    # on a server, to open it from your phone
+```
+
+| Part | What you get |
+|---|---|
+| Radar | Every pump.fun launch and graduation (PumpPortal), DexScreener profiles and boosts, GeckoTerminal new and trending pools, and Telegram calls. Tabs: Setups · Calls · All · New. Paste any mint into the search box |
+| Tags | `setup` = under 48 h old, 20–60% below its 24 h high, 2x+ above its 24 h low, $50k+ 1 h volume, safety pass. `call` = posted by a channel. `top` = within 7% of the high after +50% in 6 h. `dead` = failed a safety check |
+| Coin | Live candles (1m / 5m / 15m / 1h) with the 24 h high and your entry, stop and target, plus price, mcap, liquidity, volume, buys/sells, age, distance from the 24 h high and low, safety checks, top 10 holders, last 40 trades, and the call text if a channel posted it |
+| Ticket | Four exit plans (Call 2x / −50% / 24 h, Fresh 2x / −50% / 60 m, Momentum −6% / trail after +12%, Runner half at 2x + trail). Size is set so a full stop-out costs 1% of the account. **Buy · Paper** fills at the live price plus impact and fees; **Open in Jupiter** is the real trade, signed in your own wallet |
+| Positions | Live P&L, stop / entry / target rail, time left, Sell 50% / Sell all. The exit plan runs on the server every 4 s |
+| Journal | Every closed trade with its reason |
+
+Channels are listed in `config.json` → `app.channels` (public channel usernames, read from `t.me/s/<name>`). Limits from `config.json` apply: no averaging down, 5 open, a cooldown after a loss, and the daily stop.
+
 ## The cockpit
 
 The [Trench Cockpit](https://claude.ai/code/artifact/07137e3d-8557-44fc-aa7e-ddddbba4ccb5) is a page in Claude with everything in one place:

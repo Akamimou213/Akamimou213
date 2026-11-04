@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Trench</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans+Condensed:wght@500;600;700&display=swap">
+<script src="https://unpkg.com/lightweight-charts@4.1.3/dist/lightweight-charts.standalone.production.js"></script>
+<style>
+/* Trading screen: radar | chart + coin | ticket + book. One dark palette, built for long sessions. */
+:root {
+  --bg: #0f1419; --panel: #151c23; --raise: #1b242d; --line: #243039; --ink: #dde5ec; --dim: #7f8f9c;
+  --up: #2fbf71; --down: #f0564a; --setup: #f2b134; --call: #5aa9ff; --sel: #22303b;
+  --f-ui: "IBM Plex Sans Condensed", "Arial Narrow", system-ui, sans-serif;
+  --f-num: "IBM Plex Mono", ui-monospace, Menlo, monospace;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { height: 100%; margin: 0; }
+body { background: var(--bg); color: var(--ink); font: 13px/1.35 var(--f-ui); overflow: hidden; }
+button, input, select { font: inherit; color: inherit; }
+.num { font-family: var(--f-num); font-variant-numeric: tabular-nums; }
+.up { color: var(--up); } .down { color: var(--down); } .dim { color: var(--dim); }
+#app { display: grid; grid-template-rows: 46px 1fr; height: 100%; }
+header { display: flex; align-items: center; gap: 18px; padding: 0 14px; border-bottom: 1px solid var(--line); background: var(--panel); overflow-x: auto; white-space: nowrap; }
+.logo { font: 700 18px var(--f-ui); letter-spacing: .12em; }
+.hstat { display: flex; flex-direction: column; line-height: 1.1; }
+.hstat b { font: 500 13px var(--f-num); }
+.hstat span { font-size: 10px; letter-spacing: .08em; text-transform: uppercase; color: var(--dim); }
+.feeds { margin-left: auto; display: flex; gap: 10px; font-size: 11px; color: var(--dim); }
+.dot { display: inline-block; width: 7px; height: 7px; border-radius: 50%; margin-right: 4px; background: var(--down); }
+.dot.live { background: var(--up); } .dot.warn { background: var(--setup); }
+main { display: grid; grid-template-columns: 500px minmax(0, 1fr) 330px; min-height: 0; }
+section { min-height: 0; display: flex; flex-direction: column; border-right: 1px solid var(--line); }
+section:last-child { border-right: 0; }
+.bar { display: flex; align-items: center; gap: 4px; padding: 8px 10px; border-bottom: 1px solid var(--line); background: var(--panel); flex-wrap: wrap; }
+.seg button { background: none; border: 1px solid var(--line); padding: 4px 9px; cursor: pointer; border-radius: 3px; }
+.seg button[aria-pressed="true"] { background: var(--raise); border-color: var(--dim); }
+.seg button:focus-visible, .btn:focus-visible, input:focus-visible, tr:focus-visible { outline: 2px solid var(--call); outline-offset: 1px; }
+.search { flex: 1; min-width: 120px; background: var(--bg); border: 1px solid var(--line); border-radius: 3px; padding: 4px 8px; font-family: var(--f-num); font-size: 12px; }
+.scroll { overflow: auto; min-height: 0; flex: 1; }
+table { width: 100%; border-collapse: collapse; }
+th { position: sticky; top: 0; background: var(--panel); font: 600 10px var(--f-ui); letter-spacing: .07em; text-transform: uppercase; color: var(--dim); text-align: right; padding: 5px 6px; border-bottom: 1px solid var(--line); white-space: nowrap; cursor: default; }
+th:first-child, td:first-child { text-align: left; }
+td { padding: 5px 6px; border-bottom: 1px solid #1a222a; text-align: right; white-space: nowrap; font-family: var(--f-num); font-size: 12px; }
+tbody tr { cursor: pointer; }
+tbody tr:hover { background: var(--raise); }
+tbody tr.sel { background: var(--sel); }
+.tok { display: flex; align-items: center; gap: 6px; font-family: var(--f-ui); font-size: 13px; }
+.tok img, .ph { width: 18px; height: 18px; border-radius: 50%; background: var(--raise); flex: none; object-fit: cover; }
+.chip { font: 700 9px var(--f-ui); letter-spacing: .06em; text-transform: uppercase; padding: 1px 4px; border-radius: 2px; }
+.chip.setup { background: var(--setup); color: #1a1300; } .chip.call { background: var(--call); color: #00152b; }
+.chip.top { border: 1px solid var(--down); color: var(--down); } .chip.new { border: 1px solid var(--dim); color: var(--dim); }
+.chip.dead { background: var(--down); color: #2b0400; }
+.saf { width: 8px; height: 8px; border-radius: 50%; display: inline-block; background: var(--line); }
+.saf.pass { background: var(--up); } .saf.dead { background: var(--down); } .saf.unknown { background: var(--setup); }
+/* center */
+.coinhead { display: flex; align-items: center; gap: 10px; padding: 10px 14px; border-bottom: 1px solid var(--line); flex-wrap: wrap; }
+.coinhead h1 { font: 700 22px var(--f-ui); margin: 0; letter-spacing: .02em; }
+.ca { font: 12px var(--f-num); color: var(--dim); background: none; border: 1px dashed var(--line); padding: 2px 6px; border-radius: 3px; cursor: pointer; }
+.links { display: flex; gap: 8px; margin-left: auto; }
+.links a { color: var(--call); text-decoration: none; font-size: 12px; }
+.strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(92px, 1fr)); border-bottom: 1px solid var(--line); }
+.strip div { padding: 7px 12px; border-right: 1px solid var(--line); }
+.strip span { display: block; font-size: 10px; letter-spacing: .07em; text-transform: uppercase; color: var(--dim); }
+.strip b { font: 500 14px var(--f-num); }
+.strip em { font-style: normal; }
+#chart { height: 340px; border-bottom: 1px solid var(--line); position: relative; }
+.chartbar { position: absolute; top: 6px; left: 8px; z-index: 3; }
+.lower { display: grid; grid-template-columns: 1.1fr 1fr 1.2fr; flex: 1; min-height: 0; }
+.lower > div { border-right: 1px solid var(--line); display: flex; flex-direction: column; min-height: 0; }
+.lower > div:last-child { border-right: 0; }
+.h { font: 600 10px var(--f-ui); letter-spacing: .08em; text-transform: uppercase; color: var(--dim); padding: 7px 10px; border-bottom: 1px solid var(--line); background: var(--panel); }
+.checks div { display: flex; justify-content: space-between; gap: 8px; padding: 4px 10px; border-bottom: 1px solid #1a222a; }
+.checks .v { font-family: var(--f-num); font-size: 12px; text-align: right; }
+.tape td { font-size: 11.5px; }
+.empty { color: var(--dim); padding: 14px 10px; font-size: 12px; }
+.callbox { padding: 8px 10px; border-bottom: 1px solid var(--line); white-space: pre-wrap; font-size: 12px; color: var(--dim); max-height: 110px; overflow: auto; }
+.callbox b { color: var(--call); }
+/* right */
+.ticket { padding: 10px 12px; border-bottom: 1px solid var(--line); display: grid; gap: 8px; }
+.plans { display: grid; gap: 4px; }
+.plans label { display: flex; align-items: center; gap: 8px; padding: 5px 8px; border: 1px solid var(--line); border-radius: 3px; cursor: pointer; font-size: 12.5px; }
+.plans input { accent-color: var(--setup); }
+.plans label:has(input:checked) { border-color: var(--setup); background: var(--raise); }
+.kv { display: grid; grid-template-columns: 1fr auto; gap: 3px 10px; font-size: 12px; }
+.kv span { color: var(--dim); } .kv b { font: 500 12px var(--f-num); text-align: right; }
+.btn { border: 0; border-radius: 3px; padding: 9px; cursor: pointer; font: 700 14px var(--f-ui); letter-spacing: .06em; }
+.btn.buy { background: var(--up); color: #031a0c; } .btn.buy:disabled { background: var(--line); color: var(--dim); cursor: default; }
+.btn.sm { padding: 4px 8px; font-size: 11px; background: var(--raise); color: var(--ink); border: 1px solid var(--line); }
+.jup { text-align: center; font-size: 12px; color: var(--call); text-decoration: none; }
+.msg { font-size: 12px; min-height: 16px; }
+.msg.err { color: var(--down); } .msg.ok { color: var(--up); }
+.pos { padding: 8px 12px; border-bottom: 1px solid #1a222a; display: grid; gap: 5px; cursor: pointer; }
+.pos .top { display: flex; justify-content: space-between; align-items: baseline; }
+.pos .ret { font: 600 15px var(--f-num); }
+.rail { position: relative; height: 6px; background: var(--raise); border-radius: 3px; }
+.rail i { position: absolute; top: -2px; width: 2px; height: 10px; background: var(--ink); }
+.rail .s { background: var(--down); } .rail .t { background: var(--up); }
+.pos .meta { display: flex; justify-content: space-between; font-size: 11px; color: var(--dim); font-family: var(--f-num); }
+.pos .acts { display: flex; gap: 6px; }
+.book .stats { display: flex; gap: 14px; padding: 8px 12px; border-bottom: 1px solid var(--line); font-size: 12px; }
+@media (max-width: 1280px) { main { grid-template-columns: 400px minmax(0, 1fr) 300px; } .lower { grid-template-columns: 1fr 1fr; } .lower > div:last-child { grid-column: 1 / -1; } }
+@media (max-width: 980px) { body { overflow: auto; } #app { height: auto; } main { grid-template-columns: 1fr; } section { border-right: 0; border-bottom: 1px solid var(--line); max-height: none; } #radar .scroll { max-height: 50vh; } .lower { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+<div id="app">
+  <header>
+    <div class="logo">TRENCH</div>
+    <div class="hstat"><b id="h-eq">–</b><span>Equity</span></div>
+    <div class="hstat"><b id="h-pnl">–</b><span>P&amp;L</span></div>
+    <div class="hstat"><b id="h-cash">–</b><span>Cash</span></div>
+    <div class="hstat"><b id="h-open">–</b><span>Open</span></div>
+    <div class="hstat"><b id="h-sol">–</b><span>SOL</span></div>
+    <div class="hstat"><b id="h-launch">–</b><span>Launches / h</span></div>
+    <div class="hstat"><b id="h-grad">–</b><span>Graduations / h</span></div>
+    <div class="hstat"><b id="h-track">–</b><span>Tracked</span></div>
+    <div class="hstat"><b id="h-mode">–</b><span>Mode</span></div>
+    <div class="feeds" id="feeds"></div>
+  </header>
+  <main>
+    <section id="radar" aria-label="Radar">
+      <div class="bar">
+        <div class="seg" role="group" aria-label="Radar view">
+          <button data-v="setups" aria-pressed="true">Setups <span id="n-setups"></span></button>
+          <button data-v="calls" aria-pressed="false">Calls</button>
+          <button data-v="all" aria-pressed="false">All</button>
+          <button data-v="new" aria-pressed="false">New</button>
+        </div>
+        <input class="search" id="search" placeholder="Paste a mint or filter" aria-label="Paste a mint or filter the list">
+      </div>
+      <div class="scroll">
+        <table>
+          <thead><tr><th>Token</th><th>Age</th><th>Mcap</th><th>Vol 1h</th><th>5m</th><th>1h</th><th>Off high</th><th>B/S</th><th></th></tr></thead>
+          <tbody id="rows"></tbody>
+        </table>
+        <div class="empty" id="rows-empty" hidden></div>
+      </div>
+    </section>
+
+    <section id="center" aria-label="Coin">
+      <div class="coinhead">
+        <h1 id="c-sym">Select a coin</h1>
+        <span id="c-tags"></span>
+        <button class="ca" id="c-ca" hidden title="Copy the mint"></button>
+        <div class="links" id="c-links"></div>
+      </div>
+      <div class="strip" id="c-strip"></div>
+      <div id="chart">
+        <div class="chartbar seg" role="group" aria-label="Timeframe">
+          <button data-tf="1m" aria-pressed="false">1m</button><button data-tf="5m" aria-pressed="true">5m</button><button data-tf="15m" aria-pressed="false">15m</button><button data-tf="1h" aria-pressed="false">1h</button>
+        </div>
+      </div>
+      <div class="callbox" id="c-call" hidden></div>
+      <div class="lower">
+        <div><div class="h">Safety</div><div class="scroll checks" id="c-checks"></div></div>
+        <div><div class="h">Top holders</div><div class="scroll"><table><tbody id="c-holders"></tbody></table></div></div>
+        <div><div class="h">Trades</div><div class="scroll"><table class="tape"><tbody id="c-trades"></tbody></table></div></div>
+      </div>
+    </section>
+
+    <section id="side" aria-label="Ticket and book">
+      <div class="ticket">
+        <div class="h" style="margin:-10px -12px 0;border-bottom:0">Ticket <span id="t-sym"></span></div>
+        <div class="plans" id="t-plans"></div>
+        <div class="kv" id="t-kv"></div>
+        <button class="btn buy" id="t-buy" disabled>BUY · PAPER</button>
+        <a class="jup" id="t-jup" target="_blank" rel="noopener" hidden>Open in Jupiter to sign a real trade ↗</a>
+        <div class="msg" id="t-msg"></div>
+      </div>
+      <div class="h">Positions</div>
+      <div class="scroll" id="positions" style="flex:1.2"></div>
+      <div class="book" style="display:flex;flex-direction:column;min-height:0;flex:1">
+        <div class="h">Journal</div>
+        <div class="stats" id="j-stats"></div>
+        <div class="scroll"><table><tbody id="journal"></tbody></table></div>
+      </div>
+    </section>
+  </main>
+</div>
+<script>
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s ?? "").replace(/[&<>"]/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]));
+const usd = (x, d) => { if (x == null || isNaN(x)) return "–"; const a = Math.abs(x), s = x < 0 ? "-" : "";
+  if (a >= 1e9) return s + "$" + (a / 1e9).toFixed(2) + "B"; if (a >= 1e6) return s + "$" + (a / 1e6).toFixed(2) + "M";
+  if (a >= 1e3) return s + "$" + (a / 1e3).toFixed(a >= 1e5 ? 0 : 1) + "K"; return s + "$" + a.toFixed(d ?? (a >= 10 ? 0 : 2)); };
+const px = (p) => { if (!p) return "–"; if (p >= 1) return "$" + p.toFixed(4); const s = p.toFixed(12).replace(/0+$/, ""); const z = (s.split(".")[1] || "").search(/[1-9]/); return "$" + p.toFixed(Math.min(12, z + 4)); };
+const pc = (x, d = 1) => (x == null || isNaN(x) ? "–" : (x > 0 ? "+" : "") + x.toFixed(d) + "%");
+const fr = (x, d = 0) => (x == null ? "–" : (x > 0 ? "+" : "") + (x * 100).toFixed(d) + "%");
+const cl = (x) => (x == null ? "" : x > 0 ? "up" : x < 0 ? "down" : "");
+const age = (h) => (h == null ? "–" : h < 1 ? Math.round(h * 60) + "m" : h < 48 ? h.toFixed(h < 10 ? 1 : 0) + "h" : Math.round(h / 24) + "d");
+const ago = (ts) => { const s = Date.now() / 1000 - ts; return s < 60 ? Math.round(s) + "s" : s < 3600 ? Math.round(s / 60) + "m" : s < 86400 ? (s / 3600).toFixed(1) + "h" : Math.round(s / 86400) + "d"; };
+const short = (a) => (a ? a.slice(0, 4) + "…" + a.slice(-4) : "");
+const api = async (path, body) => { const r = await fetch(path, body ? { method: "POST", headers: { "content-type": "application/json" }, body: JSON.stringify(body) } : {}); return r.json(); };
+
+let view = "setups", sel = null, tf = "5m", plan = null, last = null, coinData = null;
+try { view = localStorage.getItem("trench-view") || view; sel = localStorage.getItem("trench-sel"); } catch (e) {}
+
+// ---------------- chart
+const chartEl = $("chart");
+const chart = LightweightCharts.createChart(chartEl, {
+  layout: { background: { color: "#0f1419" }, textColor: "#7f8f9c", fontFamily: "IBM Plex Mono" },
+  grid: { vertLines: { color: "#1a222a" }, horzLines: { color: "#1a222a" } },
+  rightPriceScale: { borderColor: "#243039" }, timeScale: { borderColor: "#243039", timeVisible: true, secondsVisible: false },
+  crosshair: { mode: 0 }, localization: { priceFormatter: (p) => px(p).slice(1) },
+});
+const candles = chart.addCandlestickSeries({ upColor: "#2fbf71", downColor: "#f0564a", borderVisible: false, wickUpColor: "#2fbf71", wickDownColor: "#f0564a" });
+const vols = chart.addHistogramSeries({ priceFormat: { type: "volume" }, priceScaleId: "", color: "#2a3844", lastValueVisible: false, priceLineVisible: false });
+vols.priceScale().applyOptions({ scaleMargins: { top: 0.82, bottom: 0 } });
+let lines = [];
+new ResizeObserver(() => chart.applyOptions({ width: chartEl.clientWidth, height: chartEl.clientHeight })).observe(chartEl);
+
+// ---------------- radar
+document.querySelectorAll("#radar .seg button").forEach((b) => b.addEventListener("click", () => { view = b.dataset.v; try { localStorage.setItem("trench-view", view); } catch (e) {} paintSeg(); poll(); }));
+function paintSeg() { document.querySelectorAll("#radar .seg button").forEach((b) => b.setAttribute("aria-pressed", b.dataset.v === view)); }
+paintSeg();
+$("search").addEventListener("keydown", (e) => { if (e.key === "Enter") { const v = $("search").value.trim(); if (/^[1-9A-HJ-NP-Za-km-z]{32,44}$/.test(v)) { select(v); $("search").value = ""; } } });
+$("search").addEventListener("input", () => last && paintRows(last));
+const chips = (tags) => tags.map((t) => `<span class="chip ${t}">${t}</span>`).join(" ");
+function paintRows(s) {
+  const q = $("search").value.trim().toLowerCase();
+  const rows = s.coins.filter((r) => !q || (r.symbol || "").toLowerCase().includes(q) || r.mint.toLowerCase().startsWith(q));
+  $("rows").innerHTML = rows.map((r) => {
+    const bs = r.buys_h1 != null && r.sells_h1 ? (r.buys_h1 / r.sells_h1) : null;
+    return `<tr data-m="${r.mint}" class="${r.mint === sel ? "sel" : ""}" tabindex="0">
+      <td><div class="tok">${r.image ? `<img src="${esc(r.image)}" alt="" loading="lazy">` : `<span class="ph"></span>`}<span>${esc(r.symbol || short(r.mint))}</span> ${chips(r.tags)}</div></td>
+      <td>${age(r.age_h)}</td><td>${usd(r.mcap)}</td><td>${usd(r.vol_h1)}</td>
+      <td class="${cl(r.chg_m5)}">${pc(r.chg_m5, 0)}</td><td class="${cl(r.chg_h1)}">${pc(r.chg_h1, 0)}</td>
+      <td>${r.below_high == null ? "–" : "-" + (r.below_high * 100).toFixed(0) + "%"}</td>
+      <td class="${bs == null ? "" : bs >= 1 ? "up" : "down"}">${bs == null ? "–" : bs.toFixed(2)}</td>
+      <td title="${esc(r.safety_why || r.safety || "not checked yet")}"><span class="saf ${r.safety || ""}"></span></td></tr>`;
+  }).join("");
+  $("rows-empty").hidden = rows.length > 0;
+  $("rows-empty").textContent = view === "setups" ? "No coin matches the setup right now: under 48h old, 20–60% below its 24h high, 2x+ above its 24h low, $50k+ 1h volume, safety pass." : view === "calls" ? "No calls with a Solana contract yet." : "Loading the market…";
+}
+$("rows").addEventListener("click", (e) => { const tr = e.target.closest("tr"); if (tr) select(tr.dataset.m); });
+$("rows").addEventListener("keydown", (e) => { if (e.key === "Enter") { const tr = e.target.closest("tr"); if (tr) select(tr.dataset.m); } });
+
+// ---------------- header + book
+function paintTop(s) {
+  const pnl = s.equity - s.start;
+  $("h-eq").textContent = usd(s.equity, 2); $("h-pnl").textContent = (pnl >= 0 ? "+" : "") + usd(pnl, 2); $("h-pnl").className = cl(pnl);
+  $("h-cash").textContent = usd(s.cash, 2); $("h-open").textContent = s.positions.length;
+  $("h-sol").innerHTML = s.sol ? `${usd(s.sol.price, 2)} <span class="${cl(s.sol.h24)}">${pc(s.sol.h24)}</span>` : "–";
+  $("h-launch").textContent = s.launches_h || "–"; $("h-grad").textContent = s.grads_h || "–"; $("h-track").textContent = s.tracked;
+  $("h-mode").textContent = s.mode.toUpperCase();
+  $("feeds").innerHTML = Object.entries(s.feeds).map(([k, v]) => `<span><i class="dot ${v === "live" ? "live" : v === "off" ? "" : "warn"}"></i>${k}</span>`).join("");
+  $("n-setups").textContent = "";
+  $("positions").innerHTML = s.positions.length ? s.positions.map((p) => {
+    const lo = p.stop, hi = p.tp || p.peak * 1.2, span = Math.max(1e-18, hi - lo), at = (x) => Math.max(0, Math.min(100, (x - lo) / span * 100));
+    return `<div class="pos" data-m="${p.mint}"><div class="top"><b>${esc(p.symbol)}</b><span class="ret ${cl(p.ret)}">${fr(p.ret, 1)}</span></div>
+      <div class="rail"><i class="s" style="left:0"></i><i style="left:${at(p.entry)}%;background:var(--dim)"></i><i style="left:${at(p.last)}%"></i>${p.tp ? `<i class="t" style="left:100%"></i>` : ""}</div>
+      <div class="meta"><span>stop ${px(p.stop)}${p.armed ? " trail" : ""}</span><span>${usd(p.value, 2)}</span><span>${p.tp ? "tp " + px(p.tp) : "peak " + px(p.peak)}</span></div>
+      <div class="meta"><span>${esc(p.plan)}</span><span>${Math.max(0, Math.round((p.ends - Date.now() / 1000) / 60))}m left</span></div>
+      <div class="acts"><button class="btn sm" data-sell="${p.id}" data-f="0.5">Sell 50%</button><button class="btn sm" data-sell="${p.id}" data-f="1">Sell all</button></div></div>`;
+  }).join("") : `<div class="empty">No open positions.</div>`;
+  const st = s.stats || {};
+  $("j-stats").innerHTML = `<span>Trades <b class="num">${st.n || 0}</b></span><span>Won <b class="num">${st.w || 0}</b></span><span>P&amp;L <b class="num ${cl(st.s)}">${usd(st.s || 0, 2)}</b></span>`;
+  $("journal").innerHTML = s.closed.length ? s.closed.map((c) => `<tr><td>${esc(c.symbol)}</td><td class="${cl(c.ret)}">${fr(c.ret, 1)}</td><td class="${cl(c.pnl)}">${usd(c.pnl, 2)}</td><td class="dim" style="font-family:var(--f-ui)" title="${esc(c.plan)}">${esc(c.why)}</td><td class="dim">${ago(c.exit_ts)}</td></tr>`).join("") : `<tr><td class="empty">No closed trades.</td></tr>`;
+}
+$("positions").addEventListener("click", async (e) => {
+  const b = e.target.closest("button[data-sell]");
+  if (b) { e.stopPropagation(); b.disabled = true; const r = await api("/api/sell", { id: +b.dataset.sell, frac: +b.dataset.f }); if (r.error) $("t-msg").textContent = r.error; poll(); return; }
+  const card = e.target.closest(".pos"); if (card) select(card.dataset.m);
+});
+
+// ---------------- coin
+document.querySelectorAll("#chart .seg button").forEach((b) => b.addEventListener("click", () => { tf = b.dataset.tf; document.querySelectorAll("#chart .seg button").forEach((x) => x.setAttribute("aria-pressed", x === b)); loadCoin(true); }));
+function select(m) {
+  sel = m; plan = null; try { localStorage.setItem("trench-sel", m); } catch (e) {}
+  const r = (last?.coins || []).find((x) => x.mint === m);
+  $("c-sym").textContent = (r && r.symbol) || short(m); $("c-tags").innerHTML = r ? chips(r.tags) : "";
+  $("c-strip").innerHTML = `<div><span>Loading</span><b>chart, trades, safety…</b></div>`;
+  candles.setData([]); vols.setData([]);
+  last && paintRows(last); loadCoin(true);
+}
+async function loadCoin(fit) {
+  if (!sel) return;
+  const m = sel, d = await api(`/api/coin?mint=${m}&tf=${tf}`);
+  if (m !== sel || d.error) return;
+  coinData = d;
+  const c = d.coin || {};
+  $("c-sym").textContent = c.symbol || short(m);
+  $("c-tags").innerHTML = chips(d.tags || []);
+  $("c-ca").hidden = false; $("c-ca").textContent = short(m); $("c-ca").onclick = () => navigator.clipboard && navigator.clipboard.writeText(m);
+  $("c-links").innerHTML = [["DexScreener", c.url || `https://dexscreener.com/solana/${m}`], ["GMGN", `https://gmgn.ai/sol/token/${m}`], ["Bubblemaps", `https://app.bubblemaps.io/sol/token/${m}`], ["RugCheck", `https://rugcheck.xyz/tokens/${m}`], ["Solscan", `https://solscan.io/token/${m}`]]
+    .map(([n, u]) => `<a href="${esc(u)}" target="_blank" rel="noopener">${n}</a>`).join("");
+  const bs = c.buys_h1 != null && c.sells_h1 ? c.buys_h1 / c.sells_h1 : null;
+  $("c-strip").innerHTML = [["Price", px(c.price)], ["Mcap", usd(c.mcap)], ["Liquidity", usd(c.liq)], ["Vol 1h", usd(c.vol_h1)], ["Vol 5m", usd(c.vol_m5)],
+    ["Buys/Sells 1h", c.buys_h1 != null ? `${c.buys_h1}/${c.sells_h1}` : "–"], ["Age", age(d.age_h)], ["5m", `<em class="${cl(c.chg_m5)}">${pc(c.chg_m5)}</em>`],
+    ["1h", `<em class="${cl(c.chg_h1)}">${pc(c.chg_h1)}</em>`], ["6h", `<em class="${cl(c.chg_h6)}">${pc(c.chg_h6)}</em>`],
+    ["Off 24h high", c.below_high == null ? "–" : "-" + (c.below_high * 100).toFixed(0) + "%"], ["Over 24h low", c.above_low == null ? "–" : "+" + (c.above_low * 100).toFixed(0) + "%"],
+    ["Top 10", c.top10 == null ? "–" : c.top10.toFixed(1) + "%"], ["Holders", c.holders ?? "–"]]
+    .map(([k, v]) => `<div><span>${k}</span><b>${v}</b></div>`).join("");
+  const bars = (d.candles || []).map((b) => ({ time: b[0], open: b[1], high: b[2], low: b[3], close: b[4] }));
+  candles.setData(bars);
+  vols.setData((d.candles || []).map((b) => ({ time: b[0], value: b[5], color: b[4] >= b[1] ? "rgba(47,191,113,.35)" : "rgba(240,86,74,.35)" })));
+  lines.forEach((l) => candles.removePriceLine(l)); lines = [];
+  if (c.high24) lines.push(candles.createPriceLine({ price: c.high24, color: "#7f8f9c", lineStyle: 2, lineWidth: 1, title: "24h high" }));
+  const op = (last?.positions || []).find((p) => p.mint === m);
+  if (op) { lines.push(candles.createPriceLine({ price: op.entry, color: "#dde5ec", lineWidth: 1, title: "entry" }));
+    lines.push(candles.createPriceLine({ price: op.stop, color: "#f0564a", lineWidth: 1, title: "stop" }));
+    if (op.tp) lines.push(candles.createPriceLine({ price: op.tp, color: "#2fbf71", lineWidth: 1, title: "target" })); }
+  candles.setMarkers((d.calls || []).filter((x) => bars.length && x.ts >= bars[0].time).map((x) => ({ time: bars.reduce((a, b) => (b.time <= x.ts ? b.time : a), bars[0].time), position: "belowBar", color: "#5aa9ff", shape: "arrowUp", text: "call" })));
+  if (fit) chart.timeScale().fitContent();
+  $("c-call").hidden = !(d.calls || []).length;
+  $("c-call").innerHTML = (d.calls || []).map((x) => `<b>${esc(x.channel)} · ${ago(x.ts)} ago</b>\n${esc(x.text)}`).join("\n\n");
+  $("c-checks").innerHTML = (c.checks || []).length ? c.checks.map((k) => `<div><span>${k.ok ? "✓" : "✗"} ${esc(k.label)}</span><span class="v ${k.ok ? "up" : "down"}">${esc(k.value)}</span></div>`).join("")
+    + `<div><span>Insider wallets</span><span class="v">${c.insiders ?? "–"}</span></div><div><span>Bundle</span><span class="v">${c.bundle == null ? "–" : c.bundle.toFixed(1) + "%"}</span></div><div><span>Dev holds</span><span class="v">${c.dev_pct == null ? "–" : c.dev_pct.toFixed(2) + "%"}</span></div>`
+    : `<div class="empty">${c.safety === "unknown" ? esc(c.safety_why) : "Checking…"}</div>`;
+  $("c-holders").innerHTML = (c.top_holders || []).map((h, i) => `<tr><td class="dim">${i + 1}</td><td><a class="dim" href="https://solscan.io/account/${esc(h.owner)}" target="_blank" rel="noopener">${short(h.owner)}</a></td><td>${(h.pct || 0).toFixed(2)}%</td></tr>`).join("") || `<tr><td class="empty">–</td></tr>`;
+  $("c-trades").innerHTML = (d.trades || []).map((t) => `<tr><td class="dim">${t.ts ? ago(Date.parse(t.ts) / 1000) : ""}</td><td class="${t.side === "buy" ? "up" : "down"}">${t.side === "buy" ? "BUY" : "SELL"}</td><td>${usd(t.usd)}</td><td class="dim">${short(t.wallet)}</td></tr>`).join("") || `<tr><td class="empty">–</td></tr>`;
+  paintTicket();
+  if (!(c.checks || []).length) setTimeout(() => m === sel && loadCoin(false), 3000);   // safety still running
+}
+function paintTicket() {
+  const d = coinData; if (!d) return;
+  const c = d.coin || {};
+  plan = plan || d.default_plan;
+  $("t-sym").textContent = "· " + (c.symbol || "");
+  $("t-plans").innerHTML = Object.entries(d.ticket).map(([k, t]) => `<label><input type="radio" name="plan" value="${k}" ${k === plan ? "checked" : ""}><span>${esc(t.name)}</span></label>`).join("");
+  const t = d.ticket[plan], p = c.price;
+  $("t-kv").innerHTML = [["Size", usd(t.size, 2)], ["Entry ≈", px(p)], ["Target", t.tp ? px(p * t.tp) + ` (${t.tp}x)` : `trail ${t.trail * 100}% after +${t.arm * 100}%`],
+    ["Stop", px(p * (1 - t.sl)) + ` (-${t.sl * 100}%)`], ["Time limit", t.tmax >= 120 ? t.tmax / 60 + "h" : t.tmax + "m"], ["Loss if stopped", usd(-t.size * (t.sl + 0.045), 2)]]
+    .map(([k, v]) => `<span>${k}</span><b>${v}</b>`).join("");
+  const blockedWhy = d.blocked || (c.safety === "dead" ? "safety: " + (c.safety_why || "failed") : null);
+  $("t-buy").disabled = !!blockedWhy || !p || t.size < 5;
+  $("t-msg").className = "msg" + (blockedWhy ? " err" : ""); $("t-msg").textContent = blockedWhy || "";
+  $("t-jup").hidden = false; $("t-jup").href = `https://jup.ag/swap/SOL-${sel}`;
+}
+$("t-plans").addEventListener("change", (e) => { plan = e.target.value; paintTicket(); });
+$("t-buy").addEventListener("click", async () => {
+  $("t-buy").disabled = true; $("t-msg").className = "msg"; $("t-msg").textContent = "Filling…";
+  const r = await api("/api/buy", { mint: sel, plan });
+  $("t-msg").className = "msg " + (r.error ? "err" : "ok"); $("t-msg").textContent = r.error || `Filled ${usd(r.size, 2)} at ${px(r.fill)}`;
+  await poll(); loadCoin(false);
+});
+
+// ---------------- loop
+async function poll() {
+  try { last = await api(`/api/state?view=${view}`); paintTop(last); paintRows(last); } catch (e) {}
+}
+poll(); setInterval(poll, 3000);
+setInterval(() => loadCoin(false), 10000);
+if (sel) loadCoin(true);
+</script>
+</body>
+</html>

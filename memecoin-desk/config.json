@@ -109,5 +109,11 @@
       {"name": "B · near the high + stop -6% / trail after +12%", "position": "near high (<7%)", "plan": "trader: stop -6%, trail 6% after +12%"},
       {"name": "B2 · near the high + stop -15% / trail after +20%", "position": "near high (<7%)", "plan": "stop -15%, trail 10% after +20%"}
     ]
+  },
+
+  "app": {
+    "_note": "Telegram channels read from their public t.me/s/<name> page. Add any public channel username.",
+    "channels": ["mad_apes_call"],
+    "port": 8790
   }
 }
