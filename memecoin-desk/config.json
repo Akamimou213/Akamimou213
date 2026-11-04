@@ -1,0 +1,119 @@
+{
+  "_note": "The desk reads this file and never writes it. Change a number here, in writing, and restart. The thread logs the config hash at every start.",
+
+  "mode": "paper",
+  "start_balance_usd": 1000,
+
+  "search": {
+    "pumpportal_ws": "wss://pumpportal.fun/api/data",
+    "solana_ws": "wss://api.mainnet-beta.solana.com",
+    "solana_rpc": "https://api.mainnet-beta.solana.com",
+    "raydium_programs": {
+      "CPMMoo8L3F4NbTegBCKVNunggL7H1ZpdTHKxQB5qKP1C": "raydium-cpmm",
+      "675kPX9MHTjS2zt1qfr1NYHuzeLXfQM9H24wFSUt1Mp8": "raydium-amm-v4"
+    },
+    "poll_backup_sec": 90,
+    "nursery_check_sec": 60,
+    "nursery_min_age_sec": 300,
+    "nursery_max_age_sec": 21600,
+    "nursery_max": 4000,
+    "drop_if_vol_h1_below_after_20min": 5000,
+    "lead_min_vol_h1_usd": 50000,
+    "lead_min_liquidity_usd": 10000,
+    "relead_after_sec": 7200
+  },
+
+  "risk": {
+    "_note": "One hard fail = dead. A check that cannot be run is a fail, never a pass.",
+    "mint_must_be_revoked": true,
+    "freeze_must_be_revoked": true,
+    "lp_locked_min_pct": 95,
+    "bonding_curve_counts_as_locked": true,
+    "top10_max_pct": 20,
+    "min_vol_h1_usd": 50000,
+    "dev_rug_link_kills": true,
+    "dev_funder_trace_pages": 3,
+    "kill_rugcheck_danger_flags": true,
+    "kill_token2022_dangerous_extensions": true
+  },
+
+  "whale": {
+    "_note": "Wallets you track, one per line, in data/whales.txt (address,label). WHALE only confirms; it never kills or sizes.",
+    "lookback_min": 120,
+    "require_confirm": false
+  },
+
+  "judge": {
+    "backend": "rules",
+    "claude_model": "claude-opus-5-5",
+    "claude_effort": "low",
+    "timeout_sec": 20,
+    "analyst_score_floor": 0.60,
+    "gate": {
+      "buy_p_min": 0.70,
+      "organic_p_min": 0.65,
+      "late_must_be": "no",
+      "exit_risk_max": 3
+    },
+    "watch_reask_min": 30,
+    "second_watch_is_pass": true
+  },
+
+  "sniper": {
+    "_note": "Size = the share of balance where a full stop-out (stop + fees) costs risk_per_trade_pct of the account, never above max_pct_of_balance. Raise risk only after the Sunday strategy table shows an edge.",
+    "risk_per_trade_pct": 1.0,
+    "max_pct_of_balance": 0.08,
+    "max_pct_of_pool_liquidity": 0.02,
+    "approve_ttl_sec": 180,
+    "reject_if_price_moved_up_pct": 5,
+    "fee_per_side": 0.0225,
+    "min_order_usd": 5
+  },
+
+  "exit": {
+    "_note": "plan = what EXIT does with your money. shadow_plans = what EXIT also simulates on every paper trade, for comparison (no money). Same engine as backtest.py.",
+    "plan": {"name": "playbook: TP 2x, stop -50%", "sl": 0.5, "tp": 2.0, "partial": null, "arm": null, "trail": null, "tmax": 60},
+    "shadow_book": true,
+    "shadow_plans": [
+      {"name": "trader: stop -6%, trail 6% after +12%", "sl": 0.06, "tp": null, "partial": null, "arm": 0.12, "trail": 0.06, "tmax": 60},
+      {"name": "playbook: TP 2x, stop -50%", "sl": 0.5, "tp": 2.0, "partial": null, "arm": null, "trail": null, "tmax": 60},
+      {"name": "TP 2x, stop -40%", "sl": 0.4, "tp": 2.0, "partial": null, "arm": null, "trail": null, "tmax": 60},
+      {"name": "TP 1.5x, stop -30%", "sl": 0.3, "tp": 1.5, "partial": null, "arm": null, "trail": null, "tmax": 60},
+      {"name": "stop -15%, trail 10% after +20%", "sl": 0.15, "tp": null, "partial": null, "arm": 0.2, "trail": 0.1, "tmax": 60},
+      {"name": "stop -20%, trail 15% after +30%", "sl": 0.2, "tp": null, "partial": null, "arm": 0.3, "trail": 0.15, "tmax": 60},
+      {"name": "stop -30%, trail 20% after +50%", "sl": 0.3, "tp": null, "partial": null, "arm": 0.5, "trail": 0.2, "tmax": 60},
+      {"name": "stop -40%, half at 2x, trail 25% on rest", "sl": 0.4, "tp": 2.0, "partial": 0.5, "arm": 1.0, "trail": 0.25, "tmax": 120},
+      {"name": "stop -10%, TP +30%, 30 min", "sl": 0.1, "tp": 1.3, "partial": null, "arm": null, "trail": null, "tmax": 30}
+    ],
+    "liquidity_pull_exit_drop_pct": 50,
+    "poll_sec": 5
+  },
+
+  "limits": {
+    "max_open_positions": 5,
+    "max_trades_per_day": 10,
+    "daily_loss_stop_pct": -5,
+    "cooldown_after_loss_min": 30,
+    "pause_after_consecutive_losses": 3,
+    "no_reentry_after_stop_hours": 24
+  },
+
+  "head": {
+    "report_time_local": "21:00",
+    "report_tz": "UTC",
+    "calibration_weekday": 6,
+    "followup_hours": 24,
+    "rug_mark_drop_pct": 90,
+    "compare": [
+      {"name": "A · pullback 7-30% + TP 2x / stop -50%", "position": "pullback 7-30%", "plan": "playbook: TP 2x, stop -50%"},
+      {"name": "B · near the high + stop -6% / trail after +12%", "position": "near high (<7%)", "plan": "trader: stop -6%, trail 6% after +12%"},
+      {"name": "B2 · near the high + stop -15% / trail after +20%", "position": "near high (<7%)", "plan": "stop -15%, trail 10% after +20%"}
+    ]
+  },
+
+  "app": {
+    "_note": "Telegram channels read from their public t.me/s/<name> page. Add any public channel username.",
+    "channels": ["mad_apes_call"],
+    "port": 8790
+  }
+}

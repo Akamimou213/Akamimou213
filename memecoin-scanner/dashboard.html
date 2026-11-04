@@ -1,0 +1,429 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Trench Scanner</title>
+<style>
+:root {
+  --paper: #f5f6f2; --surface: #ffffff; --ink: #1b1f1d; --ink-2: #4a524e; --rule: #d9ddd6;
+  --accent: #1f5c66; --gain: #2c7a4b; --loss: #b8432f; --mid: #a07a1c; --muted: #8b948f; --wash: #e9efe9;
+  --unk: #6b4fa0;
+  --f-display: "Schibsted Grotesk", "Helvetica Neue", Arial, sans-serif;
+  --f-body: "Source Serif 4", Georgia, serif;
+  --f-data: "IBM Plex Mono", ui-monospace, SFMono-Regular, Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root { color-scheme: dark;
+    --paper: #121614; --surface: #1a1f1c; --ink: #e6e9e4; --ink-2: #a9b2ac; --rule: #2e3531;
+    --accent: #7cc3cc; --gain: #5cc48a; --loss: #f0806b; --mid: #e0b54c; --muted: #66706a; --wash: #1f2622; --unk: #b79cf0; }
+}
+* { box-sizing: border-box; }
+body { margin: 0; background: var(--paper); color: var(--ink); font: 15px/1.5 var(--f-display);
+  padding-inline: max(16px, env(safe-area-inset-left, 0px)); }
+main { max-width: 1120px; margin: 0 auto; padding-block: 24px 80px; display: grid; gap: 22px; }
+header { display: flex; flex-wrap: wrap; align-items: baseline; gap: 8px 18px; border-bottom: 1px solid var(--rule); padding-bottom: 12px; }
+h1 { font-size: 1.5rem; margin: 0; letter-spacing: -0.01em; }
+h2 { font-size: 1.05rem; margin: 0; }
+.eyebrow { font: 0.74rem var(--f-data); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-2); }
+header nav { margin-left: auto; display: flex; gap: 14px; font-size: .88rem; }
+a { color: var(--accent); text-underline-offset: 2px; }
+.clock { font-family: var(--f-data); font-size: .85rem; }
+.clock b { font-weight: 500; }
+.pill { display: inline-block; font: .72rem var(--f-data); letter-spacing: .06em; text-transform: uppercase; padding: 2px 8px; border: 1px solid currentColor; }
+.tabs { display: flex; flex-wrap: wrap; gap: 2px; }
+.tabs button { font: inherit; font-weight: 600; background: none; border: 0; border-bottom: 2px solid transparent; padding: 6px 12px; color: var(--ink-2); cursor: pointer; }
+.tabs button[aria-selected="true"] { color: var(--ink); border-color: var(--accent); }
+form.scan { display: grid; grid-template-columns: minmax(0, 1fr) auto auto auto auto; gap: 8px; align-items: end; }
+@media (max-width: 760px) { form.scan { grid-template-columns: 1fr 1fr; } form.scan .addr { grid-column: 1 / -1; } }
+label { display: grid; gap: 3px; font-size: .78rem; color: var(--ink-2); }
+input, select { font: .95rem var(--f-data); padding: 9px 10px; border: 1px solid var(--rule); background: var(--surface); color: var(--ink); width: 100%; min-width: 0; }
+input:focus-visible, select:focus-visible, button:focus-visible { outline: 2px solid var(--accent); outline-offset: 1px; }
+button.go { font: 600 .95rem var(--f-display); padding: 10px 18px; background: var(--ink); color: var(--paper); border: 0; cursor: pointer; }
+button.go:disabled { opacity: .5; cursor: progress; }
+.muted { color: var(--ink-2); }
+.small { font-size: .82rem; }
+.err { color: var(--loss); font-size: .9rem; }
+
+.verdict { display: grid; grid-template-columns: auto 1fr; gap: 4px 16px; align-items: center; padding: 16px 18px; color: #fff; }
+.verdict .v { font: 800 1.6rem var(--f-display); letter-spacing: .01em; }
+.verdict .why { font-size: .95rem; opacity: .92; }
+.v-A-SETUP, .v-GO { background: var(--gain); }
+.v-HALF { background: var(--mid); }
+.v-INCOMPLETE { background: var(--unk); }
+.v-SKIP { background: var(--loss); }
+.v-NODATA { background: var(--muted); }
+
+.token { display: flex; gap: 14px; align-items: center; flex-wrap: wrap; }
+.token img { width: 48px; height: 48px; object-fit: cover; border: 1px solid var(--rule); }
+.token .name { font-size: 1.25rem; font-weight: 700; }
+.token code { font: .78rem var(--f-data); color: var(--ink-2); word-break: break-all; }
+.links { display: flex; flex-wrap: wrap; gap: 4px 12px; font-size: .85rem; }
+
+.strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 140px), 1fr)); gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
+.strip div { background: var(--surface); padding: 10px 12px; display: grid; gap: 2px; }
+.strip b { font: 500 1.15rem var(--f-data); font-variant-numeric: tabular-nums; }
+.strip span { font-size: .76rem; color: var(--ink-2); }
+
+.grid2 { display: grid; grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr); gap: 18px; align-items: start; }
+@media (max-width: 860px) { .grid2 { grid-template-columns: 1fr; } }
+.card { background: var(--surface); border: 1px solid var(--rule); padding: 14px 16px; display: grid; gap: 10px; }
+.stage { display: grid; gap: 0; }
+.stage h3 { margin: 10px 0 4px; font: .74rem var(--f-data); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-2); }
+.stage:first-child h3 { margin-top: 0; }
+.chk { display: grid; grid-template-columns: 22px minmax(0, 11em) minmax(0, 1fr); gap: 2px 10px; padding: 7px 0; border-top: 1px solid var(--rule); align-items: baseline; }
+.chk .m { font: 700 .95rem var(--f-data); text-align: center; }
+.chk .l { font-weight: 600; font-size: .9rem; }
+.chk .val { font: .86rem var(--f-data); word-break: break-word; }
+.chk .rule { grid-column: 3; font-size: .76rem; color: var(--muted); }
+.chk .note { grid-column: 2 / -1; font: .84rem/1.4 var(--f-body); color: var(--ink-2); }
+.s-pass .m { color: var(--gain); } .s-fail .m, .s-fail .val { color: var(--loss); } .s-warn .m { color: var(--mid); }
+.s-unknown .m { color: var(--unk); } .s-info .m { color: var(--muted); }
+.tag { font: .68rem var(--f-data); letter-spacing: .05em; text-transform: uppercase; padding: 0 4px; border: 1px solid var(--rule); color: var(--ink-2); margin-left: 4px; }
+
+svg.chart { width: 100%; height: auto; display: block; }
+svg .band { fill: var(--gain); opacity: .10; }
+svg .hi { stroke: var(--loss); stroke-dasharray: 3 3; stroke-width: 1; }
+svg .px { stroke: var(--accent); stroke-width: 2; fill: none; }
+svg .vol { fill: var(--muted); opacity: .45; }
+svg text { fill: var(--ink-2); font: 10px var(--f-data); }
+.kv { display: grid; grid-template-columns: auto 1fr; gap: 4px 14px; font-size: .9rem; }
+.kv dt { color: var(--ink-2); }
+.kv dd { margin: 0; font-family: var(--f-data); text-align: right; }
+
+.tablewrap { overflow-x: auto; border: 1px solid var(--rule); background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: .88rem; }
+th, td { text-align: left; padding: 8px 10px; border-bottom: 1px solid var(--rule); white-space: nowrap; }
+th { font: 600 .72rem var(--f-display); letter-spacing: .05em; text-transform: uppercase; color: var(--ink-2); }
+td.n { font-family: var(--f-data); text-align: right; font-variant-numeric: tabular-nums; }
+td.reason { white-space: normal; min-width: 260px; color: var(--ink-2); font-size: .82rem; }
+tbody tr { cursor: pointer; }
+tbody tr:hover { background: var(--wash); }
+.chip { font: 700 .72rem var(--f-data); padding: 2px 7px; color: #fff; white-space: nowrap; }
+.toolbar { display: flex; flex-wrap: wrap; gap: 10px 16px; align-items: end; }
+.toolbar label { min-width: 120px; }
+.toolbar .check { display: flex; gap: 6px; align-items: center; font-size: .85rem; color: var(--ink); }
+.toolbar .check input { width: auto; }
+footer { font-size: .8rem; color: var(--muted); border-top: 1px solid var(--rule); padding-top: 12px; }
+.spin { display: inline-block; width: .9em; height: .9em; border: 2px solid currentColor; border-right-color: transparent; border-radius: 50%; animation: r .8s linear infinite; vertical-align: -2px; }
+@keyframes r { to { transform: rotate(360deg); } }
+@media (prefers-reduced-motion: reduce) { .spin { animation: none; } }
+@media (max-width: 560px) { .chk { grid-template-columns: 22px minmax(0, 1fr); } .chk .val, .chk .rule { grid-column: 2; } }
+[hidden] { display: none !important; }
+</style>
+</head>
+<body>
+<main>
+  <header>
+    <div>
+      <div class="eyebrow">Trench Playbook · scanner</div>
+      <h1>Trench Scanner</h1>
+    </div>
+    <div class="clock" id="clock"></div>
+    <nav><a href="/playbook" target="_blank" rel="noopener">Playbook</a><a href="/report" target="_blank" rel="noopener">Channel audit</a></nav>
+  </header>
+
+  <div class="tabs" role="tablist">
+    <button role="tab" id="tab-scan" aria-selected="true" aria-controls="p-scan">Scan a coin</button>
+    <button role="tab" id="tab-trend" aria-selected="false" aria-controls="p-trend">Trending screener</button>
+    <button role="tab" id="tab-live" aria-selected="false" aria-controls="p-live">Live alerts</button>
+    <button role="tab" id="tab-proof" aria-selected="false" aria-controls="p-proof">Proof</button>
+  </div>
+
+  <!-- Scan -->
+  <section id="p-scan" role="tabpanel" aria-labelledby="tab-scan" style="display:grid;gap:18px">
+    <form class="scan" id="scanForm" autocomplete="off">
+      <label class="addr">Contract address
+        <input id="addr" placeholder="Solana mint or 0x… contract" spellcheck="false" required></label>
+      <label>Chain
+        <select id="chain"><option value="">auto</option><option>solana</option><option>bsc</option><option>base</option><option>ethereum</option><option>arbitrum</option></select></label>
+      <label>Bankroll $<input id="bankroll" type="number" min="0" step="any" placeholder="2000" style="width:8em"></label>
+      <label>Risk %<input id="risk" type="number" min="0.1" max="5" step="0.1" value="1" style="width:5em"></label>
+      <button class="go" id="scanBtn">Run dossier</button>
+    </form>
+    <div id="scanErr" class="err" hidden></div>
+    <div id="result" hidden></div>
+    <p id="scanHint" class="muted small">Runs the playbook's 90-second dossier in order: gate → contract → liquidity → holders → flow. The first failure means skip.</p>
+  </section>
+
+  <!-- Trending -->
+  <section id="p-trend" role="tabpanel" aria-labelledby="tab-trend" style="display:grid;gap:14px" hidden>
+    <div class="toolbar">
+      <label>Chain<select id="tChain"><option>solana</option><option>base</option><option>bsc</option><option value="all">all</option></select></label>
+      <label>Coins<select id="tLimit"><option>10</option><option selected>15</option><option>25</option></select></label>
+      <label class="check"><input type="checkbox" id="tCandles"> exact gate (1-min candles, slower)</label>
+      <label class="check"><input type="checkbox" id="tAuto"> auto-refresh 2 min</label>
+      <button class="go" id="tBtn">Screen now</button>
+    </div>
+    <div id="tStatus" class="muted small">Pulls DexScreener boosts and new profiles plus GeckoTerminal trending, keeps the deepest 1h volume, and scores each one.</div>
+    <div class="tablewrap" id="tWrap" hidden>
+      <table>
+        <thead><tr><th>Verdict</th><th>Token</th><th style="text-align:right">Vol 30m</th><th style="text-align:right">Off high</th><th style="text-align:right">Liq</th><th style="text-align:right">Mcap</th><th>Why / what's missing</th><th>Source</th></tr></thead>
+        <tbody id="tBody"></tbody>
+      </table>
+    </div>
+  </section>
+
+  <!-- Live -->
+  <section id="p-live" role="tabpanel" aria-labelledby="tab-live" style="display:grid;gap:16px" hidden>
+    <div id="lStatus" class="muted small">Loading…</div>
+    <div class="strip" id="lStrip"></div>
+    <h2>Paper trades</h2>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Status</th><th>Token</th><th style="text-align:right">Signal</th><th style="text-align:right">Entry</th><th style="text-align:right">Now / exit</th><th style="text-align:right">Return</th><th style="text-align:right">P&amp;L</th><th>Exit</th><th>Opened</th></tr></thead>
+      <tbody id="lTrades"></tbody></table></div>
+    <h2>Alerts</h2>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Time</th><th>Verdict</th><th>Token</th><th style="text-align:right">Vol 30m</th><th style="text-align:right">Off high</th><th style="text-align:right">Liq</th><th style="text-align:right">Mcap</th><th>Why / note</th></tr></thead>
+      <tbody id="lAlerts"></tbody></table></div>
+  </section>
+
+  <!-- Proof -->
+  <section id="p-proof" role="tabpanel" aria-labelledby="tab-proof" style="display:grid;gap:14px" hidden>
+    <p class="muted small" style="max-width:75ch">Trades marked +N are still open and not counted yet. Replays every rule on everything the collector recorded: every coin it watched, minute by minute, not just the coins it alerted on. Same mechanics as the paper trades: entry 1 minute late, 4.5% fees, the stop fills at the real price. A rule <b>holds</b> only with 50+ trades, a 90% range above zero, and a profit in both halves of the period.</p>
+    <div class="toolbar"><button class="go" id="pBtn">Recompute</button><span id="pStatus" class="muted small"></span></div>
+    <div class="tablewrap"><table>
+      <thead><tr><th>Rule</th><th style="text-align:right">Trades</th><th style="text-align:right">Avg</th><th style="text-align:right">Win</th><th style="text-align:right">90% range</th><th style="text-align:right">1st half</th><th style="text-align:right">2nd half</th><th>Verdict</th></tr></thead>
+      <tbody id="pBody"></tbody></table></div>
+  </section>
+
+  <footer>Read-only research tool: no wallet, no keys, no orders. The rules come from one channel's in-sample backtest (148 calls, May–Oct 2026). Treat them as hypotheses to test with small size. This is not financial advice.</footer>
+</main>
+
+<script>
+const $ = (s) => document.querySelector(s);
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+const safeUrl = (u) => /^https?:\/\//i.test(u || "") ? u : null;
+const usd = (x) => { if (x == null) return "–"; const a = Math.abs(x);
+  for (const [d, s] of [[1e9,"B"],[1e6,"M"],[1e3,"k"]]) if (a >= d) return "$" + (x/d).toFixed(a < 10*d ? 2 : a < 100*d ? 1 : 0) + s;
+  return "$" + (a >= 10 ? x.toFixed(0) : x.toFixed(2)); };
+const px = (p) => { if (p == null) return "–"; if (p >= 1) return "$" + p.toFixed(4);
+  const s = p.toFixed(14).split(".")[1]; const z = s.length - s.replace(/^0+/, "").length; return "$" + p.toFixed(z + 4); };
+const ICON = {pass:"✓", fail:"✗", warn:"!", unknown:"?", info:"·"};
+const STAGE = {gate:"Gate", contract:"Contract", liquidity:"Liquidity", holders:"Holders", flow:"Flow & context"};
+const vclass = (v) => ({"A-SETUP":"v-A-SETUP","GO":"v-GO","GO · HALF SIZE":"v-HALF","INCOMPLETE":"v-INCOMPLETE","SKIP":"v-SKIP"})[v] || "v-NODATA";
+
+// --- persisted per-viewer settings
+const store = { get(k){ try { return localStorage.getItem("trench."+k); } catch { return null; } },
+                set(k,v){ try { localStorage.setItem("trench."+k, v); } catch {} } };
+$("#bankroll").value = store.get("bankroll") || "";
+$("#risk").value = store.get("risk") || "1";
+
+// --- clock + trading window
+function tick() {
+  const d = new Date(), h = d.getUTCHours(), inwin = h < 8;
+  const t = d.toISOString().slice(11, 16), now = h * 60 + d.getUTCMinutes();
+  const hm = (m) => `${Math.floor(m / 60)}h ${String(m % 60).padStart(2, "0")}m`;
+  $("#clock").innerHTML = `<b>${t} UTC</b> · ` + (inwin
+    ? `<span class="pill" style="color:var(--gain)">in window</span> ${hm(480 - now)} left`
+    : `<span class="pill" style="color:var(--mid)">outside window</span> half size · opens in ${hm(1440 - now)}`);
+}
+tick(); setInterval(tick, 20000);
+
+// --- tabs
+let liveTimer = null;
+function tab(which) {
+  for (const [b, p] of [["#tab-scan", "#p-scan"], ["#tab-trend", "#p-trend"], ["#tab-live", "#p-live"], ["#tab-proof", "#p-proof"]]) {
+    const on = b === which; $(b).setAttribute("aria-selected", on); $(p).hidden = !on;
+  }
+  clearInterval(liveTimer);
+  if (which === "#tab-live") { loadLive(); liveTimer = setInterval(loadLive, 30000); }
+  if (which === "#tab-proof") loadProof(false);
+}
+$("#tab-scan").onclick = () => tab("#tab-scan");
+$("#tab-trend").onclick = () => tab("#tab-trend");
+$("#tab-live").onclick = () => tab("#tab-live");
+$("#tab-proof").onclick = () => tab("#tab-proof");
+
+// --- scan
+async function runScan(address, chain) {
+  const bankroll = $("#bankroll").value, risk = $("#risk").value;
+  store.set("bankroll", bankroll); store.set("risk", risk);
+  $("#scanErr").hidden = true; $("#scanBtn").disabled = true;
+  $("#scanBtn").innerHTML = '<span class="spin"></span> Scanning';
+  const q = new URLSearchParams({address, chain: chain || "", bankroll, risk});
+  try {
+    const r = await fetch("/api/scan?" + q); const d = await r.json();
+    if (!r.ok) throw new Error(d.error || r.status);
+    renderDossier(d); $("#scanHint").hidden = true;
+    history.replaceState(null, "", "#" + address);
+  } catch (e) { $("#scanErr").textContent = "Scan failed: " + e.message; $("#scanErr").hidden = false; }
+  finally { $("#scanBtn").disabled = false; $("#scanBtn").textContent = "Run dossier"; }
+}
+$("#scanForm").onsubmit = (e) => { e.preventDefault(); runScan($("#addr").value.trim(), $("#chain").value); };
+
+function chart(d) {
+  const cs = d.candles || []; if (cs.length < 3) return `<p class="muted small">No 1-minute candles (GeckoTerminal unavailable or rate-limited), so the pullback check needs your chart.</p>`;
+  const W = 520, H = 170, P = 30, VH = 34;
+  const t0 = cs[0][0], t1 = cs[cs.length - 1][0] || t0 + 1;
+  const hi = Math.max(...cs.map(c => c[2])), lo = Math.min(...cs.map(c => c[3]));
+  const vmax = Math.max(...cs.map(c => c[5])) || 1;
+  const x = (t) => P + (t - t0) / Math.max(1, t1 - t0) * (W - P - 8);
+  const y = (p) => 8 + (hi - p) / Math.max(1e-18, hi - lo) * (H - VH - 22);
+  const h60 = d.high60 || hi;
+  const bTop = y(h60 * 0.93), bBot = y(Math.max(lo, h60 * 0.70));
+  let s = `<svg class="chart" viewBox="0 0 ${W} ${H}" role="img" aria-label="Last 60 minutes, 1-minute closes, with the buy zone 7–30% below the 60-minute high">`;
+  if (bBot > bTop) s += `<rect class="band" x="${P}" y="${bTop}" width="${W - P - 8}" height="${bBot - bTop}"/>`;
+  s += `<line class="hi" x1="${P}" x2="${W - 8}" y1="${y(h60)}" y2="${y(h60)}"/><text x="${P + 4}" y="${y(h60) + 12}">60m high ${esc(px(h60))}</text>`;
+  if (bBot > bTop) s += `<text x="${W - 12}" y="${bBot - 4}" text-anchor="end">buy zone −7% to −30%</text>`;
+  s += `<polyline class="px" points="${cs.map(c => x(c[0]).toFixed(1) + "," + y(c[4]).toFixed(1)).join(" ")}"/>`;
+  const bw = Math.max(1, (W - P - 8) / cs.length - 1);
+  for (const c of cs) { const h = c[5] / vmax * VH; s += `<rect class="vol" x="${x(c[0]) - bw / 2}" y="${H - 14 - h}" width="${bw}" height="${h}"/>`; }
+  const tm = (t) => new Date(t * 1000).toISOString().slice(11, 16);
+  s += `<text x="${P}" y="${H - 2}">${tm(t0)}</text><text x="${W - 8}" y="${H - 2}" text-anchor="end">${tm(t1)} UTC · volume bars</text></svg>`;
+  return s;
+}
+
+function links(d) {
+  const a = encodeURIComponent(d.address), L = [];
+  if (safeUrl(d.url)) L.push(["DexScreener", d.url]);
+  if (d.chain === "solana") L.push(["RugCheck", `https://rugcheck.xyz/tokens/${a}`], ["GMGN", `https://gmgn.ai/sol/token/${a}`],
+    ["Bubblemaps", `https://v2.bubblemaps.io/map?address=${a}&chain=solana`], ["Solscan", `https://solscan.io/token/${a}`]);
+  else { const g = {bsc:"bsc", base:"base", ethereum:"eth"}[d.chain];
+    if (g) L.push(["GMGN", `https://gmgn.ai/${g}/token/${a}`]);
+    L.push(["honeypot.is", `https://honeypot.is/?address=${a}`], ["Bubblemaps", `https://v2.bubblemaps.io/map?address=${a}&chain=${encodeURIComponent(d.chain)}`]); }
+  for (const s of d.socials || []) if (safeUrl(s)) L.push([new URL(s).hostname.replace(/^www\./, ""), s]);
+  return L.map(([t, u]) => `<a href="${esc(u)}" target="_blank" rel="noopener noreferrer">${esc(t)}</a>`).join("");
+}
+
+function renderDossier(d) {
+  const el = $("#result"); el.hidden = false;
+  if (d.verdict === "NO DATA") {
+    el.innerHTML = `<div class="verdict v-NODATA"><div class="v">NO DATA</div><div class="why">${esc(d.reason)} ${esc((d.errors || []).join("; "))}</div></div>`;
+    return;
+  }
+  const img = safeUrl(d.image) ? `<img src="${esc(d.image)}" alt="" loading="lazy" referrerpolicy="no-referrer">` : "";
+  const stages = {};
+  for (const c of d.checks) (stages[c.stage] ||= []).push(c);
+  const checks = Object.keys(STAGE).filter(k => stages[k]).map(k => `<div class="stage"><h3>${STAGE[k]}</h3>` +
+    stages[k].map(c => `<div class="chk s-${c.status}"><span class="m" aria-label="${c.status}">${ICON[c.status]}</span>
+      <span class="l">${esc(c.label)}</span><span class="val">${esc(c.value)}</span>
+      ${c.status !== "info" && c.rule !== "–" ? `<span class="rule">${esc(c.rule)}<span class="tag">${esc(c.tag)}</span></span>` : ""}
+      ${c.note && c.status !== "pass" ? `<span class="note">${esc(c.note)}</span>` : ""}</div>`).join("") + `</div>`).join("");
+  const sz = d.sizing, ex = d.exits;
+  const size = sz ? `<dl class="kv"><dt>Position</dt><dd>${usd(sz.position)}</dd><dt>Risk at −50% stop</dt><dd>${usd(sz.risk_usd)} (${sz.risk_pct}% of ${usd(sz.bankroll)})</dd>
+      ${sz.half_size ? `<dt>Adjustment</dt><dd>half size, outside window</dd>` : ""}${sz.capped_by_liquidity ? `<dt>Cap</dt><dd>2% of pool liquidity</dd>` : ""}</dl>`
+    : `<p class="muted small">Enter a bankroll to size the position: bankroll × risk% ÷ 50% stop, capped at 2% of pool liquidity.</p>`;
+  const exits = ex ? `<dl class="kv"><dt>Take profit 2x</dt><dd style="color:var(--gain)">${px(ex.take_profit)}</dd>
+      <dt>Stop −50%</dt><dd style="color:var(--loss)">${px(ex.stop)}</dd><dt>Time stop</dt><dd>${ex.time_stop_min} min after fill</dd></dl>
+      <p class="muted small">Prices use the current quote. Re-anchor to your actual fill and attach all three exits at once. Never hold overnight.</p>` : "";
+  const offHigh = d.off_high == null ? "–" : (d.off_high * 100).toFixed(1) + "%";
+  el.innerHTML = `
+    <div style="display:grid;gap:16px">
+      <div class="verdict ${vclass(d.verdict)}" role="status"><div class="v">${esc(d.verdict)}</div><div class="why">${esc(d.reason)}</div></div>
+      <div class="token">${img}<div style="display:grid;gap:2px;min-width:0">
+        <div><span class="name">${esc(d.symbol || "?")}</span> <span class="muted">${esc(d.name || "")}</span>
+          <span class="pill muted" style="margin-left:6px">${esc(d.chain)} · ${esc(d.dex || "")}${d.launchpad ? " · " + esc(d.launchpad) : ""}</span></div>
+        <code>${esc(d.address)}</code><div class="links">${links(d)}</div></div></div>
+      <div class="strip">
+        <div><b>${px(d.price)}</b><span>Price</span></div>
+        <div><b>${usd(d.vol30)}</b><span>Volume, 30 min</span></div>
+        <div><b>${offHigh}</b><span>vs 60-min high</span></div>
+        <div><b>${usd(d.liquidity)}</b><span>Liquidity</span></div>
+        <div><b>${usd(d.mcap)}</b><span>Market cap</span></div>
+        <div><b>${usd(d.vol_h24)}</b><span>Volume, 24 h</span></div>
+      </div>
+      <div class="grid2">
+        <div class="card">${checks}</div>
+        <div style="display:grid;gap:18px">
+          <div class="card"><h2>Last 60 minutes</h2>${chart(d)}</div>
+          <div class="card"><h2>Size</h2>${size}</div>
+          <div class="card"><h2>Exits</h2>${exits}</div>
+          ${(d.errors || []).length ? `<p class="muted small">Source issues: ${esc(d.errors.join("; "))}</p>` : ""}
+          <p class="muted small">Scanned ${new Date(d.scanned_at * 1000).toISOString().slice(11, 19)} UTC</p>
+        </div>
+      </div>
+    </div>`;
+}
+
+// --- trending
+let autoTimer = null;
+async function runTrending() {
+  const q = new URLSearchParams({chain: $("#tChain").value, limit: $("#tLimit").value, candles: $("#tCandles").checked ? "1" : "0",
+                                 bankroll: $("#bankroll").value, risk: $("#risk").value});
+  $("#tBtn").disabled = true; $("#tStatus").innerHTML = '<span class="spin"></span> Screening… ' + ($("#tCandles").checked ? "(candles on: about 3 s per coin)" : "");
+  try {
+    const r = await fetch("/api/trending?" + q); const d = await r.json();
+    if (!r.ok) throw new Error(d.error || r.status);
+    $("#tBody").innerHTML = d.results.map(x => `<tr data-a="${esc(x.address)}" data-c="${esc(x.chain)}" tabindex="0">
+      <td><span class="chip ${vclass(x.verdict)}">${esc(x.verdict)}</span></td>
+      <td><b>${esc(x.symbol || "?")}</b> <span class="muted small">${esc(x.chain)}</span></td>
+      <td class="n">${usd(x.vol30)}</td><td class="n">${x.off_high == null ? "–" : (x.off_high * 100).toFixed(0) + "%"}</td>
+      <td class="n">${usd(x.liquidity)}</td><td class="n">${usd(x.mcap)}</td>
+      <td class="reason">${esc(x.reason)}</td><td class="muted small">${esc((x.sources || []).join(", "))}</td></tr>`).join("")
+      || `<tr><td colspan="8" class="muted">Nothing passed the pre-filter (liquidity ≥ $5k).</td></tr>`;
+    $("#tWrap").hidden = false;
+    $("#tStatus").textContent = `${d.results.length} of ${d.candidates} candidates scored at ${new Date(d.scanned_at * 1000).toISOString().slice(11, 16)} UTC.`
+      + (d.results.some(x => x.off_high == null) ? " Without candles the 60-min-high check stays open: click a row for the full dossier." : "")
+      + (d.errors.length ? " Source issues: " + d.errors.join("; ") : "");
+  } catch (e) { $("#tStatus").textContent = "Screen failed: " + e.message; }
+  finally { $("#tBtn").disabled = false; }
+}
+$("#tBtn").onclick = runTrending;
+$("#tAuto").onchange = (e) => { clearInterval(autoTimer); if (e.target.checked) { runTrending(); autoTimer = setInterval(runTrending, 120000); } };
+function openRow(tr) { if (!tr) return; $("#addr").value = tr.dataset.a; $("#chain").value = tr.dataset.c; tab("#tab-scan"); runScan(tr.dataset.a, tr.dataset.c); }
+$("#tBody").onclick = (e) => openRow(e.target.closest("tr[data-a]"));
+$("#tBody").onkeydown = (e) => { if (e.key === "Enter") openRow(e.target.closest("tr[data-a]")); };
+
+// --- live alerts + paper journal
+const hhmm = (t) => t ? new Date(t * 1000).toISOString().slice(5, 16).replace("T", " ") : "–";
+const sp = (x) => x == null ? "–" : (x >= 0 ? "+" : "") + (x * 100).toFixed(1) + "%";
+const tone = (x) => x == null ? "" : x > 0 ? "color:var(--gain)" : x < 0 ? "color:var(--loss)" : "";
+async function loadLive() {
+  try {
+    const d = await (await fetch("/api/live")).json();
+    const st = d.status, age = st ? d.now - st.ts : null;
+    $("#lStatus").innerHTML = !st ? "The collector has not run yet. Start it with <code>python3 collector.py</code>."
+      : age > 180 ? `<span style="color:var(--loss)">Collector last ran ${Math.round(age / 60)} min ago, so it's probably stopped.</span>`
+      : `Collector running: watching ${st.watching} coins on ${esc(st.chains.join(", "))}, paper bankroll ${usd(st.bankroll)} at ${st.risk}% risk. Updated ${age}s ago.`;
+    const j = d.journal;
+    $("#lStrip").innerHTML = `<div><b>${j.n}</b><span>Closed paper trades</span></div><div><b>${j.open}</b><span>Open</span></div>
+      <div><b style="${tone(j.mean)}">${j.n ? sp(j.mean) : "–"}</b><span>Avg return after fees</span></div>
+      <div><b>${j.n ? Math.round(j.win * 100) + "%" : "–"}</b><span>Win rate (break-even ≈ 36%)</span></div>
+      <div><b style="${tone(j.pnl)}">${j.n ? usd(j.pnl) : "–"}</b><span>Paper P&amp;L</span></div>
+      <div><b>${j.n >= 50 ? (j.mean > 0 ? "OK" : "STOP") : (50 - j.n) + " to go"}</b><span>Kill switch: 50-trade check</span></div>`;
+    $("#lTrades").innerHTML = d.trades.map(t => {
+      const cur = t.status === "closed" ? t.exit_price : t.last_price;
+      const r = t.status === "closed" ? t.ret : (t.entry_price && cur ? cur / t.entry_price * (1 - 0.045) - 1 : null);
+      return `<tr data-a="${esc(t.address)}" data-c="${esc(t.chain)}" tabindex="0"><td>${esc(t.status)}</td><td><b>${esc(t.symbol || "?")}</b></td>
+        <td class="n">${px(t.signal_price)}</td><td class="n">${px(t.entry_price)}</td><td class="n">${px(cur)}</td>
+        <td class="n" style="${tone(r)}">${sp(r)}${t.status !== "closed" && r != null ? " *" : ""}</td>
+        <td class="n" style="${tone(t.pnl)}">${t.pnl == null ? "–" : usd(t.pnl)}</td><td>${esc(t.exit_reason || "")}</td><td class="muted small">${hhmm(t.signal_ts)}</td></tr>`;
+    }).join("") || `<tr><td colspan="9" class="muted">No paper trades yet.</td></tr>`;
+    $("#lAlerts").innerHTML = d.alerts.map(a => `<tr data-a="${esc(a.address)}" data-c="${esc(a.chain)}" tabindex="0">
+      <td class="muted small">${hhmm(a.ts)}</td><td><span class="chip ${vclass(a.verdict)}">${esc(a.verdict)}</span></td>
+      <td><b>${esc(a.symbol || "?")}</b></td><td class="n">${usd(a.vol30)}</td><td class="n">${a.off_high == null ? "–" : (a.off_high * 100).toFixed(0) + "%"}</td>
+      <td class="n">${usd(a.liq)}</td><td class="n">${usd(a.mcap)}</td>
+      <td class="reason">${esc(a.skipped === "dossier" ? a.reason : (a.skipped ? "Paper trade skipped: " + a.skipped : a.reason))}</td></tr>`).join("")
+      || `<tr><td colspan="8" class="muted">No coin has passed the gate yet.</td></tr>`;
+  } catch (e) { $("#lStatus").textContent = "Couldn't load live data: " + e.message; }
+}
+for (const id of ["#lTrades", "#lAlerts"]) {
+  $(id).onclick = (e) => openRow(e.target.closest("tr[data-a]"));
+  $(id).onkeydown = (e) => { if (e.key === "Enter") openRow(e.target.closest("tr[data-a]")); };
+}
+
+// --- proof (validation)
+async function loadProof(force) {
+  $("#pStatus").innerHTML = '<span class="spin"></span> Replaying…'; $("#pBtn").disabled = true;
+  try {
+    const d = await (await fetch("/api/validate" + (force ? "?refresh=1" : ""))).json();
+    const hrs = d.span_to ? ((d.span_to - d.span_from) / 3600).toFixed(1) : 0;
+    $("#pStatus").textContent = `${d.coins || 0} coins, ${hrs} h of data. Computed ${new Date(d.generated * 1000).toISOString().slice(11, 16)} UTC.`;
+    $("#pBody").innerHTML = d.variants.map(v => {
+      const col = v.verdict.startsWith("holds") ? "var(--gain)" : v.verdict.startsWith("fails") ? "var(--loss)" : "var(--ink-2)";
+      return `<tr><td><b>${esc(v.name)}</b><div class="muted small">${esc(v.desc)}</div></td><td class="n">${v.n}${v.pending ? ` <span class="muted">+${v.pending}</span>` : ""}</td>
+        <td class="n" style="${tone(v.mean)}">${v.n ? sp(v.mean) : "–"}</td><td class="n">${v.n ? Math.round(v.win * 100) + "%" : "–"}</td>
+        <td class="n">${v.n > 1 ? sp(v.lo) + " … " + sp(v.hi) : "–"}</td><td class="n">${sp(v.first_half)}</td><td class="n">${sp(v.second_half)}</td>
+        <td class="reason" style="color:${col}">${esc(v.verdict)}</td></tr>`;
+    }).join("");
+  } catch (e) { $("#pStatus").textContent = "Couldn't compute: " + e.message; }
+  finally { $("#pBtn").disabled = false; }
+}
+$("#pBtn").onclick = () => loadProof(true);
+
+// deep link: /#<address>
+if (location.hash.length > 30) { $("#addr").value = decodeURIComponent(location.hash.slice(1)); runScan($("#addr").value, ""); }
+</script>
+</body>
+</html>

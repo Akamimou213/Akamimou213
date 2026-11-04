@@ -1,0 +1,2 @@
+# Known rugger wallets (creators or funders), one per line. Copy to data/rug_wallets.txt.
+# The desk adds its own: any lead whose price fell 90% or more within 24h.

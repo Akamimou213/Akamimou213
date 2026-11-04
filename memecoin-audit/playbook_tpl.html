@@ -1,0 +1,592 @@
+<title>Trench Playbook</title>
+<meta name="claude:viewport-fit-sides" content="cover">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Schibsted+Grotesk:wght@500;700;800&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&family=IBM+Plex+Mono:wght@400;500&display=swap">
+<style>
+/* Layout: an operator's manual. Reading column ~68ch; tables, checklists and the rule card break out to 1000px. Sticky section index on wide screens. */
+:root {
+  --paper: #f5f6f2; --surface: #ffffff; --ink: #1b1f1d; --ink-2: #4a524e; --rule: #d9ddd6;
+  --accent: #1f5c66; --gain: #2c7a4b; --loss: #b8432f; --mid: #a07a1c; --muted: #9aa39e;
+  --wash: #e9efe9;
+  --f-display: "Schibsted Grotesk", "Helvetica Neue", Arial, sans-serif;
+  --f-body: "Source Serif 4", Georgia, "Times New Roman", serif;
+  --f-data: "IBM Plex Mono", ui-monospace, "SFMono-Regular", Menlo, monospace;
+}
+@media (prefers-color-scheme: dark) {
+  :root:not([data-theme="light"]) {
+    color-scheme: dark;
+    --paper: #121614; --surface: #1a1f1c; --ink: #e6e9e4; --ink-2: #a9b2ac; --rule: #2e3531;
+    --accent: #7cc3cc; --gain: #5cc48a; --loss: #f0806b; --mid: #e0b54c; --muted: #66706a; --wash: #1f2622;
+  }
+}
+:root[data-theme="dark"] {
+  color-scheme: dark;
+  --paper: #121614; --surface: #1a1f1c; --ink: #e6e9e4; --ink-2: #a9b2ac; --rule: #2e3531;
+  --accent: #7cc3cc; --gain: #5cc48a; --loss: #f0806b; --mid: #e0b54c; --muted: #66706a; --wash: #1f2622;
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body {
+  background: var(--paper); color: var(--ink); font-family: var(--f-body); font-size: 17px; line-height: 1.6;
+  padding-left: max(16px, env(safe-area-inset-left, 0px)); padding-right: max(16px, env(safe-area-inset-right, 0px));
+}
+main { max-width: 1000px; margin: 0 auto; padding-block: 48px 96px; display: grid; gap: 64px; }
+section { display: grid; gap: 18px; scroll-margin-top: 24px; }
+.col { max-width: 68ch; display: grid; gap: 12px; }
+h1, h2, h3 { font-family: var(--f-display); text-wrap: balance; margin: 0; line-height: 1.15; }
+h1 { font-size: clamp(2.2rem, 5.5vw, 3.4rem); font-weight: 800; letter-spacing: -0.02em; }
+h2 { font-size: 1.65rem; font-weight: 700; letter-spacing: -0.01em; }
+h3 { font-size: 1.08rem; font-weight: 700; }
+p, ul, ol { margin: 0; }
+ul, ol { padding-left: 1.2em; display: grid; gap: 6px; }
+a { color: var(--accent); text-underline-offset: 2px; }
+a:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+code, .num { font-family: var(--f-data); font-variant-numeric: tabular-nums; font-size: 0.88em; }
+.eyebrow { font-family: var(--f-data); font-size: 0.78rem; letter-spacing: 0.08em; text-transform: uppercase; color: var(--ink-2); }
+.lede { font-size: 1.18rem; max-width: 62ch; }
+nav.index { display: flex; flex-wrap: wrap; gap: 6px 14px; font-family: var(--f-display); font-size: 0.88rem; border-top: 1px solid var(--rule); border-bottom: 1px solid var(--rule); padding-block: 12px; }
+nav.index a { color: var(--ink-2); text-decoration: none; }
+nav.index a:hover, nav.index a:focus-visible { color: var(--accent); text-decoration: underline; }
+nav.index b { font-family: var(--f-data); font-weight: 400; color: var(--accent); margin-right: 4px; }
+.rulecard { background: var(--ink); color: var(--paper); padding: 22px 24px; display: grid; gap: 14px; }
+.rulecard h2 { color: var(--paper); }
+.rulecard .grid4 { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 270px), 1fr)); gap: 18px; }
+.rulecard .grid4 div { display: grid; gap: 6px; align-content: start; border-top: 1px solid color-mix(in srgb, var(--paper) 30%, transparent); padding-top: 10px; }
+.rulecard .k { font-family: var(--f-data); font-size: 0.74rem; letter-spacing: 0.08em; text-transform: uppercase; opacity: 0.75; }
+.rulecard p { font-size: 0.98rem; line-height: 1.5; }
+.rulecard .foot { font-family: var(--f-display); font-size: 0.82rem; opacity: 0.75; }
+.strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 170px), 1fr)); gap: 1px; background: var(--rule); border: 1px solid var(--rule); }
+.strip div { background: var(--surface); padding: 14px 16px; display: grid; gap: 2px; }
+.strip b { font-family: var(--f-data); font-size: 1.35rem; font-weight: 500; font-variant-numeric: tabular-nums; }
+.strip span { font-family: var(--f-display); font-size: 0.82rem; color: var(--ink-2); line-height: 1.35; }
+figure { margin: 0; background: var(--surface); border: 1px solid var(--rule); padding: 18px 18px 12px; display: grid; gap: 10px; }
+figure .scroll { overflow-x: auto; }
+figure svg { display: block; width: 100%; min-width: 520px; height: auto; }
+figcaption { font-family: var(--f-display); font-size: 0.85rem; color: var(--ink-2); line-height: 1.45; }
+svg .grid { stroke: var(--rule); stroke-width: 1; }
+svg .ax { fill: var(--ink-2); font: 12px var(--f-data); }
+svg .val { fill: var(--ink); font: 12px var(--f-data); }
+svg .line { stroke: var(--accent); stroke-width: 2.5; }
+svg .dot { fill: var(--accent); }
+.tablewrap { overflow-x: auto; border: 1px solid var(--rule); background: var(--surface); }
+table { border-collapse: collapse; width: 100%; font-size: 0.9rem; line-height: 1.45; }
+th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--rule); vertical-align: top; }
+th { font-family: var(--f-display); font-weight: 700; font-size: 0.78rem; letter-spacing: 0.04em; text-transform: uppercase; color: var(--ink-2); white-space: nowrap; }
+td.n { font-family: var(--f-data); font-variant-numeric: tabular-nums; white-space: nowrap; }
+td.pos { color: var(--gain); } td.neg { color: var(--loss); }
+tr:last-child td { border-bottom: 0; }
+td b { font-family: var(--f-display); }
+.two { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr)); gap: 20px; }
+.card { background: var(--surface); border: 1px solid var(--rule); padding: 16px 18px; display: grid; gap: 8px; align-content: start; }
+.tag { font-family: var(--f-data); font-size: 0.74rem; letter-spacing: 0.06em; text-transform: uppercase; }
+.tag.gain { color: var(--gain); } .tag.loss { color: var(--loss); } .tag.mid { color: var(--mid); } .tag.acc { color: var(--accent); }
+.steps { counter-reset: s; list-style: none; padding: 0; display: grid; gap: 14px; }
+.steps > li { counter-increment: s; display: grid; grid-template-columns: 2.4rem 1fr; gap: 10px; }
+.steps > li::before { content: counter(s, decimal-leading-zero); font-family: var(--f-data); color: var(--accent); padding-top: 2px; }
+.steps > li > div { display: grid; gap: 6px; }
+.check { list-style: none; padding: 0; display: grid; gap: 8px; }
+.check li { display: grid; grid-template-columns: 1.4rem 1fr; gap: 6px; }
+.check li::before { content: "☐"; font-family: var(--f-data); color: var(--accent); }
+.note { font-family: var(--f-display); font-size: 0.88rem; color: var(--ink-2); max-width: 70ch; line-height: 1.5; }
+.callout { border-left: 3px solid var(--accent); background: var(--wash); padding: 12px 16px; display: grid; gap: 6px; max-width: 72ch; }
+.callout.warn { border-left-color: var(--loss); }
+.flow { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 150px), 1fr)); gap: 8px; }
+.flow div { background: var(--surface); border: 1px solid var(--rule); padding: 12px; display: grid; gap: 4px; align-content: start; }
+.flow b { font-family: var(--f-display); font-size: 0.95rem; }
+.flow span { font-family: var(--f-display); font-size: 0.82rem; color: var(--ink-2); line-height: 1.4; }
+.flow em { font-family: var(--f-data); font-style: normal; font-size: 0.72rem; color: var(--accent); letter-spacing: 0.06em; text-transform: uppercase; }
+.src { font-family: var(--f-display); font-size: 0.8rem; color: var(--ink-2); }
+.sources { font-family: var(--f-display); font-size: 0.85rem; color: var(--ink-2); display: grid; gap: 4px; padding-left: 1.2em; }
+.sources a { word-break: break-word; }
+.ev { font-family: var(--f-data); font-size: 0.72rem; letter-spacing: 0.05em; text-transform: uppercase; padding: 1px 6px; border: 1px solid currentColor; white-space: nowrap; }
+.ev.d { color: var(--gain); } .ev.r { color: var(--mid); } .ev.s { color: var(--accent); }
+</style>
+
+<main>
+<header class="col" style="gap:14px">
+  <div class="eyebrow">Memecoin trading system · v1 · 25 Oct 2026</div>
+  <h1>Trench Playbook</h1>
+  <p class="lede">A complete operating system for trading Solana and EVM memecoins: how the market works, which tools to use in which role, how to research and chart a coin, how to set up and manage the trade, and how to stay solvent while you find out whether you have an edge.</p>
+  <p class="note">Every rule is tagged by how much evidence stands behind it: <span class="ev d">data</span> tested on the 148-trade on-chain backtest from the Gambles audit, <span class="ev s">source</span> taken from protocol docs or published research, <span class="ev r">rule of thumb</span> common practice that hasn't been tested here. Results are from one channel's calls, May–Oct 2026, and are in-sample. They are hypotheses to confirm with your own trades, not guarantees.</p>
+</header>
+
+<nav class="index" aria-label="Sections">
+  <a href="#rules"><b>00</b>The rules</a>
+  <a href="#mindset"><b>01</b>Mindset</a>
+  <a href="#mechanics"><b>02</b>Market mechanics</a>
+  <a href="#liquidity"><b>03</b>Liquidity &amp; burns</a>
+  <a href="#tools"><b>04</b>Tools by role</a>
+  <a href="#bots"><b>05</b>Bots &amp; snipers</a>
+  <a href="#research"><b>06</b>Research a coin</a>
+  <a href="#ta"><b>07</b>Chart reading</a>
+  <a href="#setup"><b>08</b>Trade setup</a>
+  <a href="#workflow"><b>09</b>Daily workflow</a>
+  <a href="#journal"><b>10</b>Journal &amp; kill switches</a>
+  <a href="#dashboard"><b>11</b>Dashboard blueprint</a>
+</nav>
+
+<section id="rules" class="rulecard">
+  <div class="eyebrow" style="color:inherit;opacity:.75">00 · The system on one card</div>
+  <h2>Six rules that decide every trade</h2>
+  <div class="grid4">
+    <div><span class="k">Gate · data</span><p>Only enter if the coin traded <b>≥ $50k (ideally ≥ $117k) in the last 30 minutes</b> and price sits <b>≥ 7% below its 60-minute high</b>. Never buy within 7% of the recent high.</p></div>
+    <div><span class="k">Window · data</span><p>Trade hardest <b>00:00–08:00 UTC</b> (convert to your local time). Outside it, take only coins that pass the gate cleanly, at half size.</p></div>
+    <div><span class="k">Safety · source</span><p>Every coin passes the 90-second dossier: contract, liquidity, holders, wallets. <b>One failed check means skip.</b></p></div>
+    <div><span class="k">Exit · data</span><p>Sell <b>100% at 2x</b> from your fill. Stop at <b>−50%</b>. If neither has hit after <b>60 minutes</b>, sell. Never hold overnight.</p></div>
+    <div><span class="k">Size · math</span><p>Risk <b>0.5–1% of bankroll</b> per trade. Position = bankroll × risk% ÷ stop%. No more than 5 positions open.</p></div>
+    <div><span class="k">Review · math</span><p>Log every trade. After <b>50 trades</b>, if average return after fees is ≤ 0, stop and diagnose. A <b>15% monthly drawdown</b> ends the month.</p></div>
+  </div>
+  <p class="foot">Backtest at a 4.5% round-trip cost. Coins passing the volume + pullback gate: +24.6% per trade, 54% wins (n=41, 90% range +7% to +42%). Calls posted 00–08 UTC: +35% (n=28). Buying within 7% of the 60-minute high: −16.4% (n=50). Every call, no filter: +4.3%, which is within noise of break-even.</p>
+</section>
+
+<section id="mindset">
+  <div class="col">
+    <div class="eyebrow">01 · Mindset</div>
+    <h2>You are the liquidity until you prove otherwise</h2>
+    <p>The memecoin market moves money from people who don't have a process to the people who do. Before trading, accept these numbers: they describe the default outcome you're trying to escape.</p>
+  </div>
+  <div class="strip">
+    <div><b>90%</b><span>of 829,539 Fomo-app wallets were behind after fees (Jan–Oct 2026). The top 1% took 94% of all winnings.</span></div>
+    <div><b>$579M</b><span>made by pump.fun devs and their bundles, vs $31.5M by sniper bots (Oct 2025–Jun 2026)</span></div>
+    <div><b>80%</b><span>of pump.fun tokens stop trading by day one. 4.55% still trade after 90 days.</span></div>
+    <div><b>48%</b><span>chance of a run of 8+ straight losses in 100 trades at a 40% win rate</span></div>
+  </div>
+  <div class="two">
+    <div class="card"><span class="tag acc">Think in expectancy</span><h3>Win rate only matters against the payoff</h3>
+      <p>With a 2x target and a −50% stop, a win nets +91% and a loss −52% after a 4.5% round-trip cost. You break even at about <b>36% wins</b>. Each extra point of win rate above that is your edge. A 3x target needs 22% wins, and the calls managed 19%. That's why "hold for the moon" loses.</p></div>
+    <div class="card"><span class="tag acc">Expect streaks</span><h3>Losing streaks are normal, not a signal</h3>
+      <p>At a 40% win rate, the median worst streak in 100 trades is <b>7 losses in a row</b>, and there's a 20% chance of 10. With 1% risk per trade, ten losses cost about 10% of the bankroll. That's survivable. At 10% risk per trade it would wipe out about two-thirds of it. Position size is what keeps you in the game.</p></div>
+    <div class="card"><span class="tag loss">Banned behaviours</span><h3>The habits that turn a small edge into a loss</h3>
+      <ul>
+        <li>Chasing a coin that already pumped ("I'll just catch the next leg").</li>
+        <li>Moving a stop down, or removing it, once in a trade.</li>
+        <li>Averaging down on a coin that hit your stop.</li>
+        <li>Revenge trading after a loss, or sizing up after a win streak.</li>
+        <li>Holding past the time stop "because the community is strong".</li>
+        <li>Trading outside your plan because a KOL tweeted.</li>
+      </ul></div>
+    <div class="card"><span class="tag gain">Operating habits</span><h3>What disciplined operators do</h3>
+      <ul>
+        <li>Decide the exit before the entry, and let the platform execute it.</li>
+        <li>Treat every skip as a win: there will be another coin in five minutes.</li>
+        <li>Keep the trading bankroll in a separate hot wallet and withdraw profits weekly.</li>
+        <li>Judge yourself on process, meaning whether you followed the rules, not on single outcomes.</li>
+        <li>Stop for the day after 3 consecutive rule breaks or a 5% daily drawdown.</li>
+      </ul></div>
+  </div>
+</section>
+
+<section id="mechanics">
+  <div class="col">
+    <div class="eyebrow">02 · Market mechanics</div>
+    <h2>How a memecoin is born, priced and killed</h2>
+    <p><b>Lifecycle on pump.fun</b> <span class="ev s">source</span>. A creator mints 1B tokens. 793.1M of them sit on a <b>bonding curve</b>, a price formula with virtual reserves of 30 SOL and 1.073B tokens. Every buy raises the price along the curve. When all 793.1M curve tokens are sold (about 85 SOL of real buying), the coin <b>graduates</b>. The SOL raised plus the remaining ~206.9M tokens seed a PumpSwap pool, and the pool's LP tokens are burned. From then on the price is set by the pool.</p>
+  </div>
+  <figure>
+    <div class="scroll">{{CURVE}}</div>
+    <figcaption>pump.fun bonding curve, derived from the program's documented parameters. Market cap starts near 28 SOL and reaches about 411 SOL at graduation. Half the curve's tokens sell in the first ~22 SOL, so early buyers get most of the supply for very little SOL. That is why block-0 bundles take a median 10% of supply.</figcaption>
+  </figure>
+  <div class="flow">
+    <div><em>Stage 1</em><b>Launch</b><span>Dev creates the coin; snipers and dev bundles buy in block 0 on 28–38% of coins.</span></div>
+    <div><em>Stage 2</em><b>Bonding curve</b><span>1.25% fee per trade. "Progress %" = share of 793.1M tokens sold. Most coins die here: about 1% graduate.</span></div>
+    <div><em>Stage 3</em><b>Graduation</b><span>~85 SOL + ~206.9M tokens move to PumpSwap, LP burned. Often a volatile moment: early holders sell into new buyers.</span></div>
+    <div><em>Stage 4</em><b>AMM trading</b><span>Price = pool ratio. Fees tier down from 1.25% as mcap grows. Calls and boosts drive flow.</span></div>
+    <div><em>Stage 5</em><b>Decay</b><span>98% of called coins end below the channel's entry price. 79% are delisted from DexScreener within months.</span></div>
+  </div>
+  <div class="col">
+    <h3>How a pool prices your trade <span class="ev s">source</span></h3>
+    <p>A pool holds two reserves, SOL (x) and token (y), and keeps x × y constant. Buying adds SOL and removes tokens, so each token you take costs more than the last. That cost is <b>price impact</b>. It depends only on your size relative to the pool. <b>Slippage tolerance</b> is different: it's the worst fill you'll accept. Any gap between the two is room for a sandwich bot.</p>
+  </div>
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th>$500 buy into…</th><th>Avg fill vs spot</th><th>Spot moves after</th><th>What it means</th></tr></thead>
+      <tbody>
+        <tr><td>$20k-liquidity pool, no fee</td><td class="n">+5.0%</td><td class="n">+10.25%</td><td>A thin pool. You pay 5% just to enter, and the same again to exit.</td></tr>
+        <tr><td>Same pool, 1.25% PumpSwap fee</td><td class="n">+6.3%</td><td class="n">—</td><td>Before terminal fee and priority fee.</td></tr>
+        <tr><td>$200k-liquidity pool</td><td class="n">+0.5%</td><td class="n">—</td><td>Ten times the liquidity, a tenth of the impact.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="two">
+    <div class="card"><span class="tag acc">Fees you actually pay · source</span>
+      <ul>
+        <li><b>pump.fun curve:</b> 1.25% per trade (0.95% protocol, 0.30% creator).</li>
+        <li><b>PumpSwap:</b> 1.25% under 420 SOL mcap, falling by tier to 0.30% at 98,240+ SOL.</li>
+        <li><b>Terminal:</b> Axiom 1% (0.75–0.95% net with cashback); GMGN, Trojan, Maestro, Photon about 1%.</li>
+        <li><b>Jupiter Swap V2:</b> 50 bps on tokens under 24 hours old.</li>
+        <li><b>Network:</b> priority fee plus Jito tip, about 0.001–0.005 SOL per transaction.</li>
+        <li><b>Total round trip:</b> about 4–5% on a young coin. Budget 4.5%.</li>
+      </ul></div>
+    <div class="card"><span class="tag loss">Sandwich attacks · source</span>
+      <p>A bot buys just before you, lets your order fill at your worst accepted price, then sells into you. Between Oct 2025 and Oct 2026, 6.85M sandwiches took $29.7M, and 96% of them hit pump.fun coins. Swaps allowing 20–50% slippage were sandwiched 14 times as often as swaps under 3%. A terminal's "MEV protect" switch helps but only blocks part of the attack paths.</p>
+      <p><b>Defence:</b> buy slippage of 10% or less (3–5% on bonded coins with deep pools), Secure MEV mode, and split buys over 2% of pool liquidity.</p></div>
+  </div>
+  <div class="col">
+    <h3>How rugs happen in 2026 <span class="ev s">source</span></h3>
+  </div>
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th>Type</th><th>Mechanism</th><th>What catches it</th></tr></thead>
+      <tbody>
+        <tr><td><b>Dev / pump-and-dump</b></td><td>Creator sells pre-held supply into permanent (burned) liquidity. 60,402 of 76,469 Solana rug cases in one 2026 study.</td><td>Dev holding %, dev sell alerts, Bubblemaps clusters</td></tr>
+        <tr><td><b>Bundle dump</b></td><td>20–50 fresh wallets buy in the first seconds, then dump together</td><td>Bundle %, GMGN bundler tags, Axiom Bundle Checker, fresh-wallet %</td></tr>
+        <tr><td><b>LP pull</b></td><td>Creator keeps the LP tokens and withdraws the liquidity (15,606 cases)</td><td>LP burned/locked check, especially off pump.fun</td></tr>
+        <tr><td><b>Freeze</b></td><td>Freeze authority used to lock buyers' token accounts (461 cases)</td><td>RugCheck / GoPlus freeze authority flag</td></tr>
+        <tr><td><b>Honeypot / tax switch</b></td><td>Sell blocked, or sell tax raised after launch. Uniswap v4 hooks can raise fees selectively.</td><td>honeypot.is sell simulation, GoPlus tax fields, hook review on RBH and Base</td></tr>
+        <tr><td><b>Slow rug</b></td><td>Insiders sell gradually over days</td><td>Your time stop. You're never there in week two.</td></tr>
+      </tbody>
+    </table>
+  </div>
+</section>
+
+<section id="liquidity">
+  <div class="col">
+    <div class="eyebrow">03 · Liquidity &amp; burns</div>
+    <h2>LP burned, LP locked, token burned: what each actually protects</h2>
+    <p>Three different things get called "burned", and they protect against different risks. Confusing them is how people buy "safe" coins that rug.</p>
+  </div>
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th>Term</th><th>What it means</th><th>Protects against</th><th>Does not protect against</th><th>How to verify</th></tr></thead>
+      <tbody>
+        <tr><td><b>LP burned</b></td><td>The pool's LP tokens were destroyed or sent to a dead address. Liquidity is permanent.</td><td>LP pull</td><td>Dev, bundle or holder dumps; honeypots; freezes</td><td>Solana: LP mint supply on Solscan plus the burn transaction. EVM: LP at <code>0x…dEaD</code> or <code>0x0</code></td></tr>
+        <tr><td><b>LP locked</b></td><td>LP tokens held in a locker contract, permanently or until a date</td><td>LP pull until the unlock</td><td>Everything after the unlock date; dumps</td><td>Locker page (Raydium Burn &amp; Earn, Meteora lock, UNCX, Team Finance): check the unlock date and the owner</td></tr>
+        <tr><td><b>LP unlocked</b></td><td>Deployer holds the LP and can withdraw it at any time</td><td>Nothing</td><td>—</td><td>RugCheck <code>lpLockedPct</code>, GoPlus LP holders</td></tr>
+        <tr><td><b>Token supply burn</b></td><td>Tokens destroyed, so circulating supply drops</td><td>Nothing directly; it's marketing unless large</td><td>Every risk above</td><td>Explorer: transfer to the burn address or a burn instruction</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th>Venue</th><th>LP after graduation</th><th>What to check</th></tr></thead>
+      <tbody>
+        <tr><td><b>pump.fun → PumpSwap</b> (<code>…pump</code>)</td><td>LP burned automatically at migration</td><td>Nothing on LP. Focus entirely on holders and dev.</td></tr>
+        <tr><td><b>Raydium LaunchLab / Bonk.fun</b> (<code>…bonk</code>)</td><td>Graduates to CPMM. A configurable share is burned; the platform and creator shares sit in a Fee Key position (since Aug 2026)</td><td>Pool <code>burnPercent</code> via the Raydium API or RugCheck LP %</td></tr>
+        <tr><td><b>Meteora DBC → DAMM v2</b></td><td>Only 10% must be locked at day 1. <b>Up to 90% can be unlocked.</b></td><td>LP lock % and vesting schedule. Also expect launch fees as high as 99% that decay (anti-sniper).</td></tr>
+        <tr><td><b>Robinhood Chain: Pons V2</b></td><td>Permanently locked Uniswap v4 position. Hook takes all fees. Creator tax per launch.</td><td>Creator tax rate; snipe tax (starts at 99%, decays over 3 s)</td></tr>
+        <tr><td><b>Robinhood Chain: pools.trade</b></td><td>Permanently locked v4 liquidity, 0.25% fee</td><td>Creator fee setting; which launch format was used</td></tr>
+        <tr><td><b>BNB: four.meme</b> (<code>…4444</code>)</td><td>Migrates to PancakeSwap V2; LP burn reported by press but not confirmed in official docs</td><td>Verify the LP burn on BscScan. Check tax on "tax tokens", which can charge 1–10%.</td></tr>
+        <tr><td><b>Base: Clanker / Zora</b></td><td>Single-sided Uniswap v4 LP. Clanker v4 permanence is undocumented. Zora locks 20% of fees as permanent liquidity.</td><td>Creator fee tier (Clanker totals 1.2–3.6%); sniper tax decay</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="callout warn"><b>"LP burned" is not a safety rating.</b> The most common Solana rug in 2026 is a dump into burned liquidity: the dev sells supply they bought cheaply on the curve. On pump.fun, the LP burn is automatic for every coin, so it tells you nothing about the dev. Holders and wallets are where the risk is.</div>
+  <div class="col">
+    <h3>Contract authorities <span class="ev s">source</span></h3>
+  </div>
+  <div class="two">
+    <div class="card"><span class="tag acc">Solana</span>
+      <ul>
+        <li><b>Mint authority</b> live means unlimited new supply can be printed. Must be revoked.</li>
+        <li><b>Freeze authority</b> live means your tokens can be frozen so you can't sell. Must be revoked.</li>
+        <li><b>Mutable metadata</b> lets the name, ticker or image change. Low risk alone, but a yellow flag.</li>
+        <li><b>Token-2022 extensions to reject:</b> PermanentDelegate (can move or burn your tokens), TransferHook (can block sells), TransferFee (adjustable tax), DefaultAccountState=Frozen, NonTransferable, Pausable.</li>
+        <li>pump.fun coins revoke mint and freeze by design. Other launchpads and custom tokens need checking.</li>
+      </ul></div>
+    <div class="card"><span class="tag acc">EVM (RBH, BNB, Base, ETH)</span>
+      <ul>
+        <li><b>Honeypot:</b> run a sell simulation (honeypot.is). Reject if the sell fails or <code>cannot_sell_all</code> is set.</li>
+        <li><b>Taxes:</b> reject a buy or sell tax over 5%, and any owner-modifiable tax (<code>slippage_modifiable</code>).</li>
+        <li><b>Owner powers:</b> reject <code>hidden_owner</code>, <code>owner_change_balance</code>, blacklist, trading pause or cooldown, and mintable.</li>
+        <li><b>Proxy (upgradeable)</b> contracts can change their logic later. Reject for memecoins.</li>
+        <li>A simulation shows the state <i>now</i>. Owner-toggled traps can pass it. Renounced ownership plus verified source is the stronger check.</li>
+      </ul></div>
+  </div>
+</section>
+
+<section id="tools">
+  <div class="col">
+    <div class="eyebrow">04 · Tools by role</div>
+    <h2>The stack: one tool per job, plus a backup</h2>
+    <p>Pick tools by role, not by brand. Each role has one primary tool and one cross-check. Usage data: Axiom took 48% of $422M in Solana trading-app fees (Oct 2025–Aug 2026). Fomo passed Axiom on daily volume in August 2026. GMGN leads on multi-chain coverage, including Robinhood Chain.</p>
+  </div>
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th>Role</th><th>Primary</th><th>Cross-check / backup</th><th>Use it for</th><th>Watch out</th></tr></thead>
+      <tbody>
+        <tr><td><b>Discovery</b></td><td>Axiom Pulse (New Pairs · Final Stretch · Migrated)</td><td>GMGN trenches; DexScreener trending; GeckoTerminal new pools</td><td>Live feed filtered by age, Top 10 %, Dev %, Snipers %, Insiders %, Bundle %, holders, liquidity, volume, mcap, txns, buys and sells</td><td>DexScreener trending includes paid Boosts (12–24 h multipliers). Enhanced Token Info costs $299.</td></tr>
+        <tr><td><b>Execution, Solana</b></td><td>Axiom (web, non-custodial via Turnkey)</td><td>Fomo (mobile); pump.fun Terminal; Trojan or BONKbot (Telegram)</td><td>Hotkey buys, limit orders, migration buy/sell, presets, MEV modes</td><td>Feb 2026 allegation that an Axiom employee traded on users' wallet data. Keep only a hot balance.</td></tr>
+        <tr><td><b>Execution, EVM / RBH</b></td><td>GMGN (SOL, BSC, Base, ETH, Robinhood)</td><td>Axiom (SOL, BSC, RBH); Maestro (12 chains)</td><td>Same order types, plus honeypot data on BSC and Base</td><td>GMGN wallets are hosted and private-key export is disabled.</td></tr>
+        <tr><td><b>Holder &amp; wallet labels</b></td><td>GMGN token page (insiders, snipers, first 70 buyers, bundlers, rat traders, fresh wallets)</td><td>Axiom holder tab; Birdeye holder profile</td><td>Who holds the supply and whether they're selling</td><td>Labels are heuristics. Confirm clusters on Bubblemaps.</td></tr>
+        <tr><td><b>Cluster analysis</b></td><td>Bubblemaps (V2 app free)</td><td>RugCheck insider networks</td><td>Linked-wallet clusters, fresh-wallet share, "top 10 adjusted"</td><td>Only the top 250 holders. CEX-funded wallets break the links. Can lag up to 6 h on new coins.</td></tr>
+        <tr><td><b>Contract safety, Solana</b></td><td>RugCheck (free API)</td><td>GMGN security; Solsniffer; GoPlus Solana</td><td>Authorities, Token-2022 extensions, LP lock %, top holders, risk list</td><td>RugCheck's normalised score: <b>higher = riskier</b>. Solsniffer: higher = safer.</td></tr>
+        <tr><td><b>Contract safety, EVM</b></td><td>honeypot.is (sell simulation)</td><td>GoPlus; TokenSniffer</td><td>Honeypot, taxes, owner powers, proxy</td><td>Simulation shows the current state only.</td></tr>
+        <tr><td><b>Smart money</b></td><td>GMGN smart-degen and KOL tags</td><td>Cielo alerts; Kolscan leaderboard; Birdeye top traders</td><td>Whether proven wallets are buying, and when KOLs sell</td><td>Copying is lossy: smart-money picks returned about 14%, a realistic copier about 3% (2026 study).</td></tr>
+        <tr><td><b>Social / narrative</b></td><td>X lists of meme accounts and news; terminal Tweet Monitor</td><td>pump.fun Coin Communities (X Communities closed May 2026); TikTok Creative Center trends</td><td>Is the meme original, early and spreading?</td><td>Engagement is easy to fake. Check account age and reply quality.</td></tr>
+        <tr><td><b>Charting</b></td><td>Terminal chart (1s / 1m / 5m)</td><td>DexScreener (TradingView); GeckoTerminal</td><td>Volume, position vs recent high, structure</td><td>Market cap on DexScreener can include self-reported supply.</td></tr>
+        <tr><td><b>Journal</b></td><td>Your own sheet (or the dashboard, section 11)</td><td>Terminal PnL page</td><td>Expectancy, win rate vs break-even, fill vs signal price</td><td>Terminal PnL ignores fees and skipped trades.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="callout"><b>Recommended starting stack.</b> Use Axiom as the cockpit (discovery, execution, holder tab), GMGN as a second screen for wallet labels and EVM/RBH, plus RugCheck, Bubblemaps and honeypot.is for EVM. All of these have free tiers. Add Cielo only once you track wallets seriously.</div>
+  <div class="card"><span class="tag loss">Security rules · source</span>
+    <ul>
+      <li><b>Past incidents:</b> Banana Gun lost $3M from user wallets (Sep 2024). Solareum lost $523k and shut down (Mar 2024). A GMGN phishing attack hit 107 accounts (Oct 2025). Malicious browser extensions stole Axiom and Padre session tokens (Sep 2026).</li>
+      <li>Use a dedicated browser profile with <b>no extensions</b> for trading. Bookmark the official domains and never use search ads.</li>
+      <li>Fund terminal and bot wallets with the day's trading float only. Sweep profits to a cold wallet weekly.</li>
+      <li>Enable 2FA and withdrawal whitelists. Never paste a seed or private key into a "verification" bot. Fake "Safeguard" bots plant malware.</li>
+      <li>Revoke all sessions after installing anything suspicious.</li>
+    </ul></div>
+</section>
+
+<section id="bots">
+  <div class="col">
+    <div class="eyebrow">05 · Bots &amp; snipers</div>
+    <h2>Use automation for exits, not for racing the block</h2>
+    <p>"Bot" covers four different things. Only two of them help a retail trader.</p>
+  </div>
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th>Bot type</th><th>What it does</th><th>Verdict</th></tr></thead>
+      <tbody>
+        <tr><td><b>Order automation</b> (TP, SL, trailing, time exits, limit, DCA)</td><td>Executes your pre-set plan the instant price hits a level</td><td class="pos"><b>Use always.</b> It removes hesitation, and the backtest assumes exits fire on the level.</td></tr>
+        <tr><td><b>Alerts &amp; filters</b> (Pulse filters, wallet trackers, tweet monitors)</td><td>Narrows thousands of launches to the few that meet your gate</td><td class="pos"><b>Use.</b> This is where your speed comes from.</td></tr>
+        <tr><td><b>Launch / migration sniper</b> (retail)</td><td>Fires a buy when a token launches, when a ticker or deployer appears, or at graduation</td><td class="neg"><b>Avoid as an entry strategy.</b> Retail snipers react after the trigger. They don't compete for block 0 with dev bundles.</td></tr>
+        <tr><td><b>Copy trading</b></td><td>Mirrors a tracked wallet's buys and sells</td><td class="neg"><b>Only as alerts, never auto-buy.</b> You fill after them, they can bait you, and Maestro even sells "front-run the copied wallet" as a feature.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="two">
+    <div class="card"><span class="tag acc">How professional sniping works · source</span>
+      <p>Pros pay to get their transactions into the leader's block first:</p>
+      <ul>
+        <li><b>Jito bundles:</b> up to 5 transactions that execute atomically.</li>
+        <li><b>Stake-weighted QoS:</b> leaders prioritise traffic from staked validators.</li>
+        <li><b>Paid senders:</b> Nozomi, Astralane, 0slot, bloXroute and Helius Sender.</li>
+      </ul>
+      <p>App users paid $38.1M to landing services, against $6.0M to Jito. Alpenglow, live on 21 Oct 2026 with 150 ms finality targets, is changing these timing games again.</p></div>
+    <div class="card"><span class="tag loss">Why retail sniping loses · source</span>
+      <ul>
+        <li>Dev wallets bought in block 0 on 21% of coins, taking a median 10% of supply.</li>
+        <li>Devs and bundles made at least $579M; all sniper bots together made $31.5M, or $15.2M if unsold bags count as zero.</li>
+        <li>Only 54% of 25,882 sniper wallets came out ahead, and the top 10 took $6.7M.</li>
+        <li>On 65% of coins the dev sold within one minute. Block 0 is the dev's exit, not your entry.</li>
+      </ul></div>
+  </div>
+  <div class="col">
+    <h3>Automations to set up on day one <span class="ev r">rule of thumb</span></h3>
+    <ul>
+      <li><b>Buy preset "Gate":</b> fixed size, buy slippage 8–10%, priority fee 0.002–0.005 SOL, MEV Secure.</li>
+      <li><b>Sell preset "Stop":</b> sell slippage 25–30% so a stop actually fills in a crash.</li>
+      <li><b>Exit bundle:</b> attached to every buy. TP sells 100% at +100%. SL sells 100% at −50%. Time exit after 60 minutes (on platforms without a time trigger, set a phone timer).</li>
+      <li><b>Dev-sell alert:</b> GMGN or Terminal "DEV_SELL" trigger to get out when the creator sells.</li>
+      <li><b>Wallet alerts:</b> 10–20 vetted wallets (see the vetting rules in section 06), as notifications only.</li>
+    </ul>
+  </div>
+</section>
+
+<section id="research">
+  <div class="col">
+    <div class="eyebrow">06 · Research a coin</div>
+    <h2>The 90-second dossier</h2>
+    <p>Run these in order. The first failure ends the dossier; you don't need to finish it. The time budget is what lets you still enter inside two minutes of spotting the coin.</p>
+  </div>
+  <ol class="steps">
+    <li><div><h3>Gate (10 s) <span class="ev d">data</span></h3>
+      <ul class="check">
+        <li>30-minute volume ≥ $50k (≥ $117k preferred).</li>
+        <li>Price ≥ 7% below its 60-minute high. If it's at the high, skip or wait.</li>
+        <li>Inside your trading window, or half size.</li>
+      </ul></div></li>
+    <li><div><h3>Contract (15 s) <span class="ev s">source</span></h3>
+      <ul class="check">
+        <li>Know the launchpad from the CA suffix and the creating program: <code>…pump</code> pump.fun, <code>…bonk</code> Bonk.fun, <code>…4444</code> four.meme, <code>…7777 / …8888</code> Flap. Suffixes can be faked by grinding, so check the program.</li>
+        <li>Solana: mint and freeze revoked, no dangerous Token-2022 extensions (RugCheck).</li>
+        <li>EVM: sell simulation passes, tax ≤ 5%, no owner powers, not a proxy.</li>
+      </ul></div></li>
+    <li><div><h3>Liquidity (10 s) <span class="ev s">source</span> <span class="ev r">rule of thumb</span></h3>
+      <ul class="check">
+        <li>LP burned or permanently locked for the venue (section 03 table).</li>
+        <li>Liquidity at least ~10% of market cap. Below that, your exit will cost more than your entry.</li>
+        <li>Your size ≤ 1–2% of pool liquidity, so impact stays around 2–4% each way.</li>
+      </ul></div></li>
+    <li><div><h3>Holders (25 s) <span class="ev r">rule of thumb</span></h3>
+      <ul class="check">
+        <li>Top 10 holders (excluding pool and curve) ≤ 30%.</li>
+        <li>Dev holds ≤ 5%. Dev's past coins aren't rugs (GMGN dev history).</li>
+        <li>Bundle % ≤ 10–15%. Snipers % low or falling. Insiders % low.</li>
+        <li>Fresh-wallet share is not dominating the top holders.</li>
+        <li>Bubblemaps: no large linked cluster outside known pools and exchanges.</li>
+      </ul></div></li>
+    <li><div><h3>Wallets &amp; narrative (20 s) <span class="ev r">rule of thumb</span></h3>
+      <ul class="check">
+        <li>Smart-degen or vetted wallets are holding or adding, not selling into the pump.</li>
+        <li>The meme is the original, not a copycat ticker of something already pumped.</li>
+        <li>X account and community are real: account age, replies from real accounts, a clear story.</li>
+        <li>Call or KOL attention just started. Treat CTOs, presales and re-posted calls as lower quality, per the channel data.</li>
+      </ul></div></li>
+  </ol>
+  <div class="card"><span class="tag acc">Vetting a "smart wallet" before you track it</span>
+    <ul>
+      <li>At least 50 closed positions over 30 days. Look at the median trade, not just total PnL.</li>
+      <li>No more than half of its PnL from one or two trades. That's luck, not edge.</li>
+      <li>Average win ≥ 1.5× average loss. A high win rate with small wins and large holds loses.</li>
+      <li>Check who funded it (Birdeye funded-by, GMGN fund_from). Deployer-funded wallets are bait.</li>
+      <li>Re-score monthly; edge decays.</li>
+    </ul></div>
+</section>
+
+<section id="ta">
+  <div class="col">
+    <div class="eyebrow">07 · Chart reading</div>
+    <h2>What the chart actually tells you on a memecoin</h2>
+    <p>Classic indicators were built for markets with thousands of participants and no single seller holding 10% of supply. On a memecoin chart, the useful information is <b>who is trading, how much, and where price sits against its recent range</b>. I tested six pre-entry chart features on the 148-trade on-chain backtest.</p>
+  </div>
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th>Feature at entry</th><th>Result</th><th>Avg per trade (after 3% cost)</th><th>Use</th></tr></thead>
+      <tbody>
+        <tr><td><b>30-min volume</b> &gt; $117k vs &lt; $19k</td><td>Strong</td><td class="n"><span class="pos">+19.8%</span> vs <span class="neg">−6.5%</span></td><td>Gate: participation is everything</td></tr>
+        <tr><td><b>Price vs 60-min high</b>: within 7% vs 7–20% below</td><td>Strong</td><td class="n"><span class="neg">−15.0%</span> vs <span class="pos">+17.6%</span></td><td>Gate: never buy the top of the spike</td></tr>
+        <tr><td>Both combined (high volume + pullback)</td><td>Strongest</td><td class="n pos">+26.6% (54% wins)</td><td>The A-setup</td></tr>
+        <tr><td>Deep dump (limit at 0.7× / 0.5× of the signal price)</td><td>Fails</td><td class="n">≈0% / <span class="neg">−19%</span></td><td>Coins that dump 30%+ usually keep going</td></tr>
+        <tr><td>Size of the run-up before entry</td><td>No effect</td><td class="n">+5% / +5% / +8% by tercile</td><td>Ignore</td></tr>
+        <tr><td>Coin age; bonded vs pre-bond</td><td>No reliable effect</td><td class="n">+4% vs +7%</td><td>Ignore</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="two">
+    <div class="card"><span class="tag acc">Read in this order</span>
+      <ol>
+        <li><b>Timeframe:</b> 1-minute for entries, 5-minute for context. Use 1-second only to watch fills.</li>
+        <li><b>Volume bars:</b> is participation rising into the pullback, or dying? A falling price on falling volume is a pause. On rising volume it's distribution.</li>
+        <li><b>Range position:</b> mark the 60-minute high and the pre-pump base. Buy the 7–20% pullback from the high, not the breakout candle.</li>
+        <li><b>Structure:</b> higher lows on 1-minute after the first spike mean buyers are absorbing. A clean break of the last higher low means the setup is invalid.</li>
+        <li><b>Round-number mcap levels</b> ($100k, $250k, $500k, $1M) act as magnets and sell zones <span class="ev r">rule of thumb</span>. Place your 2x target just below one, not above it.</li>
+      </ol></div>
+    <div class="card"><span class="tag acc">Read the transaction feed, not just candles</span>
+      <ul>
+        <li><b>Who's selling:</b> sells from the dev, bundle wallets or a top-5 holder override any chart pattern. Exit or skip.</li>
+        <li><b>Identical-size buys</b> repeating every few seconds are a volume bot. Discount that volume.</li>
+        <li><b>Unique makers vs volume:</b> $200k volume from 40 wallets is wash trading. 82.8% of tokens up more than 100% showed artificial growth (2026 study).</li>
+        <li><b>Graduation:</b> expect a volatile minute at migration as curve buyers take profit. Don't market-buy into it.</li>
+        <li><b>Buy/sell count</b> should hold up through the pullback (many small buyers), not collapse.</li>
+      </ul></div>
+  </div>
+</section>
+
+<section id="setup">
+  <div class="col">
+    <div class="eyebrow">08 · Trade setup</div>
+    <h2>From signal to filled order, step by step</h2>
+  </div>
+  <ol class="steps">
+    <li><div><h3>Size the position</h3><p>Position = bankroll × risk% ÷ stop distance. Example: $2,000 bankroll, 1% risk, 50% stop → <b>$40 position</b>, risking $20. Check that $40 is under 2% of pool liquidity. If it isn't, shrink it.</p></div></li>
+    <li><div><h3>Choose the entry type</h3>
+      <ul>
+        <li><b>Gate passes now</b> (high volume, already 7–20% off the high): market buy with the "Gate" preset.</li>
+        <li><b>At the high:</b> skip. Optionally place a limit 10–15% below the 60-minute high, expiring in 60 minutes <span class="ev r">untested, rule of thumb</span>. Cancel it if volume dries up.</li>
+        <li><b>Already down 30%+ from the high:</b> skip. Deep dumps kept falling in the backtest.</li>
+      </ul></div></li>
+    <li><div><h3>Attach exits on fill <span class="ev d">data</span></h3>
+      <div class="tablewrap"><table>
+        <thead><tr><th>Exit plan</th><th>Avg per trade, all 148 calls (4.5% cost)</th><th>Use when</th></tr></thead>
+        <tbody>
+          <tr><td><b>TP 2x · SL −50%</b></td><td class="n">+4.3%</td><td>Default for A-setups</td></tr>
+          <tr><td><b>TP 2x · SL −40% · 60-min time stop</b></td><td class="n">+4.1%</td><td>Default when you can't watch the screen</td></tr>
+          <tr><td>TP 1.5x · SL −30%</td><td class="n neg">−5.7%</td><td>Don't use. Stops too tight for memecoin noise.</td></tr>
+          <tr><td>TP 3x or 5x</td><td class="n neg">−8% / −6%</td><td>Don't use. Too few coins get there before collapsing.</td></tr>
+          <tr><td>Hold 7 days</td><td class="n neg">−66.8%</td><td>Never</td></tr>
+        </tbody></table></div>
+      <p class="note">These are unfiltered averages over all calls. The gain comes from the entry gate (section 07), not from the exit plan.</p></div></li>
+    <li><div><h3>Manage, don't meddle</h3><p>Once the exits are set, your only allowed actions are an emergency exit (dev or bundle sells, a contract flag appears, liquidity is pulled) and the time stop. Never widen the stop, cancel the TP to "let it run", or add to the position.</p></div></li>
+    <li><div><h3>Log it</h3><p>Coin, CA, time, signal source, the price you first saw, fill price and delay, gate values (volume, % off high), dossier notes, exit reason, result after fees.</p></div></li>
+  </ol>
+</section>
+
+<section id="workflow">
+  <div class="col">
+    <div class="eyebrow">09 · Daily workflow</div>
+    <h2>A session, start to finish</h2>
+  </div>
+  <div class="flow">
+    <div><em>Pre-session · 10 min</em><b>Prepare</b><span>Fund the hot wallet with the session float only. Check SOL and market mood. Review yesterday's journal. Confirm presets and exit bundle.</span></div>
+    <div><em>Loop · continuous</em><b>Scan</b><span>Axiom Pulse with gate filters (volume, mcap, Top 10 ≤ 30%, Dev ≤ 5%, Bundle ≤ 15%); the channel and wallet alerts as extra signals.</span></div>
+    <div><em>Loop · 90 s</em><b>Dossier</b><span>Gate → contract → liquidity → holders → wallets and narrative. The first fail means skip.</span></div>
+    <div><em>Loop · 10 s</em><b>Execute</b><span>Size, buy with the preset, exits attached at once.</span></div>
+    <div><em>Loop · ≤ 60 min</em><b>Manage</b><span>Watch for dev or bundle sells only. TP, SL or time stop ends the trade.</span></div>
+    <div><em>Post-session · 10 min</em><b>Review</b><span>Complete the journal. Note rule breaks. Sweep profits above the float to cold storage.</span></div>
+  </div>
+  <div class="two">
+    <div class="card"><span class="tag acc">Session limits <span class="ev r">rule of thumb</span></span>
+      <ul>
+        <li>Primary window: 00:00–08:00 UTC. Plan sleep around it, or trade its overlap with your day.</li>
+        <li>Maximum 10 trades per session and 5 open at once.</li>
+        <li>Stop after −5% of bankroll in a day, or 3 rule breaks.</li>
+        <li>No trading tired, drunk or angry. The rules exist because your judgement in those states is worse.</li>
+      </ul></div>
+    <div class="card"><span class="tag acc">Weekly review</span>
+      <ul>
+        <li>Expectancy (average return per trade after fees) vs the 36% break-even win rate.</li>
+        <li>Average fill delay and fill price vs the price at first sight. That gap is your execution cost.</li>
+        <li>Results by setup: A (both gates) vs B (one gate) vs rule breaks.</li>
+        <li>Drop whatever loses over 30+ trades. Keep whatever wins.</li>
+      </ul></div>
+  </div>
+</section>
+
+<section id="journal">
+  <div class="col">
+    <div class="eyebrow">10 · Journal &amp; kill switches</div>
+    <h2>The numbers that tell you whether to continue</h2>
+  </div>
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th>Metric</th><th>Formula</th><th>Healthy</th><th>Act when</th></tr></thead>
+      <tbody>
+        <tr><td><b>Expectancy</b></td><td>Mean of (exit ÷ entry × (1 − costs) − 1)</td><td>&gt; 0 after 50 trades</td><td>≤ 0 after 50 trades: pause and diagnose</td></tr>
+        <tr><td><b>Win rate vs break-even</b></td><td>Wins ÷ trades against 36% (2x / −50% plan)</td><td>≥ 40%</td><td>&lt; 36% over 30 trades</td></tr>
+        <tr><td><b>Fill slippage</b></td><td>Fill price ÷ price when first seen − 1</td><td>&lt; 5%</td><td>&gt; 10%: you're chasing, or too slow</td></tr>
+        <tr><td><b>Rule-break rate</b></td><td>Trades breaking any rule ÷ trades</td><td>&lt; 5%</td><td>&gt; 10%: reduce size by half</td></tr>
+        <tr><td><b>Drawdown</b></td><td>Peak-to-trough bankroll</td><td>&lt; 10%</td><td>15% in a month: stop until next month</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <p class="note col">Fifty trades is the minimum to see anything. Even then, a win rate measured on 50 trades has a margin of about ±11 points. Judge the process for the first 100 trades, and scale size only after positive expectancy holds across 100+.</p>
+</section>
+
+<section id="dashboard">
+  <div class="col">
+    <div class="eyebrow">11 · Dashboard blueprint</div>
+    <h2>What we build next: one cockpit for the whole loop</h2>
+    <p>The dashboard automates sections 06–10: feed → automatic gate and dossier scoring → order ticket with presets → position manager with exits → automatic journal. These are the data sources it will use. All were checked against vendor docs on 25 Oct 2026.</p>
+  </div>
+  <div class="tablewrap">
+    <table>
+      <thead><tr><th>Panel</th><th>Data source</th><th>Auth / cost</th></tr></thead>
+      <tbody>
+        <tr><td><b>Live feed</b> (new tokens, migrations)</td><td>PumpPortal WebSocket <code>subscribeNewToken</code>, <code>subscribeMigration</code>; GeckoTerminal new pools (multi-chain)</td><td>Free. Use one socket only, because reconnect spam is banned for about 1 hour.</td></tr>
+        <tr><td><b>Price, volume, gate math</b></td><td>DexScreener <code>/tokens/v1/{chain}/{addrs}</code> (300/min); Birdeye OHLCV v3 (1 s candles); GeckoTerminal OHLCV</td><td>DexScreener free. GeckoTerminal Demo key 100/min. Birdeye free 1 rps, $39+ for more.</td></tr>
+        <tr><td><b>Contract safety</b></td><td>RugCheck <code>/v1/tokens/{mint}/report</code>; GoPlus Solana and EVM; honeypot.is (EVM)</td><td>Free (verified live: RugCheck returned risks, score and LP lock %)</td></tr>
+        <tr><td><b>Holders &amp; clusters</b></td><td>GMGN Agent API token security (bundlers, insiders, snipers, fresh wallets, rug_ratio; includes Robinhood Chain); Bubblemaps <code>/v0/tokens/metrics</code>; Birdeye holder profile</td><td>GMGN free tier 5 req/s bucket. Bubblemaps API key (credits). Birdeye Lite+.</td></tr>
+        <tr><td><b>Wallet alerts</b></td><td>Helius Parsed Streams or webhooks; PumpPortal <code>subscribeAccountTrade</code></td><td>Helius free 1M credits/mo. PumpPortal 0.01 SOL per 10k events.</td></tr>
+        <tr><td><b>Social</b></td><td>X API Activity webhook <code>post.create</code> on tracked accounts</td><td>$0.005 per post, pay-per-use</td></tr>
+        <tr><td><b>Execution</b></td><td>PumpPortal Local API (you sign; 0.5% fee) or Jupiter Swap V2 <code>/build</code> (no Jupiter fee) via Helius Sender; GMGN API for EVM/RBH (Ed25519 signing, IP whitelist)</td><td>Fees per trade. Your key stays local.</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="callout warn"><b>Architecture constraint.</b> A real trading dashboard has to sign transactions with your wallet key and call outside APIs. That can't run safely inside a hosted web page. It will be a <b>local app</b> on your machine: a small Node or Python server that holds the key in an encrypted local file, talks to the APIs and serves the dashboard to your browser on localhost. Start in <b>paper-trading mode</b>, logging what the rules would have done, then switch to live with a small float.</div>
+</section>
+
+<section class="col">
+  <div class="eyebrow">Sources</div>
+  <ol class="sources">
+    <li><a href="https://github.com/pump-fun/pump-public-docs">pump.fun public docs: program, PumpSwap, fees, holder rewards (GitHub)</a></li>
+    <li><a href="https://docs.raydium.io/products/launchlab/creator-fees">Raydium LaunchLab creator fees &amp; LP split</a> · <a href="https://docs.raydium.io/user-flows/burn-and-earn">Burn &amp; Earn</a></li>
+    <li><a href="https://docs.meteora.ag/core-products/dbc/migration-and-liquidity">Meteora DBC migration &amp; LP locks</a> · <a href="https://docs.meteora.ag/core-products/damm-v2/fees/overview">DAMM v2 fees</a></li>
+    <li><a href="https://docs.bitquery.io/docs/blockchain/robinhood/pons-api/">Pons V2 (Bitquery docs)</a> · <a href="https://blog.uniswap.org/pools-trade-a-new-way-to-launch-on-robinhood-chain">pools.trade (Uniswap)</a> · <a href="https://docs.uniswap.org/contracts/v4/security">Uniswap v4 hook security</a></li>
+    <li><a href="https://clanker.gitbook.io/documentation/general/creator-rewards-and-fees">Clanker fees</a> · <a href="https://docs.zora.co/coins">Zora coins</a></li>
+    <li><a href="https://arxiv.org/html/2603.24625v2">Solana rug-pull taxonomy (arXiv 2603.24625)</a> · <a href="https://www.soliduslabs.com/reports/solana-rug-pulls-pump-dumps-crypto-compliance">Solidus Labs</a></li>
+    <li><a href="https://solana.com/docs/tokens/extensions">Solana Token-2022 extensions</a> · <a href="https://docs.gopluslabs.io/reference/response-details">GoPlus fields</a> · <a href="https://docs.honeypot.is/ishoneypot">honeypot.is API</a></li>
+    <li><a href="https://bitquery.io/investigations/solana-sandwich-attacks">Bitquery: sandwich attacks</a> · <a href="https://bitquery.io/investigations/pump-fun-snipers-bundles">snipers &amp; bundles</a> · <a href="https://bitquery.io/investigations/fomo-app-traders-lose-money">Fomo trader outcomes</a> · <a href="https://bitquery.io/investigations/solana-jito-tips-trading-app-fees">app fees &amp; landing services</a></li>
+    <li><a href="https://docs.axiom.trade/axiom/finding-tokens/pulse.md">Axiom Pulse</a> · <a href="https://docs.axiom.trade/getting-started/fees/axiom-fees">Axiom fees</a> · <a href="https://docs.gmgn.ai/index">GMGN docs</a> · <a href="https://github.com/GMGNAI/gmgn-skills">GMGN Agent API</a> · <a href="https://docs.trojan.com/faqs">Trojan</a> · <a href="https://docs.maestrobots.com/sniper/monetization.md">Maestro</a></li>
+    <li><a href="https://www.coindesk.com/markets/2026/02/26/zachxbt-alleges-axiom-employee-conducted-insider-trading">Axiom insider allegation (CoinDesk)</a> · <a href="https://www.theblock.co/post/318074/banana-gun-exploit-refund">Banana Gun exploit</a> · <a href="https://socket.dev/blog/chrome-firefox-crypto-data-theft">Malicious extensions (Socket)</a></li>
+    <li><a href="https://docs.jito.wtf/lowlatencytxnsend/">Jito low-latency sending</a> · <a href="https://www.helius.dev/docs/sending-transactions/sender">Helius Sender</a> · <a href="https://solana.com/upgrades/alpenglow">Alpenglow</a></li>
+    <li><a href="https://arxiv.org/abs/2601.08641">Copy-trading smart money (arXiv 2601.08641)</a> · <a href="https://arxiv.org/abs/2507.01963">Artificial growth in meme tokens (arXiv 2507.01963)</a></li>
+    <li><a href="https://docs.dexscreener.com/api/reference">DexScreener API</a> · <a href="https://docs.coingecko.com/docs/errors-and-rate-limits.md">CoinGecko limits</a> · <a href="https://data.birdeye.so/docs/guides/payment/pricing.md">Birdeye pricing</a> · <a href="https://api.rugcheck.xyz/swagger/doc.json">RugCheck API</a> · <a href="https://pumpportal.fun/trading-api/">PumpPortal</a> · <a href="https://developers.jup.ag/docs/swap">Jupiter Swap V2</a> · <a href="https://docs.x.com/x-api/getting-started/pricing.md">X API pricing</a></li>
+    <li><a href="https://www.coingecko.com/research/publications/average-lifespan-of-pumpfun-tokens">CoinGecko: pump.fun token lifespans</a></li>
+    <li>Backtest: Gambles Channel Audit, 148 Solana calls with GeckoTerminal 1-minute candles, May–Oct 2026.</li>
+  </ol>
+</section>
+</main>
