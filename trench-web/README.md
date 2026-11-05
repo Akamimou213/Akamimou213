@@ -10,20 +10,36 @@ The Trench trading screen as a Vercel site: radar, live chart, safety checks, to
 
 No environment variables or keys are needed. Every push to the repository redeploys the site.
 
-## How it works on Vercel
+## How it works
 
-- **`api/*.py`:** stateless Python functions, one per endpoint. Each one fetches live data and lets Vercel's CDN cache the answer for a few seconds, so many visits share one fetch and the free APIs don't rate-limit.
+Speed comes from the browser talking to the data sources directly; the server is only used where a browser can't go.
 
-  | Endpoint | Source | Cached |
-  |---|---|---|
-  | `/api/radar` | DexScreener profiles, boosts and prices; GeckoTerminal new, trending and PumpSwap pools; SOL price | 20 s |
-  | `/api/calls` | Telegram public channel pages (`config.json` → `app.channels`); brags resolve to the original call | 60 s |
-  | `/api/check?mint=` | RugCheck + DexScreener: the desk's safety rules, top holders, and the 24 h range from 15-minute candles | 5 min |
-  | `/api/coin?mint=&tf=` | DexScreener pair + GeckoTerminal candles and trades | 10 s |
-  | `/api/prices?mints=` | DexScreener prices for the open positions | 3 s |
-  | `/api/history?mint=&since=` | 1-minute candles to replay positions after the page was closed | 30 s |
+| What | Where it comes from | How fast |
+|---|---|---|
+| New pump.fun launches and graduations | PumpPortal websocket, opened by the browser | under a second |
+| Price, market cap, 5-min volume and buys/sells | DexScreener, called by the browser every 3 s | a launch is listed about 45–60 s after creation |
+| Fresh pools (under 6 h, liquidity ≥ $5k, 1 h volume ≥ $10k) | GeckoTerminal new pools + DexScreener profiles and boosts, every 30 s | |
+| Chart and trade tape | GeckoTerminal from the browser; if it refuses (about 30 calls a minute per address), `/api/coin` on the server | |
+| Safety and top holders | `/api/check` on the server: RugCheck + the desk's kill rules | about 1 s |
+| Telegram calls | `/api/calls` on the server (Telegram has no browser API) | cached 60 s |
 
-- **The paper book lives in your browser** (localStorage): cash, positions and journal, per browser. Exits run every 5 s while the page is open. When you come back, each open position is replayed on the 1-minute candles it missed, so a stop or target hit while you were away still counts. The exit engine in `index.html` matches `memecoin-desk/exits.py` (tested on 300 random price paths).
+Pool size for a coin still on the pump.fun curve comes from the curve itself (virtual reserves start at 30 SOL × 1.073B tokens, so market cap in SOL = vSol² / 32.19), because DexScreener reports no liquidity there.
+
+PumpPortal's per-coin trade stream now needs an API key from a funded wallet, so it isn't used: no key or wallet is ever stored here. The code for it is still in `index.html`, switched off.
+
+Keys: <kbd>↑</kbd>/<kbd>↓</kbd> move, <kbd>B</kbd> paper buy, <kbd>S</kbd> sell the selected position, <kbd>C</kbd> copy the address, <kbd>/</kbd> search.
+
+Server endpoints (`api/*.py`, cached on Vercel's CDN):
+
+| Endpoint | Used for | Cached |
+|---|---|---|
+| `/api/check?mint=` | safety rules, top holders, 24 h range | 5 min |
+| `/api/calls` | Telegram calls (`config.json` → `app.channels`) | 60 s |
+| `/api/coin?mint=&tf=` | chart and trades when GeckoTerminal refuses the browser | 10 s |
+| `/api/history?mint=&since=` | 1-minute candles to replay positions after the page was closed | 30 s |
+| `/api/radar`, `/api/prices` | the previous version's feeds (kept, not used by the page) | 20 s / 3 s |
+
+- **The paper book lives in your browser** (localStorage): cash, positions and journal, per browser. Exits run on every price update (every 3 s) while the page is open. When you come back, each open position is replayed on the 1-minute candles it missed, so a stop or target hit while you were away still counts. The exit engine in `index.html` matches `memecoin-desk/exits.py` (tested on 300 random price paths).
 - **Same rules as the desk:**
   - safety must pass before a buy
   - size is set so a stop-out costs 1% of the account, capped at 8% of it and at 2% of the pool
