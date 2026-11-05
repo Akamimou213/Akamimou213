@@ -24,8 +24,25 @@ To deploy on Vercel, set the project root to `les-apartment/`, choose framework 
 ## How it works
 
 - **The day's sky:** `data-sky="dawn | morning | midday | gold | night"` on a block sets `body[data-sky]`, and the CSS fades the page background to that stop. Night swaps the text to light.
-- **Booking:** the form at the end sends guests to Booking.com with their dates and guest count filled in, or opens WhatsApp with a ready message (Zalo opens a chat). Every "Check dates" button selects its apartment in the form first. The apartment list is read from those buttons, so there's one source of truth.
+- **Booking:** every Book and Check availability button opens one date sheet (`#dates`, a native `<dialog>`). One `state` object in `app.js` feeds the sheet, the booking card and the hand-off. The card at the end sends guests to Booking.com with their dates and guest count filled in, or opens WhatsApp with a ready message (Zalo opens a chat). Every "Check dates" button selects its apartment in the form first. The apartment list is read from those buttons, so there's one source of truth.
 - **Film capture:** pieces that lift in the fly-over film carry `data-layer` (mockup, button, photo, testimonial).
+
+## Mobbin references
+
+The booking and layout patterns come from these screens and sections on Mobbin:
+
+| Pattern on the page | Reference |
+|---|---|
+| Hero: name, one sentence, action on the left, tall photo on the right | [KOBU, Innit Lombok hero](https://mobbin.com/sites/sections/79b3c5a4-83c8-46f4-a63a-fcd4697964cd) |
+| "What to know" with every answer open in two columns | [KOBU, What to Know](https://mobbin.com/sites/sections/cc63048b-341e-420d-a687-5d5c17aacf3c) |
+| Apartments in a staggered photo grid | [KOBU, Hotels grid](https://mobbin.com/sites/sections/7dce8910-52a7-47da-9de4-21bc9456292a) |
+| Giant wordmark footer | [KOBU footer](https://mobbin.com/sites/sections/d07ad815-77af-4cab-a6ff-c35761c7b2a6) |
+| Booking card on a coloured panel | [Mews, booking engine](https://mobbin.com/sites/sections/7c52f949-dd92-40d5-85a2-583b2b38b9a8) |
+| Phone bottom bar with "From" price and one action | [Viator](https://mobbin.com/screens/6914fe52-575b-40ae-8928-46c417f338a9), [Agoda](https://mobbin.com/screens/34d6195b-f686-4b97-ae01-befa03c112ff), [Airbnb](https://mobbin.com/screens/32e6070e-74e7-4d1c-aae1-c7cc9ec48450) |
+| "What this place offers" icon list | [Airbnb](https://mobbin.com/screens/32e6070e-74e7-4d1c-aae1-c7cc9ec48450) |
+| Photo count on the hero photo | [Expedia](https://mobbin.com/screens/e700efeb-e0c5-4a5e-957a-a6cd007f8253) |
+| Date sheet: month list, range highlight, summary and action at the bottom | [Booking.com](https://mobbin.com/screens/b4e846b0-924b-4eb6-bb3e-2fe5d35dc9f9) |
+| Quick picks above the calendar | [Tripadvisor](https://mobbin.com/screens/2ac4b8e9-d7ef-40d0-9bd0-f04ee1cb37a4) ("Tonight, This weekend") and [Vrbo](https://mobbin.com/screens/bca186e6-379d-402f-b25a-c18fc8608c6e) (stay length, here "A week" and "A month") |
 
 ## Facts and sources
 

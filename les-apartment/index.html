@@ -35,12 +35,20 @@
 
 <svg width="0" height="0" style="position:absolute" aria-hidden="true">
   <symbol id="mark" viewBox="0 0 40 40"><rect width="40" height="40" rx="10" fill="currentColor"/><g fill="none" stroke="var(--mark-cut)" stroke-width="3.2"><circle cx="13" cy="13" r="6"/><circle cx="27" cy="13" r="6"/><circle cx="13" cy="27" r="6"/><circle cx="27" cy="27" r="6"/></g></symbol>
+  <symbol id="i-wifi" viewBox="0 0 24 24"><path d="M2 8.8a15 15 0 0 1 20 0M5 12.2a10.5 10.5 0 0 1 14 0M8.5 15.6a5.5 5.5 0 0 1 7 0M12 19.5h.01"/></symbol>
+  <symbol id="i-kitchen" viewBox="0 0 24 24"><path d="M7 3v8m-2.5-8v4.5A2.5 2.5 0 0 0 7 10a2.5 2.5 0 0 0 2.5-2.5V3M7 11v10M17 21V3c-2.2 1.2-3.5 3.7-3.5 7v3H17"/></symbol>
+  <symbol id="i-wash" viewBox="0 0 24 24"><rect x="4" y="2.5" width="16" height="19" rx="2"/><circle cx="12" cy="13.5" r="4.5"/><path d="M7.5 6h.01M10.5 6h.01"/></symbol>
+  <symbol id="i-snow" viewBox="0 0 24 24"><path d="M12 2v20M4 7l16 10M20 7 4 17"/></symbol>
+  <symbol id="i-cup" viewBox="0 0 24 24"><path d="M4 9h13v5a6 6 0 0 1-6 6h-1a6 6 0 0 1-6-6V9Zm13 1h1.5a2.5 2.5 0 0 1 0 5H17M8 2.5c-.8.9-.8 2.1 0 3M12 2.5c-.8.9-.8 2.1 0 3"/></symbol>
+  <symbol id="i-car" viewBox="0 0 24 24"><path d="M5 17H3.5v-4.5l2-5.2A2 2 0 0 1 7.4 6h9.2a2 2 0 0 1 1.9 1.3l2 5.2V17H19M3.5 12.5h17M9 17h6"/><circle cx="7" cy="17" r="2"/><circle cx="17" cy="17" r="2"/></symbol>
+  <symbol id="i-lift" viewBox="0 0 24 24"><rect x="4" y="2.5" width="16" height="19" rx="2"/><path d="m9 8 3-3 3 3M9 16l3 3 3-3"/></symbol>
+  <symbol id="i-sun" viewBox="0 0 24 24"><circle cx="12" cy="12" r="4"/><path d="M12 2v2m0 16v2M4.9 4.9l1.4 1.4m11.4 11.4 1.4 1.4M2 12h2m16 0h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></symbol>
 </svg>
 
 <header class="bar" id="bar">
   <a class="logo" href="#top" aria-label="Le's Apartment and Coffee, back to top"><svg class="logo__mark" aria-hidden="true"><use href="#mark"/></svg>Le's</a>
   <nav class="nav" aria-label="Sections"><a href="#day">A day here</a><a href="#apartments">Apartments</a><a href="#directions">Directions</a><a href="#know">Good to know</a></nav>
-  <a class="btn btn--action btn--sm" href="#book">Book</a>
+  <button class="btn btn--action btn--sm" type="button" data-open-dates>Book</button>
 </header>
 
 <main id="top">
@@ -50,13 +58,14 @@
       <h1 id="hero-h">Le's Apartment <span>&amp;&nbsp;Coffee</span></h1>
       <p class="hero__lede">Six apartments above a neighbourhood coffee house in An Hải, Đà Nẵng. The Han River is a 10-minute walk one way, and My Khe Beach is 19 minutes the other.</p>
       <div class="hero__actions">
-        <a class="btn btn--action" href="#book">Check availability</a>
+        <button class="btn btn--action" type="button" data-open-dates>Check availability</button>
         <button class="btn btn--quiet" type="button" data-chat="hello">Message the host</button>
       </div>
       <p class="hero__proof"><b>9.1</b> from 48 guests on Booking.com. Pay at the property, no deposit.</p>
     </div>
     <figure class="hero__photo" data-layer="photo">
       <img src="img/p27.webp" alt="Living room with oak furniture, a breeze-block window and glass doors open onto a sunny terrace" fetchpriority="high">
+      <button class="photo-count" type="button" data-photo="1">30 photos</button>
     </figure>
   </section>
 
@@ -286,45 +295,54 @@
     </div>
   </section>
 
-  <!-- GOOD TO KNOW -->
+  <!-- WHAT TO KNOW -->
   <section class="know wrap" id="know" aria-labelledby="know-h">
-    <h2 id="know-h">Good to know</h2>
+    <h2 id="know-h">What to know</h2>
     <div class="know__grid">
-      <dl class="facts facts--big">
-        <div><dt>Check-in</dt><dd>14:00 to midnight</dd></div>
-        <div><dt>Check-out</dt><dd>By 12:00</dd></div>
-        <div><dt>Payment</dt><dd>At the property, cash or card. No deposit.</dd></div>
-        <div><dt>Parking</dt><dd>Free</dd></div>
-      </dl>
-      <div class="qa">
-        <details><summary>Is breakfast included?</summary><p>No. The coffee house is downstairs, most apartments have a full kitchen, and grocery delivery is available.</p></details>
-        <details><summary>What do I need at check-in?</summary><p>Photo ID and a card. The lead guest must be 18 or over. Express and contactless check-in are available.</p></details>
-        <details><summary>Children, pets, smoking?</summary><p>Children of all ages are welcome. No pets and no parties. The building is non-smoking, with a designated smoking area.</p></details>
-        <details><summary>Which languages does the host speak?</summary><p>English, French, Japanese, Korean, Russian, Chinese and Vietnamese.</p></details>
+      <div>
+        <h3 class="know__sub">What this place offers</h3>
+        <ul class="offers">
+          <li><svg class="ic" aria-hidden="true"><use href="#i-wifi"/></svg>Wi-Fi rated 10 by guests</li>
+          <li><svg class="ic" aria-hidden="true"><use href="#i-kitchen"/></svg>Kitchen in five of six apartments</li>
+          <li><svg class="ic" aria-hidden="true"><use href="#i-wash"/></svg>Washing machine in most units</li>
+          <li><svg class="ic" aria-hidden="true"><use href="#i-snow"/></svg>Air conditioning throughout</li>
+          <li><svg class="ic" aria-hidden="true"><use href="#i-cup"/></svg>Coffee house on the ground floor</li>
+          <li><svg class="ic" aria-hidden="true"><use href="#i-car"/></svg>Free parking</li>
+          <li><svg class="ic" aria-hidden="true"><use href="#i-lift"/></svg>Lift to every floor</li>
+          <li><svg class="ic" aria-hidden="true"><use href="#i-sun"/></svg>Sun terrace on the roof</li>
+        </ul>
       </div>
+      <dl class="answers">
+        <div><dt>Arrival and departure</dt><dd>Check in from 14:00 until midnight, and check out by 12:00. Express and contactless check-in are available.</dd></div>
+        <div><dt>Payment</dt><dd>Pay at the property in cash or by card, including JCB and UnionPay. There's no damage deposit.</dd></div>
+        <div><dt>Breakfast</dt><dd>Not served. The coffee house is downstairs, most apartments have a full kitchen, and grocery delivery is available.</dd></div>
+        <div><dt>At check-in</dt><dd>Bring photo ID and a card. The lead guest must be 18 or over.</dd></div>
+        <div><dt>Children, pets and smoking</dt><dd>Children of all ages are welcome. No pets and no parties. The building is non-smoking, with a designated smoking area.</dd></div>
+        <div><dt>Languages</dt><dd>The host speaks English, French, Japanese, Korean, Russian, Chinese and Vietnamese.</dd></div>
+      </dl>
     </div>
   </section>
 
   <!-- BOOK: the page ends on its job -->
   <section class="book-sec" aria-labelledby="book-h">
     <div class="wrap book-sec__grid">
-      <div>
-        <h2 id="book-h">Choose your dates</h2>
+      <div class="book-sec__intro">
+        <h2 id="book-h">Book your stay</h2>
         <p>See live prices on Booking.com, or send the host your dates directly on WhatsApp or Zalo.</p>
       </div>
-      <form class="book" id="book" data-layer="mockup" novalidate>
-        <div class="book__dates">
-          <label>Check-in<input type="date" name="in" required></label>
-          <label>Check-out<input type="date" name="out" required></label>
+      <div class="book" id="book" data-layer="mockup">
+        <p class="book__price"><b>From 690.000₫</b> per night</p>
+        <div class="book__fields">
+          <button class="book__field" type="button" data-open-dates><span>Check-in</span><b data-show="in">Add date</b></button>
+          <button class="book__field" type="button" data-open-dates><span>Check-out</span><b data-show="out">Add date</b></button>
+          <div class="book__field book__guests"><span id="guestsLabel">Guests</span><div class="step" role="group" aria-labelledby="guestsLabel"><button type="button" data-step="-1" aria-label="Fewer guests">−</button><output id="guests" aria-live="polite">2</output><button type="button" data-step="1" aria-label="More guests">+</button></div></div>
         </div>
-        <div class="book__row">
-          <div class="book__guests"><span id="guestsLabel">Guests</span><div class="step" role="group" aria-labelledby="guestsLabel"><button type="button" data-step="-1" aria-label="Fewer guests">−</button><output name="guests">2</output><button type="button" data-step="1" aria-label="More guests">+</button></div></div>
-          <label>Apartment<select name="room"><option value="">Any apartment</option></select></label>
-        </div>
+        <p class="book__room" data-show="room" hidden></p>
         <p class="book__error" id="bookError" role="alert"></p>
-        <button class="btn btn--action btn--block" value="booking" data-layer="button">See prices on Booking.com</button>
-        <div class="book__alt"><button class="btn btn--line" value="whatsapp">WhatsApp the host</button><button class="btn btn--line" value="zalo">Zalo the host</button></div>
-      </form>
+        <button class="btn btn--action btn--block" type="button" data-go="booking" data-layer="button">Check availability</button>
+        <div class="book__alt"><button class="btn btn--line" type="button" data-go="whatsapp">WhatsApp the host</button><button class="btn btn--line" type="button" data-go="zalo">Zalo the host</button></div>
+        <p class="book__note">Pay at the property. No deposit.</p>
+      </div>
     </div>
   </section>
 </main>
@@ -339,7 +357,29 @@
   </div>
 </footer>
 
-<div class="dock" id="dock"><a class="btn btn--action btn--block" href="#book">Check availability</a></div>
+<div class="dock" id="dock">
+  <p class="dock__price"><b>From 690.000₫</b><span>per night, pay at the property</span></p>
+  <button class="btn btn--action" type="button" data-open-dates>Check availability</button>
+</div>
+
+<!-- Date sheet: a bottom sheet on phones, a dialog on desktop -->
+<dialog class="sheet" id="dates" aria-labelledby="dates-h">
+  <header class="sheet__head">
+    <div><h2 id="dates-h">Your dates</h2><p class="sheet__room" data-show="room" hidden></p></div>
+    <button class="sheet__x" type="button" data-close aria-label="Close">×</button>
+  </header>
+  <div class="chips" role="group" aria-label="Quick picks">
+    <button type="button" data-quick="weekend">This weekend</button>
+    <button type="button" data-quick="week">A week</button>
+    <button type="button" data-quick="month">A month</button>
+  </div>
+  <div class="cal__dow" aria-hidden="true"><span>Mo</span><span>Tu</span><span>We</span><span>Th</span><span>Fr</span><span>Sa</span><span>Su</span></div>
+  <div class="cal" id="cal"></div>
+  <footer class="sheet__foot">
+    <p class="sheet__sum" id="sum" aria-live="polite">Choose your check-in day</p>
+    <div class="sheet__btns"><button class="link" type="button" id="clearDates">Clear</button><button class="btn btn--action" type="button" id="datesDone" disabled>Done</button></div>
+  </footer>
+</dialog>
 
 <dialog class="viewer" id="viewer" aria-label="Photos of the building">
   <div class="viewer__track" id="viewerTrack"></div>
