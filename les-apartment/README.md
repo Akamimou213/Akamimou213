@@ -24,7 +24,7 @@ To deploy on Vercel, set the project root to `les-apartment/`, choose framework 
 ## How it works
 
 - **The day's sky:** `data-sky="dawn | morning | midday | gold | night"` on a block sets `body[data-sky]`, and the CSS fades the page background to that stop. Night swaps the text to light.
-- **Booking:** every Book and Check availability button opens one date sheet (`#dates`, a native `<dialog>`). One `state` object in `app.js` feeds the sheet, the booking card and the hand-off. The card at the end sends guests to Booking.com with their dates and guest count filled in, or opens WhatsApp with a ready message (Zalo opens a chat). Every "Check dates" button selects its apartment in the form first. The apartment list is read from those buttons, so there's one source of truth.
+- **Booking:** every Book and Check availability button opens one date sheet (`#dates`, a native `<dialog>`). One `state` object in `app.js` feeds the sheet, the booking card and the hand-off. The card at the end sends guests to Booking.com with their dates and guest count filled in, or opens WhatsApp with a ready message (Zalo opens a chat). Every "Check dates" button on an apartment opens the same sheet with that apartment noted, and it carries through to the WhatsApp message.
 - **Film capture:** pieces that lift in the fly-over film carry `data-layer` (mockup, button, photo, testimonial).
 
 ## Mobbin references
