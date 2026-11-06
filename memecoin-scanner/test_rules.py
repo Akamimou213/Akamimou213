@@ -120,6 +120,11 @@ class SafetyTests(unittest.TestCase):
         d = rules.evaluate(raw(rugcheck=rugcheck(creatorBalance=80_000_000_000_000)), now=NOW)  # 8%
         self.assertEqual(status(d, "dev"), "fail")
 
+    def test_creator_in_top_holders_overrides_zero_balance(self):
+        hs = rugcheck()["topHolders"] + [dict(owner="Dev1", address="dv", pct=26.75, insider=False)]
+        d = rules.evaluate(raw(rugcheck=rugcheck(creatorBalance=0, topHolders=hs)), now=NOW)
+        self.assertEqual(status(d, "dev"), "fail")
+
     def test_thin_liquidity_vs_mcap(self):
         d = rules.evaluate(raw(pairs=[pair(liquidity=dict(usd=20_000), marketCap=1_000_000)]), now=NOW)
         self.assertEqual(status(d, "liqmcap"), "fail")

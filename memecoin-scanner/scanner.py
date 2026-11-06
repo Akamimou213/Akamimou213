@@ -50,6 +50,16 @@ def candles_with_curve(chain, pair, pairs, address):
 def collect(address, chain=None, candles=True):
     """Fetch everything the dossier needs. Failures are recorded, never raised."""
     address = address.strip()
+    # Accept a DexScreener link (dexscreener.com/<chain>/<pair>): URLs carry the *pool* address,
+    # lowercased, so resolve it to the token through the pairs endpoint.
+    m = re.search(r"dexscreener\.com/([a-z0-9]+)/([A-Za-z0-9]+)", address)
+    if m:
+        try:
+            p = S.ds_pair(m.group(1), m.group(2))
+            if p:
+                address, chain = p["baseToken"]["address"], p["chainId"]
+        except S.SourceError:
+            pass
     raw = dict(address=address, chain=chain, pairs=[], candles=None, rugcheck=None, goplus=None, honeypot=None, errors=[])
     if not (SOL_RE.match(address) or EVM_RE.match(address)):
         raw["errors"].append("That doesn't look like a Solana mint or an EVM contract address.")
