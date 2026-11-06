@@ -380,8 +380,12 @@ def _holders_sol(rc):
         dev = cb / supply * 100
         if dev > 100:
             dev = None
-    if dev is None and creator:
-        dev = sum(_f(h.get("pct"), 0) for h in rc.get("topHolders") or [] if h.get("owner") == creator)
+    if creator:
+        # RugCheck's creatorBalance can read 0 while the creator wallet sits in the top holders:
+        # trust whichever is larger.
+        held = sum(_f(h.get("pct"), 0) for h in rc.get("topHolders") or [] if creator in (h.get("owner"), h.get("address")))
+        if held or dev is None:
+            dev = max(dev or 0, held)
     out.append(_chk("holders", "dev", "Dev holding", "unknown" if dev is None else ("pass" if dev <= DEV_MAX else "fail"),
                     pct(dev), "≤ 5%", "thumb", "Also check the dev's past coins on GMGN."))
     n, s = bundle_cluster(pcts[:20])
