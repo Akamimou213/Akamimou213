@@ -21,6 +21,7 @@ import sources as S
 
 SOL_RE = re.compile(r"^[1-9A-HJ-NP-Za-km-z]{32,44}$")
 EVM_RE = re.compile(r"^0x[0-9a-fA-F]{40}$")
+POOLID_RE = re.compile(r"^0x[0-9a-fA-F]{64}$")  # Uniswap v4 pool id (or a tx hash)
 
 
 def candles_with_curve(chain, pair, pairs, address):
@@ -60,9 +61,18 @@ def collect(address, chain=None, candles=True):
                 address, chain = p["baseToken"]["address"], p["chainId"]
         except S.SourceError:
             pass
+    if POOLID_RE.match(address):
+        # A 32-byte id is a v4 pool id (v4 pools have no address of their own) or a tx hash.
+        try:
+            hit = [p for p in S.ds_search(address) if p.get("pairAddress", "").lower() == address.lower()]
+        except S.SourceError:
+            hit = []
+        if hit:
+            address, chain = hit[0]["baseToken"]["address"], hit[0]["chainId"]
     raw = dict(address=address, chain=chain, pairs=[], candles=None, rugcheck=None, goplus=None, honeypot=None, errors=[])
     if not (SOL_RE.match(address) or EVM_RE.match(address)):
-        raw["errors"].append("That doesn't look like a Solana mint or an EVM contract address.")
+        raw["errors"].append("That doesn't look like a token address, a pool id or a DexScreener link"
+                             + (" (no pool found for this 32-byte id: it may be a transaction hash)." if POOLID_RE.match(address) else "."))
         return raw
     try:
         raw["pairs"] = S.ds_tokens(chain, [address]) if chain else S.ds_token_pairs(address)

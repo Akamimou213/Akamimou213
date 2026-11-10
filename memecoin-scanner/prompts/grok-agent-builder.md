@@ -85,7 +85,9 @@ These were all found on real coins while building the scanner:
 3. **Stale candles after graduation.** Right after a coin graduates, only the bonding-curve candles exist. Comparing today's price to that old high produced "−14.5% below", i.e. above the high. **Rule:** candles that end more than 5 minutes ago mean the gate is unknown. The live price always counts toward the 60-minute high.
 4. **DexScreener URLs carry the pool address, lowercased.** Resolve the link through `/latest/dex/pairs/{chain}/{pair}` to get the real, case-correct token address.
 5. **Serial launcher wallets.** One wallet (`WLHv2UAZ…`) controlled PEAK's metadata and created Finance Inu, keeping about 27% of FI's supply. **Rule:** check the creator against the creators of coins you've already seen.
-6. **Estimates never trigger a GO.** An estimated volume (for example 1h ÷ 2) can only produce INCOMPLETE.
+6. **Uncovered chains.** On a brand-new chain (Elysium, Kinetiq's Hyperliquid L2, two days old) GoPlus, honeypot.is and the explorer had nothing. **Rule:** if no safety source covers the chain, the contract check fails. A check that can't run counts as failed.
+7. **Trap pools.** Anyone can open a Uniswap v4 pool for any token at any fee. GoPlus listed 5 pools for ZEN on Robinhood Chain charging 70–99% and didn't list the real $23k pool. **Rule:** read fee and LP data only for the main pool, matched by pool id. Report the other pools as a warning, and check the swap route before trading.
+8. **Estimates never trigger a GO.** An estimated volume (for example 1h ÷ 2) can only produce INCOMPLETE.
 
 ### Verdict vocabulary (all agents use these exact words)
 - `A-SETUP`: volume ≥ $117k, pulled back 7–30%, in window, every check passed.
