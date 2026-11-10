@@ -16,19 +16,64 @@ import time
 from concurrent.futures import ThreadPoolExecutor
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))  # works under `python3 -I` too
+import devhist  # noqa: E402
 import rules  # noqa: E402
 import sources as S
 
 SOL_RE = re.compile(r"^[1-9A-HJ-NP-Za-km-z]{32,44}$")
 EVM_RE = re.compile(r"^0x[0-9a-fA-F]{40}$")
+POOLID_RE = re.compile(r"^0x[0-9a-fA-F]{64}$")  # Uniswap v4 pool id (or a tx hash)
+
+
+def candles_with_curve(chain, pair, pairs, address):
+    """1-min candles for the main pool; for a coin that graduated within the hour, prepend the
+    pump.fun bonding-curve candles so the 60-min high and 30-min volume cover its whole life."""
+    main = []
+    try:
+        main = S.gt_minute_candles(chain, pair["pairAddress"], 60, address)
+    except S.SourceError:
+        pass
+    created = (pair.get("pairCreatedAt") or 0) / 1000
+    curves = [p for p in pairs if p.get("dexId") == "pumpfun"
+              and (p.get("baseToken") or {}).get("address", "").lower() == address.lower()]
+    if pair.get("dexId") != "pumpfun" and curves and time.time() - created < 3600:
+        curve = max(curves, key=lambda p: (((p.get("txns") or {}).get("h24") or {}).get("buys") or 0))
+        try:
+            old = S.gt_minute_candles(chain, curve["pairAddress"], 60, address)
+            seen = {c[0] for c in main}
+            main = sorted(main + [c for c in old if c[0] not in seen])
+        except S.SourceError:
+            pass
+    if not main:
+        raise S.SourceError("no 1-minute candles (rate-limited or pool too new)")
+    return main
 
 
 def collect(address, chain=None, candles=True):
     """Fetch everything the dossier needs. Failures are recorded, never raised."""
     address = address.strip()
+    # Accept a DexScreener link (dexscreener.com/<chain>/<pair>): URLs carry the *pool* address,
+    # lowercased, so resolve it to the token through the pairs endpoint.
+    m = re.search(r"dexscreener\.com/([a-z0-9]+)/([A-Za-z0-9]+)", address)
+    if m:
+        try:
+            p = S.ds_pair(m.group(1), m.group(2))
+            if p:
+                address, chain = p["baseToken"]["address"], p["chainId"]
+        except S.SourceError:
+            pass
+    if POOLID_RE.match(address):
+        # A 32-byte id is a v4 pool id (v4 pools have no address of their own) or a tx hash.
+        try:
+            hit = [p for p in S.ds_search(address) if p.get("pairAddress", "").lower() == address.lower()]
+        except S.SourceError:
+            hit = []
+        if hit:
+            address, chain = hit[0]["baseToken"]["address"], hit[0]["chainId"]
     raw = dict(address=address, chain=chain, pairs=[], candles=None, rugcheck=None, goplus=None, honeypot=None, errors=[])
     if not (SOL_RE.match(address) or EVM_RE.match(address)):
-        raw["errors"].append("That doesn't look like a Solana mint or an EVM contract address.")
+        raw["errors"].append("That doesn't look like a token address, a pool id or a DexScreener link"
+                             + (" (no pool found for this 32-byte id: it may be a transaction hash)." if POOLID_RE.match(address) else "."))
         return raw
     try:
         raw["pairs"] = S.ds_tokens(chain, [address]) if chain else S.ds_token_pairs(address)
@@ -41,7 +86,7 @@ def collect(address, chain=None, candles=True):
     jobs = {}
     with ThreadPoolExecutor(max_workers=3) as ex:
         if pair and candles:
-            jobs["candles"] = ex.submit(S.gt_minute_candles, chain, pair["pairAddress"], 60, address)
+            jobs["candles"] = ex.submit(candles_with_curve, chain, pair, raw["pairs"], address)
         if chain == "solana":
             jobs["rugcheck"] = ex.submit(S.rugcheck_report, address)
         elif chain:
@@ -54,7 +99,18 @@ def collect(address, chain=None, candles=True):
                 raw["errors"].append(f"{k}: {e}")
             except Exception as e:  # defensive: never let one source sink the scan
                 raw["errors"].append(f"{k}: {type(e).__name__}: {e}")
+    raw["devhist"] = devhist_for(raw, pair)
     return raw
+
+
+def devhist_for(raw, pair, rpc_history=True):
+    """Dev history for a collected coin; None (unknown) only when the chain is unknown."""
+    if not raw.get("chain"):
+        return None
+    creator = devhist.creator_of(raw["chain"], raw.get("rugcheck"), raw.get("goplus"))
+    symbol = ((pair or {}).get("baseToken") or {}).get("symbol")
+    pad = ((raw.get("rugcheck") or {}).get("launchpad") or {}).get("name")
+    return devhist.gather(raw["chain"], raw["address"], creator, symbol, rpc_history=rpc_history, launchpad=pad)
 
 
 def scan(address, chain=None, bankroll=None, risk_pct=1.0, candles=True):
@@ -136,6 +192,8 @@ def trending(chain="solana", limit=15, candles=False, bankroll=None, risk_pct=1.
                 raw["goplus"] = S.goplus_token(c["chain"], c["address"])
         except S.SourceError as e:
             raw["errors"].append(str(e))
+        # The screener skips the RPC dev history (a dozen calls a coin); the registry and rug list still run.
+        raw["devhist"] = devhist_for(raw, mp, rpc_history=False)
         d = rules.evaluate(raw, bankroll=bankroll, risk_pct=risk_pct)
         d["sources"] = c["sources"]
         d.pop("candles", None)

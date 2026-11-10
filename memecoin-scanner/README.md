@@ -41,6 +41,9 @@ python3 -m unittest test_rules -v                           # offline rule tests
 | Liquidity | Liquidity / mcap; your size vs pool | ≥ 10%; ≤ 2% of pool | thumb | DexScreener |
 | Holders | Top 10 excl. pools, dev %, insider network | ≤ 30%, ≤ 5% | thumb | RugCheck / GoPlus |
 | Holders | Bundle signature: 5+ top wallets at near-identical size | ≤ 10–15% | thumb (heuristic) | top-holder sizes |
+| Dev history | Earlier coins by the same creator (pump.fun) and how many are dead | < 3 other coins (1–2 = warn) | thumb | Solana RPC: pump.fun bonding curves naming the creator, priced on DexScreener |
+| Dev history | Creator or first funder on a rug list; funder shared with other creators | not listed; funds no other creator | thumb | Solana RPC funder trace, local registry, `data/rug_wallets.txt` |
+| Dev history | Creator wallet age | ≥ 24 h, else warn | thumb | Solana RPC |
 | Flow | Buys/sells, average trade (volume-bot hint), age, paid boosts | info | — | DexScreener |
 
 **Verdicts:** `A-SETUP` (volume ≥ $117k, pulled back, in window, all clear) · `GO` · `GO · HALF SIZE` (outside window) · `INCOMPLETE` (a gate or safety input is missing, so check it by hand) · `SKIP`.
@@ -105,6 +108,14 @@ Expect "too few events" for the first days. Results start to mean something afte
 
 - Free public APIs. GeckoTerminal allows about 30 requests a minute. When it rate-limits, the gate shows `?` and the verdict becomes `INCOMPLETE`, never a false `GO`.
 - The bundle signature is a heuristic. Confirm it with GMGN bundler tags or Bubblemaps (the dashboard links both).
+- Input can be a token address, a DexScreener link, or a 32-byte pool id (Uniswap v4 pools have an id, not an address).
+- **Chain coverage:** on a chain no safety source covers (e.g. Elysium at launch), the contract check *fails*. A check that can't run counts as failed. Robinhood Chain is covered by GoPlus (chain 4663); honeypot.is covers only Ethereum, BSC and Base.
+- **Pool type & fees:** shows the main pool's fee: GoPlus's tier for EVM, or the venue's published fee for Solana. It fails above 5% and warns on Uniswap v4, whose hooks can add fees nothing here can see. Fee and LP data from *other* pools (often trap pools at 70–99% fees) never stand in for the main pool's.
 - Liquidity / mcap now sums every pool of the token. Side pools are flagged, because their owners can withdraw them.
-- No dev-history, smart-money or narrative checks yet. RugCheck's free API leaves the creator's past tokens empty. Those need GMGN, Bubblemaps or Birdeye keys, or your own judgement.
+- **Dev history** (Solana). RugCheck's free API leaves the creator's past tokens empty, so the scanner asks the pump.fun program directly: one `getProgramAccounts` call finds every bonding curve naming the same creator. The creator is an *argument* of pump.fun's `create`, not a signer, so the creator's own transactions don't show its launches. Earlier coins are priced on DexScreener; under $1k liquidity counts as dead.
+  - Every scan records creator and first funder in `data/trench.db`, so a creator or funder behind coins you've already scanned is caught (playbook trap 5). Seed known ruggers in `data/rug_wallets.txt` (`address,label`); the desk's list is read too.
+  - Other launchpads (LaunchLab, Meteora, Raydium) aren't indexed: their "Earlier launches" check stays unknown, so the verdict is `INCOMPLETE`. EVM coins get GoPlus's past-honeypot flag and the local registry only.
+  - The public RPC is rate-limited and blocks `getProgramAccounts` on some endpoints. Set `SOLANA_RPC_URL` (a free Helius key is enough) for reliable results. When the history can't be read, the check is unknown, never a pass.
+  - The trending screener skips the RPC part (a few calls a coin), so its rows are `INCOMPLETE` until you scan them.
+- No smart-money or narrative checks yet. Those need GMGN, Bubblemaps or Birdeye keys, or your own judgement.
 - The rules come from one channel's in-sample backtest (148 calls, May–Oct 2026). They are hypotheses to test with small size. This is not financial advice.

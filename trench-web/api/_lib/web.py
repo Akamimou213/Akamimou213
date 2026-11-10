@@ -19,6 +19,7 @@ from http.server import BaseHTTPRequestHandler
 LIB = os.path.dirname(os.path.abspath(__file__))
 if LIB not in sys.path:
     sys.path.insert(0, LIB)
+os.environ.setdefault("TRENCH_DB", "/tmp/trench.db")  # Vercel can only write to /tmp; the registry lives per instance
 
 import risk as RK  # noqa: E402
 from core import S, SR, f, load_config, main_pair  # noqa: E402
@@ -200,6 +201,53 @@ def check(q):
                top10=facts.get("top10_pct"), dev_pct=finite(facts.get("dev_pct")), holders=facts.get("holders"),
                insiders=facts.get("insider_wallets"), bundle=facts.get("bundle_pct"), lp=facts.get("lp"),
                top_holders=[dict(owner=h.get("owner"), pct=f(h.get("pct"))) for h in RK.top_holders_excl(rc)[:10]])
+    return out
+
+
+# ---------------------------------------------------------------- verify: the scanner's dossier, one seat per call
+# The terminal runs the three seats in parallel and fills each card as it answers. Each seat runs the scanner's
+# own rules (memecoin-scanner/rules.py) on the data it fetched and returns only its stages.
+SEATS = {"chart": ("gate", "flow"), "safety": ("contract", "liquidity", "holders"), "dev": ("dev",)}
+
+
+def verify(q):
+    import devhist as DH
+    import scanner as SC
+    mint, seat = mint_arg(q), q.get("seat")
+    if seat not in SEATS:
+        raise BadRequest("seat must be chart, safety or dev")
+    t0 = time.time()
+    pairs = S.ds_tokens("solana", [mint])
+    pair = SR.main_pair(pairs, mint)
+    raw = dict(address=mint, chain="solana", pairs=pairs, candles=None, rugcheck=None, goplus=None, honeypot=None,
+               devhist=None, errors=[])
+    if pair and seat == "chart":
+        try:
+            raw["candles"] = SC.candles_with_curve("solana", pair, pairs, mint)
+        except S.SourceError as e:
+            raw["errors"].append(f"candles: {e}")
+    if seat in ("safety", "dev"):
+        try:
+            raw["rugcheck"] = S.rugcheck_report(mint)
+        except S.SourceError as e:
+            raw["errors"].append(f"RugCheck: {e}")
+    if seat == "dev":
+        rc = raw["rugcheck"] or {}
+        raw["devhist"] = DH.gather("solana", mint, DH.creator_of("solana", rc), ((pair or {}).get("baseToken") or {}).get("symbol"),
+                                   launchpad=(rc.get("launchpad") or {}).get("name"))
+    d = SR.evaluate(raw)
+    keep = SEATS[seat]
+    out = {k: d.get(k) for k in ("verdict", "reason", "symbol", "name", "price", "liquidity", "mcap", "vol30", "high60",
+                                 "off_high", "vol_h1", "in_window", "launchpad", "dex", "errors")}
+    out.update(seat=seat, mint=mint, ts=time.time(), took=round(time.time() - t0, 1),
+               checks=[c for c in d.get("checks") or [] if c["stage"] in keep])
+    if seat == "chart":
+        # The last hour of 1-minute closes and volumes, for the Claude chart reader.
+        out["candles"] = [[c[0], c[4], round(c[5] or 0)] for c in (raw.get("candles") or [])[-60:]]
+    if seat == "dev" and raw["devhist"]:
+        dh = raw["devhist"]
+        out["dev"] = dict(creator=dh.get("creator"), funder=(dh.get("history") or {}).get("funder"),
+                          launches=dh.get("launches_priced") or [])
     return out
 
 

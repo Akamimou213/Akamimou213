@@ -81,6 +81,17 @@ def ds_token_pairs(address):
     return d.get("pairs") or []
 
 
+def ds_search(query):
+    return get_json(f"{DS}/latest/dex/search?q={query}").get("pairs") or []
+
+
+def ds_pair(chain, pair_address):
+    """Resolve a pool (pair) address, e.g. from a DexScreener URL, to its pair record."""
+    d = get_json(f"{DS}/latest/dex/pairs/{chain}/{pair_address}")
+    ps = d.get("pairs") or ([d["pair"]] if d.get("pair") else [])
+    return ps[0] if ps else None
+
+
 def ds_tokens(chain, addresses):
     """Pairs for up to 30 token addresses on one chain."""
     out = []
@@ -133,7 +144,7 @@ def rugcheck_report(mint):
     return get_json(f"https://api.rugcheck.xyz/v1/tokens/{mint}/report", ttl=120)
 
 
-GOPLUS_CHAIN = {"ethereum": "1", "bsc": "56", "base": "8453", "arbitrum": "42161",
+GOPLUS_CHAIN = {"ethereum": "1", "bsc": "56", "base": "8453", "arbitrum": "42161", "robinhood": "4663",
                 "polygon": "137", "avalanche": "43114"}
 
 

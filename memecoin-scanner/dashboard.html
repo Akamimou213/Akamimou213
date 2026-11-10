@@ -134,7 +134,7 @@ footer { font-size: .8rem; color: var(--muted); border-top: 1px solid var(--rule
   <section id="p-scan" role="tabpanel" aria-labelledby="tab-scan" style="display:grid;gap:18px">
     <form class="scan" id="scanForm" autocomplete="off">
       <label class="addr">Contract address
-        <input id="addr" placeholder="Solana mint or 0x… contract" spellcheck="false" required></label>
+        <input id="addr" placeholder="Contract address or DexScreener link" spellcheck="false" required></label>
       <label>Chain
         <select id="chain"><option value="">auto</option><option>solana</option><option>bsc</option><option>base</option><option>ethereum</option><option>arbitrum</option></select></label>
       <label>Bankroll $<input id="bankroll" type="number" min="0" step="any" placeholder="2000" style="width:8em"></label>
@@ -143,7 +143,7 @@ footer { font-size: .8rem; color: var(--muted); border-top: 1px solid var(--rule
     </form>
     <div id="scanErr" class="err" hidden></div>
     <div id="result" hidden></div>
-    <p id="scanHint" class="muted small">Runs the playbook's 90-second dossier in order: gate → contract → liquidity → holders → flow. The first failure means skip.</p>
+    <p id="scanHint" class="muted small">Runs the playbook's 90-second dossier in order: gate → contract → liquidity → holders → dev history → flow. The first failure means skip.</p>
   </section>
 
   <!-- Trending -->
@@ -200,7 +200,7 @@ const usd = (x) => { if (x == null) return "–"; const a = Math.abs(x);
 const px = (p) => { if (p == null) return "–"; if (p >= 1) return "$" + p.toFixed(4);
   const s = p.toFixed(14).split(".")[1]; const z = s.length - s.replace(/^0+/, "").length; return "$" + p.toFixed(z + 4); };
 const ICON = {pass:"✓", fail:"✗", warn:"!", unknown:"?", info:"·"};
-const STAGE = {gate:"Gate", contract:"Contract", liquidity:"Liquidity", holders:"Holders", flow:"Flow & context"};
+const STAGE = {gate:"Gate", contract:"Contract", liquidity:"Liquidity", holders:"Holders", dev:"Dev history", flow:"Flow & context"};
 const vclass = (v) => ({"A-SETUP":"v-A-SETUP","GO":"v-GO","GO · HALF SIZE":"v-HALF","INCOMPLETE":"v-INCOMPLETE","SKIP":"v-SKIP"})[v] || "v-NODATA";
 
 // --- persisted per-viewer settings

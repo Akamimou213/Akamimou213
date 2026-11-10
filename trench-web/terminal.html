@@ -1,0 +1,697 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Trench Terminal</title>
+<meta name="color-scheme" content="dark">
+<script src="/static/lightweight-charts.js"></script>
+<style>
+:root{--bg:#0d1014;--panel:#13171c;--line:#1f252c;--txt:#d6dde4;--dim:#7d8894;--faint:#4b545e;--up:#2fbf71;--down:#f0564a;--acc:#4c8dff;--warn:#d9a441;
+  font:13px/1.35 ui-sans-serif,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;color:var(--txt);background:var(--bg)}
+*{box-sizing:border-box}body{margin:0;height:100vh;display:grid;grid-template-rows:auto 1fr;overflow:hidden}
+button,input{font:inherit;color:inherit}button{cursor:pointer}
+.num{font-variant-numeric:tabular-nums}.up{color:var(--up)}.down{color:var(--down)}.dim{color:var(--dim)}.faint{color:var(--faint)}
+header{display:flex;align-items:center;gap:14px;padding:8px 14px;border-bottom:1px solid var(--line);background:var(--panel)}
+header b.logo{letter-spacing:.08em}
+#search{flex:0 1 380px;background:var(--bg);border:1px solid var(--line);border-radius:6px;padding:6px 10px}
+#feeds{display:flex;gap:10px;margin-left:auto;color:var(--dim);font-size:12px}
+.dot{display:inline-block;width:7px;height:7px;border-radius:50%;background:var(--faint);margin-right:4px;vertical-align:1px}
+.dot.live{background:var(--up)}.dot.err{background:var(--down)}.dot.wait{background:var(--warn)}
+main{display:grid;grid-template-columns:minmax(340px,400px) 1fr 360px;min-height:0}
+section{min-height:0;border-right:1px solid var(--line);display:flex;flex-direction:column}
+/* list */
+.tabs{display:flex;gap:2px;padding:8px 8px 0;flex-wrap:wrap}
+.tabs button{background:none;border:0;padding:5px 8px;border-radius:5px;color:var(--dim)}
+.tabs button[aria-pressed=true]{background:var(--line);color:var(--txt)}
+.tabs .sort{margin-left:auto}
+#list{overflow:auto;flex:1;padding:6px 0}
+.row{display:grid;grid-template-columns:14px 1fr 54px 62px 64px;gap:6px;align-items:center;padding:6px 10px;border-left:2px solid transparent;cursor:pointer}
+.row:hover{background:#161b21}.row.sel{background:#18202a;border-left-color:var(--acc)}
+.row .sym{font-weight:600;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row .sub{font-size:11px;color:var(--dim);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.row .r{text-align:right}
+.row .qb{border:1px solid var(--line);background:none;border-radius:4px;padding:2px 0;font-size:11px;color:var(--dim)}
+.row .qb.ok{border-color:#2a5a3f;color:var(--up)}
+.sdot{width:8px;height:8px;border-radius:50%;background:var(--faint)}
+.sdot.pass{background:var(--up)}.sdot.dead{background:var(--down)}.sdot.unknown{background:var(--warn)}.sdot.run{background:var(--faint);animation:p 1s infinite}
+@keyframes p{50%{opacity:.3}}
+.empty{padding:30px 16px;color:var(--dim);text-align:center}
+/* coin */
+#coin{overflow:auto}
+.chead{padding:12px 14px 8px;display:flex;flex-wrap:wrap;gap:6px 14px;align-items:baseline;border-bottom:1px solid var(--line)}
+.chead h1{margin:0;font-size:20px}
+.chead .ca{color:var(--dim);font-size:12px;background:none;border:1px solid var(--line);border-radius:4px;padding:2px 6px}
+.links{display:flex;gap:10px;font-size:12px}.links a{color:var(--dim);text-decoration:none}.links a:hover{color:var(--txt)}
+.stats{display:grid;grid-template-columns:repeat(auto-fit,minmax(96px,1fr));gap:1px;background:var(--line);border-bottom:1px solid var(--line)}
+.stats div{background:var(--bg);padding:8px 12px}.stats span{display:block;font-size:11px;color:var(--dim)}.stats b{font-size:14px;font-weight:600}
+.tfs{display:flex;gap:2px;padding:6px 10px}.tfs button{background:none;border:0;color:var(--dim);padding:3px 8px;border-radius:4px}.tfs button[aria-pressed=true]{background:var(--line);color:var(--txt)}
+.tfs .st{margin-left:auto;color:var(--faint);font-size:12px}
+#chart{height:330px;margin:0 6px}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:0;border-top:1px solid var(--line)}
+.two>div{padding:10px 14px;min-width:0}.two>div+div{border-left:1px solid var(--line)}
+h3{margin:0 0 8px;font-size:11px;font-weight:600;color:var(--dim);text-transform:uppercase;letter-spacing:.06em}
+table{width:100%;border-collapse:collapse;table-layout:fixed}td{padding:3px 0;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}td.r{text-align:right}
+.checks td:nth-child(2){width:48%}.checks td.r{padding-left:8px}
+#c-trades{max-height:300px;overflow:auto}
+.callbox{padding:10px 14px;border-top:1px solid var(--line);font-size:12px;color:var(--dim);white-space:pre-wrap;max-height:120px;overflow:auto}
+/* verification */
+#verify{border-right:0;overflow:auto;padding:12px 14px;gap:12px}
+.vban{border:1px solid var(--line);border-left:4px solid var(--faint);border-radius:7px;padding:10px 12px;display:grid;gap:4px;background:var(--panel)}
+.vban b{font-size:16px;letter-spacing:.02em}.vban .why{font-size:12px;color:var(--dim)}
+.vban.SKIP{border-left-color:var(--down)}.vban.SKIP b{color:var(--down)}.vban.INCOMPLETE{border-left-color:#b085f5}.vban.INCOMPLETE b{color:#b085f5}
+.vban.GO,.vban.A-SETUP{border-left-color:var(--up)}.vban.GO b,.vban.A-SETUP b{color:var(--up)}.vban.HALF{border-left-color:var(--warn)}.vban.HALF b{color:var(--warn)}
+.seat{border:1px solid var(--line);border-radius:7px;padding:8px 10px}
+.seat .sh{display:flex;justify-content:space-between;align-items:baseline;margin-bottom:4px}.seat .sh b{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--dim)}
+.seat .sh span{font-size:11px;color:var(--faint)}
+.seat table td{padding:2px 0;font-size:12px}.seat td:first-child{width:16px}.seat td.r{color:var(--dim);padding-left:8px;width:52%;white-space:normal;overflow-wrap:anywhere}
+.s-pass{color:var(--up)}.s-fail{color:var(--down)}.s-warn{color:var(--warn)}.s-unknown{color:#b085f5}.s-info{color:var(--faint)}
+.running{color:var(--dim);font-size:12px}.running::after{content:"";display:inline-block;width:6px;height:6px;border-radius:50%;background:var(--acc);margin-left:6px;animation:p 1s infinite}
+.cl{display:grid;gap:6px}.cl a,.cl button{display:block;text-align:center;border:1px solid var(--line);border-radius:7px;padding:9px;color:var(--txt);text-decoration:none;background:var(--bg)}
+.cl a.go{background:var(--acc);border-color:var(--acc);color:#fff;font-weight:600}.cl a[aria-disabled=true]{pointer-events:none;opacity:.45}
+.msg{min-height:18px;font-size:12px;color:var(--dim)}
+.vtag{font-size:10px;font-weight:700;letter-spacing:.04em}.vtag.SKIP{color:var(--down)}.vtag.INCOMPLETE{color:#b085f5}.vtag.GO,.vtag.A-SETUP{color:var(--up)}.vtag.HALF{color:var(--warn)}
+.keys{font-size:11px;color:var(--faint)}
+kbd{border:1px solid var(--line);border-radius:3px;padding:0 4px;font:11px ui-monospace,monospace;color:var(--dim)}
+@media (max-width:1100px){main{grid-template-columns:minmax(320px,380px) 1fr}#verify{grid-column:1/-1;border-top:1px solid var(--line)}body{overflow:auto;height:auto}main{min-height:auto}#list{max-height:70vh}}
+@media (max-width:720px){main{grid-template-columns:1fr}.two{grid-template-columns:1fr}.two>div+div{border-left:0;border-top:1px solid var(--line)}#feeds{display:none}}
+</style>
+</head>
+<body>
+<header>
+  <b class="logo">TRENCH</b><span class="dim" style="font-size:12px">terminal · read-only</span>
+  <input id="search" placeholder="Paste a contract address  ( / )" autocomplete="off" spellcheck="false">
+  <div id="feeds"></div>
+</header>
+<main>
+  <section>
+    <div class="tabs" id="tabs"></div>
+    <div id="list"></div>
+  </section>
+  <section id="coin"><div class="empty">Pick a coin. New pump.fun launches stream in on the left as they happen. Selecting one runs the full check.</div></section>
+  <section id="verify"><div class="empty">The verification desk runs here when you pick a coin: chart &amp; flow, safety, dev history, then a verdict. <a href="/trade" style="color:var(--dim)">Paper trading screen</a></div></section>
+</main>
+<script>
+"use strict";
+const $ = (id) => document.getElementById(id);
+const esc = (s) => String(s ?? "").replace(/[&<>"']/g, (c) => ({ "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]));
+const usd = (x, d) => { if (x == null || !isFinite(x)) return "–"; const a = Math.abs(x), s = x < 0 ? "-" : "";
+  if (a >= 1e9) return s + "$" + (a / 1e9).toFixed(2) + "B"; if (a >= 1e6) return s + "$" + (a / 1e6).toFixed(2) + "M";
+  if (a >= 1e3) return s + "$" + (a / 1e3).toFixed(a >= 1e5 ? 0 : 1) + "K"; return s + "$" + a.toFixed(d ?? (a >= 10 ? 0 : 2)); };
+const px = (p) => { if (!p || !isFinite(p)) return "–"; if (p >= 1) return "$" + p.toFixed(4); const z = Math.floor(-Math.log10(p)); return "$" + p.toFixed(Math.min(12, z + 4)); };
+// 0.0000070 -> 0.0₅70 (zeros as a subscript, like trading screens), so tiny prices fit the axis
+const SUB = "₀₁₂₃₄₅₆₇₈₉";
+const tinyPx = (p) => { if (!p || !isFinite(p)) return ""; if (p >= 0.001) return p >= 1 ? p.toFixed(4) : p.toFixed(5);
+  const z = Math.floor(-Math.log10(p)), digits = Math.round(p * Math.pow(10, z + 3)); return "0.0" + String(z).split("").map((d) => SUB[d]).join("") + String(digits).replace(/0+$/, ""); };
+const pc = (x, d = 0) => (x == null || !isFinite(x) ? "–" : (x > 0 ? "+" : "") + x.toFixed(d) + "%");
+const cl = (x) => (x == null ? "" : x > 0 ? "up" : x < 0 ? "down" : "");
+const now = () => Date.now() / 1000;
+const ago = (ts) => { if (!ts) return "–"; const s = Math.max(0, now() - ts); return s < 60 ? Math.floor(s) + "s" : s < 3600 ? Math.floor(s / 60) + "m" : s < 86400 ? (s / 3600).toFixed(s < 36000 ? 1 : 0) + "h" : Math.floor(s / 86400) + "d"; };
+const short = (a) => (a ? a.slice(0, 4) + "…" + a.slice(-4) : "");
+const MINT = /^[1-9A-HJ-NP-Za-km-z]{32,44}$/;
+const DS = "https://api.dexscreener.com", GT = "https://api.geckoterminal.com/api/v2";
+// GeckoTerminal allows ~30 calls a minute per address; after a refusal, rest it for a minute
+let geckoRestUntil = 0;
+const geckoOk = () => Date.now() > geckoRestUntil;
+const geckoFail = () => { geckoRestUntil = Date.now() + 60000; feeds.gecko = "err"; };
+async function getJSON(url, ms = 12000) {
+  const ctl = new AbortController(), t = setTimeout(() => ctl.abort(), ms);
+  try { const r = await fetch(url, { signal: ctl.signal }); if (!r.ok) throw new Error("HTTP " + r.status); return await r.json(); }
+  finally { clearTimeout(t); }
+}
+
+// ================================================================ read-only: no book, no orders (the paper screen is /trade)
+const book = { open: [] };
+const defaultPlan = () => "fresh";
+let plan = "fresh";
+
+// ================================================================ coins
+// one record per mint, filled from whichever feed sees it first
+const coins = new Map();
+let SOL = null;
+const feeds = { launches: "wait", dexscreener: "wait", gecko: "wait", safety: "wait", calls: "wait" };
+function coin(mint) {
+  let c = coins.get(mint);
+  if (!c) { c = { mint, src: {}, trades: [], buyers: new Set(), buys: 0, sells: 0 }; coins.set(mint, c); }
+  return c;
+}
+// live price, market cap and pool size, from our own trade stream when it is fresh, else DexScreener
+function live(c) {
+  const t = c.trades[c.trades.length - 1];
+  if (t && SOL && (!c.dsTs || t.t >= c.dsTs - 5)) {
+    const pool = c.vSol && !c.graduated ? 2 * c.vSol * SOL : c.liq;
+    return { price: t.price, mcap: t.mcapSol ? t.mcapSol * SOL : c.mcap, liq: pool, ts: t.t, from: "trades" };
+  }
+  return { price: c.price, mcap: c.mcap, liq: c.liq ?? curveLiq(c), ts: c.dsTs, from: "dexscreener" };
+}
+// pump.fun curve: virtual reserves start at 30 SOL x 1.073B tokens, so mcap in SOL = vSol^2 / 32.19
+function curveLiq(c) {
+  if (!SOL || !c.mcap || c.graduated || !(c.onCurve || (c.src.launch && !c.pair) || c.dex === "pumpfun")) return null;
+  const vSol = Math.sqrt(c.mcap / SOL * 32.19); return 2 * vSol * SOL;
+}
+function window5(c) {
+  const t0 = now() - 300; let vol = 0, b = 0, s = 0, first = null;
+  for (let i = c.trades.length - 1; i >= 0; i--) { const x = c.trades[i]; if (x.t < t0) break; vol += x.usd; x.buy ? b++ : s++; first = x; }
+  return { vol, b, s, first };
+}
+function heat(c) {
+  if (c.wsSince && now() - c.wsSince > 30) { const w = window5(c); return w.vol; }
+  return c.vol5 || 0;
+}
+function chg5(c) {
+  if (c.wsSince && now() - c.wsSince > 60) { const w = window5(c), l = live(c); return w.first && l.price ? (l.price / w.first.price - 1) * 100 : 0; }
+  return c.chg5;
+}
+function addTrade(c, m) {
+  if (!SOL) return;
+  const tok = +(m.tokenAmount || m.initialBuy) || 0, sol = +m.solAmount || 0, buy = m.txType === "buy" || m.txType === "create";
+  // on the curve the spot price is vSol / vTokens; on a pool, the fill price
+  const price = (m.vSolInBondingCurve && m.vTokensInBondingCurve ? m.vSolInBondingCurve / m.vTokensInBondingCurve : tok ? sol / tok : 0) * SOL;
+  if (!isFinite(price) || price <= 0) return;
+  c.trades.push({ t: now(), buy, sol, usd: sol * SOL, price, mcapSol: m.marketCapSol, who: m.traderPublicKey });
+  if (c.trades.length > 4000) c.trades.splice(0, 1000);
+  buy ? c.buys++ : c.sells++;
+  if (m.traderPublicKey) c.buyers.add(m.traderPublicKey);
+  if (m.vSolInBondingCurve) c.vSol = m.vSolInBondingCurve;
+  if (m.marketCapSol) c.mcap = m.marketCapSol * SOL;
+  c.price = price;
+  if (c.mint === sel) { liveCandle(c, price); dirtyCoin = true; }
+  dirtyList = true;
+}
+
+// ================================================================ PumpPortal: launches, graduations, trades (one websocket, straight from the browser)
+// per-coin trade streams need a funded PumpPortal API key (not used here); launches and graduations are free
+let ws = null, wsKeys = new Set(), wsBackoff = 1, tradeStream = false;
+function connectWS() {
+  feeds.launches = "wait";
+  ws = new WebSocket("wss://pumpportal.fun/api/data");
+  ws.onopen = () => {
+    wsBackoff = 1; feeds.launches = "live"; wsKeys = new Set();
+    ws.send(JSON.stringify({ method: "subscribeNewToken" }));
+    ws.send(JSON.stringify({ method: "subscribeMigration" }));
+    syncKeys();
+  };
+  ws.onmessage = (e) => {
+    let m; try { m = JSON.parse(e.data); } catch (x) { return; }
+    if (m && m.message && /API key/i.test(m.message)) { tradeStream = false; return; }
+    if (!m || m.message || !m.mint) return;
+    const c = coin(m.mint);
+    if (m.txType === "create") {
+      c.sym = m.symbol; c.name = m.name; c.born = now(); c.src.launch = now(); if (tradeStream) c.wsSince = now();
+      c.devPct = m.initialBuy ? m.initialBuy / 1e9 * 100 : 0; c.dev = m.traderPublicKey; c.pool = m.pool;
+      addTrade(c, m); if (tradeStream) subscribe([m.mint]); needDs.add(m.mint); trimLaunches();
+    } else if (m.txType === "migrate") {
+      c.src.grad = now(); c.graduated = true; if (!c.sym) needDs.add(m.mint); queueCheck(m.mint, 2);
+    } else if (m.txType === "buy" || m.txType === "sell") {
+      addTrade(c, m);
+    }
+    dirtyList = true;
+  };
+  ws.onclose = () => { feeds.launches = "err"; setTimeout(connectWS, Math.min(30, wsBackoff *= 2) * 1000); };
+  ws.onerror = () => { try { ws.close(); } catch (x) {} };
+}
+function subscribe(keys) {
+  keys = keys.filter((k) => !wsKeys.has(k)); if (!keys.length || !ws || ws.readyState !== 1) return;
+  keys.forEach((k) => wsKeys.add(k)); ws.send(JSON.stringify({ method: "subscribeTokenTrade", keys }));
+}
+function unsubscribe(keys) {
+  keys = keys.filter((k) => wsKeys.has(k)); if (!keys.length || !ws || ws.readyState !== 1) return;
+  keys.forEach((k) => wsKeys.delete(k)); ws.send(JSON.stringify({ method: "unsubscribeTokenTrade", keys }));
+}
+// follow trades for: launches under 20 minutes old (newest 80), the selected coin, open positions
+function syncKeys() {
+  if (!tradeStream) return;
+  const t = now(), want = new Set();
+  [...coins.values()].filter((c) => c.src.launch && t - c.src.launch < 1200).sort((a, b) => b.src.launch - a.src.launch).slice(0, 80).forEach((c) => want.add(c.mint));
+  if (sel) want.add(sel); book.open.forEach((p) => want.add(p.mint));
+  subscribe([...want]); unsubscribe([...wsKeys].filter((k) => !want.has(k)));
+  for (const k of want) { const c = coins.get(k); if (c && !c.wsSince) c.wsSince = t; }
+  for (const c of coins.values()) if (c.wsSince && !want.has(c.mint)) c.wsSince = null;
+}
+// launches that went nowhere after 20 minutes are dropped so the list stays short
+function trimLaunches() {
+  const t = now();
+  for (const [k, c] of coins) {
+    if (k === sel || book.open.some((p) => p.mint === k)) continue;
+    const only = Object.keys(c.src).length === 1 && c.src.launch;
+    if (only && t - c.src.launch > 1200 && (c.mcap || 0) < 30000) coins.delete(k);
+  }
+}
+
+// ================================================================ DexScreener / GeckoTerminal, straight from the browser
+const needDs = new Set();
+function mergeDs(pairs) {
+  const by = {};
+  for (const p of pairs || []) {
+    if (p.chainId !== "solana" || !p.baseToken) continue;
+    const m = p.baseToken.address; if (!coins.has(m)) continue;
+    if (!by[m] || (p.liquidity?.usd || 0) > (by[m].liquidity?.usd || 0)) by[m] = p;
+  }
+  const t = now();
+  for (const [m, p] of Object.entries(by)) {
+    const c = coins.get(m);
+    c.sym = c.sym || p.baseToken.symbol; c.name = c.name || p.baseToken.name;
+    c.price = +p.priceUsd || c.price; c.liq = p.liquidity?.usd ?? c.liq; c.mcap = p.marketCap || p.fdv || c.mcap;
+    c.pair = p.pairAddress; c.dex = p.dexId; c.volH1 = p.volume?.h1; c.vol5 = p.volume?.m5; c.chg5 = p.priceChange?.m5; c.chg1h = p.priceChange?.h1;
+    c.tx5 = p.txns?.m5; c.born = c.born || (p.pairCreatedAt ? p.pairCreatedAt / 1000 : null); c.dsTs = t;
+    c.onCurve = p.dexId === "pumpfun"; if (c.onCurve) c.liq = null;
+  }
+  return by;
+}
+async function dsBatch(mints) {
+  const out = {};
+  for (let i = 0; i < mints.length; i += 30) {
+    const chunk = mints.slice(i, i + 30);
+    try { Object.assign(out, mergeDs(await getJSON(`${DS}/tokens/v1/solana/${chunk.join(",")}`))); feeds.dexscreener = "live"; }
+    catch (e) { feeds.dexscreener = "err"; }
+  }
+  return out;
+}
+async function solPrice() {
+  try {
+    const d = await getJSON(`${DS}/tokens/v1/solana/So11111111111111111111111111111111111111112`);
+    const p = (d || []).filter((x) => x.quoteToken?.symbol?.includes("USD")).sort((a, b) => (b.liquidity?.usd || 0) - (a.liquidity?.usd || 0))[0];
+    if (p) SOL = +p.priceUsd;
+  } catch (e) {}
+}
+// keep visible rows, the selected coin and positions priced
+let refreshing = false;
+async function refresh() {
+  if (refreshing) return; refreshing = true;
+  try {
+    const t = now(), rows = rowsForTab().slice(0, 40).map((c) => c.mint);
+    const young = [...coins.values()].filter((c) => c.src.launch && t - c.src.launch < 900).sort((a, b) => b.src.launch - a.src.launch).slice(0, 40).map((c) => c.mint);
+    rows.push(...young);
+    const want = new Set([...needDs, ...rows, ...book.open.map((p) => p.mint), sel].filter(Boolean));
+    needDs.clear();
+    const list = [...want].filter((m) => { const c = coins.get(m); return c && (!c.dsTs || t - c.dsTs > 5) && !(c.wsSince && t - (c.trades.at(-1)?.t || 0) < 20 && !c.pair); });
+    if (list.length) await dsBatch(list.slice(0, 120));
+    const cs = coins.get(sel); if (cs && cs.price && !(cs.trades.at(-1)?.t > t - 10)) liveCandle(cs, cs.price);
+    // a launch that just got listed: fetch its history once it has a pool
+    if (cs && cs.pair && bars.length < 3 && !chartBusy && t - chartTry > 20) loadChart(cs);
+    dirtyList = dirtyCoin = true;
+  } finally { refreshing = false; }
+}
+// Fresh: pools under 6 hours old that already trade
+async function discover() {
+  const found = new Set();
+  if (geckoOk()) try {
+    for (const page of [1, 2]) {
+      const d = await getJSON(`${GT}/networks/solana/new_pools?page=${page}`);
+      for (const p of d.data || []) { const id = p.relationships?.base_token?.data?.id || ""; const m = id.replace(/^solana_/, ""); if (MINT.test(m)) found.add(m); }
+    }
+    feeds.gecko = "live";
+  } catch (e) { geckoFail(); }
+  try {
+    const [prof, boost] = await Promise.all([getJSON(`${DS}/token-profiles/latest/v1`).catch(() => []), getJSON(`${DS}/token-boosts/latest/v1`).catch(() => [])]);
+    for (const x of [...(prof || []), ...(boost || [])]) if (x.chainId === "solana" && MINT.test(x.tokenAddress)) found.add(x.tokenAddress);
+  } catch (e) {}
+  const fresh = [...found].filter((m) => !coins.has(m) || !coins.get(m).src.fresh);
+  fresh.forEach((m) => coin(m));
+  await dsBatch(fresh);
+  const t = now();
+  for (const m of found) {
+    const c = coins.get(m); if (!c) continue;
+    const ok = c.born && t - c.born < 6 * 3600 && (c.liq || 0) >= 5000 && (c.volH1 || 0) >= 10000;
+    if (ok) c.src.fresh = t; else if (!c.src.fresh && Object.keys(c.src).length === 0 && m !== sel) coins.delete(m);
+  }
+  dirtyList = true;
+}
+// Calls: the Telegram channels (the server reads them; Telegram has no browser API)
+let callsCache = [];
+async function pollCalls() {
+  try {
+    const r = await fetch("/api/calls"); const d = await r.json(); if (!r.ok) throw 0;
+    callsCache = d.calls || [];
+    for (const x of callsCache) { if (!MINT.test(x.mint || "")) continue; const c = coin(x.mint); c.src.call = x.ts; c.call = x; c.sym = c.sym || x.ticker; }
+    await dsBatch(callsCache.map((x) => x.mint).filter((m) => MINT.test(m || "")));
+    feeds.calls = "live";
+  } catch (e) { feeds.calls = "err"; }
+  dirtyList = true;
+}
+
+// ================================================================ safety (server: RugCheck + the desk's kill rules)
+const checks = {}; const checkQ = []; let checking = 0;
+function checkFresh(m) { const k = checks[m]; if (!k || k.run) return false; const c = coins.get(m); const young = c && c.born && now() - c.born < 900; return now() - k.ts < (young ? 120 : 600); }
+function queueCheck(m, pri = 1) {
+  if (checkFresh(m) || checks[m]?.run || checkQ.some((x) => x.m === m)) return;
+  checkQ.push({ m, pri }); checkQ.sort((a, b) => b.pri - a.pri); if (checkQ.length > 30) checkQ.length = 30; pumpChecks();
+}
+function pumpChecks() {
+  while (checking < 3 && checkQ.length) {
+    const { m } = checkQ.shift(); checking++; checks[m] = { ...(checks[m] || {}), run: true };
+    runCheck(m).finally(() => { checking--; pumpChecks(); });
+  }
+}
+async function runCheck(m) {
+  try {
+    const r = await fetch(`/api/check?mint=${m}`); const d = await r.json();
+    if (!r.ok) throw new Error(d.error || "HTTP " + r.status);
+    checks[m] = { ...d, ts: now() }; feeds.safety = "live";
+  } catch (e) { checks[m] = { safety: "unknown", safety_why: "safety check could not run: " + e.message, ts: now() - 590 }; feeds.safety = "err"; }
+  dirtyList = true; if (m === sel) dirtyCoin = true;
+  return checks[m];
+}
+function autoChecks() {
+  for (const c of rowsForTab().slice(0, 25)) {
+    const hot = c.src.grad || c.src.call || c.src.fresh || (c.tx5?.buys || 0) >= 15 || (c.mcap || 0) >= 9000;
+    if (hot) queueCheck(c.mint, c.src.grad ? 2 : 1);
+  }
+}
+
+// ================================================================ list
+let tab = "all", sortBy = "hot", sel = null, tf = "1m";
+try { tab = localStorage.getItem("trench-tab") || tab; sortBy = localStorage.getItem("trench-sort") || sortBy; } catch (e) {}
+const TABS = [["all", "All"], ["launch", "Launches"], ["grad", "Graduated"], ["fresh", "Fresh"], ["call", "Calls"]];
+function rowsForTab() {
+  let r = [...coins.values()].filter((c) => (c.sym || c.price) && (tab === "all" ? Object.keys(c.src).length : c.src[tab]));
+  if (tab === "all") r = r.filter((c) => !(c.src.launch && Object.keys(c.src).length === 1 && now() - c.src.launch > 120 && (c.tx5?.buys || 0) + (c.wsSince ? c.buys : 0) < 8));
+  const key = sortBy === "new" ? (c) => -(c.src[tab] || c.src.launch || c.src.grad || c.src.call || c.src.fresh || c.born || 0) : (c) => -heat(c);
+  return r.sort((a, b) => key(a) - key(b));
+}
+function srcLabel(c) {
+  const s = [];
+  if (c.src.call) s.push("call " + ago(c.src.call)); if (c.src.grad) s.push("graduated " + ago(c.src.grad));
+  if (c.src.launch && !c.src.grad) s.push("curve"); if (c.src.fresh && !c.src.launch) s.push(c.dex || "pool");
+  return s.join(" · ");
+}
+function paintTabs() {
+  const n = (k) => [...coins.values()].filter((c) => (c.sym || c.price) && c.src[k]).length;
+  $("tabs").innerHTML = TABS.map(([k, l]) => `<button data-tab="${k}" aria-pressed="${tab === k}">${l}${k === "all" ? "" : ` <span class="faint">${n(k)}</span>`}</button>`).join("")
+    + `<button class="sort" data-sort="${sortBy === "hot" ? "new" : "hot"}">${sortBy === "hot" ? "Hot ↓" : "New ↓"}</button>`;
+}
+$("tabs").addEventListener("click", (e) => {
+  const b = e.target.closest("button"); if (!b) return;
+  if (b.dataset.tab) tab = b.dataset.tab; if (b.dataset.sort) sortBy = b.dataset.sort;
+  try { localStorage.setItem("trench-tab", tab); localStorage.setItem("trench-sort", sortBy); } catch (x) {}
+  dirtyList = true;
+});
+function sdot(m) { const k = checks[m]; const cls = !k ? "" : k.run ? "run" : k.safety; return `<i class="sdot ${cls}" title="${esc(k ? (k.run ? "checking" : k.safety_why || k.safety) : "not checked")}"></i>`; }
+let visible = [];
+function paintList() {
+  visible = rowsForTab().slice(0, 120);
+  if (!visible.length) { $("list").innerHTML = `<div class="empty">${feeds.launches === "live" ? "Waiting for coins…" : "Connecting to the launch feed…"}</div>`; return; }
+  $("list").innerHTML = visible.map((c) => {
+    const l = live(c), h = heat(c), ch = chg5(c), pass = checks[c.mint]?.safety === "pass" && checkFresh(c.mint);
+    const flow = c.wsSince ? (() => { const w = window5(c); return `${w.b}<span class="faint">/</span>${w.s}`; })() : c.tx5 ? `${c.tx5.buys}<span class="faint">/</span>${c.tx5.sells}` : "–";
+    return `<div class="row${c.mint === sel ? " sel" : ""}" data-m="${c.mint}">
+      ${sdot(c.mint)}
+      <div style="min-width:0"><div class="sym">${esc(c.sym || short(c.mint))} <span class="faint" style="font-weight:400">${ago(c.born || c.src.launch)}</span></div><div class="sub">${vtag(c.mint)}${esc(srcLabel(c))}</div></div>
+      <div class="r num ${cl(ch)}">${pc(ch)}</div>
+      <div class="r num">${usd(l.mcap)}</div>
+      <div class="r num"><div>${h ? usd(h) : "–"}</div><div class="sub">${flow}</div></div>
+    </div>`;
+  }).join("");
+}
+$("list").addEventListener("click", (e) => {
+  const r = e.target.closest(".row"); if (r) select(r.dataset.m);
+});
+
+// ================================================================ chart
+const LWC = window.LightweightCharts;
+let chart = null, series = null, volSeries = null, bars = [], barSec = 60, lines = [];
+function ensureChart() {
+  const el = $("chart"); if (!el || !LWC) return false;
+  if (chart && el.dataset.on) return true;
+  chart = LWC.createChart(el, { layout: { background: { color: "transparent" }, textColor: "#7d8894", fontSize: 11 }, grid: { vertLines: { color: "#161b21" }, horzLines: { color: "#161b21" } },
+    rightPriceScale: { borderColor: "#1f252c", minimumWidth: 92 }, localization: { priceFormatter: (p) => tinyPx(p) }, timeScale: { borderColor: "#1f252c", timeVisible: true, secondsVisible: true }, crosshair: { mode: 0 }, autoSize: true });
+  series = chart.addCandlestickSeries({ upColor: "#2fbf71", downColor: "#f0564a", borderVisible: false, wickUpColor: "#2fbf71", wickDownColor: "#f0564a" });
+  volSeries = chart.addHistogramSeries({ priceFormat: { type: "volume" }, priceScaleId: "", color: "#26303a", lastValueVisible: false, priceLineVisible: false });
+  volSeries.priceScale().applyOptions({ scaleMargins: { top: 0.82, bottom: 0 } });
+  el.dataset.on = "1"; return true;
+}
+function setPrecision(p) {
+  if (!series || !p) return; const z = p >= 1 ? 4 : Math.min(12, Math.floor(-Math.log10(p)) + 4);
+  series.applyOptions({ priceFormat: { type: "custom", minMove: Math.pow(10, -z), formatter: tinyPx } });
+}
+function barsFromTrades(c, sec) {
+  const out = []; let cur = null;
+  for (const t of c.trades) {
+    const b = Math.floor(t.t / sec) * sec;
+    if (!cur || cur.time !== b) { if (cur) out.push(cur); cur = { time: b, open: cur ? cur.close : t.price, high: t.price, low: t.price, close: t.price, v: 0 }; cur.high = Math.max(cur.open, t.price); cur.low = Math.min(cur.open, t.price); }
+    cur.high = Math.max(cur.high, t.price); cur.low = Math.min(cur.low, t.price); cur.close = t.price; cur.v += t.usd;
+  }
+  if (cur) out.push(cur); return out;
+}
+function drawBars() {
+  if (!series) return;
+  series.setData(bars.map(({ time, open, high, low, close }) => ({ time, open, high, low, close })));
+  volSeries.setData(bars.map((b) => ({ time: b.time, value: b.v || 0, color: b.close >= b.open ? "#1d3a2b" : "#3a1f1f" })));
+  if (bars.length) setPrecision(bars[bars.length - 1].close);
+  drawLines();
+}
+function drawLines() {
+  if (!series) return; lines.forEach((l) => series.removePriceLine(l)); lines = [];
+  const d = V[sel]?.seats.chart?.d; if (!d || !d.high60) return;
+  lines.push(series.createPriceLine({ price: d.high60, color: "#7d8894", lineWidth: 1, lineStyle: 2, title: "60m high" }));
+  lines.push(series.createPriceLine({ price: d.high60 * 0.93, color: "#2fbf71", lineWidth: 1, lineStyle: 3, title: "−7%" }));
+  lines.push(series.createPriceLine({ price: d.high60 * 0.70, color: "#d9a441", lineWidth: 1, lineStyle: 3, title: "−30%" }));
+}
+function liveCandle(c, price, vol = 0) {
+  if (!series || c.mint !== sel || !price) return;
+  const t = Math.floor(now() / barSec) * barSec, last = bars[bars.length - 1];
+  if (last && last.time === t) { last.high = Math.max(last.high, price); last.low = Math.min(last.low, price); last.close = price; last.v += vol; }
+  else if (!last || t > last.time) bars.push({ time: t, open: last ? last.close : price, high: Math.max(price, last ? last.close : price), low: Math.min(price, last ? last.close : price), close: price, v: vol });
+  else return;
+  const b = bars[bars.length - 1]; series.update({ time: b.time, open: b.open, high: b.high, low: b.low, close: b.close });
+}
+const TFS = { "15s": 15, "1m": 60, "5m": 300, "15m": 900 };
+let chartSt = "";
+let chartBusy = false, chartTry = 0;
+async function loadChart(c) { chartBusy = true; chartTry = now(); try { await loadChart0(c); } finally { chartBusy = false; } }
+async function loadChart0(c) {
+  barSec = TFS[tf]; bars = []; chartSt = "loading…"; paintChartSt();
+  const fromTrades = c.wsSince && c.src.launch && c.trades.length > 1 && c.trades[0].t <= (c.born || 0) + 5;
+  if (fromTrades || !c.pair) {
+    if (c.trades.length) { bars = barsFromTrades(c, barSec); drawBars(); chartSt = `from live trades since ${ago(c.trades[0].t)} ago`; }
+    else chartSt = c.pair ? "" : "not listed yet: the chart starts when DexScreener lists it (about a minute after launch)";
+    if (!c.pair) { paintChartSt(); return; }
+    if (fromTrades) { paintChartSt(); return; }
+  }
+  if (barSec < 60) { bars = barsFromTrades(c, barSec); drawBars(); chartSt = "15s bars come from live trades only"; paintChartSt(); return; }
+  const [unit, agg] = barSec >= 3600 ? ["hour", 1] : ["minute", barSec / 60], want = tf;
+  const toBars = (list) => (list || []).filter((b) => b.length >= 6 && b.slice(0, 5).every((v) => v != null)).map((b) => ({ time: b[0], open: b[1], high: b[2], low: b[3], close: b[4], v: b[5] })).sort((a, b) => a.time - b.time);
+  let got = null;
+  if (geckoOk()) {
+    try { got = toBars((await getJSON(`${GT}/networks/solana/pools/${c.pair}/ohlcv/${unit}?aggregate=${agg}&limit=300&currency=usd&token=${c.mint}`)).data?.attributes?.ohlcv_list); feeds.gecko = "live"; }
+    catch (e) { geckoFail(); }
+  }
+  // GeckoTerminal refused this browser (rate limit): ask the server, which also has the trades
+  if (!got) {
+    try { const d = await (await fetch(`/api/coin?mint=${c.mint}&tf=${want}`)).json(); got = toBars(d.candles); if (d.trades?.length && sel === c.mint && !geckoTrades.length) { geckoTrades = d.trades.map((t) => ({ t: Date.parse(t.ts) / 1000, buy: t.side === "buy", usd: t.usd, who: t.wallet })); dirtyCoin = true; } }
+    catch (e) {}
+  }
+  if (sel !== c.mint || tf !== want) return;
+  if (got && got.length) { bars = got; drawBars(); chartSt = ""; }
+  else { chartSt = "chart busy: retrying in 15 s"; setTimeout(() => sel === c.mint && tf === want && loadChart(c), 15000); }
+  paintChartSt();
+}
+function paintChartSt() { const e = $("chart-st"); if (e) e.textContent = chartSt; }
+
+// ================================================================ coin view
+let dirtyList = true, dirtyCoin = true;
+async function select(m) {
+  if (!MINT.test(m || "")) return;
+  const c = coin(m); if (!Object.keys(c.src).length) c.src.search = now();
+  const changed = sel !== m; sel = m; plan = defaultPlan(c);
+  try { localStorage.setItem("trench-sel", m); } catch (e) {}
+  if (changed) { paintCoinShell(c); if (tradeStream) { subscribe([m]); if (!c.wsSince) c.wsSince = now(); } }
+  queueCheck(m, 3);
+  clearTimeout(verifyTimer); verifyTimer = setTimeout(() => { if (sel === m) startVerify(m); }, 500);
+  if (!c.dsTs || now() - c.dsTs > 5) await dsBatch([m]);
+  if (sel !== m) return;
+  if (changed) { paintCoinShell(c); loadChart(c); loadTrades(c); }
+  dirtyList = dirtyCoin = true;
+}
+function paintCoinShell(c) {
+  $("coin").innerHTML = `
+    <div class="chead">
+      <h1 id="c-sym"></h1><span class="dim" id="c-name"></span>
+      <button class="ca" id="c-ca" title="Copy the contract address (C)">${short(c.mint)} ⧉</button>
+      <div class="links">
+        <a target="_blank" rel="noopener" href="https://dexscreener.com/solana/${c.mint}">DexScreener</a>
+        <a target="_blank" rel="noopener" href="https://pump.fun/coin/${c.mint}">pump.fun</a>
+        <a target="_blank" rel="noopener" href="https://gmgn.ai/sol/token/${c.mint}">GMGN</a>
+        <a target="_blank" rel="noopener" href="https://app.bubblemaps.io/sol/token/${c.mint}">Bubblemaps</a>
+        <a target="_blank" rel="noopener" href="https://solscan.io/token/${c.mint}">Solscan</a>
+      </div>
+    </div>
+    <div class="stats" id="c-stats"></div>
+    <div class="tfs" id="c-tfs">${Object.keys(TFS).map((k) => `<button data-tf="${k}" aria-pressed="${k === tf}">${k}</button>`).join("")}<span class="st" id="chart-st"></span></div>
+    <div id="chart"></div>
+    <div class="two"><div><h3>Top holders</h3><div id="c-holders"></div></div><div><h3>Trades</h3><div id="c-trades"></div></div></div>
+    <div class="callbox" id="c-call" hidden></div>`;
+  chart = null; ensureChart();
+  $("c-ca").onclick = () => copyCA();
+  $("c-tfs").onclick = (e) => { const b = e.target.closest("[data-tf]"); if (!b) return; tf = b.dataset.tf; $("c-tfs").querySelectorAll("[data-tf]").forEach((x) => x.setAttribute("aria-pressed", x.dataset.tf === tf)); loadChart(coins.get(sel)); };
+  paintVerify();
+}
+let geckoTrades = [], tradesSt = "";
+async function loadTrades(c) {
+  geckoTrades = []; tradesSt = "";
+  if (c.wsSince && c.trades.length && !c.pair) return;
+  if (!c.pair) return;
+  if (!geckoOk()) { tradesSt = "loading trades…"; return; }   // the chart's server fallback brings them
+  try {
+    const d = await getJSON(`${GT}/networks/solana/pools/${c.pair}/trades?trade_volume_in_usd_greater_than=1`);
+    if (sel !== c.mint) return;
+    geckoTrades = (d.data || []).slice(0, 30).map((t) => ({ t: Date.parse(t.attributes.block_timestamp) / 1000, buy: t.attributes.kind === "buy", usd: +t.attributes.volume_in_usd, who: t.attributes.tx_from_address }));
+  } catch (e) { geckoFail(); tradesSt = "loading trades…"; }
+  dirtyCoin = true;
+}
+function paintCoin() {
+  const c = coins.get(sel); if (!c || !$("c-stats")) return;
+  const l = live(c), k = checks[c.mint], w = window5(c);
+  $("c-sym").textContent = c.sym || short(c.mint); $("c-name").textContent = c.name || "";
+  const cells = [["Price", px(l.price)], ["Market cap", usd(l.mcap)], [c.liq == null && l.liq ? "Curve pool" : "Liquidity", usd(l.liq)],
+    ["Age", ago(c.born || c.src.launch)], ["5m", `<span class="${cl(chg5(c))}">${pc(chg5(c), 1)}</span>`], ["1h", `<span class="${cl(c.chg1h)}">${pc(c.chg1h, 0)}</span>`],
+    ["Vol 5m", usd(c.wsSince && c.trades.length ? w.vol : c.vol5)], ["Vol 1h", usd(c.volH1)],
+    ["Holders", k?.holders ?? "–"], ["Top 10", k?.top10 != null ? k.top10.toFixed(1) + "%" : "–"], ["Dev", c.devPct != null ? c.devPct.toFixed(1) + "% at launch" : k?.dev_pct != null ? k.dev_pct.toFixed(1) + "%" : "–"],
+    ["Txns 5m", c.wsSince && c.trades.length ? `${w.b} / ${w.s}` : c.tx5 ? `${c.tx5.buys} / ${c.tx5.sells}` : "–"]];
+  $("c-stats").innerHTML = cells.map(([a, b]) => `<div><span>${a}</span><b class="num">${b}</b></div>`).join("");
+  $("c-holders").innerHTML = k && k.top_holders ? (k.top_holders.length ? `<table>${k.top_holders.map((h) => `<tr><td><a class="dim" style="text-decoration:none" target="_blank" rel="noopener" href="https://solscan.io/account/${esc(h.owner)}">${short(h.owner)}</a>${h.owner === c.dev ? ' <span class="faint">dev</span>' : ""}</td><td class="r num">${h.pct != null ? h.pct.toFixed(2) + "%" : "–"}</td></tr>`).join("")}</table>` : `<div class="dim">none listed</div>`) : `<div class="dim">${k && !k.run ? "unavailable" : "Checking…"}</div>`;
+  // trades: ours from the websocket, else GeckoTerminal's
+  const tr = c.wsSince && c.trades.length ? c.trades.slice(-30).reverse() : geckoTrades;
+  $("c-trades").innerHTML = tr.length ? `<table>${tr.slice(0, 30).map((t) => `<tr><td class="${t.buy ? "up" : "down"}">${t.buy ? "buy" : "sell"}</td><td class="num">${usd(t.usd, t.usd < 10 ? 2 : 0)}</td><td class="dim">${short(t.who)}</td><td class="r faint num">${ago(t.t)}</td></tr>`).join("")}</table>` : `<div class="dim">${tradesSt || "no trades yet"}</div>`;
+  const cb = $("c-call");
+  if (c.call) { cb.hidden = false; cb.textContent = `${c.call.channel} · ${ago(c.call.ts)} ago\n\n${c.call.text}`; } else cb.hidden = true;
+  paintVerify();
+}
+
+// ================================================================ verification desk: three seats in parallel, then a verdict
+// Each seat is one /api/verify call running the scanner's rules (memecoin-scanner/rules.py) on what it fetched.
+const SEATS = [["chart", "Chart & flow"], ["safety", "Safety"], ["dev", "Dev history"]];
+const SEAT_STAGE = { chart: "gate", safety: "contract", dev: "dev" };
+const STAGE_ORDER = ["gate", "contract", "liquidity", "holders", "dev", "flow"];
+const STAGE_LABEL = { gate: "Gate", contract: "Contract", liquidity: "Liquidity", holders: "Holders", dev: "Dev history", flow: "Flow" };
+const VOL30_A = 117000;
+const ICON = { pass: "✓", fail: "✗", warn: "!", unknown: "?", info: "·" };
+// The Claude reviewers page (claude.ai, your own Claude account: no API key)
+const REVIEW_URL = "https://claude.ai/artifact/1H697Ngff1iiVzQkRbaDEA";
+const V = {};
+let verifyTimer = null;
+function startVerify(m, force) {
+  const v = V[m];
+  if (v && !force && (Object.values(v.seats).some((s) => s.state === "run") || now() - v.ts < 120)) return;
+  V[m] = { ts: now(), seats: {}, packet: null };
+  for (const [s] of SEATS) {
+    V[m].seats[s] = { state: "run", t0: now() };
+    fetch(`/api/verify?mint=${m}&seat=${s}`).then(async (r) => {
+      const d = await r.json(); if (!r.ok) throw new Error(d.error || "HTTP " + r.status);
+      V[m].seats[s] = { state: "done", d, secs: now() - V[m].seats[s].t0 };
+    }).catch((e) => { V[m].seats[s] = { state: "err", err: e.message }; })
+      .finally(() => { if (V[m].ts && Object.values(V[m].seats).every((x) => x.state !== "run")) makePacket(m); dirtyCoin = dirtyList = true; if (m === sel) drawLines(); });
+  }
+  dirtyCoin = dirtyList = true;
+}
+// the scanner's verdict logic (rules.evaluate), over the three seats' checks
+function combine(v) {
+  if (!v) return null;
+  if (Object.values(v.seats).some((s) => s.state === "run")) return { verdict: "RUNNING" };
+  const checks = [];
+  for (const [s, name] of SEATS) {
+    const x = v.seats[s];
+    if (x.state === "done") checks.push(...x.d.checks);
+    else checks.push({ stage: SEAT_STAGE[s], id: s + "-seat", label: name + " seat", status: "unknown", value: x.err || "did not answer", note: "" });
+  }
+  checks.sort((a, b) => STAGE_ORDER.indexOf(a.stage) - STAGE_ORDER.indexOf(b.stage));
+  const chart = v.seats.chart.d || {}, fails = checks.filter((c) => c.status === "fail");
+  const unknown = checks.filter((c) => c.status === "unknown" && c.stage !== "flow");
+  const pull = checks.some((c) => c.id === "pullback" && c.status === "pass");
+  let verdict, reason;
+  if (fails.length) { verdict = "SKIP"; reason = `${STAGE_LABEL[fails[0].stage]}: ${fails[0].label} — ${fails[0].value}`; }
+  else if (unknown.length) { verdict = "INCOMPLETE"; reason = "Check by hand: " + unknown.map((c) => c.label).join(", "); }
+  else if ((chart.vol30 || 0) >= VOL30_A && pull && chart.in_window) { verdict = "A-SETUP"; reason = "High volume, pulled back, in window, every check passed."; }
+  else if (chart.in_window) { verdict = "GO"; reason = "Gate and dossier pass."; }
+  else { verdict = "GO · HALF SIZE"; reason = "Passes, but outside 00–08 UTC: half size."; }
+  return { verdict, reason, checks };
+}
+const vcls = (v) => v === "GO · HALF SIZE" ? "HALF" : v;
+function vtag(m) { const r = combine(V[m]); return r && r.verdict !== "RUNNING" ? `<span class="vtag ${vcls(r.verdict)}">${esc(r.verdict)}</span> ` : ""; }
+// the packet for the Claude page: "z" + hex(deflate-raw(JSON)), carried in the link's #hash
+const hex = (b) => Array.from(b, (x) => x.toString(16).padStart(2, "0")).join("");
+async function makePacket(m) {
+  const v = V[m], r = combine(v); if (!r || r.verdict === "RUNNING") return;
+  const any = v.seats.chart.d || v.seats.safety.d || v.seats.dev.d || {}, ch = v.seats.chart.d || {}, c = coins.get(m) || {};
+  const p = { v: 1, mint: m, symbol: any.symbol || c.sym, name: any.name || c.name, launchpad: (v.seats.dev.d || v.seats.safety.d || {}).launchpad, dex: any.dex,
+    ts: Math.round(v.ts), price: any.price, mcap: any.mcap, liquidity: any.liquidity, vol30: ch.vol30, vol_h1: any.vol_h1, off_high: ch.off_high, high60: ch.high60,
+    verdict: r.verdict, reason: r.reason, checks: r.checks.map(({ stage, id, label, status, value, rule, tag, note }) => ({ stage, id, label, status, value, rule, tag, note })),
+    candles: ch.candles || [], dev: v.seats.dev.d?.dev || null };
+  const raw = new TextEncoder().encode(JSON.stringify(p));
+  try { const z = new Uint8Array(await new Response(new Blob([raw]).stream().pipeThrough(new CompressionStream("deflate-raw"))).arrayBuffer()); v.packet = "z" + hex(z); }
+  catch (e) { v.packet = "j" + hex(raw); }
+  dirtyCoin = true;
+}
+function paintVerify() {
+  const c = coins.get(sel); if (!c) return;
+  const v = V[sel], r = combine(v), t = now();
+  const seat = ([s, name]) => {
+    const x = v?.seats[s];
+    if (!x || x.state === "run") return `<div class="seat"><div class="sh"><b>${name}</b><span>${x ? Math.round(t - x.t0) + " s" : ""}</span></div><div class="running">checking</div></div>`;
+    if (x.state === "err") return `<div class="seat"><div class="sh"><b>${name}</b><span>failed</span></div><div class="s-unknown" style="font-size:12px">${esc(x.err)}</div></div>`;
+    return `<div class="seat"><div class="sh"><b>${name}</b><span>${x.secs.toFixed(1)} s</span></div><table>${x.d.checks.map((k) =>
+      `<tr title="${esc([k.rule && "rule " + k.rule, k.tag, k.note].filter(Boolean).join(" · "))}"><td class="s-${k.status}">${ICON[k.status] || ""}</td><td>${esc(k.label)}</td><td class="r">${esc(k.value)}</td></tr>`).join("")}</table></div>`;
+  };
+  const ban = !r ? "" : r.verdict === "RUNNING" ? `<div class="vban"><span class="running">Three seats checking ${esc(c.sym || short(c.mint))}</span></div>`
+    : `<div class="vban ${vcls(r.verdict)}"><b>${esc(r.verdict)}</b><span class="why">${esc(r.reason)}</span><span class="faint" style="font-size:11px">checked ${ago(v.ts)} ago · scanner rules</span></div>`;
+  const ready = v && v.packet;
+  $("verify").innerHTML = `${ban}${SEATS.map(seat).join("")}
+    <div class="cl">
+      <a class="go" target="_blank" rel="noopener" ${ready ? `href="${REVIEW_URL}#${v.packet}"` : 'aria-disabled="true"'}>Ask Claude ↗</a>
+      <button id="v-copy" ${ready ? "" : "disabled"}>Copy for Claude</button>
+      <button id="v-again">Check again</button>
+    </div>
+    <div class="msg" id="v-msg">${ready ? "Claude reviews it on your own Claude account: three reviewers, then a judge." : ""}</div>
+    <div class="links" style="flex-wrap:wrap"><a target="_blank" rel="noopener" href="https://axiom.trade/meme/${c.pair || c.mint}">Axiom</a><a target="_blank" rel="noopener" href="https://jup.ag/swap/SOL-${c.mint}">Jupiter</a></div>
+    <div class="keys"><kbd>↑</kbd><kbd>↓</kbd> move · <kbd>V</kbd> check again · <kbd>A</kbd> ask Claude · <kbd>C</kbd> copy address · <kbd>/</kbd> search</div>`;
+  $("v-again").onclick = () => startVerify(sel, true);
+  const cp = $("v-copy"); if (cp && ready) cp.onclick = () => navigator.clipboard?.writeText(v.packet).then(() => { $("v-msg").textContent = "Copied. Paste it into the Trench Review page."; }).catch(() => { $("v-msg").textContent = "Copy was blocked: use Ask Claude instead."; });
+}
+
+// ================================================================ header, search, keys
+function paintFeeds() {
+  const n = { launches: "Launches", dexscreener: "DexScreener", gecko: "GeckoTerminal", safety: "Safety", calls: "Calls" };
+  $("feeds").innerHTML = Object.entries(n).map(([k, l]) => `<span><i class="dot ${feeds[k]}"></i>${l}</span>`).join("") + `<span class="num">SOL ${SOL ? "$" + SOL.toFixed(2) : "–"}</span>`;
+}
+$("search").addEventListener("input", (e) => {
+  const v = e.target.value.trim(); const m = (v.match(/[1-9A-HJ-NP-Za-km-z]{32,44}/) || [])[0];
+  if (m) { select(m); e.target.value = ""; e.target.blur(); }
+});
+function copyCA() { if (!sel) return; navigator.clipboard?.writeText(sel).then(() => { const b = $("c-ca"); if (b) { b.textContent = "copied"; setTimeout(() => { b.textContent = short(sel) + " ⧉"; }, 1200); } }).catch(() => {}); }
+document.addEventListener("keydown", (e) => {
+  if (e.target.tagName === "INPUT") { if (e.key === "Escape") e.target.blur(); return; }
+  if (e.metaKey || e.ctrlKey || e.altKey) return;
+  const i = visible.findIndex((c) => c.mint === sel);
+  if (e.key === "ArrowDown" || e.key === "j") { e.preventDefault(); const n = visible[Math.min(visible.length - 1, i + 1)]; if (n) select(n.mint); }
+  else if (e.key === "ArrowUp" || e.key === "k") { e.preventDefault(); const n = visible[Math.max(0, i - 1)]; if (n) select(n.mint); }
+  else if (e.key === "v" && sel) startVerify(sel, true);
+  else if (e.key === "a" && sel && V[sel]?.packet) document.querySelector(".cl a.go")?.click();
+  else if (e.key === "c") copyCA();
+  else if (e.key === "/") { e.preventDefault(); $("search").focus(); }
+});
+
+// ================================================================ loops
+function frame() {
+  if (dirtyList) { dirtyList = false; paintTabs(); paintList(); }
+  if (dirtyCoin) { dirtyCoin = false; paintCoin(); }
+  requestAnimationFrame(frame);
+}
+setInterval(() => { dirtyList = true; dirtyCoin = true; paintFeeds(); }, 1000);
+setInterval(refresh, 3000);
+setInterval(syncKeys, 10000);
+setInterval(trimLaunches, 60000);
+setInterval(autoChecks, 4000);
+setInterval(discover, 30000);
+setInterval(pollCalls, 60000);
+setInterval(solPrice, 60000);
+setInterval(() => { const c = coins.get(sel); if (c && c.pair && !c.wsSince) loadTrades(c); }, 15000);
+(async () => {
+  paintFeeds(); requestAnimationFrame(frame);
+  await solPrice(); connectWS();
+  let s = null; try { s = localStorage.getItem("trench-sel"); } catch (e) {}
+  if (s) select(s);
+  discover(); pollCalls(); refresh();
+})();
+</script>
+</body>
+</html>
