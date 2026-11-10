@@ -1,13 +1,46 @@
 {
   "$schema": "https://openapi.vercel.sh/vercel.json",
   "builds": [
-    { "src": "api/*.py", "use": "@vercel/python", "config": { "includeFiles": "api/_lib/**", "maxDuration": 30 } },
-    { "src": "index.html", "use": "@vercel/static" },
-    { "src": "static/**", "use": "@vercel/static" }
+    {
+      "src": "api/*.py",
+      "use": "@vercel/python",
+      "config": {
+        "includeFiles": "api/_lib/**",
+        "maxDuration": 60
+      }
+    },
+    {
+      "src": "index.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "terminal.html",
+      "use": "@vercel/static"
+    },
+    {
+      "src": "static/**",
+      "use": "@vercel/static"
+    }
   ],
   "routes": [
-    { "src": "/static/(.*)", "headers": { "Cache-Control": "public, max-age=31536000, immutable" }, "continue": true },
-    { "src": "/api/(calls|check|coin|history|prices|radar)", "dest": "/api/$1.py" },
-    { "src": "/", "dest": "/index.html" }
+    {
+      "src": "/static/(.*)",
+      "headers": {
+        "Cache-Control": "public, max-age=31536000, immutable"
+      },
+      "continue": true
+    },
+    {
+      "src": "/api/(calls|check|coin|history|prices|radar|verify)",
+      "dest": "/api/$1.py"
+    },
+    {
+      "src": "/",
+      "dest": "/terminal.html"
+    },
+    {
+      "src": "/trade",
+      "dest": "/index.html"
+    }
   ]
 }

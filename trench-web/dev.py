@@ -20,6 +20,10 @@ class Router(http.server.SimpleHTTPRequestHandler):
 
     def do_GET(self):
         path = self.path.split("?")[0]
+        # Same page routes as vercel.json: the terminal at /, the paper screen at /trade.
+        if path in ("/", "/trade"):
+            self.path = "/terminal.html" if path == "/" else "/index.html"
+            return super().do_GET()
         if path in HANDLERS:
             HANDLERS[path].do_GET(self)
         elif path.startswith("/api/") or path.startswith("/api/_lib/"):

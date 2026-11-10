@@ -27,12 +27,16 @@ import urllib.error
 import urllib.request
 
 import sources as S
-import store
 
 HERE = os.path.dirname(os.path.abspath(__file__))
+# Same file as the collector's store (data/trench.db); TRENCH_DB moves it (Vercel can only write to /tmp).
+DEFAULT_DB = os.environ.get("TRENCH_DB") or os.path.join(HERE, "data", "trench.db")
 RUG_FILES = [os.path.join(HERE, "data", "rug_wallets.txt"),
              os.path.join(HERE, "..", "memecoin-desk", "data", "rug_wallets.txt")]
-PUBLIC_RPCS = ["https://api.mainnet-beta.solana.com", "https://solana-rpc.publicnode.com"]
+MAINNET, PUBLICNODE = "https://api.mainnet-beta.solana.com", "https://solana-rpc.publicnode.com"
+# Measured Nov 2026: mainnet-beta rate-limits getSignaturesForAddress hard (20 s of 429s); publicnode serves it
+# fast but refuses getProgramAccounts (403). So each method goes to the endpoint that serves it first.
+PREFER_PUBLICNODE = {"getSignaturesForAddress", "getTransaction"}
 
 PUMP_PROGRAM = "6EF8rrecthR5Dkzon8Nwu78hRvfCKubJ14M5uBEwF6P"
 # pump.fun BondingCurve account: 8-byte discriminator, five u64 reserves/supply, `complete` bool, then
@@ -51,7 +55,10 @@ CACHE_TTL = 15 * 60
 
 def rpc(method, params):
     """One JSON-RPC call. SOLANA_RPC_URL first, then the public endpoints; 429/403 moves on."""
-    urls = [os.environ["SOLANA_RPC_URL"]] if os.environ.get("SOLANA_RPC_URL") else PUBLIC_RPCS
+    if os.environ.get("SOLANA_RPC_URL"):
+        urls = [os.environ["SOLANA_RPC_URL"]]
+    else:
+        urls = [PUBLICNODE, MAINNET] if method in PREFER_PUBLICNODE else [MAINNET, PUBLICNODE]
     body = json.dumps(dict(jsonrpc="2.0", id=1, method=method, params=params)).encode()
     err = None
     for attempt in range(2):
@@ -64,7 +71,7 @@ def rpc(method, params):
             req = urllib.request.Request(url, data=body, headers={"content-type": "application/json",
                                                                   "User-Agent": "trench-scanner/1.0"})
             try:
-                with urllib.request.urlopen(req, timeout=20) as r:
+                with urllib.request.urlopen(req, timeout=10) as r:
                     d = json.load(r)
                 if "error" in d:
                     err = f"rpc {method}: {d['error'].get('message')}"
@@ -74,7 +81,7 @@ def rpc(method, params):
                 err = f"rpc {method}: HTTP {e.code}" + (" (rate limited)" if e.code == 429 else "")
             except Exception as e:  # network, JSON
                 err = f"rpc {method}: {type(e).__name__}"
-        time.sleep(2 * (attempt + 1))
+        time.sleep(1.5)
     raise S.SourceError(err or f"rpc {method} failed")
 
 
@@ -168,13 +175,15 @@ def rug_wallets():
 
 
 def _db(path):
-    db = store.connect(path)
+    os.makedirs(os.path.dirname(path) or ".", exist_ok=True)
+    db = sqlite3.connect(path, timeout=30)
+    db.row_factory = sqlite3.Row
     db.execute("CREATE TABLE IF NOT EXISTS creators (chain TEXT, address TEXT, symbol TEXT, creator TEXT, funder TEXT, "
                "ts INTEGER, PRIMARY KEY (chain, address))")
     return db
 
 
-def registry_lookup(chain, address, creator, funder, db_path=store.DEFAULT_DB):
+def registry_lookup(chain, address, creator, funder, db_path=DEFAULT_DB):
     """Other coins already seen with the same creator, or the same first funder."""
     try:
         db = _db(db_path)
@@ -186,11 +195,11 @@ def registry_lookup(chain, address, creator, funder, db_path=store.DEFAULT_DB):
             (funder, creator or "", chain, address))] if funder else []
         db.close()
         return same_creator, same_funder
-    except sqlite3.Error:
+    except (sqlite3.Error, OSError):
         return [], []
 
 
-def registry_record(chain, address, symbol, creator, funder, db_path=store.DEFAULT_DB):
+def registry_record(chain, address, symbol, creator, funder, db_path=DEFAULT_DB):
     if not creator:
         return
     try:
@@ -200,7 +209,7 @@ def registry_record(chain, address, symbol, creator, funder, db_path=store.DEFAU
                    (chain, address, symbol, creator, funder, int(time.time())))
         db.commit()
         db.close()
-    except sqlite3.Error:
+    except (sqlite3.Error, OSError):
         pass
 
 
@@ -211,7 +220,7 @@ def creator_of(chain, rugcheck=None, goplus=None):
     return (goplus or {}).get("creator_address")
 
 
-def gather(chain, address, creator, symbol=None, rpc_history=True, db_path=store.DEFAULT_DB, launchpad=None):
+def gather(chain, address, creator, symbol=None, rpc_history=True, db_path=DEFAULT_DB, launchpad=None):
     """Everything rules._dev() needs. Never raises: failures go into `error`."""
     out = dict(creator=creator, chain=chain, history=None, launches_priced=[], same_creator=[], same_funder=[],
                rug_hits={}, error=None, skipped=None)
