@@ -140,6 +140,61 @@ class SafetyTests(unittest.TestCase):
         self.assertEqual(status(d, "lp"), "pass")
 
 
+class ChainsAndFees(unittest.TestCase):
+    def evm(self, chain, gp=None, **pk):
+        p = pair(chainId=chain, dexId="uniswap", **pk)
+        return raw(chain=chain, pairs=[p], rugcheck=None, goplus=gp, honeypot=None)
+
+    def test_uncovered_chain_fails(self):
+        d = rules.evaluate(self.evm("elysium"), now=NOW)
+        self.assertEqual(status(d, "coverage"), "fail")
+        self.assertEqual(d["verdict"], "SKIP")
+
+    def test_covered_chain_without_data_is_unknown(self):
+        d = rules.evaluate(self.evm("base"), now=NOW)
+        self.assertEqual(status(d, "goplus"), "unknown")
+
+    def test_v4_pool_warns_about_hooks(self):
+        d = rules.evaluate(self.evm("elysium", labels=["v4"]), now=NOW)
+        self.assertEqual(status(d, "fees"), "warn")
+
+    def test_goplus_pool_fee_and_v4_position(self):
+        gp = dict(is_honeypot="0", buy_tax="0", sell_tax="0", is_proxy="0", is_open_source="1", holders=[],
+                  creator_percent="0", owner_percent="0",
+                  dex=[dict(liquidity_type="UniV4", pool_fee="0.0025", pair="Pool111111111111111111111111111111111111111")],
+                  lp_holders=[dict(address="0xeff1", is_contract=1, is_locked=0, percent="1", NFT_list=[{"NFT_id": "1"}])])
+        d = rules.evaluate(self.evm("robinhood", gp), now=NOW)
+        fee = next(c for c in d["checks"] if c["id"] == "fees")
+        self.assertIn("0.25%", fee["value"])
+        self.assertEqual(status(d, "lp"), "unknown")       # not a false "unlocked" fail
+
+    def test_trap_pools_do_not_set_main_fee_or_lp(self):
+        gp = dict(is_honeypot="0", buy_tax="0", sell_tax="0", is_proxy="0", is_open_source="1", holders=[],
+                  creator_percent="0", owner_percent="0",
+                  dex=[dict(liquidity_type="UniV4", pool_fee="0.989999", pair="0xjunk1"),
+                       dict(liquidity_type="UniV4", pool_fee="0.7", pair="0xjunk2")],
+                  lp_holders=[dict(address="0xeoa", is_contract=0, is_locked=0, percent="1", NFT_list=[{}])])
+        d = rules.evaluate(self.evm("robinhood", gp, labels=["v4"]), now=NOW)
+        fee = next(c for c in d["checks"] if c["id"] == "fees")
+        self.assertEqual(fee["status"], "warn")
+        self.assertNotIn("98.9999% pool fee", fee["value"])
+        self.assertIn("2 other pool(s)", fee["note"])
+        self.assertEqual(status(d, "lp"), "unknown")
+
+    def test_main_pool_fee_above_5_fails(self):
+        gp = dict(is_honeypot="0", buy_tax="0", sell_tax="0", is_proxy="0", is_open_source="1", holders=[],
+                  creator_percent="0", owner_percent="0",
+                  dex=[dict(liquidity_type="UniV4", pool_fee="0.3", pair="Pool111111111111111111111111111111111111111")])
+        d = rules.evaluate(self.evm("robinhood", gp), now=NOW)
+        self.assertEqual(status(d, "fees"), "fail")
+
+    def test_solana_venue_fee_info(self):
+        d = rules.evaluate(raw(), now=NOW)                  # pumpswap
+        fee = next(c for c in d["checks"] if c["id"] == "fees")
+        self.assertEqual(fee["status"], "info")
+        self.assertIn("1.25%", fee["value"])
+
+
 class StaleCandles(unittest.TestCase):
     def test_stale_candles_make_gate_unknown(self):
         old = [[c[0] - 1200] + c[1:] for c in candles()]   # series ends 20 min ago

@@ -105,6 +105,9 @@ Expect "too few events" for the first days. Results start to mean something afte
 
 - Free public APIs. GeckoTerminal allows about 30 requests a minute. When it rate-limits, the gate shows `?` and the verdict becomes `INCOMPLETE`, never a false `GO`.
 - The bundle signature is a heuristic. Confirm it with GMGN bundler tags or Bubblemaps (the dashboard links both).
+- Input can be a token address, a DexScreener link, or a 32-byte pool id (Uniswap v4 pools have an id, not an address).
+- **Chain coverage:** on a chain no safety source covers (e.g. Elysium at launch), the contract check *fails*. A check that can't run counts as failed. Robinhood Chain is covered by GoPlus (chain 4663); honeypot.is covers only Ethereum, BSC and Base.
+- **Pool type & fees:** shows the main pool's fee: GoPlus's tier for EVM, or the venue's published fee for Solana. It fails above 5% and warns on Uniswap v4, whose hooks can add fees nothing here can see. Fee and LP data from *other* pools (often trap pools at 70–99% fees) never stand in for the main pool's.
 - Liquidity / mcap now sums every pool of the token. Side pools are flagged, because their owners can withdraw them.
 - No dev-history, smart-money or narrative checks yet. RugCheck's free API leaves the creator's past tokens empty. Those need GMGN, Bubblemaps or Birdeye keys, or your own judgement.
 - The rules come from one channel's in-sample backtest (148 calls, May–Oct 2026). They are hypotheses to test with small size. This is not financial advice.
