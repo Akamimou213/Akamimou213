@@ -26,6 +26,18 @@ BUNDLE_WARN, BUNDLE_FAIL = 10.0, 15.0  # bundle % (thumb)
 TP_MULT, SL_MULT, TIME_STOP_MIN = 2.0, 0.5, 60  # exit plan (data)
 ROUND_TRIP_COST = 0.045        # budgeted fees (source)
 
+# Chains with an automated safety source (RugCheck for Solana; GoPlus for these EVM chains).
+SAFETY_COVERED = {"solana", "ethereum", "bsc", "base", "arbitrum", "polygon", "avalanche", "robinhood"}
+
+# Pool fees published by the venues (source: protocol docs, Trench Playbook §02-03). Fee = what the
+# pool keeps from each swap; token taxes, hooks, terminal and network fees come on top.
+VENUE_FEES = {
+    "pumpfun": "1.25% per trade on the bonding curve (0.95% protocol + 0.30% creator)",
+    "pumpswap": "1.25% under 420 SOL mcap, tiering down to 0.30% at 98,240+ SOL",
+    "meteora": "Meteora: DLMM / DAMM fees are dynamic (base + volatility fee); DBC launches can start near 99% and decay",
+    "raydium": "Raydium: fee tier set per pool (CPMM / CLMM); LaunchLab graduates to CPMM",
+}
+
 STAGES = ["gate", "contract", "liquidity", "holders", "flow"]
 STAGE_LABEL = {"gate": "Gate", "contract": "Contract", "liquidity": "Liquidity",
                "holders": "Holders", "flow": "Flow & context"}
@@ -132,12 +144,16 @@ def gate_metrics(candles, now, price=None):
     """vol30, high60 and % off the 60-min high from 1-minute candles."""
     if not candles:
         return None
+    # Candles that stop more than 5 min ago (e.g. only the bonding curve of a coin that just
+    # graduated) would understate both volume and the high: treat the gate as unknown.
+    if max(c[0] for c in candles) < now - 300:
+        return None
     v30 = sum(_f(c[5], 0) for c in candles if c[0] >= now - 1800)
     last60 = [c for c in candles if c[0] >= now - 3600]
     if not last60:
         return dict(vol30=v30, high60=None, off_high=None, price=price, candles=0)
-    hi = max(_f(c[2], 0) for c in last60)
     p = price if price else _f(candles[-1][4])
+    hi = max([_f(c[2], 0) for c in last60] + ([p] if p else []))  # the live price can be the high
     off = (p / hi - 1) if (hi and p) else None
     return dict(vol30=v30, high60=hi, off_high=off, price=p, candles=len(last60))
 
@@ -254,11 +270,15 @@ def _contract_sol(rc):
     return out
 
 
-def _contract_evm(gp, hp):
+def _contract_evm(gp, hp, chain=None):
     out = []
     if gp is None and hp is None:
+        if chain and chain not in SAFETY_COVERED:
+            return [_chk("contract", "coverage", "Safety coverage", "fail", f"no safety source covers {chain}",
+                         "contract checkable", "source",
+                         "No honeypot, tax, owner or holder check can run on this chain. A check that can't run counts as failed.")]
         return [_chk("contract", "goplus", "Contract report", "unknown", "–", "GoPlus / honeypot.is", "source",
-                     "No EVM security data for this chain. Run honeypot.is and check owner powers manually.")]
+                     "No EVM security data right now. Run honeypot.is and check owner powers manually.")]
     gp = gp or {}
     hp_res = (hp or {}).get("honeypotResult") or {}
     sim = (hp or {}).get("simulationResult") or {}
@@ -289,6 +309,38 @@ def _contract_evm(gp, hp):
         if gp.get("is_open_source") == "0":
             out.append(_chk("contract", "source", "Verified source", "fail", "unverified", "verified", "source"))
     return out
+
+
+def _pool_fee_check(raw, pair, chain):
+    """What the pool charges and whether anything else can charge on top (taxes, v4 hooks)."""
+    dex = (pair.get("dexId") or "").lower()
+    labels = [str(x).lower() for x in pair.get("labels") or []]
+    gp = raw.get("goplus") or {}
+    gp_dex = [d for d in gp.get("dex") or [] if isinstance(d, dict)]
+    main_id = (pair.get("pairAddress") or "").lower()
+    mine = [d for d in gp_dex if (d.get("pair") or "").lower() == main_id]
+    others = [d for d in gp_dex if (d.get("pair") or "").lower() != main_id]
+    v4 = "v4" in labels or any("v4" in (d.get("liquidity_type") or "").lower() for d in mine)
+    fee = _f(mine[0].get("pool_fee")) if mine else None
+    if fee is not None:
+        val = f"{fee * 100:g}% pool fee"
+    else:
+        val = next((v for k, v in VENUE_FEES.items() if dex.startswith(k)), None) or (f"{dex} {'/'.join(labels)}".strip() or "–")
+    traps = [d for d in others if (_f(d.get("pool_fee")) or 0) >= 0.10]
+    trap_note = (f" {len(others)} other pool(s) exist" + (f", {len(traps)} charging "
+                 f"{min(_f(d['pool_fee']) for d in traps) * 100:g}–{max(_f(d['pool_fee']) for d in traps) * 100:g}% fees: "
+                 "trade only through the main pool and check your swap route." if traps else ".")) if others else ""
+    if fee is not None and fee > MAX_TAX:
+        return _chk("liquidity", "fees", "Pool type & fees", "fail", val, "≤ 5%", "source",
+                    "The main pool keeps this share of every swap." + trap_note)
+    if v4:
+        return _chk("liquidity", "fees", "Pool type & fees", "warn", val + " · Uniswap v4", "no hidden fees", "source",
+                    "v4 pools can run a hook: extra code that can add or change fees per swap (e.g. sells only). "
+                    "The hook's address is in the pool's Initialize event; read its code before trading." + trap_note)
+    if traps:
+        return _chk("liquidity", "fees", "Pool type & fees", "warn", val, "no trap pools", "source", trap_note.strip())
+    return _chk("liquidity", "fees", "Pool type & fees", "info", val, "–", "source",
+                "Budget ~4.5% round trip in total: pool fee + terminal ~1% + priority/Jito or gas + price impact.")
 
 
 def _liquidity(raw, pair, chain, size_usd):
@@ -324,7 +376,17 @@ def _liquidity(raw, pair, chain, size_usd):
     else:
         gp = raw.get("goplus") or {}
         lph = gp.get("lp_holders") or []
-        if lph:
+        gp_pairs = {(d.get("pair") or "").lower() for d in gp.get("dex") or [] if isinstance(d, dict)}
+        if gp_pairs and (pair.get("pairAddress") or "").lower() not in gp_pairs:
+            lph = []  # GoPlus's LP holders belong to other pools, not the one we'd trade in
+        nft_in_contract = [h for h in lph if h.get("NFT_list") and str(h.get("is_contract")) == "1"
+                           and str(h.get("is_locked")) != "1"]
+        if nft_in_contract and not any(str(h.get("is_locked")) == "1" for h in lph):
+            out.append(_chk("liquidity", "lp", "LP (v3/v4 position)", "unknown",
+                            f"position NFT held by contract {nft_in_contract[0].get('address', '')[:10]}…", "burned / locked", "source",
+                            "Concentrated-liquidity positions are NFTs. A launchpad contract (Pons V2, pools.trade) may lock them "
+                            "permanently, but GoPlus can't tell. Check that contract on the explorer."))
+        elif lph:
             locked = sum(_f(h.get("percent"), 0) for h in lph
                          if str(h.get("is_locked")) == "1" or (h.get("address") or "").lower() in DEAD) * 100
             out.append(_chk("liquidity", "lp", "LP burned / locked", "pass" if locked >= LP_SAFE_PCT else "fail",
@@ -332,7 +394,7 @@ def _liquidity(raw, pair, chain, size_usd):
                             "" if locked >= LP_SAFE_PCT else "The LP holder can withdraw this liquidity."))
         else:
             out.append(_chk("liquidity", "lp", "LP", "unknown", dex or "–", "burned / locked", "source",
-                            "No LP holder data (v4 hooks / launchpad pools). Check the locker or launchpad terms."))
+                            "No LP data for the main pool (GoPlus may not index it, common for v4 / launchpad pools). Check the locker or launchpad terms."))
     total = total_liquidity(raw.get("pairs") or [], raw["address"], chain) or liq
     if total is not None and mcap:
         r = total / mcap
@@ -343,6 +405,7 @@ def _liquidity(raw, pair, chain, size_usd):
                         + (f"Main pool alone {usd(liq)}; side pools can be withdrawn by their owners." if many else "")))
     else:
         out.append(_chk("liquidity", "liqmcap", "Liquidity / mcap", "unknown", usd(liq), "≥ 10%", "thumb"))
+    out.append(_pool_fee_check(raw, pair, chain))
     if liq and size_usd:
         share = size_usd / liq
         out.append(_chk("liquidity", "impact", "Your size vs pool", "pass" if share <= POS_MAX_SHARE_OF_LIQ else "warn",
@@ -376,8 +439,12 @@ def _holders_sol(rc):
         dev = cb / supply * 100
         if dev > 100:
             dev = None
-    if dev is None and creator:
-        dev = sum(_f(h.get("pct"), 0) for h in rc.get("topHolders") or [] if h.get("owner") == creator)
+    if creator:
+        # RugCheck's creatorBalance can read 0 while the creator wallet sits in the top holders:
+        # trust whichever is larger.
+        held = sum(_f(h.get("pct"), 0) for h in rc.get("topHolders") or [] if creator in (h.get("owner"), h.get("address")))
+        if held or dev is None:
+            dev = max(dev or 0, held)
     out.append(_chk("holders", "dev", "Dev holding", "unknown" if dev is None else ("pass" if dev <= DEV_MAX else "fail"),
                     pct(dev), "≤ 5%", "thumb", "Also check the dev's past coins on GMGN."))
     n, s = bundle_cluster(pcts[:20])
@@ -471,7 +538,7 @@ def evaluate(raw, now=None, bankroll=None, risk_pct=1.0):
     if chain == "solana":
         contract = _contract_sol(raw.get("rugcheck"))
     else:
-        contract = _contract_evm(raw.get("goplus"), raw.get("honeypot"))
+        contract = _contract_evm(raw.get("goplus"), raw.get("honeypot"), chain)
     liquidity, liq, mcap = _liquidity(raw, pair, chain, size)
     holders = _holders_sol(raw.get("rugcheck")) if chain == "solana" else _holders_evm(raw.get("goplus"))
     flow = _flow(pair, now)
