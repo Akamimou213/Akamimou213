@@ -90,7 +90,7 @@ textarea { width: 100%; min-height: 90px; resize: vertical; background: var(--pa
 
   <section id="empty" class="empty">
     <h2>No coin yet</h2>
-    <p>Paste a Solana contract address. The page asks your Trench site for the scanner's three checks (chart &amp; flow, safety, dev history) through your Apify connector, then three Claude reviewers read them in parallel and a judge writes the final read. Claude runs on your own Claude account: no API key.</p>
+    <p>Paste a Solana contract address. The page asks your Trench site for the scanner's three checks (chart &amp; flow, safety, dev history) through your Context connector, then three Claude reviewers read them in parallel and a judge writes the final read. Claude runs on your own Claude account: no API key.</p>
     <p class="dim">From the Trench terminal, <b>Ask Claude</b> opens this page with the checks already done; <b>Copy for Claude</b> gives a packet you can paste here too.</p>
     <textarea id="paste" aria-label="Contract address or packet" placeholder="Contract address, e.g. Ereedz94JPD19GHJpe3uPYsKYE4qBspNYeyHtUetpump"></textarea>
     <div class="row"><button id="load" class="primary">Review this coin</button><span id="loadMsg" class="dim" style="font-size:13px"></span></div>
@@ -136,9 +136,10 @@ async function decodePacket(s) {
   return p;
 }
 
-// ---------------------------------------------------------------- a contract address: the scanner's checks from the Trench site, through Apify
-// claude.ai blocks this page's own requests to other sites, so the viewer's Apify connector (apify/web-fetch) fetches
-// /api/verify. Same three seats and the same verdict logic as the terminal (terminal.html: combine()).
+// ---------------------------------------------------------------- a contract address: the scanner's checks from the Trench site, through Context
+// claude.ai blocks this page's own requests to other sites, so the viewer's Context connector (web-scrape, raw bytes)
+// fetches /api/verify; Apify's web-fetch is the fallback when Context isn't connected. Same three seats and the
+// same verdict logic as the terminal (terminal.html: combine()).
 const SITE = "https://akamimou213-trench-web.vercel.app";
 const MINT_RE = /^[1-9A-HJ-NP-Za-km-z]{32,44}$/;
 const SEAT_NAMES = [["chart", "Chart & flow"], ["safety", "Safety"], ["dev", "Dev history"]];
@@ -146,20 +147,33 @@ const SEAT_STAGE = { chart: "gate", safety: "contract", dev: "dev" };
 const STAGE_ORDER = ["gate", "contract", "liquidity", "holders", "dev", "flow"];
 const STAGE_LABEL = { gate: "Gate", contract: "Contract", liquidity: "Liquidity", holders: "Holders", dev: "Dev history", flow: "Flow" };
 let fetcher = null;
-async function apifyServer(mcp) {
+async function pickFetcher(mcp) {
   if (fetcher) return fetcher;
   const list = await mcp.listTools();
-  const srv = (list.servers || []).find((x) => /apify/i.test(x.name) && (x.tools || []).some((t) => t.name === "apify--web-fetch"));
-  if (!srv) throw { code: "server_not_connected" };
-  return (fetcher = srv.name);
+  const has = (re, tool) => (list.servers || []).find((x) => re.test(x.name) && (x.tools || []).some((t) => t.name === tool));
+  const ctx = has(/context/i, "web-scrape"), apify = has(/apify/i, "apify--web-fetch");
+  if (ctx) return (fetcher = { kind: "context", server: ctx.name, label: "Context" });
+  if (apify) return (fetcher = { kind: "apify", server: apify.name, label: "Apify" });
+  throw { code: "server_not_connected" };
 }
+const b64text = (b) => new TextDecoder().decode(Uint8Array.from(atob(b), (c) => c.charCodeAt(0)));
 async function seatFetch(mcp, mint, seat) {
-  const srv = await apifyServer(mcp);
-  const r = await mcp.callTool(srv, "apify--web-fetch", { method: "GET", path: "/", query: { url: `${SITE}/api/verify?mint=${mint}&seat=${seat}`, unwrap: true } });
-  const pl = r.payload || {};
-  if (pl.status === 404) throw new Error("The Trench site doesn't have /api/verify yet: merge the terminal branch so Vercel deploys it.");
-  let d; try { d = typeof pl.body === "string" ? JSON.parse(pl.body) : pl.body || pl; } catch (e) { throw new Error(`The site answered HTTP ${pl.status || "?"}, not JSON.`); }
-  if (!d || d.error || !Array.isArray(d.checks)) throw new Error((d && d.error) || `HTTP ${pl.status || "?"}`);
+  const f = await pickFetcher(mcp), url = `${SITE}/api/verify?mint=${mint}&seat=${seat}`;
+  let text, status;
+  if (f.kind === "context") {
+    const r = await mcp.callTool(f.server, "web-scrape", { url, formats: { bytes: true }, maxAgeMs: 0, responseMode: "compact" });
+    const pl = r.payload || {};
+    text = pl.bytes && pl.bytes.base64 ? b64text(pl.bytes.base64) : typeof pl === "string" ? pl : "";
+    status = pl.metadata && (pl.metadata.statusCode || pl.metadata.status);
+  } else {
+    const r = await mcp.callTool(f.server, "apify--web-fetch", { method: "GET", path: "/", query: { url, unwrap: true } });
+    const pl = r.payload || {};
+    text = typeof pl.body === "string" ? pl.body : JSON.stringify(pl.body || pl); status = pl.status;
+  }
+  if (status === 404 || /NOT_FOUND|could not be found/.test(text || ""))
+    throw new Error("The Trench site doesn't have /api/verify yet: merge the terminal branch so Vercel deploys it.");
+  let d; try { d = JSON.parse(text); } catch (e) { throw new Error(`The site answered${status ? " HTTP " + status : ""}, but not with the checks.`); }
+  if (!d || d.error || !Array.isArray(d.checks)) throw new Error((d && d.error) || "no checks in the answer");
   return d;
 }
 function combineSeats(seats) {
@@ -181,9 +195,9 @@ function combineSeats(seats) {
   else { verdict = "GO · HALF SIZE"; reason = "Passes, but outside 00–08 UTC: half size."; }
   return { verdict, reason, checks };
 }
-const MCP_COPY = { server_not_connected: "Your Apify connector isn't connected. Add Apify in claude.ai Settings → Connectors, or use Ask Claude in the Trench terminal.",
-  needs_reauth: "Apify needs to be reconnected in claude.ai Settings → Connectors.", approval_required: "Allow this page to use Apify to fetch the checks.",
-  not_in_manifest: "This page isn't allowed to use Apify for you. Allow it from the page's permissions.", rate_limited: "Apify is busy. Try again in a minute." };
+const MCP_COPY = { server_not_connected: "Neither Context nor Apify is connected. Add Context in claude.ai Settings → Connectors, or use Ask Claude in the Trench terminal.",
+  needs_reauth: "Context needs to be reconnected in claude.ai Settings → Connectors.", approval_required: "Allow this page to use Context to fetch the checks.",
+  not_in_manifest: "This page isn't allowed to use Context for you. Allow it from the page's permissions.", rate_limited: "Context is busy. Try again in a minute." };
 async function checkMint(mint) {
   const mcp = window.claude ? await window.claude.use("mcp") : null;
   if (!mcp) throw new Error("Fetching needs claude.ai: open this page there, or use Ask Claude in the Trench terminal.");
@@ -191,7 +205,7 @@ async function checkMint(mint) {
   const say = () => { $("loadMsg").textContent = "Checking " + SEAT_NAMES.map(([s, n]) => `${n} ${seats[s].d ? "✓" : seats[s].err ? "✗" : "…"}`).join(" · ") + ` · ${Math.round((Date.now() - t0) / 1000)} s`; };
   SEAT_NAMES.forEach(([s]) => { seats[s] = {}; }); say(); const tick = setInterval(say, 1000);
   try {
-    await apifyServer(mcp).catch((e) => { throw new Error(MCP_COPY[e.code] || e.message || "Apify isn't available."); });
+    await pickFetcher(mcp).catch((e) => { throw new Error(MCP_COPY[e.code] || e.message || "Context isn't available."); });
     await Promise.all(SEAT_NAMES.map(async ([s]) => {
       try { seats[s].d = await seatFetch(mcp, mint, s); } catch (e) { seats[s].err = MCP_COPY[e.code] || e.message || "failed"; }
       say();
