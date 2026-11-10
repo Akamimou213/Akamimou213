@@ -122,11 +122,17 @@ const ICON = { pass: "✓", fail: "✗", warn: "!", unknown: "?", info: "·" };
 // ---------------------------------------------------------------- packet: "z" + hex(deflate-raw(JSON)) or "j" + hex(JSON)
 const unhex = (h) => { const b = new Uint8Array(h.length / 2); for (let i = 0; i < b.length; i++) b[i] = parseInt(h.substr(i * 2, 2), 16); return b; };
 async function decodePacket(s) {
-  s = String(s || "").trim().replace(/^.*#/, "");
-  if (!/^[zj][0-9a-f]+$/i.test(s) || s.length % 2 === 0) throw new Error("That isn't a Trench packet. Use Copy for Claude in the terminal.");
-  let bytes = unhex(s.slice(1));
-  if (s[0] === "z") bytes = new Uint8Array(await new Response(new Blob([bytes]).stream().pipeThrough(new DecompressionStream("deflate-raw"))).arrayBuffer());
-  const p = JSON.parse(new TextDecoder().decode(bytes));
+  s = String(s || "").trim().replace(/^.*#/, "").replace(/\s+/g, "");
+  if (/^[1-9A-HJ-NP-Za-km-z]{32,44}$/.test(s))
+    throw new Error("That's a contract address. claude.ai doesn't let this page fetch market data, so the Trench terminal has to check the coin first: open it in the terminal and press Ask Claude (or Copy for Claude and paste here).");
+  if (!/^[zj][0-9a-f]+$/i.test(s)) throw new Error("That isn't a Trench packet. It starts with z followed by hex digits: use Copy for Claude in the terminal.");
+  if (s.length % 2 === 0) throw new Error("The packet was cut short (" + s.length + " characters). Use Copy for Claude in the terminal and paste the whole thing.");
+  let p;
+  try {
+    let bytes = unhex(s.slice(1).toLowerCase());
+    if (s[0].toLowerCase() === "z") bytes = new Uint8Array(await new Response(new Blob([bytes]).stream().pipeThrough(new DecompressionStream("deflate-raw"))).arrayBuffer());
+    p = JSON.parse(new TextDecoder().decode(bytes));
+  } catch (e) { throw new Error("The packet is damaged or cut short. Use Copy for Claude in the terminal and paste the whole thing."); }
   if (!p || p.v !== 1 || !p.mint || !Array.isArray(p.checks)) throw new Error("The packet is incomplete. Run the check in the terminal again.");
   return p;
 }
