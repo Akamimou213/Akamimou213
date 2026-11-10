@@ -150,10 +150,12 @@ let fetcher = null;
 async function pickFetcher(mcp) {
   if (fetcher) return fetcher;
   const list = await mcp.listTools();
-  const has = (re, tool) => (list.servers || []).find((x) => re.test(x.name) && (x.tools || []).some((t) => t.name === tool));
+  // ServerInfo names the connector in `server` (its display name, the callTool argument).
+  const has = (re, tool) => (list.servers || []).find((x) => re.test(x.server || "") && x.authStatus !== "needs_reauth" && (x.tools || []).some((t) => t.name === tool));
   const ctx = has(/context/i, "web-scrape"), apify = has(/apify/i, "apify--web-fetch");
-  if (ctx) return (fetcher = { kind: "context", server: ctx.name, label: "Context" });
-  if (apify) return (fetcher = { kind: "apify", server: apify.name, label: "Apify" });
+  if (ctx) return (fetcher = { kind: "context", server: ctx.server, label: "Context" });
+  if (apify) return (fetcher = { kind: "apify", server: apify.server, label: "Apify" });
+  if ((list.servers || []).some((x) => /context|apify/i.test(x.server || "") && x.authStatus === "needs_reauth")) throw { code: "needs_reauth" };
   throw { code: "server_not_connected" };
 }
 const b64text = (b) => new TextDecoder().decode(Uint8Array.from(atob(b), (c) => c.charCodeAt(0)));
