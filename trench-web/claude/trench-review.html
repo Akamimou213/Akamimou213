@@ -90,10 +90,11 @@ textarea { width: 100%; min-height: 90px; resize: vertical; background: var(--pa
 
   <section id="empty" class="empty">
     <h2>No coin yet</h2>
-    <p>Click <b>Ask Claude</b> on a coin in the Trench terminal. The terminal runs the scanner's checks, then opens this page with the results. Three Claude reviewers read them in parallel and a judge writes the final read. It runs on your own Claude account: no API key.</p>
-    <p class="dim">Or paste the packet the terminal copied (<b>Copy for Claude</b>):</p>
-    <textarea id="paste" aria-label="Packet from the Trench terminal" placeholder="z78da…"></textarea>
-    <div class="row"><button id="load" class="primary">Review this coin</button><span id="loadErr" class="err"></span></div>
+    <p>Paste a Solana contract address. The page asks your Trench site for the scanner's three checks (chart &amp; flow, safety, dev history) through your Apify connector, then three Claude reviewers read them in parallel and a judge writes the final read. Claude runs on your own Claude account: no API key.</p>
+    <p class="dim">From the Trench terminal, <b>Ask Claude</b> opens this page with the checks already done; <b>Copy for Claude</b> gives a packet you can paste here too.</p>
+    <textarea id="paste" aria-label="Contract address or packet" placeholder="Contract address, e.g. Ereedz94JPD19GHJpe3uPYsKYE4qBspNYeyHtUetpump"></textarea>
+    <div class="row"><button id="load" class="primary">Review this coin</button><span id="loadMsg" class="dim" style="font-size:13px"></span></div>
+    <div id="loadErr" class="err"></div>
     <div id="histWrap" hidden><h2 style="margin-bottom:6px">Recent reviews in this browser</h2><div class="hist" id="hist"></div></div>
   </section>
 
@@ -123,8 +124,6 @@ const ICON = { pass: "✓", fail: "✗", warn: "!", unknown: "?", info: "·" };
 const unhex = (h) => { const b = new Uint8Array(h.length / 2); for (let i = 0; i < b.length; i++) b[i] = parseInt(h.substr(i * 2, 2), 16); return b; };
 async function decodePacket(s) {
   s = String(s || "").trim().replace(/^.*#/, "").replace(/\s+/g, "");
-  if (/^[1-9A-HJ-NP-Za-km-z]{32,44}$/.test(s))
-    throw new Error("That's a contract address. claude.ai doesn't let this page fetch market data, so the Trench terminal has to check the coin first: open it in the terminal and press Ask Claude (or Copy for Claude and paste here).");
   if (!/^[zj][0-9a-f]+$/i.test(s)) throw new Error("That isn't a Trench packet. It starts with z followed by hex digits: use Copy for Claude in the terminal.");
   if (s.length % 2 === 0) throw new Error("The packet was cut short (" + s.length + " characters). Use Copy for Claude in the terminal and paste the whole thing.");
   let p;
@@ -135,6 +134,74 @@ async function decodePacket(s) {
   } catch (e) { throw new Error("The packet is damaged or cut short. Use Copy for Claude in the terminal and paste the whole thing."); }
   if (!p || p.v !== 1 || !p.mint || !Array.isArray(p.checks)) throw new Error("The packet is incomplete. Run the check in the terminal again.");
   return p;
+}
+
+// ---------------------------------------------------------------- a contract address: the scanner's checks from the Trench site, through Apify
+// claude.ai blocks this page's own requests to other sites, so the viewer's Apify connector (apify/web-fetch) fetches
+// /api/verify. Same three seats and the same verdict logic as the terminal (terminal.html: combine()).
+const SITE = "https://akamimou213-trench-web.vercel.app";
+const MINT_RE = /^[1-9A-HJ-NP-Za-km-z]{32,44}$/;
+const SEAT_NAMES = [["chart", "Chart & flow"], ["safety", "Safety"], ["dev", "Dev history"]];
+const SEAT_STAGE = { chart: "gate", safety: "contract", dev: "dev" };
+const STAGE_ORDER = ["gate", "contract", "liquidity", "holders", "dev", "flow"];
+const STAGE_LABEL = { gate: "Gate", contract: "Contract", liquidity: "Liquidity", holders: "Holders", dev: "Dev history", flow: "Flow" };
+let fetcher = null;
+async function apifyServer(mcp) {
+  if (fetcher) return fetcher;
+  const list = await mcp.listTools();
+  const srv = (list.servers || []).find((x) => /apify/i.test(x.name) && (x.tools || []).some((t) => t.name === "apify--web-fetch"));
+  if (!srv) throw { code: "server_not_connected" };
+  return (fetcher = srv.name);
+}
+async function seatFetch(mcp, mint, seat) {
+  const srv = await apifyServer(mcp);
+  const r = await mcp.callTool(srv, "apify--web-fetch", { method: "GET", path: "/", query: { url: `${SITE}/api/verify?mint=${mint}&seat=${seat}`, unwrap: true } });
+  const pl = r.payload || {};
+  if (pl.status === 404) throw new Error("The Trench site doesn't have /api/verify yet: merge the terminal branch so Vercel deploys it.");
+  let d; try { d = typeof pl.body === "string" ? JSON.parse(pl.body) : pl.body || pl; } catch (e) { throw new Error(`The site answered HTTP ${pl.status || "?"}, not JSON.`); }
+  if (!d || d.error || !Array.isArray(d.checks)) throw new Error((d && d.error) || `HTTP ${pl.status || "?"}`);
+  return d;
+}
+function combineSeats(seats) {
+  const checks = [];
+  for (const [s, name] of SEAT_NAMES) {
+    const x = seats[s];
+    if (x.d) checks.push(...x.d.checks);
+    else checks.push({ stage: SEAT_STAGE[s], id: s + "-seat", label: name + " seat", status: "unknown", value: x.err || "did not answer", note: "" });
+  }
+  checks.sort((a, b) => STAGE_ORDER.indexOf(a.stage) - STAGE_ORDER.indexOf(b.stage));
+  const chart = seats.chart.d || {}, fails = checks.filter((c) => c.status === "fail");
+  const unknown = checks.filter((c) => c.status === "unknown" && c.stage !== "flow");
+  const pull = checks.some((c) => c.id === "pullback" && c.status === "pass");
+  let verdict, reason;
+  if (fails.length) { verdict = "SKIP"; reason = `${STAGE_LABEL[fails[0].stage]}: ${fails[0].label} — ${fails[0].value}`; }
+  else if (unknown.length) { verdict = "INCOMPLETE"; reason = "Check by hand: " + unknown.map((c) => c.label).join(", "); }
+  else if ((chart.vol30 || 0) >= 117000 && pull && chart.in_window) { verdict = "A-SETUP"; reason = "High volume, pulled back, in window, every check passed."; }
+  else if (chart.in_window) { verdict = "GO"; reason = "Gate and dossier pass."; }
+  else { verdict = "GO · HALF SIZE"; reason = "Passes, but outside 00–08 UTC: half size."; }
+  return { verdict, reason, checks };
+}
+const MCP_COPY = { server_not_connected: "Your Apify connector isn't connected. Add Apify in claude.ai Settings → Connectors, or use Ask Claude in the Trench terminal.",
+  needs_reauth: "Apify needs to be reconnected in claude.ai Settings → Connectors.", approval_required: "Allow this page to use Apify to fetch the checks.",
+  not_in_manifest: "This page isn't allowed to use Apify for you. Allow it from the page's permissions.", rate_limited: "Apify is busy. Try again in a minute." };
+async function checkMint(mint) {
+  const mcp = window.claude ? await window.claude.use("mcp") : null;
+  if (!mcp) throw new Error("Fetching needs claude.ai: open this page there, or use Ask Claude in the Trench terminal.");
+  const seats = {}, t0 = Date.now();
+  const say = () => { $("loadMsg").textContent = "Checking " + SEAT_NAMES.map(([s, n]) => `${n} ${seats[s].d ? "✓" : seats[s].err ? "✗" : "…"}`).join(" · ") + ` · ${Math.round((Date.now() - t0) / 1000)} s`; };
+  SEAT_NAMES.forEach(([s]) => { seats[s] = {}; }); say(); const tick = setInterval(say, 1000);
+  try {
+    await apifyServer(mcp).catch((e) => { throw new Error(MCP_COPY[e.code] || e.message || "Apify isn't available."); });
+    await Promise.all(SEAT_NAMES.map(async ([s]) => {
+      try { seats[s].d = await seatFetch(mcp, mint, s); } catch (e) { seats[s].err = MCP_COPY[e.code] || e.message || "failed"; }
+      say();
+    }));
+  } finally { clearInterval(tick); }
+  if (SEAT_NAMES.every(([s]) => seats[s].err)) throw new Error(seats.safety.err);
+  const r = combineSeats(seats), any = seats.chart.d || seats.safety.d || seats.dev.d, ch = seats.chart.d || {};
+  return { v: 1, mint, symbol: any.symbol, name: any.name, launchpad: (seats.dev.d || seats.safety.d || {}).launchpad, dex: any.dex, ts: Math.round(t0 / 1000),
+    price: any.price, mcap: any.mcap, liquidity: any.liquidity, vol30: ch.vol30, vol_h1: any.vol_h1, off_high: ch.off_high, high60: ch.high60,
+    verdict: r.verdict, reason: r.reason, checks: r.checks, candles: ch.candles || [], dev: seats.dev.d?.dev || null, _raw: null };
 }
 
 // ---------------------------------------------------------------- the reviewers
@@ -251,7 +318,7 @@ async function review(p) {
 const HKEY = "trench-review-history";
 function history() { try { return JSON.parse(localStorage.getItem(HKEY)) || []; } catch (e) { return []; } }
 function remember(p, verdict) {
-  try { const h = history().filter((x) => x.mint !== p.mint); h.unshift({ mint: p.mint, symbol: p.symbol, verdict, ts: p.ts, packet: p._raw });
+  try { const h = history().filter((x) => x.mint !== p.mint); h.unshift({ mint: p.mint, symbol: p.symbol, verdict, ts: p.ts, packet: p._raw || p.mint });
     localStorage.setItem(HKEY, JSON.stringify(h.slice(0, 12))); } catch (e) {}
 }
 function paintHistory() {
@@ -260,9 +327,14 @@ function paintHistory() {
 }
 $("hist").onclick = (e) => { const b = e.target.closest("[data-h]"); if (b) openPacket(history()[+b.dataset.h].packet); };
 async function openPacket(raw) {
-  $("loadErr").textContent = "";
-  try { packet = await decodePacket(raw); packet._raw = String(raw).replace(/^.*#/, ""); }
-  catch (e) { $("loadErr").textContent = e.message; return; }
+  $("loadErr").textContent = ""; $("loadMsg").textContent = "";
+  const t = String(raw || "").trim().replace(/^.*#/, "").replace(/\s+/g, "");
+  const m = (t.match(/[1-9A-HJ-NP-Za-km-z]{32,44}/) || [])[0];
+  try {
+    if (MINT_RE.test(t) || (m && !/^[zj][0-9a-f]+$/i.test(t))) { $("load").disabled = true; packet = await checkMint(m); }
+    else { packet = await decodePacket(raw); packet._raw = t; }
+  } catch (e) { $("loadErr").textContent = e.message; return; }
+  finally { $("load").disabled = false; $("loadMsg").textContent = ""; }
   $("empty").hidden = true; $("out").hidden = false;
   paintCoin(packet); review(packet);
 }
@@ -273,6 +345,6 @@ $("other").onclick = () => { run++; ctl && ctl.abort(); packet = null; $("out").
   $("sym").textContent = "Trench Review"; $("verdict").innerHTML = ""; $("mint").textContent = ""; $("paste").value = ""; paintHistory(); };
 paintHistory();
 const h = location.hash.slice(1);
-if (h) openPacket(h);
+if (h && /^[zj][0-9a-f]+$/i.test(h)) openPacket(h);
 window.addEventListener("hashchange", () => { const x = location.hash.slice(1); if (x && (!packet || x !== packet._raw)) openPacket(x); });
 </script>
