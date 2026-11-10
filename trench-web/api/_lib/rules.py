@@ -2,7 +2,7 @@
 
 `evaluate(raw, ...)` turns the raw API payloads gathered by scanner.collect() into a dossier:
 a list of checks grouped by the playbook's 90-second order (gate -> contract -> liquidity ->
-holders -> flow), a verdict, position size and the exit plan. It does no I/O, so it can be
+holders -> dev history -> flow), a verdict, position size and the exit plan. It does no I/O, so it can be
 tested on saved payloads.
 
 Evidence tags follow the playbook: "data" = tested on the 148-call backtest, "source" = protocol
@@ -23,6 +23,9 @@ POS_MAX_SHARE_OF_LIQ = 0.02    # position <= 2% of pool liquidity (thumb)
 TOP10_MAX = 30.0               # top 10 holders excl. pools <= 30% (thumb)
 DEV_MAX = 5.0                  # dev holds <= 5% (thumb)
 BUNDLE_WARN, BUNDLE_FAIL = 10.0, 15.0  # bundle % (thumb)
+SERIAL_WARN, SERIAL_FAIL = 1, 3  # other coins by the same creator (thumb; playbook trap 5)
+FRESH_WALLET_H = 24            # creator wallet younger than this = fresh (thumb)
+DEAD_LIQ = 1_000               # an earlier coin under $1k liquidity counts as dead (thumb)
 TP_MULT, SL_MULT, TIME_STOP_MIN = 2.0, 0.5, 60  # exit plan (data)
 ROUND_TRIP_COST = 0.045        # budgeted fees (source)
 
@@ -38,9 +41,9 @@ VENUE_FEES = {
     "raydium": "Raydium: fee tier set per pool (CPMM / CLMM); LaunchLab graduates to CPMM",
 }
 
-STAGES = ["gate", "contract", "liquidity", "holders", "flow"]
+STAGES = ["gate", "contract", "liquidity", "holders", "dev", "flow"]
 STAGE_LABEL = {"gate": "Gate", "contract": "Contract", "liquidity": "Liquidity",
-               "holders": "Holders", "flow": "Flow & context"}
+               "holders": "Holders", "dev": "Dev history", "flow": "Flow & context"}
 DEAD = {"0x000000000000000000000000000000000000dead", "0x0000000000000000000000000000000000000000",
         "11111111111111111111111111111111", "1nc1nerator11111111111111111111111111111111"}
 SUFFIX_PAD = [("pump", "pump.fun"), ("bonk", "Bonk.fun"), ("4444", "four.meme"),
@@ -481,8 +484,87 @@ def _holders_evm(gp):
     n, s = bundle_cluster(pcts[:20])
     out.append(_chk("holders", "bundle", "Bundle signature", "fail" if s > BUNDLE_FAIL else "warn" if s > BUNDLE_WARN else "pass",
                     f"{n} wallets, {s:.1f}% at near-identical size" if n else "none found", "≤ 10–15%", "thumb"))
-    if gp.get("honeypot_with_same_creator") not in (None, "0"):
-        out.append(_chk("holders", "devhist", "Creator history", "fail", "previous honeypot", "clean", "source"))
+    return out
+
+
+def _short(a):
+    return f"{a[:4]}…{a[-4:]}" if a and len(a) > 10 else (a or "?")
+
+
+def _dev(dh, chain, gp=None, now=None):
+    """Dev history stage: earlier launches, rug list, shared funder, wallet age. Unknown is never a pass."""
+    out = []
+    if gp and gp.get("honeypot_with_same_creator") not in (None, "0"):
+        out.append(_chk("dev", "devhoneypot", "Creator's past honeypots", "fail", "previous honeypot", "none", "source",
+                        "GoPlus: this creator deployed a honeypot before."))
+    if dh is None:
+        return out + [_chk("dev", "serial", "Earlier launches", "unknown", "not checked", f"< {SERIAL_FAIL} other coins",
+                           "thumb", "Dev history was not collected. Check the creator on GMGN.")]
+    creator = dh.get("creator")
+    if not creator:
+        return out + [_chk("dev", "serial", "Earlier launches", "unknown", "creator unknown", f"< {SERIAL_FAIL} other coins",
+                           "thumb", "No creator address from the safety source. Check the deployer on Solscan / GMGN.")]
+    rugs = dh.get("rug_hits") or {}
+    if rugs:
+        w, why = next(iter(rugs.items()))
+        role = "creator" if w == creator else "first funder"
+        out.append(_chk("dev", "rugwallet", "Rug list", "fail", f"{role} {_short(w)} ({why})", "not listed", "thumb"))
+    else:
+        out.append(_chk("dev", "rugwallet", "Rug list", "pass", "creator and funder not listed", "not listed", "thumb",
+                        f"Creator {_short(creator)}."))
+
+    h = dh.get("history")
+    seen = dh.get("same_creator") or []
+    priced = dh.get("launches_priced") or []
+    others = {m["address"]: m for m in priced}
+    for c in seen:
+        others.setdefault(c["address"], dict(address=c["address"], symbol=c.get("symbol"), liq=None))
+    # Coins past the 25 resolved per scan still count.
+    n = max(len(others), ((h or {}).get("launch_total") or 0) + sum(1 for c in seen if c["address"] not in
+                                                                    {m["address"] for m in priced}))
+    dead = sum(1 for m in others.values() if m.get("liq") is not None and m["liq"] < DEAD_LIQ)
+    names = ", ".join((m.get("symbol") or _short(m["address"])) for m in list(others.values())[:4])
+    indexed = bool(h and h.get("launch_source"))
+    if n:
+        val = f"{n} other coin{'s' if n > 1 else ''}" + (f", {dead} dead" if dead else "") + (f" ({names}{'…' if n > 4 else ''})" if names else "")
+        src = f"From {h['launch_source']}" if indexed else "From coins this scanner has seen"
+        out.append(_chk("dev", "serial", "Earlier launches", "fail" if n >= SERIAL_FAIL else "warn", val,
+                        f"< {SERIAL_FAIL} other coins", "thumb",
+                        ("Serial launcher: the creator ships coins and moves on. " if n >= SERIAL_FAIL else "") + src + "."))
+    elif indexed:
+        out.append(_chk("dev", "serial", "Earlier launches", "pass", "none", f"< {SERIAL_FAIL} other coins", "thumb",
+                        f"No other coin in {h['launch_source']} names this creator."))
+    elif h:
+        out.append(_chk("dev", "serial", "Earlier launches", "unknown", "launchpad not indexed", f"< {SERIAL_FAIL} other coins",
+                        "thumb", "Only pump.fun launches are looked up. Check the deployer on GMGN / Solscan."))
+    elif dh.get("skipped") or dh.get("error"):
+        out.append(_chk("dev", "serial", "Earlier launches", "unknown", "not read", f"< {SERIAL_FAIL} other coins", "thumb",
+                        dh.get("skipped") or dh.get("error")))
+    else:
+        # EVM: only the local registry and GoPlus cover it.
+        out.append(_chk("dev", "serial", "Earlier launches", "info", "none seen locally", f"< {SERIAL_FAIL} other coins",
+                        "thumb", "Only coins this scanner has seen. Check the deployer on the explorer."))
+
+    sf = dh.get("same_funder") or []
+    funder = (h or {}).get("funder")
+    if sf:
+        creators = {c["creator"] for c in sf}
+        out.append(_chk("dev", "funder", "Shared funder", "fail" if len(creators) >= SERIAL_FAIL else "warn",
+                        f"{_short(funder)} also funded {len(creators)} other creator{'s' if len(creators) > 1 else ''} "
+                        f"({', '.join(c.get('symbol') or _short(c['address']) for c in sf[:3])})",
+                        "funds no other creator", "thumb", "One source funding many creators is a launch farm."))
+    elif funder:
+        out.append(_chk("dev", "funder", "First funder", "info", _short(funder), "funds no other creator", "thumb",
+                        "Funds no other creator this scanner has seen."))
+
+    if h and h.get("first_seen"):
+        age_h = ((now or time.time()) - h["first_seen"]) / 3600
+        out.append(_chk("dev", "walletage", "Creator wallet age", "warn" if age_h < FRESH_WALLET_H else "info",
+                        f"{age_h:.1f} h" if age_h < 48 else f"{age_h / 24:.0f} d", f"≥ {FRESH_WALLET_H} h", "thumb",
+                        "Fresh wallet: made for this launch." if age_h < FRESH_WALLET_H else ""))
+    elif h:
+        out.append(_chk("dev", "walletage", "Creator wallet age", "info", "1,000+ txs", f"≥ {FRESH_WALLET_H} h", "thumb",
+                        "Busy wallet: older than its last 1,000 transactions."))
     return out
 
 
@@ -541,6 +623,7 @@ def evaluate(raw, now=None, bankroll=None, risk_pct=1.0):
         contract = _contract_evm(raw.get("goplus"), raw.get("honeypot"), chain)
     liquidity, liq, mcap = _liquidity(raw, pair, chain, size)
     holders = _holders_sol(raw.get("rugcheck")) if chain == "solana" else _holders_evm(raw.get("goplus"))
+    dev = _dev(raw.get("devhist"), chain, raw.get("goplus") if chain != "solana" else None, now)
     flow = _flow(pair, now)
     dc = data_consistency(raw.get("pairs") or [], address, pair)
     if dc:
@@ -549,10 +632,10 @@ def evaluate(raw, now=None, bankroll=None, risk_pct=1.0):
         for c in gate + liquidity:
             if c["id"] in ("vol30", "pullback", "liqmcap", "impact") and c["status"] in ("pass", "fail", "warn"):
                 c["status"], c["note"] = "unknown", "From a minor pool, not the coin's real one: " + (c["note"] or "verify by hand.")
-    checks = gate + contract + liquidity + holders + flow
+    checks = gate + contract + liquidity + holders + dev + flow
 
     fails = [c for c in checks if c["status"] == "fail"]
-    unknown = [c for c in checks if c["status"] == "unknown" and c["stage"] in ("gate", "contract", "liquidity", "holders")]
+    unknown = [c for c in checks if c["status"] == "unknown" and c["stage"] in ("gate", "contract", "liquidity", "holders", "dev")]
     a_setup = g.get("vol30") is not None and g["vol30"] >= GATE_VOL30_A and any(
         c["id"] == "pullback" and c["status"] == "pass" for c in checks)
     if fails:

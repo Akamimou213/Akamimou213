@@ -87,7 +87,8 @@ These were all found on real coins while building the scanner:
 5. **Serial launcher wallets.** One wallet (`WLHv2UAZ…`) controlled PEAK's metadata and created Finance Inu, keeping about 27% of FI's supply. **Rule:** check the creator against the creators of coins you've already seen.
 6. **Uncovered chains.** On a brand-new chain (Elysium, Kinetiq's Hyperliquid L2, two days old) GoPlus, honeypot.is and the explorer had nothing. **Rule:** if no safety source covers the chain, the contract check fails. A check that can't run counts as failed.
 7. **Trap pools.** Anyone can open a Uniswap v4 pool for any token at any fee. GoPlus listed 5 pools for ZEN on Robinhood Chain charging 70–99% and didn't list the real $23k pool. **Rule:** read fee and LP data only for the main pool, matched by pool id. Report the other pools as a warning, and check the swap route before trading.
-8. **Estimates never trigger a GO.** An estimated volume (for example 1h ÷ 2) can only produce INCOMPLETE.
+8. **The creator doesn't sign the launch.** On pump.fun the creator is an argument of `create`, so the creator wallet's own history shows no launch. HODL's creator looked like a mere fee wallet that way; the bonding curves showed it had also launched HODLER. **Rule:** find a creator's coins from the launchpad's records (bonding curves naming that creator), not from the wallet's transactions.
+9. **Estimates never trigger a GO.** An estimated volume (for example 1h ÷ 2) can only produce INCOMPLETE.
 
 ### Verdict vocabulary (all agents use these exact words)
 - `A-SETUP`: volume ≥ $117k, pulled back 7–30%, in window, every check passed.
@@ -147,7 +148,8 @@ Build each as its own prompt. Grok's edge is **real-time X**, so lean on it wher
    - **Output:** the gate checks and window status only.
 3. **Auditor (contract + liquidity + holders)**
    - **Job:** run dossier stages 2–4. Exclude pools, lockers and burn addresses from holder counts.
-   - **Traps:** apply traps 1, 2 and 5. Run the bundle-signature test.
+   - **Traps:** apply traps 1, 2, 5 and 8. Run the bundle-signature test.
+   - **Dev history:** fail on 3+ other coins by the same creator, warn on 1–2; fail if creator or first funder is on the rug list; warn on a creator wallet under 24 h old.
    - **Never** call a coin safe because its "LP is burned".
 4. **Narrative analyst (Grok-native)**
    - **Questions to answer:**

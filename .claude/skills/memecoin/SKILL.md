@@ -34,6 +34,7 @@ All three are Python 3.9+ standard library only. Run Python on fetched data with
 1. Run `python3 memecoin-scanner/scanner.py scan <CA>` (add `--json` for the raw dossier).
 2. If the verdict is `INCOMPLETE` or a check says `Data consistency ?`, look at every pool on DexScreener (`/latest/dex/tokens/<CA>`) before concluding. The busiest pool sometimes reports null liquidity.
 3. Report the verdict first, then the failing checks with their numbers, then what's fine. Check time in UTC.
+4. The **Dev history** stage (`memecoin-scanner/devhist.py`) lists the creator's other coins and how many are dead. A coin from a non-pump.fun launchpad stays `INCOMPLETE` there: say so and point to GMGN / Solscan.
 
 ## Working on the desk
 
@@ -54,6 +55,7 @@ All three are Python 3.9+ standard library only. Run Python on fetched data with
 | Pair price, liquidity, volume, txns | DexScreener | `/tokens/v1/solana/<up to 30 mints>`, `/latest/dex/tokens/<mint>`, `/token-profiles/latest/v1`, boosts. About 300 req/min |
 | New pools, 1-minute candles, trending | GeckoTerminal | `/networks/solana/new_pools`, `/pools/<pool>/ohlcv/minute`, `trending_pools`. About 30 req/min |
 | Contract, LP lock, holders, insiders | RugCheck | `/v1/tokens/<mint>/report`: authorities, `markets[].lp.lpLockedPct`, `topHolders`, `graphInsidersDetected`, `insiderNetworks`. `creatorTokens` is empty on the free API |
+| Creator's other pump.fun coins | Solana RPC `getProgramAccounts` | pump program, `memcmp` offset 49 = bonding-curve creator; then `getTokenAccountsByOwner(curve)` → mint. The creator never signs `create`, so its own history shows no launches. Blocked on publicnode; works on mainnet-beta |
 | Dev funding trace | Solana RPC | `getSignaturesForAddress` (page to the oldest) → `getTransaction` (jsonParsed). Set `SOLANA_RPC_URL` for a keyed RPC (e.g. Helius) |
 | Raydium pool data | Raydium API v3 | `https://api-v3.raydium.io/pools/info/list`. Can't sort by creation time |
 | Swap link for manual signing | Jupiter | `https://jup.ag/swap/SOL-<mint>` |

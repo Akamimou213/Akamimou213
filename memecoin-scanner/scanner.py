@@ -16,6 +16,7 @@ import time
 from concurrent.futures import ThreadPoolExecutor
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))  # works under `python3 -I` too
+import devhist  # noqa: E402
 import rules  # noqa: E402
 import sources as S
 
@@ -98,7 +99,18 @@ def collect(address, chain=None, candles=True):
                 raw["errors"].append(f"{k}: {e}")
             except Exception as e:  # defensive: never let one source sink the scan
                 raw["errors"].append(f"{k}: {type(e).__name__}: {e}")
+    raw["devhist"] = devhist_for(raw, pair)
     return raw
+
+
+def devhist_for(raw, pair, rpc_history=True):
+    """Dev history for a collected coin; None (unknown) only when the chain is unknown."""
+    if not raw.get("chain"):
+        return None
+    creator = devhist.creator_of(raw["chain"], raw.get("rugcheck"), raw.get("goplus"))
+    symbol = ((pair or {}).get("baseToken") or {}).get("symbol")
+    pad = ((raw.get("rugcheck") or {}).get("launchpad") or {}).get("name")
+    return devhist.gather(raw["chain"], raw["address"], creator, symbol, rpc_history=rpc_history, launchpad=pad)
 
 
 def scan(address, chain=None, bankroll=None, risk_pct=1.0, candles=True):
@@ -180,6 +192,8 @@ def trending(chain="solana", limit=15, candles=False, bankroll=None, risk_pct=1.
                 raw["goplus"] = S.goplus_token(c["chain"], c["address"])
         except S.SourceError as e:
             raw["errors"].append(str(e))
+        # The screener skips the RPC dev history (a dozen calls a coin); the registry and rug list still run.
+        raw["devhist"] = devhist_for(raw, mp, rpc_history=False)
         d = rules.evaluate(raw, bankroll=bankroll, risk_pct=risk_pct)
         d["sources"] = c["sources"]
         d.pop("candles", None)

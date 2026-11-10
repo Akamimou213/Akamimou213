@@ -26,6 +26,7 @@ import traceback
 
 sys.path.insert(0, os.path.dirname(os.path.abspath(__file__)))
 import notify  # noqa: E402
+import devhist  # noqa: E402
 import rules  # noqa: E402
 import series as SR  # noqa: E402
 import sources as S  # noqa: E402
@@ -77,6 +78,7 @@ def discover(chains):
 class Collector:
     def __init__(self, db, chains, bankroll, risk):
         self.db, self.chains, self.bankroll, self.risk = db, chains, bankroll, risk
+        self.db_path = db.execute("PRAGMA database_list").fetchone()["file"] or store.DEFAULT_DB
         self.last_discover = 0
         self.pairs_cache = {}   # (chain, addr) -> latest DexScreener pairs list
         self.seeded = set()
@@ -248,6 +250,10 @@ class Collector:
                     pass
         except S.SourceError as e:
             out["error"] = str(e)
+        # Dev history only for coins that passed the gate (this method), so the RPC load stays small.
+        creator = devhist.creator_of(r["chain"], out.get("rugcheck"), out.get("goplus"))
+        pad = ((out.get("rugcheck") or {}).get("launchpad") or {}).get("name")
+        out["devhist"] = devhist.gather(r["chain"], r["address"], creator, r["symbol"], db_path=self.db_path, launchpad=pad)
         self.db.execute("UPDATE tokens SET safety=?, safety_ts=? WHERE chain=? AND address=?",
                         (json.dumps(out), t, r["chain"], r["address"]))
         return out
@@ -256,7 +262,7 @@ class Collector:
         k = (r["chain"], r["address"])
         sf = self.safety(r, t)
         raw = dict(address=r["address"], chain=r["chain"], pairs=self.pairs_cache.get(k, []), candles=None, gate=g,
-                   rugcheck=sf.get("rugcheck"), goplus=sf.get("goplus"), honeypot=sf.get("honeypot"),
+                   rugcheck=sf.get("rugcheck"), goplus=sf.get("goplus"), honeypot=sf.get("honeypot"), devhist=sf.get("devhist"),
                    errors=[sf["error"]] if sf.get("error") else [])
         d = rules.evaluate(raw, now=t, bankroll=self.bankroll, risk_pct=self.risk)
         go = d["verdict"] in ("A-SETUP", "GO", "GO · HALF SIZE")

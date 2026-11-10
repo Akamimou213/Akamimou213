@@ -44,8 +44,19 @@ def rugcheck(**kw):
     return r
 
 
+def devh(**kw):
+    """Clean dev history: an old wallet, one funder, no earlier launches."""
+    h = dict(tx_count=120, history_complete=True, first_seen=NOW - 40 * 86400, funder="Fund1",
+             launch_source="pump.fun bonding curves", launch_total=0, launches=[])
+    h.update(kw.pop("history", {}))
+    d = dict(creator="Dev1", chain="solana", history=h, launches_priced=[], same_creator=[], same_funder=[],
+             rug_hits={}, error=None, skipped=None)
+    d.update(kw)
+    return d
+
+
 def raw(**kw):
-    r = dict(address=CA, chain="solana", pairs=[pair()], candles=candles(), rugcheck=rugcheck(), errors=[])
+    r = dict(address=CA, chain="solana", pairs=[pair()], candles=candles(), rugcheck=rugcheck(), devhist=devh(), errors=[])
     r.update(kw)
     return r
 
@@ -241,5 +252,103 @@ class HelperTests(unittest.TestCase):
         self.assertEqual(rules.evaluate(raw(pairs=[]), now=NOW)["verdict"], "NO DATA")
 
 
-if __name__ == "__main__":
-    unittest.main()
+
+
+class DevHistoryTests(unittest.TestCase):
+    def test_clean_history_passes(self):
+        d = rules.evaluate(raw(), now=NOW)
+        self.assertEqual(status(d, "serial"), "pass")
+        self.assertEqual(status(d, "rugwallet"), "pass")
+        self.assertEqual(d["verdict"], "A-SETUP", d["reason"])
+
+    def test_missing_dev_history_is_incomplete(self):
+        d = rules.evaluate(raw(devhist=None), now=NOW)
+        self.assertEqual(status(d, "serial"), "unknown")
+        self.assertEqual(d["verdict"], "INCOMPLETE")
+
+    def test_rpc_failure_is_unknown_not_pass(self):
+        d2 = rules.evaluate(raw(devhist=dict(devh(error="rpc HTTP 429"), history=None)), now=NOW)
+        self.assertEqual(status(d2, "serial"), "unknown")
+        self.assertEqual(d2["verdict"], "INCOMPLETE")
+
+    def test_serial_launcher_fails(self):
+        dead = [dict(address=f"Old{i}", symbol=f"OLD{i}", liq=200) for i in range(3)]
+        d = rules.evaluate(raw(devhist=devh(launches_priced=dead, history=dict(launch_total=3))), now=NOW)
+        self.assertEqual(status(d, "serial"), "fail")
+        self.assertEqual(d["verdict"], "SKIP")
+        self.assertIn("3 dead", next(c["value"] for c in d["checks"] if c["id"] == "serial"))
+
+    def test_one_earlier_coin_warns(self):
+        d = rules.evaluate(raw(devhist=devh(launches_priced=[dict(address="Old1", symbol="OLD", liq=50_000)],
+                                            history=dict(launch_total=1))), now=NOW)
+        self.assertEqual(status(d, "serial"), "warn")
+        self.assertNotEqual(d["verdict"], "SKIP")
+
+    def test_registry_counts_with_sampled_launches(self):
+        # Finance Inu case: the creator was already seen behind other coins in the local registry.
+        seen = [dict(address="Peak", symbol="PEAK", ts=NOW - 3600), dict(address="X2", symbol="X2", ts=NOW - 7200)]
+        d = rules.evaluate(raw(devhist=devh(same_creator=seen, launches_priced=[dict(address="Old1", symbol="O", liq=0)],
+                                            history=dict(launch_total=1))), now=NOW)
+        self.assertEqual(status(d, "serial"), "fail")
+
+    def test_rug_list_hit_on_funder_fails(self):
+        d = rules.evaluate(raw(devhist=devh(rug_hits={"Fund1": "seed"})), now=NOW)
+        self.assertEqual(status(d, "rugwallet"), "fail")
+        self.assertIn("first funder", next(c["value"] for c in d["checks"] if c["id"] == "rugwallet"))
+
+    def test_shared_funder_farm_fails(self):
+        sf = [dict(address=f"C{i}", symbol=f"C{i}", creator=f"Dev{i + 2}", ts=NOW) for i in range(3)]
+        d = rules.evaluate(raw(devhist=devh(same_funder=sf)), now=NOW)
+        self.assertEqual(status(d, "funder"), "fail")
+
+    def test_fresh_wallet_warns(self):
+        d = rules.evaluate(raw(devhist=devh(history=dict(first_seen=NOW - 3 * 3600))), now=NOW)
+        self.assertEqual(status(d, "walletage"), "warn")
+
+    def test_unindexed_launchpad_is_unknown(self):
+        d = rules.evaluate(raw(devhist=devh(history=dict(launch_source=None, launch_total=None))), now=NOW)
+        self.assertEqual(status(d, "serial"), "unknown")
+        self.assertEqual(d["verdict"], "INCOMPLETE")
+
+    def test_curves_beyond_the_priced_25_still_count(self):
+        d = rules.evaluate(raw(devhist=devh(history=dict(launch_total=40))), now=NOW)
+        self.assertEqual(status(d, "serial"), "fail")
+        self.assertIn("40 other coins", next(c["value"] for c in d["checks"] if c["id"] == "serial"))
+
+    def test_evm_registry_only_is_info(self):
+        dh = dict(devh(chain="base"), history=None)
+        checks = rules._dev(dh, "base", {"honeypot_with_same_creator": "1"})
+        ids = {c["id"]: c["status"] for c in checks}
+        self.assertEqual(ids["devhoneypot"], "fail")
+        self.assertEqual(ids["serial"], "info")
+
+
+class DevHistIOTests(unittest.TestCase):
+    def setUp(self):
+        import devhist
+        self.dh = devhist
+
+    def test_curve_creator_offset(self):
+        # discriminator(8) + virtual token, virtual sol, real token, real sol, total supply (5 x u64) + complete(1)
+        self.assertEqual(self.dh.CURVE_CREATOR_OFFSET, 49)
+
+    def test_first_funder_from_transfer(self):
+        tx = dict(transaction=dict(message=dict(accountKeys=[dict(pubkey="Payer")], instructions=[
+            dict(parsed=dict(type="transfer", info=dict(source="Fund9", destination="DevZ", lamports=1)))])))
+        self.assertEqual(self.dh.first_funder(tx, "DevZ"), "Fund9")
+
+    def test_current_coin_not_counted_as_earlier(self):
+        self.dh._cache[("DevQ", True)] = (__import__("time").time(), dict(
+            tx_count=5, history_complete=True, first_seen=1, funder=None, launch_source="pump.fun bonding curves",
+            launch_total=2, launches=["ThisCoin", "Older"]))
+        h = self.dh.solana_history("DevQ", "ThisCoin")
+        self.assertEqual((h["launch_total"], h["launches"]), (1, ["Older"]))
+
+    def test_registry_finds_same_creator(self):
+        import tempfile
+        path = os.path.join(tempfile.mkdtemp(), "t.db")
+        self.dh.registry_record("solana", "A", "AAA", "DevX", "FundX", path)
+        self.dh.registry_record("solana", "B", "BBB", "DevY", "FundX", path)
+        sc, sf = self.dh.registry_lookup("solana", "C", "DevX", "FundX", path)
+        self.assertEqual([c["symbol"] for c in sc], ["AAA"])
+        self.assertEqual([c["symbol"] for c in sf], ["BBB"])
