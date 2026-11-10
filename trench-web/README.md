@@ -70,7 +70,7 @@ Server endpoints (`api/*.py`, cached on Vercel's CDN):
   - 30 min cooldown after a loss
   - no re-entry for 24 h on a coin that lost
   - −5% daily stop
-- **One difference:** with no database there's no lasting rug-wallet registry (the terminal's dev seat keeps one in `/tmp`, per function instance; seed known ruggers in `api/_lib/data/rug_wallets.txt`), and the `/trade` dev check uses RugCheck's "creator history of rugged tokens" flag, so the dev check uses RugCheck's "creator history of rugged tokens" flag. The trace of the dev's funding wallet runs only in the desk version (`memecoin-desk/trench_app.py`).
+- **One difference:** with no database there's no lasting rug-wallet registry (the terminal's dev seat keeps one in `/tmp`, per function instance; seed known ruggers in `api/_lib/data/rug_wallets.txt`), and the `/trade` dev check uses RugCheck's "creator history of rugged tokens" flag. The trace of the dev's funding wallet runs only in the desk version (`memecoin-desk/trench_app.py`).
 
 ## Local
 
