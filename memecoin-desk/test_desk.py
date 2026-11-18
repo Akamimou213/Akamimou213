@@ -1,5 +1,6 @@
 """Offline tests for the rules that protect capital. python3 -m unittest test_desk -v"""
 import copy
+import json
 import os
 import sys
 import unittest
@@ -364,6 +365,73 @@ class DossierTests(unittest.TestCase):
         lines = tui.render(d, 120, 40)
         self.assertEqual(len(lines), 40)
         self.assertIn("TRENCH DESK", lines[0][0])
+
+
+class ThemesExperimental(unittest.TestCase):
+    """Theme rotation is display only: it must never reach the dossier, the gate or a size."""
+
+    def pair(self, mint, sym, name, h1, h6, h24, age_h=48):
+        now = 1_800_000_000
+        return dict(baseToken=dict(address=mint, symbol=sym, name=name), dexId="raydium",
+                    liquidity=dict(usd=100000), volume=dict(h1=h1, h6=h6, h24=h24),
+                    pairCreatedAt=(now - age_h * 3600) * 1000)
+
+    def setUp(self):
+        import themes as TH
+        self.TH = TH
+        self.d = make_desk()
+        self.st = self.d.store
+        self.pairs = {
+            "m1": [self.pair("m1", "GTAVI", "GTA VI", 300_000, 3_000_000, 6_000_000)],     # pace6h 2.0
+            "m2": [self.pair("m2", "STONK", "Stonk", 100_000, 600_000, 9_600_000)],         # pace6h 0.25
+            "m3": [self.pair("m3", "LAUNCH", "Launch", 5_000, 200_000, 1_000_000)],
+            "m4": [self.pair("m4", "HERMIT", "Hermit", 0, 0, 2_500_000)],                   # dead now
+            "m5": [self.pair("m5", "ZAP", "Zorp Zap", 50_000, 300_000, 400_000)],
+            "m6": [self.pair("m6", "ZORP2", "Zorp Two", 50_000, 300_000, 400_000)],
+            "m7": [self.pair("m7", "ZRP", "Big Zorp", 50_000, 300_000, 400_000)],
+        }
+        cfg = self.d.cfg["themes"]
+        cfg["buckets"] = {"GTA6": ["gta"], "Launchpad": ["stonk", "launch"], "Hermit": ["hermit"]}
+        cfg["min_theme_vol_h24_usd"] = 0
+
+    def refresh(self):
+        return self.TH.refresh(self.d, pairs_fn=lambda ms: {m: self.pairs[m] for m in ms}, mints=list(self.pairs))
+
+    def test_reads(self):
+        rows = {r["theme"]: r for r in self.refresh()}
+        self.assertTrue(rows["GTA6"]["read"].startswith("speeding up"))
+        self.assertTrue(rows["Launchpad"]["read"].startswith("slowing"))
+        self.assertIn("STONK is 91%", rows["Launchpad"]["read"])
+        self.assertTrue(rows["Hermit"]["read"].startswith("dead now"))
+        self.assertIn("auto:zorp", rows)          # a new meta nobody configured
+
+    def test_young_coin_not_read_as_accelerating(self):
+        # 3 h old: its 24h volume IS its 6h volume, so an even pace gives pace6h 1.0, not 4.0
+        self.pairs = {"y": [self.pair("y", "GTA", "GTA kid", 100_000, 900_000, 900_000, age_h=3)]}
+        rows = {r["theme"]: r for r in self.refresh()}
+        self.assertAlmostEqual(rows["GTA6"]["pace_6h"], 1.0)
+
+    def test_change_vs_previous_snapshot(self):
+        self.refresh()
+        self.d.clock.t += 6 * 3600
+        self.pairs["m1"] = [self.pair("m1", "GTAVI", "GTA VI", 300_000, 3_000_000, 9_000_000)]
+        self.refresh()
+        self.assertIn("+50%", [l for l in self.TH.table(self.d).splitlines() if l.startswith("GTA6")][0])
+
+    def test_display_only(self):
+        self.refresh()
+        self.assertIn("EXPERIMENTAL", self.TH.table(self.d))
+        lead = dict(id=7, mint="m1", symbol="GTAVI", name="GTA VI")
+        text = self.TH.note_lead(self.d, lead)
+        self.assertIn("GTA6", text)
+        self.assertIn("not in the gate", text)
+        dos = SE.build_dossier(dict(lead, risk={}, whale={}, reason="x"), self.pairs["m1"], self.st, self.d.cfg,
+                               1000, self.d.clock())
+        self.assertNotIn("theme", json.dumps(dos).lower())
+
+    def test_off_switch(self):
+        self.d.cfg["themes"]["enabled"] = False
+        self.assertIsNone(self.TH.note_lead(self.d, dict(id=1, mint="m1", symbol="GTAVI", name="GTA VI")))
 
 
 if __name__ == "__main__":

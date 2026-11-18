@@ -74,6 +74,9 @@ def evening(desk, since=None, now=None):
     staged = st.q("SELECT status, COUNT(*) n FROM orders WHERE staged_ts>=? GROUP BY status", (since,))
     if staged:
         lines.append("Orders: " + " · ".join(f"{r['status']} {r['n']}" for r in staged))
+    if (desk.cfg.get("themes") or {}).get("enabled"):
+        import themes
+        lines += ["", themes.table(desk, limit=10)]
     return "\n".join(lines)
 
 

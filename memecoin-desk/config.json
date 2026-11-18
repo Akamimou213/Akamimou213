@@ -111,6 +111,31 @@
     ]
   },
 
+  "themes": {
+    "_note": "EXPERIMENTAL, display only. Theme volume and pace go to the thread, the evening report and `desk.py themes`. Not in the dossier, not in JUDGE's gate, never kills, stages or sizes. Set enabled to false to switch it off.",
+    "enabled": true,
+    "refresh_min": 15,
+    "max_coins": 300,
+    "compare_hours": 6,
+    "auto_min_coins": 3,
+    "min_theme_vol_h24_usd": 100000,
+    "speeding_up_pace": 1.3,
+    "slowing_pace": 0.7,
+    "dead_if_1h_share_below": 0.005,
+    "one_coin_share": 0.6,
+    "buckets": {
+      "Launchpad tokens": ["stonk", "launch", "mogz", "stonklana", "snarks"],
+      "GTA6": ["gta", "gta6", "gtavi", "vice city", "dacity", "gato"],
+      "Cats": ["cat", "cats", "kitty", "hypercat", "podcat", "cate", "catday"],
+      "Dogs": ["dog", "doge", "shiba", "pup", "puppy"],
+      "Frogs": ["frog", "pepe", "frongus"],
+      "AI brands": ["grok", "grokbot", "ants", "gpt", "claude", "agent"],
+      "Tesla / Robotaxi": ["tesla", "robotaxi", "elon"],
+      "BTC / LTC": ["btc", "bitcoin", "ltc", "litecoin"],
+      "Food": ["cake", "meat", "poteto", "potato", "pizza", "burger"]
+    }
+  },
+
   "app": {
     "_note": "Telegram channels read from their public t.me/s/<name> page. Add any public channel username.",
     "channels": ["mad_apes_call"],

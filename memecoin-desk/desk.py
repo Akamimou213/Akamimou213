@@ -12,6 +12,7 @@
   python3 desk.py calibrate           the Sunday judge-calibration table now
   python3 desk.py strategy            shadow book: every exit plan on every lead RISK passed
   python3 desk.py lead 47             everything the desk knows about one lead (dossier, answers, gate)
+  python3 desk.py themes [--refresh]  EXPERIMENTAL theme rotation table (display only, not in the gate)
 
 SEARCH -> RISK -> WHALE -> HEAD (dossier) -> JUDGE -> SNIPER -> APPROVE #id (you) -> EXIT
 """
@@ -28,6 +29,7 @@ sys.path.insert(0, HERE)
 
 import report as R  # noqa: E402
 import telegram as TG  # noqa: E402
+import themes as TH  # noqa: E402
 from core import Desk, SR, load_config, tag, utc  # noqa: E402
 from exits import describe  # noqa: E402
 from risk import Risk  # noqa: E402
@@ -53,6 +55,7 @@ def build(cfg, store):
     desk.sniper = Sniper(desk)
     desk.exit = Exit(desk, desk.sniper.limits)
     desk.clock_seat = R.HeadClock(desk, notify=TG.send if TG.enabled() else None)
+    desk.themes = TH.ThemeClock(desk)   # experimental, display only
     desk.feeds = desk.search.ws_state
     return desk
 
@@ -103,7 +106,7 @@ def command_loop(desk):
 
 def start(desk):
     targets = desk.search.threads() + [desk.risk.loop, desk.whale.loop, desk.head.loop, desk.judge.loop,
-                                       desk.sniper.loop, desk.exit.loop, desk.clock_seat.loop,
+                                       desk.sniper.loop, desk.exit.loop, desk.clock_seat.loop, desk.themes.loop,
                                        lambda: command_loop(desk)]
     if TG.enabled():
         desk.listeners.append(TG.listener(desk))
@@ -158,6 +161,8 @@ def main():
         sub.add_parser(verb)
     th = sub.add_parser("thread")
     th.add_argument("-n", type=int, default=50)
+    tm = sub.add_parser("themes", help="experimental theme rotation table (display only)")
+    tm.add_argument("--refresh", action="store_true", help="fetch a fresh snapshot now")
     ld = sub.add_parser("lead")
     ld.add_argument("lead", type=int)
     args = ap.parse_args()
@@ -191,6 +196,11 @@ def main():
             import tui
             for text, _ in tui.render(desk, 130, 40):
                 print(text.rstrip())
+    elif args.cmd == "themes":
+        desk = Desk(cfg, store)
+        if args.refresh:
+            TH.refresh(desk)
+        print(TH.table(desk))
     elif args.cmd == "lead":
         print(json.dumps(store.lead(args.lead), indent=1, default=str))
 

@@ -178,6 +178,11 @@ class Head:
         st.set_lead(lead_id, dossier=dos)
         missing = sum(1 for k, val in _walk(dos) if val == M)
         self.d.say(self.seat, "info", f"{tag(lead_id)} dossier → JUDGE ({missing} fields missing)", lead_id)
+        try:   # experimental theme line: thread only, never the dossier, so JUDGE can't see it
+            import themes
+            themes.note_lead(self.d, lead)
+        except Exception:
+            pass
         self.d.hand(self.seat, lead_id)
 
     def requeue_watches(self):

@@ -45,6 +45,27 @@ Staged orders, fills, closes and the 21:00 report go to your phone, and replying
 
 Smart money: put wallets you trust in `data/whales.txt` (`address,label`; see `examples/whales.txt`). Known ruggers go in `data/rug_wallets.txt`. Tests: `python3 -m unittest test_desk -v`.
 
+## Themes (experimental, display only)
+
+> **Experimental. Not part of the gate.** Theme data is not in the dossier, so JUDGE never sees it. It never kills a lead, stages an order or changes a size. It goes into the gate only after paper results show it helps, and only if you ask for that.
+
+Every 15 minutes the desk groups trending coins by narrative (keyword buckets in `config.json` → `themes.buckets`, plus `auto:<word>` themes for words shared by 3+ coins) and measures the volume in each theme:
+
+```bash
+python3 desk.py themes             # latest table
+python3 desk.py themes --refresh   # fetch a fresh snapshot now (works without the desk running)
+```
+
+| Column | Meaning |
+|---|---|
+| 24h / 6h / 1h | Summed DexScreener volume of the coins in the theme |
+| vs | 24h volume against the snapshot `compare_hours` (6) ago |
+| pace6h | 6h volume ÷ what an even day would give. Above 1.3 = speeding up, below 0.7 = slowing. Uses each coin's age, so a 3-hour-old coin doesn't read as accelerating |
+| pace1h | The same for the last hour against the last 6 h |
+| read | speeding up / steady / slowing / dead now, plus "X is 70% of it" when one coin carries the theme |
+
+Each lead also gets a thread line (`#047 theme: GTA6 (speeding up, pace6h 1.5x) [EXPERIMENTAL …]`), and the evening report ends with the table. Volume is not price: it includes selling, wash trading and bots. Turn it off with `"themes": {"enabled": false}`.
+
 ## Trench: the trading screen
 
 One screen with everything live: a radar of every new coin and every channel call, a live chart, safety checks, top holders, the trade tape, an order ticket, positions and a journal.

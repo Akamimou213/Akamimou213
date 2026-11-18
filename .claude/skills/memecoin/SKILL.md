@@ -43,6 +43,7 @@ All three are Python 3.9+ standard library only. Run Python on fetched data with
 - **Question wording:** the four JUDGE questions live only in `judge.QUESTIONS`. Changing wording breaks cross-day comparison, so do it only on request and note it in the thread.
 - **TypeSafe pattern:** the judge answers judgments and code decides. Use the installed `typesafe` skill when changing questions. Ask one observable thing per question, describe each level as a situation, and keep the gate in code. No Jev API key is used. The backends are `rules` (offline) and `claude` (Claude API, opt-in).
 - **Tests:** `cd memecoin-desk && python3 -m unittest test_desk -v` and `cd memecoin-scanner && python3 -m unittest test_rules test_series`. Add a test for any rule you touch: stop, trail, size, limits, gate, or a RISK kill.
+- **Themes (experimental):** `memecoin-desk/themes.py` tracks narrative rotation (volume and pace per theme) for display only: the thread, the evening report and `desk.py themes`. Keep it out of the dossier and the gate unless the user asks and paper results support it.
 - **Backtest:** `python3 memecoin-desk/backtest.py fetch --pools 240`, then `run`. It uses the live exit engine (`exits.py`) and gates in `backtest.GATES`. Report capped averages and medians next to the plain average, and say the universe leans toward coins that ended up big.
 - **Live smoke run:** `python3 -I desk.py --db <scratch>/live.db run --headless --minutes 8`. Background jobs here stop after about 2 h; for 24/7 the user runs it on their own machine or a VPS.
 

@@ -45,6 +45,9 @@ CREATE TABLE IF NOT EXISTS whale_buys (wallet TEXT, label TEXT, mint TEXT, ts IN
 CREATE INDEX IF NOT EXISTS wb_mint ON whale_buys (mint, ts);
 CREATE TABLE IF NOT EXISTS commands (id INTEGER PRIMARY KEY AUTOINCREMENT, ts REAL, origin TEXT, text TEXT, done INTEGER DEFAULT 0);
 CREATE TABLE IF NOT EXISTS meta (k TEXT PRIMARY KEY, v TEXT);
+CREATE TABLE IF NOT EXISTS theme_snaps (ts INTEGER, theme TEXT, n INTEGER, vol_h24 REAL, vol_h6 REAL, vol_h1 REAL,
+  pace_6h REAL, pace_1h REAL, top_symbol TEXT, top_share REAL, read TEXT, symbols TEXT);  -- experimental, display only
+CREATE INDEX IF NOT EXISTS theme_snaps_ts ON theme_snaps (theme, ts);
 """
 
 
