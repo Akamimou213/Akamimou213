@@ -18,25 +18,22 @@ Topic picked from the research: Telegram export #108 (26 Mar 2026) and #171 (22 
 ```
 Free trials are weird on Meta.
 
-A longer free trial can make your app ads worse:
+A longer free trial can slow down your app ads:
 
 How it works:
-- If your campaign optimizes for purchases, Meta only learns
-  from payments it can tie back to an ad click.
-- By default it looks 7 days back from the click.
-- A 7-day free trial charges the user on day 7 or later.
-  People install a few hours after the click, so the first
-  payment lands right on the edge of the window, or past it.
+- If your campaign optimizes for purchases, Meta learns from
+  payments it can tie back to an ad click.
+- By default it counts a payment only if it happens within
+  7 days of the click.
+- A 7-day free trial charges around day 7. So in the first week
+  there's nothing to learn from, and the first payments land
+  right on the edge of that window. Some count, some don't.
 
-So Meta pays for the trials. It just never sees who paid.
-
-Example (same ads, same users, $500/day,
-50 trials a day, 40% of trials pay):
+Example (same ads, $500/day, 50 trials a day,
+and to keep it simple, 40% of trials pay in both cases):
 
 3-day trial:
-→ Day 1: 50 trials. Purchases Meta sees: 0
-→ Day 2: 50 trials. Running total: 0
-→ Day 3: 50 trials. Running total: 0
+→ Day 1–3: 50 trials a day. Purchases Meta sees: 0
 → Day 4: Day 1 trials pay. +20. Running total 20
 → Day 5: +20. Running total 40
 → Day 6: +20. Running total 60
@@ -44,25 +41,29 @@ Example (same ads, same users, $500/day,
 
 7-day trial:
 → Day 1 to Day 7: running total 0
-→ Day 8: the first payments arrive, at the edge of the window
-  or just past it
+→ Day 7–8: the first payments arrive, on the edge of the window
 
-After one week, both campaigns spent $3,500.
+After one week, both spent $3,500.
 One shows 80 purchases at ~$44 each.
-The other shows zero.
+The other shows none yet.
 
-Same users. The second one looks dead, so most founders
-kill it, or Meta stops spending on it.
+That first week is exactly when you're judging creatives.
+With the 7-day trial you're judging them blind, and Meta is too:
+the campaign stays stuck in learning.
+
+On iOS it's slower again: most purchases reach Meta through
+Apple's delayed postbacks, and a payment after day 7 falls
+into the last, slowest one.
 
 Two ways to handle it:
 - Run a 3-day trial while you test creatives, then A/B test
   the 7-day trial once you have winners.
-- Or keep 7 days and give Meta an earlier signal it can see:
+- Or keep 7 days and give Meta an earlier signal:
   "trial still active after 1 hour" or "still active on day 3",
   checked every week against real payments.
 
-Check your own setup before changing anything: your MMP,
-attribution setting and iOS postbacks decide what Meta sees.
+The numbers are illustrative. Real conversion differs between
+3- and 7-day trials, so test it on your own app.
 
 Hope this helps.
 ```
@@ -84,7 +85,7 @@ line. Shared horizontal gridlines in very light grey.
 
 TOP TITLE (centered, bold, dark navy #1B2A3A, large):
 "Same ads. Same users. What Meta sees."
-Subtitle below in grey: "Purchases Meta can tie to an ad, first 7 days · $500/day"
+Subtitle below in grey: "Purchases in the first 7 days · $500/day · 50 trials a day"
 
 LEFT PANEL
 - Panel title (bold, dark): "3-Day Trial"
@@ -99,7 +100,7 @@ LEFT PANEL
 - Callout box pointing at the Day 4 bar:
   "Trial ends → payment → Meta learns"
 - Big number in blue, bold, placed upper right of the panel: "80"
-  with small grey text under it: "purchases Meta sees"
+  with small grey text under it: "purchases in week 1"
 - Small grey text under that: "≈ $44 per purchase"
 
 RIGHT PANEL
@@ -107,23 +108,23 @@ RIGHT PANEL
 - Same X-axis: Day 1 to Day 7, then a lighter grey extra label "Day 8"
 - A flat red line (#C8372D) sitting on 0 from Day 1 to Day 7.
 - A dashed vertical amber line (#C9962B) between Day 7 and Day 8, labelled
-  at the top: "Meta's 7-day click window ends"
+  at the top: "7-day click window ends"
 - At Day 8, just past the dashed line, a single faded red bar (low opacity)
-  with the label: "First payments land here"
+  with the label: "First payments: some counted, some lost"
 - Callout box pointing at the flat red line:
-  "Meta paid for every trial…"
+  "No payments yet. Nothing to learn from"
 - Second callout box pointing at the same line further right:
-  "…and saw zero who paid"
+  "Creatives judged blind"
 - Big number in red, bold, upper right of the panel: "0"
-  with small grey text under it: "purchases Meta sees"
-- Small red text under that: "Campaign looks dead"
+  with small grey text under it: "purchases in week 1"
+- Small red text under that: "Stuck in learning"
 
 BOTTOM STRIP (full width, light grey background #F3F4F6, rounded):
 Left side bold: "Same $3,500 spent."
 Right side: "Fix: 3-day trial while testing · or send an early signal (trial still active on day 3)"
 
 FOOTER (centered, bold, dark grey, small): "Mohamed Barkat"
-Under it, tiny grey: "Illustrative: 50 trials/day, 40% pay. Check your own MMP and attribution settings."
+Under it, tiny grey: "Illustrative: 40% of trials pay in both cases. Real conversion differs, test on your app."
 ```
 
 ### Optional: animation version (ChatGPT / Sora)
@@ -140,6 +141,7 @@ no music, every text readable on mute.
 
 ## Checklist before posting
 - [ ] The chart numbers match the post (0/0/0/20/40/60/80; $3,500; ≈$44).
+- [ ] Keep the "illustrative" line in the post and on the chart. If you have a real before/after from an app, use those numbers instead.
 - [ ] Zoom in on the ChatGPT image and check every label is spelled right (it often misspells small text; ask it to fix just that label).
 - [ ] Attach the image only. Put the comment CTA as the first comment.
 - [ ] Post at 14:00 or 20:30 Ho Chi Minh City time.
