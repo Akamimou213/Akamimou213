@@ -45,3 +45,4 @@ Telemetry stays off (`HYPERFRAMES_NO_TELEMETRY=1`, `DO_NOT_TRACK=1`).
 | shot-composition | [iart-ai/motion-design-skills](https://github.com/iart-ai/motion-design-skills) | `3c129f769d90` | MIT License | no |
 | logo-animation | [iart-ai/motion-design-skills](https://github.com/iart-ai/motion-design-skills) | `3c129f769d90` | MIT License | no |
 | motion-art-direction | [iart-ai/motion-design-skills](https://github.com/iart-ai/motion-design-skills) | `3c129f769d90` | MIT License | no |
+| post-writer | [charlie947/social-media-skills](https://github.com/charlie947/social-media-skills) | `10ca79c0ec0b` | MIT License | no |
