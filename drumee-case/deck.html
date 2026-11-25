@@ -77,7 +77,7 @@ code{font-family:ui-monospace,Menlo,monospace;font-size:13px;background:var(--bg
 .map tr.hl td{background:var(--bg2)}
 .mini td{border:0;padding:5px 6px 5px 0;font-size:15px}
 .flow{display:flex;align-items:center;gap:8px;margin-bottom:10px}
-.flow .fl{width:96px;font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--red)}
+.flow .fl{width:150px;font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--red)}
 .flow .st{border-radius:10px;padding:9px 14px;font-size:14.5px;font-weight:700;white-space:nowrap}
 .flow .st.bad{background:var(--redbg);color:#8f1f28}
 .flow .st.good{background:var(--grnbg);color:#0d5c38}
@@ -218,7 +218,7 @@ code{font-family:ui-monospace,Menlo,monospace;font-size:13px;background:var(--bg
     </div>
     <div class="col" style="flex:1;gap:14px">
       <div class="card"><h3>Structure</h3>
-        <p><b>Meta prospecting:</b> PH, 1 ad set, broad audience, Feeds/Stories/Reels, no Audience Network. Persona: agency leads with overseas clients, who bill in USD. 4 ads (E3).</p>
+        <p><b>Meta prospecting:</b> PH, 1 ad set, broad audience, Feeds/Stories/Reels, no Audience Network. Persona: agency leads with overseas clients, who bill in USD. 1 concept (slide 7) in 1:1 and 9:16, with hooks rotated in week 2.</p>
         <p style="margin-top:6px"><b>Google EU Search:</b> DE, AT, CH, NL. Exact and phrase match, buyer-intent terms only:<br>
         <b>Sovereign cloud</b> · souveräne cloud 320/mo, soevereine cloud 260/mo, schweizer cloud speicher 90/mo<br>
         <b>Secure sharing</b> · veilig bestanden delen 140/mo, dateien sicher teilen 110/mo<br>
@@ -262,7 +262,7 @@ code{font-family:ui-monospace,Menlo,monospace;font-size:13px;background:var(--bg
     <div class="exp">
       <div class="lab">E1 · Landing page → sign-up (5.8% today)</div>
       <div><span class="k">Hypothesis</span><p>Cold visitors leave because the hero is generic ("run your team workflow"), the product sits below the mobile fold, and the CTA opens a login page. If the page <b>repeats the ad's promise</b> and shows the real product, more visitors will sign up.</p></div>
-      <div><span class="k">Change</span><p><b>Baseline fix to 100% first:</b> CTA → "Create your team" with SSO.<br><b>A/B:</b> today's hero vs a <b>message-matched hero</b>. Its headline mirrors the ad angle (<code>utm_content</code>: "One Space per client" or "$1 first month"), with real UI above the fold on mobile, Google/Microsoft buttons on the page, and "Reminder 3 days before renewal · cancel in one click" under the CTA.</p></div>
+      <div><span class="k">Change</span><p><b>Baseline fix to 100% first:</b> CTA → "Create your team" with SSO.<br><b>A/B:</b> today's hero vs a <b>message-matched hero</b>. Its headline repeats the ad's hook and promise ("Which version did the client approve? One Space per client."), with real UI above the fold on mobile, Google/Microsoft buttons on the page, and "Reminder 3 days before renewal · cancel in one click" under the CTA.</p></div>
       <div><span class="k">Metric</span><p>Server-side sign-ups per unique visitor (experiment ID carried into the app). Guardrails: trial rate, mobile vs desktop.</p></div>
       <div><span class="k">Sample</span><p>8% → 11.2% at 80% power needs <b>1,330 visitors per arm</b>, ≈ 9 days at ~300 visitors/day.</p></div>
       <div><span class="k">Win / loss</span><p>Win: ≥ +25% relative, p &lt; 0.05, trial rate not lower. Loss: keep the control and test the offer block next.</p></div>
@@ -273,19 +273,20 @@ code{font-family:ui-monospace,Menlo,monospace;font-size:13px;background:var(--bg
       <div><span class="k">Hypothesis</span><p>Teams pay, then land in billing, 4 pop-ups and an empty Space with no Invite button. If inviting 2 teammates becomes <b>the first screen after payment</b>, activation will rise.</p></div>
       <div><span class="k">Change</span><p>A 2-step setup after the $1 payment: (1) name the Space (pre-filled: "Client: …"), (2) invite 2 people by email, copy link or WhatsApp. Pop-ups muted in session 1. A permanent <b>Invite</b> button. Nudges to the payer on day 0, 1 and 3.</p></div>
       <div><span class="k">Metric</span><p>% of trial teams with a Space + ≥ 2 invites <b>within 72 h</b> (the brief's definition). Quality guardrail: ≥ 1 invite <b>accepted</b>.</p></div>
-      <div><span class="k">Sample</span><p>50/50 by team. 10% → 40% needs <b>32 teams per arm</b>. Runs to the end of the campaign (D28), read on day 31.</p></div>
+      <div><span class="k">Sample</span><p>50/50 by team. 10% → 40% needs <b>32 teams per arm</b> (≈ 3 weeks). Read on D31 with a Bayesian check, and keep running past the offer if volume is short.</p></div>
       <div><span class="k">Win / loss</span><p>Win: ≥ +20 points and ≥ 95% probability. Loss: under +10 points, so test a seat incentive.</p></div>
       <div class="fix" style="margin-top:auto"><p><b>Watch-outs:</b> "invites sent" can be gamed (dummy emails), so accepted invites are tracked too. And 2 invites is the brief's definition, not proven: on D40 we check that activated teams really renew more.</p></div>
     </div>
     <div class="exp">
-      <div class="lab">E3 · Sell the job or sell the price?</div>
-      <div><span class="k">Hypothesis</span><p>Angle A, "One Space per client", brings <b>fewer but better</b> teams than angle C, the "$1 first month" offer. Judged on CTR, C would win the wrong way.</p></div>
-      <div><span class="k">Change</span><p>A vs C, each as a 1:1 static and a 9:16, in Meta's creative test (equal spend in the one ad set). Same landing page variant logic, CTA and copy length. <code>utm_content</code> per ad.</p></div>
-      <div><span class="k">Metric</span><p>Week 1: <b>cost per trial</b>. Final: <b>cost per activated team</b>, using the backend.</p></div>
-      <div><span class="k">Sample</span><p>≥ 20 trials per angle (≈ 2 weeks). Early kill only if an angle costs &gt; 2× per trial.</p></div>
-      <div><span class="k">Win / loss</span><p>Win: ≥ 30% cheaper per activated team. Make 3 new hooks on the winner. Tie: test the persona next.</p></div>
-      <div class="fix" style="margin-top:auto"><p><b>Design note:</b> 2 angles, not 3. A real difference in quality (15% → 30% trial rate) needs ~120 sign-ups per arm, which is the whole week's volume for 2 arms.</p></div>
+      <div class="lab">E3 · My choice: pay first or onboard first?</div>
+      <div><span class="k">Hypothesis</span><p>Only 24% of sign-ups pay because the $1 step comes after 7 onboarding screens, below the fold. If <b>checkout comes right after the account is created</b>, as the offer promises ("add a card to start"), more sign-ups will start a trial.</p></div>
+      <div><span class="k">Change</span><p>Control: today's order (sign-up → 7 questions → billing). Variant: sign-up → <b>$1 checkout</b> → the rest of onboarding. Same price, same copy. Randomised independently of E2 (a 2×2 split), so each test reads cleanly.</p></div>
+      <div><span class="k">Metric</span><p><b>Sign-up → trial within 24 h.</b> Guardrails: activation at 72 h, refund requests.</p></div>
+      <div><span class="k">Sample</span><p>Sized for a big effect: 24% → 40% needs <b>~130 sign-ups per arm</b>, ≈ 2–3 weeks at ~60 per arm a week. Starts D12, read at D28.</p></div>
+      <div><span class="k">Win / loss</span><p>Win: ≥ +15 points of trial rate, p &lt; 0.05, activation not lower. This also unlocks <b>StartTrial as Meta's optimisation event</b>. Loss: keep today's order and simplify the billing screen.</p></div>
+      <div class="fix" style="margin-top:auto"><p><b>Why this one:</b> it moves the event the ads optimise for. More trials per sign-up means Meta reaches 50 trials a week sooner, so every dollar from week 3 buys paying teams, not just accounts.</p></div>
     </div>
+  </div>
   </div>
 </section>
 
@@ -298,7 +299,7 @@ code{font-family:ui-monospace,Menlo,monospace;font-size:13px;background:var(--bg
     <div class="st bad">Landing page</div><div class="ar">→</div><div class="st bad">"Welcome back" login</div><div class="ar">→</div><div class="st bad">6-field sign-up</div><div class="ar">→</div><div class="st bad">7 onboarding steps</div><div class="ar">→</div><div class="st bad">Billing, plan Free</div><div class="ar">→</div><div class="st bad">4 pop-ups, empty Space</div><div class="ar">→</div><div class="st bad">Invite? (hidden)</div>
   </div>
   <div class="flow" style="margin-bottom:20px">
-    <div class="fl"><span style="color:var(--grn)">Proposed</span></div>
+    <div class="fl"><span style="color:var(--grn)">Proposed (E2+E3)</span></div>
     <div class="st good">Landing page</div><div class="ar">→</div><div class="st good">Create team (SSO)</div><div class="ar">→</div><div class="st good">$1 checkout = StartTrial</div><div class="ar">→</div><div class="st good">Name your Space</div><div class="ar">→</div><div class="st good">Invite 2 = activated</div><div class="ar">→</div><div class="st good">2 questions, later</div>
   </div>
   <div class="col" style="flex:1">
@@ -312,30 +313,23 @@ code{font-family:ui-monospace,Menlo,monospace;font-size:13px;background:var(--bg
 <section class="s">
   <div class="hd"><div class="tag">Part 4 · Ad concept — creative strategy</div><div class="pg">7 / 7</div></div>
   <h1>Sell the client handoff, <em>not "another all-in-one app".</em></h1>
-  <div class="row" style="gap:36px">
-    <div class="col" style="width:560px;flex:none">
-      <img src="out/ad_main.png" alt="Concept A" style="width:560px;height:560px;object-fit:cover;border-radius:16px;border:1px solid var(--line)">
-      <p class="mut sm" style="margin-top:10px"><b>Concept A · hero.</b> 1:1 for Meta Feeds and ChatGPT Ads, plus a 9:16 cut-down for Stories and Reels.</p>
+  <div class="row" style="gap:44px">
+    <div class="col" style="width:680px;flex:none">
+      <img src="out/ad_main.png" alt="Ad concept" style="width:680px;height:680px;border-radius:16px;border:1px solid var(--line)">
+      <p class="mut sm" style="margin-top:10px">1:1 for Meta Feeds and ChatGPT Ads. A 9:16 version for Stories and Reels uses the same layout, stacked.</p>
     </div>
-    <div class="col" style="flex:1;gap:14px">
-      <div class="row" style="gap:14px;flex:none">
-        <div class="card" style="flex:1"><div class="lab">Persona</div><p><b>Agency lead in Manila or Cebu</b> running an 8–15-person creative or VA team for US/AU clients. Paid in USD. Client work is spread across Drive, Messenger and email.</p></div>
-        <div class="card" style="flex:1"><div class="lab">Insight</div><p>Overseas clients judge an agency by <b>how organised the handoff looks</b>. Losing track of "the approved version" costs trust, not just time.</p></div>
+    <div class="col" style="flex:1;gap:16px">
+      <div class="row" style="gap:16px;flex:none">
+        <div class="card" style="flex:1"><div class="lab">Audience</div><p><b>Agency leads in the Philippines</b> running 8–15-person creative, marketing or VA teams for US/AU clients. Paid in USD. Client work is spread across Drive, Messenger and email.</p></div>
+        <div class="card" style="flex:1"><div class="lab">Insight</div><p>Overseas clients judge an agency by <b>how organised the handoff looks</b>. Losing "the approved version" costs trust, not just time.</p></div>
       </div>
-      <div class="card"><div class="lab">Angle &amp; why (Motion)</div><p>ClickUp's longest-running Meta ads (238–242 days live) all say "one app to replace them all", so that space is taken. Drumee owns a narrower, provable promise: <b>one Space per client, with links you control</b>. Awareness: problem-aware. Format: before/after static, the longest-running static format in the Meta Ad Library sample.</p></div>
-      <div class="row" style="gap:14px;flex:none">
-        <div class="card" style="flex:1.2"><div class="lab">Copy (hero)</div>
-          <p><b>Hook:</b> "Wait… which version did the client approve?"</p>
-          <p style="margin-top:4px"><b>Headline (41/50):</b> One Space per client. Files, chat, tasks.</p>
-          <p style="margin-top:4px"><b>Description (96/100):</b> Stop chasing the approved version across apps. Expiring client links. Team plan: $1 first month.</p></div>
-        <div class="card" style="flex:1"><div class="lab">Hooks to test next</div>
-          <p>· "Your client asked for the final file. Which one?"<br>· "Stop sending clients links that never expire."<br>· "New VA? Give them one Space, not five logins."</p></div>
-      </div>
-      <div class="row" style="gap:14px;align-items:center;flex:none">
-        <img src="out/ad_c.png" alt="Concept C" style="width:150px;height:150px;border-radius:10px;border:1px solid var(--line)">
-        <p class="sm"><b>Concept C · challenger (E3):</b> the "$1 first month" offer card. Same audience and CTA.<br><span class="mut">Rules: no competitor names, no unmeasured numbers; only offer facts and real UI.</span></p>
-      </div>
-      <p class="mut sm" style="margin-top:auto"><b>AI tools:</b> Claude Code (analysis, live tracking audit, deck) · Semrush (keyword volume/CPC) · Motion (competitor creative) · ChatGPT (ad images) · marketing skill checklists. Product walkthrough and number checks by me.</p>
+      <div class="card"><div class="lab">Concept</div><p><b>Hook in the customer's own words</b> ("Wait… which version did the client approve?"), then the promise, then <b>real Drumee UI as proof</b>: one client Space with files, the discussion threaded on the budget file, and the meeting in the same place. Format: a product-hero static, the most common format among Meta ads running 60+ days.</p></div>
+      <div class="card"><div class="lab">Copy</div>
+        <p><b>Headline (41/50):</b> One Space per client. Files, chat, tasks.</p>
+        <p style="margin-top:5px"><b>Description (96/100):</b> Stop chasing the approved version across apps. Expiring client links. Team plan: $1 first month.</p>
+        <p style="margin-top:5px"><b>Primary text:</b> Client files in one app, feedback in another, approvals buried in email. Drumee gives every client one Space: files, chat and tasks together. Team plan: $1 for your first month.</p></div>
+      <div class="card" style="background:var(--bg2);border-color:var(--lav)"><div class="lab">Why this angle (Motion)</div><p>ClickUp's longest-running Meta ads (238–242 days live) all say "one app to replace them all", so that space is taken. Drumee owns a narrower, provable promise: <b>one Space per client</b>. No competitor names and no unmeasured numbers. The CTA states the real offer ($1, not "free"), so ad, landing page and checkout match.</p></div>
+      <p class="mut sm" style="margin-top:auto"><b>AI tools:</b> Claude Code (analysis, live tracking audit, deck) · Semrush (keyword volume/CPC) · Motion (competitor creative) · ChatGPT (ad image) · marketing skill checklists. Product walkthrough and number checks by me.</p>
     </div>
   </div>
 </section>

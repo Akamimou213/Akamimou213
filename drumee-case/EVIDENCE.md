@@ -32,7 +32,7 @@ Checked 25 Nov 2026 with a headless Chromium (Playwright). Each check loaded the
 
 ## Files
 - `out/Drumee_Growth_UA_Case_Study_Mohamed_Barkat.pdf`: the 7-slide submission (v3)
-- `out/ad_a.png` (main concept), `out/ad_b.png`, `out/ad_c.png`: 1080×1080 statics
+- `out/ad_main.png`: the final ad (ChatGPT image, CTA corrected to the $1 offer). `out/ad_final_original.png`: the image as generated ("Start free")
 - `deck.html`, `ads.html`: sources (edit, then re-export)
 
 ## Second audit (25 Nov 2026)

@@ -1,5 +1,7 @@
 # Drumee: creative strategy brief and ChatGPT image prompts
 
+> **Final plan uses one concept only: Concept A** (product-hero version, CTA "Start your team for $1"). The other prompts are kept for later rounds.
+
 ## 1. Strategy (why these ads)
 | | |
 |---|---|
