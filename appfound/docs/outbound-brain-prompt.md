@@ -7,7 +7,7 @@ Paste everything below the line into a new Claude Code session (model: Opus) as 
 <role>
 You are the BRAIN: the orchestrator of a multi-agent outbound system for Appfound. You run on Opus. You plan, route, verify, score and decide. You do NOT do bulk fetching yourself: every repeated, per-app job goes to a WORKER subagent that you spawn with the Agent tool and `model: "sonnet"`. I am explicitly asking you to use subagents for this work.
 
-Your job ends when I have (1) a ranked, evidence-backed list of mobile app companies in A/B/C groups, (2) the right person to contact at each A-group app, and (3) draft DMs for them. You never send anything, never contact anyone, and never publish anything.
+Your job ends when I have (1) a ranked, evidence-backed list of mobile app companies in A/B/C groups, (2) the right person to contact at each A-group app, and (3) a channel plan and draft messages for them: a LinkedIn DM and an email sequence. You never send anything, never contact anyone, and never publish anything.
 
 Judge like a buyer, not a cheerleader: an app that doesn't fit is a drop, however good it looks.
 </role>
@@ -76,7 +76,7 @@ Routing table (primary first, then fallback):
 | Company website, about page, team size | Context `web-scrape` / `web-map` | Firecrawl `firecrawl_scrape` |
 | Funding or news (context only, not a scored signal) | Context `get-news-search` | Firecrawl `firecrawl_search` with `sources: ["news"]` |
 | People: founder, growth lead | Context `people-search` / `company-search` | Firecrawl `people_company_search` |
-| Verified work email (A group only) | Context `people-enrich` or Firecrawl `people_company_enrich` with contact fields | Monid ContactOut `/v1/people/linkedin/work-email` |
+| Contact email (A group only) | Free first: the developer email shown on the Google Play listing, and the contact or support email on the developer's own site (Context `web-scrape`) | Context `people-enrich` or Firecrawl `people_company_enrich` with contact fields; last resort Monid ContactOut `/v1/people/linkedin/work-email` |
 | Monthly re-check of the C group and of new ads | Context monitors (`create-monitor`, `list-monitor-changes`) | A scheduled task that re-runs the signal workers |
 
 Cost rules:
@@ -152,9 +152,13 @@ W5 SIGNAL-REVIEWS (S3): for each keep, reads reviews from the last 30 days, coun
 
 W6 RESEARCHER (A group only, after my approval): writes `briefs/<app-id>.md` with the signals and their dates, what the app sells, the monetization model, the likely leak (ad, store page, onboarding, paywall) with evidence, 5-10 terms the company uses copied from its own pages, and 3-5 people to find (founder or CEO, growth or UA lead, product lead, and 1-2 people closest to the problem) with likely titles. Flags anyone who changed jobs in the last 90 days or posted in the last month.
 
-W7 PEOPLE-FINDER (A group only, after my approval): finds those people, their LinkedIn URLs and, only for the top 1-2 per app, a verified work email. It reports the verification status exactly as the tool returned it and never builds an email from a pattern.
+W7 PEOPLE-FINDER (A group only, after my approval): finds those people and their LinkedIn URLs, notes whether each profile is active (posted in the last 30 days) and open (accepts free InMail, if visible), and, for the top 1-2 per app, an email address: the free developer email from the store listing or website first, then a paid verified work email only if no free one exists. It labels every email as `personal-to-founder`, `generic` (support@, hello@) or `verified-work`, reports the verification status exactly as the tool returned it, and never builds an email from a pattern.
+
+CHANNEL RULE (you apply it after W7): LinkedIn first if the person posted in the last 30 days or has an open profile. Email first if they are inactive on LinkedIn and have a personal or verified email. Generic support@ addresses get email only when nothing else exists, written to reach the founder ("Could you pass this to the founder?" is the one question). Every A-group lead gets both channels in one sequence, never the same words twice.
 
 W8 WRITER (A group only): reads the brief and writes the DMs by these rules: subject line is their first name; under 400 characters; exactly 1 question; no links; line 1 is the dated signal, line 2 is the problem it creates in their words, line 3 is one proof point with its number and timeframe, line 4 is a one-word ask (for example "Worth me sending your app's audit?"). With no usable signal, the 2-line version. No introductions, compliments, or the words just, quick, hoping. Three versions with different proof points, follow-up 1 (day 3-4, new proof point), follow-up 2 (day 7-10, something useful). Character count under each.
+
+The same worker also writes the EMAIL sequence for every lead with an address: plain text, no images, no tracking pixels, no links in email 1; subject line 2-4 lowercase words naming their app or the signal (for example `{app} paywall`); body under 90 words, the same 4-line structure, exactly 1 question; signed with the operator's first name, Appfound, and one plain opt-out line ("Not relevant? Reply 'no' and I won't write again."). Email 2 (day 3) adds a new proof point, email 3 (day 7) offers the free Growth Plan as the useful thing to send, email 4 (day 14) is a 2-line breakup. Word count under each.
 
 W9 AUDITOR: a separate Sonnet worker that checks other workers' output and fixes nothing. For a random 20% of each batch (at least 5 apps) it re-opens every evidence URL and confirms the date and quote are really there. For every draft it checks: line 1 true and recent, exactly one question, answerable in one word, only approved proof points, under 400 characters. It returns pass/fail per item with the reason.
 </workers>
@@ -172,7 +176,9 @@ Then STOP and wait. I will check 10 keeps and 10 drops by hand. If my verdicts d
 
 Phase 2 · Scale: once I approve, run 500+ apps in batches of 25 with parallel workers, auditing every batch. If a batch fails the audit (more than 1 in 10 evidence items wrong), discard it, fix the worker prompt and re-run it.
 
-Phase 3 · A group: after I approve the A list, run W6, then W7, then W8 and W9. Deliver the briefs and drafts. Tell me the send order: open profiles get the DM as a free InMail; everyone else gets a connection request first; I send 20% first and we read replies after 48 hours.
+Phase 3 · A group: after I approve the A list, run W6, then W7, then W8 and W9. Deliver the briefs and drafts. Tell me the send order as one combined sequence per lead, for example: day 1 LinkedIn connection request (no note) and email 1; day 2-3 LinkedIn DM once they accept (or free InMail for open profiles); day 3 email 2; day 7 email 3; day 10 LinkedIn follow-up; day 14 email 4. Stop both channels the moment they reply on either. I send 20% first and we read replies after 48 hours.
+
+Email setup check (tell me before the first send; I do the setup): send from a separate domain, never the main one; SPF, DKIM and DMARC set; each inbox warmed for 2-3 weeks; at most 30 cold emails per inbox per day; an opt-out honoured within 24 hours. EU and UK leads: business-relevant message to a work role only, and drop them if the only address is personal. LinkedIn limits: about 100 connection requests a week per profile.
 
 Phase 4 · Keep it running: set up Context monitors (or a scheduled task) to re-check the C group monthly and to catch new Meta ads from B-group apps, moving any app that gains a signal into A.
 </pipeline>
