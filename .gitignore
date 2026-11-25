@@ -15,3 +15,10 @@ films/*/assets/capture/fonts/
 # Growth Plan: lead data and renders stay out of git
 appfound/growth-plan/reports/
 appfound/growth-plan/out/
+
+# Outbound: lead and people data stay out of git (names, emails, LinkedIn URLs)
+outbound/leads.jsonl
+outbound/leads.csv
+outbound/batches/
+outbound/linkedin_log.jsonl
+outbound/linkedin/daily/
