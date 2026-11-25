@@ -31,6 +31,15 @@ Checked 25 Nov 2026 with a headless Chromium (Playwright). Each check loaded the
 - E2: 30% → 60% needs 42 per arm. 20% → 50% needs 38 per arm.
 
 ## Files
-- `out/Drumee_Growth_UA_Case_Study_Mohamed_Barkat.pdf`: the 6-slide submission
+- `out/Drumee_Growth_UA_Case_Study_Mohamed_Barkat.pdf`: the 7-slide submission
 - `out/ad_a.png` (main concept), `out/ad_b.png`, `out/ad_c.png`: 1080×1080 statics
 - `deck.html`, `ads.html`: sources (edit, then re-export)
+
+## Second audit (25 Nov 2026)
+- **Consent:** a German visitor (de-DE locale, Berlin timezone) sees no cookie banner and no CMP script. No `consent` default is in the dataLayer, and GA4 sends `gcd=13l3l3l3l1l1` (signals not set). The Meta pixel PageView and the Google Ads tags fire before any consent.
+- **Sign-up page** (`/signup`): first name, last name, email, password (upper, lower, number and symbol), confirm password, and a terms checkbox. SSO is **Apple + Google only, with no Microsoft**, while the brief says Google or Microsoft.
+- **Mobile speed (iPhone 13 emulation):** TTFB 174 ms, LCP ≈ 1.0 s, 2.3 MB. Speed is not the problem. The product image starts at y = 636 on a 664 px viewport, so it is effectively below the fold.
+- **Motion** (ClickUp, active ads, oldest first): the longest runners are "One app to replace them all" / "Overwhelmed by scattered tools?" us-vs-them and headline statics, at 238–242 days active. The consolidation angle is saturated.
+- **Google supply check:** exact and phrase volume in DE + NL for sovereign cloud, client sharing and "… alternative" totals ≈ 4,710 searches/mo, or ≈ 1,090/week. At 50% impression share and 6% CTR that's ≈ 33 clicks/week ≈ $98, so the Google budget was cut from $180 to $120.
+- **The brief's goals disagree:** 80 paying / 500 sign-ups = 16%, against the 25% funnel target.
+- **E3 sample:** a pay-rate difference of 15% → 30% needs 120 sign-ups per arm. E2: 10% → 40% needs 32 per arm, and 30% → 60% needs 42.

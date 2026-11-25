@@ -2,305 +2,330 @@
 <html lang="en"><head><meta charset="utf-8"><title>Drumee Growth UA Case Study</title>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-:root{--ink:#0b0a21;--ink2:#34343a;--mut:#65656c;--line:#e5e5ea;--bg2:#f7f6ff;--lav:#e4e2ff;--brand:#4a3fd6;--red:#c8323c;--redbg:#fdecee;--grn:#127a4b;--grnbg:#e6f6ee;--amb:#9a5b00;--ambbg:#fff4dd}
+:root{--ink:#0b0a21;--ink2:#2f2e3a;--mut:#6b6a78;--line:#e7e6ee;--bg2:#f6f5ff;--lav:#e4e2ff;--brand:#4a3fd6;--deep:#2b228f;--red:#c8323c;--redbg:#fdeef0;--grn:#127a4b;--grnbg:#e8f6ee;--amb:#8a5300;--ambbg:#fff5e0}
 *{box-sizing:border-box;margin:0;padding:0}
 @page{size:1920px 1080px;margin:0}
-body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;color:var(--ink);background:#888;-webkit-print-color-adjust:exact;print-color-adjust:exact}
-.s{width:1920px;height:1080px;background:#fff;position:relative;overflow:hidden;padding:44px 56px 40px;margin:0 auto 24px;page-break-after:always;display:flex;flex-direction:column}
+body{font-family:'Plus Jakarta Sans',system-ui,sans-serif;color:var(--ink);background:#8a8a8a;-webkit-print-color-adjust:exact;print-color-adjust:exact}
+.s{width:1920px;height:1080px;background:#fff;position:relative;overflow:hidden;padding:48px 64px 44px;margin:0 auto 24px;page-break-after:always;display:flex;flex-direction:column}
 @media print{body{background:#fff}.s{margin:0}}
-.hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
-.tag{font-size:15px;font-weight:700;letter-spacing:1.5px;color:var(--brand);text-transform:uppercase}
+.hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.tag{font-size:15px;font-weight:800;letter-spacing:1.6px;color:var(--brand);text-transform:uppercase}
 .pg{font-size:14px;color:var(--mut);font-weight:600}
-h1{font-size:38px;line-height:1.12;letter-spacing:-.8px;font-weight:800;margin-bottom:16px}
+h1{font-size:40px;line-height:1.12;letter-spacing:-.9px;font-weight:800;margin-bottom:26px;max-width:1700px}
 h1 em{font-style:normal;color:var(--brand)}
-h2{font-size:19px;font-weight:800;margin-bottom:10px;letter-spacing:-.2px}
-h3{font-size:16px;font-weight:800;margin-bottom:6px}
-p,li,td,th{font-size:14.5px;line-height:1.42;color:var(--ink2)}
+h2{font-size:20px;font-weight:800;margin-bottom:14px;letter-spacing:-.2px}
+h3{font-size:17px;font-weight:800;margin-bottom:6px}
+p,li,td,th{font-size:16px;line-height:1.5;color:var(--ink2)}
 b{color:var(--ink)}
 .mut{color:var(--mut)}
-.v{display:inline-block;font-size:11px;font-weight:800;color:#fff;background:var(--brand);border-radius:4px;padding:1px 6px;margin-right:4px;vertical-align:1px;letter-spacing:.5px}
+.sm{font-size:14px}
+.v{display:inline-block;font-size:11px;font-weight:800;color:#fff;background:var(--brand);border-radius:4px;padding:2px 6px;margin-right:6px;vertical-align:2px;letter-spacing:.6px}
 table{border-collapse:collapse;width:100%}
-th{font-size:12.5px;text-transform:uppercase;letter-spacing:1px;color:var(--mut);text-align:left;padding:7px 10px;border-bottom:2px solid var(--ink);font-weight:700}
-td{padding:7px 10px;border-bottom:1px solid var(--line);vertical-align:top}
-.n{font-weight:800;color:var(--brand);width:28px}
-.kpis{display:grid;grid-template-columns:repeat(6,1fr);gap:12px;margin-bottom:14px}
-.kpi{background:var(--bg2);border-radius:12px;padding:12px 16px}
-.kpi .l{font-size:12.5px;color:var(--mut);font-weight:600;text-transform:uppercase;letter-spacing:.8px}
-.kpi .val{font-size:30px;font-weight:800;letter-spacing:-1px;margin:2px 0}
-.kpi .sub{font-size:13px;color:var(--mut)}
+th{font-size:12.5px;text-transform:uppercase;letter-spacing:1.1px;color:var(--mut);text-align:left;padding:8px 12px;border-bottom:2px solid var(--ink);font-weight:800}
+td{padding:9px 12px;border-bottom:1px solid var(--line);vertical-align:top}
+.n{font-weight:800;color:var(--brand)}
+.row{display:flex;gap:32px;flex:1;min-height:0}
+.col{display:flex;flex-direction:column;min-width:0}
+.card{border:1.5px solid var(--line);border-radius:16px;padding:20px 22px}
+.kpis{display:grid;grid-template-columns:repeat(6,1fr);gap:14px;margin-bottom:22px}
+.kpi{background:var(--bg2);border-radius:14px;padding:14px 18px}
+.kpi .l{font-size:12.5px;color:var(--mut);font-weight:700;text-transform:uppercase;letter-spacing:.9px}
+.kpi .val{font-size:32px;font-weight:800;letter-spacing:-1px;margin:2px 0}
+.kpi .sub{font-size:13.5px;color:var(--mut)}
 .bad .val{color:var(--red)} .good .val{color:var(--grn)}
-.grid2{display:grid;gap:28px;flex:1;min-height:0}
-.card{border:1.5px solid var(--line);border-radius:14px;padding:16px 18px}
-.rc{display:grid;grid-template-columns:46px 1fr;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
-.rc:last-child{border-bottom:0}
-.rk{font-size:30px;font-weight:800;color:var(--red);line-height:1}
-.pill{display:inline-block;font-size:12px;font-weight:700;border-radius:999px;padding:2px 9px;margin-left:6px}
+.pill{display:inline-block;font-size:12.5px;font-weight:800;border-radius:999px;padding:2px 10px}
 .pr{background:var(--redbg);color:var(--red)} .pg2{background:var(--grnbg);color:var(--grn)} .pa{background:var(--ambbg);color:var(--amb)}
-ul{padding-left:18px} li{margin-bottom:4px}
-.keep li::marker{color:var(--grn)}
-.foot{position:absolute;bottom:14px;left:56px;right:56px;font-size:12px;color:var(--mut)}
-.chk{display:grid;grid-template-columns:24px 1fr 112px;gap:8px;padding:7px 0;border-bottom:1px solid var(--line)}
-.chk .i{font-weight:800;color:var(--brand);font-size:14.5px}
-.chk .o{font-size:12.5px;color:var(--mut);text-align:right;font-weight:600}
-.gate{background:var(--ink);color:#fff;border-radius:12px;padding:12px 16px;margin-top:10px}
-.gate p,.gate b{color:#fff}
-.bar{display:flex;height:40px;border-radius:10px;overflow:hidden;margin:8px 0 12px;font-size:14px;font-weight:700;color:#fff}
-.bar div{display:flex;align-items:center;padding:0 12px;white-space:nowrap}
-.bud{display:grid;grid-template-columns:150px 1fr;gap:12px;padding:9px 0;border-bottom:1px solid var(--line)}
-.bud .amt{font-size:24px;font-weight:800;letter-spacing:-.5px}
-.bud .amt small{display:block;font-size:12.5px;color:var(--mut);font-weight:600;letter-spacing:0}
-.kw td{font-size:13.5px;padding:4px 8px}
-.tgt{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
-.tgt .kpi .val{font-size:26px}
-.exp{border:1.5px solid var(--line);border-radius:16px;padding:18px 20px;display:flex;flex-direction:column;gap:9px}
-.exp .lab{font-size:12.5px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--brand)}
-
-.fr{display:grid;grid-template-columns:400px 1fr;gap:18px;padding:12px 0;border-bottom:1px solid var(--line)}
-.fr img{width:400px;border-radius:8px;border:1px solid var(--line);display:block}
-.shot2{display:grid;grid-template-columns:1fr 1fr;gap:6px}
-.shot2 img{width:197px;height:150px;object-fit:cover;object-position:left top}
-.s2 p,.s2 li,.s2 td{font-size:16.5px}.s3 p,.s3 .chk div{font-size:16.5px}.s5 p{font-size:16.5px;line-height:1.48}.s6 p{font-size:15.5px}
-.k{display:block;font-size:12.5px;text-transform:uppercase;letter-spacing:.8px;color:var(--mut);margin-bottom:2px;font-weight:800}
-.sp{display:grid;grid-template-columns:200px 1fr 120px;gap:10px;align-items:center;margin:7px 0;font-size:14px}
+.rc{display:grid;grid-template-columns:58px 1fr;gap:10px;padding:16px 0;border-bottom:1px solid var(--line)}
+.rc:first-of-type{padding-top:4px}
+.rk{font-size:34px;font-weight:800;color:var(--red);line-height:1}
+ul{padding-left:20px} li{margin-bottom:7px}
+.keep li::marker{color:var(--grn)} .stop li::marker{color:var(--red)}
+.foot{position:absolute;bottom:16px;left:64px;right:64px;font-size:12.5px;color:var(--mut)}
+.chk{display:grid;grid-template-columns:28px 1fr 150px;gap:10px;padding:10px 0;border-bottom:1px solid var(--line)}
+.chk .i{font-weight:800;color:var(--brand);font-size:16px}
+.chk .o{font-size:13.5px;color:var(--mut);text-align:right;font-weight:700}
+.dark{background:var(--ink);border-radius:14px;padding:16px 20px}
+.dark p,.dark b{color:#fff}
+.bar{display:flex;height:46px;border-radius:12px;overflow:hidden;margin:0 0 18px;font-size:15px;font-weight:800;color:#fff}
+.bar div{display:flex;align-items:center;padding:0 14px;white-space:nowrap}
+.sp{display:grid;grid-template-columns:220px 1fr 150px;gap:12px;align-items:center;margin:9px 0}
+.sp div{font-size:14.5px}
 .sp .b{height:22px;border-radius:5px}
-code{font-family:ui-monospace,Menlo,monospace;font-size:12.5px;background:var(--bg2);padding:1px 5px;border-radius:4px}
+code{font-family:ui-monospace,Menlo,monospace;font-size:13px;background:var(--bg2);padding:1px 6px;border-radius:5px}
+/* architecture diagram */
+.arch{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;align-items:stretch}
+.box{border:1.5px solid var(--lav);background:var(--bg2);border-radius:14px;padding:12px 14px;position:relative}
+.box h3{font-size:15px;margin-bottom:4px}
+.box p{font-size:14px;line-height:1.45}
+.box.key{background:var(--brand);border-color:var(--brand)} .box.key h3,.box.key p{color:#fff}
+.box.truth{background:var(--ink);border-color:var(--ink)} .box.truth h3,.box.truth p{color:#fff}
+.arr{position:absolute;right:-13px;top:50%;transform:translateY(-50%);font-weight:800;color:var(--brand);font-size:18px;z-index:2}
+.lab{font-size:12.5px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--brand);margin-bottom:6px}
+.exp{border:1.5px solid var(--line);border-radius:18px;padding:22px 24px;display:flex;flex-direction:column;gap:12px;flex:1}
+.k{display:block;font-size:12.5px;text-transform:uppercase;letter-spacing:.9px;color:var(--mut);margin-bottom:3px;font-weight:800}
+.fix{background:var(--ambbg);border-radius:10px;padding:10px 14px}
+.fix p{font-size:14.5px}
+.fr{display:grid;grid-template-columns:520px 1fr;gap:28px;padding:18px 0;border-bottom:1px solid var(--line);align-items:start}
+.fr:first-child{padding-top:0}
+.fr img{width:520px;border-radius:10px;border:1px solid var(--line);display:block}
+.duo{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.duo img{width:256px;height:170px;object-fit:cover;object-position:left top}
+.cal td,.cal th{font-size:14px}
 </style></head><body>
 
-<!-- ============ SLIDE 1 ============ -->
+<!-- ============ 1 · DIAGNOSIS: CONTRADICTIONS ============ -->
 <section class="s">
-  <div class="hd"><div class="tag">Part 1 · Diagnosis (1/2) — Which numbers contradict each other</div><div class="pg">Drumee · Growth UA SaaS case · Mohamed Barkat · 1/6</div></div>
-  <h1>The numbers disagree because measurement is broken. <em>4 causes confirmed on the live site.</em></h1>
+  <div class="hd"><div class="tag">Part 1 · Diagnosis — which numbers contradict each other</div><div class="pg">Drumee · Growth UA SaaS case · Mohamed Barkat · 1 / 7</div></div>
+  <h1>Tracking is broken, so the numbers contradict each other. <em>5 causes confirmed live.</em></h1>
   <div class="kpis">
-    <div class="kpi bad"><div class="l">Spend vs plan</div><div class="val">$121.9</div><div class="sub">13.5% of the $900 planned</div></div>
-    <div class="kpi bad"><div class="l">Sign-ups (backend)</div><div class="val">29</div><div class="sub">3.2/day vs ~18/day for 500</div></div>
-    <div class="kpi good"><div class="l">Sign-up → paying $1</div><div class="val">24%</div><div class="sub">7 teams · target 25%</div></div>
+    <div class="kpi bad"><div class="l">Spend vs plan</div><div class="val">$121.9</div><div class="sub">13.5% of $900</div></div>
+    <div class="kpi bad"><div class="l">Sign-ups</div><div class="val">29</div><div class="sub">3.2/day vs ~18/day needed</div></div>
+    <div class="kpi good"><div class="l">Sign-up → paying</div><div class="val">24%</div><div class="sub">7 teams · target 25%</div></div>
     <div class="kpi good"><div class="l">Cost / paying team</div><div class="val">$17.4</div><div class="sub">target ≈ $31</div></div>
-    <div class="kpi bad"><div class="l">Activated teams</div><div class="val">0</div><div class="sub">of 7 paying</div></div>
-    <div class="kpi bad"><div class="l">Known source</div><div class="val">38%</div><div class="sub">11 / 29 · target ≥ 70%</div></div>
+    <div class="kpi bad"><div class="l">Activated</div><div class="val">0</div><div class="sub">of 7 paying teams</div></div>
+    <div class="kpi bad"><div class="l">Known source</div><div class="val">38%</div><div class="sub">11 / 29 · target 70%</div></div>
   </div>
   <table>
-    <tr><th style="width:28px">#</th><th style="width:420px">What contradicts</th><th>Most likely cause</th><th style="width:470px">How I verify it within 24 h</th></tr>
-    <tr><td class="n">1</td><td><b>VN: 4 landing page views but 6 pixel "sign-ups"</b>. Meta reports 12 sign-ups, while only 11 sign-ups in total have any source.</td><td><span class="v">VERIFIED</span>The pixel sends <b>CompleteRegistration on the click of "Start your team for $1"</b> through a codeless rule (flagged <code>cs_est=true</code>). The app has no pixel, so a real sign-up is never sent. Pixel "sign-ups" are CTA clicks, repeat clicks and 1-day view-through. PageView also fires twice with two different event IDs.</td><td>Events Manager → CompleteRegistration → source "Event setup tool". Click the CTA in Test Events without signing up. Compare pixel sign-ups by country with backend sign-ups by country.</td></tr>
-    <tr><td class="n">2</td><td><b>11 / 29 sign-ups have a UTM</b>. 57 link clicks recorded vs 648 ad clicks; 6 Google clicks in the backend vs 73 in Google Ads.</td><td><span class="v">VERIFIED</span><b>UTMs are dropped at the handoff from landing page to app</b>: the CTA URL keeps only <code>promo</code> and <code>_gl</code>, then goes through <code>/login?return_to=…</code> and the SSO redirect. app.drumee.com loads <b>no GA4/GTM</b> (only Cloudflare), so the <code>_gl</code> linker is never read. 0 sign-up links in the UTM Builder.</td><td>Click 3 tagged URLs (Meta, Google, organic) × (email form, Google SSO) and check the source fields on each new user row. Watch the app's network requests for any analytics call.</td></tr>
-    <tr><td class="n">3</td><td><b>Search CTR of 15.1%, yet only 6 Google clicks in the backend</b>. Top terms: "google workspace", "zoom", "gather town", "miro".</td><td>Broad match with no negatives buys <b>navigational brand searches</b>. In PH these get 40.5k / 301k / 1.3k / 9.9k searches a month (Semrush). These people want to log in to those tools, not switch.</td><td>Search terms report: share of spend on brand terms and match type per keyword. GA4 engagement for <code>google / cpc</code>.</td></tr>
-    <tr><td class="n">4</td><td><b>$900 planned, $121.9 spent</b>. Google stops on D7 ($0.8 → $24.5 → $33.9 → $2.2 → $0), and 7 of 11 campaigns spent $0.</td><td>Billing failure, a policy or advertiser-verification hold, or campaigns limited by low volume. <span class="v">VERIFIED</span>The landing page fires <b>two different Google Ads tags</b> (AW-18350168481 and AW-18444252085), which points to two accounts.</td><td>Billing summary, Policy manager and Change history for D6–D7, plus the status column. Confirm which account owns the campaigns.</td></tr>
-    <tr><td class="n">5</td><td><b>ID Broad: $0.09 CPM, 239 landing page views (56% of Meta's), 0 sign-ups</b>. US Broad has a 7.85% CTR and 0 sign-ups. The top backend source is "Meta Audience Network" (19).</td><td>Automatic placements are buying <b>Audience Network / in-app inventory</b>: very cheap, with accidental clicks. ID Broad bought ≈47k of ≈53k Meta impressions (88%).</td><td>Ads Manager breakdown by placement × device. GA4 engagement time by <code>utm_content</code>.</td></tr>
-    <tr><td class="n">6</td><td><b>"Landing page → sign-up = 5.8%"</b> (29 / 497)</td><td>The denominator is polluted by 239 junk views from ID Broad and 73 Google views that were "estimated", not measured. <b>Excluding ID Broad: 29 / 258 = 11.2%</b>, above the 8% target. The numerator also includes organic, TEAM1 and internal sign-ups. The page hasn't been shown to be the bottleneck.</td><td>Once the app is tagged, run a GA4 funnel <code>page_view → sign_up</code> by source.</td></tr>
-    <tr><td class="n">7</td><td><b>82 active users vs 29 sign-ups vs 0 activated teams</b></td><td>If the extra 53 users are invited teammates, activation is <b>not being recorded</b>. Otherwise they are internal, QA or pre-campaign users.</td><td>SQL: users created D1–D9 grouped by team_id and inviter, with internal domains and IPs filtered out.</td></tr>
-    <tr><td class="n">8</td><td><b>$40 revenue vs 7 teams × $1 = $7</b></td><td>Test charges, a team charged the full $29, or a currency/VAT mismatch (CHF/EUR → USD). <b>Two promo codes are in use</b>: TEAM-1USD in checkout and TEAM1 in the banner and satellites.</td><td>Stripe export with amount, currency, coupon and livemode, matched to the 7 teams.</td></tr>
-    <tr><td class="n">9</td><td><b>10 LinkedIn clicks with no LinkedIn ads running</b>. 17 organic posts and 488 engagements, all on one code.</td><td><code>utm_campaign=qa-social-test</code> means internal QA traffic is counted as acquisition. One code (TEAM1) and one link for every satellite channel makes channel attribution impossible.</td><td>Exclude QA traffic by IP or flag. Count TEAM1 redemptions by date against post dates.</td></tr>
+    <tr><th style="width:36px">#</th><th style="width:560px">Contradiction</th><th>Most likely cause</th><th style="width:420px">How I verify it within 24 h</th></tr>
+    <tr><td class="n">1</td><td><b>VN: 4 page views → 6 pixel sign-ups</b></td><td><span class="v">VERIFIED</span>The pixel fires <b>CompleteRegistration on the CTA click</b> (codeless rule). The app has no pixel.</td><td>Events Manager → event source. Click the CTA in Test Events.</td></tr>
+    <tr><td class="n">2</td><td><b>11 / 29 sign-ups have a source</b> · 57 tracked clicks vs 648 ad clicks</td><td><span class="v">VERIFIED</span><b>UTMs are dropped</b> between landing page and app. The app has no GA4/GTM. QA traffic is counted as "LinkedIn".</td><td>3 tagged links × email and SSO, then check the source on each user row.</td></tr>
+    <tr><td class="n">3</td><td><b>Search CTR 15.1%</b>, but 6 Google clicks reach the backend</td><td>Broad match bought <b>brand searches</b> (PH: "google workspace" 40.5k/mo, "zoom" 301k/mo).</td><td>Search terms report: share of spend on brand terms.</td></tr>
+    <tr><td class="n">4</td><td><b>$900 planned, $121.9 spent</b> · Google $0 from D7 · 7 of 11 campaigns $0</td><td>Billing failure, policy hold or low search volume. <span class="v">VERIFIED</span>The landing page fires <b>2 different Google Ads tags</b>.</td><td>Billing, Policy manager and Change history for D6–D7.</td></tr>
+    <tr><td class="n">5</td><td><b>ID Broad: $0.09 CPM, 239 page views, 0 sign-ups</b> · US Broad 7.85% CTR, 0 sign-ups</td><td><b>Audience Network and in-app junk clicks.</b> ID Broad took 88% of Meta impressions.</td><td>Placement × device breakdown in Ads Manager.</td></tr>
+    <tr><td class="n">6</td><td><b>Landing page → sign-up = 5.8%</b></td><td>The denominator is polluted. <b>Without ID Broad it's 11.2%</b>, above the 8% target.</td><td>GA4 funnel by source, once the app is tagged.</td></tr>
+    <tr><td class="n">7</td><td><b>82 active users · 29 sign-ups · 0 activated teams</b></td><td>Either invites aren't recorded as activation, or the extra users are internal/QA.</td><td>SQL: new users grouped by team and inviter.</td></tr>
+    <tr><td class="n">8</td><td><b>$40 revenue vs 7 × $1 = $7</b></td><td>Test charges, a full $29 charge, or currency/VAT. <b>2 promo codes are in use</b> (TEAM-1USD and TEAM1).</td><td>Stripe export: amount, currency, coupon, livemode.</td></tr>
+    <tr><td class="n">9</td><td><b>Brief: SSO via Google or Microsoft</b></td><td><span class="v">VERIFIED</span>The live sign-up offers <b>Apple + Google, no Microsoft</b>. Users on Microsoft 365 get a 6-field form.</td><td>Sign-ups by method in the backend.</td></tr>
+    <tr><td class="n">10</td><td><b>Goals: 500 sign-ups → 80 paying</b>, while the funnel target says 25%</td><td>The two targets disagree: 80 / 500 = 16%, and 25% would mean 125 paying.</td><td>Agree one number with the CMO before week 2.</td></tr>
   </table>
-  <div class="foot">VERIFIED = reproduced on 25 Nov 2026 in a headless browser on drumee.com/team-1usd and app.drumee.com by inspecting network requests (Meta pixel, GA4 and Google Ads calls, and the redirect chain).</div>
+  <div class="foot">VERIFIED = reproduced on 25 Nov 2026 in a headless browser on drumee.com/team-1usd and app.drumee.com (network requests and redirect chain). Log: EVIDENCE.md.</div>
 </section>
 
-<!-- ============ SLIDE 2 ============ -->
-<section class="s s2">
-  <div class="hd"><div class="tag">Part 1 · Diagnosis (2/2) — Root causes &amp; what to keep</div><div class="pg">2/6</div></div>
-  <h1>Three root causes, ranked by impact. <em>The offer itself works.</em></h1>
-  <div class="grid2" style="grid-template-columns:600px 1fr 470px">
-    <div>
-      <h2>Funnel vs target: what's real</h2>
-      <table>
-        <tr><th>Step</th><th>Target</th><th>Reported</th><th>Read</th></tr>
-        <tr><td>Impression → click</td><td>≥1.5%</td><td>Meta 1.08%<br>Search 15%*</td><td><span class="pill pa">noisy</span><br>*brand terms</td></tr>
-        <tr><td>Click → landing page view</td><td>≥80%</td><td>Meta 74%<br>Google not measured</td><td><span class="pill pr">miss</span><br>Audience Network clicks</td></tr>
-        <tr><td>Landing page view → sign-up</td><td>≥8%</td><td>5.8%<br><b>11.2% excl. junk traffic</b></td><td><span class="pill pa">mis-measured</span></td></tr>
-        <tr><td>Sign-up → paying $1</td><td>≥25%</td><td><b>24%</b></td><td><span class="pill pg2">on target</span></td></tr>
-        <tr><td>Paying → activated</td><td>≥60%</td><td><b>0%</b></td><td><span class="pill pr">critical</span></td></tr>
-        <tr><td>Paying → renews at $29</td><td>≥50%</td><td>month 2</td><td><span class="pill pr">at risk</span></td></tr>
-      </table>
-      <p class="mut" style="margin-top:10px">Pace: 29 sign-ups in 9 days against 500 in 28 days, so ~5% of goal at ~32% of the time. Most of the gap is underspend (13.5% of plan), not conversion.</p>
-      <h2 style="margin-top:18px">Where the $121.9 went</h2>
-      <div class="sp"><div><b>Google · SEA Search</b> (brand terms)</div><div><div class="b" style="width:100%;background:var(--red)"></div></div><div><b>$50.0</b> · 6 tracked clicks</div></div>
-      <div class="sp"><div><b>Meta · US</b> (out of scope)</div><div><div class="b" style="width:82.8%;background:var(--red)"></div></div><div><b>$41.4</b> · 0 sign-ups</div></div>
-      <div class="sp"><div><b>Google · EU Display</b> "Institutions"</div><div><div class="b" style="width:22.8%;background:#e07a80"></div></div><div><b>$11.4</b> · wrong customer</div></div>
-      <div class="sp"><div><b>Meta · SEA Interest + VN</b></div><div><div class="b" style="width:21.6%;background:var(--grn)"></div></div><div><b>$10.8</b> · 12 pixel*</div></div>
-      <div class="sp"><div><b>Meta · SEA Broad</b> (ID, PH, TH/MY)</div><div><div class="b" style="width:16.4%;background:#e07a80"></div></div><div><b>$8.2</b> · 0 sign-ups</div></div>
-      <p class="mut" style="font-size:13px;margin-top:6px">Only ≈ 9% of spend went to the one segment that shows real sign-up signal (green). *Pixel counts CTA clicks, so this is directional.</p>
-    </div>
-    <div>
-      <h2>Root causes, ranked by impact</h2>
-      <div class="rc"><div class="rk">#1</div><div><h3>Measurement is broken end to end, so every optimisation is blind</h3><p>The app has no tags at all. Meta is told a CTA click is a "registration", Google Ads has no conversions, UTMs are dropped on the way into the app (62% of sign-ups have no source), and QA traffic and two promo codes add noise. <b>Impact:</b> Meta's algorithm is learning to find people who click buttons, and nobody can say which dollars produced the 7 paying teams. This also causes #2.</p></div></div>
-      <div class="rc"><div class="rk">#2</div><div><h3>Budget spread too thin, on the wrong inventory</h3><p>11 Google campaigns and 8 Meta ad sets on $13.5/day is ≈ <b>$0.71/day per unit</b>. A Meta ad set needs ~50 optimisation events a week to exit learning, so none of them can learn. Broad match bought brand searches, a Display "Institutions" campaign targets the wrong customer (teams of 5–25), and Audience Network bought junk clicks. <b>34% of all spend went to the US</b> ($31.6 CPM) for 0 sign-ups. <b>82% of Meta spend</b> went to ad sets with 0 recorded sign-ups.</p></div></div>
-      <div class="rc"><div class="rk">#3</div><div><h3>No path from payment to "invite 2 teammates"</h3><p>7 teams paid and 0 activated. After checkout the product shows 4 overlays and an empty Space. There is no Invite button in the sidebar, although the landing-page mock shows one, and the banner offers "invite up to 4 teammates" to a customer profile of 5–25 people. <b>This is the biggest threat to month-2 renewals</b>, but #1 has to be fixed before we can even measure it.</p></div></div>
-    </div>
-    <div class="card" style="background:var(--grnbg);border-color:#bfe6d1">
-      <h2 style="color:var(--grn)">What's working: keep it</h2>
-      <ul class="keep">
-        <li><b>The offer converts:</b> 24% of sign-ups pay $1, even with a card required.</li>
-        <li><b>Cost per paying team is $17.4</b> against a $31 target, even on this messy traffic.</li>
-        <li><b>Clean traffic converts on the landing page at ~11%</b>, so keep the page and fix the traffic and the handoff.</li>
-        <li><b>PH Interest:</b> $5.70 bought 45 landing page views and 5 sign-ups ($1.14 per sign-up). "Meta SEA" is the largest real source in the backend (15 clicks).</li>
-        <li><b>The "Teams" search theme</b> (SEA Teams had the most clicks): keep the theme, rebuild the keywords.</li>
-        <li><b>LinkedIn KOC posts:</b> 116.5 engagements per post, 2× Facebook partner pages and 7× TikTok. This audience fits B2B, so keep them with a unique code each.</li>
-        <li><b>The foundation exists:</b> GTM, GA4, the Google Ads tag, the pixel and a <code>cta_click</code> event are already on the landing page.</li>
-      </ul>
-      <h2 style="color:var(--red);margin-top:18px">Stop</h2>
-      <ul>
-        <li>The US test (34% of spend, 0 sign-ups, $31.6 CPM)</li>
-        <li>Display, Audience Network and broad match without negatives</li>
-        <li>Splitting $13.5/day across 19 campaigns and ad sets</li>
-        <li>Judging channels on CTR or pixel "sign-ups"</li>
-      </ul>
-    </div>
-  </div>
-</section>
-
-<!-- ============ SLIDE 3 ============ -->
-<section class="s s3">
-  <div class="hd"><div class="tag">Part 2 · Next week's plan (1/2) — Before spending, then where the $600 goes</div><div class="pg">3/6</div></div>
-  <h1>48 hours at $0 to fix the signal. <em>Then one market per channel, each with a clear job.</em></h1>
-  <div class="grid2" style="grid-template-columns:1fr 760px">
-    <div>
-      <h2>First 48 h (D10–D11): pause everything and fix tracking</h2>
-      <div class="chk"><div class="i">1</div><div><b>Remove the fake conversion.</b> Delete the codeless CompleteRegistration rule on the CTA and send the click as <code>InitiateCheckout</code>. Remove the duplicate PageView.</div><div class="o">Growth · D10 12:00</div></div>
-      <div class="chk"><div class="i">2</div><div><b>Tag the app</b> with GTM on app.drumee.com, fired from server-confirmed events: <code>sign_up</code> (email and SSO), <code>purchase</code> ($1, predicted value $29), <code>space_created</code>, <code>teammate_invited</code> and <code>team_activated</code>. Send them to GA4 key events, Meta Conversions API (deduplicated by event_id) and Google Ads (purchase primary, sign-up secondary) with Enhanced Conversions.</div><div class="o">Dev + Growth · D11 12:00</div></div>
-      <div class="chk"><div class="i">3</div><div><b>Keep the source.</b> The landing page stores utm_*, gclid and fbclid in a first-party cookie and passes them in the CTA. The app saves them to the user record before the SSO redirect. Fix the <code>?ref=</code> redirect, which currently drops the ref code.</div><div class="o">Dev · D11</div></div>
-      <div class="chk"><div class="i">4</div><div><b>The CTA should open "Create your team"</b>, not "Welcome back · Sign in". Add a localised German hero for the Google traffic.</div><div class="o">Dev · D10–D11</div></div>
-      <div class="chk"><div class="i">5</div><div><b>Account hygiene.</b> Keep one Google Ads account and tag, and check billing and policy. Pause the 11 campaigns and 8 ad sets. Turn Audience Network off. Exclude internal IPs and <code>qa-social-test</code>.</div><div class="o">Growth · D10</div></div>
-      <div class="chk"><div class="i">6</div><div><b>Reconcile</b> the 29 sign-ups, 7 payers and $40 by country and source (backend × Stripe). The result decides the Meta market.</div><div class="o">Growth + Finance · D10 18:00</div></div>
-      <div class="chk"><div class="i">7</div><div><b>Naming and UTM convention</b>, plus one code per satellite channel (TEAM1-LI-KOC, TEAM1-TT…).</div><div class="o">Growth · D10</div></div>
-      <div class="gate"><p><b>Go / no-go, D11 at 18:00:</b> 3 test sign-ups (email, Google, Microsoft) and 1 test $1 purchase must show up in the backend, GA4 DebugView, Meta Test Events and Google Tag Assistant <b>with the right source</b>. If they do, launch on D12. If not, keep spend off.</p></div>
-    </div>
-    <div>
-      <h2>Budget: $600, spent over 5 days (D12–D16)</h2>
-      <div class="bar"><div style="width:50%;background:var(--brand)">Meta · PH · $300</div><div style="width:30%;background:#2b228f">Google · EU · $180</div><div style="width:20%;background:#9a96c8">Reserve $120</div></div>
-      <div class="bud"><div class="amt">$300<small>Meta · Philippines · $60/day</small></div><p><b>The volume engine.</b> PH is cheap and English-speaking, and it has the best clean signal (PH Interest: $1.14 per sign-up). At ≈ $3–4 per sign-up, $300 buys 75–100 sign-ups, enough for <b>one ad set</b> to get near the ~50 events a week Meta needs. <b>Why not the EU on Meta:</b> at EU CPMs, $300 buys fewer than 50 sign-ups a week, so the ad set never exits learning.</p></div>
-      <div class="bud"><div class="amt">$180<small>Google Search · DE AT CH NL · $36/day</small></div><p><b>Captures EU intent where demand exists</b> (Semrush, monthly): kollaborationstool 720, dsgvo konforme cloud 260, europäische/europese cloud 210/260, klantportaal 1.3k, at $2–4.7 CPC. It fits Drumee's Swiss, sovereign positioning. In PH, real search demand for the category is ≤ 480/mo, so there's no Google spend in SEA.</p></div>
-      <div class="bud"><div class="amt">$120<small>Reserve · from D14</small></div><p>Goes only to whatever passes the scale rule (next slide).</p></div>
-      <div class="bud"><div class="amt">$0<small>ChatGPT Ads · this week</small></div><p>There's no verified conversion feedback loop yet. Ads A, B and C already fit its format (1:1 image, 50-character headline, 100-character description), so the test runs in week 3 once tracking is proven.</p></div>
-      <div class="card" style="margin-top:12px;background:var(--ambbg);border-color:#f3d9a6"><p><b>Switch rule:</b> if the D10 reconciliation shows 0 of the 7 payers came from SEA, or if PH sign-up → paying is below 8% by D15, move Meta to <b>NL</b> (English-friendly, same creative, higher willingness to pay).</p></div>
-    </div>
-  </div>
-  <h2 style="margin-top:14px">Week at a glance</h2>
-  <table>
-    <tr><th>D10</th><th>D11</th><th>D12</th><th>D13</th><th>D14</th><th>D15</th><th>D16</th></tr>
-    <tr>
-      <td><b>$0</b> · pause all · reconcile 29/7/$40 · remove the fake event · account hygiene</td>
-      <td><b>$0</b> · app tagged · UTM persistence · QA · <b>go/no-go 18:00</b></td>
-      <td><b>$96</b> · launch Meta PH (6 ads) + Google EU (3 ad groups) · E1 and E3 live</td>
-      <td><b>$96</b> · creative kill check (CTR, LPV, CPM) · first search terms and negatives</td>
-      <td><b>$96–120</b> · scale check: +20% and reserve to the winner · kill ads with 0 sign-ups</td>
-      <td><b>$96–120</b> · Google cut / keep · PH → NL switch check · E2 live</td>
-      <td><b>$96–120</b> · week review: targets vs actuals, activation at 72 h, week-2 plan</td>
-    </tr>
-  </table>
-</section>
-
-<!-- ============ SLIDE 4 ============ -->
+<!-- ============ 2 · DIAGNOSIS: ROOT CAUSES ============ -->
 <section class="s">
-  <div class="hd"><div class="tag">Part 2 · Next week's plan (2/2) — Structure, kill &amp; scale rules, targets</div><div class="pg">4/6</div></div>
-  <h1>One campaign per channel so the algorithm can learn, <em>and a rule for every decision.</em></h1>
-  <div class="grid2" style="grid-template-columns:560px 1fr 520px">
-    <div>
-      <h2>Meta: 1 campaign · 1 ad set · 1 persona</h2>
-      <p><b>Campaign:</b> Sales · PH · optimised for <b>CompleteRegistration</b> (server-side and deduplicated, i.e. real sign-ups). A sign-up is the deepest event with enough volume; there were 7 purchases in 9 days.</p>
-      <p style="margin-top:6px"><b>Ad set "PH · Agency &amp; remote team leads · Broad":</b> Philippines, ages 23–55, Advantage+ audience with no interests (the creative does the targeting). Placements: FB/IG Feeds, Stories and Reels, <b>Audience Network off</b>. Existing users excluded.</p>
-      <p style="margin-top:6px"><b>Persona:</b> owner or team lead of a 5–25-person agency or remote team with overseas clients. <b>Pain:</b> files, feedback and approvals are scattered across drives, chat apps and email, and links shared with clients never expire.</p>
-      <p style="margin-top:6px"><b>6 ads = 3 angles × 2 formats</b> (1:1 static and 9:16 walkthrough): A "One Space per client" (before/after) · B "Share with control" · C "$1 offer". The angles are Experiment 3.</p>
-      <p style="margin-top:6px" class="mut"><code>utm_source=meta&amp;utm_medium=paid_social&amp;utm_campaign={{campaign.name}}&amp;utm_term={{adset.name}}&amp;utm_content={{ad.name}}</code></p>
-      <h2 style="margin-top:16px">Google: 1 Search campaign · 3 ad groups</h2>
-      <p><b>"EU · Search · Sovereign teams":</b> DE, AT, CH, NL (people located there), languages DE/EN/NL. Search Network only (no Display, no partners). Maximise clicks with a $4 max CPC, then Max conversions once there are ~30 conversions. Mobile −50% (85% of past spend was mobile). Mon–Fri, 08:00–19:00.</p>
-      <table class="kw" style="margin-top:6px">
-        <tr><th>Ad group · exact + phrase</th><th>Vol/mo · CPC</th></tr>
-        <tr><td><b>AG1 EU cloud for teams</b>: dsgvo konforme cloud · europäische cloud · europese cloud · schweizer cloud</td><td>260 · $4.39<br>210 · $2.33 / 260 · $2.11</td></tr>
-        <tr><td><b>AG2 Secure client sharing</b>: dateien sicher teilen · bestanden veilig delen · veilige cloudopslag · klantportaal</td><td>110 · $3.00 / 140 · $1.69<br>1.3k · $3.24</td></tr>
-        <tr><td><b>AG3 Team workspace</b>: kollaborationstool · digitaler arbeitsplatz · samenwerkingstool</td><td>720 · $4.68 / 720 · $5.38</td></tr>
+  <div class="hd"><div class="tag">Part 1 · Diagnosis — root causes, what to keep</div><div class="pg">2 / 7</div></div>
+  <h1>Three root causes, ranked by impact. <em>The offer itself works.</em></h1>
+  <div class="row">
+    <div class="col" style="width:560px;flex:none">
+      <h2>Funnel vs target</h2>
+      <table>
+        <tr><th>Step</th><th>Target</th><th>Actual</th><th></th></tr>
+        <tr><td>Click → page view</td><td>80%</td><td>74% (Meta)</td><td><span class="pill pr">junk clicks</span></td></tr>
+        <tr><td>Page view → sign-up</td><td>8%</td><td>5.8% · <b>11.2% clean</b></td><td><span class="pill pa">mis-measured</span></td></tr>
+        <tr><td>Sign-up → paying</td><td>25%</td><td><b>24%</b></td><td><span class="pill pg2">on target</span></td></tr>
+        <tr><td>Paying → activated</td><td>60%</td><td><b>0%</b></td><td><span class="pill pr">critical</span></td></tr>
       </table>
-      <p class="mut" style="margin-top:4px">Negatives: login, sign in, download, jobs, free, open source, self-hosted, and every tool brand name.</p>
+      <h2 style="margin-top:28px">Where the $121.9 went</h2>
+      <div class="sp"><div><b>Google SEA Search</b></div><div><div class="b" style="width:100%;background:var(--red)"></div></div><div><b>$50.0</b> · brand terms</div></div>
+      <div class="sp"><div><b>Meta US</b></div><div><div class="b" style="width:82.8%;background:var(--red)"></div></div><div><b>$41.4</b> · 0 sign-ups</div></div>
+      <div class="sp"><div><b>Google EU Display</b></div><div><div class="b" style="width:22.8%;background:#e3858b"></div></div><div><b>$11.4</b> · wrong customer</div></div>
+      <div class="sp"><div><b>Meta SEA Interest + VN</b></div><div><div class="b" style="width:21.6%;background:var(--grn)"></div></div><div><b>$10.8</b> · real signal</div></div>
+      <div class="sp"><div><b>Meta SEA Broad</b></div><div><div class="b" style="width:16.4%;background:#e3858b"></div></div><div><b>$8.2</b> · 0 sign-ups</div></div>
+      <p class="mut sm" style="margin-top:8px">Only ≈ 9% of spend reached the one segment that shows a real signal.</p>
     </div>
-    <div>
-      <h2>Kill &amp; scale rules (checked at 10:00 by Growth)</h2>
+    <div class="col" style="flex:1">
+      <h2>Root causes, ranked by impact</h2>
+      <div class="rc"><div class="rk">#1</div><div><h3>Measurement is broken end to end</h3><p>The app has no tags. Meta's "sign-ups" are CTA clicks. Google Ads has no conversions. 62% of sign-ups have no source. EU visitors get <b>no consent banner</b>. <br><b>Impact:</b> the algorithms learn the wrong goal, and nobody can tie the 7 paying teams to spend.</p></div></div>
+      <div class="rc"><div class="rk">#2</div><div><h3>Budget spread thin, on the wrong inventory</h3><p>19 campaigns and ad sets on $13.5/day is <b>$0.71 a day each</b>. None can reach the ~50 events/week a Meta ad set needs to exit learning. Brand-term broad match, Display, Audience Network, and <b>34% of spend in the US</b> for 0 sign-ups.</p></div></div>
+      <div class="rc" style="border:0"><div class="rk">#3</div><div><h3>No path from payment to "invite 2 teammates"</h3><p>7 teams paid and 0 activated. After checkout come 4 pop-ups, an empty Space, and no Invite button. <b>This is the biggest risk to month-2 renewals.</b></p></div></div>
+      <div class="fix" style="margin-top:auto"><p><b>What I'm less sure of:</b> if the 53 extra active users are invitees, #3 is partly a tracking problem, not only a product problem. The D10 SQL check settles it.</p></div>
+    </div>
+    <div class="col" style="width:440px;flex:none;gap:18px">
+      <div class="card" style="background:var(--grnbg);border-color:#c4e6d3">
+        <h2 style="color:var(--grn)">Keep</h2>
+        <ul class="keep">
+          <li><b>The offer:</b> 24% pay $1, even with a card</li>
+          <li><b>$17.4</b> per paying team (target $31)</li>
+          <li><b>The landing page:</b> ~11% on clean traffic</li>
+          <li><b>PH Interest:</b> $1.14 per sign-up</li>
+          <li><b>LinkedIn KOC:</b> 116 engagements/post, 7× TikTok</li>
+          <li>GTM, GA4, Ads tag and pixel already on the landing page</li>
+        </ul>
+      </div>
+      <div class="card" style="background:var(--redbg);border-color:#f3c9ce">
+        <h2 style="color:var(--red)">Stop</h2>
+        <ul class="stop">
+          <li>The US test, Display, Audience Network</li>
+          <li>Broad match without negatives</li>
+          <li>19 units on $13.5/day</li>
+          <li>Judging channels on CTR or pixel "sign-ups"</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ============ 3 · PLAN: FIX THE SIGNAL ============ -->
+<section class="s">
+  <div class="hd"><div class="tag">Part 2 · Next week's plan — before spending more money</div><div class="pg">3 / 7</div></div>
+  <h1>48 hours at $0 to rebuild tracking, <em>with the backend as the source of truth.</em></h1>
+  <div class="row" style="flex:none">
+    <div class="col" style="width:820px;flex:none">
+      <h2>First 48 h (D10–D11): spend paused</h2>
+      <div class="chk"><div class="i">1</div><div><b>Remove the fake conversion</b> on the CTA and the duplicate PageView</div><div class="o">Growth · D10 12:00</div></div>
+      <div class="chk"><div class="i">2</div><div><b>Consent banner + Consent Mode v2</b>, required for EU ads</div><div class="o">Dev · D10</div></div>
+      <div class="chk"><div class="i">3</div><div><b>Keep the source:</b> UTMs and click IDs carried into the user record. Fix the <code>?ref=</code> redirect.</div><div class="o">Dev · D11</div></div>
+      <div class="chk"><div class="i">4</div><div><b>Backend events → server-side tracking</b> (see the stack on the right)</div><div class="o">Dev + Growth · D11</div></div>
+      <div class="chk"><div class="i">5</div><div><b>The CTA opens "Create account"</b>, not "Welcome back". Add Microsoft SSO and a German hero.</div><div class="o">Dev · D11</div></div>
+      <div class="chk"><div class="i">6</div><div><b>Reconcile</b> 29 sign-ups / 7 payers / $40 by country. The result decides the Meta market.</div><div class="o">Growth · D10 18:00</div></div>
+      <div class="chk"><div class="i">7</div><div><b>Hygiene:</b> one Google Ads account, billing and policy checked, QA traffic excluded, one code per channel</div><div class="o">Growth · D10</div></div>
+      <div class="dark" style="margin-top:16px"><p><b>Go / no-go, D11 18:00:</b> 3 test sign-ups (email, Google, Microsoft) and 1 test $1 purchase must appear in the backend, GA4, Meta and Google Ads <b>with the right source</b>. If not, spend stays off.</p></div>
+    </div>
+    <div class="col" style="flex:1">
+      <h2>A better tracking stack (not just "add the tags")</h2>
+      <div class="lab">Browser</div>
+      <div class="arch" style="grid-template-columns:1fr 1fr 1.2fr">
+        <div class="box"><h3>Consent banner</h3><p>Consent Mode v2, EU-hosted</p><span class="arr">→</span></div>
+        <div class="box"><h3>Landing page · GTM</h3><p>Page view, CTA click, UTMs → cookie</p><span class="arr">→</span></div>
+        <div class="box key"><h3>Server-side GTM</h3><p>First-party subdomain in the EU (e.g. data.drumee.com)</p></div>
+      </div>
+      <div class="lab" style="margin-top:14px">Backend: source of truth</div>
+      <div class="arch" style="grid-template-columns:1.6fr 1.2fr">
+        <div class="box truth"><h3>App + Stripe webhooks</h3><p>sign_up · purchase · space_created · teammate_invited · team_activated · renewed, each with one event_id</p><span class="arr" style="color:#fff">→</span></div>
+        <div class="box key"><h3>Sent server-side to</h3><p>Meta Conversions API · Google Ads Enhanced Conversions · GA4</p></div>
+      </div>
+      <div class="lab" style="margin-top:14px">Analysis</div>
+      <div class="arch" style="grid-template-columns:1fr 1fr 1fr">
+        <div class="box"><h3>User record</h3><p>First and last touch, click IDs, promo code, plus a "How did you hear about us?" question</p></div>
+        <div class="box"><h3>PostHog (EU)</h3><p>Funnels, session replays, feature flags for E1 and E2</p></div>
+        <div class="box"><h3>Daily reconciliation</h3><p>Backend vs Meta vs Google. Alert at a gap above 15%.</p></div>
+      </div>
+      <div class="card" style="margin-top:16px;padding:14px 18px"><p><b>Why it's better:</b> it counts real sign-ups and payments, not clicks. It's GDPR-safe, which matters for a sovereign Swiss brand. And it sends <b>activation and $29 renewals back to Meta and Google</b>, so from week 3 bidding can learn the North Star.</p></div>
+    </div>
+  </div>
+  <h2 style="margin-top:24px">The week</h2>
+  <table class="cal">
+    <tr><th>D10</th><th>D11</th><th>D12</th><th>D13</th><th>D14</th><th>D15</th><th>D16</th></tr>
+    <tr><td><b>$0</b> · pause · reconcile · remove the fake event</td><td><b>$0</b> · server-side events · QA · <b>go / no-go</b></td><td><b>Launch</b> Meta PH + Google EU · E1, E3 live</td><td>Creative kill check · first negatives</td><td>Scale check · reserve to the winner</td><td>Google keep/cut · PH → NL check · E2 live</td><td>Week review · week-2 plan</td></tr>
+  </table>
+</section>
+
+<!-- ============ 4 · PLAN: SPEND, RULES, TARGETS ============ -->
+<section class="s">
+  <div class="hd"><div class="tag">Part 2 · Next week's plan — budget, structure, rules, targets</div><div class="pg">4 / 7</div></div>
+  <h1>One market and one job per channel. <em>Every decision has a metric, a threshold and a day.</em></h1>
+  <div class="bar"><div style="width:55%;background:var(--brand)">Meta · Philippines · $330 (55%)</div><div style="width:20%;background:var(--deep)">Google · DE + NL · $120 (20%)</div><div style="width:25%;background:#9a96c8">Reserve $150 (25%) · winner only</div></div>
+  <div class="row">
+    <div class="col" style="width:600px;flex:none;gap:14px">
+      <div class="card"><h3>Meta: 1 campaign · 1 ad set · the volume engine</h3><p>Philippines, broad audience. Feeds, Stories and Reels, <b>no Audience Network</b>. Optimised for <b>server-side sign-ups</b>. 4 ads: angles A and C × static and 9:16 (E3).<br><span class="mut">Persona: lead of a 5–25-person agency or remote team with overseas clients.</span></p></div>
+      <div class="card"><h3>Google: 1 Search campaign · 3 ad groups · captures intent</h3><p>DE + NL, exact and phrase match, one language per ad group. Max clicks with a $4 cap, mobile −50%.<br><b>Sovereign cloud</b> (dsgvo konforme cloud 260/mo) · <b>Client file sharing</b> (klantportaal 1.3k/mo) · <b>Switchers</b> (nextcloud alternative 880/mo)</p></div>
+      <div class="card" style="background:var(--ambbg);border-color:#f2dcae"><h3>My critique of this plan</h3>
+        <ul class="sm" style="margin-top:4px">
+          <li><b>Two markets can't be compared like for like.</b> I accept that because each channel has a different job. I compare them on backend cost per paying team.</li>
+          <li><b>Google is supply-capped:</b> ≈ 4,700 searches/mo is ≈ 35 clicks a week, so I cut it from $180 to $120.</li>
+          <li><b>PH may not renew at $29</b> (card-only, priced in USD). If 0 of the 7 payers are from SEA, or PH pays &lt; 8% by D15, Meta moves to NL.</li>
+          <li><b>Sign-up ≠ payer.</b> Switch Meta to Purchase once there are ≥ 25 payers a week.</li>
+        </ul></div>
+    </div>
+    <div class="col" style="flex:1">
+      <h2>Kill &amp; scale rules (10:00 daily)</h2>
       <table>
         <tr><th>Day</th><th>Metric</th><th>Threshold</th><th>Action</th></tr>
-        <tr><td><b>Daily</b></td><td>Backend sign-ups vs Meta's server-side sign-ups · share of sign-ups with a source</td><td>Gap &gt;15% or source &lt;90%</td><td>Pause spend, fix tracking</td></tr>
-        <tr><td><b>D13</b><br>(≥$10/ad)</td><td>Link CTR · click → landing page view · CPM</td><td>CTR &lt;0.8%, views &lt;70% or CPM &gt;$6</td><td>Kill the ad</td></tr>
-        <tr><td><b>D14</b></td><td>Ad spend with 0 sign-ups</td><td>≥ $12 (3× the $4 target cost per sign-up)</td><td>Kill the ad</td></tr>
-        <tr><td><b>D14</b></td><td>Ad set cost per sign-up · sign-up → paying</td><td>≤ $4 and ≥ 15%</td><td><b>+20% budget per day</b>, release the reserve</td></tr>
-        <tr><td><b>D13 · D15</b></td><td>Google keyword clicks with 0 sign-ups</td><td>≥ 15 clicks</td><td>Pause the keyword. Add negatives every day.</td></tr>
-        <tr><td><b>D15</b></td><td>Google cost per sign-up · paying teams</td><td>&gt; $40 and 0 paying</td><td>Cut Google to $15/day, move the rest to Meta</td></tr>
-        <tr><td><b>D15</b></td><td>PH sign-up → paying (≥ 40 sign-ups)</td><td>&lt; 8%</td><td>Switch the Meta market to NL</td></tr>
-        <tr><td><b>D14</b></td><td>Landing page → sign-up (≥ 300 views)</td><td>&lt; 6%</td><td>Run Experiment 1 first</td></tr>
-        <tr><td><b>D16</b></td><td>Paying → activated (72 h after payment)</td><td>&lt; 30%</td><td>Ship Experiment 2 before scaling</td></tr>
+        <tr><td><b>Daily</b></td><td>Backend vs platform sign-ups</td><td>Gap &gt; 15%</td><td>Pause, fix</td></tr>
+        <tr><td><b>D13</b></td><td>Ad CTR · CPM</td><td>&lt; 0.8% · &gt; $6</td><td>Kill the ad</td></tr>
+        <tr><td><b>D14</b></td><td>Ad spend with 0 sign-ups</td><td>≥ $12</td><td>Kill the ad</td></tr>
+        <tr><td><b>D14</b></td><td>Cost per sign-up · pay rate</td><td>≤ $4 · ≥ 15%</td><td><b>+20%/day</b>, release the reserve</td></tr>
+        <tr><td><b>D13 · 15</b></td><td>Keyword clicks with 0 sign-ups</td><td>≥ 15</td><td>Pause it, add negatives</td></tr>
+        <tr><td><b>D15</b></td><td>Google cost per sign-up</td><td>&gt; $40, 0 paying</td><td>Move budget to Meta</td></tr>
+        <tr><td><b>D15</b></td><td>PH sign-up → paying</td><td>&lt; 8%</td><td>Meta → NL</td></tr>
       </table>
-      <p class="mut" style="margin-top:8px">The +20% cap keeps the ad set from resetting the learning phase. Never change the budget and the creative on the same day.</p>
+      <p class="mut sm" style="margin-top:10px">Cap budget increases at +20% a day so the ad set doesn't re-enter learning. Never change budget and creative on the same day.</p>
     </div>
-    <div>
-      <h2>End-of-week targets (D12–D16, $600)</h2>
-      <div class="tgt">
-        <div class="kpi"><div class="l">Sign-ups</div><div class="val">≥ 100</div><div class="sub">Meta ~95 · Google ~6</div></div>
-        <div class="kpi"><div class="l">Teams paying $1</div><div class="val">≥ 19</div><div class="sub">PH 18% · EU 35%</div></div>
-        <div class="kpi"><div class="l">Activated</div><div class="val">≥ 10</div><div class="sub">50% of paying teams</div></div>
-        <div class="kpi"><div class="l">Cost / paying team</div><div class="val">≤ $32</div><div class="sub">$600 / 19</div></div>
-        <div class="kpi"><div class="l">Cost / activated</div><div class="val">≤ $60</div><div class="sub">$50 needs ≥ 60%</div></div>
-        <div class="kpi"><div class="l">Known source</div><div class="val">≥ 90%</div><div class="sub">from 38%</div></div>
-      </div>
-      <div class="card" style="margin-top:12px"><h3>The maths behind them</h3><p><b>Meta $390</b> (incl. reserve): CPM $2.5 → 156k impressions → 1.3% CTR → 2,028 clicks → 80% landing page views → 6% sign-up = <b>97 sign-ups at ≈ $4.0</b> → 18% pay = 17.5.<br><b>Google $210:</b> $3 CPC → 70 clicks → ~60 views → 10% = <b>6 sign-ups</b> → 35% pay = 2.<br>These are deliberately below the clean-traffic rate (11%). The weakest step is activation, and Experiment 2 targets it.</p></div>
+    <div class="col" style="width:470px;flex:none">
+      <h2>End-of-week targets</h2>
+      <table>
+        <tr><th></th><th>Base</th><th>With reserve</th></tr>
+        <tr><td>Sign-ups</td><td><b>85</b></td><td><b>120</b></td></tr>
+        <tr><td>Teams paying $1</td><td><b>16</b></td><td><b>22</b></td></tr>
+        <tr><td>Activated (read D19)</td><td><b>5</b></td><td><b>7</b></td></tr>
+        <tr><td>Cost / paying team</td><td><b>$28</b></td><td><b>$27</b></td></tr>
+        <tr><td>Known source</td><td colspan="2"><b>≥ 90%</b></td></tr>
+      </table>
+      <p class="mut sm" style="margin-top:10px">Assumes PH $4/sign-up and 18% pay, Google $3 CPC and 10% conversion. <b>After the audit, activated drops from 10 to 5:</b> E2 ships only on D15, to half of the teams, and the 72 h window ends on D19.</p>
+      <h2 style="margin-top:16px">Path to the 4-week goal</h2>
+      <table>
+        <tr><td>80 paying</td><td>~25 after week 2 · 55 more at $28 = $1,540 of $1,778 left</td><td><span class="pill pg2">reachable</span></td></tr>
+        <tr><td>50 activated</td><td>needs ≥ 60% activation from week 3</td><td><span class="pill pa">E2 only</span></td></tr>
+      </table>
     </div>
   </div>
 </section>
 
-<!-- ============ SLIDE 5 ============ -->
-<section class="s s5">
-  <div class="hd"><div class="tag">Part 3 · Experiments</div><div class="pg">5/6</div></div>
-  <h1>Three experiments, each judged by a metric closer to revenue than CTR.</h1>
-  <div class="grid2" style="grid-template-columns:1fr 1fr 1fr;gap:22px">
+<!-- ============ 5 · EXPERIMENTS ============ -->
+<section class="s">
+  <div class="hd"><div class="tag">Part 3 · Experiments</div><div class="pg">5 / 7</div></div>
+  <h1>Three experiments, judged on metrics closer to revenue than CTR, <em>each checked against its own sample size.</em></h1>
+  <div class="row" style="gap:24px">
     <div class="exp">
-      <div class="lab">E1 · Landing page → sign-up (now 5.8%)</div>
-      <div class="row"><span class="k">Hypothesis</span><p>Cold paid visitors drop off because the hero sells "workflow" in the abstract, there's no product on the mobile first screen, and the CTA opens "Welcome back · Sign in". Showing the outcome for their job, plus one-click account creation, will lift sign-ups.</p></div>
-      <div class="row"><span class="k">Change</span><p><b>Fix first, to 100% of traffic with no test:</b> the CTA opens "Create your team" with Google/Microsoft SSO first.<br><b>Then A/B the hero.</b> Control: "Lead, run your team workflow for $1". Variant: "One Space per client: files, chat and tasks together", with real product UI above the fold on mobile, a risk-reversal line under the button ("Reminder email 3 days before renewal · cancel in one click") and a trust row (Built in Europe · Swiss company · GDPR). No invented logos or numbers.</p></div>
-      <div class="row"><span class="k">Metric</span><p>Server-side sign-ups ÷ unique landing page visitors. Guardrail: sign-up → paying.</p></div>
-      <div class="row"><span class="k">Sample / run time</span><p>8% → 11.2% (+40% relative) at 80% power and α 0.05 needs <b>~1,330 visitors per arm</b>. Split 50/50, sticky by visitor: ≈ 8–9 days of Meta + Google traffic.</p></div>
-      <div class="row"><span class="k">Win / loss</span><p><b>Win:</b> ≥ +25% relative, p &lt; 0.05, and sign-up → paying no more than 3 points lower. <b>Loss:</b> no lift at the full sample, so keep the control and test the offer block next.</p></div>
+      <div class="lab">E1 · Landing page → sign-up (5.8% now)</div>
+      <div><span class="k">Hypothesis</span><p>Visitors drop because the hero is abstract and the CTA opens "Welcome back". A job-specific hero with real UI will lift sign-ups.</p></div>
+      <div><span class="k">Change</span><p>Fix the CTA first (shipped to 100%, not tested). Then A/B the hero: "Lead, run your team workflow" vs <b>"One Space per client"</b> + UI above the fold on mobile + the line "reminder 3 days before renewal".</p></div>
+      <div><span class="k">Metric</span><p>Server-side sign-ups ÷ unique visitors. Guardrail: pay rate.</p></div>
+      <div><span class="k">Sample</span><p>8% → 11.2% needs <b>1,330 visitors per arm</b>, ≈ 1.7 weeks.</p></div>
+      <div><span class="k">Win / loss</span><p>Win: ≥ +25% relative, p &lt; 0.05, pay rate not more than 3 points lower. Loss: test the offer block next.</p></div>
+      <div class="fix" style="margin-top:auto"><p><b>Logic check:</b> the variant echoes ad angle A, so randomise independently of the ad and report by angle. Check that the split is really 50/50 (sample-ratio mismatch).</p></div>
     </div>
     <div class="exp">
-      <div class="lab">E2 · Paying $1 → activated (now 0%)</div>
-      <div class="row"><span class="k">Hypothesis</span><p>Teams pay, but nothing leads them to invite anyone. If "invite 2 teammates" is the first screen after payment, and is framed as the point of the $1, activation will rise.</p></div>
-      <div class="row"><span class="k">Change</span><p>After checkout, a full-screen <b>2-step setup</b>: (1) name your Space, pre-filled from the onboarding answers ("Client: …"); (2) invite 2 teammates by email fields, a copyable invite link, or sharing to WhatsApp, Viber or Slack. Suppress the 4 overlays in the first session. Add a permanent <b>Invite</b> button to the sidebar. Day 0/1/3 email and in-app nudge to the payer: "Your Space is ready, 2 seats are waiting".</p></div>
-      <div class="row"><span class="k">Metric</span><p>Share of paying teams with a Space and ≥ 2 invites <b>within 72 h</b>. Secondary: invite acceptance rate, members active on day 7.</p></div>
-      <div class="row"><span class="k">Sample / run time</span><p>50/50 split by team. Detecting 30% → 60% needs <b>~42 teams per arm</b>, ≈ 4 weeks at ~20 paying teams a week. Read early with a Bayesian check: P(variant is better) ≥ 95%.</p></div>
-      <div class="row"><span class="k">Win / loss</span><p><b>Win:</b> ≥ +20 points of activation and ≥ 95% probability. <b>Loss:</b> less than +10 points after 84 teams, so test an invite incentive (an extra seat for a third invite) next.</p></div>
+      <div class="lab">E2 · Paying → activated (0% now)</div>
+      <div><span class="k">Hypothesis</span><p>Teams pay, but nothing asks them to invite anyone. Making "invite 2 teammates" the first screen after payment will raise activation.</p></div>
+      <div><span class="k">Change</span><p>A 2-step setup after checkout: name the Space, then invite 2 people (email, copy link, WhatsApp). The 4 pop-ups are muted in session 1, there's a permanent <b>Invite</b> button, and the payer gets nudges on day 0, 1 and 3.</p></div>
+      <div><span class="k">Metric</span><p>% of paying teams with a Space and ≥ 2 invites <b>within 72 h</b>.</p></div>
+      <div><span class="k">Sample</span><p>50/50 by team. 10% → 40% needs <b>32 teams per arm</b>, and 30% → 60% needs 42. That's 3–4 weeks.</p></div>
+      <div><span class="k">Win / loss</span><p>Win: ≥ +20 points and ≥ 95% probability (Bayesian). Loss: under +10 points after 84 teams, so test an extra-seat incentive.</p></div>
+      <div class="fix" style="margin-top:auto"><p><b>Logic check:</b> the baseline of 0% may be a tracking error, not a real 0%. The control arm measures the true baseline, so I don't assume one.</p></div>
     </div>
     <div class="exp">
-      <div class="lab">E3 · My choice: creative angle → cost per paying team</div>
-      <div class="row"><span class="k">Hypothesis</span><p>Angle B, "Share with control", attracts agencies that really share files with clients, so it brings in paying teams more cheaply than the $1 offer (C), even with a lower CTR. Judging creative on CTR would pick the wrong winner.</p></div>
-      <div class="row"><span class="k">Change</span><p>3 angles (A before/after · B client control · C $1 offer) × 2 formats inside the single PH ad set. Same CTA, same landing page, copy of the same length, and <code>utm_content</code> per ad, read in the backend.</p></div>
-      <div class="row"><span class="k">Metric</span><p><b>Cost per paying team per angle</b> from the backend. Secondary: sign-up → paying and CTR.</p></div>
-      <div class="row"><span class="k">Sample / run time</span><p>7 days, with each angle reaching ≥ $60 spend or ≥ 20 sign-ups. Meta doesn't split budget evenly, so if an angle has spent less than $40 by D14, move it into a Meta A/B test.</p></div>
-      <div class="row"><span class="k">Win / loss</span><p><b>Win:</b> the angle with the lowest cost per paying team, at least 30% better than #2. Make 3 new hooks on it. <b>Tie or loss:</b> keep both angles and test the persona next (agency vs remote team).</p></div>
+      <div class="lab">E3 · My choice: sell the job or sell the price?</div>
+      <div><span class="k">Hypothesis</span><p>Angle A, "one Space per client", brings fewer but better sign-ups than angle C, the "$1" price. CTR would pick the wrong winner.</p></div>
+      <div><span class="k">Change</span><p>A vs C, each as a static and a 9:16, in <b>Meta's creative test</b> (equal spend inside the one ad set). Same landing page, same CTA, <code>utm_content</code> per ad.</p></div>
+      <div><span class="k">Metric</span><p>Week 1: cost per sign-up, with pay rate as a guardrail. Final: <b>cost per paying team</b>.</p></div>
+      <div><span class="k">Sample</span><p>Final call at ≥ 20 payers per angle, ≈ 3 weeks.</p></div>
+      <div><span class="k">Win / loss</span><p>Win: ≥ 30% cheaper per paying team. Make 3 new hooks on the winner. Tie: test the persona next.</p></div>
+      <div class="fix" style="margin-top:auto"><p><b>Logic check:</b> my first draft read 3 angles in 1 week. Detecting a 15% → 30% pay-rate difference needs ~120 sign-ups per arm, so I cut to 2 angles and only kill clear losers (more than 2× the cost per sign-up) early.</p></div>
     </div>
   </div>
-  <table style="margin-top:16px">
-    <tr><th>Experiment</th><th>Owner</th><th>Build</th><th>Live</th><th>First read</th><th>Decision</th><th>Tool</th></tr>
-    <tr><td><b>E3 · Creative angle</b></td><td>Growth</td><td>D10–D11 (ads A/B/C ready)</td><td>D12, with launch</td><td>D14 (kill rules)</td><td>D18</td><td>Meta + backend utm_content</td></tr>
-    <tr><td><b>E1 · Landing page hero</b></td><td>Growth + web dev</td><td>D10–D11 (CTA fix ships to 100% first)</td><td>D12</td><td>D16</td><td>D20–D21 (~2,700 visitors)</td><td>GrowthBook / server-side split, GA4</td></tr>
-    <tr><td><b>E2 · 2-step setup after payment</b></td><td>Product + lifecycle</td><td>D12–D14</td><td>D15</td><td>D22 (Bayesian)</td><td>D42 (~84 teams)</td><td>Feature flag, backend events</td></tr>
-  </table>
 </section>
 
-<!-- ============ SLIDE 6 ============ -->
-<section class="s s6">
-  <div class="hd"><div class="tag">Part 4 · Product experience — landing page → invite a teammate (my walkthrough, 25 Nov)</div><div class="pg">6/6</div></div>
+<!-- ============ 6 · PRODUCT EXPERIENCE ============ -->
+<section class="s">
+  <div class="hd"><div class="tag">Part 4 · Product experience — landing page → invite a teammate (my walkthrough, 25 Nov)</div><div class="pg">6 / 7</div></div>
   <h1>Activation requires 2 invites, <em>yet inviting is the hardest action to find.</em></h1>
-  <div class="grid2" style="grid-template-columns:1fr 600px;gap:32px">
-    <div>
-      <div class="fr"><img src="assets/f1_login_z.png" alt="" style="height:230px;object-fit:cover;object-position:center 30%"><div><h3>1 · A new paid visitor lands on "Welcome back · Sign in"</h3><p>The CTA points to <code>/settings?…step=checkout</code>, so logged-out visitors are bounced to the login page, where "Create one" is a small link at the bottom. The referral link (<code>?ref=WR5HX8</code>) also redirects to login and loses both the ref code and the UTMs.<br><b>Fix:</b> open "Create your team" with Google/Microsoft SSO first, and carry the offer and the source through.</p></div></div>
-      <div class="fr"><img src="assets/f2_billing_z.png" alt=""><div><h3>2 · A 7-step questionnaire, then "Plan &amp; billing" on the Free plan</h3><p>After name, type of work, role, tools, problem and goal, "Open workspace" lands on Settings › Plan &amp; billing with the plan still <b>Free</b>, the $1 checkout button below the fold, and a "New workspace" modal on top. The offer says "add a card at sign-up", but in the flow payment is optional and unclear, and the answers given don't change the workspace.<br><b>Fix:</b> 2 questions, then checkout, then the Space.</p></div></div>
-      <div class="fr"><div class="shot2"><img src="assets/f3_contacts_z.png" alt=""><img src="assets/f3_modal_z.png" alt=""></div><div><h3>3 · No visible way to invite a teammate</h3><p>Creating a Space triggers "workspace ready", a calendar pop-up, a "turn a message into a task" pop-up and a 5-step tour, then an empty Space. The sidebar has <b>no Invite</b> button (the landing-page mock shows one). Contacts says "No contact yet". The only invite prompt is a paid banner: "Claim $1.00 and invite up to 4 teammates" (code TEAM1, while checkout uses TEAM-1USD), for teams of 5–25.<br><b>Fix:</b> E2's 2-step setup.</p></div></div>
+  <div class="col" style="flex:1">
+    <div class="fr"><img src="assets/f1_login_z.png" alt="" style="height:260px;object-fit:contain;background:#f2f1fb"><div><h3>1 · A new paid visitor lands on "Welcome back · Sign in"</h3><p>The CTA goes to the checkout URL, so logged-out visitors are bounced to login. "Create one" is a small link at the bottom. Behind it: a 6-field form, a strict password rule, and no Microsoft SSO. The referral link also drops the ref code and the UTMs.</p><p style="margin-top:8px"><b>Fix:</b> open "Create your team" with Google/Microsoft SSO first.</p></div></div>
+    <div class="fr"><img src="assets/f2_billing_z.png" alt="" style="height:240px;object-fit:cover;object-position:left top"><div><h3>2 · 7 onboarding steps, then "Plan &amp; billing" on the Free plan</h3><p>After 6 questions, "Open workspace" lands on billing with the plan still <b>Free</b>, the $1 button below the fold, and a modal on top. The offer says "card at sign-up", but in the product, paying is optional and unclear.</p><p style="margin-top:8px"><b>Fix:</b> 2 questions → checkout → Space.</p></div></div>
+    <div class="fr" style="border:0"><div class="duo" style="width:520px"><img src="assets/f3_contacts_z.png" alt=""><img src="assets/f3_modal_z.png" alt=""></div><div><h3>3 · No visible way to invite a teammate</h3><p>4 pop-ups and a 5-step tour lead to an empty Space. <b>The sidebar has no Invite button</b>, though the landing-page mock shows one. The only prompt is a paid banner, "invite up to 4 teammates", which doesn't fit teams of 5–25 people.</p><p style="margin-top:8px"><b>Fix:</b> E2's 2-step setup and a permanent Invite button.</p></div></div>
+  </div>
+</section>
+
+<!-- ============ 7 · AD CREATIVE ============ -->
+<section class="s">
+  <div class="hd"><div class="tag">Part 4 · Ad concept</div><div class="pg">7 / 7</div></div>
+  <h1>Sell the client workflow, <em>not "another all-in-one app".</em></h1>
+  <div class="row" style="gap:44px">
+    <div class="col" style="width:640px;flex:none">
+      <img src="out/ad_main.png" alt="Ad concept" style="width:640px;height:640px;object-fit:cover;border-radius:16px;border:1px solid var(--line)">
+      <p class="mut sm" style="margin-top:10px">1:1 static for Meta Feeds and ChatGPT Ads. A 9:16 cut-down follows for Stories and Reels.</p>
     </div>
-    <div>
-      <h2>Ad concept · PH agency and remote team leads (5–25 people)</h2>
-      <div style="display:grid;grid-template-columns:300px 1fr;gap:16px;align-items:start">
-        <img src="out/ad_a.png" style="width:300px;border-radius:10px;border:1px solid var(--line)" alt="">
-        <div>
-          <p><b>Headline (41 / 50):</b><br>One Space per client. Files, chat, tasks.</p>
-          <p style="margin-top:8px"><b>Description (96 / 100):</b><br>Stop chasing the approved version across apps. Expiring client links. Team plan: $1 first month.</p>
-          <p style="margin-top:8px"><b>Format:</b> before/after static. It was the longest-running static format in a pull of 336 live Meta ads, and it also fits ChatGPT Ads (1:1, 50/100 characters).</p>
-        </div>
+    <div class="col" style="flex:1;gap:18px">
+      <div class="card">
+        <div class="lab">Audience</div>
+        <p>Leads of 5–25-person agencies and remote teams in the Philippines who work with overseas clients. They are <b>problem-aware</b>: they feel the chaos, but aren't shopping for a tool.</p>
       </div>
-      <p style="margin-top:12px"><b>Visual brief:</b> 1:1. Top: the hook as a chat bubble, in the customer's own words: "Wait… which version did the client approve?" Left, <b>BEFORE</b> in grey: tilted chips for Brief_FINAL_v3_real.pdf, "see attached", Re: Re: Fwd:, and a link still open. Right, <b>AFTER</b>: real Drumee UI showing files, the chat thread and a share card with expiry and password. Bottom: logo, "$1 first month · then $29/month", and the CTA "Start your team". No competitor names and no unmeasured numbers: only offer facts and real UI.</p>
-      <div style="display:flex;gap:10px;margin-top:10px;align-items:center"><img src="out/ad_b.png" style="width:120px;border-radius:6px;border:1px solid var(--line)"><img src="out/ad_c.png" style="width:120px;border-radius:6px;border:1px solid var(--line)"><p class="mut">Angles B (client control) and C ($1 offer) for Experiment 3.</p></div>
-      <div class="card" style="margin-top:12px;background:var(--bg2);border-color:var(--lav)"><p style="font-size:13px"><b>AI tools used, and for what.</b> <b>Claude Code</b>: number crunching; a live tracking audit in a headless browser (network calls on drumee.com and app.drumee.com); frame extraction from my screen recording; building this deck and the ads (HTML → PDF/PNG). <b>Semrush</b>: keyword volumes and CPCs for DE, NL and PH. <b>Marketing skill packs</b> (paid-ads, conversion-tracking, CRO, onboarding, A/B testing, ad-format research) as best-practice checklists. I walked through the product and reviewed every number myself.</p></div>
+      <div class="card">
+        <div class="lab">Copy</div>
+        <p><b>Headline (41 / 50):</b> One Space per client. Files, chat, tasks.</p>
+        <p style="margin-top:6px"><b>Description (96 / 100):</b> Stop chasing the approved version across apps. Expiring client links. Team plan: $1 first month.</p>
+        <p style="margin-top:6px"><b>Hook:</b> "Wait… which version did the client approve?" in the customer's own words.</p>
+      </div>
+      <div class="card">
+        <div class="lab">Visual brief</div>
+        <p>A <b>before / after</b> split. Before, in grey: the brief, the "see attached" chat, an email thread and a link still open. After: real Drumee UI with files, the chat thread and a share card with expiry and password. Bottom: "$1 first month · then $29/month" and the CTA "Start your team". No competitor names and no unmeasured numbers.</p>
+      </div>
+      <div class="card" style="background:var(--bg2);border-color:var(--lav)">
+        <div class="lab">Why this angle (Motion)</div>
+        <p>ClickUp's longest-running Meta ads (<b>238–242 days live</b>) are "One app to replace them all" us-vs-them statics. That consolidation angle is taken. Drumee's provable difference is <b>one Space per client and links it controls</b>. Angle C ("$1") is the challenger in E3.</p>
+      </div>
+      <p class="mut sm" style="margin-top:auto"><b>AI tools:</b> Claude Code (analysis, live tracking audit in a headless browser, deck build) · Semrush (keyword volume and CPC) · Motion (competitor creative) · ChatGPT (ad image) · marketing skill packs as checklists. I did the product walkthrough and checked every number myself.</p>
     </div>
   </div>
 </section>
