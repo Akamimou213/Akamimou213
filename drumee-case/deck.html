@@ -71,6 +71,17 @@ code{font-family:ui-monospace,Menlo,monospace;font-size:13px;background:var(--bg
 .duo{display:grid;grid-template-columns:1fr 1fr;gap:8px}
 .duo img{width:256px;height:170px;object-fit:cover;object-position:left top}
 .cal td,.cal th{font-size:14px}
+.map td,.map th{font-size:15px;padding:10px 10px}
+.dark code{background:rgba(255,255,255,.15);color:#fff}
+.pill{white-space:nowrap}
+.map tr.hl td{background:var(--bg2)}
+.mini td{border:0;padding:5px 6px 5px 0;font-size:15px}
+.flow{display:flex;align-items:center;gap:8px;margin-bottom:10px}
+.flow .fl{width:96px;font-size:13px;font-weight:800;text-transform:uppercase;letter-spacing:1px;color:var(--red)}
+.flow .st{border-radius:10px;padding:9px 14px;font-size:14.5px;font-weight:700;white-space:nowrap}
+.flow .st.bad{background:var(--redbg);color:#8f1f28}
+.flow .st.good{background:var(--grnbg);color:#0d5c38}
+.flow .ar{color:var(--mut);font-weight:800}
 </style></head><body>
 
 <!-- ============ 1 · DIAGNOSIS: CONTRADICTIONS ============ -->
@@ -128,7 +139,7 @@ code{font-family:ui-monospace,Menlo,monospace;font-size:13px;background:var(--bg
       <div class="rc"><div class="rk">#1</div><div><h3>Measurement is broken end to end</h3><p>The app has no tags. Meta's "sign-ups" are CTA clicks. Google Ads has no conversions. 62% of sign-ups have no source. EU visitors get <b>no consent banner</b>. <br><b>Impact:</b> the algorithms learn the wrong goal, and nobody can tie the 7 paying teams to spend.</p></div></div>
       <div class="rc"><div class="rk">#2</div><div><h3>Budget spread thin, on the wrong inventory</h3><p>19 campaigns and ad sets on $13.5/day is <b>$0.71 a day each</b>. None can reach the ~50 events/week a Meta ad set needs to exit learning. Brand-term broad match, Display, Audience Network, and <b>34% of spend in the US</b> for 0 sign-ups.</p></div></div>
       <div class="rc" style="border:0"><div class="rk">#3</div><div><h3>No path from payment to "invite 2 teammates"</h3><p>7 teams paid and 0 activated. After checkout come 4 pop-ups, an empty Space, and no Invite button. <b>This is the biggest risk to month-2 renewals.</b></p></div></div>
-      <div class="fix" style="margin-top:auto"><p><b>What I'm less sure of:</b> if the 53 extra active users are invitees, #3 is partly a tracking problem, not only a product problem. The D10 SQL check settles it.</p></div>
+      <div class="fix" style="margin-top:auto"><p><b>Checked on D10:</b> if the 53 extra active users are invitees, #3 is partly a tracking problem, not only a product problem. The D10 SQL check settles it.</p></div>
     </div>
     <div class="col" style="width:440px;flex:none;gap:18px">
       <div class="card" style="background:var(--grnbg);border-color:#c4e6d3">
@@ -155,98 +166,90 @@ code{font-family:ui-monospace,Menlo,monospace;font-size:13px;background:var(--bg
   </div>
 </section>
 
-<!-- ============ 3 · PLAN: FIX THE SIGNAL ============ -->
+<!-- ============ 3 · PLAN: TRACKING ============ -->
 <section class="s">
-  <div class="hd"><div class="tag">Part 2 · Next week's plan — before spending more money</div><div class="pg">3 / 7</div></div>
-  <h1>48 hours at $0 to rebuild tracking, <em>with the backend as the source of truth.</em></h1>
-  <div class="row" style="flex:none">
-    <div class="col" style="width:820px;flex:none">
-      <h2>First 48 h (D10–D11): spend paused</h2>
-      <div class="chk"><div class="i">1</div><div><b>Remove the fake conversion</b> on the CTA and the duplicate PageView</div><div class="o">Growth · D10 12:00</div></div>
-      <div class="chk"><div class="i">2</div><div><b>Consent banner + Consent Mode v2</b>, required for EU ads</div><div class="o">Dev · D10</div></div>
-      <div class="chk"><div class="i">3</div><div><b>Keep the source:</b> UTMs and click IDs carried into the user record. Fix the <code>?ref=</code> redirect.</div><div class="o">Dev · D11</div></div>
-      <div class="chk"><div class="i">4</div><div><b>Backend events → server-side tracking</b> (see the stack on the right)</div><div class="o">Dev + Growth · D11</div></div>
-      <div class="chk"><div class="i">5</div><div><b>The CTA opens "Create account"</b>, not "Welcome back". Add Microsoft SSO and a German hero.</div><div class="o">Dev · D11</div></div>
-      <div class="chk"><div class="i">6</div><div><b>Reconcile</b> 29 sign-ups / 7 payers / $40 by country. The result decides the Meta market.</div><div class="o">Growth · D10 18:00</div></div>
-      <div class="chk"><div class="i">7</div><div><b>Hygiene:</b> one Google Ads account, billing and policy checked, QA traffic excluded, one code per channel</div><div class="o">Growth · D10</div></div>
-      <div class="dark" style="margin-top:16px"><p><b>Go / no-go, D11 18:00:</b> 3 test sign-ups (email, Google, Microsoft) and 1 test $1 purchase must appear in the backend, GA4, Meta and Google Ads <b>with the right source</b>. If not, spend stays off.</p></div>
+  <div class="hd"><div class="tag">Part 2 · Next week's plan — before spending more money (D10–D11, $0)</div><div class="pg">3 / 7</div></div>
+  <h1>Track the whole journey, from ad click to the $29 renewal, <em>from the backend, not the browser.</em></h1>
+  <table class="map">
+    <tr><th style="width:230px">Journey step</th><th style="width:190px">Event (backend name)</th><th style="width:120px">Fired from</th><th>GA4</th><th>Meta</th><th>Google Ads</th><th style="width:300px">Used for</th></tr>
+    <tr><td>Ad click → landing page</td><td><code>page_view</code></td><td>Browser</td><td>page_view</td><td>PageView + ViewContent</td><td>Remarketing tag</td><td>Retargeting audiences</td></tr>
+    <tr><td>Clicks "Start your team"</td><td><code>cta_click</code></td><td>Browser</td><td>cta_click</td><td>InitiateCheckout</td><td>Secondary</td><td>Landing page test (E1)</td></tr>
+    <tr class="hl"><td><b>Account created</b></td><td><code>sign_up</code></td><td><b>Server</b></td><td>sign_up</td><td><b>CompleteRegistration</b></td><td>Secondary</td><td><b>Meta optimisation, stage 1</b></td></tr>
+    <tr class="hl"><td><b>$1 paid = trial started</b></td><td><code>trial_started</code></td><td><b>Server · billing</b></td><td>purchase (value $1)</td><td><b>StartTrial</b> (value $1, predicted LTV)</td><td><b>Primary</b></td><td><b>Meta stage 2 · Google bidding</b></td></tr>
+    <tr><td>Space created</td><td><code>space_created</code></td><td>Server</td><td>space_created</td><td>Custom</td><td>—</td><td>Onboarding funnel</td></tr>
+    <tr><td>Teammate invited / accepted</td><td><code>invite_sent</code> · <code>invite_accepted</code></td><td>Server</td><td>both</td><td>Custom</td><td>—</td><td>Activation (E2)</td></tr>
+    <tr class="hl"><td><b>2 teammates in = activated</b></td><td><code>team_activated</code></td><td><b>Server</b></td><td>key event</td><td>Custom conversion</td><td>Secondary → primary</td><td><b>North-star leading indicator</b></td></tr>
+    <tr class="hl"><td><b>Renews at $29</b></td><td><code>subscription_renewed</code></td><td><b>Server · billing</b></td><td>purchase (value $29)</td><td>Subscribe (value $29)</td><td><b>Offline import via gclid</b></td><td><b>Revenue, lookalikes, value bidding</b></td></tr>
+    <tr><td>Cancels</td><td><code>subscription_cancelled</code></td><td>Server · billing</td><td>custom</td><td>Exclusion audience</td><td>—</td><td>Churn reasons</td></tr>
+  </table>
+  <div class="row" style="margin-top:22px;gap:24px;flex:none">
+    <div class="card" style="flex:1.15">
+      <h3>How it works</h3>
+      <p>At sign-up we store <b>UTMs, gclid, fbc/fbp, GA client ID and consent</b> on the user record. That keeps the source alive through login, SSO and checkout. Backend and billing events flow through <b>server-side GTM in the EU</b> (Stape) to Meta CAPI, Google Ads and GA4, with one <code>event_id</code> so browser and server events dedupe.</p>
     </div>
-    <div class="col" style="flex:1">
-      <h2>A better tracking stack (not just "add the tags")</h2>
-      <div class="lab">Browser</div>
-      <div class="arch" style="grid-template-columns:1fr 1fr 1.2fr">
-        <div class="box"><h3>Consent banner</h3><p>Consent Mode v2, EU-hosted</p><span class="arr">→</span></div>
-        <div class="box"><h3>Landing page · GTM</h3><p>Page view, CTA click, UTMs → cookie</p><span class="arr">→</span></div>
-        <div class="box key"><h3>Server-side GTM</h3><p>First-party subdomain in the EU (e.g. data.drumee.com)</p></div>
-      </div>
-      <div class="lab" style="margin-top:14px">Backend: source of truth</div>
-      <div class="arch" style="grid-template-columns:1.6fr 1.2fr">
-        <div class="box truth"><h3>App + Stripe webhooks</h3><p>sign_up · purchase · space_created · teammate_invited · team_activated · renewed, each with one event_id</p><span class="arr" style="color:#fff">→</span></div>
-        <div class="box key"><h3>Sent server-side to</h3><p>Meta Conversions API · Google Ads Enhanced Conversions · GA4</p></div>
-      </div>
-      <div class="lab" style="margin-top:14px">Analysis</div>
-      <div class="arch" style="grid-template-columns:1fr 1fr 1fr">
-        <div class="box"><h3>User record</h3><p>First and last touch, click IDs, promo code, plus a "How did you hear about us?" question</p></div>
-        <div class="box"><h3>PostHog (EU)</h3><p>Funnels, session replays, feature flags for E1 and E2</p></div>
-        <div class="box"><h3>Daily reconciliation</h3><p>Backend vs Meta vs Google. Alert at a gap above 15%.</p></div>
-      </div>
-      <div class="card" style="margin-top:16px;padding:14px 18px"><p><b>Why it's better:</b> it counts real sign-ups and payments, not clicks. It's GDPR-safe, which matters for a sovereign Swiss brand. And it sends <b>activation and $29 renewals back to Meta and Google</b>, so from week 3 bidding can learn the North Star.</p></div>
+    <div class="card" style="flex:1">
+      <h3>Why renewals are handled differently</h3>
+      <p>The $29 renewal lands on day 30, outside Meta's 7-day click window. So Meta gets it for <b>lookalikes and value signals</b>, and Google gets it as an <b>offline conversion</b> (gclid stays valid for 90 days). The backend stays the source of truth, reconciled daily, with an alert when the gap exceeds 15%.</p>
+    </div>
+    <div class="dark" style="flex:1">
+      <p><b>48 h scope (go-live gate, D11 18:00)</b><br>Consent banner + Consent Mode v2 · fake CTA "registration" removed · <code>sign_up</code> and <code>trial_started</code> server-side · source kept through SSO · one Google Ads account.<br><b>Test:</b> email, Google and Microsoft sign-ups + 1 test $1 payment appear in all 4 tools with the right source.<br><span style="opacity:.75">Week 2: the activation and renewal events, PostHog (EU).</span></p>
     </div>
   </div>
-  <h2 style="margin-top:24px">The week</h2>
-  <table class="cal">
-    <tr><th>D10</th><th>D11</th><th>D12</th><th>D13</th><th>D14</th><th>D15</th><th>D16</th></tr>
-    <tr><td><b>$0</b> · pause · reconcile · remove the fake event</td><td><b>$0</b> · server-side events · QA · <b>go / no-go</b></td><td><b>Launch</b> Meta PH + Google EU · E1, E3 live</td><td>Creative kill check · first negatives</td><td>Scale check · reserve to the winner</td><td>Google keep/cut · PH → NL check · E2 live</td><td>Week review · week-2 plan</td></tr>
-  </table>
 </section>
 
-<!-- ============ 4 · PLAN: SPEND, RULES, TARGETS ============ -->
+<!-- ============ 4 · PLAN: CHANNELS ============ -->
 <section class="s">
-  <div class="hd"><div class="tag">Part 2 · Next week's plan — budget, structure, rules, targets</div><div class="pg">4 / 7</div></div>
-  <h1>One market and one job per channel. <em>Every decision has a metric, a threshold and a day.</em></h1>
-  <div class="bar"><div style="width:55%;background:var(--brand)">Meta · Philippines · $330 (55%)</div><div style="width:20%;background:var(--deep)">Google · DE + NL · $120 (20%)</div><div style="width:25%;background:#9a96c8">Reserve $150 (25%) · winner only</div></div>
+  <div class="hd"><div class="tag">Part 2 · Next week's plan — optimisation, channels, rules, targets (D12–D16)</div><div class="pg">4 / 7</div></div>
+  <h1>Optimise for revenue in stages, <em>and give each market a create-and-capture loop.</em></h1>
+  <div class="bar"><div style="width:53.3%;background:var(--brand)">Meta prospecting · PH · $320</div><div style="width:15%;background:var(--deep)">Google Search · EU · $90</div><div style="width:8.4%;background:#6f66e0">Retarget $50</div><div style="width:23.3%;background:#9a96c8">Reserve $140 · winner only</div></div>
   <div class="row">
-    <div class="col" style="width:600px;flex:none;gap:14px">
-      <div class="card"><h3>Meta: 1 campaign · 1 ad set · the volume engine</h3><p>Philippines, broad audience. Feeds, Stories and Reels, <b>no Audience Network</b>. Optimised for <b>server-side sign-ups</b>. 4 ads: angles A and C × static and 9:16 (E3).<br><span class="mut">Persona: lead of a 5–25-person agency or remote team with overseas clients.</span></p></div>
-      <div class="card"><h3>Google: 1 Search campaign · 3 ad groups · captures intent</h3><p>DE + NL, exact and phrase match, one language per ad group. Max clicks with a $4 cap, mobile −50%.<br><b>Sovereign cloud</b> (dsgvo konforme cloud 260/mo) · <b>Client file sharing</b> (klantportaal 1.3k/mo) · <b>Switchers</b> (nextcloud alternative 880/mo)</p></div>
-      <div class="card" style="background:var(--ambbg);border-color:#f2dcae"><h3>My critique of this plan</h3>
-        <ul class="sm" style="margin-top:4px">
-          <li><b>Two markets can't be compared like for like.</b> I accept that because each channel has a different job. I compare them on backend cost per paying team.</li>
-          <li><b>Google is supply-capped:</b> ≈ 4,700 searches/mo is ≈ 35 clicks a week, so I cut it from $180 to $120.</li>
-          <li><b>PH may not renew at $29</b> (card-only, priced in USD). If 0 of the 7 payers are from SEA, or PH pays &lt; 8% by D15, Meta moves to NL.</li>
-          <li><b>Sign-up ≠ payer.</b> Switch Meta to Purchase once there are ≥ 25 payers a week.</li>
-        </ul></div>
+    <div class="col" style="width:560px;flex:none;gap:14px">
+      <div class="card"><h3>Which event Meta optimises for</h3>
+        <table class="mini">
+          <tr><td><span class="pill pg2">Now</span></td><td><b>CompleteRegistration</b> (server). The only event with ~50/week.</td></tr>
+          <tr><td><span class="pill pa">Week 3</span></td><td><b>StartTrial</b>, once ≥ 50 trials a week. The new flow puts the $1 step right after sign-up.</td></tr>
+          <tr><td><span class="pill pa">Later</span></td><td><b>Value:</b> lookalikes of activated and renewed teams.</td></tr>
+        </table>
+        <p class="sm mut" style="margin-top:8px"><b>Not "invite a teammate":</b> 4–6 a week, up to 72 h after the click, and driven by the product, not the ad. It's the activation KPI, not the bidding signal.</p></div>
+      <div class="card"><h3>Two loops, one per market</h3>
+        <p><b>Philippines (Meta-led):</b> Meta creates demand → retargeting closes the visitors who didn't start a trial → a $10 brand campaign catches the "drumee" searches the ads create.</p>
+        <p style="margin-top:6px"><b>EU (Google-led):</b> Search catches people already looking → Meta retargets them once the audience passes 1,000.</p>
+        <p class="sm mut" style="margin-top:6px">No Google prospecting in PH: category searches are tiny there. No Meta prospecting in the EU yet: at ~$12 per sign-up it can't reach 50 events a week.</p></div>
     </div>
-    <div class="col" style="flex:1">
-      <h2>Kill &amp; scale rules (10:00 daily)</h2>
+    <div class="col" style="flex:1;gap:14px">
+      <div class="card"><h3>Structure</h3>
+        <p><b>Meta prospecting:</b> PH, 1 ad set, broad audience, Feeds/Stories/Reels, no Audience Network. Persona: agency leads with overseas clients, who bill in USD. 4 ads (E3).</p>
+        <p style="margin-top:6px"><b>Google EU Search:</b> DE, AT, CH, NL. Exact and phrase match, buyer-intent terms only:<br>
+        <b>Sovereign cloud</b> · souveräne cloud 320/mo, soevereine cloud 260/mo, schweizer cloud speicher 90/mo<br>
+        <b>Secure sharing</b> · veilig bestanden delen 140/mo, dateien sicher teilen 110/mo<br>
+        <b>Switchers</b> · nextcloud alternative 880/mo, google drive alternatief 170/mo, dropbox alternative dsgvo 50/mo</p>
+        <p class="sm mut" style="margin-top:4px">≈ 2,250 searches a month, so Google is capped by volume. Unspent budget goes to the reserve.</p></div>
+      <div><h3 style="margin-bottom:8px">Kill &amp; scale rules (checked 10:00)</h3>
       <table>
         <tr><th>Day</th><th>Metric</th><th>Threshold</th><th>Action</th></tr>
-        <tr><td><b>Daily</b></td><td>Backend vs platform sign-ups</td><td>Gap &gt; 15%</td><td>Pause, fix</td></tr>
+        <tr><td><b>Daily</b></td><td>Backend vs platform</td><td>gap &gt; 15%</td><td>Pause, fix</td></tr>
         <tr><td><b>D13</b></td><td>Ad CTR · CPM</td><td>&lt; 0.8% · &gt; $6</td><td>Kill the ad</td></tr>
-        <tr><td><b>D14</b></td><td>Ad spend with 0 sign-ups</td><td>≥ $12</td><td>Kill the ad</td></tr>
-        <tr><td><b>D14</b></td><td>Cost per sign-up · pay rate</td><td>≤ $4 · ≥ 15%</td><td><b>+20%/day</b>, release the reserve</td></tr>
-        <tr><td><b>D13 · 15</b></td><td>Keyword clicks with 0 sign-ups</td><td>≥ 15</td><td>Pause it, add negatives</td></tr>
-        <tr><td><b>D15</b></td><td>Google cost per sign-up</td><td>&gt; $40, 0 paying</td><td>Move budget to Meta</td></tr>
-        <tr><td><b>D15</b></td><td>PH sign-up → paying</td><td>&lt; 8%</td><td>Meta → NL</td></tr>
-      </table>
-      <p class="mut sm" style="margin-top:10px">Cap budget increases at +20% a day so the ad set doesn't re-enter learning. Never change budget and creative on the same day.</p>
+        <tr><td><b>D14</b></td><td>Ad spend, 0 trials</td><td>≥ $50</td><td>Kill the ad</td></tr>
+        <tr><td><b>D14</b></td><td>Cost per trial</td><td>≤ $25</td><td>+20%/day, release the reserve</td></tr>
+        <tr><td><b>D15</b></td><td>Keyword clicks, 0 sign-ups</td><td>≥ 15</td><td>Pause it</td></tr>
+        <tr><td><b>D15</b></td><td>PH sign-up → trial</td><td>&lt; 8%</td><td>Meta → NL</td></tr>
+      </table></div>
     </div>
-    <div class="col" style="width:470px;flex:none">
-      <h2>End-of-week targets</h2>
+    <div class="col" style="width:470px;flex:none;gap:14px">
+      <div><h3 style="margin-bottom:8px">End-of-week targets</h3>
       <table>
-        <tr><th></th><th>Base</th><th>With reserve</th></tr>
+        <tr><th></th><th>Base</th><th>+ reserve</th></tr>
         <tr><td>Sign-ups</td><td><b>85</b></td><td><b>120</b></td></tr>
-        <tr><td>Teams paying $1</td><td><b>16</b></td><td><b>22</b></td></tr>
-        <tr><td>Activated (read D19)</td><td><b>5</b></td><td><b>7</b></td></tr>
-        <tr><td>Cost / paying team</td><td><b>$28</b></td><td><b>$27</b></td></tr>
-        <tr><td>Known source</td><td colspan="2"><b>≥ 90%</b></td></tr>
+        <tr><td>Trials ($1 paid)</td><td><b>18</b></td><td><b>24</b></td></tr>
+        <tr><td>Activated (read D19)</td><td><b>4</b></td><td><b>5</b></td></tr>
+        <tr><td>Cost per trial</td><td><b>$25</b></td><td><b>$25</b></td></tr>
+        <tr><td>Sign-ups with a source</td><td colspan="2"><b>≥ 90%</b></td></tr>
       </table>
-      <p class="mut sm" style="margin-top:10px">Assumes PH $4/sign-up and 18% pay, Google $3 CPC and 10% conversion. <b>After the audit, activated drops from 10 to 5:</b> E2 ships only on D15, to half of the teams, and the 72 h window ends on D19.</p>
-      <h2 style="margin-top:16px">Path to the 4-week goal</h2>
-      <table>
-        <tr><td>80 paying</td><td>~25 after week 2 · 55 more at $28 = $1,540 of $1,778 left</td><td><span class="pill pg2">reachable</span></td></tr>
-        <tr><td>50 activated</td><td>needs ≥ 60% activation from week 3</td><td><span class="pill pa">E2 only</span></td></tr>
-      </table>
+      <p class="sm mut" style="margin-top:6px">Assumes PH $4/sign-up and an 18% trial rate, Google $3.2 CPC. Activation stays low this week because E2 ships on D15.</p></div>
+      <div class="card" style="background:var(--grnbg);border-color:#c4e6d3"><h3>The revenue view</h3>
+        <p>At <b>$25–28 per trial</b> and a <b>50% renewal rate</b>, one renewing team costs <b>$50–56</b>. That's paid back in <b>under 2 months</b> at $29/month.</p>
+        <p class="sm" style="margin-top:6px"><b>PH quality check:</b> agencies with overseas clients are paid in USD, so $29 is affordable. Activation by market is compared on D19, and renewal on D40.</p></div>
+      <div class="card"><h3>4-week goal</h3><p><b>80 paying:</b> ~31 after week 2, then ~59 more at $30 = <span class="pill pg2">on track</span><br><b>50 activated:</b> needs ≥ 60% activation from week 3 <span class="pill pa">depends on E2</span></p></div>
     </div>
   </div>
 </section>
@@ -254,78 +257,85 @@ code{font-family:ui-monospace,Menlo,monospace;font-size:13px;background:var(--bg
 <!-- ============ 5 · EXPERIMENTS ============ -->
 <section class="s">
   <div class="hd"><div class="tag">Part 3 · Experiments</div><div class="pg">5 / 7</div></div>
-  <h1>Three experiments, judged on metrics closer to revenue than CTR, <em>each checked against its own sample size.</em></h1>
+  <h1>Three experiments, each judged on a metric closer to revenue than CTR, <em>and sized to the traffic we have.</em></h1>
   <div class="row" style="gap:24px">
     <div class="exp">
-      <div class="lab">E1 · Landing page → sign-up (5.8% now)</div>
-      <div><span class="k">Hypothesis</span><p>Visitors drop because the hero is abstract and the CTA opens "Welcome back". A job-specific hero with real UI will lift sign-ups.</p></div>
-      <div><span class="k">Change</span><p>Fix the CTA first (shipped to 100%, not tested). Then A/B the hero: "Lead, run your team workflow" vs <b>"One Space per client"</b> + UI above the fold on mobile + the line "reminder 3 days before renewal".</p></div>
-      <div><span class="k">Metric</span><p>Server-side sign-ups ÷ unique visitors. Guardrail: pay rate.</p></div>
-      <div><span class="k">Sample</span><p>8% → 11.2% needs <b>1,330 visitors per arm</b>, ≈ 1.7 weeks.</p></div>
-      <div><span class="k">Win / loss</span><p>Win: ≥ +25% relative, p &lt; 0.05, pay rate not more than 3 points lower. Loss: test the offer block next.</p></div>
-      <div class="fix" style="margin-top:auto"><p><b>Logic check:</b> the variant echoes ad angle A, so randomise independently of the ad and report by angle. Check that the split is really 50/50 (sample-ratio mismatch).</p></div>
+      <div class="lab">E1 · Landing page → sign-up (5.8% today)</div>
+      <div><span class="k">Hypothesis</span><p>Cold visitors leave because the hero is generic ("run your team workflow"), the product sits below the mobile fold, and the CTA opens a login page. If the page <b>repeats the ad's promise</b> and shows the real product, more visitors will sign up.</p></div>
+      <div><span class="k">Change</span><p><b>Baseline fix to 100% first:</b> CTA → "Create your team" with SSO.<br><b>A/B:</b> today's hero vs a <b>message-matched hero</b>. Its headline mirrors the ad angle (<code>utm_content</code>: "One Space per client" or "$1 first month"), with real UI above the fold on mobile, Google/Microsoft buttons on the page, and "Reminder 3 days before renewal · cancel in one click" under the CTA.</p></div>
+      <div><span class="k">Metric</span><p>Server-side sign-ups per unique visitor (experiment ID carried into the app). Guardrails: trial rate, mobile vs desktop.</p></div>
+      <div><span class="k">Sample</span><p>8% → 11.2% at 80% power needs <b>1,330 visitors per arm</b>, ≈ 9 days at ~300 visitors/day.</p></div>
+      <div><span class="k">Win / loss</span><p>Win: ≥ +25% relative, p &lt; 0.05, trial rate not lower. Loss: keep the control and test the offer block next.</p></div>
+      <div class="fix" style="margin-top:auto"><p><b>Design note:</b> the variant bundles 4 changes on purpose. At this traffic, one-change tests take months. If it wins, we unbundle to find the driver. Before building, 50 PostHog session replays confirm where visitors drop.</p></div>
     </div>
     <div class="exp">
-      <div class="lab">E2 · Paying → activated (0% now)</div>
-      <div><span class="k">Hypothesis</span><p>Teams pay, but nothing asks them to invite anyone. Making "invite 2 teammates" the first screen after payment will raise activation.</p></div>
-      <div><span class="k">Change</span><p>A 2-step setup after checkout: name the Space, then invite 2 people (email, copy link, WhatsApp). The 4 pop-ups are muted in session 1, there's a permanent <b>Invite</b> button, and the payer gets nudges on day 0, 1 and 3.</p></div>
-      <div><span class="k">Metric</span><p>% of paying teams with a Space and ≥ 2 invites <b>within 72 h</b>.</p></div>
-      <div><span class="k">Sample</span><p>50/50 by team. 10% → 40% needs <b>32 teams per arm</b>, and 30% → 60% needs 42. That's 3–4 weeks.</p></div>
-      <div><span class="k">Win / loss</span><p>Win: ≥ +20 points and ≥ 95% probability (Bayesian). Loss: under +10 points after 84 teams, so test an extra-seat incentive.</p></div>
-      <div class="fix" style="margin-top:auto"><p><b>Logic check:</b> the baseline of 0% may be a tracking error, not a real 0%. The control arm measures the true baseline, so I don't assume one.</p></div>
+      <div class="lab">E2 · Trial → activated team (0% today)</div>
+      <div><span class="k">Hypothesis</span><p>Teams pay, then land in billing, 4 pop-ups and an empty Space with no Invite button. If inviting 2 teammates becomes <b>the first screen after payment</b>, activation will rise.</p></div>
+      <div><span class="k">Change</span><p>A 2-step setup after the $1 payment: (1) name the Space (pre-filled: "Client: …"), (2) invite 2 people by email, copy link or WhatsApp. Pop-ups muted in session 1. A permanent <b>Invite</b> button. Nudges to the payer on day 0, 1 and 3.</p></div>
+      <div><span class="k">Metric</span><p>% of trial teams with a Space + ≥ 2 invites <b>within 72 h</b> (the brief's definition). Quality guardrail: ≥ 1 invite <b>accepted</b>.</p></div>
+      <div><span class="k">Sample</span><p>50/50 by team. 10% → 40% needs <b>32 teams per arm</b>. Runs to the end of the campaign (D28), read on day 31.</p></div>
+      <div><span class="k">Win / loss</span><p>Win: ≥ +20 points and ≥ 95% probability. Loss: under +10 points, so test a seat incentive.</p></div>
+      <div class="fix" style="margin-top:auto"><p><b>Watch-outs:</b> "invites sent" can be gamed (dummy emails), so accepted invites are tracked too. And 2 invites is the brief's definition, not proven: on D40 we check that activated teams really renew more.</p></div>
     </div>
     <div class="exp">
-      <div class="lab">E3 · My choice: sell the job or sell the price?</div>
-      <div><span class="k">Hypothesis</span><p>Angle A, "one Space per client", brings fewer but better sign-ups than angle C, the "$1" price. CTR would pick the wrong winner.</p></div>
-      <div><span class="k">Change</span><p>A vs C, each as a static and a 9:16, in <b>Meta's creative test</b> (equal spend inside the one ad set). Same landing page, same CTA, <code>utm_content</code> per ad.</p></div>
-      <div><span class="k">Metric</span><p>Week 1: cost per sign-up, with pay rate as a guardrail. Final: <b>cost per paying team</b>.</p></div>
-      <div><span class="k">Sample</span><p>Final call at ≥ 20 payers per angle, ≈ 3 weeks.</p></div>
-      <div><span class="k">Win / loss</span><p>Win: ≥ 30% cheaper per paying team. Make 3 new hooks on the winner. Tie: test the persona next.</p></div>
-      <div class="fix" style="margin-top:auto"><p><b>Logic check:</b> my first draft read 3 angles in 1 week. Detecting a 15% → 30% pay-rate difference needs ~120 sign-ups per arm, so I cut to 2 angles and only kill clear losers (more than 2× the cost per sign-up) early.</p></div>
+      <div class="lab">E3 · Sell the job or sell the price?</div>
+      <div><span class="k">Hypothesis</span><p>Angle A, "One Space per client", brings <b>fewer but better</b> teams than angle C, the "$1 first month" offer. Judged on CTR, C would win the wrong way.</p></div>
+      <div><span class="k">Change</span><p>A vs C, each as a 1:1 static and a 9:16, in Meta's creative test (equal spend in the one ad set). Same landing page variant logic, CTA and copy length. <code>utm_content</code> per ad.</p></div>
+      <div><span class="k">Metric</span><p>Week 1: <b>cost per trial</b>. Final: <b>cost per activated team</b>, using the backend.</p></div>
+      <div><span class="k">Sample</span><p>≥ 20 trials per angle (≈ 2 weeks). Early kill only if an angle costs &gt; 2× per trial.</p></div>
+      <div><span class="k">Win / loss</span><p>Win: ≥ 30% cheaper per activated team. Make 3 new hooks on the winner. Tie: test the persona next.</p></div>
+      <div class="fix" style="margin-top:auto"><p><b>Design note:</b> 2 angles, not 3. A real difference in quality (15% → 30% trial rate) needs ~120 sign-ups per arm, which is the whole week's volume for 2 arms.</p></div>
     </div>
   </div>
 </section>
 
 <!-- ============ 6 · PRODUCT EXPERIENCE ============ -->
 <section class="s">
-  <div class="hd"><div class="tag">Part 4 · Product experience — landing page → invite a teammate (my walkthrough, 25 Nov)</div><div class="pg">6 / 7</div></div>
-  <h1>Activation requires 2 invites, <em>yet inviting is the hardest action to find.</em></h1>
+  <div class="hd"><div class="tag">Part 4 · Product experience — landing page → invite a teammate (walkthrough, 25 Nov)</div><div class="pg">6 / 7</div></div>
+  <h1>Paying and inviting come last in the flow. <em>They should come first.</em></h1>
+  <div class="flow">
+    <div class="fl"><span>Today</span></div>
+    <div class="st bad">Landing page</div><div class="ar">→</div><div class="st bad">"Welcome back" login</div><div class="ar">→</div><div class="st bad">6-field sign-up</div><div class="ar">→</div><div class="st bad">7 onboarding steps</div><div class="ar">→</div><div class="st bad">Billing, plan Free</div><div class="ar">→</div><div class="st bad">4 pop-ups, empty Space</div><div class="ar">→</div><div class="st bad">Invite? (hidden)</div>
+  </div>
+  <div class="flow" style="margin-bottom:20px">
+    <div class="fl"><span style="color:var(--grn)">Proposed</span></div>
+    <div class="st good">Landing page</div><div class="ar">→</div><div class="st good">Create team (SSO)</div><div class="ar">→</div><div class="st good">$1 checkout = StartTrial</div><div class="ar">→</div><div class="st good">Name your Space</div><div class="ar">→</div><div class="st good">Invite 2 = activated</div><div class="ar">→</div><div class="st good">2 questions, later</div>
+  </div>
   <div class="col" style="flex:1">
-    <div class="fr"><img src="assets/f1_login_z.png" alt="" style="height:260px;object-fit:contain;background:#f2f1fb"><div><h3>1 · A new paid visitor lands on "Welcome back · Sign in"</h3><p>The CTA goes to the checkout URL, so logged-out visitors are bounced to login. "Create one" is a small link at the bottom. Behind it: a 6-field form, a strict password rule, and no Microsoft SSO. The referral link also drops the ref code and the UTMs.</p><p style="margin-top:8px"><b>Fix:</b> open "Create your team" with Google/Microsoft SSO first.</p></div></div>
-    <div class="fr"><img src="assets/f2_billing_z.png" alt="" style="height:240px;object-fit:cover;object-position:left top"><div><h3>2 · 7 onboarding steps, then "Plan &amp; billing" on the Free plan</h3><p>After 6 questions, "Open workspace" lands on billing with the plan still <b>Free</b>, the $1 button below the fold, and a modal on top. The offer says "card at sign-up", but in the product, paying is optional and unclear.</p><p style="margin-top:8px"><b>Fix:</b> 2 questions → checkout → Space.</p></div></div>
-    <div class="fr" style="border:0"><div class="duo" style="width:520px"><img src="assets/f3_contacts_z.png" alt=""><img src="assets/f3_modal_z.png" alt=""></div><div><h3>3 · No visible way to invite a teammate</h3><p>4 pop-ups and a 5-step tour lead to an empty Space. <b>The sidebar has no Invite button</b>, though the landing-page mock shows one. The only prompt is a paid banner, "invite up to 4 teammates", which doesn't fit teams of 5–25 people.</p><p style="margin-top:8px"><b>Fix:</b> E2's 2-step setup and a permanent Invite button.</p></div></div>
+    <div class="fr"><img src="assets/f1_login_z.png" alt="" style="height:220px;object-fit:contain;background:#f2f1fb"><div><h3>1 · New visitors land on "Welcome back · Sign in"</h3><p>The CTA goes to the checkout URL, so logged-out visitors are bounced to login. "Create one" is a small link, and behind it is a 6-field form with no Microsoft SSO. The referral link loses the ref code and the UTMs.</p></div></div>
+    <div class="fr"><img src="assets/f2_billing_z.png" alt="" style="height:220px;object-fit:cover;object-position:left top"><div><h3>2 · 7 steps, then billing on the Free plan</h3><p>The offer says "add a card to start", but the $1 step comes after onboarding, below the fold, under a modal. Paying feels optional. That's why only 24% of sign-ups pay, and why Meta can't optimise for trials yet.</p></div></div>
+    <div class="fr" style="border:0"><div class="duo" style="width:520px"><img src="assets/f3_contacts_z.png" alt=""><img src="assets/f3_modal_z.png" alt=""></div><div><h3>3 · No visible way to invite</h3><p>4 pop-ups and a tour lead to an empty Space, and the sidebar has <b>no Invite button</b> (the landing-page mock shows one). The only prompt is a paid banner, "invite up to 4 teammates", for teams of 5–25.</p></div></div>
   </div>
 </section>
 
-<!-- ============ 7 · AD CREATIVE ============ -->
+<!-- ============ 7 · CREATIVE STRATEGY ============ -->
 <section class="s">
-  <div class="hd"><div class="tag">Part 4 · Ad concept</div><div class="pg">7 / 7</div></div>
-  <h1>Sell the client workflow, <em>not "another all-in-one app".</em></h1>
-  <div class="row" style="gap:44px">
-    <div class="col" style="width:640px;flex:none">
-      <img src="out/ad_main.png" alt="Ad concept" style="width:640px;height:640px;object-fit:cover;border-radius:16px;border:1px solid var(--line)">
-      <p class="mut sm" style="margin-top:10px">1:1 static for Meta Feeds and ChatGPT Ads. A 9:16 cut-down follows for Stories and Reels.</p>
+  <div class="hd"><div class="tag">Part 4 · Ad concept — creative strategy</div><div class="pg">7 / 7</div></div>
+  <h1>Sell the client handoff, <em>not "another all-in-one app".</em></h1>
+  <div class="row" style="gap:36px">
+    <div class="col" style="width:560px;flex:none">
+      <img src="out/ad_main.png" alt="Concept A" style="width:560px;height:560px;object-fit:cover;border-radius:16px;border:1px solid var(--line)">
+      <p class="mut sm" style="margin-top:10px"><b>Concept A · hero.</b> 1:1 for Meta Feeds and ChatGPT Ads, plus a 9:16 cut-down for Stories and Reels.</p>
     </div>
-    <div class="col" style="flex:1;gap:18px">
-      <div class="card">
-        <div class="lab">Audience</div>
-        <p>Leads of 5–25-person agencies and remote teams in the Philippines who work with overseas clients. They are <b>problem-aware</b>: they feel the chaos, but aren't shopping for a tool.</p>
+    <div class="col" style="flex:1;gap:14px">
+      <div class="row" style="gap:14px;flex:none">
+        <div class="card" style="flex:1"><div class="lab">Persona</div><p><b>Agency lead in Manila or Cebu</b> running an 8–15-person creative or VA team for US/AU clients. Paid in USD. Client work is spread across Drive, Messenger and email.</p></div>
+        <div class="card" style="flex:1"><div class="lab">Insight</div><p>Overseas clients judge an agency by <b>how organised the handoff looks</b>. Losing track of "the approved version" costs trust, not just time.</p></div>
       </div>
-      <div class="card">
-        <div class="lab">Copy</div>
-        <p><b>Headline (41 / 50):</b> One Space per client. Files, chat, tasks.</p>
-        <p style="margin-top:6px"><b>Description (96 / 100):</b> Stop chasing the approved version across apps. Expiring client links. Team plan: $1 first month.</p>
-        <p style="margin-top:6px"><b>Hook:</b> "Wait… which version did the client approve?" in the customer's own words.</p>
+      <div class="card"><div class="lab">Angle &amp; why (Motion)</div><p>ClickUp's longest-running Meta ads (238–242 days live) all say "one app to replace them all", so that space is taken. Drumee owns a narrower, provable promise: <b>one Space per client, with links you control</b>. Awareness: problem-aware. Format: before/after static, the longest-running static format in the Meta Ad Library sample.</p></div>
+      <div class="row" style="gap:14px;flex:none">
+        <div class="card" style="flex:1.2"><div class="lab">Copy (hero)</div>
+          <p><b>Hook:</b> "Wait… which version did the client approve?"</p>
+          <p style="margin-top:4px"><b>Headline (41/50):</b> One Space per client. Files, chat, tasks.</p>
+          <p style="margin-top:4px"><b>Description (96/100):</b> Stop chasing the approved version across apps. Expiring client links. Team plan: $1 first month.</p></div>
+        <div class="card" style="flex:1"><div class="lab">Hooks to test next</div>
+          <p>· "Your client asked for the final file. Which one?"<br>· "Stop sending clients links that never expire."<br>· "New VA? Give them one Space, not five logins."</p></div>
       </div>
-      <div class="card">
-        <div class="lab">Visual brief</div>
-        <p>A <b>before / after</b> split. Before, in grey: the brief, the "see attached" chat, an email thread and a link still open. After: real Drumee UI with files, the chat thread and a share card with expiry and password. Bottom: "$1 first month · then $29/month" and the CTA "Start your team". No competitor names and no unmeasured numbers.</p>
+      <div class="row" style="gap:14px;align-items:center;flex:none">
+        <img src="out/ad_c.png" alt="Concept C" style="width:150px;height:150px;border-radius:10px;border:1px solid var(--line)">
+        <p class="sm"><b>Concept C · challenger (E3):</b> the "$1 first month" offer card. Same audience and CTA.<br><span class="mut">Rules: no competitor names, no unmeasured numbers; only offer facts and real UI.</span></p>
       </div>
-      <div class="card" style="background:var(--bg2);border-color:var(--lav)">
-        <div class="lab">Why this angle (Motion)</div>
-        <p>ClickUp's longest-running Meta ads (<b>238–242 days live</b>) are "One app to replace them all" us-vs-them statics. That consolidation angle is taken. Drumee's provable difference is <b>one Space per client and links it controls</b>. Angle C ("$1") is the challenger in E3.</p>
-      </div>
-      <p class="mut sm" style="margin-top:auto"><b>AI tools:</b> Claude Code (analysis, live tracking audit in a headless browser, deck build) · Semrush (keyword volume and CPC) · Motion (competitor creative) · ChatGPT (ad image) · marketing skill packs as checklists. I did the product walkthrough and checked every number myself.</p>
+      <p class="mut sm" style="margin-top:auto"><b>AI tools:</b> Claude Code (analysis, live tracking audit, deck) · Semrush (keyword volume/CPC) · Motion (competitor creative) · ChatGPT (ad images) · marketing skill checklists. Product walkthrough and number checks by me.</p>
     </div>
   </div>
 </section>

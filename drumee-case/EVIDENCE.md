@@ -31,7 +31,7 @@ Checked 25 Nov 2026 with a headless Chromium (Playwright). Each check loaded the
 - E2: 30% → 60% needs 42 per arm. 20% → 50% needs 38 per arm.
 
 ## Files
-- `out/Drumee_Growth_UA_Case_Study_Mohamed_Barkat.pdf`: the 7-slide submission
+- `out/Drumee_Growth_UA_Case_Study_Mohamed_Barkat.pdf`: the 7-slide submission (v3)
 - `out/ad_a.png` (main concept), `out/ad_b.png`, `out/ad_c.png`: 1080×1080 statics
 - `deck.html`, `ads.html`: sources (edit, then re-export)
 
@@ -43,3 +43,10 @@ Checked 25 Nov 2026 with a headless Chromium (Playwright). Each check loaded the
 - **Google supply check:** exact and phrase volume in DE + NL for sovereign cloud, client sharing and "… alternative" totals ≈ 4,710 searches/mo, or ≈ 1,090/week. At 50% impression share and 6% CTR that's ≈ 33 clicks/week ≈ $98, so the Google budget was cut from $180 to $120.
 - **The brief's goals disagree:** 80 paying / 500 sign-ups = 16%, against the 25% funnel target.
 - **E3 sample:** a pay-rate difference of 15% → 30% needs 120 sign-ups per arm. E2: 10% → 40% needs 32 per arm, and 30% → 60% needs 42.
+
+## Third audit (25 Nov 2026)
+- **Buyer-intent keywords, EU (Semrush, monthly):** souveräne cloud 320 ($6.04) · soevereine cloud 260 ($4.45) · schweizer cloud speicher 90 · cloud speicher schweiz 70 · veilig bestanden delen 140 · dateien sicher teilen 110 · nextcloud alternative 880 · google drive alternatief 170 · dropbox alternatief 110 · dropbox alternative dsgvo 50. Total ≈ 2,250/mo, so Google's spend is capped by search volume.
+- **Removed as too generic:** kollaborationstool, digitaler arbeitsplatz, klantportaal, project management software.
+- **Brand searches:** "drumee" gets ~0/mo in DE and ~20/mo in NL. The brand campaign will only matter once Meta creates demand.
+- **Targets (v3):** Meta PH $320 at $4/sign-up and an 18% trial rate; Google EU $90 at $3.2 CPC; retargeting $40; brand $10; reserve $140. Base: 85 sign-ups / 18 trials / 4 activated / $25 per trial. With the reserve: 120 / 24 / 5.
+- **Revenue:** $25–28 per trial at 50% renewal means $50–56 per renewing team, paid back in under 2 months at $29.
