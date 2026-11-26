@@ -117,6 +117,9 @@ After the foundation is fixed and the client knows which pages it wants. Keyword
 | 7 | `comparison-page-writer`, `seo-content-qa` |
 | 9 | `ai-traffic-analytics`, `seo-change-monitor` |
 
+## Handing the work to another agent (Codex, Cursor)
+Fill in `prompts/codex-seo-agent.md` and paste it in. Paste the client's findings into it, because client folders aren't in git.
+
 ## Starting a new client
 ```bash
 cp -r seo-playbook/templates seo-playbook/clients/<client>
