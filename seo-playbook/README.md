@@ -71,6 +71,21 @@ Use the `ai-prompt-research` skill (and `local-ai-visibility` for local business
 - `local-ai-visibility`: located prompts and the source map (Google Business Profile, Yelp, Bing Places, Apple Business, trade directories, local "best of" articles).
 - Location pages need local proof (real jobs, photos, neighbourhoods). A page that only swaps the town name is a doorway page.
 
+### 6b. B2B software track (SaaS, fintech, platforms sold by demo)
+The buyer is a team that compares vendors, checks integrations and asks an AI for a shortlist. There's no map pack and few reviews. What wins:
+- **One page per integration**, in plain text: "TOMSO + Hopem: what syncs, how long setup takes, who it's for". The integration name goes in the title and H1. Logos alone are invisible to search engines and AI tools: give each one real alt text and a written name.
+- **Get listed on partners' pages.** Each integration partner's "integrations" or "marketplace" page is a third-party citation AI engines trust. Ask for a listing with the same one-liner.
+- **Comparison and alternatives pages** against the real competitors (`comparison-page-writer`), honest, with drawbacks and dated prices.
+- **Proof claims with a source.** Volume processed, client count, regulatory registrations (e.g. FINTRAC) each get a dated line on an About or trust page with a link to the public register. AI engines repeat these; they must be right.
+- **Category language buyers use**, in titles: "rent collection software", "pre-authorized debit for condos", not "Solution for rental".
+- **Software directories that rank for the category** (G2, Capterra, Software Advice, local proptech lists) and industry associations (member directories link out).
+- **Former names** (e.g. "Otonom Solution → TOMSO") stated on a live page so AI answers connect the two (`ai-brand-facts`).
+
+**Bilingual / multi-province sites**
+- Each language is its own market: its own buyer questions, its own competitors, its own decision pages. Don't just translate. Write titles in the words that province searches ("condo", not "co-ownership", in Ontario).
+- hreflang on every page, pointing both ways, plus `x-default`. The audit script checks this.
+- Run the AI answer log separately per language and per province ("…in Ontario", "…au Québec").
+
 ### 7. Decision pages
 Pages people read right before choosing. For SaaS: X vs Y, X alternatives, best X for Y, X pricing. For local trades: cost pages ("exterior painting cost in Muskoka"), method choices ("stain vs paint for a log home"), "best [trade] in [town]" (usually won on third-party lists, not on our own site).
 - Google the query first. If 6 or more of the top 10 results are the same kind of page, build that kind. If they're all blog posts and the client sells a service, skip it.

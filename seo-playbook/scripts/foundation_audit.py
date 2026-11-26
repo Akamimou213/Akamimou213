@@ -179,6 +179,9 @@ def main():
         if not any(blocks_root(g.get(t, star)) for t in LIVE_TOKENS):
             R.add("PASS", "No live-answer bot (Googlebot, Bingbot, OAI-SearchBot, Claude-SearchBot, PerplexityBot, *-User) is blocked by robots.txt", "rules above")
         sm_lines = re.findall(r"(?im)^\s*sitemap:\s*(\S+)", robots)
+        if not sm_lines: R.add("WARN", "robots.txt has no `Sitemap:` line (crawlers that don't use Search Console won't find the sitemap)", "no Sitemap line")
+        cd = re.findall(r"(?im)^\s*crawl-delay:\s*(\S+)", robots)
+        if cd: R.add("WARN", f"`Crawl-delay: {cd[0]}` slows Bing and other bots that honour it (Google ignores it); Copilot answers come from Bing", "Crawl-delay line")
     else:
         sm_lines = []
 
@@ -285,6 +288,8 @@ def main():
         if len(entries) > a.max_urls: R.add("INFO", f"Checked the first {a.max_urls} URLs only", f"{len(entries)} listed")
         if problems: R.add("FAIL", "Sitemap lists URLs that redirect, error, are noindexed or canonicalise elsewhere", "; ".join(problems[:10]))
         else: R.add("PASS", "Every checked sitemap URL is 200, self-canonical and indexable", f"{min(len(entries), a.max_urls)} URLs")
+        thanks = [u for u in alts if re.search(r"(merci|thank|confirmation|success|danke|gracias)", u, re.I)]
+        if thanks: R.add("WARN", "Form 'thank you' pages are in the sitemap and indexable (they belong out of search: noindex and remove from the sitemap; they also inflate conversions when people land on them from Google)", "; ".join(thanks))
         if future: R.add("WARN", f"Titles dated after {year} (engines take dates at face value)", "; ".join(future))
         # Language versions (hreflang): only when the site declares any
         if any(alts.values()):
@@ -321,15 +326,18 @@ def main():
     if cl == 200:
         links = list(dict.fromkeys(re.findall(r"\]\((https?://[^)\s]+)\)", llms)))
         listed = {e[3] for e in entries}
-        dead, off_sitemap = [], []
+        dead, off_sitemap, noncanon = [], [], []
         for l in links:
             if up.urlsplit(l).netloc.lower().removeprefix("www.") != apex or l.endswith(".xml"): continue
             time.sleep(a.delay)
-            c = fetch(l)[0]
+            c, fin, hd, body = fetch(l)
+            canon = page_facts(fin, body, hd)["canonical"] if c == 200 else []
             if c != 200: dead.append(f"{l} ({c})")
+            elif canon and canon[0] != l: noncanon.append(f"{l} → canonical {canon[0]}")
             elif l not in listed: off_sitemap.append(l)
         if dead: R.add("FAIL", "llms.txt links to pages that don't return 200 (AI tools get sent to dead pages)", "; ".join(dead))
         elif links: R.add("PASS", "Every same-site link in llms.txt returns 200", f"{len(links)} links")
+        if noncanon: R.add("WARN", "llms.txt links to non-canonical copies of pages (e.g. a double slash), so AI tools fetch a duplicate URL", "; ".join(noncanon[:6]))
         if off_sitemap: R.add("WARN", "Live pages linked from llms.txt but missing from the sitemap", "; ".join(off_sitemap))
 
     R.h("Totals")
