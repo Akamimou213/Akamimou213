@@ -76,6 +76,9 @@ def page_facts(url, html, headers):
         noindex=bool(re.search(r"\b(noindex|none)\b", robots + " " + xrt)),
         h1=[text_of(h) for h in re.findall(r"(?is)<h1\b[^>]*>(.*?)</h1>", html)],
         words=len(re.findall(r"\w+", text_of(body))),
+        lang=(re.findall(r"(?is)<html[^>]*\blang=[\"']?([\w-]+)", html) or [""])[0],
+        hreflang={a.get("hreflang", "").lower(): up.urljoin(url, a.get("href", "")) for t, a in tags
+                  if t == "link" and "alternate" in a.get("rel", "").lower().split() and a.get("hreflang")},
     )
 
 def jsonld_nodes(html):
@@ -264,13 +267,14 @@ def main():
     else:
         R.add("PASS", "Sitemap found" + (" via robots.txt" if sm_lines else ""), f"{len(entries)} URLs in {len({e[0] for e in entries})} file(s)")
         R.raw("\n| URL | Status | Canonical | Indexable | Title |\n|---|---|---|---|---|")
-        problems, future = [], []
+        problems, future, alts = [], [], {}
         for _, _, _, u in entries[: a.max_urls]:
             time.sleep(a.delay)
             c, fin, hd, body = fetch(u)
             if challenged(hd, body):
                 R.raw(f"| {u} | {c} | - | challenge page | - |"); problems.append(f"{u} challenge"); continue
             pf = page_facts(fin, body, hd)
+            alts[u] = pf["hreflang"]
             canon_ok = len(pf["canonical"]) == 1 and pf["canonical"][0] == u
             row_ok = c == 200 and fin == u and canon_ok and not pf["noindex"]
             if not row_ok: problems.append(u)
@@ -282,6 +286,29 @@ def main():
         if problems: R.add("FAIL", "Sitemap lists URLs that redirect, error, are noindexed or canonicalise elsewhere", "; ".join(problems[:10]))
         else: R.add("PASS", "Every checked sitemap URL is 200, self-canonical and indexable", f"{min(len(entries), a.max_urls)} URLs")
         if future: R.add("WARN", f"Titles dated after {year} (engines take dates at face value)", "; ".join(future))
+        # Language versions (hreflang): only when the site declares any
+        if any(alts.values()):
+            R.h("6b. Language versions (hreflang)")
+            no_self, no_return, missing, dead = [], [], [], []
+            for u, m in alts.items():
+                if not m: missing.append(u); continue
+                if u not in m.values(): no_self.append(u)
+                for lang_code, target in m.items():
+                    if target == u or lang_code == "x-default": continue
+                    if target in alts:
+                        if u not in alts[target].values(): no_return.append(f"{u} → {target} ({lang_code})")
+                    else:
+                        time.sleep(a.delay); c = fetch(target)[0]
+                        if c != 200: dead.append(f"{target} ({c})")
+            langs = sorted({l for m in alts.values() for l in m})
+            R.add("INFO", "Languages declared", ", ".join(langs))
+            R.add("FAIL" if missing else "PASS", "Every checked sitemap page declares its language versions",
+                  f"{len(missing)} without hreflang: " + "; ".join(missing[:8]) if missing else f"{len(alts)} pages")
+            if no_self: R.add("WARN", "Pages whose hreflang set doesn't include themselves", "; ".join(no_self[:8]))
+            if no_return: R.add("FAIL", "hreflang without a return link (both pages must point to each other, or Google ignores the pair)", "; ".join(no_return[:8]))
+            if dead: R.add("FAIL", "hreflang points to URLs that don't return 200", "; ".join(dead[:8]))
+            if not any(l == "x-default" for m in alts.values() for l in m): R.add("WARN", "No x-default (which version to show everyone else)", "-")
+            if not (no_return or dead or missing): R.add("PASS", "hreflang pairs point to each other and to live pages", f"{len(alts)} pages")
 
     # 7. Extras
     R.h("7. Extras")
