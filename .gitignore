@@ -19,3 +19,4 @@ appfound/growth-plan/out/
 # SEO playbook: client work stays out of this public repo
 seo-playbook/clients/*
 !seo-playbook/clients/README.md
+__pycache__/
