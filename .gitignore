@@ -15,3 +15,7 @@ films/*/assets/capture/fonts/
 # Growth Plan: lead data and renders stay out of git
 appfound/growth-plan/reports/
 appfound/growth-plan/out/
+
+# SEO playbook: client work stays out of this public repo
+seo-playbook/clients/*
+!seo-playbook/clients/README.md

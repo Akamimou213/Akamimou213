@@ -45,3 +45,22 @@ Telemetry stays off (`HYPERFRAMES_NO_TELEMETRY=1`, `DO_NOT_TRACK=1`).
 | shot-composition | [iart-ai/motion-design-skills](https://github.com/iart-ai/motion-design-skills) | `3c129f769d90` | MIT License | no |
 | logo-animation | [iart-ai/motion-design-skills](https://github.com/iart-ai/motion-design-skills) | `3c129f769d90` | MIT License | no |
 | motion-art-direction | [iart-ai/motion-design-skills](https://github.com/iart-ai/motion-design-skills) | `3c129f769d90` | MIT License | no |
+
+## SEO and AI search skills (used by `seo-playbook/`)
+
+Copied by hand from the repo (its `install.sh` was not run). Each skill is one SKILL.md, read in full before install: no scripts, no `allowed-tools`, no hidden characters. The optional DataForSEO sections in `ai-prompt-research`, `ai-brand-facts` and `local-ai-visibility` are paid and ask for approval first.
+
+| Skill | Source | Commit | Licence | Patched |
+|---|---|---|---|---|
+| technical-seo-audit | [RomeoSEO/seo-skills](https://github.com/RomeoSEO/seo-skills) | `6c47bf2f0e00` | MIT License | no |
+| schema-markup | [RomeoSEO/seo-skills](https://github.com/RomeoSEO/seo-skills) | `6c47bf2f0e00` | MIT License | no |
+| ai-agent-readiness | [RomeoSEO/seo-skills](https://github.com/RomeoSEO/seo-skills) | `6c47bf2f0e00` | MIT License | no |
+| xml-sitemap-check | [RomeoSEO/seo-skills](https://github.com/RomeoSEO/seo-skills) | `6c47bf2f0e00` | MIT License | no |
+| seo-change-monitor | [RomeoSEO/seo-skills](https://github.com/RomeoSEO/seo-skills) | `6c47bf2f0e00` | MIT License | no |
+| comparison-page-writer | [RomeoSEO/seo-skills](https://github.com/RomeoSEO/seo-skills) | `6c47bf2f0e00` | MIT License | no |
+| ai-prompt-research | [RomeoSEO/seo-skills](https://github.com/RomeoSEO/seo-skills) | `6c47bf2f0e00` | MIT License | no |
+| ai-brand-facts | [RomeoSEO/seo-skills](https://github.com/RomeoSEO/seo-skills) | `6c47bf2f0e00` | MIT License | no |
+| seo-content-qa | [RomeoSEO/seo-skills](https://github.com/RomeoSEO/seo-skills) | `6c47bf2f0e00` | MIT License | no |
+| ai-traffic-analytics | [RomeoSEO/seo-skills](https://github.com/RomeoSEO/seo-skills) | `6c47bf2f0e00` | MIT License | no |
+| local-seo-audit | [RomeoSEO/seo-skills](https://github.com/RomeoSEO/seo-skills) | `6c47bf2f0e00` | MIT License | no |
+| local-ai-visibility | [RomeoSEO/seo-skills](https://github.com/RomeoSEO/seo-skills) | `6c47bf2f0e00` | MIT License | no |
