@@ -15,3 +15,6 @@ films/*/assets/capture/fonts/
 # Growth Plan: lead data and renders stay out of git
 appfound/growth-plan/reports/
 appfound/growth-plan/out/
+
+# Competitor-growth teardowns: client and competitor data stay out of git
+reports/competitor-growth/

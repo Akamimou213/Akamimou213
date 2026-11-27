@@ -45,3 +45,4 @@ Telemetry stays off (`HYPERFRAMES_NO_TELEMETRY=1`, `DO_NOT_TRACK=1`).
 | shot-composition | [iart-ai/motion-design-skills](https://github.com/iart-ai/motion-design-skills) | `3c129f769d90` | MIT License | no |
 | logo-animation | [iart-ai/motion-design-skills](https://github.com/iart-ai/motion-design-skills) | `3c129f769d90` | MIT License | no |
 | motion-art-direction | [iart-ai/motion-design-skills](https://github.com/iart-ai/motion-design-skills) | `3c129f769d90` | MIT License | no |
+| competitor-growth | [treg.to/skills/rea-growth](https://treg.to/skills/rea-growth/SKILL.md) | fetched 2026-11-27 | see [superdesigndev/treg](https://github.com/superdesigndev/treg) | renamed, MCP route, output path |
